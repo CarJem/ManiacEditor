@@ -525,7 +525,7 @@ namespace ManiacEditor
                 // Start drag selection
                 //EditLayer.Select(clicked_point, ShiftPressed || CtrlPressed, CtrlPressed);
                 if (!ShiftPressed() && !CtrlPressed())
-                    Controls.Base.MainEditor.Instance.Deselect();
+                    ManiacEditor.Classes.Editor.EditorActions.Deselect();
                 Controls.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
 
                 Classes.Editor.SolutionState.DraggingSelection = true;
@@ -635,14 +635,14 @@ namespace ManiacEditor
                 {
                     Classes.Editor.Solution.EditLayerA?.Select(p);
                     Classes.Editor.Solution.EditLayerB?.Select(p);
-                    Controls.Base.MainEditor.Instance.DeleteSelected();
+                    ManiacEditor.Classes.Editor.EditorActions.DeleteSelected();
                 }
                 else
                 {
                     double size = (Classes.Editor.SolutionState.DrawBrushSize / 2) * Classes.Editor.Constants.TILE_SIZE;
                     Classes.Editor.Solution.EditLayerA?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE));
                     Classes.Editor.Solution.EditLayerB?.Select(new Rectangle((int)(p.X - size), (int)(p.Y - size), Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.SolutionState.DrawBrushSize * Classes.Editor.Constants.TILE_SIZE));
-                    Controls.Base.MainEditor.Instance.DeleteSelected();
+                    ManiacEditor.Classes.Editor.EditorActions.DeleteSelected();
                 }
             }
 
@@ -654,7 +654,7 @@ namespace ManiacEditor
                     {
                         if (Classes.Editor.Solution.EditLayerA.GetTileAt(p) != Controls.Base.MainEditor.Instance.TilesToolbar.SelectedTile)
                         {
-                            Controls.Base.MainEditor.Instance.EditorPlaceTile(p, Controls.Base.MainEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA);
+                            ManiacEditor.Classes.Editor.EditorActions.EditorPlaceTile(p, Controls.Base.MainEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA);
                         }
                         else if (!Classes.Editor.Solution.EditLayerA.IsPointSelected(p))
                         {
@@ -666,7 +666,7 @@ namespace ManiacEditor
                 {
                     if (Controls.Base.MainEditor.Instance.TilesToolbar.SelectedTile != -1)
                     {
-                        Controls.Base.MainEditor.Instance.EditorPlaceTile(p, Controls.Base.MainEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA, true);
+                        ManiacEditor.Classes.Editor.EditorActions.EditorPlaceTile(p, Controls.Base.MainEditor.Instance.TilesToolbar.SelectedTile, Classes.Editor.Solution.EditLayerA, true);
                     }
                 }
             }
@@ -701,7 +701,7 @@ namespace ManiacEditor
             {
                 // Start drag selection
                 if (!ShiftPressed() && !CtrlPressed())
-                    Controls.Base.MainEditor.Instance.Deselect();
+                    ManiacEditor.Classes.Editor.EditorActions.Deselect();
                 Classes.Editor.SolutionState.DraggingSelection = true;
                 Classes.Editor.SolutionState.RegionX2 = Classes.Editor.SolutionState.RegionX1;
                 Classes.Editor.SolutionState.RegionY2 = Classes.Editor.SolutionState.RegionY1;
@@ -798,7 +798,7 @@ namespace ManiacEditor
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 if (Classes.Editor.Solution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
-                    Controls.Base.MainEditor.Instance.Deselect();
+                    ManiacEditor.Classes.Editor.EditorActions.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                 }
                 else
@@ -811,10 +811,10 @@ namespace ManiacEditor
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 if (Classes.Editor.Solution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
-                    Controls.Base.MainEditor.Instance.Deselect();
+                    ManiacEditor.Classes.Editor.EditorActions.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                     Classes.Editor.Solution.Entities.DeleteSelected();
-                    Controls.Base.MainEditor.Instance.UpdateLastEntityAction();
+                    ManiacEditor.Classes.Editor.EditorActions.UpdateLastEntityAction();
                 }
             }
         }
@@ -826,13 +826,13 @@ namespace ManiacEditor
                 Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 if (Classes.Editor.Solution.Entities.IsEntityAt(clicked_point) == true)
                 {
-                    Controls.Base.MainEditor.Instance.Deselect();
+                    ManiacEditor.Classes.Editor.EditorActions.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                 }
                 else
                 {
                     Classes.Editor.Solution.Entities.SpawnInternalSplineObject(new Position((short)clicked_point.X, (short)clicked_point.Y));
-                    Controls.Base.MainEditor.Instance.UpdateLastEntityAction();
+                    ManiacEditor.Classes.Editor.EditorActions.UpdateLastEntityAction();
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -841,10 +841,10 @@ namespace ManiacEditor
                 Classes.Editor.Scene.Sets.EditorEntity atPoint = Classes.Editor.Solution.Entities.GetEntityAt(clicked_point);
                 if (atPoint != null && atPoint.Entity.Object.Name.Name == "Spline")
                 {
-                    Controls.Base.MainEditor.Instance.Deselect();
+                    ManiacEditor.Classes.Editor.EditorActions.Deselect();
                     Classes.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
                     Classes.Editor.Solution.Entities.DeleteInternallySelected();
-                    Controls.Base.MainEditor.Instance.UpdateLastEntityAction();
+                    ManiacEditor.Classes.Editor.EditorActions.UpdateLastEntityAction();
                 }
             }
         }
@@ -911,7 +911,7 @@ namespace ManiacEditor
             {
                 // Start drag selection
                 if (!ShiftPressed() && !CtrlPressed())
-                    Controls.Base.MainEditor.Instance.Deselect();
+                    ManiacEditor.Classes.Editor.EditorActions.Deselect();
                 Controls.Base.MainEditor.Instance.UI.UpdateEditLayerActions();
 
                 Classes.Editor.SolutionState.DraggingSelection = true;
@@ -958,7 +958,7 @@ namespace ManiacEditor
                     // Remove Stamp Sized Area
                     if (!Classes.Editor.Solution.EditLayerA.DoesChunkContainASelectedTile(p)) Classes.Editor.Solution.EditLayerA?.Select(clicked_chunk);
                     if (Classes.Editor.Solution.EditLayerB != null && !Classes.Editor.Solution.EditLayerB.DoesChunkContainASelectedTile(p)) Classes.Editor.Solution.EditLayerB?.Select(clicked_chunk);
-                    Controls.Base.MainEditor.Instance.DeleteSelected();
+                    ManiacEditor.Classes.Editor.EditorActions.DeleteSelected();
                 }
             }
         }
@@ -1516,22 +1516,22 @@ namespace ManiacEditor
             // Undo
             else if (isCombo(e, myKeyBinds.Undo))
             {
-                Controls.Base.MainEditor.Instance.EditorUndo();
+                ManiacEditor.Classes.Editor.EditorActions.EditorUndo();
             }
             // Redo
             else if (isCombo(e, myKeyBinds.Redo))
             {
-                Controls.Base.MainEditor.Instance.EditorRedo();
+                ManiacEditor.Classes.Editor.EditorActions.EditorRedo();
             }
             // Developer Interface
             else if (isCombo(e, myKeyBinds.DeveloperInterface))
             {
-                Controls.Base.MainEditor.Instance.EditorUndo();
+                ManiacEditor.Classes.Editor.EditorActions.EditorUndo();
             }
             // Save for Force Open on Startup
             else if (isCombo(e, myKeyBinds.ForceOpenOnStartup))
             {
-                Controls.Base.MainEditor.Instance.EditorRedo();
+                ManiacEditor.Classes.Editor.EditorActions.EditorRedo();
             }
             else if (ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded())
             {
@@ -1623,13 +1623,13 @@ namespace ManiacEditor
             // Delete
             if (isCombo(e, myKeyBinds.Delete))
             {
-                Controls.Base.MainEditor.Instance.DeleteSelected();
+                ManiacEditor.Classes.Editor.EditorActions.DeleteSelected();
             }
 
             // Moving
             else if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Left || e.KeyData == Keys.Right)
             {
-                Controls.Base.MainEditor.Instance.MoveEntityOrTiles(sender, e);
+                ManiacEditor.Classes.Editor.EditorActions.MoveEntityOrTiles(sender, e);
             }
 
             //Cut 
@@ -1670,7 +1670,7 @@ namespace ManiacEditor
                 if (IsTilesEdit())
                     Controls.Base.MainEditor.Instance.FlipVerticalEvent(sender, null);
                 else if (IsEntitiesEdit())
-                    Controls.Base.MainEditor.Instance.FlipEntities(FlipDirection.Veritcal);
+                    ManiacEditor.Classes.Editor.EditorActions.FlipEntities(FlipDirection.Veritcal);
             }
 
             // Flip Horizontal
@@ -1679,7 +1679,7 @@ namespace ManiacEditor
                 if (IsTilesEdit())
                     Controls.Base.MainEditor.Instance.FlipHorizontalEvent(sender, null);
                 else if (IsEntitiesEdit())
-                    Controls.Base.MainEditor.Instance.FlipEntities(FlipDirection.Horizontal);
+                    ManiacEditor.Classes.Editor.EditorActions.FlipEntities(FlipDirection.Horizontal);
             }
         }
 

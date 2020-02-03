@@ -28,50 +28,6 @@ namespace ManiacEditor
 		private Controls.Base.MainEditor Editor;
         bool lockTextBox = false;
 
-
-
-		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's
-
-
-		public static void ShowConsoleWindow()
-		{
-			var handle = GetConsoleWindow();
-
-			if (handle == IntPtr.Zero)
-			{
-				AllocConsole();
-			}
-			else
-			{
-				ShowWindow(handle, SW_SHOW);
-			}
-		}
-
-		public static void HideConsoleWindow()
-		{
-			var handle = GetConsoleWindow();
-
-			ShowWindow(handle, SW_HIDE);
-		}
-
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern bool AllocConsole();
-
-		[DllImport("kernel32.dll")]
-		public static extern bool ReadProcessMemory(int hProcess, int lpBaseAddress, byte[] buffer, int size, int lpNumberOfBytesRead);
-
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern bool AttachConsole(int dwProcessId);
-
-		[DllImport("kernel32.dll")]
-		static extern IntPtr GetConsoleWindow();
-
-		[DllImport("user32.dll")]
-		static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-		const int SW_HIDE = 0;
-		const int SW_SHOW = 5;
-
 		public EditorUIEvents(Controls.Base.MainEditor instance)
 		{
 			Editor = instance;
@@ -602,12 +558,12 @@ namespace ManiacEditor
 			if (!Classes.Editor.SolutionState.IsConsoleWindowOpen)
 			{
 				Classes.Editor.SolutionState.IsConsoleWindowOpen = true;
-				ShowConsoleWindow();
+				Extensions.ExternalExtensions.ShowConsoleWindow();
 			}
 			else
 			{
 				Classes.Editor.SolutionState.IsConsoleWindowOpen = false;
-				HideConsoleWindow();
+				Extensions.ExternalExtensions.HideConsoleWindow();
 			}
 		}
 		public void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
