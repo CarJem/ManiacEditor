@@ -53,17 +53,6 @@
                     </Button>
                 </StackPanel>
             </StatusBarItem>
-            <StatusBarItem DockPanel.Dock="Right">
-                <StackPanel Orientation="Horizontal">
-                    <Separator/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
-                    <Separator/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="5"/>
-                    <Separator/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="scrollLockButton" Content="Scroll Lock" Click="ToggleScrollLockEvent" Padding="5"/>
-                    <Separator/>
-                </StackPanel>
-            </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
             </StatusBarItem>
             <MenuItem x:Name="EntityContext" Visibility="Collapsed">
@@ -81,15 +70,32 @@
             </MenuItem>
         </StatusBar>
         <StatusBar x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Height="35" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
-            <Label x:Name="_levelIDLabel" Foreground="{DynamicResource NormalText}"/>
-            <Separator x:Name="seperator7" Visibility="Collapsed"/>
-            <Label x:Name="_baseDataDirectoryLabel" Tag=" " Foreground="{DynamicResource NormalText}"/>
+            <StatusBarItem HorizontalAlignment="Left" DockPanel.Dock="Left" Margin="0">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Label x:Name="_levelIDLabel" Foreground="{DynamicResource NormalText}"/>
+                    <Separator x:Name="seperator7" Visibility="Collapsed"/>
+                    <Label x:Name="_baseDataDirectoryLabel" Tag=" " MaxWidth="480" Foreground="{DynamicResource NormalText}"/>
+                </StackPanel>
+            </StatusBarItem>
+
+
 
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <Label x:Name="scrollLockDirLabel" Foreground="{DynamicResource NormalText}"/>
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <Separator x:Name="seperator5" Visibility="Collapsed"/>
+            </StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <Separator/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
+                    <Separator/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="5"/>
+                    <Separator/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="scrollLockButton" Content="Scroll Lock" Click="ToggleScrollLockEvent" Padding="5"/>
+                    <Separator/>
+                </StackPanel>
             </StatusBarItem>
         </StatusBar>
     </Grid>

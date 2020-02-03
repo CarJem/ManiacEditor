@@ -55,7 +55,7 @@
                         </DockPanel>
                     </Button.Content>
                 </Button>
-                <Button Click="ContextMenuButton_Click" x:Name="RunSceneDropDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" x:Name="RunSceneDropDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -94,7 +94,7 @@
                 <ToggleButton x:Name="PointerToolButton" Content="{StaticResource Pointer}"  Click="TogglePointerToolEvent" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
                 <ToggleButton x:Name="SelectToolButton"   Click="ToggleSelectToolEvent" Content="{StaticResource Select}" Foreground="Red" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
                 <ToggleButton x:Name="DrawToolButton"  Click="ToggleDrawToolEvent" Content="{StaticResource Draw}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <Button Click="ContextMenuButton_Click" Name="DrawToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Name="DrawToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -109,7 +109,7 @@
                     </Button.ContextMenu>
                 </Button>
                 <ToggleButton x:Name="SplineToolButton"  Click="ToggleSplineToolEvent" Content="{StaticResource Shapes}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <Button Click="ContextMenuButton_Click" Name="SplineToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Name="SplineToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -162,7 +162,7 @@
                 <ToggleButton x:Name="InteractionToolButton"  Click="ToggleInteractionToolEvent" Content="{StaticResource Interaction}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
                 <ToggleButton x:Name="MagnetMode" Click="ToggleMagnetToolEvent" Content="{StaticResource Magnet}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
 
-                <Button IsEnabled="False" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
+                <Button IsEnabled="False" Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -197,7 +197,7 @@
                 <ToggleButton x:Name="FlipAssistButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ShowFlippedTileHelperEvent" Content="{StaticResource RotateFlip}"></ToggleButton>
                 <ToggleButton x:Name="ShowGridToggleButton" Click="ToggleGridEvent" Content="{StaticResource Grid}"  Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
 
-                <Button Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton" >
+                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton" >
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -218,7 +218,7 @@
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem StaysOpenOnClick="True">
+                            <MenuItem>
                                 <MenuItem.Header>
                                     <StackPanel>
                                         <Grid>
@@ -227,7 +227,7 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
                                             <Label VerticalAlignment="Center" Content="Grid Color"></Label>
-                                            <wpfTool:ColorPicker VerticalAlignment="Center"  ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
+                                            <wpfTool:ColorPicker Style="{DynamicResource ColorPickerStyle1}" VerticalAlignment="Center"  ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
                                         </Grid>
                                         <Separator/>
                                         <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
@@ -241,7 +241,7 @@
                 <Separator/>
                 <ToggleButton x:Name="ShowCollisionAButton"  Click="ShowCollisionAEvent" Style="{DynamicResource ToolbarToggleButton}" Content="{StaticResource PathA}"></ToggleButton>
                 <ToggleButton x:Name="ShowCollisionBButton"  Click="ShowCollisionBEvent" Style="{DynamicResource ToolbarToggleButton}" Content="{StaticResource PathB}"></ToggleButton>
-                <Button Name="CollisionSettingsDropdown" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Name="CollisionSettingsDropdown" Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -254,30 +254,44 @@
                             <CheckBox x:Name="customToolStripMenuItem1" IsTabStop="False" Focusable="False"  Content="Custom" Click="UseCustomCollisionEvent"/>
                             <Expander Header="Custom Values..." IsTabStop="False" Focusable="False" Foreground="{DynamicResource NormalText}">
                                 <StackPanel>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Content="All"></Label>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
-                                    </Grid>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Content="Top Only"></Label>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
-                                    </Grid>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
-                                        <Label Content="LRD"></Label>
-                                    </Grid>
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Content="All"></Label>
+                                                <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
+                                            </Grid>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+
+
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Content="Top Only"></Label>
+                                                <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
+                                            </Grid>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <wpfTool:ColorPicker IsTabStop="False" Focusable="False" Style="{DynamicResource ColorPickerStyle1}"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
+                                                <Label Content="LRD"></Label>
+                                            </Grid>
+                                        </MenuItem.Header>
+                                    </MenuItem>
                                 </StackPanel>
                             </Expander>
                             <StackPanel Orientation="Vertical">
@@ -288,17 +302,17 @@
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <Button Click="ContextMenuButton_Click" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
+                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ToolbarBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
-                            <MenuItem StaysOpenOnClick="True">
+                            <MenuItem>
                                 <MenuItem.Header>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" Name="WLC" SelectedColorChanged="comboBox7_DropDown" ></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker Style="{DynamicResource ColorPickerStyle1}" ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" Name="WLC" SelectedColorChanged="comboBox7_DropDown" ></wpfTool:ColorPicker>
                                         <Label Content="Water Color" Grid.ColumnSpan="1"></Label>
                                     </Grid>
                                 </MenuItem.Header>
