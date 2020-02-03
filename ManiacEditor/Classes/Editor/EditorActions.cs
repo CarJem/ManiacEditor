@@ -51,6 +51,178 @@ namespace ManiacEditor.Classes.Editor
         }
 
         #region Common Editor Functions
+
+        public static void ZoomIn()
+        {
+            Classes.Editor.SolutionState.ZoomLevel += 1;
+            if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
+            if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
+
+            Instance.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+        }
+        public static void ZoomOut()
+        {
+            Classes.Editor.SolutionState.ZoomLevel -= 1;
+            if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
+            if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
+
+            Instance.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+        }
+        public static void PasteToChunks()
+        {
+            if (Instance.TilesClipboard != null)
+            {
+                Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Instance.TilesClipboard.Item1, Instance.TilesClipboard.Item2);
+                Instance.TilesToolbar?.ChunksReload();
+            }
+
+        }
+        public static void SelectAll()
+        {
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
+            {
+                if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA?.SelectAll();
+                if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB?.SelectAll();
+                Instance.UI.UpdateEditLayerActions();
+            }
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
+            {
+                Classes.Editor.Solution.Entities.SelectAll();
+            }
+            Instance.UI.SetSelectOnlyButtonsState();
+            Classes.Editor.SolutionState.RegionX1 = -1;
+            Classes.Editor.SolutionState.RegionY1 = -1;
+        }
+        public static void FlipHorizontal()
+        {
+            Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
+            Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
+            Instance.UI.UpdateEditLayerActions();
+        }
+        public static void FlipHorizontalIndividual()
+        {
+            Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
+            Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
+            Instance.UI.UpdateEditLayerActions();
+        }
+        public static void Delete()
+        {
+            Classes.Editor.EditorActions.DeleteSelected();
+        }
+        public static void Copy()
+        {
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
+                Classes.Editor.EditorActions.CopyTilesToClipboard();
+
+
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
+                Classes.Editor.EditorActions.CopyEntitiesToClipboard();
+
+
+            Instance.UI.UpdateControls();
+        }
+        public static void Duplicate()
+        {
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
+            {
+                Classes.Editor.Solution.EditLayerA?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerA?.CopyToClipboard(true));
+                Classes.Editor.Solution.EditLayerB?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerB?.CopyToClipboard(true));
+                Instance.UI.UpdateEditLayerActions();
+            }
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
+            {
+                try
+                {
+                    Classes.Editor.Solution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.Entities.CopyToClipboard(true));
+                    Classes.Editor.EditorActions.UpdateLastEntityAction();
+                }
+                catch (Classes.Editor.Scene.EditorEntities.TooManyEntitiesException)
+                {
+                    System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+                    return;
+                }
+                Instance.UI.SetSelectOnlyButtonsState();
+                Instance.UI.UpdateEntitiesToolbarList();
+
+            }
+        }
+        public static void Cut()
+        {
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
+            {
+                Classes.Editor.EditorActions.CopyTilesToClipboard();
+                Classes.Editor.EditorActions.DeleteSelected();
+                Instance.UI.UpdateControls();
+                Instance.UI.UpdateEditLayerActions();
+            }
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
+            {
+                if (Instance.EntitiesToolbar.IsFocused.Equals(false))
+                {
+                    Classes.Editor.EditorActions.CopyEntitiesToClipboard();
+                    Classes.Editor.EditorActions.DeleteSelected();
+                    Instance.UI.UpdateControls();
+                    Instance.UI.UpdateEntitiesToolbarList();
+                }
+            }
+        }
+        public static void Paste()
+        {
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
+            {
+                // check if there are tiles on the Windows clipboard; if so, use those
+                if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
+                {
+                    var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>)System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
+                    Point pastePoint = GetPastePoint();
+                    if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
+                    if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
+
+                    Instance.UI.UpdateEditLayerActions();
+                }
+
+                // if there's none, use the internal clipboard
+                else if (Instance.TilesClipboard != null)
+                {
+                    Point pastePoint = GetPastePoint();
+                    if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item1);
+                    if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item2);
+                    Instance.UI.UpdateEditLayerActions();
+                }
+
+            }
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
+            {
+                Classes.Editor.EditorActions.PasteEntitiesToClipboard();
+            }
+
+            Point GetPastePoint()
+            {
+                if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
+                {
+
+                    Point p = new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));
+                    return Classes.Editor.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                }
+                else
+                {
+                    return new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom) + Classes.Editor.Constants.TILE_SIZE - 1, (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom) + Classes.Editor.Constants.TILE_SIZE - 1);
+
+                }
+            }
+        }
+        public static void FlipVertical()
+        {
+            Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
+            Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
+            Instance.UI.UpdateEditLayerActions();
+        }
+        public static void FlipVerticalIndividual()
+        {
+            Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
+            Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
+            Instance.UI.UpdateEditLayerActions();
+        }
         public static void EditorPlaceTile(Point position, int tile, Classes.Editor.Scene.Sets.EditorLayer layer, bool isDrawing = false)
         {
             if (isDrawing)
@@ -123,10 +295,6 @@ namespace ManiacEditor.Classes.Editor
             Instance.RedoStack.Clear();
 
         }
-        /// <summary>
-        /// Deselects all tiles and Classes.Edit.Scene.EditorSolution.Entities
-        /// </summary>
-        /// <param name="updateControls">Whether to update associated on-screen controls</param>
         public static void Deselect(bool updateControls = true)
         {
             if (ManiacEditor.Classes.Editor.SolutionState.IsEditing())

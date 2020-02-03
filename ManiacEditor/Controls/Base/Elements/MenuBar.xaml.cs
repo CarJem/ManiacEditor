@@ -236,23 +236,23 @@ namespace ManiacEditor.Controls.Base.Elements
         private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.ExportObjLayoutAsPNG(); }
         private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.SaveAs(); }
-        private void RecoverEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.BackupRecoverButton_Click(sender, e); }
+        private void RecoverEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.BackupRecoverButton_Click(sender, e); }
         public void UnloadSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.UnloadScene(); }
-        private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.StageConfigBackup(sender, e); }
-        private void BackupSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SceneBackup(sender, e); }
+        private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.StageConfigBackup(sender, e); }
+        private void BackupSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.SceneBackup(sender, e); }
         #endregion
         #region Edit Events
-        public void PasteToChunksEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.PasteToChunks(); }
-        public void SelectAllEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SelectAll(); }
-        public void CutEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.Cut(); }
-        public void CopyEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.Copy(); }
-        public void PasteEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.Paste(); }
-        public void DuplicateEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.Duplicate(); }
-        private void DeleteEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.Delete(); }
-        public void FlipVerticalEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.FlipVertical(); }
-        public void FlipHorizontalEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.FlipHorizontal(); }
-        public void FlipVerticalIndividualEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.FlipVerticalIndividual(); }
-        public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.FlipHorizontalIndividual(); }
+        public void PasteToChunksEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.PasteToChunks(); }
+        public void SelectAllEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.SelectAll(); }
+        public void CutEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.Cut(); }
+        public void CopyEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.Copy(); }
+        public void PasteEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.Paste(); }
+        public void DuplicateEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.Duplicate(); }
+        private void DeleteEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.Delete(); }
+        public void FlipVerticalEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.FlipVertical(); }
+        public void FlipHorizontalEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.FlipHorizontal(); }
+        public void FlipVerticalIndividualEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.FlipVerticalIndividual(); }
+        public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.FlipHorizontalIndividual(); }
         #endregion
         #region Developer Stuff (WIP)
         private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.DevTerm(); }
@@ -294,7 +294,6 @@ namespace ManiacEditor.Controls.Base.Elements
         private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection(); }
         private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowEntityPathArrows ^= true; }
         private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MenuLanguageChanged(sender, e); }
-
         private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Classes.Editor.Solution.CurrentScene != null) Classes.Editor.Solution.Entities.OptimizeAllSlotIDs(); }
         private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.RightClicktoSwapSlotID ^= true; }
         private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CopyAir ^= true; }
@@ -305,11 +304,6 @@ namespace ManiacEditor.Controls.Base.Elements
         private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
         private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SoundLooperToolStripMenuItem_Click(sender, e); }
         private void FindUnusedTiles(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FindAndReplace.FindUnusedTiles(); }
-
-
-        #region Collision Slider Events
-        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
-        #endregion
 
         #region Apps
         private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKUnpacker(); }

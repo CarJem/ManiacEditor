@@ -34,226 +34,9 @@ namespace ManiacEditor
 
 		}
 
-		#region File Tab Buttons
 
-		public void BackupRecoverButton_Click(object sender, RoutedEventArgs e)
-		{
-			string Result = null, ResultOriginal = null, ResultOld = null;
-			OpenFileDialog open = new OpenFileDialog
-			{
-				Filter = "Backup Scene|*.bin.bak|Old Scene|*.bin.old|Crash Backup Scene|*.bin.crash.bak"
-			};
-			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
-			{
-				Result = open.FileName;
-				ResultOriginal = Result.Split('.')[0] + ".bin";
-				ResultOld = ResultOriginal + ".old";
-				int i = 1;
-				while ((File.Exists(ResultOld)))
-				{
-					ResultOld = ResultOriginal.Substring(0, ResultOriginal.Length - 4) + "." + i + ".bin.old";
-					i++;
-				}
-
-
-
-			}
-
-			if (Result == null)
-				return;
-
-            Classes.Editor.Solution.UnloadScene();
-			Methods.Internal.Settings.UseDefaultPrefrences();
-			File.Replace(Result, ResultOriginal, ResultOld);
-
-		}
-
-		#region Backup SubMenu
-		public void StageConfigBackup(object sender, RoutedEventArgs e)
-		{
-			StageConfigBackup(sender, e);
-		}
-
-		public void SceneBackup(object sender, RoutedEventArgs e)
-		{
-			SceneBackup(sender, e);
-		}
-		#endregion
-
-		#endregion
-
-		#region Edit Tab Buttons
-
-		public void PasteToChunks()
-		{
-			if (Editor.TilesClipboard != null)
-			{
-				Editor.Chunks.ConvertClipboardtoMultiLayerChunk(Editor.TilesClipboard.Item1, Editor.TilesClipboard.Item2);
-				Editor.TilesToolbar?.ChunksReload();
-			}
-
-		}
-
-		public void SelectAll()
-		{
-			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
-			{
-                if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA?.SelectAll();
-                if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB?.SelectAll();
-                Editor.UI.UpdateEditLayerActions();
-			}
-			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
-			{
-                Classes.Editor.Solution.Entities.SelectAll();
-            }
-			Editor.UI.SetSelectOnlyButtonsState();
-			Classes.Editor.SolutionState.RegionX1 = -1;
-            Classes.Editor.SolutionState.RegionY1 = -1;
-		}
-
-		public void FlipHorizontal()
-		{
-			Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
-			Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
-			Editor.UI.UpdateEditLayerActions();
-		}
-
-		public void FlipHorizontalIndividual()
-		{
-			Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
-			Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
-			Editor.UI.UpdateEditLayerActions();
-		}
-
-		public void Delete()
-		{
-			Classes.Editor.EditorActions.DeleteSelected();
-		}
-
-		public void Copy()
-		{
-			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
-				Classes.Editor.EditorActions.CopyTilesToClipboard();
-
-
-			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
-				Classes.Editor.EditorActions.CopyEntitiesToClipboard();
-
-
-			Editor.UI.UpdateControls();
-		}
-
-		public void Duplicate()
-		{
-			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
-			{
-                Classes.Editor.Solution.EditLayerA?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerA?.CopyToClipboard(true));
-                Classes.Editor.Solution.EditLayerB?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerB?.CopyToClipboard(true));
-                Editor.UI.UpdateEditLayerActions();
-			}
-			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
-			{
-				try
-				{
-					Classes.Editor.Solution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.Entities.CopyToClipboard(true));
-					Classes.Editor.EditorActions.UpdateLastEntityAction();
-				}
-				catch (Classes.Editor.Scene.EditorEntities.TooManyEntitiesException)
-				{
-					System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
-					return;
-				}
-				Editor.UI.SetSelectOnlyButtonsState();
-				Editor.UI.UpdateEntitiesToolbarList();
-
-			}
-		}
-
-		public void Cut()
-		{
-			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
-			{
-				Classes.Editor.EditorActions.CopyTilesToClipboard();
-				Classes.Editor.EditorActions.DeleteSelected();
-				Editor.UI.UpdateControls();
-				Editor.UI.UpdateEditLayerActions();
-			}
-			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
-			{
-				if (Editor.EntitiesToolbar.IsFocused.Equals(false))
-				{
-					Classes.Editor.EditorActions.CopyEntitiesToClipboard();
-					Classes.Editor.EditorActions.DeleteSelected();
-					Editor.UI.UpdateControls();
-					Editor.UI.UpdateEntitiesToolbarList();
-				}
-			}
-		}
-
-		public void Paste()
-		{
-			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
-			{
-				// check if there are tiles on the Windows clipboard; if so, use those
-				if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
-				{
-					var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>) System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
-                    Point pastePoint = GetPastePoint();
-					if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
-					if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
-
-					Editor.UI.UpdateEditLayerActions();
-				}
-
-				// if there's none, use the internal clipboard
-				else if (Editor.TilesClipboard != null)
-				{
-                    Point pastePoint = GetPastePoint();
-                    if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item1);
-					if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, Editor.TilesClipboard.Item2);
-					Editor.UI.UpdateEditLayerActions();
-				}
-
-			}
-			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
-			{
-				Classes.Editor.EditorActions.PasteEntitiesToClipboard();
-            }
-
-            Point GetPastePoint()
-            {
-                if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
-                {
-
-                    Point p = new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));
-                    return Classes.Editor.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
-                }
-                else
-                {
-                    return new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom) + Classes.Editor.Constants.TILE_SIZE - 1, (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom) + Classes.Editor.Constants.TILE_SIZE - 1);
-
-                }
-            }
-		}
-
-		public void FlipVertical()
-		{
-			Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
-			Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
-			Editor.UI.UpdateEditLayerActions();
-		}
-
-		public void FlipVerticalIndividual()
-		{
-			Classes.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
-			Classes.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
-			Editor.UI.UpdateEditLayerActions();
-		}
-
-		#endregion
 
 		#region View Tab Buttons
-
 		public void SetMenuButtonType(object sender, RoutedEventArgs e)
 		{
 			System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
@@ -319,7 +102,6 @@ namespace ManiacEditor
 			}
 
 		}
-
 		public void SetMenuButtonType(string tag)
 		{
 			switch (tag)
@@ -362,7 +144,6 @@ namespace ManiacEditor
 					break;
 			}
 		}
-
 		public void SetEncorePallete(object sender = null, string path = "")
 		{
 			if (sender != null)
@@ -411,7 +192,6 @@ namespace ManiacEditor
 			}
 
 		}
-
 		public void EntityFilterTextChanged(object sender, TextChangedEventArgs e)
 		{
             if (sender is System.Windows.Controls.TextBox && lockTextBox == false)
@@ -427,7 +207,6 @@ namespace ManiacEditor
 
             
 		}
-
 		public void SetScrollLockDirection()
 		{
 			if (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X)
@@ -445,7 +224,6 @@ namespace ManiacEditor
 				Editor.EditorMenuBar.yToolStripMenuItem.IsChecked = false;
 			}
 		}
-
 		public void MenuLanguageChanged(object sender, RoutedEventArgs e)
 		{
             System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
@@ -459,15 +237,6 @@ namespace ManiacEditor
 
 
 		}
-
-		#region Collision Options
-		public void CollisionOpacitySliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-		{
-            Classes.Editor.SolutionState.collisionOpacityChanged = true;
-            Editor.ReloadSpecificTextures(sender, e);
-            Editor.RefreshCollisionColours(true);
-        }
-        #endregion
 
         #endregion
 
@@ -591,29 +360,6 @@ namespace ManiacEditor
 			ManiacEditor.Extensions.Extensions.EnableButtonList(LT);
 		}
 		#endregion
-
-		#endregion
-
-		#region Main Toolstrip Buttons
-
-		public void ZoomIn(object sender, RoutedEventArgs e)
-		{
-			Classes.Editor.SolutionState.ZoomLevel += 1;
-			if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
-			if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
-
-			Editor.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
-		}
-
-		public void ZoomOut(object sender, RoutedEventArgs e)
-		{
-			Classes.Editor.SolutionState.ZoomLevel -= 1;
-			if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
-			if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
-
-			Editor.ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
-		}
-
 
 		#endregion
 

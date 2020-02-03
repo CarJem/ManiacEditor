@@ -6,6 +6,7 @@ using System.IO;
 using RSDKv5;
 using GenerationsLib.Core;
 
+
 namespace ManiacEditor.Classes.Editor
 {
     public class SolutionLoader
@@ -827,6 +828,54 @@ namespace ManiacEditor.Classes.Editor
                 Methods.Internal.Common.ShowError($@"Failed to save the 16x16Tiles.gif to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
             }
         }
+        #endregion
+
+        #region Broken Backup/Recovery Tool
+
+        //TODO : Fix this Bloody Mess Over Here
+
+        public static void BackupRecoverButton_Click(object sender, RoutedEventArgs e)
+        {
+            string Result = null, ResultOriginal = null, ResultOld = null;
+            System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog
+            {
+                Filter = "Backup Scene|*.bin.bak|Old Scene|*.bin.old|Crash Backup Scene|*.bin.crash.bak"
+            };
+            if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+            {
+                Result = open.FileName;
+                ResultOriginal = Result.Split('.')[0] + ".bin";
+                ResultOld = ResultOriginal + ".old";
+                int i = 1;
+                while ((File.Exists(ResultOld)))
+                {
+                    ResultOld = ResultOriginal.Substring(0, ResultOriginal.Length - 4) + "." + i + ".bin.old";
+                    i++;
+                }
+
+
+
+            }
+
+            if (Result == null)
+                return;
+
+            Classes.Editor.Solution.UnloadScene();
+            Methods.Internal.Settings.UseDefaultPrefrences();
+            File.Replace(Result, ResultOriginal, ResultOld);
+
+        }
+
+        public static void StageConfigBackup(object sender, RoutedEventArgs e)
+        {
+            //StageConfigBackup(sender, e);
+        }
+
+        public static void SceneBackup(object sender, RoutedEventArgs e)
+        {
+            //SceneBackup(sender, e);
+        }
+
         #endregion
 
 

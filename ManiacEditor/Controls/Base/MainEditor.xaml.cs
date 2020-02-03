@@ -551,20 +551,6 @@ namespace ManiacEditor.Controls.Base
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
         #endregion
 
-        #region Edit Events
-        public void PasteToChunksEvent(object sender, RoutedEventArgs e) { UIEvents.PasteToChunks(); }
-        public void SelectAllEvent(object sender, RoutedEventArgs e) { UIEvents.SelectAll(); }
-        public void CutEvent(object sender, RoutedEventArgs e) { UIEvents.Cut(); }
-        public void CopyEvent(object sender, RoutedEventArgs e) { UIEvents.Copy(); }
-        public void PasteEvent(object sender, RoutedEventArgs e) { UIEvents.Paste(); }
-        public void DuplicateEvent(object sender, RoutedEventArgs e) { UIEvents.Duplicate(); }
-        public void DeleteEvent(object sender, RoutedEventArgs e) { UIEvents.Delete(); }
-        public void FlipVerticalEvent(object sender, RoutedEventArgs e) { UIEvents.FlipVertical(); }
-        public void FlipHorizontalEvent(object sender, RoutedEventArgs e) { UIEvents.FlipHorizontal(); }
-        public void FlipVerticalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipVerticalIndividual(); }
-        public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipHorizontalIndividual(); }
-        #endregion
-
         #region WTF Events
         public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UI.ReloadSpritesAndTextures(); }
 		public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowTileID ^= true; }

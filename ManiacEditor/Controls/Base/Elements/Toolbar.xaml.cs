@@ -239,8 +239,8 @@ namespace ManiacEditor.Controls.Base.Elements
         private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseMagnetMode ^= true; }
         private void UndoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorUndo(); }
         private void RedoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorRedo(); }
-        private void ZoomInEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ZoomIn(sender, e); }
-        private void ZoomOutEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ZoomOut(sender, e); }
+        private void ZoomInEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.ZoomIn(); }
+        private void ZoomOutEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.ZoomOut(); }
         private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SelectionMode(); }
         private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.PointerMode(); }
         private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DrawMode(); }
@@ -262,7 +262,12 @@ namespace ManiacEditor.Controls.Base.Elements
 
 
         #region Collision Slider Events
-        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents?.CollisionOpacitySliderValueChanged(sender, e); }
+        private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Classes.Editor.SolutionState.collisionOpacityChanged = true;
+            ManiacEditor.Controls.Base.MainEditor.Instance.ReloadSpecificTextures(sender, e);
+            ManiacEditor.Controls.Base.MainEditor.Instance.RefreshCollisionColours(true);
+        }
         #endregion
 
         #region Magnet Events
