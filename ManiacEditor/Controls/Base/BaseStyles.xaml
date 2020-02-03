@@ -479,19 +479,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="ContextMenuButton" TargetType="{x:Type Button}" BasedOn="{StaticResource ToolbarButton}">
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
-                                <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
-                            </BooleanAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-        </Style.Triggers>
-    </Style>
 </ResourceDictionary>

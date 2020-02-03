@@ -1647,6 +1647,11 @@ namespace ManiacEditor
             {
                 Controls.Base.MainEditor.Instance.DuplicateEvent(sender, null);
             }
+            //Delete
+            else if (isCombo(e, myKeyBinds.Delete))
+            {
+                Controls.Base.MainEditor.Instance.DeleteEvent(sender, null);
+            }
             // Flip Vertical Individual
             else if (isCombo(e, myKeyBinds.FlipVIndv))
             {

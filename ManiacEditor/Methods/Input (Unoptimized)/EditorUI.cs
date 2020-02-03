@@ -20,31 +20,9 @@ namespace ManiacEditor
         #region Enable And Disable Editor Buttons
         public void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
         {
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowFGHigh.IsEnabled = enabled && Classes.Editor.Solution.FGHigh != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowFGLow.IsEnabled = enabled && Classes.Editor.Solution.FGLow != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowFGHigher.IsEnabled = enabled && Classes.Editor.Solution.FGHigher != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowFGLower.IsEnabled = enabled && Classes.Editor.Solution.FGLower != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowEntities.IsEnabled = enabled;
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.ReloadButton.IsEnabled = enabled;
-
+            Controls.Base.MainEditor.Instance.EditorToolbar.SetSceneOnlyButtonsState(enabled, stageLoad);
             Controls.Base.MainEditor.Instance.EditorMenuBar.SetSceneOnlyButtonsState(enabled, stageLoad);
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.Save.IsEnabled = enabled;
-
-            if (Core.Settings.MyPerformance.ReduceZoom)
-            {
-                Controls.Base.MainEditor.Instance.EditorToolbar.ZoomInButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel < 5;
-                Controls.Base.MainEditor.Instance.EditorToolbar.ZoomOutButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel > -2;
-            }
-            else
-            {
-                Controls.Base.MainEditor.Instance.EditorToolbar.ZoomInButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel < 5;
-                Controls.Base.MainEditor.Instance.EditorToolbar.ZoomOutButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel > -5;
-            }
-
-
-            UpdateGameRunningButton(enabled);
+            Controls.Base.MainEditor.Instance.EditorToolbar.UpdateGameRunningButton(enabled);
 
             SetEditButtonsState(enabled);
             UpdateTooltips();
@@ -98,165 +76,10 @@ namespace ManiacEditor
             }
         }
 
-        private void SetLayerEditButtonsState(bool enabled)
-        {
-            if (!Classes.Editor.SolutionState.MultiLayerEditMode)
-            {
-                if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLow;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigh;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigher;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLower;
-                else if (enabled && Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedN.Value))
-                {
-                    var selectedExtraLayerButton = Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedN.Value);
-                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
-                    Classes.Editor.Solution.EditLayerA = editorLayer;
-                }
-                else Classes.Editor.Solution.EditLayerA = null;
-            }
-            else
-            {
-                SetEditLayerA();
-                SetEditLayerB();
-            }
-
-            void SetEditLayerA()
-            {
-                if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLow;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigh;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigher;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLower;
-                else if (enabled && Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
-                {
-                    var selectedExtraLayerButton = Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
-                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
-
-                    Classes.Editor.Solution.EditLayerA = editorLayer;
-                }
-                else Classes.Editor.Solution.EditLayerA = null;
-            }
-            void SetEditLayerB()
-            {
-                if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGLow;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGHigh;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGHigher;
-                else if (enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGLower;
-                else if (enabled && Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
-                {
-                    var selectedExtraLayerButton = Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
-                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
-
-                    Classes.Editor.Solution.EditLayerB = editorLayer;
-                }
-                else Classes.Editor.Solution.EditLayerB = null;
-            }
-
-        }
         private void SetEditButtonsState(bool enabled)
         {
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsEnabled = enabled && Classes.Editor.Solution.FGLow != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsEnabled = enabled && Classes.Editor.Solution.FGHigh != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsEnabled = enabled && Classes.Editor.Solution.FGLower != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsEnabled = enabled && Classes.Editor.Solution.FGHigher != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditEntities.IsEnabled = enabled;
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsCheckedA = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsCheckedA.Value;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsCheckedA = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsCheckedA.Value;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsCheckedA = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsCheckedA.Value;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsCheckedA = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsCheckedA.Value;
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsCheckedB = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLow.IsCheckedB.Value;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsCheckedB = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigh.IsCheckedB.Value;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsCheckedB = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGLower.IsCheckedB.Value;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsCheckedB = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditFGHigher.IsCheckedB.Value;
-
-            foreach (var layerButtons in Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons)
-            {
-                layerButtons.Value.IsCheckedA = layerButtons.Value.IsCheckedA.Value && enabled;
-                layerButtons.Value.IsCheckedB = layerButtons.Value.IsCheckedB.Value && enabled;
-            }
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.EditEntities.IsCheckedN = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.EditEntities.IsCheckedN.Value;
-
-            Controls.Base.MainEditor.Instance.EditorMenuBar.SetEditButtonsState(enabled);
-
-            SetLayerEditButtonsState(enabled);
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.MagnetMode.IsEnabled = enabled && Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            Controls.Base.MainEditor.Instance.EditorToolbar.MagnetMode.IsChecked = Classes.Editor.SolutionState.UseMagnetMode && Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            Controls.Base.MainEditor.Instance.EditorToolbar.MagnetModeSplitButton.IsEnabled = enabled && Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            Classes.Editor.SolutionState.UseMagnetMode = Controls.Base.MainEditor.Instance.IsEntitiesEdit() && Controls.Base.MainEditor.Instance.EditorToolbar.MagnetMode.IsChecked.Value;
-
-
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.UndoButton.IsEnabled = enabled && Controls.Base.MainEditor.Instance.UndoStack.Count > 0;
-            Controls.Base.MainEditor.Instance.EditorToolbar.RedoButton.IsEnabled = enabled && Controls.Base.MainEditor.Instance.RedoStack.Count > 0;
-
-
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.PointerToolButton.IsEnabled = enabled;
-            Controls.Base.MainEditor.Instance.EditorToolbar.SelectToolButton.IsEnabled = enabled && Controls.Base.MainEditor.Instance.IsTilesEdit();
-            Controls.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsEnabled = enabled && Controls.Base.MainEditor.Instance.IsTilesEdit() || Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            Controls.Base.MainEditor.Instance.EditorToolbar.InteractionToolButton.IsEnabled = enabled;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsEnabled = enabled && Controls.Base.MainEditor.Instance.IsTilesEdit();
-            Controls.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsEnabled = enabled && Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            Controls.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked = Controls.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-
-            bool isAnyOtherToolChecked()
-            {
-                bool isPointer = (bool)Controls.Base.MainEditor.Instance.EditorToolbar.PointerToolButton.IsChecked.Value;
-                bool isSelect = (bool)Controls.Base.MainEditor.Instance.EditorToolbar.SelectToolButton.IsChecked.Value;
-                bool isDraw = (bool)Controls.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value;
-                bool isSpline = (bool)Controls.Base.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value;
-
-                if (Controls.Base.MainEditor.Instance.IsEntitiesEdit())
-                {
-                    if (isDraw || isSpline)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    if (isDraw || isSelect)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.PointerToolButton.IsChecked = isAnyOtherToolChecked();
-            Controls.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsChecked = (bool)Controls.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsChecked && !Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            if (Controls.Base.MainEditor.Instance.TilesToolbar != null)
-            {
-                if (Controls.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsChecked.Value)
-                {
-                    Controls.Base.MainEditor.Instance.TilesToolbar.TabControl.SelectedIndex = 1;
-                }
-                else
-                {
-                    Controls.Base.MainEditor.Instance.TilesToolbar.TabControl.SelectedIndex = 0;
-                }
-            }
-
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowGridButton.IsEnabled = enabled && Classes.Editor.Solution.StageConfig != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowCollisionAButton.IsEnabled = enabled && Classes.Editor.Solution.TileConfig != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowCollisionBButton.IsEnabled = enabled && Classes.Editor.Solution.TileConfig != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.ShowTileIDButton.IsEnabled = enabled && Classes.Editor.Solution.StageConfig != null;
-            Controls.Base.MainEditor.Instance.EditorToolbar.EncorePaletteButton.IsEnabled = enabled && Classes.Editor.SolutionState.EncorePaletteExists;
-            Controls.Base.MainEditor.Instance.EditorToolbar.FlipAssistButton.IsEnabled = enabled;
-
+            Controls.Base.MainEditor.Instance.EditorToolbar.SetEditButtonsState(enabled);
             if (Controls.Base.MainEditor.Instance.IsTilesEdit())
             {
                 if (Controls.Base.MainEditor.Instance.TilesToolbar == null)
@@ -653,7 +476,7 @@ namespace ManiacEditor
 
             bool parallaxAnimationInProgress = Classes.Editor.SolutionState.AllowAnimations && Classes.Editor.SolutionState.ParallaxAnimationChecked;
 
-            UpdateGameRunningButton(Classes.Editor.Solution.CurrentScene != null);
+            Controls.Base.MainEditor.Instance.EditorToolbar.UpdateGameRunningButton(Classes.Editor.Solution.CurrentScene != null);
             Methods.Internal.Theming.UpdateThemeForItemsWaiting();
             Controls.Base.MainEditor.Instance.EditorStatusBar.UpdateFilterButtonApperance(false);
             Controls.Base.MainEditor.Instance.EditorStatusBar.UpdateStatusPanel();
@@ -663,22 +486,7 @@ namespace ManiacEditor
             Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Controls.Base.MainEditor.Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Properties.Defaults.Default.CustomGridSizeValue);
 
         }
-        public void UpdateGameRunningButton(bool enabled = true)
-        {
-            
-            Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneButton.IsEnabled = enabled;
-            Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneDropDown.IsEnabled = enabled && Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneButton.IsEnabled;
 
-            if (Methods.GameHandler.GameRunning || System.Diagnostics.Process.GetProcessesByName("SonicMania").FirstOrDefault() != null)
-            {
-                if (Methods.GameHandler.GameRunning) Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneIcon.Fill = System.Windows.Media.Brushes.Blue;
-                else Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneIcon.Fill = System.Windows.Media.Brushes.Green;
-            }
-            else
-            {
-                Controls.Base.MainEditor.Instance.EditorToolbar.RunSceneIcon.Fill = System.Windows.Media.Brushes.Gray;
-            }
-        }
         private void UpdateTooltips()
         {
             UpdateTooltipForStacks(Controls.Base.MainEditor.Instance.EditorToolbar.UndoButton, Controls.Base.MainEditor.Instance.UndoStack);

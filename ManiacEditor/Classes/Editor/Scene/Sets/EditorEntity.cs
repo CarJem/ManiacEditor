@@ -171,7 +171,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             bool wEven = width % 2 == 0;
             bool hEven = height % 2 == 0;
 
-            int zoomOffset = (ManiacEditor.Controls.Base.MainEditor.Instance.GetZoom() % 1 == 0 ? 0 : 1);
+            int zoomOffset = (Classes.Editor.SolutionState.Zoom % 1 == 0 ? 0 : 1);
 
             int x2 = x;
             int y2 = y;
@@ -539,7 +539,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                 if (ManiacEditor.Core.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
                 {
-                    if (ManiacEditor.Controls.Base.MainEditor.Instance.GetZoom() >= 1)
+                    if (Classes.Editor.SolutionState.Zoom >= 1)
                     {
                         d.DrawTextSmall(string.Format("{0} (ID: {1})", _entity.Object.Name, _entity.SlotID), x + 2, y + 2, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }

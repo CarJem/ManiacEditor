@@ -61,7 +61,7 @@ namespace ManiacEditor.Classes.Editor
 
         public string GetZoom()
         {
-            return "Zoom Level: " + EditorInstance.GetZoom();
+            return "Zoom Level: " + Classes.Editor.SolutionState.Zoom;
         }
 
         public string GetSelectedZone()

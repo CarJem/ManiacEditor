@@ -880,6 +880,216 @@ namespace ManiacEditor.Controls.Base.Elements
 
         #endregion
 
+        #region UI
+
+        public void UpdateGameRunningButton(bool enabled = true)
+        {
+            RunSceneButton.IsEnabled = enabled;
+            RunSceneDropDown.IsEnabled = enabled && RunSceneButton.IsEnabled;
+
+            if (Methods.GameHandler.GameRunning || System.Diagnostics.Process.GetProcessesByName("SonicMania").FirstOrDefault() != null)
+            {
+                if (Methods.GameHandler.GameRunning) RunSceneIcon.Fill = System.Windows.Media.Brushes.Blue;
+                else RunSceneIcon.Fill = System.Windows.Media.Brushes.Green;
+            }
+            else
+            {
+                RunSceneIcon.Fill = System.Windows.Media.Brushes.Gray;
+            }
+        }
+
+        public void SetEditButtonsState(bool enabled)
+        {
+            EditFGLow.IsEnabled = enabled && Classes.Editor.Solution.FGLow != null;
+            EditFGHigh.IsEnabled = enabled && Classes.Editor.Solution.FGHigh != null;
+            EditFGLower.IsEnabled = enabled && Classes.Editor.Solution.FGLower != null;
+            EditFGHigher.IsEnabled = enabled && Classes.Editor.Solution.FGHigher != null;
+            EditEntities.IsEnabled = enabled;
+
+            EditFGLow.IsCheckedA = enabled && EditFGLow.IsCheckedA.Value;
+            EditFGHigh.IsCheckedA = enabled && EditFGHigh.IsCheckedA.Value;
+            EditFGLower.IsCheckedA = enabled && EditFGLower.IsCheckedA.Value;
+            EditFGHigher.IsCheckedA = enabled && EditFGHigher.IsCheckedA.Value;
+
+            EditFGLow.IsCheckedB = enabled && EditFGLow.IsCheckedB.Value;
+            EditFGHigh.IsCheckedB = enabled && EditFGHigh.IsCheckedB.Value;
+            EditFGLower.IsCheckedB = enabled && EditFGLower.IsCheckedB.Value;
+            EditFGHigher.IsCheckedB = enabled && EditFGHigher.IsCheckedB.Value;
+
+            foreach (var layerButtons in ManiacEditor.Controls.Base.MainEditor.Instance.ExtraLayerEditViewButtons)
+            {
+                layerButtons.Value.IsCheckedA = layerButtons.Value.IsCheckedA.Value && enabled;
+                layerButtons.Value.IsCheckedB = layerButtons.Value.IsCheckedB.Value && enabled;
+            }
+
+            EditEntities.IsCheckedN = enabled && EditEntities.IsCheckedN.Value;
+
+            ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.SetEditButtonsState(enabled);
+
+            SetLayerEditButtonsState(enabled);
+
+            MagnetMode.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            MagnetMode.IsChecked = Classes.Editor.SolutionState.UseMagnetMode && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            MagnetModeSplitButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            Classes.Editor.SolutionState.UseMagnetMode = ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit() && MagnetMode.IsChecked.Value;
+
+
+
+            UndoButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.UndoStack.Count > 0;
+            RedoButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.RedoStack.Count > 0;
+
+
+
+            PointerToolButton.IsEnabled = enabled;
+            SelectToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit();
+
+            DrawToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit() || ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            DrawToolDropdown.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit() || ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+
+            InteractionToolButton.IsEnabled = enabled;
+            ChunksToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit();
+
+            SplineToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            SplineToolDropdown.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+
+            SplineToolButton.IsChecked = SplineToolButton.IsChecked.Value && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+
+            bool isAnyOtherToolChecked()
+            {
+                bool isPointer = (bool)PointerToolButton.IsChecked.Value;
+                bool isSelect = (bool)SelectToolButton.IsChecked.Value;
+                bool isDraw = (bool)DrawToolButton.IsChecked.Value;
+                bool isSpline = (bool)SplineToolButton.IsChecked.Value;
+
+                if (ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit())
+                {
+                    if (isDraw || isSpline)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (isDraw || isSelect)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+
+
+            PointerToolButton.IsChecked = isAnyOtherToolChecked();
+            ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            if (ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar != null)
+            {
+                if (ChunksToolButton.IsChecked.Value)
+                {
+                    ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.TabControl.SelectedIndex = 1;
+                }
+                else
+                {
+                    ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.TabControl.SelectedIndex = 0;
+                }
+            }
+
+            ShowGridButton.IsEnabled = enabled && Classes.Editor.Solution.StageConfig != null;
+            ShowCollisionAButton.IsEnabled = enabled && Classes.Editor.Solution.TileConfig != null;
+            ShowCollisionBButton.IsEnabled = enabled && Classes.Editor.Solution.TileConfig != null;
+            ShowTileIDButton.IsEnabled = enabled && Classes.Editor.Solution.StageConfig != null;
+            EncorePaletteButton.IsEnabled = enabled && Classes.Editor.SolutionState.EncorePaletteExists;
+            FlipAssistButton.IsEnabled = enabled;
+        }
+
+        private void SetLayerEditButtonsState(bool enabled)
+        {
+            if (!Classes.Editor.SolutionState.MultiLayerEditMode)
+            {
+                if (enabled && EditFGLow.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLow;
+                else if (enabled && EditFGHigh.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigh;
+                else if (enabled && EditFGHigher.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigher;
+                else if (enabled && EditFGLower.IsCheckedN.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLower;
+                else if (enabled && MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedN.Value))
+                {
+                    var selectedExtraLayerButton = MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedN.Value);
+                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+
+                    Classes.Editor.Solution.EditLayerA = editorLayer;
+                }
+                else Classes.Editor.Solution.EditLayerA = null;
+            }
+            else
+            {
+                SetEditLayerA();
+                SetEditLayerB();
+            }
+
+            void SetEditLayerA()
+            {
+                if (enabled && EditFGLow.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLow;
+                else if (enabled && EditFGHigh.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigh;
+                else if (enabled && EditFGHigher.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGHigher;
+                else if (enabled && EditFGLower.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLower;
+                else if (enabled && MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
+                {
+                    var selectedExtraLayerButton = MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
+                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+
+                    Classes.Editor.Solution.EditLayerA = editorLayer;
+                }
+                else Classes.Editor.Solution.EditLayerA = null;
+            }
+            void SetEditLayerB()
+            {
+                if (enabled && EditFGLow.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGLow;
+                else if (enabled && EditFGHigh.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGHigh;
+                else if (enabled && EditFGHigher.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGHigher;
+                else if (enabled && EditFGLower.IsCheckedB.Value) Classes.Editor.Solution.EditLayerB = Classes.Editor.Solution.FGLower;
+                else if (enabled && MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
+                {
+                    var selectedExtraLayerButton = MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
+                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+
+                    Classes.Editor.Solution.EditLayerB = editorLayer;
+                }
+                else Classes.Editor.Solution.EditLayerB = null;
+            }
+
+        }
+
+        public void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
+        {
+            ShowFGHigh.IsEnabled = enabled && Classes.Editor.Solution.FGHigh != null;
+            ShowFGLow.IsEnabled = enabled && Classes.Editor.Solution.FGLow != null;
+            ShowFGHigher.IsEnabled = enabled && Classes.Editor.Solution.FGHigher != null;
+            ShowFGLower.IsEnabled = enabled && Classes.Editor.Solution.FGLower != null;
+            ShowEntities.IsEnabled = enabled;
+
+            ReloadButton.IsEnabled = enabled;
+
+            Save.IsEnabled = enabled;
+
+            if (Core.Settings.MyPerformance.ReduceZoom)
+            {
+                ZoomInButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel < 5;
+                ZoomOutButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel > -2;
+            }
+            else
+            {
+                ZoomInButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel < 5;
+                ZoomOutButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel > -5;
+            }
+        }
+
+        #endregion
+
         public void UpdateTooltips()
         {
             New.ToolTip = "New Scene" + KeyBindPraser("New", true);
@@ -951,6 +1161,20 @@ namespace ManiacEditor.Controls.Base.Elements
             }
 
 
+        }
+
+        private void ContextMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = (sender as Button);
+            if (!btn.ContextMenu.IsOpen)
+            {
+                //Open the Context menu when Button is clicked
+                btn.ContextMenu.IsEnabled = true;
+                btn.ContextMenu.PlacementTarget = (sender as Button);
+                btn.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                btn.ContextMenu.IsOpen = true;
+
+            }
         }
     }
 }

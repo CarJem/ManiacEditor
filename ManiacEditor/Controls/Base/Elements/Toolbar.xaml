@@ -55,14 +55,14 @@
                         </DockPanel>
                     </Button.Content>
                 </Button>
-                <Button Style="{DynamicResource ContextMenuButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Click="ContextMenuButton_Click" x:Name="RunSceneDropDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
                         </Grid>
                     </Button.Content>
                     <Button.ContextMenu>
-                        <ContextMenu  x:Name="RunSceneDropDown" Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
+                        <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus" Click="RunSceneEvent"/>
                             <Separator/>
                             <MenuItem x:Name="trackThePlayerToolStripMenuItem" Header="Track the Player...">
@@ -94,7 +94,7 @@
                 <ToggleButton x:Name="PointerToolButton" Content="{StaticResource Pointer}"  Click="TogglePointerToolEvent" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
                 <ToggleButton x:Name="SelectToolButton"   Click="ToggleSelectToolEvent" Content="{StaticResource Select}" Foreground="Red" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
                 <ToggleButton x:Name="DrawToolButton"  Click="ToggleDrawToolEvent" Content="{StaticResource Draw}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <Button Style="{DynamicResource ContextMenuButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Click="ContextMenuButton_Click" Name="DrawToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -103,13 +103,13 @@
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <Label Content="Brush Size (Tiles Edit Only)" x:Name="DrawTileSizeLabel"></Label>
-                            <Slider Value="1" Minimum="1" Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
+                            <Slider Width="256" Value="1" Minimum="1" Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
                             <wpfTool:IntegerUpDown x:Name="DrawTileSizeNUD" Value="1" Minimum="1" Maximum="16" ValueChanged="DrawToolSizeChanged"></wpfTool:IntegerUpDown>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
                 <ToggleButton x:Name="SplineToolButton"  Click="ToggleSplineToolEvent" Content="{StaticResource Shapes}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <Button Style="{DynamicResource ContextMenuButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Click="ContextMenuButton_Click" Name="SplineToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -119,56 +119,50 @@
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <Label Content="Spline Spawn Group ID:"></Label>
                             <wpfTool:IntegerUpDown x:Name="SplineSpawnID" Value="0" Minimum="0" Maximum="600"></wpfTool:IntegerUpDown>
-                            <Expander IsExpanded="False" Header="Group Options" Foreground="{DynamicResource NormalText}">
-                                <StackPanel Background="{DynamicResource ToolbarBackground}" Margin="5">
-                                    <Label Content="Spline Group ID"></Label>
-                                    <wpfTool:IntegerUpDown Value="0" Minimum="0" Maximum="600" x:Name="SplineGroupID" ValueChanged="SplineOptionsIDChangedEvent"></wpfTool:IntegerUpDown>
-                                    <Separator Margin="0,10"></Separator>
-                                    <Label Content="Group Options:" IsEnabled="False"></Label>
-                                    <Separator Margin="0,10"></Separator>
-                                    <Label Content="Frequency of Points" x:Name="SplinePointSeperationLabel"></Label>
-                                    <Slider Value="128" Minimum="4" Maximum="600" x:Name="SplinePointSeperationSlider" ValueChanged="SplinePointFrequenceChangedEvent"></Slider>
-                                    <wpfTool:IntegerUpDown x:Name="SplinePointSeperationNUD" Value="128" Minimum="4" Maximum="600" ValueChanged="SplinePointFrequenceChangedEvent"></wpfTool:IntegerUpDown>
-                                    <CheckBox Content="Show Line" Name="SplineShowLineCheckbox" IsChecked="True" Checked="SplineShowLineCheckboxCheckChanged" Unchecked="SplineShowLineCheckboxCheckChanged"></CheckBox>
-                                    <CheckBox Content="Show Points" Name="SplineShowPointsCheckbox" IsChecked="True" Checked="SplineShowPointsCheckboxCheckChanged" Unchecked="SplineShowPointsCheckboxCheckChanged"></CheckBox>
-                                    <CheckBox Name="SplineShowObjectsCheckbox" Checked="SplineShowObjectsCheckboxCheckChanged" Unchecked="SplineShowObjectsCheckboxCheckChanged">
-                                        <CheckBox.Content>
-                                            <TextBlock Text="Show Object Preview" TextWrapping="Wrap"></TextBlock>
-                                        </CheckBox.Content>
-                                    </CheckBox>
-                                    <Separator Margin="0,10"></Separator>
+                            <Label Content="Spline Group ID"></Label>
+                            <wpfTool:IntegerUpDown Value="0" Minimum="0" Maximum="600" x:Name="SplineGroupID" ValueChanged="SplineOptionsIDChangedEvent"></wpfTool:IntegerUpDown>
+                            <Separator Margin="0,10"></Separator>
+                            <Label Content="Group Options:" IsEnabled="False"></Label>
+                            <Separator Margin="0,10"></Separator>
+                            <Label Content="Frequency of Points" x:Name="SplinePointSeperationLabel"></Label>
+                            <Slider Value="128" Width="200" Minimum="4" Maximum="600" x:Name="SplinePointSeperationSlider" VerticalAlignment="Center" ValueChanged="SplinePointFrequenceChangedEvent"></Slider>
+                            <wpfTool:IntegerUpDown x:Name="SplinePointSeperationNUD" Value="128" Minimum="4" Maximum="600" ValueChanged="SplinePointFrequenceChangedEvent"></wpfTool:IntegerUpDown>
+                            <CheckBox Content="Show Line" Name="SplineShowLineCheckbox" IsChecked="True" Checked="SplineShowLineCheckboxCheckChanged" Unchecked="SplineShowLineCheckboxCheckChanged"></CheckBox>
+                            <CheckBox Content="Show Points" Name="SplineShowPointsCheckbox" IsChecked="True" Checked="SplineShowPointsCheckboxCheckChanged" Unchecked="SplineShowPointsCheckboxCheckChanged"></CheckBox>
+                            <CheckBox Name="SplineShowObjectsCheckbox" Checked="SplineShowObjectsCheckboxCheckChanged" Unchecked="SplineShowObjectsCheckboxCheckChanged">
+                                <CheckBox.Content>
+                                    <TextBlock Text="Show Object Preview" TextWrapping="Wrap"></TextBlock>
+                                </CheckBox.Content>
+                            </CheckBox>
+                            <Separator Margin="0,10"></Separator>
 
-                                    <Label Content="Spline Shape: "></Label>
-                                    <RadioButton Content="Square" Name="SplineLineMode" IsEnabled="False" IsChecked="True" Click="SplineLineMode_Click"></RadioButton>
-                                    <RadioButton Content="Oval" Name="SplineOvalMode" Click="SplineOvalMode_Click" IsChecked="True"></RadioButton>
-                                    <Separator Margin="0,10"></Separator>
-                                    <Label>
+                            <Label Content="Spline Shape: "></Label>
+                            <RadioButton Content="Square" Name="SplineLineMode" IsEnabled="False" IsChecked="True" Click="SplineLineMode_Click"></RadioButton>
+                            <RadioButton Content="Oval" Name="SplineOvalMode" Click="SplineOvalMode_Click" IsChecked="True"></RadioButton>
+                            <Separator Margin="0,10"></Separator>
+                            <Label>
 
-                                        <Label.Content>
-                                            <TextBlock Text="Spline Spawn Object" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
-                                        </Label.Content>
-                                    </Label>
-                                    <Grid>
-                                        <ComboBox x:Name="SelectedSplineRender" SelectionChanged="SplineSpawnRender_SelectionChanged"></ComboBox>
-                                        <Button Content="None" VerticalAlignment="Stretch" x:Name="SplineRenderObjectName" Click="SplineRenderObjectName_Click"></Button>
-                                    </Grid>
-                                </StackPanel>
-
-                            </Expander>
-
-
-                            <TextBlock x:Name="SplineInfoLabel1" Visibility="Collapsed" Text="Number of Spline Objects: {0}"></TextBlock>
-                            <TextBlock x:Name="SplineInfoLabel2" Visibility="Collapsed" Text="Point Frequency: {0}"></TextBlock>
-                            <TextBlock x:Name="SplineInfoLabel3" Visibility="Collapsed" Text="Total Number of Spawing Objects: {0}"></TextBlock>
-                            <Button Content="Render Selected Spline"></Button>
-                            <Button Content="Render All Splines"></Button>
+                                <Label.Content>
+                                    <TextBlock Text="Spline Spawn Object" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                                </Label.Content>
+                            </Label>
+                            <Grid VerticalAlignment="Center">
+                                <ComboBox x:Name="SelectedSplineRender" SelectionChanged="SplineSpawnRender_SelectionChanged"></ComboBox>
+                                <Button Content="None" Width="200" VerticalAlignment="Stretch" x:Name="SplineRenderObjectName" Click="SplineRenderObjectName_Click"></Button>
+                            </Grid>
+                            <Separator Margin="0,10"></Separator>
+                            <MenuItem x:Name="SplineInfoLabel1" IsEnabled="False" Visibility="Visible" Header="Number of Spline Objects: {0}"></MenuItem>
+                            <MenuItem x:Name="SplineInfoLabel2" IsEnabled="False" Visibility="Visible" Header="Point Frequency: {0}"></MenuItem>
+                            <MenuItem x:Name="SplineInfoLabel3" IsEnabled="False" Visibility="Visible" Header="Total Number of Spawing Objects: {0}"></MenuItem>
+                            <MenuItem Header="Render Selected Spline"></MenuItem>
+                            <MenuItem Header="Render All Splines"></MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
                 <ToggleButton x:Name="InteractionToolButton"  Click="ToggleInteractionToolEvent" Content="{StaticResource Interaction}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
                 <ToggleButton x:Name="MagnetMode" Click="ToggleMagnetToolEvent" Content="{StaticResource Magnet}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
 
-                <Button IsEnabled="False" Style="{DynamicResource ContextMenuButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
+                <Button IsEnabled="False" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -203,7 +197,7 @@
                 <ToggleButton x:Name="FlipAssistButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ShowFlippedTileHelperEvent" Content="{StaticResource RotateFlip}"></ToggleButton>
                 <ToggleButton x:Name="ShowGridToggleButton" Click="ToggleGridEvent" Content="{StaticResource Grid}"  Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
 
-                <Button Style="{DynamicResource ContextMenuButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton" >
+                <Button Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton" >
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -247,7 +241,7 @@
                 <Separator/>
                 <ToggleButton x:Name="ShowCollisionAButton"  Click="ShowCollisionAEvent" Style="{DynamicResource ToolbarToggleButton}" Content="{StaticResource PathA}"></ToggleButton>
                 <ToggleButton x:Name="ShowCollisionBButton"  Click="ShowCollisionBEvent" Style="{DynamicResource ToolbarToggleButton}" Content="{StaticResource PathB}"></ToggleButton>
-                <Button Style="{DynamicResource ContextMenuButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Name="CollisionSettingsDropdown" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -294,7 +288,7 @@
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <Button Style="{DynamicResource ContextMenuButton}" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
+                <Button Click="ContextMenuButton_Click" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ToolbarBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem StaysOpenOnClick="True">
@@ -344,7 +338,7 @@
                 <ToggleButton x:Name="ShowFGHigher" Content="FG Higher" Click="ShowFGHigher_Click" Style="{DynamicResource EditLayerToggleButton}"/>
                 <ToggleButton x:Name="ShowEntities" Content="Entities" Click="ShowEntities_Click" Style="{DynamicResource EditLayerToggleButton}"/>
                 <ToggleButton x:Name="ShowAnimations" Click="ShowAnimations_Click" Checked="ShowAnimations_Checked" Unchecked="ShowAnimations_Unchecked"  Content="Animations" Style="{DynamicResource EditLayerToggleButton}" IsEnabled="False"/>
-                <Button BorderThickness="0" VerticalAlignment="Stretch" Margin="0,0,6,0" Padding="0,0,0,0" Style="{DynamicResource ContextMenuButton}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="animationsSplitButton_Dropdown" Foreground="{DynamicResource NormalText}">
+                <Button BorderThickness="0" VerticalAlignment="Stretch" Margin="0,0,6,0" Padding="0,0,0,0" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="animationsSplitButton_Dropdown" Foreground="{DynamicResource NormalText}">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>

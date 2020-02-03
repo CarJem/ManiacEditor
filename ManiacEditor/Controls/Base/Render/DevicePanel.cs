@@ -291,19 +291,23 @@ namespace ManiacEditor
         /// <summary>
         /// Rendering-method
         /// </summary>
+        /// 
+
+        private static bool isRendering { get; set; } = false;
+
         public void Render()
         {
-
-
             if (deviceLost) AttemptRecovery();
             if (deviceLost) return;
+            //if (isRendering) return;
 
             if (_device == null)
                 return;
 
-
+            isRendering = true;
             try
             {
+
                 Rectangle screen = _parent.GetScreen();
                 double zoom = _parent.GetZoom();
 
@@ -347,6 +351,7 @@ namespace ManiacEditor
                 else
                     throw ex;
             }
+            isRendering = false;
         }
 
         #endregion

@@ -43,68 +43,78 @@ namespace ManiacEditor.Controls.Base
     /// </summary>
     public partial class MainEditor : Window
 	{
-        #region Classical Regions
         #region Definitions
+
         public static ManiacEditor.Controls.Base.MainEditor Instance;
 
-		//Editor Paths
-		public string DataDirectory; //Used to get the current Data Directory
+        #region Misc
+        public System.Timers.Timer Timer = new System.Timers.Timer();
+        #endregion
+
+        #region Editor Paths
+        public string DataDirectory; //Used to get the current Data Directory
 		public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
 		public IList<string> ResourcePackList { get; set; } = new List<string>();
         public string LoadedDataPack = "";
 		public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
+        #endregion
 
-		// Extra Layer Buttons
-		public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
+        #region Extra Layer Buttons
+        public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
 		public IList<Separator> ExtraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
+        #endregion
 
-		// Editor Collections
-		public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
+        #region Editor Collections
+        public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
         public IList<Tuple<MenuItem, MenuItem>> RecentSceneItems;
         public IList<Tuple<MenuItem, MenuItem>> RecentDataSourceItems;
 		public List<string> userDefinedSpritePaths = new List<string>();
 		public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
         public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
-        public System.Timers.Timer Timer = new System.Timers.Timer();
+        #endregion
 
-        //Undo + Redo
+        #region Undo/Redo Stacks
         public Stack<IAction> UndoStack { get; set; } = new Stack<IAction>(); //Undo Actions Stack
         public Stack<IAction> RedoStack = new Stack<IAction>(); //Redo Actions Stack
+        #endregion
 
-		//Clipboards
-		public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
+        #region Clipboards
+        public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
 		public Dictionary<Point, ushort> FindReplaceClipboard;
 		public Dictionary<Point, ushort> TilesClipboardEditable;
-		public List<Classes.Editor.Scene.Sets.EditorEntity> entitiesClipboard;
+        public List<Classes.Editor.Scene.Sets.EditorEntity> entitiesClipboard;
+        #endregion
 
-        //Collision Colours
+        #region Collision Colours
         public Color CollisionAllSolid = Color.White;
         public Color CollisionTopOnlySolid = Color.Yellow;
         public Color CollisionLRDSolid = Color.Red;
+        #endregion
 
-        //Internal/Public/Vital Classes
-
+        #region Internal/Public/Vital Classes
         public EditorControl EditorControls;
-
 		internal Classes.Editor.Scene.EditorBackground BackgroundDX;
-		public ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar TilesToolbar = null;
-		public ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
 		public Methods.Entities.EntityDrawing EntityDrawing;
-		public ManiacEditor.Controls.Base.Elements.StartScreen StartScreen;
-		public Classes.Editor.SolutionState StateModel;
-		public Classes.Editor.Scene.EditorChunks Chunks;
-		public GraphicsModel DeviceModel;
-		public EditorUIEvents UIEvents;
-		public Classes.Editor.Scene.EditorPath Paths;
-		public ManiacEditor.Classes.Editor.SolutionLoader FileHandler;
-		public Methods.Layers.TileFindReplace FindAndReplace;
+        public Classes.Editor.SolutionState StateModel;
+        public Classes.Editor.Scene.EditorChunks Chunks;
+        public EditorUIEvents UIEvents;
+        public Classes.Editor.Scene.EditorPath Paths;
+        public ManiacEditor.Classes.Editor.SolutionLoader FileHandler;
+        public Methods.Layers.TileFindReplace FindAndReplace;
         public EditorZoomModel ZoomModel;
         public EditorUI UI;
         public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public System.Windows.Forms.Integration.WindowsFormsHost DeviceHost;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
+        #endregion
 
-		// Stuff Used for Command Line Tool to Fix Duplicate Object ID's
+        #region Controls
+        public ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar TilesToolbar = null;
+        public ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
+        public ManiacEditor.Controls.Base.Elements.StartScreen StartScreen;
+        public ManiacEditor.Controls.GraphicsModel DeviceModel;
+        #endregion
+
 		#region DLL Import Stuff
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		[return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
@@ -169,6 +179,7 @@ namespace ManiacEditor.Controls.Base
 		#endregion
 
 		#endregion
+
 		#region Editor Initalizing Methods
 		public MainEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
 		{
@@ -278,9 +289,8 @@ namespace ManiacEditor.Controls.Base
 			UpdateStartScreen(true, true);
 		}
 
-
-
 		#endregion
+
 		#region Boolean States
 		public bool IsEditing()
 		{
@@ -346,7 +356,9 @@ namespace ManiacEditor.Controls.Base
 
 			return false;
 		}
+
         #endregion
+
 		#region Common Editor Functions
 		public void EditorPlaceTile(Point position, int tile, Classes.Editor.Scene.Sets.EditorLayer layer, bool isDrawing = false)
 		{
@@ -739,6 +751,7 @@ namespace ManiacEditor.Controls.Base
         }
 
         #endregion
+
         #region GameConfig/Data Folders
         public string GetDataDirectory()
 		{
@@ -754,7 +767,9 @@ namespace ManiacEditor.Controls.Base
 		}
 		public bool SetGameConfig() { return Paths.SetGameConfig(); }
 		public bool IsDataDirectoryValid(string directoryToCheck) { return Paths.IsDataDirectoryValid(directoryToCheck); }
+
         #endregion
+
         #region Open Scene Methods
         public void OpenSceneForceFully()
 		{
@@ -819,8 +834,11 @@ namespace ManiacEditor.Controls.Base
 		{
 			FileHandler.OpenSceneUsingSceneSelect();
 		}
+
         #endregion
+
         #region Main Events
+
         #region Editor Events
         private void Editor_Activated(object sender, EventArgs e)
         {
@@ -906,7 +924,7 @@ namespace ManiacEditor.Controls.Base
         private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e) { ZoomModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY), 0.0, false); }
         #endregion
 
-
+        #region Misc Events
         public void DrawLayers(int drawOrder = 0)
 		{
 
@@ -969,8 +987,10 @@ namespace ManiacEditor.Controls.Base
             }
 
         }
+        #endregion
 
         #endregion
+
         #region Asset Reloading
         public void ReloadSpecificTextures(object sender, RoutedEventArgs e)
 		{
@@ -1043,46 +1063,16 @@ namespace ManiacEditor.Controls.Base
 
 		}
 		#endregion
-		#region Get + Set Methods
-		public Rectangle GetScreen()
-		{
-			if (ManiacEditor.Core.Settings.MySettings.EntityFreeCam) return new Rectangle(Classes.Editor.SolutionState.CustomX, Classes.Editor.SolutionState.CustomY, DeviceModel.mainPanel.Width, DeviceModel.mainPanel.Height);
-			else return new Rectangle(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY, DeviceModel.mainPanel.Width, DeviceModel.mainPanel.Height);
-		}
-		public double GetZoom()
-		{
-			return Classes.Editor.SolutionState.Zoom;
-		}
-		public Scene GetSceneSelection()
-		{
-			string selectedScene;
 
-			ManiacEditor.Controls.SceneSelect.SceneSelectWindow select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Classes.Editor.Solution.GameConfig, this);
-			select.Owner = Window.GetWindow(this);
-			select.ShowDialog();
-			if (select.SceneSelect.SelectedSceneResult == null)
-				return null;
-			selectedScene = select.SceneSelect.SelectedSceneResult;
-
-			if (!File.Exists(selectedScene))
-			{
-				string[] splitted = selectedScene.Split('\\');
-
-				string part1 = splitted[0];
-				string part2 = splitted[1];
-
-				selectedScene = Path.Combine(DataDirectory, "Stages", part1, part2);
-			}
-			return new Scene(selectedScene);
-		}
-		#endregion
         #region Action Events (MenuItems, Clicks, etc.)
+
         #region File Events
         public void OpenSceneEvent(object sender, RoutedEventArgs e) { FileHandler.OpenScene(); }
         public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { FileHandler.OpenDataDirectory(); }
         public void SaveSceneEvent(object sender, RoutedEventArgs e) { FileHandler.Save(); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { FileHandler.SaveAs(); }
         #endregion
+
         #region Edit Events
         public void PasteToChunksEvent(object sender, RoutedEventArgs e) { UIEvents.PasteToChunks(); }
         public void SelectAllEvent(object sender, RoutedEventArgs e) { UIEvents.SelectAll(); }
@@ -1090,19 +1080,23 @@ namespace ManiacEditor.Controls.Base
         public void CopyEvent(object sender, RoutedEventArgs e) { UIEvents.Copy(); }
         public void PasteEvent(object sender, RoutedEventArgs e) { UIEvents.Paste(); }
         public void DuplicateEvent(object sender, RoutedEventArgs e) { UIEvents.Duplicate(); }
-        private void DeleteEvent(object sender, RoutedEventArgs e) { UIEvents.Delete(); }
+        public void DeleteEvent(object sender, RoutedEventArgs e) { UIEvents.Delete(); }
         public void FlipVerticalEvent(object sender, RoutedEventArgs e) { UIEvents.FlipVertical(); }
         public void FlipHorizontalEvent(object sender, RoutedEventArgs e) { UIEvents.FlipHorizontal(); }
         public void FlipVerticalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipVerticalIndividual(); }
         public void FlipHorizontalIndividualEvent(object sender, RoutedEventArgs e) { UIEvents.FlipHorizontalIndividual(); }
         #endregion
-		public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UI.ReloadSpritesAndTextures(); }
+
+        #region WTF Events
+        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { UI.ReloadSpritesAndTextures(); }
 		public void ToggleSlotIDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowTileID ^= true; }
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EnableFasterNudge ^= true; }
         public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowCollisionA ^= true; }
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowCollisionB ^= true; }
         public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true; }
         public void MenuButtonChangedEvent(string tag) { UIEvents.SetMenuButtonType(tag); }
+
+        #endregion
 
         #region Grid Events
         public void ToggleGridEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowGrid ^= true; }
@@ -1130,6 +1124,7 @@ namespace ManiacEditor.Controls.Base
         #endregion
 
         #endregion
+
         #region Layer Toolbar Events
 		public void SetupLayerButtons()
 		{
@@ -1326,6 +1321,7 @@ namespace ManiacEditor.Controls.Base
             UI.UpdateControls();
 		}
         #endregion
+
         #region Mod Config List Stuff
         public MenuItem CreateModConfigMenuItem(int i)
         {
@@ -1355,6 +1351,7 @@ namespace ManiacEditor.Controls.Base
 
         }
         #endregion
+
         #region Recent Data Folder Methods
         public void ResetDataDirectoryToAndResetScene(string newDataDirectory, bool forceBrowse = false, bool forceSceneSelect = false)
         {
@@ -1421,6 +1418,7 @@ namespace ManiacEditor.Controls.Base
             }
         }
         #endregion
+
         #region Recent Scenes Methods
 
         public void RefreshRecentScenes()
@@ -1486,6 +1484,7 @@ namespace ManiacEditor.Controls.Base
         }
 
         #endregion
+
         #region Recent Data Sources Methods
 
 
@@ -1571,8 +1570,5 @@ namespace ManiacEditor.Controls.Base
             }
 
         }
-
-
-        #endregion
     }
 }

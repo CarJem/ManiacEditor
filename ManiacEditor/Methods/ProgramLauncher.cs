@@ -472,7 +472,7 @@ namespace ManiacEditor.Methods
             Classes.Editor.SolutionState.isImportingObjects = true;
             try
             {
-                RSDKv5.Scene sourceScene = Editor.GetSceneSelection();
+                RSDKv5.Scene sourceScene = GetSceneForObjectImporting(window);
                 if (sourceScene == null) return;
                 var objectImporter = new ObjectImporter(sourceScene.Objects, Classes.Editor.Solution.CurrentScene.Objects, Classes.Editor.Solution.StageConfig, Editor);
                 if (window != null) objectImporter.Owner = window;
@@ -492,6 +492,29 @@ namespace ManiacEditor.Methods
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
             Classes.Editor.SolutionState.isImportingObjects = false;
+        }
+
+        public static Scene GetSceneForObjectImporting(Window window = null)
+        {
+            string selectedScene;
+
+            ManiacEditor.Controls.SceneSelect.SceneSelectWindow select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Classes.Editor.Solution.GameConfig, Editor);
+            select.Owner = Window.GetWindow(window);
+            select.ShowDialog();
+            if (select.SceneSelect.SelectedSceneResult == null)
+                return null;
+            selectedScene = select.SceneSelect.SelectedSceneResult;
+
+            if (!File.Exists(selectedScene))
+            {
+                string[] splitted = selectedScene.Split('\\');
+
+                string part1 = splitted[0];
+                string part2 = splitted[1];
+
+                selectedScene = Path.Combine(Editor.DataDirectory, "Stages", part1, part2);
+            }
+            return new Scene(selectedScene);
         }
 
         public static void ImportObjectsWithMegaList(Window window = null)
