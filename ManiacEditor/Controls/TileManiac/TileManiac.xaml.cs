@@ -93,15 +93,6 @@ namespace ManiacEditor.Controls.TileManiac
 		List<Bitmap> Tiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles
 		List<Bitmap> IndexedTiles = new List<Bitmap>(); //List of all the 16x16 Stage Tiles (Preserving Color Pallete)
 
-		public EditorControl EditorControls { get => GetEditorUIControls(); }
-
-        private EditorControl GetEditorUIControls()
-        {
-            if (ManiacEditor.Controls.Base.MainEditor.Instance != null) return ManiacEditor.Controls.Base.MainEditor.Instance.EditorControls;
-            else return null;
-
-        }
-
 		//Winform Components
 		public PictureBoxNearestNeighbor overlayPicBox = new PictureBoxNearestNeighbor();
 		public PictureBoxNearestNeighbor TilePicBox = new PictureBoxNearestNeighbor();
@@ -737,7 +728,7 @@ namespace ManiacEditor.Controls.TileManiac
 
         public void RefreshUI()
 		{
-            if (EditorControls != null) Methods.Internal.UserInterface.TileManiac_UpdateMenuItems();
+            Methods.Internal.UserInterface.TileManiac_UpdateMenuItems();
             UpdateThemeColors();
             if (tcf != null)
             {
@@ -2732,12 +2723,12 @@ namespace ManiacEditor.Controls.TileManiac
 
 		private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
 		{
-			EditorControls.TileManiac_OnKeyDown(sender, KeyEventExts.ToWinforms(e));
+			Methods.Internal.Controls.TileManiac_OnKeyDown(sender, KeyEventExts.ToWinforms(e));
 		}
 
 		private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
 		{
-			EditorControls.TileManiac_OnKeyUp(sender, KeyEventExts.ToWinforms(e));
+			Methods.Internal.Controls.TileManiac_OnKeyUp(sender, KeyEventExts.ToWinforms(e));
 		}
 
 		public void WindowAlwaysOnTop_Click(object sender, RoutedEventArgs e)

@@ -393,7 +393,6 @@
     <Compile Include="Enums\DuplicateAction.cs" />
     <Compile Include="Enums\FlipDirection.cs" />
     <Compile Include="Methods\ProgramBase.cs" />
-    <Compile Include="Methods\Input %28Unoptimized%29\EditorControl.cs" />
     <Compile Include="Methods\Prefrences\SceneHistoryStorage.cs" />
     <Compile Include="Classes\Editor\Solution.cs" />
     <Compile Include="Methods\Prefrences\SceneCurrentSettings.cs" />

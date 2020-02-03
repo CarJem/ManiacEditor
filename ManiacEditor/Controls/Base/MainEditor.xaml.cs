@@ -92,7 +92,6 @@ namespace ManiacEditor.Controls.Base
         #endregion
 
         #region Internal/Public/Vital Classes
-        public EditorControl EditorControls;
         internal Classes.Editor.Scene.EditorBackground BackgroundDX;
         public Methods.Entities.EntityDrawing EntityDrawing;
         public Classes.Editor.SolutionState StateModel;
@@ -178,11 +177,9 @@ namespace ManiacEditor.Controls.Base
             //Old Classes
             EntityDrawing = new Methods.Entities.EntityDrawing(this);
             StateModel = new Classes.Editor.SolutionState(this);
-            EditorControls = new EditorControl();
             Paths = new Classes.Editor.Scene.EditorPath(this);
             FindAndReplace = new Methods.Layers.TileFindReplace(this);
             ZoomModel = new EditorZoomModel(this);
-
             //Controls
             StartScreen = new ManiacEditor.Controls.Base.Elements.StartScreen(this);
 
@@ -190,6 +187,7 @@ namespace ManiacEditor.Controls.Base
             //Classes
             Methods.Prefrences.SceneCurrentSettings.UpdateInstance(this);
             Methods.Internal.UserInterface.UpdateInstance(this);
+            Methods.Internal.Controls.UpdateInstance(this);
             ManiacEditor.Classes.Editor.SolutionLoader.UpdateInstance(this);
             Methods.Prefrences.SceneHistoryStorage.Initilize(this);
             ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Initilize(this);
@@ -306,7 +304,7 @@ namespace ManiacEditor.Controls.Base
             var e2 = KeyEventExts.ToWinforms(e);
             if (e2 != null)
             {
-                EditorControls.GraphicPanel_OnKeyDown(sender, e2);
+                Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e2);
             }
 
         }
@@ -316,7 +314,7 @@ namespace ManiacEditor.Controls.Base
             var e2 = KeyEventExts.ToWinforms(e);
             if (e2 != null)
             {
-                EditorControls.GraphicPanel_OnKeyUp(sender, e2);
+                Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e2);
             }
 
         }

@@ -249,12 +249,12 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 
 		private void TilePanel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorInstance.EditorControls.GraphicPanel_OnKeyDown(sender, e);
+			Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e);
 		}
 
 		private void TilePanel_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
-			EditorInstance.EditorControls.GraphicPanel_OnKeyUp(sender, e);
+			Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e);
 		}
 
 		private void ChunkList_SelectedIndexChanged(object sender, EventArgs e)

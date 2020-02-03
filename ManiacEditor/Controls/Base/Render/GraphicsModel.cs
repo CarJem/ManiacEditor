@@ -159,11 +159,11 @@ namespace ManiacEditor.Controls
         #region Imported Regions
 
         #region Mouse Actions Event Handlers
-        private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseMove(sender, e); }
-        private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseDown(sender, e); }
-        private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseUp(sender, e); }
-        private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseWheel(sender, e); }
-        private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { EditorInstance.EditorControls.MouseClick(sender, e); }
+        private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseMove(sender, e); }
+        private void GraphicPanel_OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseDown(sender, e); }
+        private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseUp(sender, e); }
+        private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseWheel(sender, e); }
+        private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseClick(sender, e); }
         #endregion
 
         #region Scrollbar Events
@@ -467,11 +467,11 @@ namespace ManiacEditor.Controls
         }
         public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            EditorInstance.EditorControls.GraphicPanel_OnKeyDown(sender, e);
+            Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e);
         }
         public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            EditorInstance.EditorControls.GraphicPanel_OnKeyUp(sender, e);
+            Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e);
         }
         #endregion
 
