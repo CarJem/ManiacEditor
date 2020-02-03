@@ -195,11 +195,14 @@
     <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
     <Compile Include="Classes\Editor\Constants.cs" />
+    <Compile Include="Classes\Editor\EditorActions.cs" />
     <Compile Include="Classes\Editor\Scene\Sets\EditorLayer.cs" />
     <Compile Include="Classes\Editor\Scene\EditorScene.cs" />
     <Compile Include="Classes\Internal\DataStateHistoryCollection.cs" />
     <Compile Include="Classes\Internal\SceneHistoryCollection.cs" />
+    <Compile Include="Extensions\ExternalExtensions.cs" />
     <Compile Include="Extensions\SystemColorsUtility.cs" />
+    <Compile Include="Methods\Internal\Common.cs" />
     <Compile Include="Methods\Prefrences\DataStateHistoryStorage.cs" />
     <Compile Include="Structures\EntityRenderProp.cs" />
     <Compile Include="Classes\Internal\VersionCheck.cs" />

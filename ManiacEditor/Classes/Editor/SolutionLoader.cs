@@ -92,7 +92,7 @@ namespace ManiacEditor.Classes.Editor
         public void Save()
         {
             if (Classes.Editor.Solution.CurrentScene == null) return;
-            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Instance.Deselect();
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Classes.Editor.EditorActions.Deselect();
 
             SaveScene();
             SaveStageConfig();
@@ -101,7 +101,7 @@ namespace ManiacEditor.Classes.Editor
         public void SaveAs()
         {
             if (Classes.Editor.Solution.CurrentScene == null) return;
-            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Instance.Deselect();
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Classes.Editor.EditorActions.Deselect();
 
             System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
             {
@@ -216,9 +216,9 @@ namespace ManiacEditor.Classes.Editor
                 {
                     string fileName = System.IO.Path.Combine(dialog.FileName, editorLayer.Name + ".png");
 
-                    if (!Instance.CanWriteFile(fileName))
+                    if (!Methods.Internal.Common.CanWriteFile(fileName))
                     {
-                        Instance.ShowError($"Layer export aborted. {fileCount} images saved.");
+                        Methods.Internal.Common.ShowError($"Layer export aborted. {fileCount} images saved.");
                         return;
                     }
 
@@ -236,7 +236,7 @@ namespace ManiacEditor.Classes.Editor
             }
             catch (Exception ex)
             {
-                Instance.ShowError("An error occurred: " + ex.Message);
+                Methods.Internal.Common.ShowError("An error occurred: " + ex.Message);
             }
         }
         public void ExportObjLayoutAsPNG()
@@ -265,7 +265,7 @@ namespace ManiacEditor.Classes.Editor
                         {
                             //if (!Instance.CanWriteFile(fileName))
                             // {
-                            //    Instance.ShowError($"Layout export aborted. {fileCount} images saved.");
+                            //    Methods.Internal.Common.ShowError($"Layout export aborted. {fileCount} images saved.");
                             //    return;
                             //}
                             try
@@ -287,7 +287,7 @@ namespace ManiacEditor.Classes.Editor
             }
             catch (Exception ex)
             {
-                Instance.ShowError("An error occurred: " + ex.Message);
+                Methods.Internal.Common.ShowError("An error occurred: " + ex.Message);
             }
         }
 
@@ -737,7 +737,7 @@ namespace ManiacEditor.Classes.Editor
 			}
 			catch (Exception ex)
 			{
-				Instance.ShowError($@"Failed to save the scene to file '{Instance.Paths.SceneFile_Source}' Error: {ex.Message}");
+                Methods.Internal.Common.ShowError($@"Failed to save the scene to file '{Instance.Paths.SceneFile_Source}' Error: {ex.Message}");
 			}
 		}
 
@@ -760,7 +760,7 @@ namespace ManiacEditor.Classes.Editor
 			}
 			catch (Exception ex)
 			{
-				Instance.ShowError($@"Failed to save the StageConfig to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
+				Methods.Internal.Common.ShowError($@"Failed to save the StageConfig to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
 			}
 		}
 
@@ -790,7 +790,7 @@ namespace ManiacEditor.Classes.Editor
             }
             catch (Exception ex)
             {
-                Instance.ShowError($@"Failed to save StageStamps to file '{Instance.Paths.SceneFile_Source}' Error: {ex.Message}");
+                Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{Instance.Paths.SceneFile_Source}' Error: {ex.Message}");
             }
         }
 
@@ -807,7 +807,7 @@ namespace ManiacEditor.Classes.Editor
             }
             catch (Exception ex)
             {
-                Instance.ShowError($@"Failed to save the TileConfig to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
+                Methods.Internal.Common.ShowError($@"Failed to save the TileConfig to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
             }
         }
 
@@ -824,9 +824,11 @@ namespace ManiacEditor.Classes.Editor
             }
             catch (Exception ex)
             {
-                Instance.ShowError($@"Failed to save the 16x16Tiles.gif to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
+                Methods.Internal.Common.ShowError($@"Failed to save the 16x16Tiles.gif to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
             }
         }
         #endregion
+
+
     }
 }

@@ -278,7 +278,7 @@ namespace ManiacEditor.Methods
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == Classes.Editor.SolutionState.PlayerBeingTracked) Editor.GoToPosition(x, y);
+            if (playerID == Classes.Editor.SolutionState.PlayerBeingTracked) Classes.Editor.EditorActions.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -419,7 +419,7 @@ namespace ManiacEditor.Methods
         public static byte[] ReadMemory(int adress, int processSize, int processHandle)
         {
             byte[] buffer = new byte[processSize];
-            Controls.Base.MainEditor.ReadProcessMemory(processHandle, adress, buffer, processSize, 0);
+            Extensions.ExternalExtensions.ReadProcessMemory(processHandle, adress, buffer, processSize, 0);
             return buffer;
         }
         public static void DrawGameElements(DevicePanel d)

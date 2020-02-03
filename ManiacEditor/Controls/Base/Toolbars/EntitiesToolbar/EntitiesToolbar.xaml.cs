@@ -897,7 +897,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar
 			{
 				int x = currentEntity.Position.X.High;
 				int y = currentEntity.Position.Y.High;
-				EditorInstance.GoToPosition(x, y);
+				Classes.Editor.EditorActions.GoToPosition(x, y);
 			}
 		}
 

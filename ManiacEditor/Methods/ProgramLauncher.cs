@@ -305,9 +305,9 @@ namespace ManiacEditor.Methods
                 Methods.Internal.Settings.UseDefaultPrefrences();
 
                 ObjectIDHealer healer = new ObjectIDHealer();
-                Controls.Base.MainEditor.ShowConsoleWindow();
+                Extensions.ExternalExtensions.ShowConsoleWindow();
                 healer.startHealing(open.FileName);
-                Controls.Base.MainEditor.HideConsoleWindow();
+                Extensions.ExternalExtensions.HideConsoleWindow();
             }
         }
 
@@ -611,7 +611,7 @@ namespace ManiacEditor.Methods
 
         public static void LayerManager(object sender, RoutedEventArgs e)
         {
-            Editor.Deselect(true);
+            Classes.Editor.EditorActions.Deselect(true);
 
             var lm = new LayerManager(Classes.Editor.Solution.CurrentScene);
             lm.Owner = Window.GetWindow(Editor);

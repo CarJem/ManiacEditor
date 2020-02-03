@@ -77,7 +77,7 @@ namespace ManiacEditor.Controls.Utility
         private void GoToPlayer_Click(object sender, RoutedEventArgs e)
         {
             int i = ComboBox1.SelectedIndex;
-            Instance.GoToPosition(PlayerSpawnPositionsList[i].X.High, PlayerSpawnPositionsList[i].Y.High, true);
+            Classes.Editor.EditorActions.GoToPosition(PlayerSpawnPositionsList[i].X.High, PlayerSpawnPositionsList[i].Y.High, true);
             this.Close();
         }
 
@@ -100,7 +100,7 @@ namespace ManiacEditor.Controls.Utility
                 goTo_X *= 16;
                 goTo_Y *= 16;
             }
-            Instance.GoToPosition(goTo_X, goTo_Y, true);
+            Classes.Editor.EditorActions.GoToPosition(goTo_X, goTo_Y, true);
             this.Close();
         }
 

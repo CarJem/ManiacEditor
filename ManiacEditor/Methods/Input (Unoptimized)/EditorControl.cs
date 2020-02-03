@@ -31,8 +31,8 @@ namespace ManiacEditor
         private int ScrollDirection { get => Classes.Editor.SolutionState.ScrollDirection; }
         private bool ScrollLocked { get => Classes.Editor.SolutionState.ScrollLocked; }
 
-        private bool CtrlPressed() { return Controls.Base.MainEditor.Instance.CtrlPressed(); }
-        private bool ShiftPressed() { return Controls.Base.MainEditor.Instance.ShiftPressed(); }
+        private bool CtrlPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Control); }
+        private bool ShiftPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Shift); }
         private bool IsSelected() { return ManiacEditor.Classes.Editor.SolutionState.IsSelected(); }
 
         bool ForceUpdateMousePos { get; set; } = false;

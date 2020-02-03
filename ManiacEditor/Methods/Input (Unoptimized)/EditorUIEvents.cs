@@ -171,17 +171,17 @@ namespace ManiacEditor
 
 		public void Delete()
 		{
-			Editor.DeleteSelected();
+			Classes.Editor.EditorActions.DeleteSelected();
 		}
 
 		public void Copy()
 		{
 			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
-				Editor.CopyTilesToClipboard();
+				Classes.Editor.EditorActions.CopyTilesToClipboard();
 
 
 			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
-				Editor.CopyEntitiesToClipboard();
+				Classes.Editor.EditorActions.CopyEntitiesToClipboard();
 
 
 			Editor.UI.UpdateControls();
@@ -200,7 +200,7 @@ namespace ManiacEditor
 				try
 				{
 					Classes.Editor.Solution.Entities.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.Entities.CopyToClipboard(true));
-					Editor.UpdateLastEntityAction();
+					Classes.Editor.EditorActions.UpdateLastEntityAction();
 				}
 				catch (Classes.Editor.Scene.EditorEntities.TooManyEntitiesException)
 				{
@@ -217,8 +217,8 @@ namespace ManiacEditor
 		{
 			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
 			{
-				Editor.CopyTilesToClipboard();
-				Editor.DeleteSelected();
+				Classes.Editor.EditorActions.CopyTilesToClipboard();
+				Classes.Editor.EditorActions.DeleteSelected();
 				Editor.UI.UpdateControls();
 				Editor.UI.UpdateEditLayerActions();
 			}
@@ -226,8 +226,8 @@ namespace ManiacEditor
 			{
 				if (Editor.EntitiesToolbar.IsFocused.Equals(false))
 				{
-					Editor.CopyEntitiesToClipboard();
-					Editor.DeleteSelected();
+					Classes.Editor.EditorActions.CopyEntitiesToClipboard();
+					Classes.Editor.EditorActions.DeleteSelected();
 					Editor.UI.UpdateControls();
 					Editor.UI.UpdateEntitiesToolbarList();
 				}
@@ -261,7 +261,7 @@ namespace ManiacEditor
 			}
 			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
 			{
-                Editor.PasteEntitiesToClipboard();
+				Classes.Editor.EditorActions.PasteEntitiesToClipboard();
             }
 
             Point GetPastePoint()
@@ -526,7 +526,7 @@ namespace ManiacEditor
 		public void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
 		{
 			string dataDir = Editor.DataDirectory;
-			Editor.CreateShortcut(dataDir);
+			Classes.Editor.EditorActions.CreateShortcut(dataDir);
 		}
 		public void MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -537,7 +537,7 @@ namespace ManiacEditor
 			double _ZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
 			bool isEncoreSet = Classes.Editor.SolutionState.UseEncoreColors;
 			int levelSlotNum = Classes.Editor.SolutionState.LevelID;
-			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
+			Classes.Editor.EditorActions.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
 		}
 		public void MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -547,7 +547,7 @@ namespace ManiacEditor
 			int rY = 0;
 			bool isEncoreSet = Classes.Editor.SolutionState.UseEncoreColors;
 			int levelSlotNum = Classes.Editor.SolutionState.LevelID;
-			Editor.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
+			Classes.Editor.EditorActions.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
 		}
 
 		#region Developer Stuff

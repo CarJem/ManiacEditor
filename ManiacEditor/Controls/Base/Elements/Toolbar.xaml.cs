@@ -237,8 +237,8 @@ namespace ManiacEditor.Controls.Base.Elements
 
         #endregion
         private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseMagnetMode ^= true; }
-        private void UndoEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.EditorUndo(); }
-        private void RedoEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.EditorRedo(); }
+        private void UndoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorUndo(); }
+        private void RedoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorRedo(); }
         private void ZoomInEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ZoomIn(sender, e); }
         private void ZoomOutEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ZoomOut(sender, e); }
         private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SelectionMode(); }
@@ -434,7 +434,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
             void EditEntitiesMode()
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.Deselect(false);
+                Classes.Editor.EditorActions.Deselect(false);
                 if (!button.IsCheckedN.Value)
                 {
                     button.IsCheckedN = false;
@@ -469,7 +469,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
             void Normal()
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.Deselect(false);
+                Classes.Editor.EditorActions.Deselect(false);
                 if (!button.IsCheckedN.Value)
                 {
                     button.IsCheckedN = false;
@@ -495,7 +495,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
             void LayerA()
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.Deselect(false);
+                Classes.Editor.EditorActions.Deselect(false);
                 if (!button.IsCheckedA.Value)
                 {
                     button.IsCheckedA = false;
@@ -517,7 +517,7 @@ namespace ManiacEditor.Controls.Base.Elements
             }
             void LayerB()
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.Deselect(false);
+                Classes.Editor.EditorActions.Deselect(false);
                 if (!button.IsCheckedB.Value)
                 {
                     button.IsCheckedB = false;
@@ -693,7 +693,7 @@ namespace ManiacEditor.Controls.Base.Elements
             void Normal()
             {
                 EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-                ManiacEditor.Controls.Base.MainEditor.Instance.Deselect(false);
+                Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedN.Value)
                 {
                     if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
@@ -721,7 +721,7 @@ namespace ManiacEditor.Controls.Base.Elements
             void LayerA()
             {
                 EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-                ManiacEditor.Controls.Base.MainEditor.Instance.Deselect(false);
+                Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedA.Value)
                 {
                     if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
@@ -749,7 +749,7 @@ namespace ManiacEditor.Controls.Base.Elements
             void LayerB()
             {
                 EditLayerToggleButton tsb = sender as EditLayerToggleButton;
-                ManiacEditor.Controls.Base.MainEditor.Instance.Deselect(false);
+                Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedB.Value)
                 {
                     if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)

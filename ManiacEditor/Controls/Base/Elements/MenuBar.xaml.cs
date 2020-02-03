@@ -265,8 +265,8 @@ namespace ManiacEditor.Controls.Base.Elements
         private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
         #endregion
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.GoToPosition(sender, e); }
-        private void UndoEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.EditorUndo(); }
-        private void RedoEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.EditorRedo(); }
+        private void UndoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorUndo(); }
+        private void RedoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorRedo(); }
         private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CountTilesSelectedInPixels ^= true; }
         public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ScrollLocked ^= true; }
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EnableFasterNudge ^= true; }

@@ -17,7 +17,7 @@ namespace ManiacEditor.Controls.Utility.Object_ID_Repair_Tool
 
         public void startHealing(string fixFile)
         {
-            Controls.Base.MainEditor.ShowConsoleWindow();
+            Extensions.ExternalExtensions.ShowConsoleWindow();
             string fileName = fixFile;
 
             if (!File.Exists(fileName))

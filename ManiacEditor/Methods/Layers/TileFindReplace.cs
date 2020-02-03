@@ -186,7 +186,7 @@ namespace ManiacEditor.Methods.Layers
                 }
                 Editor.UI.UpdateEditLayerActions();
                 Editor.FindReplaceClipboard.Clear();
-                Editor.Deselect();
+                Classes.Editor.EditorActions.Deselect();
             }
 
         }
@@ -233,7 +233,7 @@ namespace ManiacEditor.Methods.Layers
                     System.Windows.MessageBox.Show("Found Nothing", "Results");
                 }
                 Editor.FindReplaceClipboard.Clear();
-                Editor.Deselect();
+                Classes.Editor.EditorActions.Deselect();
 
 
             }

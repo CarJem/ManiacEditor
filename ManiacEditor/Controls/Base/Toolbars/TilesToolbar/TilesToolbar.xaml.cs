@@ -518,8 +518,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 			}
 			catch (Exception ex)
 			{
-				EditorInstance.ShowError($@"Failed to save StageStamps to file '{EditorInstance.Paths.Stamps_Source}'
-Error: {ex.Message}");
+				Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{EditorInstance.Paths.Stamps_Source}' Error: {ex.Message}");
 			}
 		}
 
