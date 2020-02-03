@@ -336,7 +336,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		private void ImportObjectsUsingExistingEvent(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.ImportObjectsToolStripMenuItem_Click(GetWindow(this));
+			Methods.ProgramLauncher.ImportObjectsToolStripMenuItem_Click(GetWindow(this));
 			fullRefreshNeeded = true;
 			ReloadList();
 			// Blanks the list for some reason should consider fixing badly
@@ -345,8 +345,8 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
         private void ImportObjectsUsingMegalistEvent(object sender, RoutedEventArgs e)
         {
-            EditorInstance.ImportObjectsWithMegaList(GetWindow(this));
-            fullRefreshNeeded = true;
+			Methods.ProgramLauncher.ImportObjectsWithMegaList(GetWindow(this));
+			fullRefreshNeeded = true;
             ReloadList();
             // Blanks the list for some reason should consider fixing badly
         }
@@ -511,8 +511,8 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 		}
 
 		private void importSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{			
-			EditorInstance.ImportSoundsEvent(GetWindow(this));
+		{
+			Methods.ProgramLauncher.ImportSounds(GetWindow(this));
 			ReloadList();
 		}
 	}

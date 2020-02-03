@@ -295,7 +295,7 @@ namespace ManiacEditor.Methods.Internal
                     if (item.Tag.ToString() == ManiacEditor.Core.Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
                     {
                         item.IsChecked = true;
-                        Controls.Base.MainEditor.Instance.MenuButtonChangedEvent(item.Tag.ToString());
+                        Classes.Editor.EditorActions.SetManiaMenuInputType(item.Tag.ToString());
                         endSearch = true;
                     }
                     var allSubButtonItems = item.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
@@ -306,7 +306,7 @@ namespace ManiacEditor.Methods.Internal
                             if (subItem.Tag.ToString() == ManiacEditor.Core.Settings.MyDefaults.MenuButtonLayoutDefault && !endSearch)
                             {
                                 subItem.IsChecked = true;
-                                Controls.Base.MainEditor.Instance.MenuButtonChangedEvent(subItem.Tag.ToString());
+                                Classes.Editor.EditorActions.SetManiaMenuInputType(item.Tag.ToString());
                                 endSearch = true;
                             }
                         }

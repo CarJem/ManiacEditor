@@ -604,5 +604,346 @@ namespace ManiacEditor.Classes.Editor
         }
 
         #endregion
+
+        #region Specific Editor Functions
+
+        public static void ChangeLevelID(object sender, RoutedEventArgs e)
+        {
+            string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Classes.Editor.SolutionState.LevelID.ToString());
+            int.TryParse(inputValue.ToString(), out int output);
+            Classes.Editor.SolutionState.LevelID = output;
+            Controls.Base.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Classes.Editor.SolutionState.LevelID.ToString();
+        }
+        public static void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
+        {
+            string dataDir = Instance.DataDirectory;
+            Classes.Editor.EditorActions.CreateShortcut(dataDir);
+        }
+        public static void MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string dataDir = Instance.DataDirectory;
+            string scenePath = Instance.Paths.GetScenePath();
+            int rX = (short)(Classes.Editor.SolutionState.ViewPositionX);
+            int rY = (short)(Classes.Editor.SolutionState.ViewPositionY);
+            double _ZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
+            bool isEncoreSet = Classes.Editor.SolutionState.UseEncoreColors;
+            int levelSlotNum = Classes.Editor.SolutionState.LevelID;
+            Classes.Editor.EditorActions.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum, _ZoomLevel);
+        }
+        public static void MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string dataDir = Instance.DataDirectory;
+            string scenePath = Instance.Paths.GetScenePath();
+            int rX = 0;
+            int rY = 0;
+            bool isEncoreSet = Classes.Editor.SolutionState.UseEncoreColors;
+            int levelSlotNum = Classes.Editor.SolutionState.LevelID;
+            Classes.Editor.EditorActions.CreateShortcut(dataDir, scenePath, "", rX, rY, isEncoreSet, levelSlotNum);
+        }
+        public static void GoToPosition(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Controls.Utility.GoToPositionBox form = new ManiacEditor.Controls.Utility.GoToPositionBox(Instance);
+            form.Owner = Instance as Window;
+            form.ShowDialog();
+        }
+        public static void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        public static void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Controls.Utility.Editor.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Editor.Dev.MD5HashGen(Instance);
+            hashmap.Show();
+        }
+        public static void FindAndReplaceTool(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Controls.Utility.FindandReplaceTool form = new ManiacEditor.Controls.Utility.FindandReplaceTool();
+            form.ShowDialog();
+            if (form.DialogResult == true)
+            {
+                while (form.GetReadyState() == false)
+                {
+
+                }
+                int applyState = form.GetApplyState();
+                bool copyResults = form.CopyResultsOrNot();
+                bool replaceMode = form.IsReplaceMode();
+                int find = form.GetFindValue();
+                int replace = form.GetReplaceValue();
+                bool perserveColllision = form.PerservingCollision();
+
+                if (replaceMode)
+                {
+                    Controls.Base.MainEditor.Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
+                }
+                else
+                {
+                    Controls.Base.MainEditor.Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
+                }
+
+            }
+
+        }
+        public static void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Classes.Editor.SolutionState.IsConsoleWindowOpen)
+            {
+                Classes.Editor.SolutionState.IsConsoleWindowOpen = true;
+                Extensions.ExternalExtensions.ShowConsoleWindow();
+            }
+            else
+            {
+                Classes.Editor.SolutionState.IsConsoleWindowOpen = false;
+                Extensions.ExternalExtensions.HideConsoleWindow();
+            }
+        }
+        public static void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Core.Settings.MyDevSettings.DevForceRestartData = Instance.DataDirectory;
+            Core.Settings.MyDevSettings.DevForceRestartScene = Instance.Paths.SceneFilePath;
+            Core.Settings.MyDevSettings.DevForceRestartX = (short)(Classes.Editor.SolutionState.ViewPositionX / Classes.Editor.SolutionState.Zoom);
+            Core.Settings.MyDevSettings.DevForceRestartY = (short)(Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom);
+            Core.Settings.MyDevSettings.DevForceRestartZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
+            Core.Settings.MyDevSettings.DevForceRestartIsEncore = Instance.Paths.isEncoreMode;
+            Core.Settings.MyDevSettings.DevForceRestartID = Classes.Editor.SolutionState.LevelID;
+            Core.Settings.MyDevSettings.DevForceRestartCurrentName = Instance.Paths.CurrentName;
+            Core.Settings.MyDevSettings.DevForceRestartCurrentZone = Instance.Paths.CurrentZone;
+            Core.Settings.MyDevSettings.DevForceRestartSceneID = Instance.Paths.CurrentSceneID;
+            Core.Settings.MyDevSettings.DevForceRestartIsBrowsed = Instance.Paths.Browsed;
+            Core.Settings.MyDevSettings.DevForceRestartResourcePacks = new System.Collections.Specialized.StringCollection();
+            Core.Settings.MyDevSettings.DevForceRestartResourcePacks.AddRange(Instance.ResourcePackList.ToArray());
+        }
+        public static void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            object[] MTB = Instance.EditorToolbar.MainToolbarButtons.Items.Cast<object>().ToArray();
+            object[] LT = Instance.EditorToolbar.LayerToolbar.Items.Cast<object>().ToArray();
+            ManiacEditor.Extensions.Extensions.EnableButtonList(MTB);
+            ManiacEditor.Extensions.Extensions.EnableButtonList(LT);
+        }
+
+        public static void SwapEncoreManiaEntityVisibility()
+        {
+            if (Core.Settings.MyDefaults.ShowEncoreEntities == true && Core.Settings.MyDefaults.ShowManiaEntities == true)
+            {
+                Core.Settings.MyDefaults.ShowManiaEntities = true;
+                Core.Settings.MyDefaults.ShowEncoreEntities = false;
+            }
+            if (Core.Settings.MyDefaults.ShowEncoreEntities == true && Core.Settings.MyDefaults.ShowManiaEntities == false)
+            {
+                Core.Settings.MyDefaults.ShowManiaEntities = true;
+                Core.Settings.MyDefaults.ShowEncoreEntities = false;
+            }
+            else
+            {
+                Core.Settings.MyDefaults.ShowManiaEntities = false;
+                Core.Settings.MyDefaults.ShowEncoreEntities = true;
+            }
+
+        }
+
+        public static void SetScrollLockDirection()
+        {
+            if (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X)
+            {
+                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.Y;
+                Instance.EditorStatusBar.UpdateStatusPanel();
+                Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = false;
+                Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = true;
+            }
+            else
+            {
+                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.X;
+                Instance.EditorStatusBar.UpdateStatusPanel();
+                Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = true;
+                Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = false;
+            }
+        }
+
+        public static void SetManiaMenuInputType(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
+            if (menuItem != null)
+            {
+                if (menuItem.Tag != null)
+                {
+                    string tag = menuItem.Tag.ToString();
+                    var allItems = Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                    foreach (System.Windows.Controls.MenuItem item in allItems)
+                    {
+                        if (item.Tag == null || item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
+                        else if (item.Tag.ToString() == menuItem.Tag.ToString()) item.IsChecked = true;
+                        var allSubItems = Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                        foreach (System.Windows.Controls.MenuItem subItem in allSubItems)
+                        {
+                            if (subItem.Tag == null || subItem.Tag.ToString() != menuItem.Tag.ToString()) subItem.IsChecked = false;
+                            else if (subItem.Tag.ToString() == menuItem.Tag.ToString()) subItem.IsChecked = true;
+                        }
+                    }
+                    switch (tag)
+                    {
+                        case "Xbox":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 2;
+                            break;
+                        case "Switch":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 4;
+                            break;
+                        case "PS4":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 3;
+                            break;
+                        case "Saturn Black":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 5;
+                            break;
+                        case "Saturn White":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 6;
+                            break;
+                        case "Switch Joy L":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 7;
+                            break;
+                        case "Switch Joy R":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 8;
+                            break;
+                        case "PC EN/JP":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 1;
+                            break;
+                        case "PC FR":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 9;
+                            break;
+                        case "PC IT":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 10;
+                            break;
+                        case "PC GE":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 11;
+                            break;
+                        case "PC SP":
+                            Classes.Editor.SolutionState.CurrentControllerButtons = 12;
+                            break;
+                    }
+                    menuItem.IsChecked = true;
+                }
+
+            }
+
+        }
+        public static void SetManiaMenuInputType(string tag)
+        {
+            switch (tag)
+            {
+                case "Xbox":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 2;
+                    break;
+                case "Switch":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 4;
+                    break;
+                case "PS4":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 3;
+                    break;
+                case "Saturn Black":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 5;
+                    break;
+                case "Saturn White":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 6;
+                    break;
+                case "Switch Joy L":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 7;
+                    break;
+                case "Switch Joy R":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 8;
+                    break;
+                case "PC EN/JP":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 1;
+                    break;
+                case "PC FR":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 9;
+                    break;
+                case "PC IT":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 10;
+                    break;
+                case "PC GE":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 11;
+                    break;
+                case "PC SP":
+                    Classes.Editor.SolutionState.CurrentControllerButtons = 12;
+                    break;
+            }
+        }
+        public static void SetEncorePallete(object sender = null, string path = "")
+        {
+            if (sender != null)
+            {
+                var clickedItem = sender as System.Windows.Controls.MenuItem;
+                string StartDir = Instance.DataDirectory;
+                try
+                {
+                    using (var fd = new System.Windows.Forms.OpenFileDialog())
+                    {
+                        fd.Filter = "Color Palette File|*.act";
+                        fd.DefaultExt = ".act";
+                        fd.Title = "Select an Encore Color Palette";
+                        fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
+                        if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            Instance.EncorePalette = Classes.Editor.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
+                            Classes.Editor.SolutionState.EncoreSetupType = 0;
+                            if (File.Exists(Instance.EncorePalette[0]))
+                            {
+                                Classes.Editor.SolutionState.EncorePaletteExists = true;
+                                Classes.Editor.SolutionState.UseEncoreColors = true;
+                            }
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show("Unable to set Encore Colors. " + ex.Message);
+                }
+            }
+            else if (path != "")
+            {
+                Instance.EncorePalette = Classes.Editor.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
+                Classes.Editor.SolutionState.EncoreSetupType = 0;
+                if (File.Exists(Instance.EncorePalette[0]))
+                {
+                    Classes.Editor.SolutionState.EncorePaletteExists = true;
+                    Classes.Editor.SolutionState.UseEncoreColors = true;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Unable to set Encore Colors. The Specified Path does not exist: " + Environment.NewLine + path);
+                }
+            }
+
+        }
+        private static bool LockEntityFilterTextChanged { get; set; } = false;
+        public static void UpdateEntityFilterFromTextBox(object sender, TextChangedEventArgs e)
+        {
+            if (sender is System.Windows.Controls.TextBox && LockEntityFilterTextChanged == false)
+            {
+                LockEntityFilterTextChanged = true;
+                System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
+                Classes.Editor.SolutionState.entitiesTextFilter = theSender.Text;
+                Instance.EditorMenuBar.toolStripTextBox1.Text = Classes.Editor.SolutionState.entitiesTextFilter;
+                //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
+                Classes.Editor.Solution.Entities.FilterRefreshNeeded = true;
+                LockEntityFilterTextChanged = false;
+            }
+
+
+        }
+        public static void ManiaMenuLanguageChanged(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
+            Classes.Editor.SolutionState.CurrentLanguage = menuItem.Tag.ToString();
+            var allLangItems = Instance.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            foreach (var item in allLangItems)
+            {
+                if (item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
+                else if (item.Tag.ToString() == menuItem.Tag.ToString()) item.IsChecked = true;
+            }
+
+
+        }
+
+        #endregion
     }
 }

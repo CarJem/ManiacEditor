@@ -97,29 +97,29 @@ namespace ManiacEditor.Controls.Base.Elements
                 switch (Classes.Editor.SolutionState.LastQuickButtonState)
                 {
                     case 1:
-                        ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
+                        ManiacEditor.Classes.Editor.EditorActions.SetScrollLockDirection();
                         break;
                     case 2:
                         Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true;
                         break;
                     case 3:
-                        ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
+                        ManiacEditor.Classes.Editor.EditorActions.SwapEncoreManiaEntityVisibility();
                         break;
                     default:
                         Classes.Editor.SolutionState.LastQuickButtonState = 1;
-                        ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
+                        ManiacEditor.Classes.Editor.EditorActions.SetScrollLockDirection();
                         break;
                 }
             }
             else if (sender == QuickSwapScrollDirection)
             {
                 Classes.Editor.SolutionState.LastQuickButtonState = 1;
-                ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
+                ManiacEditor.Classes.Editor.EditorActions.SetScrollLockDirection();
             }
             else if (sender == QuickSwapEncoreManiaEntitVisibility)
             {
                 Classes.Editor.SolutionState.LastQuickButtonState = 3;
-                ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility();
+                ManiacEditor.Classes.Editor.EditorActions.SwapEncoreManiaEntityVisibility();
             }
             else if (sender == QuickEditEntitiesTransparentLayers)
             {

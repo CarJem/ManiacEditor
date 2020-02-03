@@ -1274,7 +1274,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (!Classes.Editor.SolutionState.isImportingObjects)
             {
-                EditorInstance.FileHandler.OpenSceneUsingExistingSceneSelect(this);
+                ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneUsingExistingSceneSelect(this);
             }
             if (Window != null) Window.Close();
 

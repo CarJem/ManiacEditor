@@ -226,18 +226,18 @@ namespace ManiacEditor.Controls.Base.Elements
 
         #region Action Events (MenuItems, Clicks, etc.)
         #region File Events
-        private void NewSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.NewScene(); }
-        public void OpenSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.OpenScene(); }
-        public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.OpenDataDirectory(); }
-        public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.Save(); }
+        private void NewSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.NewScene(); }
+        public void OpenSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.OpenScene(); }
+        public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.OpenDataDirectory(); }
+        public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.Save(); }
         private void ExitEditorEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.Close(); }
-        private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.ExportAsPNG(); }
-        private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.ExportLayersAsPNG(); }
-        private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.ExportObjLayoutAsPNG(); }
+        private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.ExportAsPNG(); }
+        private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.ExportLayersAsPNG(); }
+        private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.ExportObjLayoutAsPNG(); }
         private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ExportGUI(sender, e); }
-        public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.SaveAs(); }
+        public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.SaveAs(); }
         private void RecoverEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.BackupRecoverButton_Click(sender, e); }
-        public void UnloadSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.UnloadScene(); }
+        public void UnloadSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.UnloadScene(); }
         private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.StageConfigBackup(sender, e); }
         private void BackupSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.SceneBackup(sender, e); }
         #endregion
@@ -256,15 +256,15 @@ namespace ManiacEditor.Controls.Base.Elements
         #endregion
         #region Developer Stuff (WIP)
         private void DeveloperTerminalEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.DevTerm(); }
-        private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MD5GeneratorToolStripMenuItem_Click(sender, e); }
-        private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.FindAndReplaceTool(sender, e); }
-        private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ConsoleWindowToolStripMenuItem_Click(sender, e); }
-        private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
+        private void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.MD5GeneratorToolStripMenuItem_Click(sender, e); }
+        private void FindAndReplaceToolEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.FindAndReplaceTool(sender, e); }
+        private void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.ConsoleWindowToolStripMenuItem_Click(sender, e); }
+        private void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SaveForForceOpenOnStartupToolStripMenuItem_Click(sender, e); }
         private void LeftToolbarToggleDev_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateToolbars(false, true); }
         private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateToolbars(true, true); }
-        private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
+        private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
         #endregion
-        public void GoToPositionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.GoToPosition(sender, e); }
+        public void GoToPositionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.GoToPosition(sender, e); }
         private void UndoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorUndo(); }
         private void RedoEvent(object sender, RoutedEventArgs e) { Classes.Editor.EditorActions.EditorRedo(); }
         private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CountTilesSelectedInPixels ^= true; }
@@ -274,14 +274,14 @@ namespace ManiacEditor.Controls.Base.Elements
         public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true; }
         private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.ZoomModel.SetZoomLevel(0, new System.Drawing.Point(0, 0)); }
         private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseLargeDebugStats ^= true; }
-        public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetMenuButtonType(sender, e); }
-        public void MenuButtonChangedEvent(string tag) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetMenuButtonType(tag); }
+        public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SetManiaMenuInputType(sender, e); }
+        public void MenuButtonChangedEvent(string tag) { ManiacEditor.Classes.Editor.EditorActions.SetManiaMenuInputType(tag); }
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EntitiesVisibileAboveAllLayers ^= true; }
         private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized ^= true; }
         private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.PrioritizedEntityViewing ^= true; }
-        private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetEncorePallete(sender); }
+        private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SetEncorePallete(sender); }
         private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ExtraLayersMoveToFront ^= true; }
-        private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.EntityFilterTextChanged(sender, e); }
+        private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.UpdateEntityFilterFromTextBox(sender, e); }
         private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowEntitySelectionBoxes ^= true; }
         private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowWaterLevel ^= true; }
         private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.AlwaysShowWaterLevel ^= true; }
@@ -289,20 +289,20 @@ namespace ManiacEditor.Controls.Base.Elements
         private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Classes.Editor.Solution.Entities.OrderSelectedSlotIDs(true); }
         private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Classes.Editor.Solution.Entities.OrderSelectedSlotIDs(false, true); }
         private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.SizeWaterLevelwithBounds ^= true; }
-        private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SwapEncoreManiaEntityVisibility(); }
+        private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SwapEncoreManiaEntityVisibility(); }
         private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowParallaxSprites ^= true; }
-        private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection(); }
+        private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SetScrollLockDirection(); }
         private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowEntityPathArrows ^= true; }
-        private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MenuLanguageChanged(sender, e); }
+        private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.ManiaMenuLanguageChanged(sender, e); }
         private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Classes.Editor.Solution.CurrentScene != null) Classes.Editor.Solution.Entities.OptimizeAllSlotIDs(); }
         private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.RightClicktoSwapSlotID ^= true; }
         private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CopyAir ^= true; }
-        private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.ChangeLevelID(sender, e); }
+        private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.ChangeLevelID(sender, e); }
         private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.MultiLayerEditMode ^= true; }
-        private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MakeShortcutForDataFolderOnly(sender, e); }
-        private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
-        private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
-        private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.UIEvents.SoundLooperToolStripMenuItem_Click(sender, e); }
+        private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.MakeShortcutForDataFolderOnly(sender, e); }
+        private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
+        private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
+        private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SoundLooperToolStripMenuItem_Click(sender, e); }
         private void FindUnusedTiles(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FindAndReplace.FindUnusedTiles(); }
 
         #region Apps

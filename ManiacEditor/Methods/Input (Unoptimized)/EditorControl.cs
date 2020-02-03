@@ -1452,7 +1452,7 @@ namespace ManiacEditor
             // Faster Nudge Toggle
             if (isCombo(e, myKeyBinds.NudgeFaster))
             {
-                Controls.Base.MainEditor.Instance.ToggleFasterNudgeEvent(sender, null);
+                Classes.Editor.SolutionState.EnableFasterNudge ^= true;
             }
             // Scroll Lock Toggle
             else if (isCombo(e, myKeyBinds.ScrollLock))
@@ -1462,7 +1462,7 @@ namespace ManiacEditor
             // Switch Scroll Lock Type
             else if (isCombo(e, myKeyBinds.ScrollLockTypeSwitch))
             {
-                Controls.Base.MainEditor.Instance.UIEvents.SetScrollLockDirection();
+                Classes.Editor.EditorActions.SetScrollLockDirection();
 
             }
             // Tiles Toolbar Flip Vertical
@@ -1480,25 +1480,25 @@ namespace ManiacEditor
             // Open Click (Alt: Open Data Dir)
             else if ((isCombo(e, myKeyBinds.OpenDataDir)))
             {
-                Controls.Base.MainEditor.Instance.OpenDataDirectoryEvent(null, null);
+                ManiacEditor.Classes.Editor.SolutionLoader.OpenDataDirectory();
             }
             else if ((isCombo(e, myKeyBinds.Open)))
             {
-                Controls.Base.MainEditor.Instance.OpenSceneEvent(null, null);
+                ManiacEditor.Classes.Editor.SolutionLoader.OpenScene();
             }
             // New Click
             else if (isCombo(e, myKeyBinds.New))
             {
-                //Editor.Instance.New_Click(null, null);
+                //ManiacEditor.Classes.Editor.SolutionLoader.NewScene();
             }
             // Save Click (Alt: Save As)
             else if (isCombo(e, myKeyBinds.SaveAs))
             {
-                Controls.Base.MainEditor.Instance.SaveSceneAsEvent(null, null);
+                ManiacEditor.Classes.Editor.SolutionLoader.Save();
             }
             else if (isCombo(e, myKeyBinds._Save))
             {
-                Controls.Base.MainEditor.Instance.SaveSceneEvent(null, null);
+                ManiacEditor.Classes.Editor.SolutionLoader.SaveAs();
             }
             // Undo
             else if (isCombo(e, myKeyBinds.Undo))
@@ -1542,7 +1542,7 @@ namespace ManiacEditor
             //Refresh Tiles and Sprites
             else if (isCombo(e, myKeyBinds.RefreshResources))
             {
-                Controls.Base.MainEditor.Instance.ReloadToolStripButton_Click(null, null);
+                Controls.Base.MainEditor.Instance.UI.ReloadSpritesAndTextures();
             }
             //Run Scene
             else if (isCombo(e, myKeyBinds.RunScene))
@@ -1552,12 +1552,12 @@ namespace ManiacEditor
             //Show Path A
             else if (isCombo(e, myKeyBinds.ShowPathA) && ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded())
             {
-                Controls.Base.MainEditor.Instance.ShowCollisionAEvent(null, null);
+                Classes.Editor.SolutionState.ShowCollisionA ^= true;
             }
             //Show Path B
             else if (isCombo(e, myKeyBinds.ShowPathB))
             {
-                Controls.Base.MainEditor.Instance.ShowCollisionBEvent(null, null);
+                Classes.Editor.SolutionState.ShowCollisionB ^= true;
             }
             //Unload Scene
             else if (isCombo(e, myKeyBinds.UnloadScene))
@@ -1567,17 +1567,17 @@ namespace ManiacEditor
             //Toggle Grid Visibility
             else if (isCombo(e, myKeyBinds.ShowGrid))
             {
-                Controls.Base.MainEditor.Instance.ToggleGridEvent(null, null);
+                Classes.Editor.SolutionState.ShowGrid ^= true;
             }
             //Toggle Tile ID Visibility
             else if (isCombo(e, myKeyBinds.ShowTileID))
             {
-                Controls.Base.MainEditor.Instance.ToggleSlotIDEvent(null, null);
+                Classes.Editor.SolutionState.ShowTileID ^= true;
             }
-            //Refresh Tiles and Sprites
+            //Status Box Toggle
             else if (isCombo(e, myKeyBinds.StatusBoxToggle))
             {
-                Controls.Base.MainEditor.Instance.ToggleDebugHUDEvent(null, null);
+                Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true;
             }
         }
 

@@ -9,15 +9,15 @@ using GenerationsLib.Core;
 
 namespace ManiacEditor.Classes.Editor
 {
-    public class SolutionLoader
+    public static class SolutionLoader
     {
-        private Controls.Base.MainEditor Instance;
-        public SolutionLoader(Controls.Base.MainEditor instance)
+        private static Controls.Base.MainEditor Instance;
+        public static void UpdateInstance(Controls.Base.MainEditor instance)
         {
             Instance = instance;
         }
 
-        private bool EditorLoad()
+        private static bool EditorLoad()
         {
             if (Instance.DataDirectory == null)
             {
@@ -29,7 +29,7 @@ namespace ManiacEditor.Classes.Editor
 
         #region Editor Commands
 
-        public void NewScene()
+        public static void NewScene()
         {
             if (AllowSceneUnloading() != true) return;
             Classes.Editor.Solution.UnloadScene();
@@ -72,16 +72,16 @@ namespace ManiacEditor.Classes.Editor
                 Instance.UI.UpdateControls(true);
             }
         }
-        public void OpenScene()
+        public static void OpenScene()
         {
-            if (Instance.FileHandler.AllowSceneUnloading() != true) return;
+            if (ManiacEditor.Classes.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
             Classes.Editor.Solution.UnloadScene();
 
-            Instance.OpenScene();
+            OpenSceneUsingSceneSelect();
         }
-        public void OpenDataDirectory()
+        public static void OpenDataDirectory()
         {
-            if (Instance.FileHandler.AllowSceneUnloading() != true) return;
+            if (ManiacEditor.Classes.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
 
             string newDataDirectory = Instance.GetDataDirectory();
             if (null == newDataDirectory) return;
@@ -90,7 +90,7 @@ namespace ManiacEditor.Classes.Editor
             if (Instance.IsDataDirectoryValid(newDataDirectory)) Instance.ResetDataDirectoryToAndResetScene(newDataDirectory);
             else MessageBox.Show($@"{newDataDirectory} is not a valid Data Directory.", "Invalid Data Directory!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        public void Save()
+        public static void Save()
         {
             if (Classes.Editor.Solution.CurrentScene == null) return;
             if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Classes.Editor.EditorActions.Deselect();
@@ -99,7 +99,7 @@ namespace ManiacEditor.Classes.Editor
             SaveStageConfig();
             SaveChunks();
         }
-        public void SaveAs()
+        public static void SaveAs()
         {
             if (Classes.Editor.Solution.CurrentScene == null) return;
             if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Classes.Editor.EditorActions.Deselect();
@@ -121,12 +121,12 @@ namespace ManiacEditor.Classes.Editor
 
             }
         }
-        public void UnloadScene(bool SkipCheck = false)
+        public static void UnloadScene(bool SkipCheck = false)
         {
             if (AllowSceneUnloading(SkipCheck) != true) return;
             Classes.Editor.Solution.UnloadScene();
         }
-        public bool AllowSceneUnloading(bool SkipCheck = false)
+        public static bool AllowSceneUnloading(bool SkipCheck = false)
         {
             if (SkipCheck) return true;
             bool AllowSceneChange = false;
@@ -170,7 +170,7 @@ namespace ManiacEditor.Classes.Editor
             }
             return AllowSceneChange;
         }
-        public void ExportAsPNG()
+        public static void ExportAsPNG()
         {
             
             if (Classes.Editor.Solution.CurrentScene == null) return;
@@ -198,7 +198,7 @@ namespace ManiacEditor.Classes.Editor
 
             }
         }
-        public void ExportLayersAsPNG()
+        public static void ExportLayersAsPNG()
         {
             try
             {
@@ -240,7 +240,7 @@ namespace ManiacEditor.Classes.Editor
                 Methods.Internal.Common.ShowError("An error occurred: " + ex.Message);
             }
         }
-        public void ExportObjLayoutAsPNG()
+        public static void ExportObjLayoutAsPNG()
         {
             int i = 0;
             try
@@ -295,7 +295,7 @@ namespace ManiacEditor.Classes.Editor
         #endregion
 
         #region Opening
-        public void OpenSceneUsingSceneSelect()
+        public static void OpenSceneUsingSceneSelect()
         {
             ManiacEditor.Controls.SceneSelect.SceneSelectWindow select;
 
@@ -328,7 +328,7 @@ namespace ManiacEditor.Classes.Editor
 
         }
 
-        public void OpenSceneSelectFromPreviousConfiguration(ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState SaveState)
+        public static void OpenSceneSelectFromPreviousConfiguration(ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState SaveState)
         {
             ManiacEditor.Controls.SceneSelect.SceneSelectWindow select;
             Instance.Paths.SetGameConfig(SaveState.DataDirectory);
@@ -366,7 +366,7 @@ namespace ManiacEditor.Classes.Editor
             }
         }
 
-        public void OpenSceneSelectWithPrefrences(string dataDirectory)
+        public static void OpenSceneSelectWithPrefrences(string dataDirectory)
         {
             ManiacEditor.Controls.SceneSelect.SceneSelectWindow select;
             Instance.Paths.SetGameConfig(dataDirectory);
@@ -401,7 +401,7 @@ namespace ManiacEditor.Classes.Editor
 
         }
 
-        public void OpenSceneFromSaveState(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile, IList<string> ResourcePacks)
+        public static void OpenSceneFromSaveState(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile, IList<string> ResourcePacks)
         {
             if (PreLoad() == false) return;
 
@@ -422,7 +422,7 @@ namespace ManiacEditor.Classes.Editor
 
         }
 
-        public void OpenSceneUsingExistingSceneSelect(ManiacEditor.Controls.SceneSelect.SceneSelectHost select)
+        public static void OpenSceneUsingExistingSceneSelect(ManiacEditor.Controls.SceneSelect.SceneSelectHost select)
         {
             if (PreLoad() == false) return;
 
@@ -438,7 +438,7 @@ namespace ManiacEditor.Classes.Editor
             }
         }
 
-        public void GetSceneSelectData(ManiacEditor.Controls.SceneSelect.SceneSelectHost select, bool browsedFile = false, bool skipResourcePacks = false)
+        public static void GetSceneSelectData(ManiacEditor.Controls.SceneSelect.SceneSelectHost select, bool browsedFile = false, bool skipResourcePacks = false)
         {
             if (browsedFile == true)
             {
@@ -465,7 +465,7 @@ namespace ManiacEditor.Classes.Editor
             }
         }
 
-        public void GetSceneSelectData(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile, bool skipResourcePacks = false)
+        public static void GetSceneSelectData(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile, bool skipResourcePacks = false)
         {
             if (browsedFile == true)
             {
@@ -492,7 +492,7 @@ namespace ManiacEditor.Classes.Editor
             }
         }
 
-        public void AddTemporaryResourcePack()
+        public static void AddTemporaryResourcePack()
         {
             if (Instance.Paths.SceneDirectory.Contains("Data") && Instance.Paths.SceneDirectory.Contains("Stages"))
             {
@@ -507,7 +507,7 @@ namespace ManiacEditor.Classes.Editor
         #endregion
 
         #region Loading
-        public void LoadFromSceneSelect()
+        public static void LoadFromSceneSelect()
         {
             bool LoadFailed = false;
             try
@@ -553,8 +553,7 @@ namespace ManiacEditor.Classes.Editor
             if (!LoadFailed) AfterLoad();
 
         }
-
-        public void AfterLoad()
+        public static void AfterLoad()
         {
             try
             {
@@ -585,15 +584,13 @@ namespace ManiacEditor.Classes.Editor
             }
 
         }
-
-        public bool PreLoad()
+        public static bool PreLoad()
         {
             Classes.Editor.Solution.UnloadScene();
             Methods.Internal.Settings.UseDefaultPrefrences();
             return Instance.SetGameConfig();
         }
-
-        public void SetupObjectsList()
+        public static void SetupObjectsList()
         {
             Instance.ObjectList.Clear();
             for (int i = 0; i < Classes.Editor.Solution.GameConfig.ObjectsNames.Count; i++)
@@ -605,13 +602,11 @@ namespace ManiacEditor.Classes.Editor
                 Instance.ObjectList.Add(Classes.Editor.Solution.StageConfig.ObjectsNames[i]);
             }
         }
-
-        public void SetupDiscordRP(string SceneFile)
+        public static void SetupDiscordRP(string SceneFile)
         {
             DiscordRP.UpdateDiscord(SceneFile);
         }
-
-        public void LoadFromFiles()
+        public static void LoadFromFiles()
         {
             bool LoadFailed = false;
             try
@@ -657,8 +652,7 @@ namespace ManiacEditor.Classes.Editor
 
             if (!LoadFailed) AfterLoad();
         }
-
-        public void ReadManiacINIFile()
+        public static void ReadManiacINIFile()
         {
             Methods.Prefrences.SceneCurrentSettings.ClearSettings();
             if (File.Exists(Instance.Paths.SceneFile_Directory + "\\maniac.json"))
@@ -668,15 +662,12 @@ namespace ManiacEditor.Classes.Editor
 
             }
         }
-
-
-        public void LoadingFailed(Exception ex)
+        public static void LoadingFailed(Exception ex)
         {
             MessageBox.Show("Load failed. Error: " + ex.ToString());
             UnloadScene(true);
         }
-
-        public void LoadingFailed(string ex)
+        public static void LoadingFailed(string ex)
         {
             MessageBox.Show("Load failed. Error: " + ex);
             UnloadScene(true);
@@ -684,8 +675,7 @@ namespace ManiacEditor.Classes.Editor
         #endregion
 
         #region Saving
-
-        public void SaveAsExtras(string saveAsFolder)
+        public static void SaveAsExtras(string saveAsFolder)
         {
             string stageConfig = Path.Combine(saveAsFolder, "StageConfig.bin");
             string stamps = Path.Combine(saveAsFolder, "ManiacStamps.bin");
@@ -718,8 +708,7 @@ namespace ManiacEditor.Classes.Editor
 
 
         }
-
-		public void SaveScene(bool saveAsMode = false, string SaveAsFilePath = "")
+		public static void SaveScene(bool saveAsMode = false, string SaveAsFilePath = "")
 		{
 			try
 			{
@@ -741,8 +730,7 @@ namespace ManiacEditor.Classes.Editor
                 Methods.Internal.Common.ShowError($@"Failed to save the scene to file '{Instance.Paths.SceneFile_Source}' Error: {ex.Message}");
 			}
 		}
-
-		public void SaveStageConfig(bool saveAsMode = false, string SaveAsFilePath = "")
+		public static void SaveStageConfig(bool saveAsMode = false, string SaveAsFilePath = "")
 		{
 			try
 			{
@@ -764,8 +752,7 @@ namespace ManiacEditor.Classes.Editor
 				Methods.Internal.Common.ShowError($@"Failed to save the StageConfig to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
 			}
 		}
-
-        public void SaveChunks(bool saveAsMode = false, string SaveAsFilePath = "")
+        public static void SaveChunks(bool saveAsMode = false, string SaveAsFilePath = "")
         {
             try
             {
@@ -794,8 +781,7 @@ namespace ManiacEditor.Classes.Editor
                 Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{Instance.Paths.SceneFile_Source}' Error: {ex.Message}");
             }
         }
-
-        public void SaveTilesConfig(bool saveAsMode = false, string SaveAsFilePath = "")
+        public static void SaveTilesConfig(bool saveAsMode = false, string SaveAsFilePath = "")
         {
             try
             {
@@ -811,8 +797,7 @@ namespace ManiacEditor.Classes.Editor
                 Methods.Internal.Common.ShowError($@"Failed to save the TileConfig to file '{Instance.Paths.StageConfig_Source}' Error: {ex.Message}");
             }
         }
-
-        public void Save16x16Tiles(bool saveAsMode = false, string SaveAsFilePath = "")
+        public static void Save16x16Tiles(bool saveAsMode = false, string SaveAsFilePath = "")
         {
             try
             {
@@ -877,7 +862,6 @@ namespace ManiacEditor.Classes.Editor
         }
 
         #endregion
-
 
     }
 }

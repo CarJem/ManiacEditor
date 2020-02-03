@@ -33,12 +33,12 @@ namespace ManiacEditor.Controls.Base.Elements
 
 		private void linkLabel4_LinkClicked(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.AboutScreenEvent(null, null);
+			Methods.ProgramLauncher.AboutScreen();
 		}
 
 		private void linkLabel5_LinkClicked(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.OptionsMenuEvent(null, null);
+			Methods.ProgramLauncher.OptionsMenu();
 		}
 
 		private void linkLabel6_LinkClicked(object sender, RoutedEventArgs e)

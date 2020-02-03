@@ -399,7 +399,6 @@
     <Compile Include="Methods\Layers\TileFindReplace.cs" />
     <Compile Include="Methods\GameHandler.cs" />
     <Compile Include="Classes\Editor\Scene\EditorChunks.cs" />
-    <Compile Include="Methods\Input %28Unoptimized%29\EditorUIEvents.cs" />
     <Compile Include="Classes\Editor\Scene\EditorPath.cs" />
     <Compile Include="Classes\Editor\SolutionLoader.cs" />
     <Compile Include="Methods\Internal\Theming.cs" />

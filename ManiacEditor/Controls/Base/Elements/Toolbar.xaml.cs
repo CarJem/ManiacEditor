@@ -52,9 +52,9 @@ namespace ManiacEditor.Controls.Base.Elements
 
         #region Action Events (MenuItems, Clicks, etc.)
         #region File Events
-        private void NewSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.NewScene(); }
-        public void OpenSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.OpenScene(); }
-        public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Base.MainEditor.Instance.FileHandler.Save(); }
+        private void NewSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.NewScene(); }
+        public void OpenSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.OpenScene(); }
+        public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.Save(); }
         #endregion
 
         #region Animations DropDown (WIP)
