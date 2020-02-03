@@ -8,17 +8,17 @@ namespace ManiacEditor.Classes.Editor
 {
     public class SolutionState
     {
-        public ManiacEditor.Controls.Base.MainEditor EditorInstance;
+        private static ManiacEditor.Controls.Base.MainEditor Instance;
         public SolutionState(ManiacEditor.Controls.Base.MainEditor instance)
         {
-            EditorInstance = instance;
+            Instance = instance;
         }
 
         #region Debug HUD Information
 
         public string GetSceneTileConfigPath()
         {
-            if (EditorInstance.Paths.TileConfig_Source != null && EditorInstance.Paths.TileConfig_Source != "") return "Scene TileConfig Path: " + Path.Combine(EditorInstance.Paths.TileConfig_Source, "TileConfig.bin").ToString();         
+            if (Instance.Paths.TileConfig_Source != null && Instance.Paths.TileConfig_Source != "") return "Scene TileConfig Path: " + Path.Combine(Instance.Paths.TileConfig_Source, "TileConfig.bin").ToString();         
             else return "Scene TileConfig Path: N/A";           
         }
 
@@ -66,31 +66,31 @@ namespace ManiacEditor.Classes.Editor
 
         public string GetSelectedZone()
         {
-            if (EditorInstance.Paths.CurrentZone != null && EditorInstance.Paths.CurrentZone != "") return "Selected Zone: " + EditorInstance.Paths.CurrentZone;
+            if (Instance.Paths.CurrentZone != null && Instance.Paths.CurrentZone != "") return "Selected Zone: " + Instance.Paths.CurrentZone;
             else return "Selected Zone: N/A";
         }
 
 		public string GetSceneFilePath()
 		{
-			if (EditorInstance.Paths.SceneFile_Source != null && EditorInstance.Paths.SceneFile_Source != "") return "Scene File: " + EditorInstance.Paths.SceneFile_Source;
+			if (Instance.Paths.SceneFile_Source != null && Instance.Paths.SceneFile_Source != "") return "Scene File: " + Instance.Paths.SceneFile_Source;
 			else return "Scene File: N/A";
 		}
 
 		public string GetScenePath()
         {
 
-            if (EditorInstance.Paths.SceneFile_Directory != null && EditorInstance.Paths.SceneFile_Directory != "") return "Scene Path: " + EditorInstance.Paths.SceneFile_Directory;
+            if (Instance.Paths.SceneFile_Directory != null && Instance.Paths.SceneFile_Directory != "") return "Scene Path: " + Instance.Paths.SceneFile_Directory;
             else return "Scene Path: N/A";
         }
 
         public string GetDataFolder()
         {
-            if (EditorInstance.DataDirectory != null && EditorInstance.DataDirectory != "") return "Data Directory: " + EditorInstance.DataDirectory;
+            if (Instance.DataDirectory != null && Instance.DataDirectory != "") return "Data Directory: " + Instance.DataDirectory;
             else return "Data Directory: N/A";
         }
         public string GetMasterDataFolder()
         {
-            if (EditorInstance.MasterDataDirectory != null && EditorInstance.MasterDataDirectory != "") return "Master Data Directory: " + EditorInstance.MasterDataDirectory;
+            if (Instance.MasterDataDirectory != null && Instance.MasterDataDirectory != "") return "Master Data Directory: " + Instance.MasterDataDirectory;
             else return "Master Data Directory: N/A";
         }
 
@@ -105,6 +105,50 @@ namespace ManiacEditor.Classes.Editor
                 return "Setup Object: N/A";
             }
 
+        }
+
+        #endregion
+
+        #region Editor Status Variables
+
+        public static bool IsEditing()
+        {
+            return IsTilesEdit() || IsEntitiesEdit() || IsChunksEdit();
+        }
+        public static bool IsSceneLoaded()
+        {
+            if (Classes.Editor.Solution.CurrentScene != null)
+                return true;
+            else
+                return false;
+        }
+        public static bool IsTilesEdit()
+        {
+            return Classes.Editor.Solution.EditLayerA != null;
+        }
+        public static bool IsChunksEdit()
+        {
+            return Instance.EditorToolbar.ChunksToolButton.IsChecked.Value && Classes.Editor.Solution.EditLayerA != null;
+        }
+        public static bool IsEntitiesEdit()
+        {
+            return Instance.EditorToolbar.EditEntities.IsCheckedN.Value || Instance.EditorToolbar.EditEntities.IsCheckedA.Value || Instance.EditorToolbar.EditEntities.IsCheckedB.Value;
+        }
+        public static bool IsSelected(bool dualModeSelect = false)
+        {
+            if (IsTilesEdit())
+            {
+
+                bool SelectedA = Classes.Editor.Solution.EditLayerA?.SelectedTiles.Count > 0 || Classes.Editor.Solution.EditLayerA?.TempSelectionTiles.Count > 0;
+                bool SelectedB = Classes.Editor.Solution.EditLayerB?.SelectedTiles.Count > 0 || Classes.Editor.Solution.EditLayerB?.TempSelectionTiles.Count > 0;
+                if (dualModeSelect) return SelectedA && SelectedB;
+                else return SelectedA || SelectedB;
+            }
+            else if (IsEntitiesEdit())
+            {
+                return Classes.Editor.Solution.Entities.IsSelected();
+            }
+            return false;
         }
 
         #endregion
@@ -769,7 +813,7 @@ namespace ManiacEditor.Classes.Editor
         }
         public static void ChunksMode()
         {
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit()) ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsChecked ^= true;
+            if (IsTilesEdit()) ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.ChunksToolButton.IsChecked ^= true;
             ManiacEditor.Controls.Base.MainEditor.Instance.UI.UpdateControls();
         }
         public static void SetToolModes(int selectedID, bool value)

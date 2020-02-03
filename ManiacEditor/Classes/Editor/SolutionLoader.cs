@@ -92,7 +92,7 @@ namespace ManiacEditor.Classes.Editor
         public void Save()
         {
             if (Classes.Editor.Solution.CurrentScene == null) return;
-            if (Instance.IsTilesEdit()) Instance.Deselect();
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Instance.Deselect();
 
             SaveScene();
             SaveStageConfig();
@@ -101,7 +101,7 @@ namespace ManiacEditor.Classes.Editor
         public void SaveAs()
         {
             if (Classes.Editor.Solution.CurrentScene == null) return;
-            if (Instance.IsTilesEdit()) Instance.Deselect();
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Instance.Deselect();
 
             System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
             {
@@ -129,12 +129,12 @@ namespace ManiacEditor.Classes.Editor
         {
             if (SkipCheck) return true;
             bool AllowSceneChange = false;
-            if (Instance.IsSceneLoaded() == false)
+            if (ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded() == false)
             {
                 AllowSceneChange = true;
                 return AllowSceneChange;
             }
-            else if (Instance.IsSceneLoaded() == true && ManiacEditor.Core.Settings.MySettings.DisableSaveWarnings == false)
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded() == true && ManiacEditor.Core.Settings.MySettings.DisableSaveWarnings == false)
             {
 
                 if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired == true)

@@ -140,13 +140,13 @@ namespace ManiacEditor
 
 		public void SelectAll()
 		{
-			if (Editor.IsTilesEdit() && !Editor.IsChunksEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
 			{
                 if (Classes.Editor.Solution.EditLayerA != null) Classes.Editor.Solution.EditLayerA?.SelectAll();
                 if (Classes.Editor.Solution.EditLayerB != null) Classes.Editor.Solution.EditLayerB?.SelectAll();
                 Editor.UI.UpdateEditLayerActions();
 			}
-			else if (Editor.IsEntitiesEdit())
+			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
 			{
                 Classes.Editor.Solution.Entities.SelectAll();
             }
@@ -176,11 +176,11 @@ namespace ManiacEditor
 
 		public void Copy()
 		{
-			if (Editor.IsTilesEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
 				Editor.CopyTilesToClipboard();
 
 
-			else if (Editor.IsEntitiesEdit())
+			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
 				Editor.CopyEntitiesToClipboard();
 
 
@@ -189,13 +189,13 @@ namespace ManiacEditor
 
 		public void Duplicate()
 		{
-			if (Editor.IsTilesEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
 			{
                 Classes.Editor.Solution.EditLayerA?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerA?.CopyToClipboard(true));
                 Classes.Editor.Solution.EditLayerB?.PasteFromClipboard(new Point(16, 16), Classes.Editor.Solution.EditLayerB?.CopyToClipboard(true));
                 Editor.UI.UpdateEditLayerActions();
 			}
-			else if (Editor.IsEntitiesEdit())
+			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
 			{
 				try
 				{
@@ -215,14 +215,14 @@ namespace ManiacEditor
 
 		public void Cut()
 		{
-			if (Editor.IsTilesEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
 			{
 				Editor.CopyTilesToClipboard();
 				Editor.DeleteSelected();
 				Editor.UI.UpdateControls();
 				Editor.UI.UpdateEditLayerActions();
 			}
-			else if (Editor.IsEntitiesEdit())
+			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
 			{
 				if (Editor.EntitiesToolbar.IsFocused.Equals(false))
 				{
@@ -236,7 +236,7 @@ namespace ManiacEditor
 
 		public void Paste()
 		{
-			if (Editor.IsTilesEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
 			{
 				// check if there are tiles on the Windows clipboard; if so, use those
 				if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
@@ -259,14 +259,14 @@ namespace ManiacEditor
 				}
 
 			}
-			else if (Editor.IsEntitiesEdit())
+			else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
 			{
                 Editor.PasteEntitiesToClipboard();
             }
 
             Point GetPastePoint()
             {
-                if (Editor.IsChunksEdit())
+                if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
                 {
 
                     Point p = new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));

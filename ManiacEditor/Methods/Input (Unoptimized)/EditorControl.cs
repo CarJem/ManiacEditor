@@ -19,11 +19,11 @@ namespace ManiacEditor
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
-        private bool IsChunksEdit() { return Controls.Base.MainEditor.Instance.IsChunksEdit(); }
-        private bool IsTilesEdit() { return Controls.Base.MainEditor.Instance.IsTilesEdit(); }
-        private bool IsEntitiesEdit() { return Controls.Base.MainEditor.Instance.IsEntitiesEdit(); }
-        private bool IsEditing() { return Controls.Base.MainEditor.Instance.IsEditing(); }
-        private bool IsSceneLoaded() { return Controls.Base.MainEditor.Instance.IsSceneLoaded(); }
+        private bool IsChunksEdit() { return ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit(); }
+        private bool IsTilesEdit() { return ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit(); }
+        private bool IsEntitiesEdit() { return ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit(); }
+        private bool IsEditing() { return ManiacEditor.Classes.Editor.SolutionState.IsEditing(); }
+        private bool IsSceneLoaded() { return ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded(); }
 
 
         private bool GameRunning { get => Methods.GameHandler.GameRunning; set => Methods.GameHandler.GameRunning = value; }
@@ -33,7 +33,7 @@ namespace ManiacEditor
 
         private bool CtrlPressed() { return Controls.Base.MainEditor.Instance.CtrlPressed(); }
         private bool ShiftPressed() { return Controls.Base.MainEditor.Instance.ShiftPressed(); }
-        private bool IsSelected() { return Controls.Base.MainEditor.Instance.IsSelected(); }
+        private bool IsSelected() { return ManiacEditor.Classes.Editor.SolutionState.IsSelected(); }
 
         bool ForceUpdateMousePos { get; set; } = false;
 
@@ -1533,7 +1533,7 @@ namespace ManiacEditor
             {
                 Controls.Base.MainEditor.Instance.EditorRedo();
             }
-            else if (Controls.Base.MainEditor.Instance.IsSceneLoaded())
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded())
             {
                 GraphicPanel_OnKeyDownLoaded(sender, e);
             }
@@ -1563,7 +1563,7 @@ namespace ManiacEditor
                 Methods.GameHandler.RunScene();
             }
             //Show Path A
-            else if (isCombo(e, myKeyBinds.ShowPathA) && Controls.Base.MainEditor.Instance.IsSceneLoaded())
+            else if (isCombo(e, myKeyBinds.ShowPathA) && ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded())
             {
                 Controls.Base.MainEditor.Instance.ShowCollisionAEvent(null, null);
             }

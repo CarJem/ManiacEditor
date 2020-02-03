@@ -106,7 +106,7 @@ namespace ManiacEditor.Methods.Layers
         #region Unsorted
         public void EditorTileReplaceTest(int findValue, int replaceValue, int applyState, bool copyResults, bool perserveColllision)
         {
-            if (Editor.IsTilesEdit())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
             {
                 Classes.Editor.Solution.EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
                 Editor.UI.UpdateEditLayerActions();
@@ -192,7 +192,7 @@ namespace ManiacEditor.Methods.Layers
         }
         public void EditorTileFindTest(int tile, int applyState, bool copyResults)
         {
-            if (Editor.IsTilesEdit())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
             {
                 Classes.Editor.Solution.EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
                 Editor.UI.UpdateEditLayerActions();

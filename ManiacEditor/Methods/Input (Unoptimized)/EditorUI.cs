@@ -68,9 +68,9 @@ namespace ManiacEditor
         {
             Controls.Base.MainEditor.Instance.EditorMenuBar.SetPasteButtonsState(true);
             Controls.Base.MainEditor.Instance.EditorMenuBar.SetSelectOnlyButtonsState(enabled);
-            enabled &= Controls.Base.MainEditor.Instance.IsSelected();
+            enabled &= ManiacEditor.Classes.Editor.SolutionState.IsSelected();
 
-            if (Controls.Base.MainEditor.Instance.IsEntitiesEdit() && Controls.Base.MainEditor.Instance.EntitiesToolbar != null)
+            if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && Controls.Base.MainEditor.Instance.EntitiesToolbar != null)
             {
                 Controls.Base.MainEditor.Instance.EntitiesToolbar.SelectedEntities = Classes.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
             }
@@ -80,7 +80,7 @@ namespace ManiacEditor
         private void SetEditButtonsState(bool enabled)
         {
             Controls.Base.MainEditor.Instance.EditorToolbar.SetEditButtonsState(enabled);
-            if (Controls.Base.MainEditor.Instance.IsTilesEdit())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
             {
                 if (Controls.Base.MainEditor.Instance.TilesToolbar == null)
                 {
@@ -106,7 +106,7 @@ namespace ManiacEditor
                     Controls.Base.MainEditor.Instance.Editor_Resize(null, null);
                     Controls.Base.MainEditor.Instance.Focus();
                 }
-                if (Controls.Base.MainEditor.Instance.IsChunksEdit()) Controls.Base.MainEditor.Instance.TilesToolbar.TabControl.TabIndex = 1;
+                if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit()) Controls.Base.MainEditor.Instance.TilesToolbar.TabControl.TabIndex = 1;
                 else Controls.Base.MainEditor.Instance.TilesToolbar.TabControl.TabIndex = 0;
                 Controls.Base.MainEditor.Instance.UI.UpdateTilesOptions();
                 Controls.Base.MainEditor.Instance.TilesToolbar.ShowShortcuts = Controls.Base.MainEditor.Instance.EditorToolbar.DrawToolButton.IsChecked.Value;
@@ -120,7 +120,7 @@ namespace ManiacEditor
                     Controls.Base.MainEditor.Instance.Focus();
                 }
             }
-            if (Controls.Base.MainEditor.Instance.IsEntitiesEdit())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
                 if (Controls.Base.MainEditor.Instance.EntitiesToolbar == null)
                 {
@@ -238,7 +238,7 @@ namespace ManiacEditor
         }
         public void UpdateTilesOptions()
         {
-            if (Controls.Base.MainEditor.Instance.IsTilesEdit() && !Controls.Base.MainEditor.Instance.IsChunksEdit())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
             {
                 if (Controls.Base.MainEditor.Instance.TilesToolbar != null)
                 {

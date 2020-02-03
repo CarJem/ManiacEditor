@@ -347,11 +347,11 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         {
             if (InTempSelection)
             {
-                return (TempSelected && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+                return (TempSelected && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             }
             else
             {
-                return (Selected && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+                return (Selected && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             }
         }
         public int GetTransparencyLevel()
@@ -557,11 +557,11 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         {
             if (InTempSelection)
             {
-                return System.Drawing.Color.FromArgb(TempSelected && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(TempSelected && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
             }
             else
             {
-                return System.Drawing.Color.FromArgb(Selected && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(Selected && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
             }
         }
 

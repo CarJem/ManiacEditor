@@ -275,8 +275,8 @@ namespace ManiacEditor.Controls
 
             void DrawBackground()
             {
-                if (!EditorInstance.IsTilesEdit()) EditorInstance.BackgroundDX.Draw(GraphicPanel);
-                if (EditorInstance.IsTilesEdit()) if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == true) EditorInstance.BackgroundDX.DrawEdit(GraphicPanel);
+                if (!ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) EditorInstance.BackgroundDX.Draw(GraphicPanel);
+                if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == true) EditorInstance.BackgroundDX.DrawEdit(GraphicPanel);
             }
 
             void DrawScroller()
@@ -358,7 +358,7 @@ namespace ManiacEditor.Controls
                             bound_y1 = (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom);
                             bound_y2 = (int)(Classes.Editor.SolutionState.RegionY2 / Classes.Editor.SolutionState.Zoom);
                         }
-                        if (EditorInstance.IsChunksEdit())
+                        if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
                         {
                             bound_x1 = Classes.Editor.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
                             bound_y1 = Classes.Editor.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
@@ -434,7 +434,7 @@ namespace ManiacEditor.Controls
 
         private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(Int32)) && EditorInstance.IsTilesEdit())
+            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
             {
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 e.Effect = System.Windows.Forms.DragDropEffects.Move;
@@ -448,7 +448,7 @@ namespace ManiacEditor.Controls
         }
         private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(Int32)) && EditorInstance.IsTilesEdit())
+            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
             {
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 Classes.Editor.Solution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Editor.SolutionState.ViewPositionX) / Classes.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Editor.SolutionState.ViewPositionY) / Classes.Editor.SolutionState.Zoom)), (ushort)EditorInstance.TilesToolbar.SelectedTile);

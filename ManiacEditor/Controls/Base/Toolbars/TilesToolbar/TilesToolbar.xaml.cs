@@ -259,7 +259,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 
 		private void ChunkList_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (EditorInstance.IsChunksEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
 			{
 				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
 
@@ -268,7 +268,7 @@ namespace ManiacEditor.Controls.Base.Toolbars.TilesToolbar
 
 		private void TilesListList_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (EditorInstance.IsTilesEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
 			{
 				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
 			}
@@ -554,7 +554,7 @@ Error: {ex.Message}");
 
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            if (!EditorInstance.IsChunksEdit()) SetDropdownItemsState(false);
+            if (!ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit()) SetDropdownItemsState(false);
             else SetDropdownItemsState(true);
         }
 

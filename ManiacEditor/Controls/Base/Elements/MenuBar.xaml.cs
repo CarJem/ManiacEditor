@@ -155,9 +155,9 @@ namespace ManiacEditor.Controls.Base.Elements
             //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
             try
             {
-                if (ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
+                if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
                 else windowsClipboardState = false;
-                if (ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
+                if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
                 else windowsEntityClipboardState = false;
             }
             catch
@@ -167,12 +167,12 @@ namespace ManiacEditor.Controls.Base.Elements
             }
 
 
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
             {
                 if (enabled && HasCopyDataTiles()) SetPasteEnabledButtons(true);
                 else SetPasteEnabledButtons(false);
             }
-            else if (ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit())
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
                 if (enabled && HasCopyDataEntities()) SetPasteEnabledButtons(true);
                 else SetPasteEnabledButtons(false);
@@ -186,7 +186,7 @@ namespace ManiacEditor.Controls.Base.Elements
             {
                 pasteToolStripMenuItem.IsEnabled = pasteEnabled;
                 pasteToToolStripMenuItem.IsEnabled = pasteEnabled;
-                pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit();
+                pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit();
             }
 
             bool HasCopyDataTiles() { return ManiacEditor.Controls.Base.MainEditor.Instance.TilesClipboard != null || windowsClipboardState == true; }
@@ -195,7 +195,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
         public void SetSelectOnlyButtonsState(bool enabled = true)
         {
-            enabled &= ManiacEditor.Controls.Base.MainEditor.Instance.IsSelected();
+            enabled &= ManiacEditor.Classes.Editor.SolutionState.IsSelected();
             deleteToolStripMenuItem.IsEnabled = enabled;
             copyToolStripMenuItem.IsEnabled = enabled;
             cutToolStripMenuItem.IsEnabled = enabled;
@@ -207,18 +207,18 @@ namespace ManiacEditor.Controls.Base.Elements
             flipHorizontalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
             flipVerticalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
 
-            selectAllToolStripMenuItem.IsEnabled = (ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit() && !ManiacEditor.Controls.Base.MainEditor.Instance.IsChunksEdit()) || ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            selectAllToolStripMenuItem.IsEnabled = (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit()) || ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
 
             bool CanFlip(int option)
             {
                 switch (option)
                 {
                     case 0:
-                        if (ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit() && ManiacEditor.Controls.Base.MainEditor.Instance.IsSelected()) return true;
-                        else if (ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit()) return true;
+                        if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && ManiacEditor.Classes.Editor.SolutionState.IsSelected()) return true;
+                        else if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) return true;
                         break;
                     case 1:
-                        return ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit();
+                        return ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit();
                 }
                 return false;
             }

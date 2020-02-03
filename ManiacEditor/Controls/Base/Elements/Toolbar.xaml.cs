@@ -928,10 +928,10 @@ namespace ManiacEditor.Controls.Base.Elements
 
             SetLayerEditButtonsState(enabled);
 
-            MagnetMode.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            MagnetMode.IsChecked = Classes.Editor.SolutionState.UseMagnetMode && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            MagnetModeSplitButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            Classes.Editor.SolutionState.UseMagnetMode = ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit() && MagnetMode.IsChecked.Value;
+            MagnetMode.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
+            MagnetMode.IsChecked = Classes.Editor.SolutionState.UseMagnetMode && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
+            MagnetModeSplitButton.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
+            Classes.Editor.SolutionState.UseMagnetMode = ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && MagnetMode.IsChecked.Value;
 
 
 
@@ -941,18 +941,18 @@ namespace ManiacEditor.Controls.Base.Elements
 
 
             PointerToolButton.IsEnabled = enabled;
-            SelectToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit();
+            SelectToolButton.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit();
 
-            DrawToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit() || ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            DrawToolDropdown.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit() || ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            DrawToolButton.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() || ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
+            DrawToolDropdown.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() || ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
 
             InteractionToolButton.IsEnabled = enabled;
-            ChunksToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsTilesEdit();
+            ChunksToolButton.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit();
 
-            SplineToolButton.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
-            SplineToolDropdown.IsEnabled = enabled && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            SplineToolButton.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
+            SplineToolDropdown.IsEnabled = enabled && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
 
-            SplineToolButton.IsChecked = SplineToolButton.IsChecked.Value && ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            SplineToolButton.IsChecked = SplineToolButton.IsChecked.Value && ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
 
             bool isAnyOtherToolChecked()
             {
@@ -961,7 +961,7 @@ namespace ManiacEditor.Controls.Base.Elements
                 bool isDraw = (bool)DrawToolButton.IsChecked.Value;
                 bool isSpline = (bool)SplineToolButton.IsChecked.Value;
 
-                if (ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit())
+                if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
                 {
                     if (isDraw || isSpline)
                     {
@@ -987,7 +987,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
 
             PointerToolButton.IsChecked = isAnyOtherToolChecked();
-            ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !ManiacEditor.Controls.Base.MainEditor.Instance.IsEntitiesEdit();
+            ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit();
             if (ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar != null)
             {
                 if (ChunksToolButton.IsChecked.Value)

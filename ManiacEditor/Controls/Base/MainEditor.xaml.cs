@@ -292,45 +292,7 @@ namespace ManiacEditor.Controls.Base
 		#endregion
 
 		#region Boolean States
-		public bool IsEditing()
-		{
-			return IsTilesEdit() || IsEntitiesEdit() || IsChunksEdit();
-		}
-		public bool IsSceneLoaded()
-		{
-			if (Classes.Editor.Solution.CurrentScene != null)
-				return true;
-			else
-				return false;
-		}
-		public bool IsTilesEdit()
-		{
-			return Classes.Editor.Solution.EditLayerA != null;
-		}
-		public bool IsChunksEdit()
-		{
-			return EditorToolbar.ChunksToolButton.IsChecked.Value && Classes.Editor.Solution.EditLayerA != null;
-		}
-        public bool IsEntitiesEdit()
-        {
-            return EditorToolbar.EditEntities.IsCheckedN.Value || EditorToolbar.EditEntities.IsCheckedA.Value || EditorToolbar.EditEntities.IsCheckedB.Value;
-		}
-		public bool IsSelected(bool dualModeSelect = false)
-		{
-			if (IsTilesEdit())
-			{
 
-				bool SelectedA = Classes.Editor.Solution.EditLayerA?.SelectedTiles.Count > 0 || Classes.Editor.Solution.EditLayerA?.TempSelectionTiles.Count > 0;
-				bool SelectedB = Classes.Editor.Solution.EditLayerB?.SelectedTiles.Count > 0 || Classes.Editor.Solution.EditLayerB?.TempSelectionTiles.Count > 0;
-                if (dualModeSelect) return SelectedA && SelectedB;
-                else return SelectedA || SelectedB;
-			}
-			else if (IsEntitiesEdit())
-			{
-				return Classes.Editor.Solution.Entities.IsSelected();
-			}
-			return false;
-		}
 		public bool CtrlPressed()
 		{
 			return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Control);
@@ -391,7 +353,7 @@ namespace ManiacEditor.Controls.Base
             Classes.Editor.Solution.EditLayerB?.DeleteSelected();
 			UI.UpdateEditLayerActions();
 
-			if (IsEntitiesEdit())
+			if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
 			{
 				Classes.Editor.Solution.Entities.DeleteSelected();
 				UpdateLastEntityAction();
@@ -438,12 +400,12 @@ namespace ManiacEditor.Controls.Base
         /// <param name="updateControls">Whether to update associated on-screen controls</param>
         public void Deselect(bool updateControls = true)
         {
-            if (IsEditing())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsEditing())
             {
                 Classes.Editor.Solution.EditLayerA?.Deselect();
                 Classes.Editor.Solution.EditLayerB?.Deselect();
 
-                if (IsEntitiesEdit()) Classes.Editor.Solution.Entities.Deselect();
+                if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit()) Classes.Editor.Solution.Entities.Deselect();
                 UI.SetSelectOnlyButtonsState(false);
                 if (updateControls)
                     UI.UpdateEditLayerActions();
@@ -453,12 +415,12 @@ namespace ManiacEditor.Controls.Base
         {
             if (UndoStack.Count > 0)
             {
-                if (IsTilesEdit())
+                if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
                 {
                     // Deselect to apply the changes
                     Deselect();
                 }
-                else if (IsEntitiesEdit())
+                else if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
                 {
                     if (UndoStack.Peek() is ActionAddDeleteEntities)
                     {
@@ -469,7 +431,7 @@ namespace ManiacEditor.Controls.Base
                 IAction act = UndoStack.Pop();
                 act.Undo();
                 RedoStack.Push(act.Redo());
-                if (IsEntitiesEdit() && IsSelected())
+                if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && ManiacEditor.Classes.Editor.SolutionState.IsSelected())
                 {
                     // We need to update the properties of the selected entity
                     EntitiesToolbar.UpdateCurrentEntityProperites();
@@ -485,7 +447,7 @@ namespace ManiacEditor.Controls.Base
                 IAction act = RedoStack.Pop();
                 act.Undo();
                 UndoStack.Push(act.Redo());
-                if (IsEntitiesEdit() && IsSelected())
+                if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && ManiacEditor.Classes.Editor.SolutionState.IsSelected())
                 {
                     // We need to update the properties of the selected entity
                     EntitiesToolbar.UpdateCurrentEntityProperites();
@@ -579,7 +541,7 @@ namespace ManiacEditor.Controls.Base
         public void MoveEntityOrTiles(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             int x = 0, y = 0;
-            int modifier = (IsChunksEdit() ? 8 : 1);
+            int modifier = (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit() ? 8 : 1);
             if (Classes.Editor.SolutionState.UseMagnetMode)
             {
                 switch (e.KeyData)
@@ -604,7 +566,7 @@ namespace ManiacEditor.Controls.Base
                 }
                 else
                 {
-                    if (IsChunksEdit())
+                    if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
                     {
                         switch (e.KeyData)
                         {
@@ -644,7 +606,7 @@ namespace ManiacEditor.Controls.Base
 
             UI.UpdateEditLayerActions();
 
-            if (IsEntitiesEdit())
+            if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
             {
                 if (Classes.Editor.SolutionState.UseMagnetMode)
                 {
