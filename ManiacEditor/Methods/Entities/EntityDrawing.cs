@@ -630,32 +630,32 @@ namespace ManiacEditor.Methods.Entities
 
 
 
-         //   if (!legacyRotate)
-         //   {
-                // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have. (UPDATE: Inital Fix to the Problem)
-                var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
-                int factor = 32;
-                int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
-                if (newSize == 0) newSize = factor;
-                while (newSize < squareSize) newSize += factor;
+            //if (!legacyRotate)
+            //{
+            // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have. (UPDATE: Inital Fix to the Problem)
+            var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
+            int factor = 64;
+            int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+            if (newSize == 0) newSize = factor;
+            while (newSize < squareSize) newSize += factor;
 
-                Bitmap bmp = new Bitmap(newSize, newSize);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    if (rotate && !legacyRotate) g.DrawImage(bmp2, bmp.Width / 2 - bmp2.Width / 2, bmp.Height / 2 - bmp2.Height / 2, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
-                    else g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+            Bitmap bmp = new Bitmap(newSize, newSize);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                if (rotate && !legacyRotate) g.DrawImage(bmp2, bmp.Width / 2 - bmp2.Width / 2, bmp.Height / 2 - bmp2.Height / 2, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+                else g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
 
-                }
-                bmp2.Dispose();
-                //bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + (frameID != -1 ? "_" + frameID : "") + (animID != -1 ? "_" + animID : "") + ".gif");
-                return bmp;
-          //  }
-           // else
-           // {
-           //     Bitmap bmp = new Bitmap(1024, 1024);
-           //     using (Graphics g = Graphics.FromImage(bmp))
-           //         g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
-           //     return bmp;
+            }
+            bmp2.Dispose();
+            //bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + (frameID != -1 ? "_" + frameID : "") + (animID != -1 ? "_" + animID : "") + ".gif");
+            return bmp;
+            //  }
+            // else
+            // {
+            //     Bitmap bmp = new Bitmap(1024, 1024);
+            //     using (Graphics g = Graphics.FromImage(bmp))
+            //         g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+            //     return bmp;
             //}
 
 
