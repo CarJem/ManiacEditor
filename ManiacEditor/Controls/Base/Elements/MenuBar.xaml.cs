@@ -360,5 +360,10 @@ namespace ManiacEditor.Controls.Base.Elements
         }
 
         #endregion
+
+        private void TestingDeveloperMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

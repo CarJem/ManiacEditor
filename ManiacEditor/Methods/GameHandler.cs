@@ -690,7 +690,7 @@ namespace ManiacEditor.Methods
         {
             Editor.EditorToolbar.trackThePlayerToolStripMenuItem.IsEnabled = GameRunning;
             Editor.EditorToolbar.assetResetToolStripMenuItem1.IsEnabled = GameRunning;
-            Editor.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
+            Editor.EditorViewPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = GameRunning;
             Editor.EditorToolbar.restartSceneToolStripMenuItem1.IsEnabled = GameRunning;
             Editor.EditorToolbar.selectConfigToolStripMenuItem.IsEnabled = !GameRunning;
         }

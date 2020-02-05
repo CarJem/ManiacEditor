@@ -99,7 +99,6 @@ namespace ManiacEditor.Controls.Base
         public Classes.Editor.Scene.EditorPath Paths;
         public Methods.Layers.TileFindReplace FindAndReplace;
         public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
-        public System.Windows.Forms.Integration.WindowsFormsHost DeviceHost;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
         #endregion
 
@@ -192,13 +191,15 @@ namespace ManiacEditor.Controls.Base
             Methods.ProgramLauncher.UpdateInstance(this);
             Methods.Prefrences.DataPackStorage.Initilize(this);
             Methods.GameHandler.UpdateInstance(this);
+            EditorViewPanel.UpdateInstance(this);
+            ManiacEditor.Classes.Editor.EditorActions.UpdateInstance(this);
+            EditorViewPanel.DebugHUD.UpdateInstance(this);
 
             EditorStatusBar.UpdateFilterButtonApperance(true);
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Methods.ProgramBase.GetCasualVersion());
 
-            ViewPanelContextMenu.Foreground = (SolidColorBrush)FindResource("NormalText");
-            ViewPanelContextMenu.Background = (SolidColorBrush)FindResource("NormalBackground");
+
 
 
 
@@ -291,7 +292,7 @@ namespace ManiacEditor.Controls.Base
 
             DeviceModel.Dispose();
             //editorView = null;
-            DeviceHost.Child.Dispose();
+            EditorViewPanel.DeviceHost.Child.Dispose();
             //host = null;
 
 
@@ -320,28 +321,15 @@ namespace ManiacEditor.Controls.Base
         public void Editor_Resize(object sender, RoutedEventArgs e) { DeviceModel.GraphicsResize(sender, e); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the interop host control.
-            DeviceHost = new System.Windows.Forms.Integration.WindowsFormsHost();
+            EditorViewPanel.DeviceHost.Child = DeviceModel;
 
-            // Create the MaskedTextBox control.
-
-            // Assign the MaskedTextBox control as the host control's child.
-            DeviceHost.Child = DeviceModel;
-
-            DeviceHost.Foreground = (SolidColorBrush)FindResource("NormalText");
-
-            // Add the interop host control to the Grid
-            // control's collection of child controls.
-            this.ViewPanelForm.Children.Add(DeviceHost);
+            EditorViewPanel.DeviceHost.Foreground = (SolidColorBrush)FindResource("NormalText");
 
             DeviceModel.GraphicPanel.Init(DeviceModel);
         }
         #endregion
 
-        #region Splitter Events
-        private void Spliter_DragDelta(object sender, DragDeltaEventArgs e) { DeviceModel.GraphicsResize(sender, e); }
-        private void Spliter_SizeChanged(object sender, SizeChangedEventArgs e) { DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY), 0.0, false); }
-        #endregion
+
 
         #region Misc Events
         public void DrawLayers(int drawOrder = 0)
@@ -381,9 +369,9 @@ namespace ManiacEditor.Controls.Base
         {
             if (firstLoad)
             {
-                this.OverlayPanel.Children.Add(StartScreen);
+                EditorViewPanel.OverlayPanel.Children.Add(StartScreen);
                 StartScreen.SelectScreen.ReloadRecentsTree();
-                this.ViewPanelForm.Visibility = Visibility.Hidden;
+                EditorViewPanel.ViewPanelForm.Visibility = Visibility.Hidden;
                 Methods.Internal.UserInterface.UpdateToolbars(false, false, true);
                 RefreshRecentScenes();
                 RefreshDataSources();
@@ -392,7 +380,7 @@ namespace ManiacEditor.Controls.Base
             {
                 StartScreen.Visibility = Visibility.Visible;
                 StartScreen.SelectScreen.ReloadRecentsTree();
-                this.ViewPanelForm.Visibility = Visibility.Hidden;
+                EditorViewPanel.ViewPanelForm.Visibility = Visibility.Hidden;
                 Methods.Internal.UserInterface.UpdateToolbars(false, false, true);
                 RefreshRecentScenes();
                 RefreshDataSources();
@@ -401,7 +389,7 @@ namespace ManiacEditor.Controls.Base
             {
                 StartScreen.Visibility = Visibility.Hidden;
                 StartScreen.SelectScreen.ReloadRecentsTree();
-                this.ViewPanelForm.Visibility = Visibility.Visible;
+                EditorViewPanel.ViewPanelForm.Visibility = Visibility.Visible;
                 Methods.Internal.UserInterface.UpdateToolbars(false, false, false);
             }
 
@@ -906,48 +894,7 @@ namespace ManiacEditor.Controls.Base
 
         #endregion
 
-        #region Toolbar Events
-        private void LeftToolbarToolbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (StartScreen.Visibility != Visibility.Visible)
-            {
-                if (LeftToolbarToolbox.SelectedIndex == 0)
-                {
-                    Methods.Internal.UserInterface.UpdateToolbars(false, false);
-                }
-                else
-                {
-                    Methods.Internal.UserInterface.UpdateToolbars(false, true);
-                }
-                ManiacEditor.Controls.Base.MainEditor.Instance.Editor_Resize(null, null);
-            }
 
-        }
-
-        #endregion
-
-
-
-
-
-
-        #region Cleaned Regions
-
-        #region Context Menu Events
-        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacIntergration(); }
-
-        #endregion
-
-        #region Game Running Context Menu Events
-        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { Methods.GameHandler.MoveThePlayerToHere(); }
-        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { Methods.GameHandler.SetPlayerRespawnToHere(); }
-        private void MoveCheckpoint(object sender, RoutedEventArgs e) { Methods.GameHandler.CheckpointSelected = true; }
-        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { Methods.GameHandler.UpdateCheckpoint(new Point(0, 0), false); }
-        private void AssetReset(object sender, RoutedEventArgs e) { Methods.GameHandler.AssetReset(); }
-        private void RestartScene(object sender, RoutedEventArgs e) { Methods.GameHandler.RestartScene(); }
-        #endregion
-
-        #endregion
 
 
     }

@@ -382,15 +382,15 @@ namespace ManiacEditor.Methods.Entities
             if (Classes.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
             else return map;
         }
-        public string GetEditorStaticBitmapPath(string assetName)
+        public static string GetEditorStaticBitmapPath(string assetName)
         {
             string targetFile = "";
-            if (assetName == "EditorAssets") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.gif");
-            else if (assetName == "HUDEditorText") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.gif");
-            else if (assetName == "EditorIcons2") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.gif");
-            else if (assetName == "TransportTubes") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.gif");
-            else if (assetName == "EditorUIRender") targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "MenuRenders.gif");
-            else targetFile = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.gif");
+            if (assetName == "EditorAssets") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorAssets.gif");
+            else if (assetName == "HUDEditorText") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorText.gif");
+            else if (assetName == "EditorIcons2") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorIcons2.gif");
+            else if (assetName == "TransportTubes") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "TransportTubes.gif");
+            else if (assetName == "EditorUIRender") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "MenuRenders.gif");
+            else targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "SuperSpecialRing.gif");
 
             return targetFile;
         }
@@ -435,42 +435,44 @@ namespace ManiacEditor.Methods.Entities
             return new Rectangle(x, y, width, height);
         }
 
+        public static string GetEditorStaticAssetPath(string name)
+        {
+            string path;
+            switch (name)
+            {
+                case "EditorAssets":
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorAssets.bin");
+                    break;
+                case "HUDEditorText":
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorText.bin");
+                    break;
+                case "EditorIcons2":
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorIcons2.bin");
+                    break;
+                case "TransportTubes":
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "TransportTubes.bin");
+                    break;
+                case "EditorUIRender":
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorUIRender.bin");
+                    break;
+                case "SuperSpecialRing":
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "SuperSpecialRing.bin");
+                    break;
+                default:
+                    path = null;
+                    break;
+            }
+            return path;
+        }
+
         public Tuple<String, String> GetAssetPath(string name)
         {
 			string path = "";
 			string dataDirectory = "";
             if (name == "EditorAssets" || name == "HUDEditorText" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
             {
-                switch (name)
-                {
-                    case "EditorAssets":
-                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorAssets.bin");
-                        if (!File.Exists(path)) return null;
-                        break;
-                    case "HUDEditorText":
-                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorText.bin");
-                        if (!File.Exists(path)) return null;
-                        break;
-                    case "EditorIcons2":
-                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorIcons2.bin");
-                        if (!File.Exists(path)) return null;
-                        break;
-                    case "TransportTubes":
-                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "TransportTubes.bin");
-                        if (!File.Exists(path)) return null;
-                        break;
-                    case "EditorUIRender":
-                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "EditorUIRender.bin");
-                        if (!File.Exists(path)) return null;
-                        break;
-                    case "SuperSpecialRing":
-                        path = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\", "SuperSpecialRing.bin");
-                        if (!File.Exists(path)) return null;
-                        break;
-                    default:
-                        return null;
-                }
-                //dataDirectory = Path.Combine(Environment.CurrentDirectory, "Resources\\Global\\");
+                path = GetEditorStaticAssetPath(name);
+                if (!File.Exists(path)) return null;
             }
             else
             {

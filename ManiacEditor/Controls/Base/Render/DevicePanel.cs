@@ -51,9 +51,9 @@ namespace ManiacEditor
         public bool bRender = true;
 
         // The DirectX device
-        public Device _device = null;
+        public DeviceEx _device = null;
         public bool deviceLost;
-        private Direct3D direct3d = new Direct3D();
+        private Direct3DEx direct3d = new Direct3DEx();
         private Font font;
         private Font fontBold;
         // The Form to place the DevicePanel onto
@@ -146,7 +146,7 @@ namespace ManiacEditor
                 }
 
 
-                _device = new Device(direct3d, 0, DeviceType.Hardware, this.Handle, createFlags, presentParams);
+                _device = new DeviceEx(direct3d, 0, DeviceType.Hardware, this.Handle, createFlags, presentParams);
                 _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
@@ -194,7 +194,7 @@ namespace ManiacEditor
 
         public void Run()
         {
-
+          
             RenderLoop.Run(this, () =>
             {
                 // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
