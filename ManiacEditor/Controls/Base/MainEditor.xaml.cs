@@ -191,9 +191,11 @@ namespace ManiacEditor.Controls.Base
             Methods.ProgramLauncher.UpdateInstance(this);
             Methods.Prefrences.DataPackStorage.Initilize(this);
             Methods.GameHandler.UpdateInstance(this);
-            EditorViewPanel.UpdateInstance(this);
+            ViewPanel.UpdateInstance(this);
             ManiacEditor.Classes.Editor.EditorActions.UpdateInstance(this);
-            EditorViewPanel.DebugHUD.UpdateInstance(this);
+            ViewPanel.InfoHUD.UpdateInstance(this);
+            MenuBar.UpdateInstance(this);
+            ViewPanel.SplitContainer.UpdateInstance(this);
 
             EditorStatusBar.UpdateFilterButtonApperance(true);
 
@@ -292,7 +294,7 @@ namespace ManiacEditor.Controls.Base
 
             DeviceModel.Dispose();
             //editorView = null;
-            EditorViewPanel.DeviceHost.Child.Dispose();
+            ViewPanel.SharpPanel.Host.Child.Dispose();
             //host = null;
 
 
@@ -321,9 +323,9 @@ namespace ManiacEditor.Controls.Base
         public void Editor_Resize(object sender, RoutedEventArgs e) { DeviceModel.GraphicsResize(sender, e); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
-            EditorViewPanel.DeviceHost.Child = DeviceModel;
+            ViewPanel.SharpPanel.Host.Child = DeviceModel;
 
-            EditorViewPanel.DeviceHost.Foreground = (SolidColorBrush)FindResource("NormalText");
+            ViewPanel.SharpPanel.Host.Foreground = (SolidColorBrush)FindResource("NormalText");
 
             DeviceModel.GraphicPanel.Init(DeviceModel);
         }
@@ -369,10 +371,10 @@ namespace ManiacEditor.Controls.Base
         {
             if (firstLoad)
             {
-                EditorViewPanel.OverlayPanel.Children.Add(StartScreen);
+                ViewPanel.OverlayPanel.Children.Add(StartScreen);
                 StartScreen.SelectScreen.ReloadRecentsTree();
-                EditorViewPanel.ViewPanelForm.Visibility = Visibility.Hidden;
-                Methods.Internal.UserInterface.UpdateToolbars(false, false, true);
+                ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
+                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                 RefreshRecentScenes();
                 RefreshDataSources();
             }
@@ -380,8 +382,8 @@ namespace ManiacEditor.Controls.Base
             {
                 StartScreen.Visibility = Visibility.Visible;
                 StartScreen.SelectScreen.ReloadRecentsTree();
-                EditorViewPanel.ViewPanelForm.Visibility = Visibility.Hidden;
-                Methods.Internal.UserInterface.UpdateToolbars(false, false, true);
+                ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
+                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                 RefreshRecentScenes();
                 RefreshDataSources();
             }
@@ -389,8 +391,8 @@ namespace ManiacEditor.Controls.Base
             {
                 StartScreen.Visibility = Visibility.Hidden;
                 StartScreen.SelectScreen.ReloadRecentsTree();
-                EditorViewPanel.ViewPanelForm.Visibility = Visibility.Visible;
-                Methods.Internal.UserInterface.UpdateToolbars(false, false, false);
+                ViewPanel.SharpPanel.Visibility = Visibility.Visible;
+                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
             }
 
         }
@@ -768,7 +770,7 @@ namespace ManiacEditor.Controls.Base
             if (Methods.Prefrences.SceneHistoryStorage.Collection.List.Count > 0)
             {
 
-                EditorMenuBar.NoRecentScenesItem.Visibility = Visibility.Collapsed;
+                MenuBar.NoRecentScenesItem.Visibility = Visibility.Collapsed;
                 StartScreen.NoRecentsLabel1.Visibility = Visibility.Collapsed;
                 CleanUpRecentScenesList();
 
@@ -779,13 +781,13 @@ namespace ManiacEditor.Controls.Base
 
                 foreach (var menuItem in RecentSceneItems.Reverse())
                 {
-                    EditorMenuBar.RecentScenes.Items.Insert(0, menuItem.Item1);
+                    MenuBar.RecentScenes.Items.Insert(0, menuItem.Item1);
                     StartScreen.RecentScenesList.Children.Insert(0, menuItem.Item2);
                 }
             }
             else
             {
-                EditorMenuBar.NoRecentScenesItem.Visibility = Visibility.Visible;
+                MenuBar.NoRecentScenesItem.Visibility = Visibility.Visible;
                 StartScreen.NoRecentsLabel1.Visibility = Visibility.Visible;
             }
         }
@@ -819,7 +821,7 @@ namespace ManiacEditor.Controls.Base
             {
                 menuItem.Item1.Click -= RecentSceneEntryClicked;
                 menuItem.Item2.Click -= RecentSceneEntryClicked;
-                EditorMenuBar.RecentScenes.Items.Remove(menuItem.Item1);
+                MenuBar.RecentScenes.Items.Remove(menuItem.Item1);
                 StartScreen.RecentScenesList.Children.Remove(menuItem.Item2);
             }
             RecentSceneItems.Clear();
@@ -834,7 +836,7 @@ namespace ManiacEditor.Controls.Base
             if (ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Collection.List.Count > 0)
             {
 
-                EditorMenuBar.NoRecentDataSources.Visibility = Visibility.Collapsed;
+                MenuBar.NoRecentDataSources.Visibility = Visibility.Collapsed;
                 StartScreen.NoRecentsLabel2.Visibility = Visibility.Collapsed;
 
                 CleanUpDataSourcesList();
@@ -846,13 +848,13 @@ namespace ManiacEditor.Controls.Base
 
                 foreach (var menuItem in RecentDataSourceItems.Reverse())
                 {
-                    EditorMenuBar.RecentDataSources.Items.Insert(0, menuItem.Item1);
+                    MenuBar.RecentDataSources.Items.Insert(0, menuItem.Item1);
                     StartScreen.RecentDataContextList.Children.Insert(0, menuItem.Item2);
                 }
             }
             else
             {
-                EditorMenuBar.NoRecentDataSources.Visibility = Visibility.Visible;
+                MenuBar.NoRecentDataSources.Visibility = Visibility.Visible;
                 StartScreen.NoRecentsLabel2.Visibility = Visibility.Visible;
             }
         }
@@ -884,7 +886,7 @@ namespace ManiacEditor.Controls.Base
             {
                 menuItem.Item1.Click -= RecentDataSourceEntryClicked;
                 menuItem.Item2.Click -= RecentDataSourceEntryClicked;
-                EditorMenuBar.RecentDataSources.Items.Remove(menuItem.Item1);
+                MenuBar.RecentDataSources.Items.Remove(menuItem.Item1);
                 StartScreen.RecentDataContextList.Children.Remove(menuItem.Item2);
             }
             RecentDataSourceItems.Clear();

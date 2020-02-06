@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="ManiacEditor.Controls.Base.Elements.View.DebugHUD"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls.RenderedText"
+            xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
+             xmlns:local="clr-namespace:ManiacEditor.Controls.Base.Elements.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <genLib:NonTopmostPopup x:Name="ViewPanelHUD" AllowsTransparency="True" PlacementRectangle="0,25,0,0" Opened="ViewPanelHUD_Opened" Closed="ViewPanelHUD_Closed"  StaysOpen="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
+        <Grid Margin="10" x:Name="Display">
+            <StackPanel Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/Position.png"></Image>
+                    <Grid Width="8"></Grid>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/1.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/2.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/3.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/4.png"></Image>
+                    <Grid Width="8"></Grid>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/5.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/6.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/7.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/8.png"></Image>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/World.png"></Image>
+                    <Grid Width="26"></Grid>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/9.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/A.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/B.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/C.png"></Image>
+                    <Grid Width="8"></Grid>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/D.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/E.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/F.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/F.png"></Image>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/Time.png"></Image>
+                    <Grid Width="36"></Grid>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/DoubleQuote.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/B.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/E.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/E.png"></Image>
+                    <Grid Width="8"></Grid>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/F.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/0.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/0.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/D.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/DoubleQuote.png"></Image>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/FPS.png"></Image>
+                    <Grid Width="44"></Grid>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num_Blue/6.png"></Image>
+                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num_Blue/0.png"></Image>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="MemoryUsage" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="PhysicalMemoryUsage" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="DataFolder" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="MasterDataFolder" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="ScenePath" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="SceneFilePath" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="ZoomValue" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="SetupObject" Type="TextAHighlight"></global:RenderedTextBox>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="SelectedZone" Type="TextAHighlight"></global:RenderedTextBox>
+                <Grid Height="16"></Grid>
+                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="InfoToggle" Type="TextAHighlight"></global:RenderedTextBox>
+            </StackPanel>
+        </Grid>
+    </genLib:NonTopmostPopup>
+</UserControl>

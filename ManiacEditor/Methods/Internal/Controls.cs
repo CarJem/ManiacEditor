@@ -38,72 +38,72 @@ namespace ManiacEditor.Methods.Internal
             var Active = (System.Windows.Media.Brush)converter.ConvertFromString("Red");
             var NotActive = (System.Windows.Media.Brush)converter.ConvertFromString("Transparent");
 
-            Instance.EditorViewPanel.ScrollBorderN.Fill = NotActive;
-            Instance.EditorViewPanel.ScrollBorderS.Fill = NotActive;
-            Instance.EditorViewPanel.ScrollBorderE.Fill = NotActive;
-            Instance.EditorViewPanel.ScrollBorderW.Fill = NotActive;
-            Instance.EditorViewPanel.ScrollBorderNW.Fill = NotActive;
-            Instance.EditorViewPanel.ScrollBorderSW.Fill = NotActive;
-            Instance.EditorViewPanel.ScrollBorderSE.Fill = NotActive;
-            Instance.EditorViewPanel.ScrollBorderNE.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = NotActive;
+            Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = NotActive;
 
             switch (direction)
             {
                 case 0:
-                    Instance.EditorViewPanel.ScrollBorderN.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
                     break;
                 case 1:
-                    Instance.EditorViewPanel.ScrollBorderNE.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = Active;
                     break;
                 case 2:
-                    Instance.EditorViewPanel.ScrollBorderE.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = Active;
                     break;
                 case 3:
-                    Instance.EditorViewPanel.ScrollBorderSE.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = Active;
                     break;
                 case 4:
-                    Instance.EditorViewPanel.ScrollBorderS.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = Active;
                     break;
                 case 5:
-                    Instance.EditorViewPanel.ScrollBorderSW.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = Active;
                     break;
                 case 6:
-                    Instance.EditorViewPanel.ScrollBorderW.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = Active;
                     break;
                 case 7:
-                    Instance.EditorViewPanel.ScrollBorderNW.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = Active;
                     break;
                 case 8:
-                    Instance.EditorViewPanel.ScrollBorderW.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderE.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = Active;
                     break;
                 case 9:
-                    Instance.EditorViewPanel.ScrollBorderN.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderS.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = Active;
                     break;
                 case 10:
-                    Instance.EditorViewPanel.ScrollBorderN.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderS.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderE.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderW.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderNW.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderSW.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderSE.Fill = Active;
-                    Instance.EditorViewPanel.ScrollBorderNE.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = Active;
+                    Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = Active;
                     break;
                 default:
                     break;
 
             }
 
-            Instance.EditorViewPanel.ScrollBorderN.InvalidateVisual();
-            Instance.EditorViewPanel.ScrollBorderS.InvalidateVisual();
-            Instance.EditorViewPanel.ScrollBorderE.InvalidateVisual();
-            Instance.EditorViewPanel.ScrollBorderW.InvalidateVisual();
-            Instance.EditorViewPanel.ScrollBorderNW.InvalidateVisual();
-            Instance.EditorViewPanel.ScrollBorderSW.InvalidateVisual();
-            Instance.EditorViewPanel.ScrollBorderSE.InvalidateVisual();
-            Instance.EditorViewPanel.ScrollBorderNE.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderN.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderS.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderE.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderW.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderNW.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderSW.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderSE.InvalidateVisual();
+            Instance.ViewPanel.ScrollGrid.ScrollBorderNE.InvalidateVisual();
 
 
         }
@@ -112,8 +112,8 @@ namespace ManiacEditor.Methods.Internal
             if (Core.Settings.MySettings.ScrollerAutoCenters)
             {
                 ForceUpdateScrollerMousePos = true;
-                System.Windows.Point pointFromParent = Instance.EditorViewPanel.ViewPanelForm.TranslatePoint(new System.Windows.Point(0, 0), Instance);
-                Extensions.ExternalExtensions.SetCursorPos((int)(Instance.Left + pointFromParent.X) + (int)(Instance.EditorViewPanel.ViewPanelForm.ActualWidth / 2), (int)(Instance.Left + pointFromParent.Y) + (int)(Instance.EditorViewPanel.ViewPanelForm.ActualHeight / 2));
+                System.Windows.Point pointFromParent = Instance.ViewPanel.SharpPanel.TranslatePoint(new System.Windows.Point(0, 0), Instance);
+                Extensions.ExternalExtensions.SetCursorPos((int)(Instance.Left + pointFromParent.X) + (int)(Instance.ViewPanel.SharpPanel.ActualWidth / 2), (int)(Instance.Left + pointFromParent.Y) + (int)(Instance.ViewPanel.SharpPanel.ActualHeight / 2));
             }
 
         }
@@ -341,6 +341,8 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
+
             if (ForceUpdateScrollerMousePos) UpdateScrollerPosition(e);
             if (Classes.Editor.SolutionState.Scrolling) ScrollerMouseMove(e);
             if (Classes.Editor.SolutionState.Scrolling || Classes.Editor.SolutionState.ScrollingDragged || Classes.Editor.SolutionState.DraggingSelection || Classes.Editor.SolutionState.Dragged) Instance.DeviceModel.GraphicPanel.Render();
@@ -1304,37 +1306,37 @@ namespace ManiacEditor.Methods.Internal
 
 
                 Classes.Editor.SolutionState.SelectedTileID = tile;
-                Instance.EditorViewPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
-                Instance.EditorViewPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning && Methods.GameHandler.CheckpointEnabled;
-                Instance.EditorViewPanel.assetResetToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning && Methods.GameHandler.CheckpointEnabled;
+                Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
+                Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning && Methods.GameHandler.CheckpointEnabled;
+                Instance.ViewPanel.SharpPanel.assetResetToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning && Methods.GameHandler.CheckpointEnabled;
 
 
-                Instance.EditorViewPanel.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
-                Instance.EditorViewPanel.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-                Instance.EditorViewPanel.ViewPanelContextMenu.IsOpen = true;
+                Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+                Instance.ViewPanel.SharpPanel.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                Instance.ViewPanel.SharpPanel.ViewPanelContextMenu.IsOpen = true;
             }
             else
             {
                 Point clicked_point_tile = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 string tile = "N/A";
-                Instance.EditorViewPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
-                Instance.EditorViewPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
+                Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
 
-                Instance.EditorViewPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.assetResetToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.EditorViewPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.assetResetToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
 
-                Instance.EditorViewPanel.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
-                Instance.EditorViewPanel.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-                Instance.EditorViewPanel.ViewPanelContextMenu.IsOpen = true;
+                Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+                Instance.ViewPanel.SharpPanel.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+                Instance.ViewPanel.SharpPanel.ViewPanelContextMenu.IsOpen = true;
             }
         }
 
@@ -1477,7 +1479,7 @@ namespace ManiacEditor.Methods.Internal
             //Unload Scene
             else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.UnloadScene))
             {
-                Instance.EditorMenuBar.UnloadSceneEvent(null, null);
+                Instance.MenuBar.UnloadSceneEvent(null, null);
             }
             //Toggle Grid Visibility
             else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ShowGrid))
@@ -1493,6 +1495,7 @@ namespace ManiacEditor.Methods.Internal
             else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.StatusBoxToggle))
             {
                 Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true;
+                Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
             }
         }
         public static void GraphicPanel_OnKeyDownEditing(object sender, KeyEventArgs e)

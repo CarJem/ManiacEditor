@@ -172,7 +172,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _EntitiesVisibileAboveAllLayers = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.SelectionBoxesAlwaysPrioritized.IsChecked = value;
             }
         }
         private static bool _EntitiesVisibileAboveAllLayers = false;
@@ -186,7 +186,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _PrioritizedEntityViewing = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.prioritizedViewingToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.prioritizedViewingToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _PrioritizedEntityViewing = false;
@@ -254,7 +254,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _EntitySelectionBoxesAlwaysPrioritized = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.SelectionBoxesAlwaysPrioritized.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.SelectionBoxesAlwaysPrioritized.IsChecked = value;
             }
         }
         private static bool _EntitySelectionBoxesAlwaysPrioritized = false;
@@ -331,7 +331,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _ShowParallaxSprites = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.showParallaxSpritesToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.showParallaxSpritesToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _ShowParallaxSprites = false;
@@ -342,7 +342,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _ApplyEditEntitiesTransparency = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.EditEntitiesTransparencyToggle.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.EditEntitiesTransparencyToggle.IsChecked = value;
                 ManiacEditor.Controls.Base.MainEditor.Instance.EditorStatusBar.QuickEditEntitiesTransparentLayers.IsChecked = value;
             }
         }
@@ -354,7 +354,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _ShowEntitySelectionBoxes = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.showEntitySelectionBoxesToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _ShowEntitySelectionBoxes = false;
@@ -368,7 +368,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _ShowEntityPathArrows = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.showEntityPathArrowsToolstripItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.showEntityPathArrowsToolstripItem.IsChecked = value;
             }
         }
         private static bool _ShowEntityPathArrows = true;
@@ -382,7 +382,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _ShowWaterLevel = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.showWaterLevelToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.showWaterLevelToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _ShowWaterLevel = false;
@@ -396,7 +396,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _AlwaysShowWaterLevel = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.waterLevelAlwaysShowItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.waterLevelAlwaysShowItem.IsChecked = value;
             }
         }
         private static bool _AlwaysShowWaterLevel = false;
@@ -410,7 +410,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _SizeWaterLevelwithBounds = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.sizeWithBoundsWhenNotSelectedToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _SizeWaterLevelwithBounds = false;
@@ -424,7 +424,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _ExtraLayersMoveToFront = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.moveExtraLayersToFrontToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _ExtraLayersMoveToFront = false;
@@ -490,7 +490,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _CopyAir = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.copyAirToggle.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.copyAirToggle.IsChecked = value;
             }
         }
         private static bool _CopyAir = false;
@@ -504,7 +504,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 _RightClicktoSwapSlotID = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.rightClicktoSwapSlotIDs.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.rightClicktoSwapSlotIDs.IsChecked = value;
             }
         }
         private static bool _RightClicktoSwapSlotID = false;
@@ -564,7 +564,7 @@ namespace ManiacEditor.Classes.Editor
             set
             {
                 ManiacEditor.Controls.Base.MainEditor.Instance.EditorStatusBar.nudgeFasterButton.IsChecked = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.nudgeSelectionFasterToolStripMenuItem.IsChecked = value;
                 _EnableFasterNudge = value;
             }
         }
@@ -580,7 +580,7 @@ namespace ManiacEditor.Classes.Editor
             {
                 _ScrollLocked = value;
                 ManiacEditor.Controls.Base.MainEditor.Instance.EditorStatusBar.scrollLockButton.IsChecked = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.statusNAToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.statusNAToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _ScrollLocked = true;
@@ -617,7 +617,7 @@ namespace ManiacEditor.Classes.Editor
             {
                 _CountTilesSelectedInPixels = value;
                 ManiacEditor.Controls.Base.MainEditor.Instance.EditorStatusBar.pixelModeButton.IsChecked = value;
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.pixelModeToolStripMenuItem.IsChecked = value;
+                ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.pixelModeToolStripMenuItem.IsChecked = value;
             }
         }
         private static bool _CountTilesSelectedInPixels = false;
@@ -967,7 +967,7 @@ namespace ManiacEditor.Classes.Editor
         private static void SetMultiLayerEditMode(bool value)
         {
             _MultiLayerEditMode = value;
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.multiLayerSelectionToolStripMenuItem.IsChecked = value;
+            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.multiLayerSelectionToolStripMenuItem.IsChecked = value;
 
 
             bool enabled = (value == true ? true : false);
@@ -1028,7 +1028,7 @@ namespace ManiacEditor.Classes.Editor
         private static void SetUseLargeDebugStats(bool value)
         {
             _UseLargeDebugStats = value;
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.useLargeTextToolStripMenuItem.IsChecked = value;
+            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.useLargeTextToolStripMenuItem.IsChecked = value;
         }
 
         public static bool DebugStatsVisibleOnPanel { get => GetDebugStatsVisibleOnPanel(); set => SetDebugStatsVisibleOnPanel(value); }
@@ -1040,7 +1040,8 @@ namespace ManiacEditor.Classes.Editor
         private static void SetDebugStatsVisibleOnPanel(bool value)
         {
             _DebugStatsVisibleOnPanel = value;
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.showStatsToolStripMenuItem.IsChecked = value;
+            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.showStatsToolStripMenuItem.IsChecked = value;
+            ManiacEditor.Controls.Base.MainEditor.Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
         }
         #endregion
 

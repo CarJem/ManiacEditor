@@ -239,8 +239,8 @@ namespace ManiacEditor.Methods.Internal
             Classes.Editor.SolutionState.ScrollLocked = ManiacEditor.Core.Settings.MyDefaults.ScrollLockDefault;
             Classes.Editor.SolutionState.ScrollDirection = (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
+            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
+            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
 
             Classes.Editor.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Core.Settings.MyDefaults.EnablePixelModeDefault;
 
@@ -279,7 +279,7 @@ namespace ManiacEditor.Methods.Internal
 
 
 
-            var allLangItems = ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allLangItems = ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
                 if (item != null)
                 {
@@ -292,7 +292,7 @@ namespace ManiacEditor.Methods.Internal
 
 
             bool endSearch = false;
-            var allButtonItems = ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allButtonItems = ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allButtonItems)
             {
                 if (item.Tag != null)

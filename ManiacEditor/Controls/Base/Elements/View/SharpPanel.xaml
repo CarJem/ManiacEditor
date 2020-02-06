@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="ManiacEditor.Controls.Base.Elements.View.SharpPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManiacEditor.Controls.Base.Elements.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <WindowsFormsHost x:Name="Host"></WindowsFormsHost>
+        <Grid.ContextMenu>
+            <ContextMenu x:Name="ViewPanelContextMenu">
+                <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
+                <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHere"></MenuItem>
+                <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHere"></MenuItem>
+                <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpoint"></MenuItem>
+                <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetReset"></MenuItem>
+                <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartScene"></MenuItem>
+                <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpoint"></MenuItem>
+                <ContextMenu.Template>
+                    <ControlTemplate>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </ContextMenu.Template>
+            </ContextMenu>
+        </Grid.ContextMenu>
+    </Grid>
+</UserControl>

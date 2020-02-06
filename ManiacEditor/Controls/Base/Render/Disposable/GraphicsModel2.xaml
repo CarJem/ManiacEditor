@@ -20,6 +20,6 @@
         <global:VScrollBar x:Name="vScrollBar" Grid.Column="1" Grid.Row="0"></global:VScrollBar>
         <global:HScrollBar x:Name="hScrollBar" Grid.Column="0" Grid.Row="1"></global:HScrollBar>
         <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource ScrollBar.Static.Background}"></Rectangle>
-        <local:DevicePanel2 x:Name="GraphicPanel" PaintSurface="GraphicPanel_PaintSurface"></local:DevicePanel2>
+        <WindowsFormsHost x:Name="GraphicPanel"></WindowsFormsHost>
     </Grid>
 </UserControl>

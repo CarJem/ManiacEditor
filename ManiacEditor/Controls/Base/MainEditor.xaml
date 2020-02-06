@@ -38,7 +38,7 @@
                 <TabItem Header="Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
                     <Grid>
                         <Border Grid.ColumnSpan="5" Margin="10" BorderBrush="Transparent" BorderThickness="1">
-                            <editorControls:ViewPanel x:Name="EditorViewPanel"></editorControls:ViewPanel>
+                            <editorControls:ViewPanel x:Name="ViewPanel"></editorControls:ViewPanel>
                         </Border>
                     </Grid>
                 </TabItem>
@@ -55,7 +55,7 @@
         <!--End of Main View-->
 
         <!--Menu Bar-->
-        <editorControls:Menu x:Name="EditorMenuBar" Grid.ColumnSpan="4"></editorControls:Menu>
+        <editorControls:Menu x:Name="MenuBar" Grid.ColumnSpan="4" Panel.ZIndex="2"></editorControls:Menu>
         <!--End of Menu Bar-->
 
         <!--Toolbar-->

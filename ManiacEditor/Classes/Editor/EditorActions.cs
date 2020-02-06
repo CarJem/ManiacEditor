@@ -747,15 +747,15 @@ namespace ManiacEditor.Classes.Editor
             {
                 Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
-                Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = false;
-                Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = true;
+                Instance.MenuBar.xToolStripMenuItem.IsChecked = false;
+                Instance.MenuBar.yToolStripMenuItem.IsChecked = true;
             }
             else
             {
                 Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
-                Instance.EditorMenuBar.xToolStripMenuItem.IsChecked = true;
-                Instance.EditorMenuBar.yToolStripMenuItem.IsChecked = false;
+                Instance.MenuBar.xToolStripMenuItem.IsChecked = true;
+                Instance.MenuBar.yToolStripMenuItem.IsChecked = false;
             }
         }
 
@@ -767,12 +767,12 @@ namespace ManiacEditor.Classes.Editor
                 if (menuItem.Tag != null)
                 {
                     string tag = menuItem.Tag.ToString();
-                    var allItems = Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                    var allItems = Instance.MenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                     foreach (System.Windows.Controls.MenuItem item in allItems)
                     {
                         if (item.Tag == null || item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;
                         else if (item.Tag.ToString() == menuItem.Tag.ToString()) item.IsChecked = true;
-                        var allSubItems = Instance.EditorMenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+                        var allSubItems = Instance.MenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
                         foreach (System.Windows.Controls.MenuItem subItem in allSubItems)
                         {
                             if (subItem.Tag == null || subItem.Tag.ToString() != menuItem.Tag.ToString()) subItem.IsChecked = false;
@@ -922,7 +922,7 @@ namespace ManiacEditor.Classes.Editor
                 LockEntityFilterTextChanged = true;
                 System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
                 Classes.Editor.SolutionState.entitiesTextFilter = theSender.Text;
-                Instance.EditorMenuBar.toolStripTextBox1.Text = Classes.Editor.SolutionState.entitiesTextFilter;
+                Instance.MenuBar.toolStripTextBox1.Text = Classes.Editor.SolutionState.entitiesTextFilter;
                 //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
                 Classes.Editor.Solution.Entities.FilterRefreshNeeded = true;
                 LockEntityFilterTextChanged = false;
@@ -934,7 +934,7 @@ namespace ManiacEditor.Classes.Editor
         {
             System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
             Classes.Editor.SolutionState.CurrentLanguage = menuItem.Tag.ToString();
-            var allLangItems = Instance.EditorMenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allLangItems = Instance.MenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
             {
                 if (item.Tag.ToString() != menuItem.Tag.ToString()) item.IsChecked = false;

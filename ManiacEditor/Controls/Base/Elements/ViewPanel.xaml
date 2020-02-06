@@ -6,129 +6,31 @@
              xmlns:local="clr-namespace:ManiacEditor.Controls.Base.Elements"
              xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls"
              xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
+             xmlns:myControls="clr-namespace:ManiacEditor.Controls.Base.Elements.View"
+             xmlns:jungle="clr-namespace:JungleControls;assembly=JungleControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="5"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="5"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="5"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}" Margin="3">
-            <Grid x:Name="SplitContianer">
-                <Grid Name="gridMain">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition x:Name="ToolbarLeft" Width="180" MaxWidth="180" MinWidth="0"/>
-                        <ColumnDefinition x:Name="SplitterLeft" Width="6" MaxWidth="0" MinWidth="0"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition x:Name="SplitterRight" Width="6" MinWidth="0" MaxWidth="0"/>
-                        <ColumnDefinition x:Name="ToolbarRight" Width="0" MinWidth="0" MaxWidth="0"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid x:Name="WaitingPanel" Grid.Column="2" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Opacity="0.2">
-                        <TextBlock FontSize="30" TextAlignment="Center" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Working..."/><LineBreak/><Run Text="(Please Wait!)"/></TextBlock>
+    <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}" Margin="3">
+        <StackPanel></StackPanel>
+        <global:SplitContainer x:Name="SplitContainer">
+            <global:SplitContainer.LeftContainer>
+                <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelLeft"></Grid>
+            </global:SplitContainer.LeftContainer>
+            <global:SplitContainer.CenterContainer>
+                <Grid>
+                    <myControls:WaitingPanel x:Name="WaitingPanel"></myControls:WaitingPanel>
+                    <myControls:ScrollGrid Margin="3" x:Name="ScrollGrid"></myControls:ScrollGrid>
+                    <Grid Margin="3" x:Name="CenterPanel">
+                        <myControls:DebugHUD x:Name="InfoHUD"></myControls:DebugHUD>
+                        <myControls:SharpPanel x:Name="SharpPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:SharpPanel>
                     </Grid>
-                    <TabControl Margin="-15,0,0,0" BorderThickness="0" Background="{DynamicResource ToolbarBackground}" x:Name="LeftToolbarToolbox" Grid.Column="0" TabStripPlacement="Left" SelectionChanged="LeftToolbarToolbox_SelectionChanged">
-                        <TabItem Header="X" Foreground="{DynamicResource NormalText}">
-                        </TabItem>
-                        <TabItem Header="Template" Visibility="Collapsed" Foreground="{DynamicResource NormalText}">
-                            <TabItem.LayoutTransform>
-                                <RotateTransform Angle="270"></RotateTransform>
-                            </TabItem.LayoutTransform>
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <StackPanel>
-                                    <Expander Header="View Options" Foreground="{DynamicResource NormalText}">
-                                        <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                            <StackPanel Margin="5">
-
-                                            </StackPanel>
-                                        </Border>
-                                    </Expander>
-                                    <Expander Header="Edit Options" Foreground="{DynamicResource NormalText}">
-                                        <Border BorderBrush="{DynamicResource NormalText}" BorderThickness="1">
-                                            <StackPanel Margin="5">
-
-                                            </StackPanel>
-                                        </Border>
-                                    </Expander>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </TabItem>
-                    </TabControl>
-
-                    <GridSplitter SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" 
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                  ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
-                    <Grid Grid.Column="2" Background="{DynamicResource ButtonBorder}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="5"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="5"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="5"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="5"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        
-
-                        <Rectangle x:Name="ScrollBorderNE"  Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
-                        <Rectangle x:Name="ScrollBorderE"  Grid.Column="3" Grid.Row="0" Grid.RowSpan="4"  Fill="Transparent"></Rectangle>
-                        <Rectangle x:Name="ScrollBorderSE"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
-
-                        <Rectangle x:Name="ScrollBorderNW"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="Transparent"></Rectangle>
-                        <Rectangle x:Name="ScrollBorderW"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"  Fill="Transparent"></Rectangle>
-                        <Rectangle x:Name="ScrollBorderSW"  Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="2" Fill="Transparent"></Rectangle>
-
-                        <Rectangle x:Name="ScrollBorderN"  Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Fill="Transparent"></Rectangle>
-                        <Rectangle x:Name="ScrollBorderS"  Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3" Fill="Transparent"></Rectangle>
-                    </Grid>
-                    <Grid x:Name="CenterPanel" Grid.Column="2" Margin="3">
-                        <Grid x:Name="ViewPanelForm" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                            <WindowsFormsHost Visibility="Collapsed" x:Name="DeviceHost"></WindowsFormsHost>
-                            <sharpDX:DXElement x:Name="DeviceNative"></sharpDX:DXElement>
-                            <Grid.ContextMenu>
-                                <ContextMenu x:Name="ViewPanelContextMenu">
-                                    <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
-                                    <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHere"></MenuItem>
-                                    <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHere"></MenuItem>
-                                    <MenuItem x:Name="removeCheckpointToolStripMenuItem" Header="Remove Checkpoint Bindings" Click="RemoveCheckpoint"></MenuItem>
-                                    <MenuItem x:Name="assetResetToolStripMenuItem" Header="Asset Reset" Click="AssetReset"></MenuItem>
-                                    <MenuItem x:Name="restartSceneToolStripMenuItem" Header="Reset Scene" Click="RestartScene"></MenuItem>
-                                    <MenuItem x:Name="moveCheckpointToolStripMenuItem" Header="Move Checkpoint Position" Click="MoveCheckpoint"></MenuItem>
-                                    <ContextMenu.Template>
-                                        <ControlTemplate>
-                                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                                <StackPanel x:Name="stackContext1" Background="{TemplateBinding Background}" IsItemsHost="True">
-                                                </StackPanel>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </ContextMenu.Template>
-                                </ContextMenu>
-                            </Grid.ContextMenu>
-                        </Grid>
-                        <genLib:NonTopmostPopup StaysOpen="True"  Opened="ViewPanelHUD_Opened" Closed="ViewPanelHUD_Closed" x:Name="ViewPanelHUD" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
-                            <local:DebugHUD x:Name="DebugHUD"></local:DebugHUD>
-                        </genLib:NonTopmostPopup>
-
-                    </Grid>
-
-                    <GridSplitter x:Name="SpliterRight" SizeChanged="Spliter_SizeChanged" DragDelta="Spliter_DragDelta" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" 
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                  ResizeBehavior="PreviousAndNext" Grid.RowSpan="2"  />
-
-                    <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelRight" Grid.Column="4"></Grid>
                 </Grid>
-            </Grid>
-        </Grid>
+            </global:SplitContainer.CenterContainer>
+            <global:SplitContainer.RightContainer>
+                <Grid>
+                    <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelRight"></Grid>
+                </Grid>
+            </global:SplitContainer.RightContainer>
+        </global:SplitContainer>
     </Grid>
 </UserControl>

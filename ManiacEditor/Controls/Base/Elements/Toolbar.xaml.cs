@@ -935,7 +935,7 @@ namespace ManiacEditor.Controls.Base.Elements
 
             EditEntities.IsCheckedN = enabled && EditEntities.IsCheckedN.Value;
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorMenuBar.SetEditButtonsState(enabled);
+            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.SetEditButtonsState(enabled);
 
             SetLayerEditButtonsState(enabled);
 

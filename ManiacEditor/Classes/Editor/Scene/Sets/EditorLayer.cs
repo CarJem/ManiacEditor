@@ -1225,47 +1225,6 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             InvalidateChunks();
         }
 
-        public void Draw(Controls.Base.Render.DevicePanel2 d, SkiaSharp.SKCanvas canvas)
-        {
-            int Transperncy;
-
-
-            if (Classes.Editor.Solution.EditLayerA != null && (Classes.Editor.Solution.EditLayerA != this && Classes.Editor.Solution.EditLayerB != this))
-                Transperncy = 0x32;
-            else if (EditorInstance.EditorToolbar.EditEntities.IsCheckedAll && Classes.Editor.Solution.EditLayerA == null && Classes.Editor.SolutionState.ApplyEditEntitiesTransparency)
-                Transperncy = 0x32;
-            else
-                Transperncy = 0xFF;
-
-            Rectangle screen = d.GetScreen();
-            int pos_x = screen.X;
-            int pos_y = screen.Y;
-            int width = screen.Width;
-            int height = screen.Height;
-
-            if (pos_x >= 0 && pos_y >= 0 && width >= 0 && height >= 0)
-            {
-                int start_x = pos_x / (Classes.Editor.Constants.TILES_CHUNK_SIZE * Classes.Editor.Constants.TILE_SIZE);
-                int end_x = Math.Min(DivideRoundUp(pos_x + width, Classes.Editor.Constants.TILES_CHUNK_SIZE * Classes.Editor.Constants.TILE_SIZE), ChunkMap[0].Length);
-                int start_y = pos_y / (Classes.Editor.Constants.TILES_CHUNK_SIZE * Classes.Editor.Constants.TILE_SIZE);
-                int end_y = Math.Min(DivideRoundUp(pos_y + height, Classes.Editor.Constants.TILES_CHUNK_SIZE * Classes.Editor.Constants.TILE_SIZE), ChunkMap.Length);
-
-                for (int y = start_y; y < end_y; ++y)
-                {
-                    for (int x = start_x; x < end_x; ++x)
-                    {
-                        if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
-                        {
-                            Rectangle rect = GetTilesChunkArea(x, y);
-                            canvas.DrawBitmap(GetChunk(d, x, y), rect.X * Classes.Editor.Constants.TILE_SIZE, rect.Y * Classes.Editor.Constants.TILE_SIZE, rect.Width * Classes.Editor.Constants.TILE_SIZE, rect.Height * Classes.Editor.Constants.TILE_SIZE, false, Transperncy);
-                        }
-                        else InvalidateChunk(x, y);
-                    }
-                }
-                DisposeUnusedChunks();
-            }
-        }
-
         public void Draw(DevicePanel d)
         {
             int Transperncy;
@@ -1377,66 +1336,6 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         }
 
         public Texture GetChunk(DevicePanel d, int x, int y)
-        {
-            bool isSelected = isChunkSelected(x, y);
-            if (ChunkMap[y][x] != null && ChunkMap[y][x].IsReady && !ChunkMap[y][x].HasBeenSelectedPrior && !isSelected)
-            {
-                ChunkMap[y][x].HasBeenRendered = true;
-                return ChunkMap[y][x].Texture;
-            }
-            else
-            {
-                if (ChunkMap[y][x] != null && ChunkMap[y][x].HasBeenSelectedPrior) InvalidateChunk(x, y);
-                else if (ChunkMap[y][x] != null) InvalidateChunk(x, y);
-                Rectangle rect = GetTilesChunkArea(x, y);
-
-                Bitmap bmp2 = new Bitmap(rect.Width * Classes.Editor.Constants.TILE_SIZE, rect.Height * Classes.Editor.Constants.TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
-                int factor = 32;
-                int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
-                if (newSize == 0) newSize = factor;
-                while (newSize < squareSize) newSize += factor;
-
-                Bitmap bmp = new Bitmap(newSize, newSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                bool hasBeenSelected = false;
-
-                using (bmp)
-                {
-                    using (Graphics g = Graphics.FromImage(bmp))
-                    {
-                        for (int ty = rect.Y; ty < rect.Y + rect.Height; ++ty)
-                        {
-                            for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
-                            {
-                                Point point = new Point(tx, ty);
-                                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
-                                DrawTile(g, GetTileToDraw(point), tx - rect.X, ty - rect.Y, tileSelected);
-                                if (tileSelected) hasBeenSelected = true;
-
-                            }
-                        }
-                    }
-                    ChunkMap[y][x] = new ChunkVBO();
-                    ChunkMap[y][x].Texture = Classes.Editor.Draw.TextureCreator.FromBitmap(d._device, bmp);
-                    ChunkMap[y][x].IsReady = true;
-                    ChunkMap[y][x].HasBeenRendered = true;
-                    ChunkMap[y][x].HasBeenSelectedPrior = hasBeenSelected;
-                }
-
-                bmp.Dispose();
-                bmp2.Dispose();
-                bmp = null;
-                bmp2 = null;
-
-                return ChunkMap[y][x].Texture;
-            }
-
-
-
-
-        }
-        public SkiaSharp.SKBitmap GetChunk(DevicePanel d, int x, int y)
         {
             bool isSelected = isChunkSelected(x, y);
             if (ChunkMap[y][x] != null && ChunkMap[y][x].IsReady && !ChunkMap[y][x].HasBeenSelectedPrior && !isSelected)

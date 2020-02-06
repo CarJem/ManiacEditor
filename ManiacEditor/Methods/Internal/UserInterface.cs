@@ -22,7 +22,7 @@ namespace ManiacEditor.Methods.Internal
         public static void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
         {
             Instance.EditorToolbar.SetSceneOnlyButtonsState(enabled, stageLoad);
-            Instance.EditorMenuBar.SetSceneOnlyButtonsState(enabled, stageLoad);
+            Instance.MenuBar.SetSceneOnlyButtonsState(enabled, stageLoad);
             Instance.EditorToolbar.UpdateGameRunningButton(enabled);
 
             SetEditButtonsState(enabled);
@@ -41,7 +41,7 @@ namespace ManiacEditor.Methods.Internal
             Instance.EditorToolbar.Open.IsEnabled = !enabled;
             Instance.EditorToolbar.ShowAnimations.IsEnabled = enabled || Classes.Editor.Solution.CurrentScene != null;
             Instance.EditorToolbar.animationsSplitButton_Dropdown.IsEnabled = enabled || Classes.Editor.Solution.CurrentScene != null;
-            Instance.EditorMenuBar.MenuBar.IsEnabled = !enabled;
+            Instance.MenuBar.MenuBar.IsEnabled = !enabled;
             Instance.EditorStatusBar.StatusBar1.IsEnabled = !enabled;
             Instance.EditorTabControl.IsEnabled = !enabled;
             Instance.EditorToolbar.New.IsEnabled = !enabled;
@@ -54,20 +54,18 @@ namespace ManiacEditor.Methods.Internal
                 Instance.EditorToolbar.ShowFGHigher.IsEnabled = Classes.Editor.Solution.FGHigher != null;
                 Instance.EditorToolbar.ShowFGLower.IsEnabled = Classes.Editor.Solution.FGLower != null;
                 Instance.EditorToolbar.ShowEntities.IsEnabled = true;
-                Instance.EditorViewPanel.LeftToolbarToolbox.SelectedIndex = -1;
-                UpdateToolbars(false, false, false);
+                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                 SetEditButtonsState(false);
             }
             foreach (var elb in Instance.ExtraLayerEditViewButtons)
             {
                 elb.Value.IsEnabled = !enabled;
             }
-            Instance.EditorViewPanel.LeftToolbarToolbox.IsEnabled = !enabled;
         }
         public static void SetSelectOnlyButtonsState(bool enabled = true)
         {
-            Instance.EditorMenuBar.SetPasteButtonsState(true);
-            Instance.EditorMenuBar.SetSelectOnlyButtonsState(enabled);
+            Instance.MenuBar.SetPasteButtonsState(true);
+            Instance.MenuBar.SetSelectOnlyButtonsState(enabled);
             enabled &= ManiacEditor.Classes.Editor.SolutionState.IsSelected();
 
             if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && Instance.EntitiesToolbar != null)
@@ -98,9 +96,9 @@ namespace ManiacEditor.Methods.Internal
                         Classes.Editor.Solution.EditLayerB?.SetPropertySelected(option + 12, state);
 
                     });
-                    Instance.EditorViewPanel.ToolBarPanelRight.Children.Clear();
-                    Instance.EditorViewPanel.ToolBarPanelRight.Children.Add(Instance.TilesToolbar);
-                    UpdateToolbars(true, true);
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.TilesToolbar);
+                    Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
                     Instance.Editor_Resize(null, null);
                     Instance.Focus();
                 }
@@ -143,9 +141,9 @@ namespace ManiacEditor.Methods.Internal
                             UpdateControls();
                         })
                     };
-                    Instance.EditorViewPanel.ToolBarPanelRight.Children.Clear();
-                    Instance.EditorViewPanel.ToolBarPanelRight.Children.Add(Instance.EntitiesToolbar);
-                    UpdateToolbars(true, true);
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.EntitiesToolbar);
+                    Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
                     Instance.Editor_Resize(null, null);
                 }
                 UpdateEntitiesToolbarList();
@@ -169,10 +167,10 @@ namespace ManiacEditor.Methods.Internal
 
 
             }
-            if (Instance.TilesToolbar == null && Instance.EntitiesToolbar == null && (Instance.EditorViewPanel.ToolBarPanelRight.Children.Count != 0))
+            if (Instance.TilesToolbar == null && Instance.EntitiesToolbar == null && (Instance.ViewPanel.ToolBarPanelRight.Children.Count != 0))
             {
-                Instance.EditorViewPanel.ToolBarPanelRight.Children.Clear();
-                UpdateToolbars(true, false);
+                Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
+                Instance.ViewPanel.SplitContainer.UpdateToolbars(true, false);
                 Instance.Editor_Resize(null, null);
             }
 
@@ -205,7 +203,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void ToggleEditorButtons(bool enabled, bool isParallaxAnimation = false)
         {
-            Instance.EditorMenuBar.MenuBar.IsEnabled = enabled;
+            Instance.MenuBar.MenuBar.IsEnabled = enabled;
             Instance.EditorToolbar.LayerToolbar.IsEnabled = enabled;
             Instance.EditorToolbar.MainToolbarButtons.IsEnabled = enabled;
             SetSceneOnlyButtonsState((enabled ? true : Classes.Editor.Solution.CurrentScene != null));
@@ -228,6 +226,7 @@ namespace ManiacEditor.Methods.Internal
                 Instance.EditorToolbar.EditFGLower.IsEnabled = false;
 
             }
+            Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
         }
         public static void UpdateTilesOptions()
         {
@@ -318,75 +317,17 @@ namespace ManiacEditor.Methods.Internal
                 }
             }
         }
-        public static void UpdateToolbars(bool rightToolbar = true, bool visible = false, bool fullCollapse = false)
-        {
-            if (rightToolbar)
-            {
-                if (visible)
-                {
-                    Instance.EditorViewPanel.ToolbarRight.Width = new GridLength(300);
-                    Instance.EditorViewPanel.ToolbarRight.MinWidth = 300;
-                    Instance.EditorViewPanel.ToolbarRight.MaxWidth = Instance.EditorViewPanel.ViewPanelForm.ActualWidth / 3;
-                    Instance.EditorViewPanel.SplitterRight.Width = new GridLength(6);
-                    Instance.EditorViewPanel.SplitterRight.MinWidth = 6;
-                }
-                else
-                {
-                    Instance.EditorViewPanel.ToolbarRight.Width = new GridLength(0);
-                    Instance.EditorViewPanel.ToolbarRight.MinWidth = 0;
-                    Instance.EditorViewPanel.ToolbarRight.MaxWidth = 0;
-                    Instance.EditorViewPanel.SplitterRight.Width = new GridLength(0);
-                    Instance.EditorViewPanel.SplitterRight.MinWidth = 0;
-                }
-            }
-
-            else
-            {
-                if (visible)
-                {
-                    Instance.EditorViewPanel.ToolbarLeft.Width = new GridLength(200);
-                    Instance.EditorViewPanel.ToolbarLeft.MinWidth = 200;
-                    Instance.EditorViewPanel.ToolbarLeft.MaxWidth = Instance.EditorViewPanel.ViewPanelForm.ActualWidth / 3;
-                    Instance.EditorViewPanel.SplitterLeft.Width = new GridLength(3);
-                    Instance.EditorViewPanel.SplitterLeft.MinWidth = 3;
-                    Instance.EditorViewPanel.LeftToolbarToolbox.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    if (!fullCollapse)
-                    {
-                        Instance.EditorViewPanel.ToolbarLeft.Width = new GridLength(10);
-                        Instance.EditorViewPanel.ToolbarLeft.MinWidth = 10;
-                        Instance.EditorViewPanel.ToolbarLeft.MaxWidth = 10;
-                        Instance.EditorViewPanel.SplitterLeft.Width = new GridLength(0);
-                        Instance.EditorViewPanel.SplitterLeft.MinWidth = 0;
-                        Instance.EditorViewPanel.LeftToolbarToolbox.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        Instance.EditorViewPanel.ToolbarLeft.Width = new GridLength(0);
-                        Instance.EditorViewPanel.ToolbarLeft.MinWidth = 0;
-                        Instance.EditorViewPanel.ToolbarLeft.MaxWidth = 0;
-                        Instance.EditorViewPanel.SplitterLeft.Width = new GridLength(0);
-                        Instance.EditorViewPanel.SplitterLeft.MinWidth = 0;
-                        Instance.EditorViewPanel.LeftToolbarToolbox.Visibility = Visibility.Hidden;
-                    }
-
-                }
-            }
-
-        }
         public static void UpdateWaitingScreen(bool show)
         {
             if (show)
             {
-                Instance.EditorViewPanel.ViewPanelForm.Visibility = Visibility.Hidden;
-                Instance.EditorViewPanel.WaitingPanel.Visibility = Visibility.Visible;
+                Instance.ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
+                Instance.ViewPanel.WaitingPanel.Source.Visibility = Visibility.Visible;
             }
             else
             {
-                Instance.EditorViewPanel.ViewPanelForm.Visibility = Visibility.Visible;
-                Instance.EditorViewPanel.WaitingPanel.Visibility = Visibility.Collapsed;
+                Instance.ViewPanel.SharpPanel.Visibility = Visibility.Visible;
+                Instance.ViewPanel.WaitingPanel.Source.Visibility = Visibility.Collapsed;
             }
 
         }
@@ -474,18 +415,18 @@ namespace ManiacEditor.Methods.Internal
                 SetParallaxAnimationOnlyButtonsState(parallaxAnimationInProgress);
                 UpdateSplineToolbox();
                 Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Properties.Defaults.Default.CustomGridSizeValue);
-                Instance.EditorViewPanel.UpdatePopupVisibility();
+                Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
             }
         }
         public static void UpdateTooltips()
         {
             UpdateTooltipForStacks(Instance.EditorToolbar.UndoButton, Instance.UndoStack);
             UpdateTooltipForStacks(Instance.EditorToolbar.RedoButton, Instance.RedoStack);
-            UpdateTextBlockForStacks(Instance.EditorMenuBar.UndoMenuItemInfo, Instance.UndoStack);
-            UpdateTextBlockForStacks(Instance.EditorMenuBar.RedoMenuItemInfo, Instance.RedoStack);
+            UpdateTextBlockForStacks(Instance.MenuBar.UndoMenuItemInfo, Instance.UndoStack);
+            UpdateTextBlockForStacks(Instance.MenuBar.RedoMenuItemInfo, Instance.RedoStack);
             if (Instance.IsVisible)
             {
-                Instance.EditorMenuBar.UpdateMenuItems();
+                Instance.MenuBar.UpdateMenuItems();
                 Instance.EditorStatusBar.UpdateTooltips();
                 Instance.EditorToolbar.UpdateTooltips();
             }

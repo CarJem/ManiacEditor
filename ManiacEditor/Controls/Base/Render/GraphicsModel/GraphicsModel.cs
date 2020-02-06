@@ -22,16 +22,19 @@ using ManiacEditor.Enums;
 using ManiacEditor.Event_Handlers;
 using ManiacEditor.Extensions;
 
-namespace ManiacEditor.Controls.Base.Render
+namespace ManiacEditor.Controls
 {
-    public partial class GraphicsModel2 : System.Windows.Controls.UserControl, IDrawArea
+    public partial class GraphicsModel : UserControl, IDrawArea
     {
         #region Main Region
-        public ManiacEditor.Controls.Base.MainEditor Instance;
+        public Controls.Base.MainEditor Instance;
+        public ManiacEditor.DevicePanel GraphicPanel;
 
-        #region Calls
-        public System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => GetScrollBarV(); }
-        public System.Windows.Controls.Primitives.ScrollBar hScrollBar1 { get => GetScrollBarH(); }
+		public Global.Controls.HScrollBar hScrollBar;
+		public Global.Controls.VScrollBar vScrollBar;
+
+		public System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => GetScrollBarV(); }
+		public System.Windows.Controls.Primitives.ScrollBar hScrollBar1 { get => GetScrollBarH(); }
 
         private System.Windows.Controls.Primitives.ScrollBar GetScrollBarV()
         {
@@ -42,22 +45,22 @@ namespace ManiacEditor.Controls.Base.Render
         {
             return hScrollBar.scroller;
         }
-        #endregion
 
 
-        public GraphicsModel2(ManiacEditor.Controls.Base.MainEditor instance)
+        public GraphicsModel(Controls.Base.MainEditor instance)
         {
             SystemEvents.PowerModeChanged += CheckDeviceState;
             Instance = instance;
             InitializeComponent();
+            UpdateScrollbars();
             SetupGraphicsPanel();
             SetupEvents();
-        }
+		}
 
         private void SetupEvents()
         {
-            this.KeyDown += GraphicsModel2_KeyDown;
-            this.KeyUp += GraphicsModel2_KeyUp; ;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Editor_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Editor_KeyUp);
 
             vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
             vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
@@ -66,7 +69,6 @@ namespace ManiacEditor.Controls.Base.Render
             hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
             hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
 
-            /*
             GraphicPanel.OnRender += new ManiacEditor.Event_Handlers.RenderEventHandler(this.GraphicPanel_OnRender);
             GraphicPanel.OnCreateDevice += new ManiacEditor.Event_Handlers.CreateDeviceEventHandler(this.OnResetDevice);
             GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
@@ -82,22 +84,30 @@ namespace ManiacEditor.Controls.Base.Render
             GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
 
             this.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
-            this.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;*/
+            this.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
         }
 
-        private void GraphicsModel2_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        public void UpdateScrollbars(bool refreshing = false)
         {
-
-        }
-
-        private void GraphicsModel2_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-
+            hScrollBar = new Global.Controls.HScrollBar();
+            vScrollBar = new Global.Controls.VScrollBar();
+            hScrollBar1Host.Child = hScrollBar;
+            vScrollBar1Host.Child = vScrollBar;
+            if (refreshing) UpdateScrollBarEvents();
         }
 
         public void SetupGraphicsPanel()
         {
-
+            this.GraphicPanel = new ManiacEditor.DevicePanel(Instance);
+            this.GraphicPanel.AllowDrop = true;
+            this.GraphicPanel.AutoSize = true;
+            this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
+            this.GraphicPanel.Location = new System.Drawing.Point(-1, 0);
+            this.GraphicPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.GraphicPanel.Name = "GraphicPanel";
+            this.GraphicPanel.Size = new System.Drawing.Size(643, 449);
+            this.GraphicPanel.TabIndex = 10;
+            this.viewPanel.Controls.Add(this.GraphicPanel);
         }
 
         public double GetZoom()
@@ -105,10 +115,20 @@ namespace ManiacEditor.Controls.Base.Render
             return Classes.Editor.SolutionState.Zoom;
         }
 
+		public new void Dispose()
+		{
+			this.GraphicPanel.Dispose();
+			this.GraphicPanel = null;
+			hScrollBar = null;
+			vScrollBar = null;
+			this.Controls.Clear();
+			base.Dispose(true);
+		}
+
         public Rectangle GetScreen()
         {
-            if (Core.Settings.MySettings.EntityFreeCam) return new Rectangle(Classes.Editor.SolutionState.CustomX, Classes.Editor.SolutionState.CustomY, (int)Instance.EditorViewPanel.ViewPanelForm.ActualWidth, (int)Instance.EditorViewPanel.ViewPanelForm.ActualHeight);
-            else return new Rectangle((int)Classes.Editor.SolutionState.ViewPositionX, (int)Classes.Editor.SolutionState.ViewPositionY, (int)Instance.EditorViewPanel.ViewPanelForm.ActualWidth, (int)Instance.EditorViewPanel.ViewPanelForm.ActualHeight);
+            if (Core.Settings.MySettings.EntityFreeCam) return new Rectangle(Classes.Editor.SolutionState.CustomX, Classes.Editor.SolutionState.CustomY, (int)Instance.ViewPanel.SharpPanel.ActualWidth, (int)Instance.ViewPanel.SharpPanel.ActualHeight);
+            else return new Rectangle((int)Classes.Editor.SolutionState.ViewPositionX, (int)Classes.Editor.SolutionState.ViewPositionY, (int)Instance.ViewPanel.SharpPanel.ActualWidth, (int)Instance.ViewPanel.SharpPanel.ActualHeight);
         }
 
         public void DisposeTextures()
@@ -120,23 +140,21 @@ namespace ManiacEditor.Controls.Base.Render
             if (Classes.Editor.Solution.FGHigher != null) Classes.Editor.Solution.FGHigher?.DisposeTextures();
             if (Classes.Editor.Solution.FGLower != null) Classes.Editor.Solution.FGLower?.DisposeTextures();
 
-            if (Classes.Editor.Solution.CurrentScene != null)
-            {
-                foreach (var el in Classes.Editor.Solution.CurrentScene?.OtherLayers)
-                {
-                    el.DisposeTextures();
-                }
-            }
+			if (Classes.Editor.Solution.CurrentScene != null)
+			{
+				foreach (var el in Classes.Editor.Solution.CurrentScene?.OtherLayers)
+				{
+					el.DisposeTextures();
+				}
+			}
 
         }
 
-        private void EditorView_Load(object sender, EventArgs e)
-        {
+		private void EditorView_Load(object sender, EventArgs e)
+		{
 
-        }
+		}
         #endregion
-
-        #region Old Management
 
         #region Mouse Actions Event Handlers
         private void GraphicPanel_OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseMove(sender, e); }
@@ -243,6 +261,7 @@ namespace ManiacEditor.Controls.Base.Render
         }
         private void SetDeviceSleepState(bool state)
         {
+            GraphicPanel.bRender = state;
             if (state == true)
             {
                 Methods.Internal.UserInterface.ReloadSpritesAndTextures();
@@ -250,259 +269,6 @@ namespace ManiacEditor.Controls.Base.Render
         }
         private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
         {
-
-        }
-        private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
-            {
-                //System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
-                //e.Effect = System.Windows.Forms.DragDropEffects.Move;
-                //Classes.Editor.Solution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Editor.SolutionState.ViewPositionX) / Classes.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Editor.SolutionState.ViewPositionY) / Classes.Editor.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTile);
-                //Methods.Internal.UserInterface.UpdateEditLayerActions();
-            }
-            else
-            {
-                //e.Effect = System.Windows.Forms.DragDropEffects.None;
-            }
-        }
-        private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
-            {
-                //System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
-                //Classes.Editor.Solution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Editor.SolutionState.ViewPositionX) / Classes.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Editor.SolutionState.ViewPositionY) / Classes.Editor.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTile);
-                //GraphicPanel.Render();
-
-            }
-        }
-        private void GraphicPanel_DragLeave(object sender, EventArgs e)
-        {
-            //Classes.Editor.Solution.EditLayerA?.EndDragOver(true);
-            //GraphicPanel.Render();
-        }
-        private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
-        {
-            Classes.Editor.Solution.EditLayerA?.EndDragOver(false);
-        }
-        public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e);
-        }
-        public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e);
-        }
-        #endregion
-
-        #region Key Events
-
-        private void Editor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            //if (!GraphicPanel.Focused)
-            //{
-            //    GraphicPanel_OnKeyDown(sender, e);
-            //}
-        }
-        private void Editor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            //if (!GraphicPanel.Focused)
-            //{
-            //    GraphicPanel_OnKeyUp(sender, e);
-            //}
-        }
-
-        #endregion
-
-        #region Zoom Model Regions
-        public void UpdateScrollBarValues()
-        {
-            //TODO: Determine if we still need this
-            /*AllowScrollUpdate = false;
-            Editor.editorView.hScrollBar1.Value = (int)Editor.editorView.hScrollBar1.Value;
-            Editor.editorView.vScrollBar1.Value = (int)Editor.editorView.vScrollBar1.Value;
-            AllowScrollUpdate = true;*/
-        }
-        public void GraphicsResize(object sender, RoutedEventArgs e)
-        {
-
-            // TODO: It hides right now few pixels at the edge
-
-            Visibility nvscrollbar = Visibility.Visible;
-            Visibility nhscrollbar = Visibility.Visible;
-
-            if (Instance.DeviceModel.hScrollBar1.Maximum == 0) nhscrollbar = Visibility.Hidden;
-            if (Instance.DeviceModel.vScrollBar1.Maximum == 0) nvscrollbar = Visibility.Hidden;
-
-            Instance.DeviceModel.vScrollBar1.Visibility = nvscrollbar;
-            Instance.DeviceModel.vScrollBar1Host.Child.Visibility = nvscrollbar;
-            Instance.DeviceModel.hScrollBar1Host.Child.Visibility = nhscrollbar;
-            Instance.DeviceModel.hScrollBar1.Visibility = nhscrollbar;
-
-            if (Instance.DeviceModel.vScrollBar1.IsVisible)
-            {
-                Instance.DeviceModel.vScrollBar1.LargeChange = Instance.DeviceModel.vScrollBar1Host.Height;
-                Instance.DeviceModel.vScrollBar1.SmallChange = Instance.DeviceModel.vScrollBar1Host.Height / 8;
-                Classes.Editor.SolutionState.ScreenHeight = (int)Instance.DeviceModel.vScrollBar1Host.Height;
-                Instance.DeviceModel.vScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.vScrollBar1.Value, Instance.DeviceModel.vScrollBar1.Maximum));
-                if (Instance.DeviceModel.vScrollBar1.Track.ViewportSize != Classes.Editor.Solution.SceneHeight) Instance.DeviceModel.vScrollBar1.Track.ViewportSize = Classes.Editor.Solution.SceneHeight;
-            }
-            else
-            {
-                Classes.Editor.SolutionState.ScreenHeight = Instance.DeviceModel.GraphicPanel.Height;
-                Classes.Editor.SolutionState.ViewPositionY = 0;
-                Instance.DeviceModel.vScrollBar1.Value = 0;
-            }
-            if (Instance.DeviceModel.hScrollBar1.IsVisible)
-            {
-                Instance.DeviceModel.hScrollBar1.LargeChange = Instance.DeviceModel.hScrollBar1Host.Width;
-                Instance.DeviceModel.hScrollBar1.SmallChange = Instance.DeviceModel.hScrollBar1Host.Width / 8;
-                Classes.Editor.SolutionState.ScreenWidth = (int)Instance.DeviceModel.hScrollBar1Host.Width;
-                Instance.DeviceModel.hScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.hScrollBar1.Value, Instance.DeviceModel.hScrollBar1.Maximum));
-                if (Instance.DeviceModel.hScrollBar1.Track.ViewportSize != Classes.Editor.Solution.SceneWidth) Instance.DeviceModel.hScrollBar1.Track.ViewportSize = Classes.Editor.Solution.SceneWidth;
-            }
-            else
-            {
-                Classes.Editor.SolutionState.ScreenWidth = Instance.DeviceModel.GraphicPanel.Width;
-                Classes.Editor.SolutionState.ViewPositionX = 0;
-                Instance.DeviceModel.hScrollBar1.Value = 0;
-            }
-
-            while (Classes.Editor.SolutionState.ScreenWidth > Instance.DeviceModel.GraphicPanel.Width)
-                ResizeGraphicPanel(Instance.DeviceModel.GraphicPanel.Width * 2, Instance.DeviceModel.GraphicPanel.Height);
-            while (Classes.Editor.SolutionState.ScreenHeight > Instance.DeviceModel.GraphicPanel.Height)
-                ResizeGraphicPanel(Instance.DeviceModel.GraphicPanel.Width, Instance.DeviceModel.GraphicPanel.Height * 2);
-        }
-        public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true)
-        {
-            if (Core.Settings.MySettings.EntityFreeCam)
-            {
-                width = 10000000;
-                height = 10000000;
-            }
-
-            Instance.DeviceModel.vScrollBar1.Maximum = height - Instance.DeviceModel.vScrollBar1Host.Height;
-            Instance.DeviceModel.hScrollBar1.Maximum = width - Instance.DeviceModel.hScrollBar1Host.Width;
-
-            Instance.DeviceModel.GraphicPanel.DrawWidth = Math.Min((int)width, Instance.DeviceModel.GraphicPanel.Width);
-            Instance.DeviceModel.GraphicPanel.DrawHeight = Math.Min((int)height, Instance.DeviceModel.GraphicPanel.Height);
-
-            if (resizeForm) GraphicsResize(null, null);
-
-            if (!Core.Settings.MySettings.EntityFreeCam)
-            {
-                Instance.DeviceModel.hScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.hScrollBar1.Value, Instance.DeviceModel.hScrollBar1.Maximum));
-                Instance.DeviceModel.vScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.vScrollBar1.Value, Instance.DeviceModel.vScrollBar1.Maximum));
-            }
-
-        }
-        public void SetZoomLevel(int zoom_level, System.Drawing.Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true)
-        {
-            double old_zoom = Classes.Editor.SolutionState.Zoom;
-
-
-
-            if (zoom_level_d == 0.0)
-            {
-                Classes.Editor.SolutionState.ZoomLevel = zoom_level;
-                switch (Classes.Editor.SolutionState.ZoomLevel)
-                {
-                    case 5: Classes.Editor.SolutionState.Zoom = 4; break;
-                    case 4: Classes.Editor.SolutionState.Zoom = 3; break;
-                    case 3: Classes.Editor.SolutionState.Zoom = 2; break;
-                    case 2: Classes.Editor.SolutionState.Zoom = 3 / 2.0; break;
-                    case 1: Classes.Editor.SolutionState.Zoom = 5 / 4.0; break;
-                    case 0: Classes.Editor.SolutionState.Zoom = 1; break;
-                    case -1: Classes.Editor.SolutionState.Zoom = 2 / 3.0; break;
-                    case -2: Classes.Editor.SolutionState.Zoom = 1 / 2.0; break;
-                    case -3: Classes.Editor.SolutionState.Zoom = 1 / 3.0; break;
-                    case -4: Classes.Editor.SolutionState.Zoom = 1 / 4.0; break;
-                    case -5: Classes.Editor.SolutionState.Zoom = 1 / 8.0; break;
-                }
-            }
-            else
-            {
-                Classes.Editor.SolutionState.ZoomLevel = (int)zoom_level_d;
-                Classes.Editor.SolutionState.Zoom = zoom_level_d;
-            }
-
-
-            Classes.Editor.SolutionState.Zooming = true;
-
-            int oldShiftX = Classes.Editor.SolutionState.ViewPositionX;
-            int oldShiftY = Classes.Editor.SolutionState.ViewPositionY;
-
-            if (Classes.Editor.Solution.CurrentScene != null)
-                SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom), updateControls);
-
-
-            if (Instance.DeviceModel.hScrollBar1.IsVisible)
-            {
-                Classes.Editor.SolutionState.ViewPositionX = (int)((zoom_point.X + oldShiftX) / old_zoom * Classes.Editor.SolutionState.Zoom - zoom_point.X);
-                Classes.Editor.SolutionState.ViewPositionX = (int)Math.Min((Instance.DeviceModel.hScrollBar1.Maximum), Math.Max(0, Classes.Editor.SolutionState.ViewPositionX));
-                Instance.DeviceModel.hScrollBar1.Value = Classes.Editor.SolutionState.ViewPositionX;
-            }
-            if (Instance.DeviceModel.vScrollBar1.IsVisible)
-            {
-                Classes.Editor.SolutionState.ViewPositionY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Classes.Editor.SolutionState.Zoom - zoom_point.Y);
-                Classes.Editor.SolutionState.ViewPositionY = (int)Math.Min((Instance.DeviceModel.vScrollBar1.Maximum), Math.Max(0, Classes.Editor.SolutionState.ViewPositionY));
-                Instance.DeviceModel.vScrollBar1.Value = Classes.Editor.SolutionState.ViewPositionY;
-            }
-
-
-            Classes.Editor.SolutionState.Zooming = false;
-
-            if (updateControls) Methods.Internal.UserInterface.UpdateControls();
-        }
-        public void ResetViewSize()
-        {
-            SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
-        }
-        public void ResizeGraphicPanel(int width = 0, int height = 0)
-        {
-            if (Core.Settings.MySettings.EntityFreeCam)
-            {
-                width = Classes.Editor.Solution.SceneWidth;
-                height = Classes.Editor.Solution.SceneHeight;
-            }
-
-            Instance.DeviceModel.GraphicPanel.Width = width;
-            Instance.DeviceModel.GraphicPanel.Height = height;
-
-            Instance.DeviceModel.GraphicPanel.ResetDevice();
-
-            Instance.DeviceModel.GraphicPanel.DrawWidth = Math.Min((int)Instance.DeviceModel.hScrollBar1.Maximum, Instance.DeviceModel.GraphicPanel.Width);
-            Instance.DeviceModel.GraphicPanel.DrawHeight = Math.Min((int)Instance.DeviceModel.vScrollBar1.Maximum, Instance.DeviceModel.GraphicPanel.Height);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region New Management
-
-        private float Zoom
-        {
-            get
-            {
-                return (float)ManiacEditor.Classes.Editor.SolutionState.Zoom;
-            }
-        }
-
-        private void GraphicPanel_PaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
-        {
-            var info = e.Info;
-            var canvas = e.Surface.Canvas;
-
-            canvas.Scale(Zoom);
-
-            float width = info.Width / Zoom;
-            float height = info.Height / Zoom;
-
-            float width_half = width / 2;
-            float height_half = height / 2;
-
-            canvas.Clear(SkiaSharp.SKColors.Transparent);
 
             bool showEntities = Instance.EditorToolbar.ShowEntities.IsChecked.Value && !Instance.EditorToolbar.EditEntities.IsCheckedAll;
             bool showEntitiesEditing = Instance.EditorToolbar.EditEntities.IsCheckedAll;
@@ -518,7 +284,7 @@ namespace ManiacEditor.Controls.Base.Render
 
                 //if (UIModes.DebugStatsVisibleOnPanel && Classes.Edit.Scene.EditorSolution.CurrentScene != null) DrawDebugHUD();
 
-                if (Classes.Editor.Solution.CurrentScene.OtherLayers.Contains(Classes.Editor.Solution.EditLayerA)) Classes.Editor.Solution.EditLayerA.Draw(GraphicPanel, canvas);
+                if (Classes.Editor.Solution.CurrentScene.OtherLayers.Contains(Classes.Editor.Solution.EditLayerA)) Classes.Editor.Solution.EditLayerA.Draw(GraphicPanel);
 
                 if (!Classes.Editor.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
@@ -719,7 +485,230 @@ namespace ManiacEditor.Controls.Base.Render
                 }
             }
         }
+        private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
+            {
+                System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
+                e.Effect = System.Windows.Forms.DragDropEffects.Move;
+                Classes.Editor.Solution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Editor.SolutionState.ViewPositionX) / Classes.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Editor.SolutionState.ViewPositionY) / Classes.Editor.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTile);
+                Methods.Internal.UserInterface.UpdateEditLayerActions();
+            }
+            else
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.None;
+            }
+        }
+        private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
+            {
+                System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
+                Classes.Editor.Solution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Classes.Editor.SolutionState.ViewPositionX) / Classes.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Classes.Editor.SolutionState.ViewPositionY) / Classes.Editor.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTile);
+                GraphicPanel.Render();
+
+            }
+        }
+        private void GraphicPanel_DragLeave(object sender, EventArgs e)
+        {
+            Classes.Editor.Solution.EditLayerA?.EndDragOver(true);
+            GraphicPanel.Render();
+        }
+        private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            Classes.Editor.Solution.EditLayerA?.EndDragOver(false);
+        }
+        public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e);
+        }
+        public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e);
+        }
+        #endregion
+
+        #region Key Events
+
+        private void Editor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (!GraphicPanel.Focused)
+            {
+                GraphicPanel_OnKeyDown(sender, e);
+            }
+        }
+        private void Editor_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (!GraphicPanel.Focused)
+            {
+                GraphicPanel_OnKeyUp(sender, e);
+            }
+        }
 
         #endregion
+
+        #region Zoom Model Regions
+        public void UpdateScrollBarValues()
+        {
+            //TODO: Determine if we still need this
+            /*AllowScrollUpdate = false;
+            Editor.editorView.hScrollBar1.Value = (int)Editor.editorView.hScrollBar1.Value;
+            Editor.editorView.vScrollBar1.Value = (int)Editor.editorView.vScrollBar1.Value;
+            AllowScrollUpdate = true;*/
+        }
+        public void GraphicsResize(object sender, RoutedEventArgs e)
+        {
+
+            // TODO: It hides right now few pixels at the edge
+
+            Visibility nvscrollbar = Visibility.Visible;
+            Visibility nhscrollbar = Visibility.Visible;
+
+            if (Instance.DeviceModel.hScrollBar1.Maximum == 0) nhscrollbar = Visibility.Hidden;
+            if (Instance.DeviceModel.vScrollBar1.Maximum == 0) nvscrollbar = Visibility.Hidden;
+
+            Instance.DeviceModel.vScrollBar1.Visibility = nvscrollbar;
+            Instance.DeviceModel.vScrollBar1Host.Child.Visibility = nvscrollbar;
+            Instance.DeviceModel.hScrollBar1Host.Child.Visibility = nhscrollbar;
+            Instance.DeviceModel.hScrollBar1.Visibility = nhscrollbar;
+
+            if (Instance.DeviceModel.vScrollBar1.IsVisible)
+            {
+                Instance.DeviceModel.vScrollBar1.LargeChange = Instance.DeviceModel.vScrollBar1Host.Height;
+                Instance.DeviceModel.vScrollBar1.SmallChange = Instance.DeviceModel.vScrollBar1Host.Height / 8;
+                Classes.Editor.SolutionState.ScreenHeight = (int)Instance.DeviceModel.vScrollBar1Host.Height;
+                Instance.DeviceModel.vScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.vScrollBar1.Value, Instance.DeviceModel.vScrollBar1.Maximum));
+                if (Instance.DeviceModel.vScrollBar1.Track.ViewportSize != Classes.Editor.Solution.SceneHeight) Instance.DeviceModel.vScrollBar1.Track.ViewportSize = Classes.Editor.Solution.SceneHeight;
+            }
+            else
+            {
+                Classes.Editor.SolutionState.ScreenHeight = Instance.DeviceModel.GraphicPanel.Height;
+                Classes.Editor.SolutionState.ViewPositionY = 0;
+                Instance.DeviceModel.vScrollBar1.Value = 0;
+            }
+            if (Instance.DeviceModel.hScrollBar1.IsVisible)
+            {
+                Instance.DeviceModel.hScrollBar1.LargeChange = Instance.DeviceModel.hScrollBar1Host.Width;
+                Instance.DeviceModel.hScrollBar1.SmallChange = Instance.DeviceModel.hScrollBar1Host.Width / 8;
+                Classes.Editor.SolutionState.ScreenWidth = (int)Instance.DeviceModel.hScrollBar1Host.Width;
+                Instance.DeviceModel.hScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.hScrollBar1.Value, Instance.DeviceModel.hScrollBar1.Maximum));
+                if (Instance.DeviceModel.hScrollBar1.Track.ViewportSize != Classes.Editor.Solution.SceneWidth) Instance.DeviceModel.hScrollBar1.Track.ViewportSize = Classes.Editor.Solution.SceneWidth;
+            }
+            else
+            {
+                Classes.Editor.SolutionState.ScreenWidth = Instance.DeviceModel.GraphicPanel.Width;
+                Classes.Editor.SolutionState.ViewPositionX = 0;
+                Instance.DeviceModel.hScrollBar1.Value = 0;
+            }
+
+            while (Classes.Editor.SolutionState.ScreenWidth > Instance.DeviceModel.GraphicPanel.Width)
+                ResizeGraphicPanel(Instance.DeviceModel.GraphicPanel.Width * 2, Instance.DeviceModel.GraphicPanel.Height);
+            while (Classes.Editor.SolutionState.ScreenHeight > Instance.DeviceModel.GraphicPanel.Height)
+                ResizeGraphicPanel(Instance.DeviceModel.GraphicPanel.Width, Instance.DeviceModel.GraphicPanel.Height * 2);
+        }
+        public void SetViewSize(int width = 0, int height = 0, bool resizeForm = true)
+        {
+            if (Core.Settings.MySettings.EntityFreeCam)
+            {
+                width = 10000000;
+                height = 10000000;
+            }
+
+            Instance.DeviceModel.vScrollBar1.Maximum = height - Instance.DeviceModel.vScrollBar1Host.Height;
+            Instance.DeviceModel.hScrollBar1.Maximum = width - Instance.DeviceModel.hScrollBar1Host.Width;
+
+            Instance.DeviceModel.GraphicPanel.DrawWidth = Math.Min((int)width, Instance.DeviceModel.GraphicPanel.Width);
+            Instance.DeviceModel.GraphicPanel.DrawHeight = Math.Min((int)height, Instance.DeviceModel.GraphicPanel.Height);
+
+            if (resizeForm) GraphicsResize(null, null);
+
+            if (!Core.Settings.MySettings.EntityFreeCam)
+            {
+                Instance.DeviceModel.hScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.hScrollBar1.Value, Instance.DeviceModel.hScrollBar1.Maximum));
+                Instance.DeviceModel.vScrollBar1.Value = Math.Max(0, Math.Min(Instance.DeviceModel.vScrollBar1.Value, Instance.DeviceModel.vScrollBar1.Maximum));
+            }
+
+        }
+        public void SetZoomLevel(int zoom_level, System.Drawing.Point zoom_point, double zoom_level_d = 0.0, bool updateControls = true)
+        {
+            double old_zoom = Classes.Editor.SolutionState.Zoom;
+
+
+
+            if (zoom_level_d == 0.0)
+            {
+                Classes.Editor.SolutionState.ZoomLevel = zoom_level;
+                switch (Classes.Editor.SolutionState.ZoomLevel)
+                {
+                    case 5: Classes.Editor.SolutionState.Zoom = 4; break;
+                    case 4: Classes.Editor.SolutionState.Zoom = 3; break;
+                    case 3: Classes.Editor.SolutionState.Zoom = 2; break;
+                    case 2: Classes.Editor.SolutionState.Zoom = 3 / 2.0; break;
+                    case 1: Classes.Editor.SolutionState.Zoom = 5 / 4.0; break;
+                    case 0: Classes.Editor.SolutionState.Zoom = 1; break;
+                    case -1: Classes.Editor.SolutionState.Zoom = 2 / 3.0; break;
+                    case -2: Classes.Editor.SolutionState.Zoom = 1 / 2.0; break;
+                    case -3: Classes.Editor.SolutionState.Zoom = 1 / 3.0; break;
+                    case -4: Classes.Editor.SolutionState.Zoom = 1 / 4.0; break;
+                    case -5: Classes.Editor.SolutionState.Zoom = 1 / 8.0; break;
+                }
+            }
+            else
+            {
+                Classes.Editor.SolutionState.ZoomLevel = (int)zoom_level_d;
+                Classes.Editor.SolutionState.Zoom = zoom_level_d;
+            }
+
+
+            Classes.Editor.SolutionState.Zooming = true;
+
+            int oldShiftX = Classes.Editor.SolutionState.ViewPositionX;
+            int oldShiftY = Classes.Editor.SolutionState.ViewPositionY;
+
+            if (Classes.Editor.Solution.CurrentScene != null)
+                SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom), updateControls);
+
+
+            if (Instance.DeviceModel.hScrollBar1.IsVisible)
+            {
+                Classes.Editor.SolutionState.ViewPositionX = (int)((zoom_point.X + oldShiftX) / old_zoom * Classes.Editor.SolutionState.Zoom - zoom_point.X);
+                Classes.Editor.SolutionState.ViewPositionX = (int)Math.Min((Instance.DeviceModel.hScrollBar1.Maximum), Math.Max(0, Classes.Editor.SolutionState.ViewPositionX));
+                Instance.DeviceModel.hScrollBar1.Value = Classes.Editor.SolutionState.ViewPositionX;
+            }
+            if (Instance.DeviceModel.vScrollBar1.IsVisible)
+            {
+                Classes.Editor.SolutionState.ViewPositionY = (int)((zoom_point.Y + oldShiftY) / old_zoom * Classes.Editor.SolutionState.Zoom - zoom_point.Y);
+                Classes.Editor.SolutionState.ViewPositionY = (int)Math.Min((Instance.DeviceModel.vScrollBar1.Maximum), Math.Max(0, Classes.Editor.SolutionState.ViewPositionY));
+                Instance.DeviceModel.vScrollBar1.Value = Classes.Editor.SolutionState.ViewPositionY;
+            }
+
+
+            Classes.Editor.SolutionState.Zooming = false;
+
+            if (updateControls) Methods.Internal.UserInterface.UpdateControls();
+        }
+        public void ResetViewSize()
+        {
+            SetViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
+        }
+        public void ResizeGraphicPanel(int width = 0, int height = 0)
+        {
+            if (Core.Settings.MySettings.EntityFreeCam)
+            {
+                width = Classes.Editor.Solution.SceneWidth;
+                height = Classes.Editor.Solution.SceneHeight;
+            }
+
+            Instance.DeviceModel.GraphicPanel.Width = width;
+            Instance.DeviceModel.GraphicPanel.Height = height;
+
+            Instance.DeviceModel.GraphicPanel.ResetDevice();
+
+            Instance.DeviceModel.GraphicPanel.DrawWidth = Math.Min((int)Instance.DeviceModel.hScrollBar1.Maximum, Instance.DeviceModel.GraphicPanel.Width);
+            Instance.DeviceModel.GraphicPanel.DrawHeight = Math.Min((int)Instance.DeviceModel.vScrollBar1.Maximum, Instance.DeviceModel.GraphicPanel.Height);
+        }
+
+        #endregion
+
     }
 }
