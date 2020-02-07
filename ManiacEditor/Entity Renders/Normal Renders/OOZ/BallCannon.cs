@@ -117,9 +117,9 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation);
-            var editorAnimHolo = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation2);
-            var editorAnimCork = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, CorkState, 0, fliph, flipv, true);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation);
+            var editorAnimHolo = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation2);
+            var editorAnimCork = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, CorkState, 0, fliph, flipv, true);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHolo != null && editorAnimHolo.Frames.Count != 0 && editorAnimCork != null && editorAnimCork.Frames.Count != 0)
             {
                 if (type == 1)

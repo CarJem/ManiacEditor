@@ -18,12 +18,12 @@ namespace ManiacEditor.Entity_Renders
             int platformAngle = properties.PlatformAngle;
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimEye = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 1, false, false, false);
-            var editorAnimPupil = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 2, false, false, false);
-            var editorAnimHeadJoint = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 6, false, false, false);
-            var editorAnimNose = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 1, 0, false, false, false);
-            var editorAnimBolt = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 2, 0, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimEye = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 1, false, false, false);
+            var editorAnimPupil = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 2, false, false, false);
+            var editorAnimHeadJoint = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 0, 6, false, false, false);
+            var editorAnimNose = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 1, 0, false, false, false);
+            var editorAnimBolt = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MegaOctus", d.DevicePanel, 2, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimEye != null && editorAnimEye.Frames.Count != 0 && editorAnimPupil != null && editorAnimPupil.Frames.Count != 0 && editorAnimHeadJoint != null && editorAnimHeadJoint.Frames.Count != 0 && editorAnimNose != null && editorAnimNose.Frames.Count != 0 && editorAnimBolt != null && editorAnimBolt.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

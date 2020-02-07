@@ -18,8 +18,8 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         public DateTimeOffset? TimeWhenSelected = null;
         public Action<ManiacEditor.Actions.IAction> ValueChanged = new Action<ManiacEditor.Actions.IAction>(x =>
         {
-            ManiacEditor.Controls.Base.MainEditor.Instance.UndoStack.Push(x);
-            ManiacEditor.Controls.Base.MainEditor.Instance.RedoStack.Clear();      
+            ManiacEditor.Controls.Editor.MainEditor.Instance.UndoStack.Push(x);
+            ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Clear();      
         });
 
 
@@ -31,7 +31,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         {
             if (value == true)
             {
-                if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.SelectedSplineIDChangedEvent(_entity.attributesMap["SplineID"].ValueInt32);
+                if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SelectedSplineIDChangedEvent(_entity.attributesMap["SplineID"].ValueInt32);
                 isSelected = value;
                 TimeWhenSelected = DateTimeOffset.Now;
             }
@@ -109,24 +109,24 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         {
             this._entity = entity;
             lastFrametime = DateTime.Now;
-            EditorAnimations = new Methods.Entities.EntityAnimator(ManiacEditor.Controls.Base.MainEditor.Instance);
+            EditorAnimations = new Methods.Entities.EntityAnimator(ManiacEditor.Controls.Editor.MainEditor.Instance);
 
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.EntityRenderers.Count == 0)
+            if (ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.EntityRenderers.Count == 0)
             {
                 var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
                 foreach (var type in types)
-                    ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
             }
 
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers.Count == 0)
+            if (ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers.Count == 0)
             {
                 var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
                 foreach (var type in types)
-                    ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
 
-                foreach (LinkedRenderer render in ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers)
+                foreach (LinkedRenderer render in ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers)
                 {
-                    render.EditorInstance = ManiacEditor.Controls.Base.MainEditor.Instance;
+                    render.EditorInstance = ManiacEditor.Controls.Editor.MainEditor.Instance;
                 }
             }
 
@@ -253,8 +253,8 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 int ObjectSize = Methods.GameHandler.ObjectSize[Methods.GameHandler.GameVersion.IndexOf(Methods.GameHandler.SelectedGameVersion)];
 
                 int ObjectAddress = ObjectStart + (ObjectSize * Classes.Editor.Solution.Entities.GetRealSlotID(_entity));
-                ManiacEditor.Controls.Base.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
-                ManiacEditor.Controls.Base.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
+                ManiacEditor.Controls.Editor.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
+                ManiacEditor.Controls.Editor.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
             }
 
 
@@ -401,13 +401,13 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 try
                 {
                     var structure = new Structures.LinkedEntityRenderProp(d, _entity, this);
-                    LinkedRenderer renderer = ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name.ToString()).FirstOrDefault();
+                    LinkedRenderer renderer = ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name.ToString()).FirstOrDefault();
                     if (renderer != null) renderer.Draw(structure);
                 }
                 catch (Exception ex)
                 {
                     System.Windows.MessageBox.Show("Unable to load the linked render for " + _entity.Object.Name.Name + "! " + ex.ToString());
-                    ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.linkedrendersWithErrors.Add(_entity.Object.Name.Name);
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.linkedrendersWithErrors.Add(_entity.Object.Name.Name);
 
                 }
 
@@ -436,7 +436,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             System.Drawing.Color color = GetBoxInsideColor();
             System.Drawing.Color color2 = GetFilterBoxColor();
             int Transparency = GetTransparencyLevel();
-            ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.LoadNextAnimation(this);
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.LoadNextAnimation(this);
 
             int x = _entity.Position.X.High;
             int y = _entity.Position.Y.High;
@@ -462,11 +462,11 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         {
             if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(_entity.Object.Name.Name)) && ManiacEditor.Core.Settings.MyPerformance.UseAlternativeRenderingMode)
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
+                ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
             }
             else if (!ManiacEditor.Core.Settings.MyPerformance.UseAlternativeRenderingMode)
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
+                ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
             }
         }
         public virtual void FallbackDraw(Classes.Editor.Draw.GraphicsHandler d, int x, int y, int _ChildX, int _ChildY, int Transparency, System.Drawing.Color color, bool overridePosition = false)
@@ -483,12 +483,12 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             bool rotate = false;
             var offset = GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
             string name = _entity.Object.Name.Name;
-            var editorAnim = ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2(name, d.DevicePanel, -1, -1, fliph, flipv, rotate);
+            var editorAnim = ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2(name, d.DevicePanel, -1, -1, fliph, flipv, rotate);
             if (editorAnim != null && editorAnim.Frames.Count > 0)
             {
                 renderNotFound = false;
                 // Special cases that always display a set frame(?)
-                if (ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.ShowAnimations.IsEnabled == true)
+                if (ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.ShowAnimations.IsEnabled == true)
                 {
                     if (_entity.Object.Name.Name == "StarPost")
                         index = 1;
@@ -695,7 +695,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             
 			if (!filteredOut)
 			{
-                if (RenderDrawing == null || RenderDrawing.GetObjectName() != _entity.Object.Name.Name) RenderDrawing = ManiacEditor.Controls.Base.MainEditor.Instance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name).FirstOrDefault();
+                if (RenderDrawing == null || RenderDrawing.GetObjectName() != _entity.Object.Name.Name) RenderDrawing = ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name).FirstOrDefault();
                 if (RenderDrawing != null)
 				{
 					isObjectVisibile = RenderDrawing.isObjectOnScreen(d, _entity, null, x, y, 0);

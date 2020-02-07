@@ -21,9 +21,9 @@ namespace ManiacEditor.Entity_Renders
             string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
             int promptID = (int)entity.attributesMap["promptID"].ValueEnum;
             int buttonID = (int)entity.attributesMap["buttonID"].ValueEnum;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Buttons", d.DevicePanel, Classes.Editor.SolutionState.CurrentControllerButtons, buttonID, false, false, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Buttons", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimButton = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 0, promptID, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Buttons", d.DevicePanel, Classes.Editor.SolutionState.CurrentControllerButtons, buttonID, false, false, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Buttons", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimButton = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 0, promptID, false, false, false);
             if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var frame = editorAnim2.Frames[Animation.index];

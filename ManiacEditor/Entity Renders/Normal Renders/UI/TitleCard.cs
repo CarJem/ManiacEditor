@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             int platformAngle = properties.PlatformAngle;
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 3, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 3, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

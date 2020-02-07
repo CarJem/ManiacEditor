@@ -7,17 +7,17 @@ namespace ManiacEditor.Classes.Editor.Scene
     public class EditorBackground : IDrawable
     {
 
-        public ManiacEditor.Controls.Base.MainEditor EditorInstance;
+        public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
 
 		int width;
 		int height;
 
-		public EditorBackground(ManiacEditor.Controls.Base.MainEditor instance)
+		public EditorBackground(ManiacEditor.Controls.Editor.MainEditor instance)
         {
             EditorInstance = instance;
         }
 
-		public EditorBackground(ManiacEditor.Controls.Base.MainEditor instance, int width, int height)
+		public EditorBackground(ManiacEditor.Controls.Editor.MainEditor instance, int width, int height)
 		{
 			this.width = width;
 			this.height = height;

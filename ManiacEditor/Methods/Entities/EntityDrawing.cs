@@ -38,7 +38,7 @@ namespace ManiacEditor.Methods.Entities
         public Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
         public bool Working = false;
 
-        public Controls.Base.MainEditor EditorInstance;
+        public Controls.Editor.MainEditor EditorInstance;
 
         public enum Flag : int
         {
@@ -49,7 +49,7 @@ namespace ManiacEditor.Methods.Entities
             Unknown = 4    
         }
 
-        public EntityDrawing(Controls.Base.MainEditor instance)
+        public EntityDrawing(Controls.Editor.MainEditor instance)
         {
             EditorInstance = instance;
         }

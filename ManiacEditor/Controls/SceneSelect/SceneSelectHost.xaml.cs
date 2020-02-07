@@ -32,7 +32,7 @@ namespace ManiacEditor.Controls.SceneSelect
         public bool WithinAParentForm = false;
 		public bool UsingDataPack = false;
 		public int SelectedCategoryIndex = -1;
-		public Controls.Base.MainEditor EditorInstance;
+		public Controls.Editor.MainEditor EditorInstance;
 
 
         //Information For the File Handler
@@ -71,7 +71,7 @@ namespace ManiacEditor.Controls.SceneSelect
 		private System.Windows.Forms.TreeView RecentsTree;
         #endregion
 
-        public SceneSelectHost(Gameconfig config = null, Controls.Base.MainEditor _Instance = null, SceneSelectWindow _Window = null)
+        public SceneSelectHost(Gameconfig config = null, Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null)
 		{
 			if (Core.Settings.MySettings.DataDirectories != null)  Core.Settings.MySettings.DataDirectories.Remove(null);
 			if (Core.Settings.MySettings.SavedPlaces != null)  Core.Settings.MySettings.SavedPlaces.Remove(null);
@@ -860,12 +860,12 @@ namespace ManiacEditor.Controls.SceneSelect
                 RecentsTree.Nodes[0].ExpandAll();
             }
 
-            if (Properties.Settings.Default.SavedPlaces != null && Properties.Settings.Default.SavedPlaces?.Count > 0)
+            if (Core.Settings.MySettings.SavedPlaces != null && Core.Settings.MySettings.SavedPlaces?.Count > 0)
             {
                 StringCollection recentFolders = new StringCollection();
                 this.RecentsTree.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
                 int index = this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder");
-                recentFolders = Properties.Settings.Default.SavedPlaces;
+                recentFolders = Core.Settings.MySettings.SavedPlaces;
                 foreach (string folder in recentFolders)
                 {
                     var node = RecentsTree.Nodes[1].Nodes.Add(folder, folder, index, index);
@@ -1366,7 +1366,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             try
             {
-                var mySettings = Properties.Settings.Default;
+                var mySettings = Core.Settings.MySettings;
                 var savedPlaces = mySettings.SavedPlaces;
 
                 if (savedPlaces == null)
@@ -1382,7 +1382,7 @@ namespace ManiacEditor.Controls.SceneSelect
 
                 savedPlaces.Insert(0, savedFolder);
 
-                mySettings.Save();
+                Core.Options.GeneralSettings.Save();
 
                 ReloadRecentsTree();
             }

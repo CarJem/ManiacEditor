@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SuperSpecialRing", d.DevicePanel, 0, -1, fliph, flipv, false, 0);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SuperSpecialRing", d.DevicePanel, 0, -1, fliph, flipv, false, 0);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

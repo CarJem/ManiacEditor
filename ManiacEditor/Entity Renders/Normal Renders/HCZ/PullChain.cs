@@ -28,8 +28,8 @@ namespace ManiacEditor.Entity_Renders
             }
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PullChain", d.DevicePanel, 0, frameID, fliph, flipv, false);
-            var editorAnimChain = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PullChain", d.DevicePanel, 1, frameID, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PullChain", d.DevicePanel, 0, frameID, fliph, flipv, false);
+            var editorAnimChain = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PullChain", d.DevicePanel, 1, frameID, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimChain != null && editorAnimChain.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

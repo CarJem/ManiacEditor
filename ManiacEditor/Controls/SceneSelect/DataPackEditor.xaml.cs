@@ -10,11 +10,11 @@ namespace ManiacEditor.Controls.SceneSelect
     /// </summary>
     public partial class DataPackEditor : Window
     {
-        private Controls.Base.MainEditor Instance;
+        private Controls.Editor.MainEditor Instance;
         private bool updatingKeys { get; set; } = false;
         private bool updatingValues { get; set; } = false;
         private List<Tuple<string, List<Tuple<string, string>>>> ModListInformationUnedited;
-        public DataPackEditor(Controls.Base.MainEditor instance)
+        public DataPackEditor(Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             Instance = instance;

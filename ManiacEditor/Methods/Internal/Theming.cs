@@ -13,7 +13,7 @@ namespace ManiacEditor.Methods.Internal
 {
     public static class Theming
     {
-        private static ManiacEditor.Controls.Base.MainEditor Instance;
+        private static ManiacEditor.Controls.Editor.MainEditor Instance;
         //Dark Theme
         public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
         public static Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
@@ -22,7 +22,7 @@ namespace ManiacEditor.Methods.Internal
         public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
         public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
 
-        public static void UpdateInstance(ManiacEditor.Controls.Base.MainEditor _instance)
+        public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor _instance)
         {
             Instance = _instance;
         }
@@ -228,11 +228,11 @@ namespace ManiacEditor.Methods.Internal
             var converter = new System.Windows.Media.BrushConverter();
             if (ManiacEditor.Core.Settings.MySettings.NightMode)
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
+                ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
             }
             else
             {
-                ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
+                ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
             }
 
         }
@@ -354,53 +354,53 @@ namespace ManiacEditor.Methods.Internal
 
         public static void UpdateThemeForItemsWaiting()
         {
-            if (FormsModelAwaitingRefresh && ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
-            if (TilesToolbarAwaitingRefresh && ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
-            if (EntitiesToolbarAwaitingRefresh && ManiacEditor.Controls.Base.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
-            if (StartScreenAwaitingRefresh && ManiacEditor.Controls.Base.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
+            if (FormsModelAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
+            if (TilesToolbarAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
+            if (EntitiesToolbarAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            if (StartScreenAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
         }
 
         public static void RefreshTheme()
         {
-            ManiacEditor.Controls.Base.MainEditor.Instance.Refresh();
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.Refresh();
+            if (ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
             else FormsModelAwaitingRefresh = true;
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
+            if (ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
             else StartScreenAwaitingRefresh = true;
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
+            if (ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
             else TilesToolbarAwaitingRefresh = true;
-            if (ManiacEditor.Controls.Base.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            if (ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
             else EntitiesToolbarAwaitingRefresh = true;
         }
 
         public static void RefreshStartScreen()
         {
-            ManiacEditor.Controls.Base.MainEditor.Instance.StartScreen.SelectScreen.UpdateSceneSelectTheme();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen.SelectScreen.UpdateSceneSelectTheme();
             StartScreenAwaitingRefresh = false;
         }
 
         public static void RefreshTilesToolbar()
         {
-            ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.Refresh();
-            ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.ChunkList.Refresh();
-            ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.TilesList.Refresh();
-            ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
-            ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
-            ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.UpdateThemeColors();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.ChunkList.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.TilesList.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.UpdateThemeColors();
             TilesToolbarAwaitingRefresh = false;
         }
 
         public static void RefreshEntitiesToolbar()
         {
-            ManiacEditor.Controls.Base.MainEditor.Instance.EntitiesToolbar.Refresh();
-            ManiacEditor.Controls.Base.MainEditor.Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
             EntitiesToolbarAwaitingRefresh = false;
         }
 
         public static void RefreshFormsModel()
         {
-            ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.Refresh();
-            ManiacEditor.Controls.Base.MainEditor.Instance.DeviceModel.UpdateScrollbars(true);
+            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.UpdateScrollbars(true);
             FormsModelAwaitingRefresh = false;
         }
 

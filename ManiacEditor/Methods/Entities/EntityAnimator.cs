@@ -7,7 +7,7 @@ namespace ManiacEditor.Methods.Entities
     public class EntityAnimator
     {
 
-        public EntityAnimator(Controls.Base.MainEditor instance)
+        public EntityAnimator(Controls.Editor.MainEditor instance)
         {
             EditorInstance = instance;
         }
@@ -31,7 +31,7 @@ namespace ManiacEditor.Methods.Entities
         public int index2 = 0;
         public int index3 = 0;
         public int PaperRollerIndex = 0;
-        public Controls.Base.MainEditor EditorInstance;
+        public Controls.Editor.MainEditor EditorInstance;
 
         public class Timing
         {

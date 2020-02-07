@@ -22,9 +22,9 @@ namespace ManiacEditor.Entity_Renders
             //int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("DNARiser", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("DNARiser", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("DNARiser", d.DevicePanel, 4, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("DNARiser", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("DNARiser", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("DNARiser", d.DevicePanel, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

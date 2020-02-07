@@ -41,9 +41,9 @@ namespace ManiacEditor.Entity_Renders
                     flipv = true;
                     break;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 0, frameID, fliph, flipv, false);
-            var cogPart2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 0, 2, fliph, flipv, false);
-            var cogPart1 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 0, frameID, fliph, flipv, false);
+            var cogPart2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 0, 2, fliph, flipv, false);
+            var cogPart1 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PSZDoor", d.DevicePanel, 1, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && frameID >= 0 && cogPart1 != null && cogPart1.Frames.Count != 0 && cogPart2 != null && cogPart2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

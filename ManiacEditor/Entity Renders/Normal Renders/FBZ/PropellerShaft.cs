@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
             var height_value = (int)(entity.attributesMap["size"].ValueEnum);
             var height = (height_value > 0 ? height_value / 2 : height_value);
             var width = 6;
@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
+                    editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[Animation.index];
@@ -61,7 +61,7 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
+            editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

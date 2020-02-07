@@ -154,7 +154,7 @@ namespace ManiacEditor
 		public static void InitDiscord()
 		{
 			StartTimer();
-			if (Properties.Settings.Default.ShowDiscordRPC) Init();
+			if (Core.Settings.MySettings.ShowDiscordRPC) Init();
 			UpdateDiscord();
 			StartTimer();
 		}
@@ -162,8 +162,8 @@ namespace ManiacEditor
 		public static void UpdateDiscord(string _details = null, bool isLoop = false)
 		{
 
-			if (Properties.Settings.Default.ShowDiscordRPC && !isInitilized) Init();
-			else if (!Properties.Settings.Default.ShowDiscordRPC && isInitilized) DisposeDiscord();
+			if (Core.Settings.MySettings.ShowDiscordRPC && !isInitilized) Init();
+			else if (!Core.Settings.MySettings.ShowDiscordRPC && isInitilized) DisposeDiscord();
 
 			if (isInitilized)
 			{

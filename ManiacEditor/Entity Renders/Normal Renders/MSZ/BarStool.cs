@@ -21,8 +21,8 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int height = (int)entity.attributesMap["height"].ValueUInt8;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BarStool", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimBase = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BarStool", d.DevicePanel, 1, height, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BarStool", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimBase = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BarStool", d.DevicePanel, 1, height, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBase != null && editorAnimBase.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

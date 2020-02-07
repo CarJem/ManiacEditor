@@ -22,7 +22,7 @@ namespace ManiacEditor.Methods
     public static class ProgramLauncher
     {
         #region Variables/DLL Imports
-        private static Controls.Base.MainEditor Editor;
+        private static Controls.Editor.MainEditor Editor;
         public static ManiacED_ManiaPal.Connector ManiaPalConnector;
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -45,7 +45,7 @@ namespace ManiacEditor.Methods
         };
         #endregion
 
-        public static void UpdateInstance(Controls.Base.MainEditor instance)
+        public static void UpdateInstance(Controls.Editor.MainEditor instance)
         {
             Editor = instance;
         }

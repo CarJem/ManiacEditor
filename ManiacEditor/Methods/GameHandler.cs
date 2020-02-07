@@ -120,7 +120,7 @@ namespace ManiacEditor.Methods
         public static IList<byte> EnableDevMenu_Values = new List<byte> { 0x01, 0x01, 0x01, 0x00 };
         public static IList<byte> DisableBackgroundPausing_Values = new List<byte> { 0xEB, 0xEB, 0xEB, 0x00 };
 
-        private static Controls.Base.MainEditor Editor;
+        private static Controls.Editor.MainEditor Editor;
 
         #region Addresses
         public static short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
@@ -147,7 +147,7 @@ namespace ManiacEditor.Methods
         public static byte GameState { get { return Editor.GameMemory.ReadByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
         #endregion
 
-        public static void UpdateInstance(Controls.Base.MainEditor instance)
+        public static void UpdateInstance(Controls.Editor.MainEditor instance)
         {
             Editor = instance;
         }

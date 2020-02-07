@@ -25,10 +25,10 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 0, -1, fliph, false, false);
-            var editorAnimEnd = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 1, -1, !fliph, false, false);
-            var editorAnimMid = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 2, -1, fliph, false, false);
-            var editorAnimMid2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 2, -1, !fliph, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 0, -1, fliph, false, false);
+            var editorAnimEnd = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 1, -1, !fliph, false, false);
+            var editorAnimMid = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 2, -1, fliph, false, false);
+            var editorAnimMid2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HangConveyor", d.DevicePanel, 2, -1, !fliph, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimEnd != null && editorAnimEnd.Frames.Count != 0 && editorAnimMid != null && editorAnimMid.Frames.Count != 0 && editorAnimMid2 != null && editorAnimMid2.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

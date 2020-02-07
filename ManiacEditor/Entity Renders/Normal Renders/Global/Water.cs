@@ -58,8 +58,8 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Water", d.DevicePanel, animID, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Water", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Water", d.DevicePanel, animID, -1, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Water", d.DevicePanel, 0, -1, fliph, flipv, false);
 
             // Base Water + Bubble Source
             if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && (type == 2 || type == 0))
@@ -78,7 +78,7 @@ namespace ManiacEditor.Entity_Renders
             // HCZ Big Bubbles
             else if (HCZBubbles == true)
             {
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigBubble", d.DevicePanel, 7, -1, fliph, flipv, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigBubble", d.DevicePanel, 7, -1, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -96,7 +96,7 @@ namespace ManiacEditor.Entity_Renders
             if (width != 0 && height != 0 && showBounds == true && HCZBubbles == false)
             {
                 //Draw Icon
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 8, fliph, flipv, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 8, fliph, flipv, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -201,7 +201,7 @@ namespace ManiacEditor.Entity_Renders
 
                 // draw corners
 
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, false, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -213,7 +213,7 @@ namespace ManiacEditor.Entity_Renders
 
                 }
 
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, true, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, true, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -225,7 +225,7 @@ namespace ManiacEditor.Entity_Renders
 
                 }
 
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, true, false, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, true, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -237,7 +237,7 @@ namespace ManiacEditor.Entity_Renders
 
                 }
 
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, true, true, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, true, true, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];

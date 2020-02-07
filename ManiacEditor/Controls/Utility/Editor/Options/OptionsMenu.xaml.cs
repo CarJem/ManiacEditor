@@ -43,7 +43,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			if (Core.Settings.MyDefaults.ScrollLockDirectionDefault == false) radioButtonX.IsChecked = true;
 			else radioButtonY.IsChecked = true;
 
-            if (Properties.Internal.Default.PortableMode) PortableCheckbox.IsChecked = true;
+            if (Core.Settings.MyInternalSettings.PortableMode) PortableCheckbox.IsChecked = true;
             else NonPortableCheckbox.IsChecked = true;
 
             if (Core.Settings.MyDefaults.SceneSelectFilesViewDefault) SceneSelectRadio2.IsChecked = true;
@@ -56,7 +56,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			if (Core.Settings.MyDefaults.DefaultGridSizeOption == 2) uncheckOtherGridDefaults(3);
 			if (Core.Settings.MyDefaults.DefaultGridSizeOption == 3) uncheckOtherGridDefaults(4);
 
-            if (Properties.Internal.Default.PortableMode) PortableCheckbox.IsChecked = true;
+            if (Core.Settings.MyInternalSettings.PortableMode) PortableCheckbox.IsChecked = true;
             else NonPortableCheckbox.IsChecked = true;
 
 			foreach (RadioButton rdo in Extensions.Extensions.FindVisualChildren<RadioButton>(MenuLangGroup))
@@ -87,7 +87,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			SetAllKeybindTextboxes();
 			UpdateCustomColors();
 
-            switch (Properties.Defaults.Default.TileManiacListSetting)
+            switch (Core.Settings.MyDefaults.TileManiacListSetting)
             {
                 case 0:
                     collisionListRadioButton.IsChecked = true;
@@ -96,7 +96,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                     tileListRadioButton.IsChecked = true;
                     break;
             }
-            switch (Properties.Defaults.Default.TileManiacViewAppearanceMode)
+            switch (Core.Settings.MyDefaults.TileManiacViewAppearanceMode)
             {
                 case 0:
                     overlayEditorViewRadioButton.IsChecked = true;
@@ -105,7 +105,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                     collisionEditorViewRadioButton.IsChecked = true;
                     break;
             }
-            switch (Properties.Defaults.Default.TileManiacRenderViewerSetting)
+            switch (Core.Settings.MyDefaults.TileManiacRenderViewerSetting)
             {
                 case 0:
                     tileRenderViewRadioButton.IsChecked = true;
@@ -230,7 +230,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
         {
             if (MessageBox.Show("Are you sure you want to wipe your settings? (This is includes all of your Keybinds, Data Directories, Defaults and so on...)", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                Classes.Editor.Constants.ResetAllSettings();
+                Core.Settings.ResetAllSettings();
             }
         }
 
@@ -240,7 +240,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				RPCCheckBox.IsChecked = true;
 				Core.Settings.MySettings.ShowDiscordRPC = true;
-				DiscordRP.UpdateDiscord(ManiacEditor.Controls.Base.MainEditor.Instance.Paths.SceneFile_Source);
+				DiscordRP.UpdateDiscord(ManiacEditor.Controls.Editor.MainEditor.Instance.Paths.SceneFile_Source);
 			}
 			else
 			{
@@ -262,7 +262,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void button11_Click(object sender, RoutedEventArgs e)
 		{
-            Classes.Editor.Constants.SaveAllSettings();
+            Core.Settings.SaveAllSettings();
             this.DialogResult = true;
         }
 
@@ -468,12 +468,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                 }
             }
             */
-            Classes.Editor.Constants.ReloadAllSettings();
+            Core.Settings.ReloadAllSettings();
 
             if (DarkModeCheckBox.IsChecked == true && !Core.Settings.MySettings.NightMode)
 			{
 				Core.Settings.MySettings.NightMode = true;
-				Core.Settings.MySettings.Save();
+				Core.Options.GeneralSettings.Save();
 				App.ChangeSkin(Skin.Dark);
 				App.SkinChanged = true;
 				Methods.Internal.Theming.RefreshTheme();
@@ -482,7 +482,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			else if (!DarkModeCheckBox.IsChecked == true && Core.Settings.MySettings.NightMode)
 			{
 				Core.Settings.MySettings.NightMode = false;
-				Core.Settings.MySettings.Save();
+				Core.Options.GeneralSettings.Save();
 				App.ChangeSkin(Skin.Light);
 				App.SkinChanged = true;
 				Methods.Internal.Theming.RefreshTheme();
@@ -530,7 +530,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				string keybindName = KeyBind.Tag.ToString();
 
-				StringCollection keyBindList = Core.Settings.MyKeyBinds[keybindName] as StringCollection;
+				StringCollection keyBindList = Core.Settings.MyKeyBinds.GetInput(keybindName) as StringCollection;
 
 				KeyBindConfigurator keybinder = new KeyBindConfigurator(keybindName);
 				keybinder.ShowDialog();
@@ -540,11 +540,11 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 					System.Windows.Forms.Keys keyBindtoSet = keybinder.CurrentBindingKey;
 					int keyIndex = keybinder.ListIndex;
 
-					var keybindDict = Core.Settings.MyKeyBinds[keybindName] as StringCollection;
+					var keybindDict = Core.Settings.MyKeyBinds.GetInput(keybindName) as StringCollection;
 					String KeyString = kc.ConvertToString(keyBindtoSet);
 					keybindDict.RemoveAt(keyIndex);
 					keybindDict.Add(KeyString);
-					Core.Settings.MyKeyBinds[keybindName] = keybindDict;
+					Core.Settings.MyKeyBinds.SetInput(keybindName , keybindDict);
 				}
 			}
 			SetAllKeybindTextboxes();
@@ -559,14 +559,14 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			AllKeyBinds = new List<string>();
 			KnownKeybinds.Clear();
 			KnownKeybinds = new List<string>();
-			foreach (SettingsProperty currentProperty in Core.Settings.MyKeyBinds.Properties)
+			foreach (var currentProperty in Core.Settings.MyKeyBinds.GetType().GetProperties())
 			{
 				KnownKeybinds.Add(currentProperty.Name);
 			}
 			foreach (string keybind in KnownKeybinds)
 			{
 				if (!Extensions.Extensions.KeyBindsSettingExists(keybind)) continue;
-				var keybindDict = Core.Settings.MyKeyBinds[keybind] as StringCollection;
+				var keybindDict = Core.Settings.MyKeyBinds.GetInput(keybind) as StringCollection;
 				if (keybindDict != null && keybindDict.Count != 0)
 				{
 					foreach (string item in keybindDict)
@@ -641,7 +641,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			List<string> keyBindList = new List<string>();
 			List<string> keyBindDuplicatesList = new List<string>();
 
-			var keybindDict = Core.Settings.MyKeyBinds[keyRefrence] as StringCollection;
+			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as StringCollection;
 			if (keybindDict != null) keyBindList = keybindDict.Cast<string>().ToList();
 			if (keyBindList != null)
 			{
@@ -665,7 +665,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 			if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return new Tuple<string, string>("N/A", null);
 
-			var keybindDict = Core.Settings.MyKeyBinds[keyRefrence] as StringCollection;
+			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as StringCollection;
 			if (keybindDict != null)
 			{
 				keyBindList = keybindDict.Cast<string>().ToList();
@@ -702,7 +702,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-            Classes.Editor.Constants.ReloadAllSettings();
+            Core.Settings.ReloadAllSettings();
 			this.DialogResult = true;
 		}
 
@@ -730,8 +730,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                     settingsTypeChangeLock = true;
                     if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                     {
-                        Properties.Internal.Default.PortableMode = true;
-                        Properties.Internal.Default.Save();
+						Core.Settings.MyInternalSettings.PortableMode = true;
+						Core.Options.InternalSwitches.Save();
                         Environment.Exit(0);
                     }
                     else
@@ -747,8 +747,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                     settingsTypeChangeLock = true;
                     if (MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                     {
-                        Properties.Internal.Default.PortableMode = false;
-                        Properties.Internal.Default.Save();
+                        Core.Settings.MyInternalSettings.PortableMode = false;
+						Core.Options.InternalSwitches.Save();
                         Environment.Exit(0);
                     }
                     else
@@ -881,12 +881,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
             if (e.Source == tileListRadioButton)
             {
-                Properties.Defaults.Default.TileManiacListSetting = 1;
+                Core.Settings.MyDefaults.TileManiacListSetting = 1;
                 tileListRadioButton.IsChecked = true;
             }
             else if (e.Source == collisionListRadioButton)
             {
-                Properties.Defaults.Default.TileManiacListSetting = 0;
+                Core.Settings.MyDefaults.TileManiacListSetting = 0;
                 collisionListRadioButton.IsChecked = true;
             }
         }
@@ -898,12 +898,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
             if (e.Source == collisionEditorViewRadioButton)
             {
-                Properties.Defaults.Default.TileManiacViewAppearanceMode = 1;
+                Core.Settings.MyDefaults.TileManiacViewAppearanceMode = 1;
                 collisionEditorViewRadioButton.IsChecked = true;
             }
             else if (e.Source == overlayEditorViewRadioButton)
             {
-                Properties.Defaults.Default.TileManiacViewAppearanceMode = 0;
+                Core.Settings.MyDefaults.TileManiacViewAppearanceMode = 0;
                 overlayEditorViewRadioButton.IsChecked = true;
             }
         }
@@ -916,17 +916,17 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
             if (e.Source == tileRenderViewRadioButton)
             {
-                Properties.Defaults.Default.TileManiacRenderViewerSetting = 0;
+                Core.Settings.MyDefaults.TileManiacRenderViewerSetting = 0;
                 tileRenderViewRadioButton.IsChecked = true;
             }
             else if (e.Source == collisionRenderViewRadioButton)
             {
-                Properties.Defaults.Default.TileManiacRenderViewerSetting = 1;
+                Core.Settings.MyDefaults.TileManiacRenderViewerSetting = 1;
                 collisionRenderViewRadioButton.IsChecked = true;
             }
             else if (e.Source == overlayRenderViewRadioButton)
             {
-                Properties.Defaults.Default.TileManiacRenderViewerSetting = 2;
+                Core.Settings.MyDefaults.TileManiacRenderViewerSetting = 2;
                 overlayRenderViewRadioButton.IsChecked = true;
             }
         }

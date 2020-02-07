@@ -20,8 +20,8 @@ namespace ManiacEditor.Controls.Utility
         int playerObjectCount = 0;
         public int selectedPlayer = 0;
 
-        private Controls.Base.MainEditor Instance;
-		public GoToPositionBox(Controls.Base.MainEditor instance)
+        private Controls.Editor.MainEditor Instance;
+		public GoToPositionBox(Controls.Editor.MainEditor instance)
 		{
 			InitializeComponent();
             Instance = instance;

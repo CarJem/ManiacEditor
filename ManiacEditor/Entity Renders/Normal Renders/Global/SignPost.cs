@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             int platformAngle = properties.PlatformAngle;
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 0, -1, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 0, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -28,7 +28,7 @@ namespace ManiacEditor.Entity_Renders
             }
             if (Methods.GameHandler.SelectedGameVersion == "1.3")
             {
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 4, -1, false, false, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 4, -1, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     for (int i = 0; i < editorAnim.Frames.Count; ++i)
@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
             }
             else
             {
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 6, -1, false, false, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 6, -1, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     for (int i = 0; i < editorAnim.Frames.Count; ++i)

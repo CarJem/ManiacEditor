@@ -54,9 +54,9 @@ namespace ManiacEditor.Entity_Renders
                     valveType = 0;
                     break;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 0, animID, fliph, flipv, false);
-            var nozzelA = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 1, 0, fliph, flipv, false);
-            var nozzelB = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 1, 1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 0, animID, fliph, flipv, false);
+            var nozzelA = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var nozzelB = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 1, 1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && nozzelA != null && nozzelA.Frames.Count != 0 && nozzelB != null && nozzelB.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

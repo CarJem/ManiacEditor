@@ -20,16 +20,16 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 5, 0, false, false, false);
-            var editorAnim5 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 7, -1, fliph, flipv, false);
-            var editorAnim6 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 6, 0, false, false, false);
-            var editorAnim7 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 3, -1, fliph, flipv, false);
-            var editorAnim8 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 4, -1, fliph, flipv, false);
-            var editorAnim9 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 10, -1, fliph, flipv, false);
-            var editorAnim10 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 12, 0, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim4 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 5, 0, false, false, false);
+            var editorAnim5 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 7, -1, fliph, flipv, false);
+            var editorAnim6 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 6, 0, false, false, false);
+            var editorAnim7 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnim8 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 4, -1, fliph, flipv, false);
+            var editorAnim9 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 10, -1, fliph, flipv, false);
+            var editorAnim10 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Train", d.DevicePanel, 12, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0 && editorAnim10 != null && editorAnim10.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

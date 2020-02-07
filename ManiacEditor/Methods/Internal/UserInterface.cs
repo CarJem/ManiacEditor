@@ -5,8 +5,8 @@ using System.Windows;
 using RSDKv5;
 using ManiacEditor.Actions;
 using System.Windows.Controls;
-using ManiacEditor.Controls.Base;
-using ManiacEditor.Controls.Base.Toolbars;
+using ManiacEditor.Controls.Editor;
+using ManiacEditor.Controls.Editor.Toolbars;
 using ManiacEditor.Controls.TileManiac;
 
 namespace ManiacEditor.Methods.Internal
@@ -81,9 +81,9 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.TilesToolbar == null)
                 {
                     if (Classes.Editor.SolutionState.UseEncoreColors)
-                        Instance.TilesToolbar = new ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Instance.Paths.StageTiles_Source, Instance.EncorePalette[0], MainEditor.Instance);
+                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Instance.Paths.StageTiles_Source, Instance.EncorePalette[0], MainEditor.Instance);
                     else
-                        Instance.TilesToolbar = new ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Instance.Paths.StageTiles_Source, null, MainEditor.Instance);
+                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Instance.Paths.StageTiles_Source, null, MainEditor.Instance);
 
 
                     Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
@@ -120,7 +120,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.EntitiesToolbar == null)
                 {
-                    Instance.EntitiesToolbar = new ManiacEditor.Controls.Base.Toolbars.EntitiesToolbar.EntitiesToolbar(Classes.Editor.Solution.CurrentScene.Objects, MainEditor.Instance)
+                    Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar(Classes.Editor.Solution.CurrentScene.Objects, MainEditor.Instance)
                     {
                         SelectedEntity = new Action<int>(x =>
                         {
@@ -252,13 +252,13 @@ namespace ManiacEditor.Methods.Internal
                                     break;
                                 }
                             }
-                            Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Unchcked);
+                            Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Unchcked);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < 4; ++i)
-                            Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Base.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Disabled);
+                            Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Disabled);
                     }
                 }
 
@@ -414,7 +414,7 @@ namespace ManiacEditor.Methods.Internal
                 SetSceneOnlyButtonsState(Classes.Editor.Solution.CurrentScene != null && !parallaxAnimationInProgress, stageLoad);
                 SetParallaxAnimationOnlyButtonsState(parallaxAnimationInProgress);
                 UpdateSplineToolbox();
-                Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Properties.Defaults.Default.CustomGridSizeValue);
+                Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Core.Settings.MyDefaults.CustomGridSizeValue);
                 Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
             }
         }

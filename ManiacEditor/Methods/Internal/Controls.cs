@@ -12,7 +12,7 @@ using ManiacEditor.Controls.TileManiac;
 using ManiacEditor.Enums;
 using ManiacEditor.Extensions;
 using ManiacEditor.Controls.TileManiac;
-using ManiacEditor.Controls.Base;
+using ManiacEditor.Controls.Editor;
 
 
 namespace ManiacEditor.Methods.Internal
@@ -1060,7 +1060,7 @@ namespace ManiacEditor.Methods.Internal
             }
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
 
-
+            info.Style = (System.Windows.Style)Instance.FindResource("NormalText");
             info.ItemsSource = Instance.EditorStatusBar.EntityContext.Items;
             info.Foreground = (System.Windows.Media.SolidColorBrush)Instance.FindResource("NormalText");
             info.Background = (System.Windows.Media.SolidColorBrush)Instance.FindResource("NormalBackground");

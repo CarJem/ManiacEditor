@@ -11,14 +11,14 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
     /// </summary>
     public partial class ManiacINIEditor : Window
     {
-        private Controls.Base.MainEditor Instance;
+        private Controls.Editor.MainEditor Instance;
         private bool updatingKeys { get; set; } = false;
         private bool updatingValues { get; set; } = false;
         private SceneSettings ManiacINIDataUnedited;
 
         //TODO : Make Functional Again.
 
-        public ManiacINIEditor(Controls.Base.MainEditor instance)
+        public ManiacINIEditor(Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             /*

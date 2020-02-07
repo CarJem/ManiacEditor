@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             var width = (int)(entity.attributesMap["width"].ValueUInt32) - 1;
             var height = (int)(entity.attributesMap["height"].ValueUInt32) - 1;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PlaneSwitch", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PlaneSwitch", d.DevicePanel, 0, 0, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

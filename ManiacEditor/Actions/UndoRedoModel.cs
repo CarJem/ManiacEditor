@@ -33,8 +33,8 @@ namespace ManiacEditor.Actions
                         taction.Close();
                         action = taction;
                     }
-                    Controls.Base.MainEditor.Instance.UndoStack.Push(action);
-                    Controls.Base.MainEditor.Instance.RedoStack.Clear();
+                    Controls.Editor.MainEditor.Instance.UndoStack.Push(action);
+                    Controls.Editor.MainEditor.Instance.RedoStack.Clear();
                     Methods.Internal.UserInterface.UpdateControls();
                 }
                 if (Classes.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
@@ -50,8 +50,8 @@ namespace ManiacEditor.Actions
                         taction.Close();
                         action = taction;
                     }
-                    Controls.Base.MainEditor.Instance.UndoStack.Push(action);
-                    Controls.Base.MainEditor.Instance.RedoStack.Clear();
+                    Controls.Editor.MainEditor.Instance.UndoStack.Push(action);
+                    Controls.Editor.MainEditor.Instance.RedoStack.Clear();
                     Methods.Internal.UserInterface.UpdateControls();
                 }
 

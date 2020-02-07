@@ -20,10 +20,10 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimInside = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 0, 2, fliph, flipv, false);
-            var editorAnimExclamation = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 0, 3, fliph, flipv, false);
-            var editorAnimButton = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimInside = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 0, 2, fliph, flipv, false);
+            var editorAnimExclamation = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 0, 3, fliph, flipv, false);
+            var editorAnimButton = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 1, -1, fliph, flipv, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimButton != null && editorAnimButton.Frames.Count != 0 && editorAnimInside != null && editorAnimInside.Frames.Count != 0 && editorAnimExclamation != null && editorAnimExclamation.Frames.Count != 0)
             {
@@ -48,8 +48,8 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-                var mightyAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 3, -1, fliph, flipv, false);
-                var rayAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 4, -1, fliph, flipv, false);
+                var mightyAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 3, -1, fliph, flipv, false);
+                var rayAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 4, -1, fliph, flipv, false);
 
                 if (mightyAnim != null && mightyAnim.Frames.Count != 0 && rayAnim != null && rayAnim.Frames.Count != 0)
                 {
@@ -69,7 +69,7 @@ namespace ManiacEditor.Entity_Renders
                         rayFrame.Frame.Width, rayFrame.Frame.Height, false, Transparency);
                 }
 
-                var editorAnimGlass = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 2, -1, fliph, flipv, false);
+                var editorAnimGlass = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SchrodingersCapsule", d.DevicePanel, 2, -1, fliph, flipv, false);
 
                 if (editorAnimGlass != null && editorAnimGlass.Frames.Count != 0)
                 {

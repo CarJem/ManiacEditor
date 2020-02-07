@@ -25,7 +25,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Plants", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Plants", d.DevicePanel, 1, -1, fliph, flipv, false);
             x += (fliph ? 42 : -42);
             y += -42;
             if (editorAnim != null && editorAnim.Frames.Count != 0)

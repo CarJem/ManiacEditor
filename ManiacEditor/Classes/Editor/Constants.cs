@@ -17,19 +17,125 @@ namespace ManiacEditor.Classes.Editor
         public const int BOX_SIZE = 8;
         public const int TILE_BOX_SIZE = 1;
         public const int x128_CHUNK_SIZE = 128;
-        public static string SettingsStaticDirectory { get => GetStaticSettingsDirectiory(); }
-        public static string SettingsPortableDirectory { get => GetPortableSettingsDirectoryName(); }
+
+        #region Folder/File Paths
+
+        #region Settings Files/Folders
+        public static string SettingsStaticDirectory 
+        { 
+            get 
+            {
+                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config");
+            } 
+        }
+        public static string SettingsPortableDirectory
+        {
+            get
+            {
+                return System.IO.Path.Combine(GetExecutingDirectoryName(), "Settings");
+            }
+        }
+
+
+        public static string DefaultPrefrencesFilePath
+        {
+            get
+            {
+                if (Core.Settings.MyInternalSettings.PortableMode)
+                {
+                    return System.IO.Path.Combine(SettingsPortableDirectory, "defaults.json");
+                }
+                else
+                {
+                    return System.IO.Path.Combine(SettingsStaticDirectory, "defaults.json");
+                }
+            }
+        }
+        public static string DevelopmentStatesFilePath
+        {
+            get
+            {
+                if (Core.Settings.MyInternalSettings.PortableMode)
+                {
+                    return System.IO.Path.Combine(SettingsPortableDirectory, "dev_settings.json");
+                }
+                else
+                {
+                    return System.IO.Path.Combine(SettingsStaticDirectory, "dev_settings.json");
+                }
+            }
+        }
+        public static string GameplaySettingsFilePath
+        {
+            get
+            {
+                if (Core.Settings.MyInternalSettings.PortableMode)
+                {
+                    return System.IO.Path.Combine(SettingsPortableDirectory, "gameplay_options.json");
+                }
+                else
+                {
+                    return System.IO.Path.Combine(SettingsStaticDirectory, "gameplay_options.json");
+                }
+            }
+        }
+        public static string GeneralSettingsFilePath
+        {
+            get
+            {
+                if (Core.Settings.MyInternalSettings.PortableMode)
+                {
+                    return System.IO.Path.Combine(SettingsPortableDirectory, "general_settings.json");
+                }
+                else
+                {
+                    return System.IO.Path.Combine(SettingsStaticDirectory, "general_settings.json");
+                }
+            }
+        }
+        public static string InputPreferencesFilePath
+        {
+            get
+            {
+                if (Core.Settings.MyInternalSettings.PortableMode)
+                {
+                    return System.IO.Path.Combine(SettingsPortableDirectory, "input_mappings.json");
+                }
+                else
+                {
+                    return System.IO.Path.Combine(SettingsStaticDirectory, "input_mappings.json");
+                }
+            }
+        }
+        public static string VideoConfigurationFilePath
+        {
+            get
+            {
+                if (Core.Settings.MyInternalSettings.PortableMode)
+                {
+                    return System.IO.Path.Combine(SettingsPortableDirectory, "video_settings.json");
+                }
+                else
+                {
+                    return System.IO.Path.Combine(SettingsStaticDirectory, "video_settings.json");
+                }
+            }
+        }
+        public static string InternalSwitchesFilePath
+        {
+            get
+            {
+                return System.IO.Path.Combine(SettingsPortableDirectory, "internal_switches.json");
+            }
+        } 
+        #endregion
+
+
 
         public static string GetLoggingFolder()
         {
             return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "logs");
         }
-
-        private static string GetStaticSettingsDirectiory()
-        {
-            return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config");
-        }
-
         public static string DownloadRequestsFolder
         {
             get
@@ -37,60 +143,13 @@ namespace ManiacEditor.Classes.Editor
                 return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "UpdateRequests");
             }
         }
-
-        public static void UpgradeAllSettings()
-        {
-            ManiacEditor.Core.Settings.MyPerformance.Upgrade();
-            ManiacEditor.Core.Settings.MyDefaults.Upgrade();
-            ManiacEditor.Core.Settings.MyGameOptions.Upgrade();
-            ManiacEditor.Core.Settings.MyDevSettings.Upgrade();
-            ManiacEditor.Core.Settings.MyKeyBinds.Upgrade();
-            ManiacEditor.Core.Settings.MySettings.Upgrade();
-            Properties.Internal.Default.Upgrade();
-        }
-
-        public static void SaveAllSettings()
-        {
-            ManiacEditor.Core.Settings.MyDefaults.Save();
-            ManiacEditor.Core.Settings.MyDevSettings.Save();
-            ManiacEditor.Core.Settings.MyGameOptions.Save();
-            ManiacEditor.Core.Settings.MyKeyBinds.Save();
-            ManiacEditor.Core.Settings.MyPerformance.Save();
-            ManiacEditor.Core.Settings.MySettings.Save();
-            Properties.Internal.Default.Save();
-        }
-
-        public static void ReloadAllSettings()
-        {
-            ManiacEditor.Core.Settings.MyDefaults.Reload();
-            ManiacEditor.Core.Settings.MyDevSettings.Reload();
-            ManiacEditor.Core.Settings.MyGameOptions.Reload();
-            ManiacEditor.Core.Settings.MyPerformance.Reload();
-            ManiacEditor.Core.Settings.MyKeyBinds.Reload();
-            ManiacEditor.Core.Settings.MySettings.Reload();
-            Properties.Internal.Default.Reload();
-        }
-
-        public static void ResetAllSettings()
-        {
-            ManiacEditor.Core.Settings.MyDefaults.Reset();
-            ManiacEditor.Core.Settings.MyDevSettings.Reset();
-            ManiacEditor.Core.Settings.MyGameOptions.Reset();
-            ManiacEditor.Core.Settings.MyPerformance.Reset();
-            ManiacEditor.Core.Settings.MyKeyBinds.Reset();
-            ManiacEditor.Core.Settings.MySettings.Reset();
-        }
-
-        private static string GetPortableSettingsDirectoryName()
-        {
-            return System.IO.Path.Combine(GetExecutingDirectoryName(), "Settings");
-        }
-
         private static string GetExecutingDirectoryName()
         {
             string exeLocationUrl = System.Reflection.Assembly.GetEntryAssembly().GetName().CodeBase;
             string exeLocation = new Uri(exeLocationUrl).LocalPath;
             return new System.IO.FileInfo(exeLocation).Directory.FullName;
         }
+
+        #endregion
     }
 }

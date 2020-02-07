@@ -66,9 +66,9 @@ namespace ManiacEditor.Controls.Global.Controls
               null);
         #endregion
 
-        private ManiacEditor.Controls.Base.MainEditor Instance { get; set; }
+        private ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
 
-        public void UpdateInstance(ManiacEditor.Controls.Base.MainEditor instance)
+        public void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor instance)
         {
             Instance = instance;
         }

@@ -9,7 +9,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <skin:SkinResourceDictionary DarkSource="Controls/Assets/ColorLibraryDark.xaml" LightSource="Controls/Assets/ColorLibraryLight.xaml" />
+                <skin:SkinResourceDictionary DarkSource="/GenerationsLib.WPF;Component/Styles/ColorLibraryDark.xaml" LightSource="/GenerationsLib.WPF;Component/Styles/ColorLibraryLight.xaml" />
                 <ResourceDictionary Source="Controls/Assets/Icons.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/IconLibrary.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ButtonStyle.xaml"></ResourceDictionary>

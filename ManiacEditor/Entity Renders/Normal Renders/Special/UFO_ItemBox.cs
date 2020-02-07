@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 entity.attributesMap["type"].ValueEnum = 2;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Items", d.DevicePanel, 0, id, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Items", d.DevicePanel, 0, id, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

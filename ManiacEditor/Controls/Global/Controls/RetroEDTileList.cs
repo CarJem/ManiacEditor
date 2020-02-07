@@ -144,7 +144,7 @@ namespace ManiacEditor.Controls.Global.Controls
 
             }
             catch (Exception ex) {
-                throw ex;
+                Console.WriteLine(ex.Message);
             }
 
         }
@@ -422,44 +422,44 @@ namespace ManiacEditor.Controls.Global.Controls
 
 		private void removeChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
 		}
 
 		private void duplicateChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (SelectedIndex != -1)
 			{
-                ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
+                ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
 			}
 		}
 
 		private void importChunkFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (ManiacEditor.Controls.Base.MainEditor.Instance.TilesClipboard != null)
+			if (ManiacEditor.Controls.Editor.MainEditor.Instance.TilesClipboard != null)
 			{
-                ManiacEditor.Controls.Base.MainEditor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(ManiacEditor.Controls.Base.MainEditor.Instance.TilesClipboard.Item1, ManiacEditor.Controls.Base.MainEditor.Instance.TilesClipboard.Item2);
+                ManiacEditor.Controls.Editor.MainEditor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(ManiacEditor.Controls.Editor.MainEditor.Instance.TilesClipboard.Item1, ManiacEditor.Controls.Editor.MainEditor.Instance.TilesClipboard.Item2);
 
-                ManiacEditor.Controls.Base.MainEditor.Instance.TilesToolbar?.ChunksReload();
+                ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar?.ChunksReload();
 			}
 		}
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance == null || ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.IsClosed) ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
-			if (ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
+			if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance == null || ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.IsClosed) ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
+			if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
-                ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.Show();
+                ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Show();
 			}
 			if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles != null)
 			{
-				if (ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.tcf == null)
+				if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.tcf == null)
 				{
-                    ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Controls.Base.MainEditor.Instance.Paths.TileConfig_Source, SelectedIndex);
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Controls.Editor.MainEditor.Instance.Paths.TileConfig_Source, SelectedIndex);
 				}
 				else
 				{
-                    ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
-                    ManiacEditor.Controls.Base.MainEditor.Instance.TileManiacInstance.Activate();
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Activate();
 				}
 
 			}

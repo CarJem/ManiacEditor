@@ -153,9 +153,9 @@ namespace ManiacEditor.Extensions
 		public static bool KeyBindsSettingExists(string name)
 		{
 			bool found = false;
-			foreach (SettingsProperty currentProperty in Properties.KeyBinds.Default.Properties)
+			foreach (var currentKeybind in Core.Settings.MyKeyBinds.GetInputs())
 			{
-				if (name == currentProperty.Name.ToString())
+				if (name == currentKeybind)
 				{
 					found = true;
 				}

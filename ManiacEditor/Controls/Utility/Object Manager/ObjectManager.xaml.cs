@@ -29,17 +29,13 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		public ListViewItem SelectedAttributeItem;
 
-		public Controls.Base.MainEditor EditorInstance;
+		public Controls.Editor.MainEditor EditorInstance;
 
 		public ObservableCollection<CheckBox> lvObjects;
 
 		bool fullRefreshNeeded = false;
 
-		//Shorthanding Settings
-		Properties.Settings mySettings = Properties.Settings.Default;
-		Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
-
-		public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Base.MainEditor instance)
+		public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
 		{
 			EditorInstance = instance;
             InitializeComponent();

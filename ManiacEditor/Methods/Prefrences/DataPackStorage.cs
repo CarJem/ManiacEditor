@@ -8,23 +8,23 @@ namespace ManiacEditor.Methods.Prefrences
 {
     public static class DataPackStorage
 	{
-		public static Controls.Base.MainEditor Instance;
+		public static Controls.Editor.MainEditor Instance;
 		static IniData ModPackInfo;
 		public static List<Tuple<string, List<Tuple<string, string>>>> ModListInformation;
         private static string SettingsFolder { get => GetDataPackDirectory(); }
 
         private static string GetDataPackDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
+            return (Core.Settings.MyInternalSettings.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
         }
 
-		public static void Initilize(Controls.Base.MainEditor instance)
+		public static void Initilize(Controls.Editor.MainEditor instance)
 		{
 			UpdateInstance(instance);
 			LoadFile();
 		}
 
-		public static void UpdateInstance(Controls.Base.MainEditor instance)
+		public static void UpdateInstance(Controls.Editor.MainEditor instance)
 		{
 			Instance = instance;
 		}

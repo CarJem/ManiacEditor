@@ -22,8 +22,8 @@ namespace ManiacEditor.Entity_Renders
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
             int listID = (int)entity.attributesMap["listID"].ValueEnum;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
-            var editorAnimType = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("ButtonLabel", d.DevicePanel, 0, type, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
+            var editorAnimType = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("ButtonLabel", d.DevicePanel, 0, type, false, false, false);
             if (editorAnimType != null && editorAnimType.Frames.Count != 0)
             {
                 var frame = editorAnimType.Frames[Animation.index];

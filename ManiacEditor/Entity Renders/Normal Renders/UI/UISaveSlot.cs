@@ -22,13 +22,13 @@ namespace ManiacEditor.Entity_Renders
             //int frameID = (int)entity.attributesMap["listID"].ValueEnum;
             int type = (int)entity.attributesMap["type"].ValueEnum;
             string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimBorder = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 1, false, false, false);
-            var editorAnimBackground = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 2, false, false, false);
-            var editorAnimActualRender = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 0, false, false, false);
-            var editorAnimActualRenderBorder = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 1, false, false, false);
-            var editorAnimText = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 0, false, false, false);
-            var editorAnimNoSave = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 2, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimBorder = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 1, false, false, false);
+            var editorAnimBackground = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 0, 2, false, false, false);
+            var editorAnimActualRender = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 0, false, false, false);
+            var editorAnimActualRenderBorder = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 3, 1, false, false, false);
+            var editorAnimText = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 0, false, false, false);
+            var editorAnimNoSave = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 2, 2, false, false, false);
             if (type == 1)
             {
                 if (editorAnim != null && editorAnim.Frames.Count != 0)

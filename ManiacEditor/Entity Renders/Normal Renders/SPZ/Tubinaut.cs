@@ -20,12 +20,12 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 8, -1, fliph, flipv, false);
-            var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 1, 0, fliph, flipv, false);
-            var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 2, 8, fliph, flipv, false);
-            var editorAnim5 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 3, 12, fliph, flipv, false);
-            var editorAnim6 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 0, 1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 8, -1, fliph, flipv, false);
+            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 1, 0, fliph, flipv, false);
+            var editorAnim4 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 2, 8, fliph, flipv, false);
+            var editorAnim5 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 3, 12, fliph, flipv, false);
+            var editorAnim6 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Tubinaut", d.DevicePanel, 0, 1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
@@ -37,7 +37,7 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
 
-                if (Controls.Base.MainEditor.Instance.EditorToolbar.ShowAnimations.IsChecked.Value == true && Classes.Editor.SolutionState.AllowSpriteAnimations)
+                if (Controls.Editor.MainEditor.Instance.EditorToolbar.ShowAnimations.IsChecked.Value == true && Classes.Editor.SolutionState.AllowSpriteAnimations)
                 {
 
                     d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame6),

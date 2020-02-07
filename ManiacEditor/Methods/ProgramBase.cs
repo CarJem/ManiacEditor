@@ -208,56 +208,12 @@ namespace ManiacEditor.Methods
             EntityRenderingOptions.GetExternalData(ref ManiacEditor.Methods.Entities.EntityDrawing.RenderingSettings);
         }
 
-        public static void SetupSettingFiles()
-        {
-            if (!Directory.Exists(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder)) System.IO.Directory.CreateDirectory(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder);
-            string currentDirectory = ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName();
-            if (!File.Exists(Path.Combine(currentDirectory, "Internal.settings"))) File.Create(Path.Combine(currentDirectory, "Internal.settings"));
-            bool PortableExists = System.IO.Directory.Exists(Classes.Editor.Constants.SettingsPortableDirectory);
-            if (!PortableExists) System.IO.Directory.CreateDirectory(Classes.Editor.Constants.SettingsPortableDirectory);
-            bool FixedExists = System.IO.Directory.Exists(Classes.Editor.Constants.SettingsStaticDirectory);
-            if (!FixedExists) System.IO.Directory.CreateDirectory(Classes.Editor.Constants.SettingsStaticDirectory);
-
-            if (Properties.Internal.Default.PortableMode)
-            {
-                string settings1 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Performance"));
-                string settings2 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "DevOptions"));
-                string settings3 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Defaults"));
-                string settings4 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Keybinds"));
-                string settings5 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "Settings"));
-                string settings6 = Path.Combine(Classes.Editor.Constants.SettingsPortableDirectory, string.Format("{0}.settings", "GameOptions"));
-                if (!File.Exists(settings1)) File.Create(settings1).Close();
-                if (!File.Exists(settings2)) File.Create(settings2).Close();
-                if (!File.Exists(settings3)) File.Create(settings3).Close();
-                if (!File.Exists(settings4)) File.Create(settings4).Close();
-                if (!File.Exists(settings5)) File.Create(settings5).Close();
-                if (!File.Exists(settings6)) File.Create(settings6).Close();
-            }
-            else
-            {
-
-                string settings1 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Performance"));
-                string settings2 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "DevOptions"));
-                string settings3 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Defaults"));
-                string settings4 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Keybinds"));
-                string settings5 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "Settings"));
-                string settings6 = Path.Combine(Classes.Editor.Constants.SettingsStaticDirectory, string.Format("{0}.settings", "GameOptions"));
-                if (!File.Exists(settings1)) File.Create(settings1).Close();
-                if (!File.Exists(settings2)) File.Create(settings2).Close();
-                if (!File.Exists(settings3)) File.Create(settings3).Close();
-                if (!File.Exists(settings4)) File.Create(settings4).Close();
-                if (!File.Exists(settings5)) File.Create(settings5).Close();
-                if (!File.Exists(settings6)) File.Create(settings6).Close();
-            }
-
-
-        }
-
         public static void DisableDPIScaling()
         {
+            /*
             string currentDirectory = ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName();
             string appPath = string.Format(@"{0}\{1}.exe", currentDirectory, Assembly.GetExecutingAssembly().GetName().Name);
-            Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ PERPROCESSSYSTEMDPIFORCEON DPIUNAWARE");
+            Microsoft.Win32.Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers", appPath, "~ PERPROCESSSYSTEMDPIFORCEOFF DPIUNAWARE");*/
         }
 
         public static void SetRuntimeRules()

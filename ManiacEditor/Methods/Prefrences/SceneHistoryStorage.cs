@@ -8,23 +8,23 @@ namespace ManiacEditor.Methods.Prefrences
 {
     public static class SceneHistoryStorage
 	{
-		private static Controls.Base.MainEditor Instance;
+		private static Controls.Editor.MainEditor Instance;
         public static ManiacEditor.Classes.Internal.SceneHistoryCollection Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
         static IniData RecentsListInfo;
         private static string SettingsFolder { get => GetRecentsListDirectory(); }
 
         private static string GetRecentsListDirectory()
         {
-            return (Properties.Internal.Default.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
+            return (Core.Settings.MyInternalSettings.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
         }
 
-        public static void UpdateInstance(Controls.Base.MainEditor instance)
+        public static void UpdateInstance(Controls.Editor.MainEditor instance)
         {
             Instance = instance;
             LoadFile();
         }
 
-        public static void Initilize(Controls.Base.MainEditor instance)
+        public static void Initilize(Controls.Editor.MainEditor instance)
         {
             UpdateInstance(instance);
             LoadFile();

@@ -76,19 +76,19 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, true, flipv, false);
-            var editorAnim10 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, 9, fliph, flipv, false);
-            var editorAnim11 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 3, 3, fliph, flipv, false);
-            var editorAnim12 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 4, 3, fliph, flipv, false);
-            var editorAnim13 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, fliph, flipv, false);
-            var editorAnim14 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, flipv, false);
-            var editorAnim15 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 2, fliph, flipv, false);
-            var editorAnim16 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 15, -1, fliph, flipv, false);
-            var normalSataliteReversedHV = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, true, false);
-            var normalSataliteReversedV = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, false, true, false);
-            var normalSataliteReversedH = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, false, false);
-            var downwardsSatalite = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, true, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, -1, true, flipv, false);
+            var editorAnim10 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 0, 9, fliph, flipv, false);
+            var editorAnim11 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 3, 3, fliph, flipv, false);
+            var editorAnim12 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 4, 3, fliph, flipv, false);
+            var editorAnim13 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, fliph, flipv, false);
+            var editorAnim14 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, flipv, false);
+            var editorAnim15 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 2, fliph, flipv, false);
+            var editorAnim16 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 15, -1, fliph, flipv, false);
+            var normalSataliteReversedHV = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, true, false);
+            var normalSataliteReversedV = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, false, true, false);
+            var normalSataliteReversedH = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 0, true, false, false);
+            var downwardsSatalite = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVVan", d.DevicePanel, 6, 1, fliph, true, false);
 
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {

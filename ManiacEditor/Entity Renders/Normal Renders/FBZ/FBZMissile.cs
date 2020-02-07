@@ -30,7 +30,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 frameID = 1;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Missile", d.DevicePanel, frameID, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Missile", d.DevicePanel, frameID, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

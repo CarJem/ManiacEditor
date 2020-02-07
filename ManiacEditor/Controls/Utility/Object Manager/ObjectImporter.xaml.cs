@@ -26,10 +26,10 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
         private IList<SceneObject> _sourceSceneObjects;
         private IList<SceneObject> _targetSceneObjects;
         private StageConfig _stageConfig;
-        public Controls.Base.MainEditor EditorInstance;
+        public Controls.Editor.MainEditor EditorInstance;
         public IList<CheckBox> lvObjects = new List<CheckBox>();
 
-        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Base.MainEditor instance)
+        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -45,7 +45,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 
-        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Base.MainEditor instance)
+        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -125,7 +125,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             MegaList.ForEach(x => x.Objects = x.Objects.Where(sso => !GlobalObjects.Contains(sso)).ToList());
             MegaList.Insert(0, new ImportableZoneObject("Global", GlobalObjects));
 
-            if (Properties.Settings.Default.RemoveObjectImportLock == false)
+            if (Core.Settings.MySettings.RemoveObjectImportLock == false)
             {
                 MegaList.ForEach(x => x.Objects = x.Objects.Where(sso => !targetNames.Contains(sso.Name.Name)).ToList());
             }
@@ -185,7 +185,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             var targetNames = targetSceneObjects.Select(tso => tso.Name.ToString());
             var importableObjects = sourceSceneObjects.Where(sso => !targetNames.Contains(sso.Name.ToString()))
                                                         .OrderBy(sso => sso.Name.ToString());
-            if (Properties.Settings.Default.RemoveObjectImportLock == true)
+            if (Core.Settings.MySettings.RemoveObjectImportLock == true)
             {
                 importableObjects = _sourceSceneObjects.OrderBy(sso => sso.Name.ToString());
             }

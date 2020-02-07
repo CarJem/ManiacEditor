@@ -13,7 +13,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Dev
     public partial class MD5HashGen : Window
 	{
 
-		public MD5HashGen(Controls.Base.MainEditor instance)
+		public MD5HashGen(Controls.Editor.MainEditor instance)
 		{
 			InitializeComponent();
 		}

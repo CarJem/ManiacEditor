@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             int distance = (int)entity.attributesMap["distance"].ValueInt32;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Firework", d.DevicePanel, 0, -1, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Firework", d.DevicePanel, 0, -1, false, false, false);
             if (distance != 0)
             {
                 d.DrawArrow(x, y, x, y - distance, SystemColors.Yellow);

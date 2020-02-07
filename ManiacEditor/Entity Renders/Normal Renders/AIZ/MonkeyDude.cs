@@ -20,11 +20,11 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimTail = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnimArm = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnimHand = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 3, -1, fliph, flipv, false);
-            var editorAnimCoconut = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 4, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimTail = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnimArm = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnimHand = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnimCoconut = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("MonkeyDude", d.DevicePanel, 4, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimTail != null && editorAnimTail.Frames.Count != 0 && editorAnimArm != null && editorAnimArm.Frames.Count != 0 && editorAnimCoconut != null && editorAnimCoconut.Frames.Count != 0 && editorAnimHand != null && editorAnimHand.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

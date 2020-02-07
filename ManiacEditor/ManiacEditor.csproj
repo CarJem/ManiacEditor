@@ -152,6 +152,9 @@
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework">
@@ -201,28 +204,36 @@
     <Compile Include="Classes\Editor\Scene\EditorScene.cs" />
     <Compile Include="Classes\Internal\DataStateHistoryCollection.cs" />
     <Compile Include="Classes\Internal\SceneHistoryCollection.cs" />
-    <Compile Include="Controls\Base\Elements\View\DebugHUD.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\View\DebugHUD.xaml.cs">
       <DependentUpon>DebugHUD.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\ViewPanel.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\ViewPanel.xaml.cs">
       <DependentUpon>ViewPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\View\ScrollGrid.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\View\ScrollGrid.xaml.cs">
       <DependentUpon>ScrollGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\View\SharpPanel.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\View\SharpPanel.xaml.cs">
       <DependentUpon>SharpPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\View\WaitingPanel.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\View\WaitingPanel.xaml.cs">
       <DependentUpon>WaitingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Render\Disposable\GraphicsModel2.xaml.cs">
+    <Compile Include="Controls\Editor\Render\Disposable\GraphicsModel2.xaml.cs">
       <DependentUpon>GraphicsModel2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\RenderedText\RenderedTextBox.xaml.cs">
       <DependentUpon>RenderedTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\SplitContainer.cs" />
+    <Compile Include="Core\Options\DevelopmentStates.cs" />
+    <Compile Include="Core\Options\DefaultPrefrences.cs" />
+    <Compile Include="Core\Options\GameplaySettings.cs" />
+    <Compile Include="Core\Options\GeneralSettings.cs" />
+    <Compile Include="Core\Options\DefaultInputPreferences.cs" />
+    <Compile Include="Core\Options\InputPreferences.cs" />
+    <Compile Include="Core\Options\InternalSwitches.cs" />
+    <Compile Include="Core\Options\VideoConfiguration.cs" />
     <Compile Include="Extensions\ExternalExtensions.cs" />
     <Compile Include="Extensions\SystemColorsUtility.cs" />
     <Compile Include="Methods\Internal\Common.cs" />
@@ -576,46 +587,34 @@
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Extensions\Spline\ArrayUtil.cs" />
     <Compile Include="Extensions\Spline\CubicSpline.cs" />
-    <Compile Include="Controls\Base\Elements\MenuBar.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\StatusBar.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\Toolbar.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Render\DevicePanel\DevicePanel.cs">
+    <Compile Include="Controls\Editor\Render\DevicePanel\DevicePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Base\Render\DevicePanel\DevicePanel.designer.cs" />
-    <Compile Include="Controls\Base\Render\GraphicsModel\GraphicsModel.cs">
+    <Compile Include="Controls\Editor\Render\DevicePanel\DevicePanel.designer.cs" />
+    <Compile Include="Controls\Editor\Render\GraphicsModel\GraphicsModel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Base\Render\GraphicsModel\GraphicsModel.Designer.cs" />
+    <Compile Include="Controls\Editor\Render\GraphicsModel\GraphicsModel.Designer.cs" />
     <Compile Include="Controls\Updater\DownloadWindow.xaml.cs" />
     <Compile Include="Controls\Updater\ManiacUpdater.xaml.cs">
       <DependentUpon>ManiacUpdater.xaml</DependentUpon>
     </Compile>
     <Compile Include="Methods\ProgramLauncher.cs" />
-    <Compile Include="Properties\Defaults.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Defaults.settings</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\SettingsProviders\DevSettingsProvider.cs" />
-    <Compile Include="Properties\SettingsProviders\InternalSettingsProvider.cs" />
-    <Compile Include="Properties\SettingsProviders\KeybindSettingsProvider.cs" />
-    <Compile Include="Properties\SettingsProviders\GameSettingsProvider.cs" />
-    <Compile Include="Properties\SettingsProviders\PerformanceSettingsProvider.cs" />
-    <Compile Include="Properties\SettingsProviders\DefaultsSettingsProvider.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Properties\SettingsProviders\DocumentsSettingsProvider.cs" />
     <Compile Include="Extensions\Spline\TriDiagonalMatrix.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="Classes\Editor\Draw\GIF.cs" />
@@ -628,13 +627,13 @@
     <Compile Include="Controls\Utility\Editor\Options\SettingsHeader.xaml.cs">
       <DependentUpon>SettingsHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Controls\EditLayerToggleButton.xaml.cs">
+    <Compile Include="Controls\Editor\Controls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\ManiaHost.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\ManiaHost.xaml.cs">
       <DependentUpon>ManiaHost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
+    <Compile Include="Controls\Editor\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\VScrollBar.xaml.cs">
@@ -655,7 +654,7 @@
     <Compile Include="Controls\Utility\Editor\Configuration\ModConfigManager.xaml.cs">
       <DependentUpon>ModConfigManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\MainEditor.xaml.cs">
+    <Compile Include="Controls\Editor\MainEditor.xaml.cs">
       <DependentUpon>MainEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Utility\Editor\Configuration\ModConfigEditor.xaml.cs">
@@ -726,13 +725,13 @@
     <Compile Include="Controls\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml.cs">
       <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Elements\StartScreen.xaml.cs">
+    <Compile Include="Controls\Editor\Elements\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml.cs">
+    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml.cs">
       <DependentUpon>EntitiesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
+    <Compile Include="Controls\Editor\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Methods\Entities\AttributeHandler.cs" />
@@ -811,35 +810,6 @@
     <Compile Include="Entity Renders\Normal Renders\UI\UIControl.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Properties\Defaults.cs" />
-    <Compile Include="Properties\DevSettings.cs" />
-    <Compile Include="Properties\DevSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>DevSettings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Internal.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Internal.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\KeyBinds.cs" />
-    <Compile Include="Properties\GameOptions.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>GameOptions.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Performance.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Performance.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.cs" />
     <Compile Include="Controls\TileManiac\TileManiac.xaml.cs">
       <DependentUpon>TileManiac.xaml</DependentUpon>
     </Compile>
@@ -848,20 +818,15 @@
     </Compile>
     <Compile Include="Extensions\KeyEventExt.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ObjectIDHealer.cs" />
-    <Compile Include="Properties\KeyBinds.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>KeyBinds.settings</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\IDrawArea.cs" />
-    <Compile Include="Controls\Base\Render\Disposable\ImageViewer.cs">
+    <Compile Include="Controls\Editor\Render\Disposable\ImageViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Base\Render\Disposable\ImageViewer.designer.cs">
+    <Compile Include="Controls\Editor\Render\Disposable\ImageViewer.designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
-    <Compile Include="Controls\Base\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
+    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
+    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Classes\Editor\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Editor\Scene\Sets\EditorEntity.cs" />
     <Compile Include="Core\ProcessMemory.cs" />
@@ -869,7 +834,7 @@
     <Compile Include="Controls\Assets\SkinResourceDictionary.cs" />
     <Compile Include="Controls\Dialog\TextPrompt.cs" />
     <Compile Include="Classes\Editor\Draw\TextureCreator.cs" />
-    <Compile Include="Controls\Base\Render\Disposable\ThumbnailFlowLayoutPanel.cs">
+    <Compile Include="Controls\Editor\Render\Disposable\ThumbnailFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interfaces\IDrawable.cs" />
@@ -1385,31 +1350,12 @@
     <Content Include="ManiaPal.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="app.manifest" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Properties\Defaults.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Defaults.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Properties\DevSettings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>DevSettings.Designer.cs</LastGenOutput>
-    </None>
-    <EmbeddedResource Include="Controls\Base\Render\DevicePanel\DevicePanel.resx" />
-    <EmbeddedResource Include="Controls\Base\Render\GraphicsModel\GraphicsModel.resx" />
-    <None Include="Properties\GameOptions.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>GameOptions.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Properties\Internal.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Internal.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Properties\Performance.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Performance.Designer.cs</LastGenOutput>
-    </None>
+    <EmbeddedResource Include="Controls\Editor\Render\DevicePanel\DevicePanel.resx" />
+    <EmbeddedResource Include="Controls\Editor\Render\GraphicsModel\GraphicsModel.resx" />
     <EmbeddedResource Include="Resources\entity_definitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1428,12 +1374,7 @@
     <Content Include="Resources\Global\SuperSpecialRing.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\KeyBinds.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>KeyBinds.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <EmbeddedResource Include="Controls\Base\Render\Disposable\ImageViewer.resx">
+    <EmbeddedResource Include="Controls\Editor\Render\Disposable\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -1447,11 +1388,6 @@
     <Content Include="Resources\Global\EditorAssets.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Resources\Text\LayerManagerWarning.rtf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1601,39 +1537,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Base\Elements\View\DebugHUD.xaml">
+    <Page Include="Controls\Editor\Elements\View\DebugHUD.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\MenuBar.xaml">
+    <Page Include="Controls\Editor\Elements\MenuBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\StatusBar.xaml">
+    <Page Include="Controls\Editor\Elements\StatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\Toolbar.xaml">
+    <Page Include="Controls\Editor\Elements\Toolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\ViewPanel.xaml">
+    <Page Include="Controls\Editor\Elements\ViewPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\View\ScrollGrid.xaml">
+    <Page Include="Controls\Editor\Elements\View\ScrollGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\View\SharpPanel.xaml">
+    <Page Include="Controls\Editor\Elements\View\SharpPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\View\WaitingPanel.xaml">
+    <Page Include="Controls\Editor\Elements\View\WaitingPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Render\Disposable\GraphicsModel2.xaml">
+    <Page Include="Controls\Editor\Render\Disposable\GraphicsModel2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1661,7 +1597,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Controls\EditLayerToggleButton.xaml">
+    <Page Include="Controls\Editor\Controls\EditLayerToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1669,7 +1605,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\ManiaHost.xaml">
+    <Page Include="Controls\Editor\Elements\ManiaHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1701,7 +1637,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Toolbars\TilesToolbar\TilesTabControl.xaml">
+    <Page Include="Controls\Editor\Toolbars\TilesToolbar\TilesTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1713,7 +1649,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\MainEditor.xaml">
+    <Page Include="Controls\Editor\MainEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1721,7 +1657,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\BaseStyles.xaml">
+    <Page Include="Controls\Editor\BaseStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1797,15 +1733,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Elements\StartScreen.xaml">
+    <Page Include="Controls\Editor\Elements\StartScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Base\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml">
+    <Page Include="Controls\Editor\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Base\Toolbars\TilesToolbar\TilesToolbar.xaml">
+    <Page Include="Controls\Editor\Toolbars\TilesToolbar\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

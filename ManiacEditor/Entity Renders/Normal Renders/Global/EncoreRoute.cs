@@ -78,12 +78,12 @@ namespace ManiacEditor.Entity_Renders
                     }
                 }
 
-                var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 7, fliph, flipv, false);
+                var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 7, fliph, flipv, false);
 
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     //Draw the Encore Route Tiles
-                    DrawTileGroup(d, x / 16, y / 16, x2, y2, height, width, Transparency, entity, Controls.Base.MainEditor.Instance);
+                    DrawTileGroup(d, x / 16, y / 16, x2, y2, height, width, Transparency, entity, Controls.Editor.MainEditor.Instance);
 
                     var frame = editorAnim.Frames[Animation.index];
 
@@ -97,7 +97,7 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
         }
-        public void DrawTileGroup(Classes.Editor.Draw.GraphicsHandler d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity, Controls.Base.MainEditor EditorInstance)
+        public void DrawTileGroup(Classes.Editor.Draw.GraphicsHandler d, int x, int y, int x2, int y2, int height, int width, int Transperncy, SceneEntity entity, Controls.Editor.MainEditor EditorInstance)
         {
 
             Rectangle rect = GetTileArea(x2, y2, width, height);
@@ -133,7 +133,7 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-        public void DrawTile(Classes.Editor.Draw.GraphicsHandler d, ushort tile, int x, int y, bool selected, int Transperncy, Controls.Base.MainEditor EditorInstance)
+        public void DrawTile(Classes.Editor.Draw.GraphicsHandler d, ushort tile, int x, int y, bool selected, int Transperncy, Controls.Editor.MainEditor EditorInstance)
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;

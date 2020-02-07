@@ -8,9 +8,9 @@ namespace ManiacEditor.Controls.Utility.Editor.Dev
     public partial class DeveloperTerminal : Window
 	{
 		// For Interger Changer; Change to the Value you want to tweak
-		public Controls.Base.MainEditor EditorInstance;
+		public Controls.Editor.MainEditor EditorInstance;
 
-		public DeveloperTerminal(Controls.Base.MainEditor instance)
+		public DeveloperTerminal(Controls.Editor.MainEditor instance)
 		{
 			InitializeComponent();
 			EditorInstance = instance;

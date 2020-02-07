@@ -30,9 +30,9 @@ namespace ManiacEditor.Entity_Renders
             {
                 flipSides = true;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SDashWheel", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimKnob = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SDashWheel", d.DevicePanel, 2, 0, fliph, flipv, false);
-            var editorAnimHandle = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SDashWheel", d.DevicePanel, 3, 0, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SDashWheel", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnimKnob = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SDashWheel", d.DevicePanel, 2, 0, fliph, flipv, false);
+            var editorAnimHandle = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SDashWheel", d.DevicePanel, 3, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimKnob != null && editorAnimKnob.Frames.Count != 0 && editorAnimHandle != null && editorAnimHandle.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

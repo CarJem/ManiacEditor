@@ -11,11 +11,11 @@ namespace ManiacEditor.Methods.Prefrences
 {
     public static class SceneCurrentSettings
 	{
-		private static Controls.Base.MainEditor Instance;
+		private static Controls.Editor.MainEditor Instance;
         public static string ManiacINIPath;
         public static SceneSettings ManiacINIData { get; set; } = new SceneSettings();
 
-        public static void UpdateInstance(Controls.Base.MainEditor instance)
+        public static void UpdateInstance(Controls.Editor.MainEditor instance)
 		{
             Instance = instance;
         }

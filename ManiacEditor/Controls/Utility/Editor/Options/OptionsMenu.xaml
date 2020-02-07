@@ -20,7 +20,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TabControl x:Name="MainTabControl" SelectionChanged="MainTabControl_SelectionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,0,0" BorderBrush="{DynamicResource DisabledText}" Background="{DynamicResource NormalBackground}">
-            <TabItem Header="Main" x:Name="MainSettings" Foreground="{DynamicResource NormalText}">
+            <TabItem Header="General" x:Name="MainSettings" Foreground="{DynamicResource NormalText}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -32,6 +32,78 @@
                     </Grid.RowDefinitions>
                     <ScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="2">
                         <StackPanel x:Name="SettingsViewer2" Margin="10">
+
+ 
+                            <controls:SettingsHeader HeaderName="Game Utilities"></controls:SettingsHeader>
+                            <DockPanel Margin="0,1">
+                                <TextBlock Text="Sonic Mania Path" Width="160"></TextBlock>
+                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="{maniac:DefaultSettingsBinding SonicManiaPath}" IsEnabled="False"></TextBox>
+                                <Button Width="20" Content="..." Click="SonicMania_Click" HorizontalAlignment="Left"></Button>
+                            </DockPanel>
+                            <DockPanel Margin="0,1">
+                                <TextBlock Text="Mania Mod Manager Path" Width="160"></TextBlock>
+                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="{maniac:DefaultSettingsBinding ModLoaderPath}" IsEnabled="False"></TextBox>
+                                <Button Width="20" Content="..." Click="ModLoader_Click" HorizontalAlignment="Left"></Button>
+                            </DockPanel>
+                            <DockPanel Margin="0,1">
+                                <TextBlock Text="RSDK Animation Editor Path" Width="160"></TextBlock>
+                                <TextBox Width="130" Text="{maniac:DefaultSettingsBinding AnimationClasses.Edit.Scene.EditorPath}"></TextBox>
+                                <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left"></Button>
+                            </DockPanel>
+                            <DockPanel Margin="0,1" Visibility="Collapsed">
+                                <TextBlock Text="Color Palette Editor Path" Width="160"></TextBlock>
+                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="Removed" IsEnabled="False"></TextBox>
+                                <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left" IsEnabled="False"></Button>
+                            </DockPanel>
+                            <DockPanel Margin="0,1" Visibility="Collapsed">
+                                <TextBlock Text="Tile Maniac Path" Width="160"></TextBlock>
+                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="Removed" IsEnabled="False"></TextBox>
+                                <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left" IsEnabled="False"></Button>
+                            </DockPanel>
+                            <DockPanel Margin="0,1">
+                                <TextBlock Text="Game Lock On Options" Width="160" HorizontalAlignment="Left"></TextBlock>
+                                <Button Content="Settings..." Margin="0" Click="Button_Click_1" Width="150" HorizontalAlignment="Left"></Button>
+                            </DockPanel>
+                            <controls:SettingsHeader HeaderName="Custom FG Layers"></controls:SettingsHeader>
+                            <DockPanel Margin="0,1">
+                                <Label Content="Lower Layer:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85"/>
+                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:DefaultSettingsBinding CustomFGHigher}" VerticalAlignment="Top" Width="161"/>
+                            </DockPanel>
+                            <DockPanel Margin="0,1">
+                                <Label Content="Higher Layer:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85"/>
+                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:DefaultSettingsBinding CustomFGLower}" VerticalAlignment="Top" Width="161"/>
+                            </DockPanel>
+                            <controls:SettingsHeader HeaderName="Other Settings"></controls:SettingsHeader>
+                            <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
+                            <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
+                            <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"/>
+                           
+                            <controls:SettingsHeader HeaderName="Experimental Options"></controls:SettingsHeader>
+                            <CheckBox IsChecked="{maniac:SettingBinding RemoveObjectImportLock}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                                <TextBlock Text="Remove Object Import Lock" TextWrapping="WrapWithOverflow" Width="154"></TextBlock>
+                            </CheckBox>
+                            <CheckBox IsChecked="{maniac:SettingBinding DisableEntityReading}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                                <TextBlock Text="Disable Entity Reading (Scene Rescue Mode)" TextAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
+                            </CheckBox>
+                            <CheckBox IsChecked="{maniac:SettingBinding EntityFreeCam}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                                <TextBlock Text="Entity FreeCam Mode (Disables Layer Viewing; Allows You to see outside of the normal bounds)" TextAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
+                            </CheckBox>
+                            <controls:SettingsHeader HeaderName="Misc. Settings"></controls:SettingsHeader>
+                            <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence"  IsChecked="{maniac:SettingBinding ShowDiscordRPC}" Margin="0,0"/>
+                            <CheckBox x:Name="UnhandledExcpetionsCheckBox" Content="Show Unhandled Exceptions" IsChecked="{maniac:SettingBinding ShowUnhandledExceptions}" Margin="0,0"/>
+                            <controls:SettingsHeader HeaderName="Developer Options" Visibility="Collapsed"></controls:SettingsHeader>
+                            <CheckBox IsChecked="{maniac:DevSettingsBinding DevAutoStart}" Content="Open Scene forcefully on Startup" HorizontalContentAlignment="Left" Margin="0,0" Visibility="Collapsed"></CheckBox>
+                            <CheckBox IsChecked="{maniac:DevSettingsBinding ExperimentalPropertyGridView}" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0" Visibility="Collapsed">
+                                <TextBlock Text="Experimental New Properties Grid (BROKEN; DO NOT USE)" TextWrapping="WrapWithOverflow"></TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Defaults">
+                <Grid>
+                    <ScrollViewer>
+                        <StackPanel x:Name="DefaultsPage" Margin="10">
                             <controls:SettingsHeader HeaderName="Tiles Toolbar Defaults"></controls:SettingsHeader>
                             <CheckBox Content="Solid (Top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidTopADefault}"/>
                             <CheckBox Content="Solid (All excl. top)" Margin="0,1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SolidAllButTopADefault}"/>
@@ -136,15 +208,6 @@
                                     <Label Content="Grid Default Color"></Label>
                                 </StackPanel>
                             </StackPanel>
-                            <controls:SettingsHeader HeaderName="Custom FG Layers"></controls:SettingsHeader>
-                            <DockPanel Margin="0,1">
-                                <Label Content="Lower Layer:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85"/>
-                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:DefaultSettingsBinding CustomFGHigher}" VerticalAlignment="Top" Width="161"/>
-                            </DockPanel>
-                            <DockPanel Margin="0,1">
-                                <Label Content="Higher Layer:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85"/>
-                                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{maniac:DefaultSettingsBinding CustomFGLower}" VerticalAlignment="Top" Width="161"/>
-                            </DockPanel>
                             <controls:SettingsHeader HeaderName="Varrious Defaults"></controls:SettingsHeader>
                             <DockPanel Margin="0,1">
                                 <TextBlock Text="Default Grid Size: " VerticalAlignment="Center"></TextBlock>
@@ -182,36 +245,51 @@
                                 <RadioButton x:Name="SceneSelectRadio2" VerticalAlignment="Center" Checked="radioButton2_CheckedChanged" Unchecked="radioButton2_CheckedChanged" Content="Files View" Margin="0,0"/>
                                 <RadioButton x:Name="SceneSelectRadio1" VerticalAlignment="Center" Checked="radioButton1_CheckedChanged" Unchecked="radioButton1_CheckedChanged" Content="GameConfig View" Margin="5,0"/>
                             </DockPanel>
-                            <controls:SettingsHeader HeaderName="Game Utilities"></controls:SettingsHeader>
-                            <DockPanel Margin="0,1">
-                                <TextBlock Text="Sonic Mania Path" Width="160"></TextBlock>
-                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="{maniac:DefaultSettingsBinding SonicManiaPath}" IsEnabled="False"></TextBox>
-                                <Button Width="20" Content="..." Click="SonicMania_Click" HorizontalAlignment="Left"></Button>
-                            </DockPanel>
-                            <DockPanel Margin="0,1">
-                                <TextBlock Text="Mania Mod Manager Path" Width="160"></TextBlock>
-                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="{maniac:DefaultSettingsBinding ModLoaderPath}" IsEnabled="False"></TextBox>
-                                <Button Width="20" Content="..." Click="ModLoader_Click" HorizontalAlignment="Left"></Button>
-                            </DockPanel>
-                            <DockPanel Margin="0,1">
-                                <TextBlock Text="RSDK Animation Editor Path" Width="160"></TextBlock>
-                                <TextBox Width="130" Text="{maniac:DefaultSettingsBinding AnimationClasses.Edit.Scene.EditorPath}"></TextBox>
-                                <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left"></Button>
-                            </DockPanel>
-                            <DockPanel Margin="0,1">
-                                <TextBlock Text="Color Palette Editor Path" Width="160"></TextBlock>
-                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="Removed" IsEnabled="False"></TextBox>
-                                <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left" IsEnabled="False"></Button>
-                            </DockPanel>
-                            <DockPanel Margin="0,1">
-                                <TextBlock Text="Tile Maniac Path" Width="160"></TextBlock>
-                                <TextBox VerticalContentAlignment="Center" Width="130" HorizontalAlignment="Center" Text="Removed" IsEnabled="False"></TextBox>
-                                <Button Width="20" Content="..." Click="button15_Click" HorizontalAlignment="Left" IsEnabled="False"></Button>
-                            </DockPanel>
-                            <DockPanel Margin="0,1">
-                                <TextBlock Text="Game Lock On Options" Width="160" HorizontalAlignment="Left"></TextBlock>
-                                <Button Content="Settings..." Margin="0" Click="Button_Click_1" Width="150" HorizontalAlignment="Left"></Button>
-                            </DockPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Performance">
+                <Grid>
+                    <ScrollViewer>
+                        <StackPanel Margin="10">
+                            <StackPanel Visibility="Collapsed" IsEnabled="False">
+                                <controls:SettingsHeader HeaderName="Performance Defaults"></controls:SettingsHeader>
+                                <StackPanel Width="400" HorizontalAlignment="Left">
+                                    <RadioButton x:Name="minimalRadioButton2" Content="Minimal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Minimal"/>
+                                    <RadioButton x:Name="basicRadioButton2" Content="Basic" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Basic"/>
+                                    <RadioButton x:Name="superRadioButton2" Content="Super" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Super"/>
+                                    <RadioButton x:Name="hyperRadioButton2" Content="Hyper" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Hyper"/>
+                                    <RadioButton x:Name="customRadioButton2" Content="Custom" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Custom" IsEnabled="False"/>
+                                    <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+                                        <TextBlock Text="* Changing other settings outside of these settings will result in a custom configuration(this will not update immediately)" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
+                                    </Label>
+                                </StackPanel>
+                            </StackPanel>
+                            <controls:SettingsHeader HeaderName="Performance Settings"></controls:SettingsHeader>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ReduceZoom}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                                <TextBlock Text="Reduce Maximum Zooming Level (Helps prevent crashes and slowdowns)" TextWrapping="WrapWithOverflow"/>
+                            </CheckBox>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ShowEditLayerBackground}"  Content="Show Edit Layer Cosmetic Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding NeverLoadEntityTextures}" Content="Never load Entity Textures/Annimations" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding DisableEntitySelectionBoxText}"  HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock Text="Remove Text from Objects (Will Boost Performance)" TextWrapping="WrapWithOverflow"></TextBlock>
+                            </CheckBox>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding DisableRendererExclusions}"  Content="Disable Always Render Entities" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseAlternativeRenderingMode}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock Text="Use Alt. Object Rendering Method (May leave blank entities, but will only load the objects as they are seen)" TextWrapping="WrapWithOverflow"></TextBlock>
+                            </CheckBox>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseSimplifedWaterRendering}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock  Text="Simplified Water Level Rendering (Perferable for Performance Reasons)" TextWrapping="WrapWithOverflow"></TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Tile Maniac">
+                <Grid>
+                    <ScrollViewer>
+                        <StackPanel Margin="10">
                             <controls:SettingsHeader HeaderName="Tile Maniac Settings"></controls:SettingsHeader>
                             <GroupBox Header="Common Defaults" Width="250" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left">
                                 <StackPanel>
@@ -249,59 +327,9 @@
                                     <TextBlock>*Not Working ATM</TextBlock>
                                 </StackPanel>
                             </GroupBox>
-                            <controls:SettingsHeader HeaderName="Other Settings"></controls:SettingsHeader>
-                            <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
-                            <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
-                            <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0"/>
-                            <StackPanel Visibility="Collapsed">
-                                <controls:SettingsHeader HeaderName="Performance Defaults"></controls:SettingsHeader>
-                                <StackPanel Width="400" HorizontalAlignment="Left">
-                                    <RadioButton x:Name="minimalRadioButton2" Content="Minimal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Minimal"/>
-                                    <RadioButton x:Name="basicRadioButton2" Content="Basic" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Basic"/>
-                                    <RadioButton x:Name="superRadioButton2" Content="Super" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Super"/>
-                                    <RadioButton x:Name="hyperRadioButton2" Content="Hyper" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Hyper"/>
-                                    <RadioButton x:Name="customRadioButton2" Content="Custom" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Click="SetGraphicalPresetSetting" Tag="Custom" IsEnabled="False"/>
-                                    <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
-                                        <TextBlock Text="* Changing other settings outside of these settings will result in a custom configuration(this will not update immediately)" TextAlignment="Center" TextWrapping="WrapWithOverflow"/>
-                                    </Label>
-                                </StackPanel>
-                            </StackPanel>
-                            <controls:SettingsHeader HeaderName="Performance Settings"></controls:SettingsHeader>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ReduceZoom}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
-                                <TextBlock Text="Reduce Maximum Zooming Level (Helps prevent crashes and slowdowns)" TextWrapping="WrapWithOverflow"/>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ShowEditLayerBackground}"  Content="Show Edit Layer Cosmetic Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding NeverLoadEntityTextures}" Content="Never load Entity Textures/Annimations" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding DisableEntitySelectionBoxText}"  HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <TextBlock Text="Remove Text from Objects (Will Boost Performance)" TextWrapping="WrapWithOverflow"></TextBlock>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding DisableRendererExclusions}"  Content="Disable Always Render Entities" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseAlternativeRenderingMode}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <TextBlock Text="Use Alt. Object Rendering Method (May leave blank entities, but will only load the objects as they are seen)" TextWrapping="WrapWithOverflow"></TextBlock>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseSimplifedWaterRendering}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                                <TextBlock  Text="Simplified Water Level Rendering (Perferable for Performance Reasons)" TextWrapping="WrapWithOverflow"></TextBlock>
-                            </CheckBox>
-                            <controls:SettingsHeader HeaderName="Experimental Options"></controls:SettingsHeader>
-                            <CheckBox IsChecked="{maniac:SettingBinding RemoveObjectImportLock}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                                <TextBlock Text="Remove Object Import Lock" TextWrapping="WrapWithOverflow" Width="154"></TextBlock>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding DisableEntityReading}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                                <TextBlock Text="Disable Entity Reading (Scene Rescue Mode)" TextAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
-                            </CheckBox>
-                            <CheckBox IsChecked="{maniac:SettingBinding EntityFreeCam}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                                <TextBlock Text="Entity FreeCam Mode (Disables Layer Viewing; Allows You to see outside of the normal bounds)" TextAlignment="Left" TextWrapping="WrapWithOverflow"></TextBlock>
-                            </CheckBox>
-                            <controls:SettingsHeader HeaderName="Misc. Settings"></controls:SettingsHeader>
-                            <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence" Margin="0,0"/>
-                            <CheckBox x:Name="UnhandledExcpetionsCheckBox" Content="Show Unhandled Exceptions (Applies" IsChecked="{maniac:SettingBinding ShowUnhandledExceptions}" Margin="0,0"/>
-                            <controls:SettingsHeader HeaderName="Developer Options"></controls:SettingsHeader>
-                            <CheckBox IsChecked="{maniac:DevSettingsBinding DevAutoStart}" Content="Open Scene forcefully on Startup" HorizontalContentAlignment="Left" Margin="0,0"></CheckBox>
-                            <CheckBox IsChecked="{maniac:DevSettingsBinding ExperimentalPropertyGridView}" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0">
-                                <TextBlock Text="Experimental New Properties Grid (BROKEN; DO NOT USE)" TextWrapping="WrapWithOverflow"></TextBlock>
-                            </CheckBox>
                         </StackPanel>
                     </ScrollViewer>
+ 
                 </Grid>
             </TabItem>
             <TabItem Header="Controls" Name="Controls" Foreground="{DynamicResource NormalText}">

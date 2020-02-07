@@ -22,9 +22,9 @@ namespace ManiacEditor.Entity_Renders
             if (arrowWidth != 0) arrowWidth /= 2;
             int frameID = 4;
 			int listID = 12;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
-            var leftArrow = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
-            var rightArrow = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
+            var leftArrow = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
+            var rightArrow = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
             int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
             double alignmentVal = 0;

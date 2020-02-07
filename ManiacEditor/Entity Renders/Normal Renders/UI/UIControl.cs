@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
+                    var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
                     if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
                     {
                         var frame = editorAnim2.Frames[Animation.index];

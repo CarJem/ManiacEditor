@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public abstract class LinkedRenderer
     {
-        public Controls.Base.MainEditor EditorInstance;
+        public Controls.Editor.MainEditor EditorInstance;
 
         public virtual void Draw(Structures.LinkedEntityRenderProp properties)
         {

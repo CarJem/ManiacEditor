@@ -19,9 +19,9 @@ namespace ManiacEditor.Entity_Renders
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             bool finish = entity.attributesMap["finishLine"].ValueBool;
-            var editorAnimBase = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimTop = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 1, 0, false, false, false);
-            var editorAnimFins = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, finish ? 4 : 3, -1, false, false, false);
+            var editorAnimBase = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnimTop = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 1, 0, false, false, false);
+            var editorAnimFins = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, finish ? 4 : 3, -1, false, false, false);
             if (editorAnimBase != null && editorAnimTop != null && editorAnimFins != null && editorAnimFins.Frames.Count != 0 && editorAnimTop.Frames.Count != 0 && editorAnimTop.Frames.Count != 0)
             {
                 var frameBase = editorAnimBase.Frames[0];

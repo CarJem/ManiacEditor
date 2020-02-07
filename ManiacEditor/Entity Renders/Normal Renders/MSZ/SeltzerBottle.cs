@@ -25,10 +25,10 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 0, 5, fliph, flipv, false);
-            var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 0, 4, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 0, 5, fliph, flipv, false);
+            var editorAnim4 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Seltzer", d.DevicePanel, 0, 4, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

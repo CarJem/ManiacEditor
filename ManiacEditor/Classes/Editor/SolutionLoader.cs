@@ -11,8 +11,8 @@ namespace ManiacEditor.Classes.Editor
 {
     public static class SolutionLoader
     {
-        private static Controls.Base.MainEditor Instance;
-        public static void UpdateInstance(Controls.Base.MainEditor instance)
+        private static Controls.Editor.MainEditor Instance;
+        public static void UpdateInstance(Controls.Editor.MainEditor instance)
         {
             Instance = instance;
         }
@@ -34,7 +34,7 @@ namespace ManiacEditor.Classes.Editor
             if (AllowSceneUnloading() != true) return;
             Classes.Editor.Solution.UnloadScene();
             ManiacEditor.Controls.SceneSelect.NewSceneWindow makerDialog = new ManiacEditor.Controls.SceneSelect.NewSceneWindow();
-            makerDialog.Owner = Controls.Base.MainEditor.GetWindow(Instance);
+            makerDialog.Owner = Controls.Editor.MainEditor.GetWindow(Instance);
             if (makerDialog.ShowDialog() == true)
             {
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);

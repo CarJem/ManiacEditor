@@ -25,7 +25,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 flipv = true;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Clucker", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Clucker", d.DevicePanel, 0, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

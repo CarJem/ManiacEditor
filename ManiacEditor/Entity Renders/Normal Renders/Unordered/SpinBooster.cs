@@ -37,7 +37,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("PlaneSwitch", d.DevicePanel, 0, 4, true, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PlaneSwitch", d.DevicePanel, 0, 4, true, false, false);
 
             const int pivotOffsetX = -8, pivotOffsetY = 0;
             const int drawOffsetX = 0, drawOffsetY = -8;

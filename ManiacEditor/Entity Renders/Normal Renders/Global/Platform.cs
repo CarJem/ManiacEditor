@@ -45,7 +45,7 @@ namespace ManiacEditor.Entity_Renders
             int angleStateX = 0;
             int angleStateY = 0;
 
-            var platformIcon = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 20, false, false, false);
+            var platformIcon = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 20, false, false, false);
 
             
             if (childCount != previousChildCount)
@@ -90,8 +90,8 @@ namespace ManiacEditor.Entity_Renders
                 try
                 {
                     if (targetFrameID == -1) doNotShow = true;
-                    editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, -1, false, false, false, 0);
-                    if (type == 4) editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 0, false, false, false, 0);
+                    editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, -1, false, false, false, 0);
+                    if (type == 4) editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 0, false, false, false, 0);
                     if (editorAnim == null)
                     {
                         return; // no animation, bail out
@@ -112,10 +112,10 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var tensionBall = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, frameID + 1, false, false, false, 0);
-            var tensionBallCenter = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, frameID + 2, false, false, false, 0);
-            if (type == 4) tensionBall = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 1, false, false, false, 0);
-            if (type == 4) tensionBallCenter = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 2, false, false, false, 0);
+            var tensionBall = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, frameID + 1, false, false, false, 0);
+            var tensionBallCenter = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, aminID, frameID + 2, false, false, false, 0);
+            if (type == 4) tensionBall = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 1, false, false, false, 0);
+            if (type == 4) tensionBallCenter = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Platform", d.DevicePanel, 1, 2, false, false, false, 0);
 
             if (editorAnim.Frames.Count != 0 && platformIcon != null && editorAnim != null && platformIcon.Frames.Count != 0)
             {

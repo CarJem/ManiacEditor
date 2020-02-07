@@ -35,7 +35,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 int frameID = GetFrameID(symb, Classes.Editor.SolutionState.LevelSelectChar);
                 int listID = (highlighted ? 1 : 0);
-                var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("Text", d.DevicePanel, listID, frameID, false, false, false);
+                var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Text", d.DevicePanel, listID, frameID, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -49,7 +49,7 @@ namespace ManiacEditor.Entity_Renders
             
         }
 
-        public void DrawEditorHUDText(Controls.Base.MainEditor instance, DevicePanel d, int x, int y, string text, bool highlighted, int Transparency = 0xff, int highlightDistance = -1, int highlightStart = 0)
+        public void DrawEditorHUDText(Controls.Editor.MainEditor instance, DevicePanel d, int x, int y, string text, bool highlighted, int Transparency = 0xff, int highlightDistance = -1, int highlightStart = 0)
         {
             /*
 			d.DrawHUDRectangle(x - 4, y - 4, x + text.Length * 8, y + 4, System.Drawing.Color.FromArgb(128, 0, 0, 0));

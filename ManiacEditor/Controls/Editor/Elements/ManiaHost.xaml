@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ManiacEditor.Controls.Editor.Elements.ManiaHost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"  
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="32"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WindowsFormsHost VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="windowsFormsHost1"></WindowsFormsHost>
+        <DockPanel Grid.Row="1">
+            <wpfTool:SplitButton VerticalAlignment="Bottom" Height="32" Width="100" HorizontalAlignment="Left" x:Name="OptionsButton" Content="Options" Click="OptionsButton_Click">
+                <wpfTool:DropDownButton.DropDownContent>
+                    <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                        <MenuItem Header="Grab Window" x:Name="button1" Click="button1_Click"></MenuItem>
+                        <MenuItem Header="Force Kill Mania" x:Name="ForceKillMania" Click="ForceKillMania_Click"></MenuItem>
+                        <MenuItem Header="DevWalla Tool..." x:Name="DevWalla" Click="DevWalla_Click"></MenuItem>
+                        <MenuItem Header="Attach Walla Overlay" Click="LockWallaToHost"></MenuItem>
+                    </StackPanel>
+                </wpfTool:DropDownButton.DropDownContent>
+            </wpfTool:SplitButton>
+            <wpfTool:SplitButton VerticalAlignment="Bottom" Height="32" Width="80" HorizontalAlignment="Left" x:Name="LauncherButton" Content="Launch..." Click="LauncherButton_Click">
+                <wpfTool:DropDownButton.DropDownContent>
+                    <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                        <MenuItem Header="Sonic Mania" x:Name="LaunchSM" Click="LaunchSM_Click"></MenuItem>
+                        <MenuItem Header="Mania Mod Manager" x:Name="LaunchModLoader" Click="LaunchModLoader_Click"></MenuItem>
+                        <MenuItem Header="Cheat Engine" x:Name="LaunchCheatEngine" Click="LaunchCheatEngine_Click"></MenuItem>
+                    </StackPanel>
+                </wpfTool:DropDownButton.DropDownContent>
+            </wpfTool:SplitButton>
+
+            <StatusBar x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Foreground="{DynamicResource NormalText}" Background="{DynamicResource StatusBarBackground}" BorderBrush="{DynamicResource ContextMenuBorder}">
+                <Label Name="PlayerPositionLabel" Content="X: ----  Y: ----" Visibility="Collapsed"></Label>
+                <Separator></Separator>
+                <Label Content=""></Label>
+            </StatusBar>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

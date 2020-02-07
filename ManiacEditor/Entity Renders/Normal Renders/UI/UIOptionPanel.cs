@@ -45,8 +45,8 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var editorAnimTop = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, topListID, topFrameID, false, false, false);
-            var editorAnimBot = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, botListID, botFrameID, false, false, false);
+            var editorAnimTop = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, topListID, topFrameID, false, false, false);
+            var editorAnimBot = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, botListID, botFrameID, false, false, false);
             if (editorAnimTop != null && editorAnimTop.Frames.Count != 0)
             {
                 var frame = editorAnimTop.Frames[Animation.index];

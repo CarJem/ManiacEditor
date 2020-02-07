@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             int emeraldID = (int)entity.attributesMap["emeraldID"].ValueEnum;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("SummaryEmerald", d.DevicePanel, 0, emeraldID, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("SummaryEmerald", d.DevicePanel, 0, emeraldID, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             var width = (int)(entity.attributesMap["width"].ValueUInt8);
             var height = (int)(entity.attributesMap["height"].ValueUInt8);
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, 10, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, 10, false, false, false);
 
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {

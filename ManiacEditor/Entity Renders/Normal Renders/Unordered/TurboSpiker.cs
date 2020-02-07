@@ -26,8 +26,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 fliph = true;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TurboSpiker", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimShell = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TurboSpiker", d.DevicePanel, 3, 0, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TurboSpiker", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnimShell = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TurboSpiker", d.DevicePanel, 3, 0, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimShell != null && editorAnimShell.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

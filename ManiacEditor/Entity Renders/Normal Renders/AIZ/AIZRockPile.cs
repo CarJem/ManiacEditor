@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int size = (int)entity.attributesMap["size"].ValueEnum;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("AIZ\\Platform", d.DevicePanel, 0, size + 3, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("AIZ\\Platform", d.DevicePanel, 0, size + 3, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
@@ -37,7 +37,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Knuckles icon
             if (knux)
             {
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 2, false, false, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 2, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
@@ -49,7 +49,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Mighty icon
             if (mighty)
             {
-                editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 3, false, false, false);
+                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 3, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];

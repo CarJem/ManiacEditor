@@ -29,7 +29,10 @@ namespace ManiacEditor.Controls.Updater
         public ManiacUpdater()
         {
             InitializeComponent();
-            CheckForUpdates();
+            if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+            {
+                CheckForUpdates();
+            }
         }
 
 

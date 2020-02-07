@@ -38,8 +38,8 @@ namespace ManiacEditor.Entity_Renders
 
 			}
 			
-			var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 5, 0, false, false, false);
-			var editorAnimPlayerText = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 12, player, false, false, false);
+			var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 5, 0, false, false, false);
+			var editorAnimPlayerText = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 12, player, false, false, false);
 			if (editorAnim != null && editorAnim.Frames.Count != 0)
 			{
 				var frame = editorAnim.Frames[Animation.index];

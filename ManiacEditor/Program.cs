@@ -18,6 +18,8 @@ namespace ManiacEditor
         static void Main(string[] args)
         {
             ManiacEditor.Methods.ProgramBase.StartLogging();
+            ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up Options Files...");
+            ManiacEditor.Core.Settings.Init();
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Starting Maniac Editor...");
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -35,8 +37,6 @@ namespace ManiacEditor
             ManiacEditor.Methods.ProgramBase.GatherObjectsAndAttributes();
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up Rendering Options...");
             ManiacEditor.Methods.ProgramBase.SetupRenderingOptions();
-            ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up Options Files...");
-            ManiacEditor.Methods.ProgramBase.SetupSettingFiles();
             StartApp();
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Disposing Discord RPC Support...");
             DiscordRP.DisposeDiscord();

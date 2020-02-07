@@ -8,8 +8,8 @@ namespace ManiacEditor.Methods.Internal
     [Serializable]
     public class Settings
     {
-        private static ManiacEditor.Controls.Base.MainEditor Instance { get; set; }
-        public static void UpdateInstance(ManiacEditor.Controls.Base.MainEditor instance)
+        private static ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
+        public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor instance)
         {
             Instance = instance;
         }
@@ -137,9 +137,9 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (ManiacEditor.Core.Settings.MySettings.UpgradeRequired)
                 {
-                    Classes.Editor.Constants.UpgradeAllSettings();
+                    Core.Settings.UpgradeAllSettings();
                     ManiacEditor.Core.Settings.MySettings.UpgradeRequired = false;
-                    Classes.Editor.Constants.SaveAllSettings();
+                    Core.Settings.SaveAllSettings();
                 }
 
                 Instance.WindowState = ManiacEditor.Core.Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
@@ -239,8 +239,8 @@ namespace ManiacEditor.Methods.Internal
             Classes.Editor.SolutionState.ScrollLocked = ManiacEditor.Core.Settings.MyDefaults.ScrollLockDefault;
             Classes.Editor.SolutionState.ScrollDirection = (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
-            ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
+            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
+            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
 
             Classes.Editor.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Core.Settings.MyDefaults.EnablePixelModeDefault;
 
@@ -273,13 +273,13 @@ namespace ManiacEditor.Methods.Internal
             Classes.Editor.SolutionState.GridColor = ManiacEditor.Core.Settings.MyDefaults.DefaultGridColor;
             Classes.Editor.SolutionState.waterColor = ManiacEditor.Core.Settings.MyDefaults.WaterEntityColorDefault;
 
-            ManiacEditor.Controls.Base.MainEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = ManiacEditor.Core.Settings.MyDefaults.FasterNudgeValue;
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = ManiacEditor.Core.Settings.MyDefaults.FasterNudgeValue;
 
 
 
 
 
-            var allLangItems = ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allLangItems = ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
                 if (item != null)
                 {
@@ -292,7 +292,7 @@ namespace ManiacEditor.Methods.Internal
 
 
             bool endSearch = false;
-            var allButtonItems = ManiacEditor.Controls.Base.MainEditor.Instance.MenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allButtonItems = ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allButtonItems)
             {
                 if (item.Tag != null)

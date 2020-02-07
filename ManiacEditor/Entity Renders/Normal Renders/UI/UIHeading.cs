@@ -20,8 +20,8 @@ namespace ManiacEditor.Entity_Renders
             bool selected  = properties.isSelected;
             string text = "Headings" + Classes.Editor.SolutionState.CurrentLanguage;
             int listID = (int)entity.attributesMap["headingID"].ValueEnum;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, 0, false, false, false);
-            var editorAnimBar = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 0, 0, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, 0, false, false, false);
+            var editorAnimBar = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 0, 0, false, false, false);
             if (editorAnimBar != null && editorAnimBar.Frames.Count != 0)
             {
                 var frame = editorAnimBar.Frames[Animation.index];

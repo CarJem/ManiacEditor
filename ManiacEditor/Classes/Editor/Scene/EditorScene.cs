@@ -18,7 +18,7 @@ namespace ManiacEditor.Classes.Editor.Scene
     public class EditorScene : RSDKv5.Scene, IDisposable
     {
         public IList<EditorLayer> _editorLayers;
-        public ManiacEditor.Controls.Base.MainEditor EditorInstance;
+        public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
 
         #region Layers
 
@@ -73,7 +73,7 @@ namespace ManiacEditor.Classes.Editor.Scene
         }
         #endregion
 
-        public EditorScene(string filename, DevicePanel d, ManiacEditor.Controls.Base.MainEditor instance) : base(filename)
+        public EditorScene(string filename, DevicePanel d, ManiacEditor.Controls.Editor.MainEditor instance) : base(filename)
         {
             EditorInstance = instance;
             _editorLayers = new List<EditorLayer>(Layers.Count);
@@ -83,7 +83,7 @@ namespace ManiacEditor.Classes.Editor.Scene
             }
         }
 
-        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, ManiacEditor.Controls.Base.MainEditor instance)
+        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, ManiacEditor.Controls.Editor.MainEditor instance)
         {
             EditorInstance = instance;
             Layers = new List<SceneLayer>(3);

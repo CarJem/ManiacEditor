@@ -27,7 +27,7 @@ namespace ManiacEditor.Bindings
 
         private void Initialize()
         {
-            this.Source = ManiacEditor.Properties.DevSettings.Default;
+            this.Source = ManiacEditor.Core.Settings.MyDevSettings;
             this.Mode = BindingMode.TwoWay;
         }
     }

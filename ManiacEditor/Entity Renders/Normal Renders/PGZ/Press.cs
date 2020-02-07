@@ -23,8 +23,8 @@ namespace ManiacEditor.Entity_Renders
             int offBottom = (int)entity.attributesMap["offBottom"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Press", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("Press", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Press", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Press", d.DevicePanel, 2, -1, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
             {
                 var crankTop = editorAnim2.Frames[0];

@@ -8,9 +8,9 @@ namespace ManiacEditor.Methods.Layers
 {
     public class TileFindReplace
     {
-        public Controls.Base.MainEditor Editor;
+        public Controls.Editor.MainEditor Editor;
 
-        public TileFindReplace(Controls.Base.MainEditor instance)
+        public TileFindReplace(Controls.Editor.MainEditor instance)
         {
             Editor = instance;
         }

@@ -4,9 +4,6 @@ namespace ManiacEditor.Entity_Renders
 {
     public class LaundroMobile : EntityRenderer
     {
-        //Shorthanding Setting Files
-        Properties.Settings mySettings = Properties.Settings.Default;
-        Properties.KeyBinds myKeyBinds = Properties.KeyBinds.Default;
         public override void Draw(Structures.EntityRenderProp properties)
         {
             Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
@@ -35,16 +32,16 @@ namespace ManiacEditor.Entity_Renders
                     blockID = randomNum+3;
                     break;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 9, blockID, fliph, flipv, false);
-            var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnim4 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 3, -1, fliph, flipv, false);
-            var editorAnim5 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 8, -1, fliph, flipv, false);
-            var editorAnim6 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnim7 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 3, fliph, flipv, false);
-            var editorAnim8 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 2, fliph, flipv, false);
-            var editorAnim9 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 4, fliph, flipv, false);
-            var editorAnimIcon = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 0, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 9, blockID, fliph, flipv, false);
+            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 1, -1, fliph, flipv, false);
+            var editorAnim4 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 3, -1, fliph, flipv, false);
+            var editorAnim5 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 8, -1, fliph, flipv, false);
+            var editorAnim6 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 2, -1, fliph, flipv, false);
+            var editorAnim7 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 3, fliph, flipv, false);
+            var editorAnim8 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 2, fliph, flipv, false);
+            var editorAnim9 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LaundroMobile", d.DevicePanel, 0, 4, fliph, flipv, false);
+            var editorAnimIcon = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 14, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0 && editorAnim6 != null && editorAnim6.Frames.Count != 0 && editorAnim7 != null && editorAnim7.Frames.Count != 0 && editorAnim8 != null && editorAnim8.Frames.Count != 0 && editorAnim9 != null && editorAnim9.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

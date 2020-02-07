@@ -18,8 +18,8 @@ namespace ManiacEditor.Entity_Renders
             int platformAngle = properties.PlatformAngle;
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HotaruHiWatt", d.DevicePanel, 0, -1, false, false, false);
-            var editorAnimBulb = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("HotaruHiWatt", d.DevicePanel, 1, -1, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HotaruHiWatt", d.DevicePanel, 0, -1, false, false, false);
+            var editorAnimBulb = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HotaruHiWatt", d.DevicePanel, 1, -1, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBulb != null && editorAnimBulb.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[Animation.index];

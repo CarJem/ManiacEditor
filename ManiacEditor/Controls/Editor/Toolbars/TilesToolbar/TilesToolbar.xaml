@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:ManiacEditor"
+             xmlns:genLib="clr-namespace:GenerationsLib.WPF.Styles;assembly=GenerationsLib.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="525" d:DesignWidth="250" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="TilesToolbar_Load" Unloaded="UserControl_Unloaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="19"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="90"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="1" x:Name="SelectedTileLabel" Content="Selected Tile: N/A" HorizontalAlignment="Right"></Label>
+        <TabControl SelectionChanged="tabControl1_SelectedIndexChanged" x:Name="TabControl" Grid.ColumnSpan="4" Grid.RowSpan="2" Margin="5,5,5,5" Background="{DynamicResource NormalBackground}">
+            <TabItem MouseUp="TabItem_MouseUp" Header="Tiles" Foreground="{DynamicResource NormalText}">
+                <Grid x:Name="TilesPage">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="TileSlider" Grid.Row="0">
+                        <Slider ValueChanged="trackBar1_ValueChanged" x:Name="trackBar1" VerticalAlignment="Center" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
+                    </Grid>
+                    <Grid x:Name="TileViewer" Grid.Row="1">
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Chunks" Foreground="{DynamicResource NormalText}">
+                <Grid x:Name="ChunksTab">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="ChunksSlider" Grid.Row="0">
+                        <Slider ValueChanged="TrackBar2_ValueChanged" x:Name="trackBar2" VerticalAlignment="Center" Value="2" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
+                    </Grid>
+                    <Grid Grid.Row="1" x:Name="ChunksPage"></Grid>
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+        <wpfTool:SplitButton Grid.Column="2" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}" wpfTool:DropDownButton.Opened="MenuItem_SubmenuOpened">
+            <wpfTool:SplitButton.DropDownContent>
+                <StackPanel Background="{DynamicResource ContextMenuBackground}">
+                    <MenuItem Header="Save Current Chunks to File" x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
+                    <MenuItem Header="Auto Generate Chunks from Current Layers &#xD;(Make Sure that you have Both Multi-Layers Selected)" x:Name="AutoGenerateChunks" Click="AutoGenerateChunks_Click">
+                    </MenuItem>
+                    <MenuItem x:Name="AutoGenerateChunksSingle" Header="Auto Generate Chunks from Single Active Layer" Click="AutoGenerateChunksSingle_Click">
+                    </MenuItem>
+                </StackPanel>
+            </wpfTool:SplitButton.DropDownContent>
+        </wpfTool:SplitButton>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
+            <StackPanel>
+                <CheckBox x:Name="option1CheckBox" Margin="5" Content="Flip Horizontal &#xD;&#xA;(Ctrl)" Checked="option1CheckBox_CheckedChanged" Unchecked="option1CheckBox_CheckedChanged"></CheckBox>
+                <CheckBox x:Name="option3CheckBox" Margin="5">Solid (Top)</CheckBox>
+                <CheckBox x:Name="option5CheckBox" Margin="5" Content="Solid (Top) &#xD;&#xA;(Plane 2)"></CheckBox>
+            </StackPanel>
+            <StackPanel>
+                <CheckBox x:Name="option2CheckBox" Margin="5" Content="Flip Vertical &#xD;&#xA;(Shift)" Checked="option2CheckBox_CheckedChanged" Unchecked="option2CheckBox_CheckedChanged"></CheckBox>
+                <CheckBox x:Name="option4CheckBox"  Margin="5">Solid (All excl. top)</CheckBox>
+                <CheckBox x:Name="option6CheckBox" Margin="5" Content="Solid (All excl. top) &#xD;&#xA;(Plane 2)"></CheckBox>
+            </StackPanel>
+
+        </StackPanel>
+        <GroupBox HorizontalContentAlignment="Center" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Header="Selected Tile(s)" Foreground="{DynamicResource NormalText}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel>
+                    <CheckBox x:Name="tileOption1" Margin="5" Checked="tileOption1_CheckedChanged" Unchecked="tileOption1_CheckedChanged">Solid (Top)</CheckBox>
+                    <CheckBox x:Name="tileOption3" Margin="5" Checked="tileOption3_CheckedChanged" Unchecked="tileOption3_CheckedChanged" Content="Solid (Top) &#xD;&#xA;(Plane 2)"></CheckBox>
+                </StackPanel>
+                <StackPanel>
+                    <CheckBox x:Name="tileOption2" Margin="5" Checked="tileOption2_CheckedChanged" Unchecked="tileOption2_CheckedChanged">Solid (All excl. top)</CheckBox>
+                    <CheckBox x:Name="tileOption4" Margin="5" Checked="tileOption4_CheckedChanged" Unchecked="tileOption4_CheckedChanged" Content="Solid (All excl. top) &#xD;&#xA;(Plane 2)"></CheckBox>
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

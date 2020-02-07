@@ -12,12 +12,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
     /// </summary>
     public partial class RenderListEditor : Window
     {
-        private Controls.Base.MainEditor Instance;
+        private Controls.Editor.MainEditor Instance;
         private bool updatingKeys { get; set; } = false;
         private bool updatingValues { get; set; } = false;
         private List<string> RenderInformationUnedited;
 
-        public RenderListEditor(Controls.Base.MainEditor instance)
+        public RenderListEditor(Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             Instance = instance;

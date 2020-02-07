@@ -19,9 +19,9 @@ namespace ManiacEditor.Entity_Renders
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
             var value = entity.attributesMap["length"].ValueUInt16 + 1;
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVPole", d.DevicePanel, 1, 0, false, false, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVPole", d.DevicePanel, 1, 1, false, false, false);
-            var editorAnim3 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVPole", d.DevicePanel, 1, 2, false, false, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVPole", d.DevicePanel, 1, 0, false, false, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVPole", d.DevicePanel, 1, 1, false, false, false);
+            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TVPole", d.DevicePanel, 1, 2, false, false, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];

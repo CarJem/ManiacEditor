@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Input;
-using ManiacEditor.Controls.Base.Controls;
+using ManiacEditor.Controls.Editor.Controls;
 using ManiacEditor.Enums;
 using ManiacEditor.Event_Handlers;
 using ManiacEditor.Extensions;
@@ -44,8 +44,8 @@ namespace ManiacEditor.Classes.Editor
 {
     public static class EditorActions
     {
-        private static Controls.Base.MainEditor Instance { get; set; }
-        public static void UpdateInstance(Controls.Base.MainEditor mainEditor)
+        private static Controls.Editor.MainEditor Instance { get; set; }
+        public static void UpdateInstance(Controls.Editor.MainEditor mainEditor)
         {
             Instance = mainEditor;
         }
@@ -612,7 +612,7 @@ namespace ManiacEditor.Classes.Editor
             string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Classes.Editor.SolutionState.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
             Classes.Editor.SolutionState.LevelID = output;
-            Controls.Base.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Classes.Editor.SolutionState.LevelID.ToString();
+            Controls.Editor.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Classes.Editor.SolutionState.LevelID.ToString();
         }
         public static void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
         {
@@ -674,11 +674,11 @@ namespace ManiacEditor.Classes.Editor
 
                 if (replaceMode)
                 {
-                    Controls.Base.MainEditor.Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
+                    Controls.Editor.MainEditor.Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
                 }
                 else
                 {
-                    Controls.Base.MainEditor.Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
+                    Controls.Editor.MainEditor.Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
                 }
 
             }

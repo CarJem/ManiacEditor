@@ -57,8 +57,8 @@ namespace ManiacEditor.Entity_Renders
                     offsetY = 0;
                     break;
             }
-            var editorAnim = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("DoorTrigger", d.DevicePanel, 0, frameID, fliph, flipv, false);
-            var editorAnim2 = Controls.Base.MainEditor.Instance.EntityDrawing.LoadAnimation2("DoorTrigger", d.DevicePanel, AnimID_2, frameID_2, fliph, flipv, false);
+            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("DoorTrigger", d.DevicePanel, 0, frameID, fliph, flipv, false);
+            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("DoorTrigger", d.DevicePanel, AnimID_2, frameID_2, fliph, flipv, false);
             if (editorAnim != null && editorAnim.Frames.Count != 0 && frameID >= 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && frameID >= 0)
             {
                 var frame = editorAnim.Frames[Animation.index];
