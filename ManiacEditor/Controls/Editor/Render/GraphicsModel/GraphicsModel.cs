@@ -92,6 +92,7 @@ namespace ManiacEditor.Controls
 
         private void Editor_Resize(object sender, EventArgs e)
         {
+            UpdateDPIScale();
             UpdateRenderingScale();
         }
 
