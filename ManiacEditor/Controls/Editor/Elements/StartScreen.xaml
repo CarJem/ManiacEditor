@@ -91,7 +91,7 @@
 
                                     <StackPanel Margin="4" Grid.Column="2" Grid.ColumnSpan="2">
                                         <TextBlock Width="Auto" Height="17" x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
-                                        <TextBlock Width="Auto" Height="17" x:Name="devCheck"><TextBlock Text="         "/><CheckBox IsChecked="{bindings:SettingBinding UseAutoForcefulStartup}"><TextBlock ><Hyperlink><Run Text="Auto Launch"/></Hyperlink></TextBlock></CheckBox></TextBlock>
+                                        <TextBlock Width="Auto" Height="17" x:Name="devCheck"><TextBlock Text="         "/><CheckBox IsChecked="{bindings:DevSettingsBinding UseAutoForcefulStartup}" Click="CheckBox_Click"><TextBlock ><Hyperlink><Run Text="Auto Launch"/></Hyperlink></TextBlock></CheckBox></TextBlock>
                                     </StackPanel>
                                 </Grid>
                                 <TextBlock VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text=" Resources / Support CarJem Generations:"></TextBlock>

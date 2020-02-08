@@ -144,7 +144,7 @@ namespace ManiacEditor.Controls.Editor
                 throw ex;
             }
 
-            if (ManiacEditor.Core.Settings.MyDevSettings.DevAutoStart) OpenSceneForceFully();
+            if (ManiacEditor.Core.Settings.MyDevSettings.UseAutoForcefulStartup) OpenSceneForceFully();
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -240,23 +240,13 @@ namespace ManiacEditor.Controls.Editor
         #region Open Scene Methods
         public void OpenSceneForceFully()
         {
-            string dataDirectory = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartData;
-            if (dataDirectory != null) DataDirectory = dataDirectory;
-            string Result = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartScene;
-            int LevelID = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartID;
-            bool isEncore = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartIsEncore;
-            string CurrentZone = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartCurrentZone;
-            string CurrentName = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartCurrentName;
-            string CurrentSceneID = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartSceneID;
-            bool Browsed = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartIsBrowsed;
-            IList<string> DevResourcePacks = new List<string>();
-            if (ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartResourcePacks != null) DevResourcePacks = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartResourcePacks.Cast<string>().ToList();
-            int x = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartX;
-            int y = ManiacEditor.Core.Settings.MyDevSettings.DevForceRestartY;
-
-            ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneFromSaveState(dataDirectory, Result, LevelID, isEncore, CurrentZone, CurrentZone, CurrentSceneID, Browsed, DevResourcePacks);
-
-            Classes.Editor.EditorActions.GoToPosition(x, y, true);
+            var item = ManiacEditor.Methods.Prefrences.SceneHistoryStorage.Collection.List.FirstOrDefault();
+            if (item != null)
+            {
+                Classes.Editor.Solution.UnloadScene();
+                DataDirectory = item.DataDirectory;
+                ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneFromSaveState(item);
+            }
         }
 
         #endregion

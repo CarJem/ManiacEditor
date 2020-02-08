@@ -88,6 +88,8 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         {
             if (Instance != null && !System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
+                if (HUDItemNeedsUpdate(FPSCounter.Text, GetFPS())) FPSCounter.Text = GetFPS();
+                if (HUDItemNeedsUpdate(RenderCallCounter.Text, GetRenderCallCount())) RenderCallCounter.Text = GetRenderCallCount();
                 if (HUDItemNeedsUpdate(MemoryUsage.Text, GetMemoryUsage())) MemoryUsage.Text = GetMemoryUsage();
                 if (HUDItemNeedsUpdate(PhysicalMemoryUsage.Text, GetPhysicalMemoryUsage())) PhysicalMemoryUsage.Text = GetPhysicalMemoryUsage();
 
@@ -111,6 +113,33 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         {
             if (Instance.Paths.TileConfig_Source != null && Instance.Paths.TileConfig_Source != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(Instance.Paths.TileConfig_Source, "TileConfig.bin").ToString();
             else return "Scene TileConfig Path: N/A";
+        }
+
+        public string GetRenderCallCount()
+        {
+            try
+            {
+                double fps = Instance.DeviceModel.GraphicPanel.RenderCallCount;
+                return "Render Calls: " + fps.ToString();
+            }
+            catch
+            {
+                return "Render Calls: N/A";
+            }
+        }
+
+        public string GetFPS()
+        {
+            try
+            {
+                double fps = Instance.DeviceModel.GraphicPanel.FPS;
+                return "FPS: " + fps.ToString();
+            }
+            catch
+            {
+                return "FPS: N/A";
+            }
+
         }
 
         public string GetMemoryUsage()
@@ -266,7 +295,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         }
         private void Editor_MouseMove(object sender, MouseEventArgs e)
         {
-            UpdatePopupVisibility();
+            //UpdatePopupVisibility();
         }
 
         public void UpdatePopupVisibility()

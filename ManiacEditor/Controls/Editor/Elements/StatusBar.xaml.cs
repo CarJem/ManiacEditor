@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
 using ManiacEditor.Enums;
+using System.Windows.Threading;
 
 namespace ManiacEditor.Controls.Editor.Elements
 {
@@ -22,13 +23,13 @@ namespace ManiacEditor.Controls.Editor.Elements
     /// </summary>
     public partial class StatusBar : UserControl
     {
+
         public StatusBar()
         {
             InitializeComponent();
 
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-
                 UpdatePositionLabel();
 
                 this.EntityContext.Foreground = (SolidColorBrush)FindResource("NormalText");
@@ -38,22 +39,33 @@ namespace ManiacEditor.Controls.Editor.Elements
                 this.TilesContext.Background = (SolidColorBrush)FindResource("NormalBackground");
             }
         }
+        #region Update Position Label
 
+        private DispatcherOperation CurrentPositionUpdateOperation { get; set; }
         public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs m = null)
         {
-            System.Drawing.Point e;
-            if (m != null) e = m.Location;
-            else e = new System.Drawing.Point(0, 0);
+            var action = new Action(() =>
+            {
+                System.Drawing.Point e;
+                if (m != null) e = m.Location;
+                else e = new System.Drawing.Point(0, 0);
 
-            if (Classes.Editor.SolutionState.CountTilesSelectedInPixels == false)
+                string text;
+                if (!Classes.Editor.SolutionState.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Classes.Editor.SolutionState.Zoom) + " Y: " + (int)(e.Y / Classes.Editor.SolutionState.Zoom);
+                else text = "X: " + (int)((e.X / Classes.Editor.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Classes.Editor.SolutionState.Zoom) / 16);
+                positionLabel.Content = text;
+            });
+
+            if (CurrentPositionUpdateOperation != null && CurrentPositionUpdateOperation.Status != DispatcherOperationStatus.Completed)
             {
-                positionLabel.Content = "X: " + (int)(e.X / Classes.Editor.SolutionState.Zoom) + " Y: " + (int)(e.Y / Classes.Editor.SolutionState.Zoom);
+                CurrentPositionUpdateOperation.Abort();
             }
-            else
-            {
-                positionLabel.Content = "X: " + (int)((e.X / Classes.Editor.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Classes.Editor.SolutionState.Zoom) / 16);
-            }
+
+            CurrentPositionUpdateOperation = positionLabel.Dispatcher.InvokeAsync(action, DispatcherPriority.SystemIdle);
+
+
         }
+        #endregion
 
         public void UpdateStatusPanel()
         {

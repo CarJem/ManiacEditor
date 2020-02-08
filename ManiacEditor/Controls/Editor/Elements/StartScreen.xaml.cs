@@ -147,5 +147,10 @@ namespace ManiacEditor.Controls.Editor.Elements
         {
             System.Windows.MessageBox.Show("You can reach me via discord by: CarJem Generations#7078", "Discord Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-    }
+
+		private void CheckBox_Click(object sender, RoutedEventArgs e)
+		{
+			Core.Options.DevelopmentStates.Save();
+		}
+	}
 }

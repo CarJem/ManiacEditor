@@ -46,7 +46,7 @@ namespace ManiacEditor.Core.Options
         public System.Int32 DevForceRestartID { get; set; }
         public System.Int32 DevForceRestartZoomLevel { get; set; }
         public System.Boolean DevAutoStart { get; set; } = false;
-        public System.Int32 DevAutoStartMode { get; set; }
+        public System.Boolean UseAutoForcefulStartup { get; set; } = false;
         public System.Boolean DevForceRestartIsBrowsed { get; set; } = false;
         public System.String DevForceRestartSceneID { get; set; }
         public System.String DevForceRestartCurrentName { get; set; }

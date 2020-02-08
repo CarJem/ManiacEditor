@@ -11,6 +11,7 @@ using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 using Bitmap = System.Drawing.Bitmap;
 using ManiacEditor.Event_Handlers;
+using System.Diagnostics;
 
 
 /*
@@ -28,7 +29,7 @@ namespace ManiacEditor
 
 
 
-        public bool mouseMoved = false;
+        public bool mouseMoved { get; set; } = false;
 
         public int DrawWidth { get; set; }
         public int DrawHeight { get; set; }
@@ -47,13 +48,21 @@ namespace ManiacEditor
         Texture hcursor;
         Bitmap hcursorb;
 
+        public double FPS { get; set; } = 0.0;
+        System.Diagnostics.Stopwatch clock;
+        double totalTime;
+        long frameCount;
+        double measuredFPS;
+
+        public int RenderCallCount { get; set; } = 0;
+
 
         public bool bRender = true;
 
         // The DirectX device
-        public DeviceEx _device = null;
+        public Device _device = null;
         public bool deviceLost;
-        private Direct3DEx direct3d = new Direct3DEx();
+        private Direct3D direct3d = new Direct3D();
         private Font font;
         private Font fontBold;
         // The Form to place the DevicePanel onto
@@ -146,10 +155,10 @@ namespace ManiacEditor
                 }
 
 
-                _device = new DeviceEx(direct3d, 0, DeviceType.Hardware, this.Handle, createFlags, presentParams);
-                _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
-                _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
-                _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
+                _device = new Device(direct3d, 0, DeviceType.Hardware, this.Handle, createFlags, presentParams);
+                _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
+                _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
+                _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
                 //_device.SetRenderState(RenderState.ZWriteEnable, false);
                 //_device.SetRenderState(RenderState.ZEnable, false);
 
@@ -220,6 +229,8 @@ namespace ManiacEditor
 
             font = new Font(_device, fontDescription);
             fontBold = new Font(_device, fontDescriptionBold);
+
+            clock = Stopwatch.StartNew();
         }
         /// <summary>
         /// Attempt to recover the device if it is lost.
@@ -297,61 +308,84 @@ namespace ManiacEditor
 
         public void Render()
         {
-            if (deviceLost) AttemptRecovery();
-            if (deviceLost) return;
-            //if (isRendering) return;
+            RenderCallCount = RenderCallCount + 1;
+            //System.Threading.Tasks.Task.Run(new Action(() => {
+                if (deviceLost) AttemptRecovery();
+                if (deviceLost) return;
+                //if (isRendering) return;
 
-            if (_device == null)
-                return;
+                if (_device == null)
+                    return;
 
-            isRendering = true;
-            try
-            {
-
-                Rectangle screen = _parent.GetScreen();
-                double zoom = _parent.GetZoom();
-
-                //Clear the backbuffer
-                _device.Clear(ClearFlags.Target, new SharpDX.Color(_deviceBackColor.R, _deviceBackColor.B, _deviceBackColor.G, _deviceBackColor.A), 1.0f, 0);
-
-                //Begin the scene
-                _device.BeginScene();
-
-                sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
-
-
-                sprite2.Begin(SpriteFlags.AlphaBlend);
-
-                if (zoom > 1)
+                isRendering = true;
+                try
                 {
-                    // If zoomin, just do near-neighbor scaling
-                    _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
-                    _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
-                    _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
+
+                    Rectangle screen = _parent.GetScreen();
+                    double zoom = _parent.GetZoom();
+
+                    //Clear the backbuffer
+                    _device.Clear(ClearFlags.Target, new SharpDX.Color(_deviceBackColor.R, _deviceBackColor.B, _deviceBackColor.G, _deviceBackColor.A), 1.0f, 0);
+
+                    //Begin the scene
+                    _device.BeginScene();
+
+                    sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
+
+
+                    sprite2.Begin(SpriteFlags.AlphaBlend);
+
+                    if (zoom > 1)
+                    {
+                        // If zoomin, just do near-neighbor scaling
+                        _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
+                        _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
+                        _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
+                    }
+                    else if (zoom < 1)
+                    {
+                        // If zoomout, just do near-neighbor scaling
+                        _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.GaussianQuad);
+                        _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.GaussianQuad);
+                        _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.GaussianQuad);
+                    }
+
+                    sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
+
+                    // Render of scene here
+                    if (OnRender != null) OnRender(this, new DeviceEventArgs(_device));
+
+                    sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
+
+                    sprite.End();
+                    sprite2.End();
+                    //End the scene
+                    _device.EndScene();
+                    _device.Present();
+
+                    frameCount++;
+                    var timeElapsed = (double)clock.ElapsedTicks / Stopwatch.Frequency; ;
+                    totalTime += timeElapsed;
+                    if (totalTime >= 1.0f)
+                    {
+                        FPS = (double)frameCount / totalTime;
+                        frameCount = 0;
+                        totalTime = 0.0;
+                    }
+
+                    clock.Restart();
+
                 }
-
-                sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
-
-                // Render of scene here
-                if (OnRender != null) OnRender(this, new DeviceEventArgs(_device));
-
-                sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
-
-                sprite.End();
-                sprite2.End();
-                //End the scene
-                _device.EndScene();
-                _device.Present();
-
-            }
-            catch (SharpDXException ex)
-            {
-                if (ex.ResultCode == ResultCode.DeviceLost)
-                    deviceLost = true;
-                else
-                    throw ex;
-            }
-            isRendering = false;
+                catch (SharpDXException ex)
+                {
+                    if (ex.ResultCode == ResultCode.DeviceLost)
+                        deviceLost = true;
+                    else
+                        throw ex;
+                }
+                isRendering = false;
+            RenderCallCount = RenderCallCount - 1;
+            //}));
         }
 
         #endregion
@@ -384,7 +418,8 @@ namespace ManiacEditor
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
             lastEvent = e;
-            base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+            var screen = _parent.GetScreen();
+            base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + screen.X, e.Y + screen.Y, e.Delta));
         }
 
         protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)

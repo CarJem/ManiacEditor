@@ -15,10 +15,15 @@ namespace ManiacEditor.Core.Options
         public System.Boolean DisableEntityRendering { get; set; } = false;
         public System.Boolean DisableEntitySelectionBoxText { get; set; } = true;
         public System.Boolean UseSimplifedWaterRendering { get; set; } = false;
-        public System.Boolean ShowEditLayerBackground { get; set; } = false;
         public System.Boolean DisableRendererExclusions { get; set; } = true;
         public System.Boolean UseAlternativeRenderingMode { get; set; } = true;
         public System.Boolean NeverLoadEntityTextures { get; set; } = false;
+
+        public System.Boolean ShowEditLayerBackground { get; set; } = false;
+        public System.Boolean HideNormalBackground { get; set; } = false;
+
+        //TO REMOVE
+        public System.Boolean MouseMovementUpdatesRendering { get; set; } = true;
 
         #region Accessors
         public static void Init()

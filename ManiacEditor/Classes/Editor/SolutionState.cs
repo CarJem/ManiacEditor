@@ -68,12 +68,11 @@ namespace ManiacEditor.Classes.Editor
 
         #endregion
 
-        #region Scrolling Variables
+        #region Auto Scrolling Variables
 
-        public static bool Scrolling { get; set; } = false; //Determines if the User is Scrolling
-        public static bool ScrollingDragged { get; set; } = false;
-        public static bool WheelClicked { get; set; } = false; //Dermines if the mouse wheel was clicked or is the user is drag-scrolling.
-        public static Point ScrollPosition { get; set; } //For Getting the Scroll Position
+        public static bool AutoScrolling { get; set; } = false; //Determines if the User is Scrolling
+        public static bool AutoScrollingDragged { get; set; } = false;
+        public static Point AutoScrollPosition { get; set; } //For Getting the Scroll Position
 
         #endregion
 
@@ -102,7 +101,12 @@ namespace ManiacEditor.Classes.Editor
         {
             if (ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.hScrollBar1 != null)
             {
-                return (int)ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.hScrollBar1.Value;
+                int valueToReturn = 0;
+                ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.hScrollBar1.Dispatcher.Invoke(() => 
+                {
+                    valueToReturn = (int)ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.hScrollBar1.Value;
+                });
+                return valueToReturn;
             }
             else return 0;
         }
@@ -111,7 +115,12 @@ namespace ManiacEditor.Classes.Editor
         {
             if (ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.vScrollBar1 != null)
             {
-                return (int)ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.vScrollBar1.Value;
+                int valueToReturn = 0;
+                ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.vScrollBar1.Dispatcher.Invoke(() =>
+                {
+                    valueToReturn = (int)ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.vScrollBar1.Value;
+                });
+                return valueToReturn;
             }
             else return 0;
         }

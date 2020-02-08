@@ -91,8 +91,8 @@
                             <controls:SettingsHeader HeaderName="Misc. Settings"></controls:SettingsHeader>
                             <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence"  IsChecked="{maniac:SettingBinding ShowDiscordRPC}" Margin="0,0"/>
                             <CheckBox x:Name="UnhandledExcpetionsCheckBox" Content="Show Unhandled Exceptions" IsChecked="{maniac:SettingBinding ShowUnhandledExceptions}" Margin="0,0"/>
-                            <controls:SettingsHeader HeaderName="Developer Options" Visibility="Collapsed"></controls:SettingsHeader>
-                            <CheckBox IsChecked="{maniac:DevSettingsBinding DevAutoStart}" Content="Open Scene forcefully on Startup" HorizontalContentAlignment="Left" Margin="0,0" Visibility="Collapsed"></CheckBox>
+                            <controls:SettingsHeader HeaderName="Developer Options" Visibility="Visible"></controls:SettingsHeader>
+                            <CheckBox IsChecked="{maniac:DevSettingsBinding DevAutoStart}" Content="Open Scene forcefully on Startup" HorizontalContentAlignment="Left" Margin="0,0" Visibility="Visible"></CheckBox>
                             <CheckBox IsChecked="{maniac:DevSettingsBinding ExperimentalPropertyGridView}" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0" Visibility="Collapsed">
                                 <TextBlock Text="Experimental New Properties Grid (BROKEN; DO NOT USE)" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
@@ -270,7 +270,6 @@
                             <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ReduceZoom}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
                                 <TextBlock Text="Reduce Maximum Zooming Level (Helps prevent crashes and slowdowns)" TextWrapping="WrapWithOverflow"/>
                             </CheckBox>
-                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ShowEditLayerBackground}"  Content="Show Edit Layer Cosmetic Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             <CheckBox IsChecked="{maniac:PerformanceSettingsBinding NeverLoadEntityTextures}" Content="Never load Entity Textures/Annimations" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                             <CheckBox IsChecked="{maniac:PerformanceSettingsBinding DisableEntitySelectionBoxText}"  HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock Text="Remove Text from Objects (Will Boost Performance)" TextWrapping="WrapWithOverflow"></TextBlock>
@@ -282,6 +281,14 @@
                             <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseSimplifedWaterRendering}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                 <TextBlock  Text="Simplified Water Level Rendering (Perferable for Performance Reasons)" TextWrapping="WrapWithOverflow"></TextBlock>
                             </CheckBox>
+                            <TextBlock Visibility="Hidden"></TextBlock>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding MouseMovementUpdatesRendering}"  Content="Mouse Movement Force Skips Frames" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <controls:SettingsHeader HeaderName="Draw Settings"></controls:SettingsHeader>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ShowEditLayerBackground}"  Content="Enable Edit Layer Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{maniac:PerformanceSettingsBinding HideNormalBackground}"  Content="Disable Normal Checkered Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            
+                            
+                            
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>

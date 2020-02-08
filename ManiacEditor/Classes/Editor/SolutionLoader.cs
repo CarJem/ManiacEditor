@@ -401,6 +401,11 @@ namespace ManiacEditor.Classes.Editor
 
         }
 
+        public static void OpenSceneFromSaveState(Classes.Internal.SceneHistoryCollection.SaveState saveState)
+        {
+            OpenSceneFromSaveState(saveState.DataDirectory, saveState.Result, saveState.LevelID, saveState.isEncore, saveState.CurrentName, saveState.CurrentZone, saveState.CurrentSceneID, saveState.Browsed, saveState.ResourcePacks);
+        }
+
         public static void OpenSceneFromSaveState(string dataDirectory, string Result, int LevelID, bool isEncore, string CurrentName, string CurrentZone, string CurrentSceneID, bool browsedFile, IList<string> ResourcePacks)
         {
             if (PreLoad() == false) return;

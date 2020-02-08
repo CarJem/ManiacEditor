@@ -98,33 +98,33 @@ namespace ManiacEditor.Controls
 
         private void SetupEvents()
         {
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Editor_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Editor_KeyUp);
+            this.KeyDown += this.Editor_KeyDown;
+            this.KeyUp += this.Editor_KeyUp;
             this.Resize += Editor_Resize;
 
             UpdateDPIScale();
             UpdateRenderingScale();
 
-            vScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.VScrollBar1_Scroll);
-            vScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.VScrollBar1_ValueChanged);
-            vScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.VScrollBar1_Entered);
-            hScrollBar1.Scroll += new System.Windows.Controls.Primitives.ScrollEventHandler(this.HScrollBar1_Scroll);
-            hScrollBar1.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.HScrollBar1_ValueChanged);
-            hScrollBar1.MouseEnter += new System.Windows.Input.MouseEventHandler(this.HScrollBar1_Entered);
+            vScrollBar1.Scroll += this.VScrollBar1_Scroll;
+            vScrollBar1.ValueChanged += this.VScrollBar1_ValueChanged;
+            vScrollBar1.MouseEnter += this.VScrollBar1_Entered;
+            hScrollBar1.Scroll += this.HScrollBar1_Scroll;
+            hScrollBar1.ValueChanged += this.HScrollBar1_ValueChanged;
+            hScrollBar1.MouseEnter += this.HScrollBar1_Entered;
 
-            GraphicPanel.OnRender += new ManiacEditor.Event_Handlers.RenderEventHandler(this.GraphicPanel_OnRender);
-            GraphicPanel.OnCreateDevice += new ManiacEditor.Event_Handlers.CreateDeviceEventHandler(this.OnResetDevice);
-            GraphicPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragDrop);
-            GraphicPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragEnter);
-            GraphicPanel.DragOver += new System.Windows.Forms.DragEventHandler(this.GraphicPanel_DragOver);
-            GraphicPanel.DragLeave += new System.EventHandler(this.GraphicPanel_DragLeave);
-            GraphicPanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyDown);
-            GraphicPanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphicPanel_OnKeyUp);
-            GraphicPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseClick);
-            GraphicPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseDown);
-            GraphicPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseMove);
-            GraphicPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_OnMouseUp);
-            GraphicPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.GraphicPanel_MouseWheel);
+            GraphicPanel.OnRender += this.GraphicPanel_OnRender;
+            GraphicPanel.OnCreateDevice += this.OnResetDevice;
+            GraphicPanel.DragDrop += this.GraphicPanel_DragDrop;
+            GraphicPanel.DragEnter += this.GraphicPanel_DragEnter;
+            GraphicPanel.DragOver += this.GraphicPanel_DragOver;
+            GraphicPanel.DragLeave += this.GraphicPanel_DragLeave;
+            GraphicPanel.KeyDown += this.GraphicPanel_OnKeyDown;
+            GraphicPanel.KeyUp += this.GraphicPanel_OnKeyUp;
+            GraphicPanel.MouseClick += this.GraphicPanel_MouseClick;
+            GraphicPanel.MouseDown += this.GraphicPanel_OnMouseDown;
+            GraphicPanel.MouseMove += this.GraphicPanel_OnMouseMove;
+            GraphicPanel.MouseUp += this.GraphicPanel_OnMouseUp;
+            GraphicPanel.MouseWheel += this.GraphicPanel_MouseWheel;
 
             this.GraphicPanel.Width = SystemInformation.PrimaryMonitorSize.Width;
             this.GraphicPanel.Height = SystemInformation.PrimaryMonitorSize.Height;
@@ -323,7 +323,6 @@ namespace ManiacEditor.Controls
         }
         private void GraphicPanel_OnRender(object sender, DeviceEventArgs e)
         {
-
             bool showEntities = Instance.EditorToolbar.ShowEntities.IsChecked.Value && !Instance.EditorToolbar.EditEntities.IsCheckedAll;
             bool showEntitiesEditing = Instance.EditorToolbar.EditEntities.IsCheckedAll;
 
@@ -379,19 +378,19 @@ namespace ManiacEditor.Controls
 
             if (Methods.GameHandler.GameRunning) DrawGameElements();
 
-            if (Classes.Editor.SolutionState.Scrolling) DrawScroller();
+            if (Classes.Editor.SolutionState.AutoScrolling) DrawScroller();
 
             void DrawBackground()
             {
-                if (!ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) Instance.BackgroundDX.Draw(GraphicPanel);
+                if (!ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Core.Settings.MyPerformance.HideNormalBackground == false) Instance.BackgroundDX.Draw(GraphicPanel);
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Core.Settings.MyPerformance.ShowEditLayerBackground == true) Instance.BackgroundDX.DrawEdit(GraphicPanel);
             }
 
             void DrawScroller()
             {
-                if (vScrollBar1.IsVisible && hScrollBar1.IsVisible) GraphicPanel.Draw2DCursor(Classes.Editor.SolutionState.ScrollPosition.X, Classes.Editor.SolutionState.ScrollPosition.Y);
-                else if (vScrollBar1.IsVisible) GraphicPanel.DrawVertCursor(Classes.Editor.SolutionState.ScrollPosition.X, Classes.Editor.SolutionState.ScrollPosition.Y);
-                else if (hScrollBar1.IsVisible) GraphicPanel.DrawHorizCursor(Classes.Editor.SolutionState.ScrollPosition.X, Classes.Editor.SolutionState.ScrollPosition.Y);
+                if (vScrollBar1.IsVisible && hScrollBar1.IsVisible) GraphicPanel.Draw2DCursor(Classes.Editor.SolutionState.AutoScrollPosition.X, Classes.Editor.SolutionState.AutoScrollPosition.Y);
+                else if (vScrollBar1.IsVisible) GraphicPanel.DrawVertCursor(Classes.Editor.SolutionState.AutoScrollPosition.X, Classes.Editor.SolutionState.AutoScrollPosition.Y);
+                else if (hScrollBar1.IsVisible) GraphicPanel.DrawHorizCursor(Classes.Editor.SolutionState.AutoScrollPosition.X, Classes.Editor.SolutionState.AutoScrollPosition.Y);
             }
 
             void DrawExtraLayers()
