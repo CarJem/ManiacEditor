@@ -1,6 +1,6 @@
 ﻿namespace ManiacEditor.Enums
 {
-    internal enum ScrollDir : int
+    public enum Axis : int
     {
         X = 0,
         Y = 1

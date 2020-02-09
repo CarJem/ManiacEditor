@@ -107,7 +107,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Classes.Editor.SolutionState.TempSelectX2 - Classes.Editor.SolutionState.TempSelectX1) + ", Y: " + (Classes.Editor.SolutionState.TempSelectY2 - Classes.Editor.SolutionState.TempSelectY1);
 
-            scrollLockDirLabel.Content = "Scroll Direction: " + (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X ? "X" : "Y") + (Classes.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
+            scrollLockDirLabel.Content = "Scroll Direction: " + (Classes.Editor.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Classes.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
 
 
             hVScrollBarXYLabel.Content = "Zoom Value: " + Classes.Editor.SolutionState.Zoom.ToString();

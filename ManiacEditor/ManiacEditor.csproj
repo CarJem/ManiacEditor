@@ -219,9 +219,6 @@
     <Compile Include="Controls\Editor\Elements\View\WaitingPanel.xaml.cs">
       <DependentUpon>WaitingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Render\Disposable\GraphicsModel2.xaml.cs">
-      <DependentUpon>GraphicsModel2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Global\Controls\RenderedText\RenderedTextBox.xaml.cs">
       <DependentUpon>RenderedTextBox.xaml</DependentUpon>
     </Compile>
@@ -234,6 +231,7 @@
     <Compile Include="Core\Options\InputPreferences.cs" />
     <Compile Include="Core\Options\InternalSwitches.cs" />
     <Compile Include="Core\Options\VideoConfiguration.cs" />
+    <Compile Include="Enums\AutoScrollDirection.cs" />
     <Compile Include="Extensions\ExternalExtensions.cs" />
     <Compile Include="Extensions\SystemColorsUtility.cs" />
     <Compile Include="Methods\Internal\Common.cs" />
@@ -751,7 +749,7 @@
       <DependentUpon>RetroEDTileList.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Editor\SolutionState.cs" />
-    <Compile Include="Enums\ScrollDir.cs" />
+    <Compile Include="Enums\Axis.cs" />
     <Compile Include="Methods\Entities\EntityAnimator.cs" />
     <Compile Include="Classes\Editor\Scene\EditorBackground.cs" />
     <Compile Include="Methods\Entities\EntityDrawing.cs" />
@@ -819,12 +817,6 @@
     <Compile Include="Extensions\KeyEventExt.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Interfaces\IDrawArea.cs" />
-    <Compile Include="Controls\Editor\Render\Disposable\ImageViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Editor\Render\Disposable\ImageViewer.designer.cs">
-      <DependentUpon>ImageViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
     <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Classes\Editor\Scene\EditorEntities.cs" />
@@ -834,9 +826,6 @@
     <Compile Include="Controls\Assets\SkinResourceDictionary.cs" />
     <Compile Include="Controls\Dialog\TextPrompt.cs" />
     <Compile Include="Classes\Editor\Draw\TextureCreator.cs" />
-    <Compile Include="Controls\Editor\Render\Disposable\ThumbnailFlowLayoutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Interfaces\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1374,9 +1363,6 @@
     <Content Include="Resources\Global\SuperSpecialRing.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Controls\Editor\Render\Disposable\ImageViewer.resx">
-      <DependentUpon>ImageViewer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -1566,10 +1552,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Editor\Elements\View\WaitingPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Editor\Render\Disposable\GraphicsModel2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

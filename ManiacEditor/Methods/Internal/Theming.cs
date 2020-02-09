@@ -400,7 +400,7 @@ namespace ManiacEditor.Methods.Internal
         public static void RefreshFormsModel()
         {
             ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.UpdateScrollbars(true);
+            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.SetupScrollBars(true);
             FormsModelAwaitingRefresh = false;
         }
 

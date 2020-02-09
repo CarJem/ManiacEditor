@@ -66,6 +66,14 @@ namespace ManiacEditor.Classes.Editor
         public static bool Dragged { get; set; } = false;
         public static bool StartDragged { get; set; } = false;
 
+        public static bool AnyDragged
+        {
+            get
+            {
+                return (DraggingSelection || Dragged || AutoScrollingDragged || AutoScrolling);
+            }
+        }
+
         #endregion
 
         #region Auto Scrolling Variables
@@ -84,15 +92,15 @@ namespace ManiacEditor.Classes.Editor
 
         #endregion
 
-        #region Screen Positon Variables
+        #region Screen Position Variables
         public static int ScreenWidth { get; set; }
         public static int ScreenHeight { get; set; }
-        public static int CustomX { get; set; } = 0;
-        public static int CustomY { get; set; } = 0;
+
         #endregion
 
         #region View Position Controls
-
+        public static int CustomViewPositionX { get; set; } = 0;
+        public static int CustomViewPositionY { get; set; } = 0;
         public static int ViewPositionX { get => GetViewPositionX(); set => SetViewPositionX(value); }
         public static int ViewPositionY { get => GetViewPositionY(); set => SetViewPositionY(value); }
 
@@ -638,15 +646,13 @@ namespace ManiacEditor.Classes.Editor
 
         public static int SelectedTileID { get; set; } = -1; //For Tile Maniac Intergration via Right Click in Editor View Panel
         public static string CurrentLanguage { get; set; } = "EN"; //Current Selected Language
-        public static int ScrollDirection { get; set; } = 1;
+        public static Enums.Axis ScrollDirection { get; set; } = Enums.Axis.Y;
         public static int PlayerBeingTracked { get; set; } = -1;
         public static int CurrentControllerButtons { get; set; } = 2; //For Setting the Menu Control Button Images.
         public static int LevelID { get; set; } = -1; //Self Explanatory
         public static int LastQuickButtonState { get; set; } = 0; //Gets the Last Quick Button State, so we can tell what action was used last
 
         #endregion
-
-
 
         #region Unoptimized Technical Options
         public static bool RemoveStageConfigEntriesAllowed { get => GetRemoveStageConfigEntriesAllowed(); set => SetRemoveStageConfigEntriesAllowed(value); }

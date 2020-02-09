@@ -219,13 +219,13 @@ namespace ManiacEditor.Methods.Internal
 
             if (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == false)
             {
-                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.X;
+                Classes.Editor.SolutionState.ScrollDirection = Axis.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
 
             }
             else
             {
-                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.Y;
+                Classes.Editor.SolutionState.ScrollDirection = Axis.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
             }
 
@@ -237,10 +237,10 @@ namespace ManiacEditor.Methods.Internal
             Classes.Editor.SolutionState.ApplyEditEntitiesTransparency = ManiacEditor.Core.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
             Classes.Editor.SolutionState.ScrollLocked = ManiacEditor.Core.Settings.MyDefaults.ScrollLockDefault;
-            Classes.Editor.SolutionState.ScrollDirection = (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? 1 : 0);
+            Classes.Editor.SolutionState.ScrollDirection = (ManiacEditor.Core.Settings.MyDefaults.ScrollLockDirectionDefault == true ? Axis.Y : Axis.X);
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X;
-            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y;
+            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.xToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == Axis.X;
+            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.yToolStripMenuItem.IsChecked = Classes.Editor.SolutionState.ScrollDirection == Axis.Y;
 
             Classes.Editor.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Core.Settings.MyDefaults.EnablePixelModeDefault;
 

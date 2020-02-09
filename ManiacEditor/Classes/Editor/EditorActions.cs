@@ -58,7 +58,7 @@ namespace ManiacEditor.Classes.Editor
             if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
             if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
 
-            Instance.DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
         }
         public static void ZoomOut()
         {
@@ -66,7 +66,7 @@ namespace ManiacEditor.Classes.Editor
             if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
             if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
 
-            Instance.DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
         }
         public static void PasteToChunks()
         {
@@ -743,16 +743,16 @@ namespace ManiacEditor.Classes.Editor
 
         public static void SetScrollLockDirection()
         {
-            if (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X)
+            if (Classes.Editor.SolutionState.ScrollDirection == Axis.X)
             {
-                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.Y;
+                Classes.Editor.SolutionState.ScrollDirection = Axis.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
                 Instance.MenuBar.xToolStripMenuItem.IsChecked = false;
                 Instance.MenuBar.yToolStripMenuItem.IsChecked = true;
             }
             else
             {
-                Classes.Editor.SolutionState.ScrollDirection = (int)ScrollDir.X;
+                Classes.Editor.SolutionState.ScrollDirection = Axis.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
                 Instance.MenuBar.xToolStripMenuItem.IsChecked = true;
                 Instance.MenuBar.yToolStripMenuItem.IsChecked = false;

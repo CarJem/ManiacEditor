@@ -30,11 +30,10 @@ namespace ManiacEditor.Methods.Internal
         private static bool ShiftPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Shift); }
 
         #region Mouse Controls
-
         
-        #region Scroller Mode Methods
-        private static bool ForceUpdateScrollerMousePos { get; set; } = false;
-        public static void SetScrollerApperance(ScrollerModeDirection direction = ScrollerModeDirection.NONE)
+        #region Mouse Auto-Scrolling Methods
+        private static bool ForceAutoScrollMousePosition { get; set; } = false;
+        public static void SetAutoScrollerApperance(AutoScrollDirection direction = AutoScrollDirection.NONE)
         {
             var converter = new System.Windows.Media.BrushConverter();
             var Active = (System.Windows.Media.Brush)converter.ConvertFromString("Red");
@@ -42,34 +41,34 @@ namespace ManiacEditor.Methods.Internal
 
             switch (direction)
             {
-                case ScrollerModeDirection.N: Instance.Cursor = System.Windows.Input.Cursors.ScrollN; break;
-                case ScrollerModeDirection.S: Instance.Cursor = System.Windows.Input.Cursors.ScrollS; break;
-                case ScrollerModeDirection.E: Instance.Cursor = System.Windows.Input.Cursors.ScrollE; break;
-                case ScrollerModeDirection.W: Instance.Cursor = System.Windows.Input.Cursors.ScrollW; break;
-                case ScrollerModeDirection.NW: Instance.Cursor = System.Windows.Input.Cursors.ScrollNW; break;
-                case ScrollerModeDirection.SW: Instance.Cursor = System.Windows.Input.Cursors.ScrollSW; break;
-                case ScrollerModeDirection.SE: Instance.Cursor = System.Windows.Input.Cursors.ScrollSE; break;
-                case ScrollerModeDirection.NE: Instance.Cursor = System.Windows.Input.Cursors.ScrollNE; break;
-                case ScrollerModeDirection.ALL: Instance.Cursor = System.Windows.Input.Cursors.ScrollAll; break;
-                case ScrollerModeDirection.NONE: Instance.Cursor = System.Windows.Input.Cursors.Arrow; break;
+                case AutoScrollDirection.N: Instance.Cursor = System.Windows.Input.Cursors.ScrollN; break;
+                case AutoScrollDirection.S: Instance.Cursor = System.Windows.Input.Cursors.ScrollS; break;
+                case AutoScrollDirection.E: Instance.Cursor = System.Windows.Input.Cursors.ScrollE; break;
+                case AutoScrollDirection.W: Instance.Cursor = System.Windows.Input.Cursors.ScrollW; break;
+                case AutoScrollDirection.NW: Instance.Cursor = System.Windows.Input.Cursors.ScrollNW; break;
+                case AutoScrollDirection.SW: Instance.Cursor = System.Windows.Input.Cursors.ScrollSW; break;
+                case AutoScrollDirection.SE: Instance.Cursor = System.Windows.Input.Cursors.ScrollSE; break;
+                case AutoScrollDirection.NE: Instance.Cursor = System.Windows.Input.Cursors.ScrollNE; break;
+                case AutoScrollDirection.ALL: Instance.Cursor = System.Windows.Input.Cursors.ScrollAll; break;
+                case AutoScrollDirection.NONE: Instance.Cursor = System.Windows.Input.Cursors.Arrow; break;
                 default: Instance.Cursor = System.Windows.Input.Cursors.Arrow; break;
             }
 
-            if (direction == ScrollerModeDirection.N || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
+            if (direction == AutoScrollDirection.N || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = NotActive;
-            if (direction == ScrollerModeDirection.S || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = Active;
+            if (direction == AutoScrollDirection.S || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = NotActive;
-            if (direction == ScrollerModeDirection.E || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = Active;
+            if (direction == AutoScrollDirection.E || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = NotActive;
-            if (direction == ScrollerModeDirection.W || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = Active;
+            if (direction == AutoScrollDirection.W || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = NotActive;
-            if (direction == ScrollerModeDirection.NW || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = Active;
+            if (direction == AutoScrollDirection.NW || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = NotActive;
-            if (direction == ScrollerModeDirection.SW || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = Active;
+            if (direction == AutoScrollDirection.SW || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = NotActive;
-            if (direction == ScrollerModeDirection.SE || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = Active;
+            if (direction == AutoScrollDirection.SE || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = NotActive;
-            if (direction == ScrollerModeDirection.NE || direction == ScrollerModeDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = Active;
+            if (direction == AutoScrollDirection.NE || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = NotActive;
 
             Instance.ViewPanel.ScrollGrid.ScrollBorderN.InvalidateVisual();
@@ -87,20 +86,17 @@ namespace ManiacEditor.Methods.Internal
         {
             if (Core.Settings.MySettings.ScrollerAutoCenters)
             {
-                ForceUpdateScrollerMousePos = true;
+                ForceAutoScrollMousePosition = true;
                 System.Windows.Point pointFromParent = Instance.ViewPanel.SharpPanel.TranslatePoint(new System.Windows.Point(0, 0), Instance);
                 Extensions.ExternalExtensions.SetCursorPos((int)(Instance.Left + pointFromParent.X) + (int)(Instance.ViewPanel.SharpPanel.ActualWidth / 2), (int)(Instance.Left + pointFromParent.Y) + (int)(Instance.ViewPanel.SharpPanel.ActualHeight / 2));
             }
         }
-        public static void UpdateScrollerPosition(System.Windows.Forms.MouseEventArgs e)
+        public static void UpdateAutoScrollerPosition(System.Windows.Forms.MouseEventArgs e)
         {
-            Task.Run(() => 
-            {
-                Classes.Editor.SolutionState.AutoScrollPosition = new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY);
-                ForceUpdateScrollerMousePos = false;
-            });
+            Classes.Editor.SolutionState.AutoScrollPosition = new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY);
+            ForceAutoScrollMousePosition = false;
         }
-        public static void ToggleScrollerMode(System.Windows.Forms.MouseEventArgs e)
+        public static void ToggleAutoScrollerMode(System.Windows.Forms.MouseEventArgs e)
         {
             if (!Classes.Editor.SolutionState.AutoScrolling) ScrollerModeOn();
             else ScrollerModeOff();
@@ -111,9 +107,9 @@ namespace ManiacEditor.Methods.Internal
                 Classes.Editor.SolutionState.AutoScrolling = true;
                 Classes.Editor.SolutionState.AutoScrollingDragged = false;
                 Classes.Editor.SolutionState.AutoScrollPosition = new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY);
-                if (Instance.DeviceModel.vScrollBar1.IsVisible && Instance.DeviceModel.hScrollBar1.IsVisible) SetScrollerApperance(ScrollerModeDirection.ALL);
-                else if (Instance.DeviceModel.vScrollBar1.IsVisible) SetScrollerApperance(ScrollerModeDirection.WE);
-                else if (Instance.DeviceModel.hScrollBar1.IsVisible) SetScrollerApperance(ScrollerModeDirection.NS);
+                if (Instance.DeviceModel.vScrollBar1.IsVisible && Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
+                else if (Instance.DeviceModel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
+                else if (Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
                 else Classes.Editor.SolutionState.AutoScrolling = false;
             }
             void ScrollerModeOff()
@@ -121,30 +117,16 @@ namespace ManiacEditor.Methods.Internal
                 //Turn Scroller Mode Off
                 Classes.Editor.SolutionState.AutoScrolling = false;
                 Classes.Editor.SolutionState.AutoScrollingDragged = false;
-                SetScrollerApperance(ScrollerModeDirection.NONE);
+                SetAutoScrollerApperance(AutoScrollDirection.NONE);
             }
-        }
-        public enum ScrollerModeDirection : int
-        {
-            N = 0,
-            NE = 1,
-            E = 2,
-            SE = 3,
-            S = 4,
-            SW = 5,
-            W = 6,
-            NW = 7,
-            WE = 8,
-            NS = 9,
-            ALL = 10,
-            NONE = -1
         }
         #endregion
 
         #region Scroller Mode Events
         public static void ScrollerMouseMove(MouseEventArgs e)
         {
-            if (ForceUpdateScrollerMousePos) UpdateScrollerPosition(e);
+            Instance.DeviceModel.SyncScrollBarsWithPos();
+            if (ForceAutoScrollMousePosition) UpdateAutoScrollerPosition(e);
             if (Classes.Editor.SolutionState.AutoScrolling) Classes.Editor.SolutionState.AutoScrollingDragged = true;
 
             double xMove = (Instance.DeviceModel.hScrollBar1.IsVisible) ? e.X - Classes.Editor.SolutionState.ViewPositionX - Classes.Editor.SolutionState.AutoScrollPosition.X : 0;
@@ -155,25 +137,25 @@ namespace ManiacEditor.Methods.Internal
 
             if (xMove > 0)
             {
-                if (yMove > 0) SetScrollerApperance(ScrollerModeDirection.SE);
-                else if (yMove < 0) SetScrollerApperance(ScrollerModeDirection.NE);
-                else SetScrollerApperance(ScrollerModeDirection.E);
+                if (yMove > 0) SetAutoScrollerApperance(AutoScrollDirection.SE);
+                else if (yMove < 0) SetAutoScrollerApperance(AutoScrollDirection.NE);
+                else SetAutoScrollerApperance(AutoScrollDirection.E);
             }
             else if (xMove < 0)
             {
-                if (yMove > 0) SetScrollerApperance(ScrollerModeDirection.SW);
-                else if (yMove < 0) SetScrollerApperance(ScrollerModeDirection.NW);
-                else SetScrollerApperance(ScrollerModeDirection.W);
+                if (yMove > 0) SetAutoScrollerApperance(AutoScrollDirection.SW);
+                else if (yMove < 0) SetAutoScrollerApperance(AutoScrollDirection.NW);
+                else SetAutoScrollerApperance(AutoScrollDirection.W);
             }
             else
             {
-                if (yMove > 0) SetScrollerApperance(ScrollerModeDirection.S);
-                else if (yMove < 0) SetScrollerApperance(ScrollerModeDirection.N);
+                if (yMove > 0) SetAutoScrollerApperance(AutoScrollDirection.S);
+                else if (yMove < 0) SetAutoScrollerApperance(AutoScrollDirection.N);
                 else
                 {
-                    if (Instance.DeviceModel.vScrollBar1.IsVisible && Instance.DeviceModel.hScrollBar1.IsVisible) SetScrollerApperance(ScrollerModeDirection.ALL);
-                    else if (Instance.DeviceModel.vScrollBar1.IsVisible) SetScrollerApperance(ScrollerModeDirection.NS);
-                    else if (Instance.DeviceModel.hScrollBar1.IsVisible) SetScrollerApperance(ScrollerModeDirection.WE);
+                    if (Instance.DeviceModel.vScrollBar1.IsVisible && Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
+                    else if (Instance.DeviceModel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
+                    else if (Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
                 }
             }
 
@@ -181,8 +163,8 @@ namespace ManiacEditor.Methods.Internal
             double x = xMove / 10 + position.X;
             double y = yMove / 10 + position.Y;
 
-            Classes.Editor.SolutionState.CustomX += (int)xMove / 10;
-            Classes.Editor.SolutionState.CustomY += (int)yMove / 10;
+            Classes.Editor.SolutionState.CustomViewPositionX += (int)xMove / 10;
+            Classes.Editor.SolutionState.CustomViewPositionY += (int)yMove / 10;
 
             if (x < 0) x = 0;
             if (y < 0) y = 0;
@@ -198,7 +180,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void ScrollerMouseUp(MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle) if (Core.Settings.MySettings.ScrollerPressReleaseMode) ToggleScrollerMode(e);
+            if (e.Button == MouseButtons.Middle) if (Core.Settings.MySettings.ScrollerPressReleaseMode) ToggleAutoScrollerMode(e);
         }
         public static void ScrollerMouseDown(MouseEventArgs e)
         {
@@ -776,7 +758,7 @@ namespace ManiacEditor.Methods.Internal
         public static void MouseDownMiddle(System.Windows.Forms.MouseEventArgs e)
         {
             EnforceCursorPosition();
-            ToggleScrollerMode(e);
+            ToggleAutoScrollerMode(e);
         }
         #endregion
 
@@ -921,99 +903,92 @@ namespace ManiacEditor.Methods.Internal
         #endregion
 
 
-        #region Other Mouse Events
+        #region Mouse Wheel Events
         public static void MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Instance.DeviceModel.GraphicPanel.Focus();
-            if (CtrlPressed()) Ctrl();
-            else Normal();
-
-            void Ctrl()
+            if (CtrlPressed()) MouseWheelZooming(sender, e);
+            else MouseWheelScrolling(sender, e);
+        }
+        private static void MouseWheelZooming(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            int maxZoom;
+            int minZoom;
+            if (Core.Settings.MyPerformance.ReduceZoom)
             {
-                int maxZoom;
-                int minZoom;
-                if (Core.Settings.MyPerformance.ReduceZoom)
-                {
-                    maxZoom = 5;
-                    minZoom = -2;
-                }
-                else
-                {
-                    maxZoom = 5;
-                    minZoom = -5;
-                }
-                int change = e.Delta / 120;
-                Classes.Editor.SolutionState.ZoomLevel += change;
-                if (Classes.Editor.SolutionState.ZoomLevel > maxZoom) Classes.Editor.SolutionState.ZoomLevel = maxZoom;
-                if (Classes.Editor.SolutionState.ZoomLevel < minZoom) Classes.Editor.SolutionState.ZoomLevel = minZoom;
-
-                Instance.DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
+                maxZoom = 5;
+                minZoom = -2;
             }
-            void Normal()
+            else
             {
-                if (Instance.DeviceModel.vScrollBar1.IsVisible || Instance.DeviceModel.hScrollBar1.IsVisible) ScrollMove();
-                if (Core.Settings.MySettings.EntityFreeCam) FreeCamScroll();
+                maxZoom = 5;
+                minZoom = -5;
+            }
+            int change = e.Delta / 120;
+            Classes.Editor.SolutionState.ZoomLevel += change;
+            if (Classes.Editor.SolutionState.ZoomLevel > maxZoom) Classes.Editor.SolutionState.ZoomLevel = maxZoom;
+            if (Classes.Editor.SolutionState.ZoomLevel < minZoom) Classes.Editor.SolutionState.ZoomLevel = minZoom;
 
-                void ScrollMove()
+            Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
+        }
+        private static void MouseWheelScrolling(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (Instance.DeviceModel.vScrollBar1.IsVisible || Instance.DeviceModel.hScrollBar1.IsVisible) ScrollMove();
+            if (Core.Settings.MySettings.EntityFreeCam) FreeCamScroll();
+
+            void ScrollMove()
+            {
+                if (Classes.Editor.SolutionState.ScrollDirection == Axis.Y)
                 {
-                    if (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y && !Classes.Editor.SolutionState.ScrollLocked) ScrollY();
-                    else if (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X && !Classes.Editor.SolutionState.ScrollLocked) ScrollX();
-                    else if (Classes.Editor.SolutionState.ScrollLocked)
-                        if (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.Y) ScrollY();
-                        else ScrollX();
-
-
-                    void ScrollX()
+                    if (ShiftPressed())
                     {
-                        if (ShiftPressed())
-                        {
-                            if (Instance.DeviceModel.vScrollBar1.IsVisible) VScroll();
-                            else HScroll();
-                        }
-                        else
-                        {
-                            if (Instance.DeviceModel.hScrollBar1.IsVisible) HScroll();
-                            else VScroll();
-                        }
-
+                        if (Instance.DeviceModel.hScrollBar1.IsVisible) MouseWheelScrollingX(sender, e);
+                        else MouseWheelScrollingY(sender, e);
                     }
-
-                    void ScrollY()
+                    else
                     {
-                        if (ShiftPressed())
-                        {
-                            if (Instance.DeviceModel.hScrollBar1.IsVisible) HScroll();
-                            else VScroll();
-                        }
-                        else
-                        {
-                            if (Instance.DeviceModel.vScrollBar1.IsVisible) VScroll();
-                            else HScroll();
-                        }
-
+                        if (Instance.DeviceModel.vScrollBar1.IsVisible) MouseWheelScrollingY(sender, e);
+                        else MouseWheelScrollingX(sender, e);
                     }
                 }
-                void FreeCamScroll()
+                else if (Classes.Editor.SolutionState.ScrollDirection == Axis.X)
                 {
-                    if (Classes.Editor.SolutionState.ScrollDirection == (int)ScrollDir.X) Classes.Editor.SolutionState.CustomX -= e.Delta;
-                    else Classes.Editor.SolutionState.CustomY -= e.Delta;
+                    if (ShiftPressed())
+                    {
+                        if (Instance.DeviceModel.vScrollBar1.IsVisible) MouseWheelScrollingY(sender, e);
+                        else MouseWheelScrollingX(sender, e);
+                    }
+                    else
+                    {
+                        if (Instance.DeviceModel.hScrollBar1.IsVisible) MouseWheelScrollingX(sender, e);
+                        else MouseWheelScrollingY(sender, e);
+                    }
                 }
             }
-            void VScroll()
+            void FreeCamScroll()
             {
-                double y = Instance.DeviceModel.vScrollBar1.Value - e.Delta;
-                if (y < 0) y = 0;
-                if (y > Instance.DeviceModel.vScrollBar1.Maximum) y = Instance.DeviceModel.vScrollBar1.Maximum;
-                Instance.DeviceModel.vScrollBar1.Value = y;
-            }
-            void HScroll()
-            {
-                double x = Instance.DeviceModel.hScrollBar1.Value - e.Delta;
-                if (x < 0) x = 0;
-                if (x > Instance.DeviceModel.hScrollBar1.Maximum) x = Instance.DeviceModel.hScrollBar1.Maximum;
-                Instance.DeviceModel.hScrollBar1.Value = x;
+                if (Classes.Editor.SolutionState.ScrollDirection == (int)Axis.X) Classes.Editor.SolutionState.CustomViewPositionX -= e.Delta;
+                else Classes.Editor.SolutionState.CustomViewPositionY -= e.Delta;
             }
         }
+        private static void MouseWheelScrollingY(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            double y = Instance.DeviceModel.vScrollBar1.Value - e.Delta;
+            if (y < 0) y = 0;
+            if (y > Instance.DeviceModel.vScrollBar1.Maximum) y = Instance.DeviceModel.vScrollBar1.Maximum;
+            Instance.DeviceModel.vScrollBar1.Value = y;
+        }
+        private static void MouseWheelScrollingX(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            double x = Instance.DeviceModel.hScrollBar1.Value - e.Delta;
+            if (x < 0) x = 0;
+            if (x > Instance.DeviceModel.hScrollBar1.Maximum) x = Instance.DeviceModel.hScrollBar1.Maximum;
+            Instance.DeviceModel.hScrollBar1.Value = x;
+        }
+        #endregion
+
+
+        #region Mouse Click Events/Methods
         public static void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Instance.DeviceModel.GraphicPanel.Focus();
@@ -1025,10 +1000,6 @@ namespace ManiacEditor.Methods.Internal
             }
 
         }
-        #endregion
-
-
-        #region ContextMenu Events/Methods
         public static void TilesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
             string newLine = Environment.NewLine;
@@ -1146,6 +1117,7 @@ namespace ManiacEditor.Methods.Internal
             }
         }
         #endregion
+
 
         #region Draw Tool Events/Methods
         public static void TilesEditDrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
@@ -1367,7 +1339,7 @@ namespace ManiacEditor.Methods.Internal
             // Reset Zoom Level
             if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ResetZoomLevel))
             {
-                Instance.DeviceModel.SetZoomLevel(0, new Point(0, 0));
+                Instance.DeviceModel.UpdateZoomLevel(0, new Point(0, 0));
             }
             //Refresh Tiles and Sprites
             else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.RefreshResources))

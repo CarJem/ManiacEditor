@@ -76,11 +76,11 @@ namespace ManiacEditor.Controls.Global.Controls
         #region Splitter Events
         private void Spliter_DragDelta(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Instance != null) Instance.DeviceModel.GraphicsResize(sender, e);
+            if (Instance != null) Instance.DeviceModel.ResizeGraphicsModel(sender, e);
         }
         private void Spliter_SizeChanged(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Instance != null) Instance.DeviceModel.SetZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY), 0.0, false);
+            if (Instance != null) Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY));
         }
         #endregion
 

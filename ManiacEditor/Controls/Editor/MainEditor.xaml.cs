@@ -209,7 +209,7 @@ namespace ManiacEditor.Controls.Editor
             Extensions.ExternalExtensions.AllocConsole();
             Extensions.ExternalExtensions.HideConsoleWindow();
             RefreshCollisionColours();
-            DeviceModel.SetViewSize();
+            DeviceModel.UpdateViewSize();
             Methods.Internal.UserInterface.UpdateControls();
             Methods.Internal.Settings.TryLoadSettings();
 
@@ -310,7 +310,7 @@ namespace ManiacEditor.Controls.Editor
 
         }
 
-        public void Editor_Resize(object sender, RoutedEventArgs e) { DeviceModel.GraphicsResize(sender, e); }
+        public void Editor_Resize(object sender, RoutedEventArgs e) { DeviceModel.ResizeGraphicsModel(sender, e); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
             ViewPanel.SharpPanel.Host.Child = DeviceModel;
