@@ -64,7 +64,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void SetupExistingKeybinds(string keyRefrence)
 		{
-			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as StringCollection;
+			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
 			if (keybindDict != null) KeyBindsList = keybindDict.Cast<string>().ToArray();
 			KeyCount = KeyBindsList.Count();
 

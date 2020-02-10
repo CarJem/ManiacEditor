@@ -46,7 +46,9 @@ namespace ManiacEditor.Core.Options
                 string json = File.ReadAllText(Constants.InternalSwitchesFilePath);
                 try
                 {
-                    InternalSwitches result = JsonConvert.DeserializeObject<InternalSwitches>(json);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                    InternalSwitches result = JsonConvert.DeserializeObject<InternalSwitches>(json, settings);
                     if (result != null) DefaultInstance = result;
                     else DefaultInstance = new InternalSwitches();
                 }

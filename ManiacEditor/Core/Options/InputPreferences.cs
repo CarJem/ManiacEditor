@@ -6,26 +6,50 @@ using System.Threading.Tasks;
 using ManiacEditor.Classes.Editor;
 using System.IO;
 using Newtonsoft.Json;
+using System.Reflection;
+using System.Runtime;
+using System.Runtime.Serialization;
 
 namespace ManiacEditor.Core.Options
 {
+    [DataContract]
     public class InputPreferences
     {
-
-        public System.Collections.Specialized.StringCollection GetInput(string name)
+        public List<string> GetInput(string name)
         {
-            return (System.Collections.Specialized.StringCollection)this.GetType().GetField(name).GetValue(this);
+            BindingFlags bindingFlags = BindingFlags.Public |
+                            BindingFlags.NonPublic |
+                            BindingFlags.Instance |
+                            BindingFlags.Static;
+
+            var feilds = typeof(InputPreferences).GetProperties(bindingFlags);
+            foreach (var entry in feilds)
+            {
+                if (entry.Name == name)
+                {
+                    object value = entry.GetValue(this, null);
+                    if (value != null && value is List<string>) return (List<string>)value;
+                    else return null;
+
+                }
+            }
+            return null;
         }
 
-        public void SetInput(string name, System.Collections.Specialized.StringCollection value)
+        public void SetInput(string name, List<string> value)
         {
             this.GetType().GetField(name).SetValue(this, value);
         }
 
         public List<string> GetInputs()
         {
+            BindingFlags bindingFlags = BindingFlags.Public |
+                            BindingFlags.NonPublic |
+                            BindingFlags.Instance |
+                            BindingFlags.Static;
+
             List<string> PossibleInputs = new List<string>();
-            var feilds = this.GetType().GetFields();
+            var feilds = typeof(InputPreferences).GetProperties(bindingFlags);
             foreach (var entry in feilds)
             {
                 PossibleInputs.Add(entry.Name);
@@ -33,81 +57,154 @@ namespace ManiacEditor.Core.Options
             return PossibleInputs;
         }
 
-
-        public System.Collections.Specialized.StringCollection NudgeFaster { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+F1" };
-        public System.Collections.Specialized.StringCollection ScrollLock { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+F2" };
-        public System.Collections.Specialized.StringCollection ScrollLockTypeSwitch { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+F3" };
-        public System.Collections.Specialized.StringCollection Cut { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+X" };
-        public System.Collections.Specialized.StringCollection Copy { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+C" };
-        public System.Collections.Specialized.StringCollection Paste { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+V" };
-        public System.Collections.Specialized.StringCollection Delete { get; set; } = new System.Collections.Specialized.StringCollection() { "Delete" };
-        public System.Collections.Specialized.StringCollection Duplicate { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+D" };
-        public System.Collections.Specialized.StringCollection SelectAll { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+A" };
-        public System.Collections.Specialized.StringCollection Undo { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Z" };
-        public System.Collections.Specialized.StringCollection Redo { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Y" };
-        public System.Collections.Specialized.StringCollection New { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+N" };
-        public System.Collections.Specialized.StringCollection Open { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+O" };
-        public System.Collections.Specialized.StringCollection OpenDataDir { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Alt+O" };
-        public System.Collections.Specialized.StringCollection _Save { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+S" };
-        public System.Collections.Specialized.StringCollection SaveAs { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Alt+S" };
-        public System.Collections.Specialized.StringCollection ResetZoomLevel { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+NumPad0", "Ctrl+0" };
-        public System.Collections.Specialized.StringCollection UnloadScene { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+U" };
-        public System.Collections.Specialized.StringCollection ShowPathA { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+1" };
-        public System.Collections.Specialized.StringCollection ShowPathB { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+2" };
-        public System.Collections.Specialized.StringCollection BackupNormal { get; set; } = new System.Collections.Specialized.StringCollection() { "None" };
-        public System.Collections.Specialized.StringCollection BackupStageConfig { get; set; } = new System.Collections.Specialized.StringCollection() { "None" };
-        public System.Collections.Specialized.StringCollection Recover { get; set; } = new System.Collections.Specialized.StringCollection() { "None" };
-        public System.Collections.Specialized.StringCollection RunScene { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+R" };
-        public System.Collections.Specialized.StringCollection RefreshResources { get; set; } = new System.Collections.Specialized.StringCollection() { "F5" };
-        public System.Collections.Specialized.StringCollection ShowGrid { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+G" };
-        public System.Collections.Specialized.StringCollection ShowTileID { get; set; } = new System.Collections.Specialized.StringCollection() { "Shift+3" };
-        public System.Collections.Specialized.StringCollection FlipH { get; set; } = new System.Collections.Specialized.StringCollection() { "M" };
-        public System.Collections.Specialized.StringCollection FlipV { get; set; } = new System.Collections.Specialized.StringCollection() { "F" };
-        public System.Collections.Specialized.StringCollection FlipVTiles { get; set; } = new System.Collections.Specialized.StringCollection() { "ShiftKey" };
-        public System.Collections.Specialized.StringCollection FlipHTiles { get; set; } = new System.Collections.Specialized.StringCollection() { "ControlKey" };
-        public System.Collections.Specialized.StringCollection FlipHIndv { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+M" };
-        public System.Collections.Specialized.StringCollection FlipVIndv { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+F" };
-        public System.Collections.Specialized.StringCollection StatusBoxToggle { get; set; } = new System.Collections.Specialized.StringCollection() { "F3" };
-        public System.Collections.Specialized.StringCollection PasteToChunk { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Shift+V" };
-        public System.Collections.Specialized.StringCollection ForceOpenOnStartup { get; set; } = new System.Collections.Specialized.StringCollection() { "None" };
-        public System.Collections.Specialized.StringCollection DeveloperInterface { get; set; } = new System.Collections.Specialized.StringCollection() { "None" };
-        public System.Collections.Specialized.StringCollection CopyAirTiles { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+P" };
-        public System.Collections.Specialized.StringCollection PointerTooltipToggle { get; set; } = new System.Collections.Specialized.StringCollection() { "None" };
-        public System.Collections.Specialized.StringCollection PointerTool { get; set; } = new System.Collections.Specialized.StringCollection() { "1" };
-        public System.Collections.Specialized.StringCollection SelectTool { get; set; } = new System.Collections.Specialized.StringCollection() { "2" };
-        public System.Collections.Specialized.StringCollection DrawTool { get; set; } = new System.Collections.Specialized.StringCollection() { "3" };
-        public System.Collections.Specialized.StringCollection SplineTool { get; set; } = new System.Collections.Specialized.StringCollection() { "4" };
-        public System.Collections.Specialized.StringCollection StampTool { get; set; } = new System.Collections.Specialized.StringCollection() { "5" };
-        public System.Collections.Specialized.StringCollection MagnetTool { get; set; } = new System.Collections.Specialized.StringCollection() { "6" };
-        public System.Collections.Specialized.StringCollection TileManiacNewInstance { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+N" };
-        public System.Collections.Specialized.StringCollection TileManiacOpen { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+O" };
-        public System.Collections.Specialized.StringCollection TileManiacSave { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+S" };
-        public System.Collections.Specialized.StringCollection TileManiacSaveAs { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Alt+S" };
-        public System.Collections.Specialized.StringCollection TileManiacSaveAsUncompressed { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Alt+U" };
-        public System.Collections.Specialized.StringCollection TileManiacSaveUncompressed { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+U" };
-        public System.Collections.Specialized.StringCollection TileManiacbackupConfig { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacbackupImage { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacImportFromOlderRSDK { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacOpenSingleColMask { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacExportColMask { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacCopy { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+C" };
-        public System.Collections.Specialized.StringCollection TileManiacPaste { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+V" };
-        public System.Collections.Specialized.StringCollection TileManiacPastetoOther { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+Alt+V" };
-        public System.Collections.Specialized.StringCollection TileManiacMirrorMode { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+M" };
-        public System.Collections.Specialized.StringCollection TileManiacRestorePathA { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacRestorePathB { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacRestorePaths { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacShowPathB { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+B" };
-        public System.Collections.Specialized.StringCollection TileManiacShowGrid { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+G" };
-        public System.Collections.Specialized.StringCollection TileManiacClassicMode { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacSplitFile { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacFlipTileH { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacFlipTileV { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacHomeFolderOpen { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacAbout { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacSettings { get; set; }
-        public System.Collections.Specialized.StringCollection TileManiacWindowAlwaysOnTop { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+T" };
-        public System.Collections.Specialized.StringCollection TileManiacCut { get; set; } = new System.Collections.Specialized.StringCollection() { "Ctrl+X" };
+        [DataMember] 
+        public List<string> NudgeFaster { get; set; } = new List<string>() { "Ctrl+F1" };
+        [DataMember] 
+        public List<string> ScrollLock { get; set; } = new List<string>() { "Ctrl+F2" };
+        [DataMember] 
+        public List<string> ScrollLockTypeSwitch { get; set; } = new List<string>() { "Ctrl+F3" };
+        [DataMember] 
+        public List<string> Cut { get; set; } = new List<string>() { "Ctrl+X" };
+        [DataMember] 
+        public List<string> Copy { get; set; } = new List<string>() { "Ctrl+C" };
+        [DataMember] 
+        public List<string> Paste { get; set; } = new List<string>() { "Ctrl+V" };
+        [DataMember] 
+        public List<string> Delete { get; set; } = new List<string>() { "Delete" };
+        [DataMember] 
+        public List<string> Duplicate { get; set; } = new List<string>() { "Ctrl+D" };
+        [DataMember] 
+        public List<string> SelectAll { get; set; } = new List<string>() { "Ctrl+A" };
+        [DataMember] 
+        public List<string> Undo { get; set; } = new List<string>() { "Ctrl+Z" };
+        [DataMember] 
+        public List<string> Redo { get; set; } = new List<string>() { "Ctrl+Y" };
+        [DataMember] 
+        public List<string> New { get; set; } = new List<string>() { "Ctrl+N" };
+        [DataMember] 
+        public List<string> Open { get; set; } = new List<string>() { "Ctrl+O" };
+        [DataMember] 
+        public List<string> OpenDataDir { get; set; } = new List<string>() { "Ctrl+Alt+O" };
+        [DataMember] 
+        public List<string> _Save { get; set; } = new List<string>() { "Ctrl+S" };
+        [DataMember] 
+        public List<string> SaveAs { get; set; } = new List<string>() { "Ctrl+Alt+S" };
+        [DataMember] 
+        public List<string> ResetZoomLevel { get; set; } = new List<string>() { "Ctrl+NumPad0", "Ctrl+0" };
+        [DataMember] 
+        public List<string> UnloadScene { get; set; } = new List<string>() { "Ctrl+U" };
+        [DataMember] 
+        public List<string> ShowPathA { get; set; } = new List<string>() { "Ctrl+1" };
+        [DataMember] 
+        public List<string> ShowPathB { get; set; } = new List<string>() { "Ctrl+2" };
+        [DataMember] 
+        public List<string> BackupNormal { get; set; } = new List<string>() { "None" };
+        [DataMember] 
+        public List<string> BackupStageConfig { get; set; } = new List<string>() { "None" };
+        [DataMember] 
+        public List<string> Recover { get; set; } = new List<string>() { "None" };
+        [DataMember] 
+        public List<string> RunScene { get; set; } = new List<string>() { "Ctrl+R" };
+        [DataMember] 
+        public List<string> RefreshResources { get; set; } = new List<string>() { "F5" };
+        [DataMember] 
+        public List<string> ShowGrid { get; set; } = new List<string>() { "Ctrl+G" };
+        [DataMember] 
+        public List<string> ShowTileID { get; set; } = new List<string>() { "Shift+3" };
+        [DataMember] 
+        public List<string> FlipH { get; set; } = new List<string>() { "M" };
+        [DataMember] 
+        public List<string> FlipV { get; set; } = new List<string>() { "F" };
+        [DataMember] 
+        public List<string> FlipVTiles { get; set; } = new List<string>() { "ShiftKey" };
+        [DataMember] 
+        public List<string> FlipHTiles { get; set; } = new List<string>() { "ControlKey" };
+        [DataMember] 
+        public List<string> FlipHIndv { get; set; } = new List<string>() { "Ctrl+M" };
+        [DataMember] 
+        public List<string> FlipVIndv { get; set; } = new List<string>() { "Ctrl+F" };
+        [DataMember] 
+        public List<string> StatusBoxToggle { get; set; } = new List<string>() { "F3" };
+        [DataMember] 
+        public List<string> PasteToChunk { get; set; } = new List<string>() { "Ctrl+Shift+V" };
+        [DataMember] 
+        public List<string> ForceOpenOnStartup { get; set; } = new List<string>() { "None" };
+        [DataMember] 
+        public List<string> DeveloperInterface { get; set; } = new List<string>() { "None" };
+        [DataMember] 
+        public List<string> CopyAirTiles { get; set; } = new List<string>() { "Ctrl+P" };
+        [DataMember] 
+        public List<string> PointerTooltipToggle { get; set; } = new List<string>() { "None" };
+        [DataMember] 
+        public List<string> PointerTool { get; set; } = new List<string>() { "1" };
+        [DataMember] 
+        public List<string> SelectTool { get; set; } = new List<string>() { "2" };
+        [DataMember] 
+        public List<string> DrawTool { get; set; } = new List<string>() { "3" };
+        [DataMember] 
+        public List<string> SplineTool { get; set; } = new List<string>() { "4" };
+        [DataMember] 
+        public List<string> StampTool { get; set; } = new List<string>() { "5" };
+        [DataMember] 
+        public List<string> MagnetTool { get; set; } = new List<string>() { "6" };
+        [DataMember] 
+        public List<string> TileManiacNewInstance { get; set; } = new List<string>() { "Ctrl+N" };
+        [DataMember] 
+        public List<string> TileManiacOpen { get; set; } = new List<string>() { "Ctrl+O" };
+        [DataMember] 
+        public List<string> TileManiacSave { get; set; } = new List<string>() { "Ctrl+S" };
+        [DataMember] 
+        public List<string> TileManiacSaveAs { get; set; } = new List<string>() { "Ctrl+Alt+S" };
+        [DataMember] 
+        public List<string> TileManiacSaveAsUncompressed { get; set; } = new List<string>() { "Ctrl+Alt+U" };
+        [DataMember] 
+        public List<string> TileManiacSaveUncompressed { get; set; } = new List<string>() { "Ctrl+U" };
+        [DataMember] 
+        public List<string> TileManiacbackupConfig { get; set; }
+        [DataMember] 
+        public List<string> TileManiacbackupImage { get; set; }
+        [DataMember] 
+        public List<string> TileManiacImportFromOlderRSDK { get; set; }
+        [DataMember] 
+        public List<string> TileManiacOpenSingleColMask { get; set; }
+        [DataMember] 
+        public List<string> TileManiacExportColMask { get; set; }
+        [DataMember] 
+        public List<string> TileManiacCopy { get; set; } = new List<string>() { "Ctrl+C" };
+        [DataMember] 
+        public List<string> TileManiacPaste { get; set; } = new List<string>() { "Ctrl+V" };
+        [DataMember] 
+        public List<string> TileManiacPastetoOther { get; set; } = new List<string>() { "Ctrl+Alt+V" };
+        [DataMember] 
+        public List<string> TileManiacMirrorMode { get; set; } = new List<string>() { "Ctrl+M" };
+        [DataMember] 
+        public List<string> TileManiacRestorePathA { get; set; }
+        [DataMember] 
+        public List<string> TileManiacRestorePathB { get; set; }
+        [DataMember] 
+        public List<string> TileManiacRestorePaths { get; set; }
+        [DataMember] 
+        public List<string> TileManiacShowPathB { get; set; } = new List<string>() { "Ctrl+B" };
+        [DataMember] 
+        public List<string> TileManiacShowGrid { get; set; } = new List<string>() { "Ctrl+G" };
+        [DataMember] 
+        public List<string> TileManiacClassicMode { get; set; }
+        [DataMember] 
+        public List<string> TileManiacSplitFile { get; set; }
+        [DataMember] 
+        public List<string> TileManiacFlipTileH { get; set; }
+        [DataMember] 
+        public List<string> TileManiacFlipTileV { get; set; }
+        [DataMember] 
+        public List<string> TileManiacHomeFolderOpen { get; set; }
+        [DataMember] 
+        public List<string> TileManiacAbout { get; set; }
+        [DataMember] 
+        public List<string> TileManiacSettings { get; set; }
+        [DataMember] 
+        public List<string> TileManiacWindowAlwaysOnTop { get; set; } = new List<string>() { "Ctrl+T" };
+        [DataMember] 
+        public List<string> TileManiacCut { get; set; } = new List<string>() { "Ctrl+X" };
 
         #region Accessors
         public static void Init()
@@ -142,7 +239,9 @@ namespace ManiacEditor.Core.Options
                 string json = File.ReadAllText(Constants.InputPreferencesFilePath);
                 try
                 {
-                    InputPreferences result = JsonConvert.DeserializeObject<InputPreferences>(json);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                    InputPreferences result = JsonConvert.DeserializeObject<InputPreferences>(json, settings);
                     if (result != null) DefaultInstance = result;
                     else DefaultInstance = new InputPreferences();
                 }

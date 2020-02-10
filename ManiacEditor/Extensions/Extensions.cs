@@ -152,6 +152,7 @@ namespace ManiacEditor.Extensions
 
 		public static bool KeyBindsSettingExists(string name)
 		{
+			Core.Options.InputPreferences.Init();
 			bool found = false;
 			foreach (var currentKeybind in Core.Settings.MyKeyBinds.GetInputs())
 			{

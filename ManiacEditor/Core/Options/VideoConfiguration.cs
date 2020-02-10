@@ -58,7 +58,9 @@ namespace ManiacEditor.Core.Options
                 string json = File.ReadAllText(Constants.VideoConfigurationFilePath);
                 try
                 {
-                    VideoConfiguration result = JsonConvert.DeserializeObject<VideoConfiguration>(json);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                    VideoConfiguration result = JsonConvert.DeserializeObject<VideoConfiguration>(json, settings);
                     if (result != null) DefaultInstance = result;
                     else DefaultInstance = new VideoConfiguration();
                 }

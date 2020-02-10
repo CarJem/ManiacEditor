@@ -530,7 +530,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				string keybindName = KeyBind.Tag.ToString();
 
-				StringCollection keyBindList = Core.Settings.MyKeyBinds.GetInput(keybindName) as StringCollection;
+				List<string> keyBindList = Core.Settings.MyKeyBinds.GetInput(keybindName) as List<string>;
 
 				KeyBindConfigurator keybinder = new KeyBindConfigurator(keybindName);
 				keybinder.ShowDialog();
@@ -540,7 +540,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 					System.Windows.Forms.Keys keyBindtoSet = keybinder.CurrentBindingKey;
 					int keyIndex = keybinder.ListIndex;
 
-					var keybindDict = Core.Settings.MyKeyBinds.GetInput(keybindName) as StringCollection;
+					var keybindDict = Core.Settings.MyKeyBinds.GetInput(keybindName) as List<string>;
 					String KeyString = kc.ConvertToString(keyBindtoSet);
 					keybindDict.RemoveAt(keyIndex);
 					keybindDict.Add(KeyString);
@@ -566,7 +566,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			foreach (string keybind in KnownKeybinds)
 			{
 				if (!Extensions.Extensions.KeyBindsSettingExists(keybind)) continue;
-				var keybindDict = Core.Settings.MyKeyBinds.GetInput(keybind) as StringCollection;
+				var keybindDict = Core.Settings.MyKeyBinds.GetInput(keybind) as List<string>;
 				if (keybindDict != null && keybindDict.Count != 0)
 				{
 					foreach (string item in keybindDict)
@@ -641,7 +641,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			List<string> keyBindList = new List<string>();
 			List<string> keyBindDuplicatesList = new List<string>();
 
-			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as StringCollection;
+			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
 			if (keybindDict != null) keyBindList = keybindDict.Cast<string>().ToList();
 			if (keyBindList != null)
 			{
@@ -665,7 +665,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 			if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return new Tuple<string, string>("N/A", null);
 
-			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as StringCollection;
+			var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
 			if (keybindDict != null)
 			{
 				keyBindList = keybindDict.Cast<string>().ToList();

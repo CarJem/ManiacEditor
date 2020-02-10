@@ -52,7 +52,9 @@ namespace ManiacEditor.Core.Options
                 string json = File.ReadAllText(Constants.GameplaySettingsFilePath);
                 try
                 {
-                    GameplaySettings result = JsonConvert.DeserializeObject<GameplaySettings>(json);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                    GameplaySettings result = JsonConvert.DeserializeObject<GameplaySettings>(json, settings);
                     if (result != null) DefaultInstance = result;
                     else DefaultInstance = new GameplaySettings();
                 }

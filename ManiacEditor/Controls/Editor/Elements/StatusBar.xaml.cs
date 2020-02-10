@@ -184,7 +184,7 @@ namespace ManiacEditor.Controls.Editor.Elements
            
             if (Core.Settings.MyKeyBinds == null) return nullString;
 
-            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as StringCollection;
+            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
             if (keybindDict != null)
             {
                 keyBindList = keybindDict.Cast<string>().ToList();

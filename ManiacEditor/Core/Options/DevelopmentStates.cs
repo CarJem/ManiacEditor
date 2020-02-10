@@ -87,7 +87,9 @@ namespace ManiacEditor.Core.Options
                 string json = File.ReadAllText(Constants.DevelopmentStatesFilePath);
                 try
                 {
-                    DevelopmentStates result = JsonConvert.DeserializeObject<DevelopmentStates>(json);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                    DevelopmentStates result = JsonConvert.DeserializeObject<DevelopmentStates>(json, settings);
                     if (result != null) DefaultInstance = result;
                     else DefaultInstance = new DevelopmentStates();
                 }

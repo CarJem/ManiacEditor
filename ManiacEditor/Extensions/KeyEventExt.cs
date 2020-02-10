@@ -52,7 +52,7 @@ namespace ManiacEditor.Extensions
 			return retVal;
 		}
 
-        public static bool isCombo(KeyEventArgs e, StringCollection keyCollection, bool singleKey = false)
+        public static bool isCombo(KeyEventArgs e, List<string> keyCollection, bool singleKey = false)
         {
 
             if (keyCollection == null) return false;
@@ -121,7 +121,7 @@ namespace ManiacEditor.Extensions
 
             if (Core.Settings.MyKeyBinds == null) return nullString;
 
-            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as StringCollection;
+            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
             if (keybindDict != null)
             {
                 keyBindList = keybindDict.Cast<string>().ToList();

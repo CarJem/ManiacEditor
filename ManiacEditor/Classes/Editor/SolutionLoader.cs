@@ -319,14 +319,14 @@ namespace ManiacEditor.Classes.Editor
 
             GetSceneSelectData(select.SceneSelect, select.SceneSelect.Browsed);
 
-            if (ManiacEditor.Classes.Editor.Solution.Paths.Browsed)
-            {
-                LoadFromFiles();
-            }
-            else
-            {
-                LoadFromSceneSelect();
-            }
+            //if (ManiacEditor.Classes.Editor.Solution.Paths.Browsed)
+            //{
+            //    LoadFromFiles();
+            //}
+            //else
+            //{
+                LoadMethodRevolution();
+            //}
 
         }
 
@@ -360,12 +360,12 @@ namespace ManiacEditor.Classes.Editor
             if (ManiacEditor.Classes.Editor.Solution.Paths.Browsed)
             {
                 AddTemporaryResourcePack();
-                LoadFromFiles();
+            //  LoadFromFiles();
             }
-            else
-            {
-                LoadFromSceneSelect();
-            }
+            //else
+            //{
+                LoadMethodRevolution();
+            //}
         }
 
         public static void OpenSceneSelectWithPrefrences(string dataDirectory)
@@ -394,12 +394,12 @@ namespace ManiacEditor.Classes.Editor
             if (ManiacEditor.Classes.Editor.Solution.Paths.Browsed)
             {
                 AddTemporaryResourcePack();
-                LoadFromFiles();
+            //    LoadFromFiles();
             }
-            else
-            {
-                LoadFromSceneSelect();
-            }
+            //else
+            //{
+                LoadMethodRevolution();
+            //}
 
         }
 
@@ -418,14 +418,14 @@ namespace ManiacEditor.Classes.Editor
 
             Instance.ResourcePackList = ResourcePacks;
 
-            if (ManiacEditor.Classes.Editor.Solution.Paths.Browsed)
-            {
-                LoadFromFiles();
-            }
-            else
-            {
-                LoadFromSceneSelect();
-            }
+            //if (ManiacEditor.Classes.Editor.Solution.Paths.Browsed)
+            //{
+            //    LoadFromFiles();
+            //}
+            //else
+            //{
+                LoadMethodRevolution();
+            //}
 
         }
 
@@ -435,14 +435,14 @@ namespace ManiacEditor.Classes.Editor
 
             GetSceneSelectData(select, select.Browsed);
 
-            if (select.Browsed)
-            {
-                LoadFromFiles();
-            }
-            else
-            {
-                LoadFromSceneSelect();
-            }
+            //if (select.Browsed)
+            //{
+            //    LoadFromFiles();
+            //}
+            //else
+            //{
+                LoadMethodRevolution();
+            //}
         }
 
         public static void GetSceneSelectData(ManiacEditor.Controls.SceneSelect.SceneSelectHost select, bool browsedFile = false, bool skipResourcePacks = false)
@@ -529,7 +529,9 @@ namespace ManiacEditor.Classes.Editor
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    LoadFailed = true;
+                    LoadingFailed(ex);
+                    return;
                 }
                 #endregion
 
@@ -560,7 +562,9 @@ namespace ManiacEditor.Classes.Editor
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    LoadFailed = true;
+                    LoadingFailed(ex);
+                    return;
                 }
                 #endregion
 
@@ -577,7 +581,9 @@ namespace ManiacEditor.Classes.Editor
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    LoadFailed = true;
+                    LoadingFailed(ex);
+                    return;
                 }
                 #endregion
 
@@ -592,7 +598,7 @@ namespace ManiacEditor.Classes.Editor
                 LoadingFailed(ex);
                 return;
             }
-
+            if (!LoadFailed) AfterLoad();
         }
 
         #endregion
@@ -902,7 +908,7 @@ namespace ManiacEditor.Classes.Editor
         }
         #endregion
 
-        #region Broken Backup/Recovery Tool
+        #region Broken Backup/Recovery Tool (BROKEN)
 
         //TODO : Fix this Bloody Mess Over Here
 

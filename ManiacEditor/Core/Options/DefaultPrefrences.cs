@@ -109,7 +109,9 @@ namespace ManiacEditor.Core.Options
                 string json = File.ReadAllText(Constants.DefaultPrefrencesFilePath);
                 try
                 {
-                    DefaultPrefrences result = JsonConvert.DeserializeObject<DefaultPrefrences>(json);
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                    DefaultPrefrences result = JsonConvert.DeserializeObject<DefaultPrefrences>(json, settings);
                     if (result != null) DefaultInstance = result;
                     else DefaultInstance = new DefaultPrefrences();
                 }
