@@ -176,6 +176,7 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.DeviceModel.vScrollBar1.IsVisible) Instance.DeviceModel.vScrollBar1.Value = y;
                 if (Instance.DeviceModel.hScrollBar1.IsVisible) Instance.DeviceModel.hScrollBar1.Value = x;
                 Instance.DeviceModel.GraphicPanel.OnMouseMoveEventCreate();
+                Instance.DeviceModel.GraphicPanel.Render();
             }
         }
         public static void ScrollerMouseUp(MouseEventArgs e)

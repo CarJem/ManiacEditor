@@ -508,17 +508,17 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 					if (result == MessageBoxResult.Yes)
 					{
-						EditorInstance.Chunks.StageStamps?.Write(EditorInstance.Paths.Stamps_Source);
+						EditorInstance.Chunks.StageStamps?.Write(EditorInstance.Paths.Stamps_Source.ToString());
 					}
 				}
 				else
 				{
-					EditorInstance.Chunks.StageStamps?.Write(EditorInstance.Paths.Stamps_Source);
+					EditorInstance.Chunks.StageStamps?.Write(EditorInstance.Paths.Stamps_Source.ToString());
 				}
 			}
 			catch (Exception ex)
 			{
-				Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{EditorInstance.Paths.Stamps_Source}' Error: {ex.Message}");
+				Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{EditorInstance.Paths.Stamps_Source.SourcePath}' Error: {ex.Message}");
 			}
 		}
 

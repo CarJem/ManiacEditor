@@ -240,7 +240,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				RPCCheckBox.IsChecked = true;
 				Core.Settings.MySettings.ShowDiscordRPC = true;
-				DiscordRP.UpdateDiscord(ManiacEditor.Controls.Editor.MainEditor.Instance.Paths.SceneFile_Source);
+				DiscordRP.UpdateDiscord(ManiacEditor.Controls.Editor.MainEditor.Instance.Paths.SceneFile_Source.ToString());
 			}
 			else
 			{

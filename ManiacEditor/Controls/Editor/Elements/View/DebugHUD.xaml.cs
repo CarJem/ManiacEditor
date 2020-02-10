@@ -111,7 +111,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetSceneTileConfigPath()
         {
-            if (Instance.Paths.TileConfig_Source != null && Instance.Paths.TileConfig_Source != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(Instance.Paths.TileConfig_Source, "TileConfig.bin").ToString();
+            if (Instance.Paths.TileConfig_Source != null && Instance.Paths.TileConfig_Source.SourcePath != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(Instance.Paths.TileConfig_Source.SourcePath, "TileConfig.bin").ToString();
             else return "Scene TileConfig Path: N/A";
         }
 
@@ -192,14 +192,14 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetSceneFilePath()
         {
-            if (Instance.Paths.SceneFile_Source != null && Instance.Paths.SceneFile_Source != "") return "Scene File: " + Instance.Paths.SceneFile_Source;
+            if (Instance.Paths.SceneFile_Source != null && Instance.Paths.SceneFile_Source.SourcePath != "") return "Scene File: " + Instance.Paths.SceneFile_Source.SourcePath;
             else return "Scene File: N/A";
         }
 
         public string GetScenePath()
         {
 
-            if (Instance.Paths.SceneFile_Directory != null && Instance.Paths.SceneFile_Directory != "") return "Scene Path: " + Instance.Paths.SceneFile_Directory;
+            if (Instance.Paths.SceneFile_Source != null && Instance.Paths.SceneFile_Source.SourceDirectory != "") return "Scene Path: " + Instance.Paths.SceneFile_Source.SourceDirectory;
             else return "Scene Path: N/A";
         }
 
