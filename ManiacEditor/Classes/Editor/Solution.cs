@@ -36,74 +36,9 @@ namespace ManiacEditor.Classes.Editor
         #region Screen Size
         public static int SceneWidth => (CurrentScene != null ? CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
         public static int SceneHeight => (CurrentScene != null ? CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
-        #endregion
+		#endregion
 
-        public static void UnloadScene()
-        {
-            Classes.Editor.Solution.CurrentScene?.Dispose();
-            Classes.Editor.Solution.CurrentScene = null;
-            Classes.Editor.Solution.StageConfig = null;
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
-            Classes.Editor.SolutionState.LevelID = -1;
-            Classes.Editor.SolutionState.EncorePaletteExists = false;
-            Classes.Editor.SolutionState.EncoreSetupType = 0;
-            Methods.Prefrences.SceneCurrentSettings.ClearSettings();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.userDefinedSpritePaths = new List<string>();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
-			Paths.UnloadScene();
-            Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = false;
-
-            if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles.Dispose();
-            Classes.Editor.Solution.CurrentTiles = null;
-
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TearDownExtraLayerButtons();
-
-            ManiacEditor.Controls.Editor.MainEditor.Instance.Background = null;
-
-            ManiacEditor.Controls.Editor.MainEditor.Instance.Chunks = null;
-
-            Methods.Entities.EntityAnimator.AnimationTiming.Clear();
-
-
-            /*if (entitiesClipboard != null)
-            {
-                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in entitiesClipboard)
-                    entity.PrepareForExternalCopy();
-            }*/
-
-
-            // Clear local clipboards
-            //TilesClipboard = null;
-            ManiacEditor.Controls.Editor.MainEditor.Instance.entitiesClipboard = null;
-
-            Classes.Editor.Solution.Entities = null;
-
-            Classes.Editor.SolutionState.Zoom = 1;
-            Classes.Editor.SolutionState.ZoomLevel = 0;
-
-            ManiacEditor.Controls.Editor.MainEditor.Instance.UndoStack.Clear();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Clear();
-
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditEntities.ClearCheckedItems();
-
-            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.UpdateViewSize();
-
-            Methods.Internal.UserInterface.UpdateControls();
-
-            // clear memory a little more aggressively 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.ReleaseResources();
-            GC.Collect();
-            Classes.Editor.Solution.TileConfig = null;
-
-            ManiacEditor.Controls.Editor.MainEditor.Instance.UpdateStartScreen(true);
-        }
-
-		#region Solution Paths
+		#region IO Paths
 		public static class Paths
 		{
 
@@ -145,7 +80,6 @@ namespace ManiacEditor.Classes.Editor
 			}
 
 			private static ManiacEditor.Controls.Editor.MainEditor Instance;
-
 			public static FileSource GameConfig_Source { get; set; } = new FileSource();
 			public static FileSource TileConfig_Source { get; set; } = new FileSource();
 			public static FileSource StageConfig_Source { get; set; } = new FileSource();
@@ -667,7 +601,73 @@ namespace ManiacEditor.Classes.Editor
 			}
 
 		}
-		#endregion
+        #endregion
 
-	}
+        #region Other Methods
+        public static void UnloadScene()
+        {
+            Classes.Editor.Solution.CurrentScene?.Dispose();
+            Classes.Editor.Solution.CurrentScene = null;
+            Classes.Editor.Solution.StageConfig = null;
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
+            Classes.Editor.SolutionState.LevelID = -1;
+            Classes.Editor.SolutionState.EncorePaletteExists = false;
+            Classes.Editor.SolutionState.EncoreSetupType = 0;
+            Methods.Prefrences.SceneCurrentSettings.ClearSettings();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.userDefinedSpritePaths = new List<string>();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
+			Paths.UnloadScene();
+            Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = false;
+
+            if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles.Dispose();
+            Classes.Editor.Solution.CurrentTiles = null;
+
+            ManiacEditor.Controls.Editor.MainEditor.Instance.TearDownExtraLayerButtons();
+
+            ManiacEditor.Controls.Editor.MainEditor.Instance.Background = null;
+
+            ManiacEditor.Controls.Editor.MainEditor.Instance.Chunks = null;
+
+            Methods.Entities.EntityAnimator.AnimationTiming.Clear();
+
+
+            /*if (entitiesClipboard != null)
+            {
+                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in entitiesClipboard)
+                    entity.PrepareForExternalCopy();
+            }*/
+
+
+            // Clear local clipboards
+            //TilesClipboard = null;
+            ManiacEditor.Controls.Editor.MainEditor.Instance.entitiesClipboard = null;
+
+            Classes.Editor.Solution.Entities = null;
+
+            Classes.Editor.SolutionState.Zoom = 1;
+            Classes.Editor.SolutionState.ZoomLevel = 0;
+
+            ManiacEditor.Controls.Editor.MainEditor.Instance.UndoStack.Clear();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Clear();
+
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditEntities.ClearCheckedItems();
+
+            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.UpdateViewSize();
+
+            Methods.Internal.UserInterface.UpdateControls();
+
+            // clear memory a little more aggressively 
+            ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.ReleaseResources();
+            GC.Collect();
+            Classes.Editor.Solution.TileConfig = null;
+
+            ManiacEditor.Controls.Editor.MainEditor.Instance.UpdateStartScreen(true);
+        }
+        #endregion
+    }
 }
