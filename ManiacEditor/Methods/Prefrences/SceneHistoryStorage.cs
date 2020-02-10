@@ -67,24 +67,24 @@ namespace ManiacEditor.Methods.Prefrences
             string Name = "";
             if (Instance.LoadedDataPack != "")
             {
-                if (!Instance.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0} Data Pack", Instance.LoadedDataPack, Instance.Paths.CurrentZone, Instance.Paths.CurrentSceneID, "/n/n", (Instance.Paths.isEncoreMode ? "+" : ""));
-                else Title = string.Format("{1}{2}{0} Data Pack", Instance.LoadedDataPack, Instance.Paths.SceneFilePath, "/n/n");
+                if (!ManiacEditor.Classes.Editor.Solution.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0} Data Pack", Instance.LoadedDataPack, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone, ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID, "/n/n", (ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode ? "+" : ""));
+                else Title = string.Format("{1}{2}{0} Data Pack", Instance.LoadedDataPack, ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath, "/n/n");
             }
             else
             {
-                if (!Instance.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0}", Instance.DataDirectory, Instance.Paths.CurrentZone, Instance.Paths.CurrentSceneID, "/n/n", (Instance.Paths.isEncoreMode ? "+" : ""));
-                else Title = string.Format("{1}{2}{0}", Instance.DataDirectory, Instance.Paths.SceneFilePath, "/n/n");
+                if (!ManiacEditor.Classes.Editor.Solution.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0}", Instance.DataDirectory, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone, ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID, "/n/n", (ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode ? "+" : ""));
+                else Title = string.Format("{1}{2}{0}", Instance.DataDirectory, ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath, "/n/n");
             }
 
             Name += Instance.DataDirectory;
-            Name += Instance.Paths.SceneFilePath;
+            Name += ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
             Name += Classes.Editor.SolutionState.LevelID;
-            Name += Instance.Paths.CurrentName;
-            Name += Instance.Paths.CurrentZone;
-            Name += Instance.Paths.CurrentScene;
-            Name += Instance.Paths.CurrentSceneID;
-            Name += Instance.Paths.Browsed.ToString();
-            Name += Instance.Paths.isEncoreMode.ToString();
+            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
+            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
+            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentScene;
+            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
+            Name += ManiacEditor.Classes.Editor.Solution.Paths.Browsed.ToString();
+            Name += ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode.ToString();
 
 
 
@@ -94,16 +94,16 @@ namespace ManiacEditor.Methods.Prefrences
             section.EntryName = Title;
             section.RealEntryName = Name;
             section.DataDirectory = Instance.DataDirectory;
-            section.Result = Instance.Paths.SceneFilePath;
+            section.Result = ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
             section.x = x1;
             section.y = y1;
             section.ZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
-            section.isEncore = Instance.Paths.isEncoreMode;
+            section.isEncore = ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode;
             section.LevelID = Classes.Editor.SolutionState.LevelID;
-            section.CurrentName = Instance.Paths.CurrentName;
-            section.CurrentZone = Instance.Paths.CurrentZone;
-            section.CurrentSceneID = Instance.Paths.CurrentSceneID;
-            section.Browsed = Instance.Paths.Browsed;
+            section.CurrentName = ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
+            section.CurrentZone = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
+            section.CurrentSceneID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
+            section.Browsed = ManiacEditor.Classes.Editor.Solution.Paths.Browsed;
             section.LoadedDataPack = Instance.LoadedDataPack;
             foreach (var pack in Instance.ResourcePackList)
             {

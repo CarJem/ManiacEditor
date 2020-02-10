@@ -81,9 +81,9 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.TilesToolbar == null)
                 {
                     if (Classes.Editor.SolutionState.UseEncoreColors)
-                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Instance.Paths.StageTiles_Source.ToString(), Instance.EncorePalette[0], MainEditor.Instance);
+                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, ManiacEditor.Classes.Editor.Solution.Paths.StageTiles_Source.ToString(), Instance.EncorePalette[0], MainEditor.Instance);
                     else
-                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, Instance.Paths.StageTiles_Source.ToString(), null, MainEditor.Instance);
+                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Classes.Editor.Solution.CurrentTiles, ManiacEditor.Classes.Editor.Solution.Paths.StageTiles_Source.ToString(), null, MainEditor.Instance);
 
 
                     Instance.TilesToolbar.TileDoubleClick = new Action<int>(x =>
@@ -522,7 +522,7 @@ namespace ManiacEditor.Methods.Internal
                     Instance.TilesToolbar?.Reload();
                 }
 
-                Classes.Editor.Solution.TileConfig = new Tileconfig(Instance.Paths.TileConfig_Source.ToString());
+                Classes.Editor.Solution.TileConfig = new Tileconfig(ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.ToString());
 
 
 

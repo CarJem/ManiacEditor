@@ -111,7 +111,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetSceneTileConfigPath()
         {
-            if (Instance.Paths.TileConfig_Source != null && Instance.Paths.TileConfig_Source.SourcePath != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(Instance.Paths.TileConfig_Source.SourcePath, "TileConfig.bin").ToString();
+            if (ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.SourcePath != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.SourcePath, "TileConfig.bin").ToString();
             else return "Scene TileConfig Path: N/A";
         }
 
@@ -186,20 +186,20 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetSelectedZone()
         {
-            if (Instance.Paths.CurrentZone != null && Instance.Paths.CurrentZone != "") return "Selected Zone: " + Instance.Paths.CurrentZone;
+            if (ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone != null && ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone != "") return "Selected Zone: " + ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
             else return "Selected Zone: N/A";
         }
 
         public string GetSceneFilePath()
         {
-            if (Instance.Paths.SceneFile_Source != null && Instance.Paths.SceneFile_Source.SourcePath != "") return "Scene File: " + Instance.Paths.SceneFile_Source.SourcePath;
+            if (ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourcePath != "") return "Scene File: " + ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourcePath;
             else return "Scene File: N/A";
         }
 
         public string GetScenePath()
         {
 
-            if (Instance.Paths.SceneFile_Source != null && Instance.Paths.SceneFile_Source.SourceDirectory != "") return "Scene Path: " + Instance.Paths.SceneFile_Source.SourceDirectory;
+            if (ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory != "") return "Scene Path: " + ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory;
             else return "Scene Path: N/A";
         }
 

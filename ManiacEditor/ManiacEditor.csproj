@@ -432,7 +432,6 @@
     <Compile Include="Methods\Layers\TileFindReplace.cs" />
     <Compile Include="Methods\GameHandler.cs" />
     <Compile Include="Classes\Editor\Scene\EditorChunks.cs" />
-    <Compile Include="Classes\Editor\Scene\EditorPath.cs" />
     <Compile Include="Classes\Editor\SolutionLoader.cs" />
     <Compile Include="Methods\Internal\Theming.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />

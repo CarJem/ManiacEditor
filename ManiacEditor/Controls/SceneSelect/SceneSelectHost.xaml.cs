@@ -935,7 +935,7 @@ namespace ManiacEditor.Controls.SceneSelect
             if (AllowedToProceed)
             {
                 String SelectedDataDirectory = RecentsTree.SelectedNode.Tag.ToString();
-                Gameconfig GameConfig = EditorInstance.Paths.SetandReturnGameConfig(SelectedDataDirectory);
+                Gameconfig GameConfig = ManiacEditor.Classes.Editor.Solution.Paths.SetandReturnGameConfig(SelectedDataDirectory);
                 if (GameConfig != null)
                 {
                     _GameConfig = GameConfig;
@@ -999,7 +999,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 else if (item.Item1 == "Mod") EditorInstance.ResourcePackList.Add(item.Item2);
                 else if (item.Item1 == "ReadOnlyDataFolder" && item.Item2 == "TRUE") Classes.Editor.SolutionState.DataDirectoryReadOnlyMode = true;
             }
-            Gameconfig GameConfig = EditorInstance.Paths.SetandReturnGameConfig();
+            Gameconfig GameConfig = ManiacEditor.Classes.Editor.Solution.Paths.SetandReturnGameConfig();
 
             if (GameConfig == null) AllowedToProceed = false;
             if (EditorInstance.DataDirectory == null) AllowedToProceed = false;

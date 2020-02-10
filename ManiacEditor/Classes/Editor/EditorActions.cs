@@ -622,7 +622,7 @@ namespace ManiacEditor.Classes.Editor
         public static void MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string dataDir = Instance.DataDirectory;
-            string scenePath = Instance.Paths.GetScenePath();
+            string scenePath = ManiacEditor.Classes.Editor.Solution.Paths.GetScenePath();
             int rX = (short)(Classes.Editor.SolutionState.ViewPositionX);
             int rY = (short)(Classes.Editor.SolutionState.ViewPositionY);
             double _ZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
@@ -633,7 +633,7 @@ namespace ManiacEditor.Classes.Editor
         public static void MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string dataDir = Instance.DataDirectory;
-            string scenePath = Instance.Paths.GetScenePath();
+            string scenePath = ManiacEditor.Classes.Editor.Solution.Paths.GetScenePath();
             int rX = 0;
             int rY = 0;
             bool isEncoreSet = Classes.Editor.SolutionState.UseEncoreColors;
@@ -700,16 +700,16 @@ namespace ManiacEditor.Classes.Editor
         public static void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Core.Settings.MyDevSettings.DevForceRestartData = Instance.DataDirectory;
-            Core.Settings.MyDevSettings.DevForceRestartScene = Instance.Paths.SceneFilePath;
+            Core.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
             Core.Settings.MyDevSettings.DevForceRestartX = (short)(Classes.Editor.SolutionState.ViewPositionX / Classes.Editor.SolutionState.Zoom);
             Core.Settings.MyDevSettings.DevForceRestartY = (short)(Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom);
             Core.Settings.MyDevSettings.DevForceRestartZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
-            Core.Settings.MyDevSettings.DevForceRestartIsEncore = Instance.Paths.isEncoreMode;
+            Core.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode;
             Core.Settings.MyDevSettings.DevForceRestartID = Classes.Editor.SolutionState.LevelID;
-            Core.Settings.MyDevSettings.DevForceRestartCurrentName = Instance.Paths.CurrentName;
-            Core.Settings.MyDevSettings.DevForceRestartCurrentZone = Instance.Paths.CurrentZone;
-            Core.Settings.MyDevSettings.DevForceRestartSceneID = Instance.Paths.CurrentSceneID;
-            Core.Settings.MyDevSettings.DevForceRestartIsBrowsed = Instance.Paths.Browsed;
+            Core.Settings.MyDevSettings.DevForceRestartCurrentName = ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
+            Core.Settings.MyDevSettings.DevForceRestartCurrentZone = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
+            Core.Settings.MyDevSettings.DevForceRestartSceneID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
+            Core.Settings.MyDevSettings.DevForceRestartIsBrowsed = ManiacEditor.Classes.Editor.Solution.Paths.Browsed;
             Core.Settings.MyDevSettings.DevForceRestartResourcePacks = new System.Collections.Specialized.StringCollection();
             Core.Settings.MyDevSettings.DevForceRestartResourcePacks.AddRange(Instance.ResourcePackList.ToArray());
         }

@@ -276,8 +276,7 @@ namespace ManiacEditor.Methods.Internal
                         Instance.DeviceModel.hScrollBar1.Value = x;
                     }
                     Instance.DeviceModel.GraphicPanel.OnMouseMoveEventCreate();
-                    // FIX: Determine if this is Needed
-                    //if (!Classes.Edit.SolutionState.Scrolling) Editor.Instance.FormsModel.GraphicPanel.Render();
+                    if (Classes.Editor.SolutionState.AnyDragged) Instance.DeviceModel.GraphicPanel.Render();
 
 
 
@@ -392,7 +391,7 @@ namespace ManiacEditor.Methods.Internal
                     Classes.Editor.Solution.EditLayerB?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
                 }
 
-
+                Instance.DeviceModel.GraphicPanel.Render();
                 // FIX: Determine if this is Needed.
                 //Editor.Instance.UI.UpdateEditLayerActions();
                 if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())

@@ -96,7 +96,6 @@ namespace ManiacEditor.Controls.Editor
         public Methods.Entities.EntityDrawing EntityDrawing;
         public Classes.Editor.SolutionState StateModel;
         public Classes.Editor.Scene.EditorChunks Chunks;
-        public Classes.Editor.Scene.EditorPath Paths;
         public Methods.Layers.TileFindReplace FindAndReplace;
         public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
@@ -175,13 +174,13 @@ namespace ManiacEditor.Controls.Editor
             //Old Classes
             EntityDrawing = new Methods.Entities.EntityDrawing(this);
             StateModel = new Classes.Editor.SolutionState(this);
-            Paths = new Classes.Editor.Scene.EditorPath(this);
             FindAndReplace = new Methods.Layers.TileFindReplace(this);
 
             //Controls
             StartScreen = new ManiacEditor.Controls.Editor.Elements.StartScreen(this);
 
             //Classes
+            Classes.Editor.Solution.Paths.UpdateInstance(this);
             Methods.Prefrences.SceneCurrentSettings.UpdateInstance(this);
             Methods.Internal.UserInterface.UpdateInstance(this);
             Methods.Internal.Controls.UpdateInstance(this);
@@ -232,8 +231,8 @@ namespace ManiacEditor.Controls.Editor
                 return folderBrowserDialog.FileName;
             }
         }
-        public bool SetGameConfig() { return Paths.SetGameConfig(); }
-        public bool IsDataDirectoryValid(string directoryToCheck) { return Paths.IsDataDirectoryValid(directoryToCheck); }
+        public bool SetGameConfig() { return ManiacEditor.Classes.Editor.Solution.Paths.SetGameConfig(); }
+        public bool IsDataDirectoryValid(string directoryToCheck) { return ManiacEditor.Classes.Editor.Solution.Paths.IsDataDirectoryValid(directoryToCheck); }
 
         #endregion
 

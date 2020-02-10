@@ -103,7 +103,7 @@ namespace ManiacEditor.Methods
             {
                 if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                 {
-                    Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Editor.Paths.TileConfig_Source.ToString());
+                    Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.ToString());
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace ManiacEditor.Methods
                 {
                     if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                     {
-                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, Editor.Paths.TileConfig_Source.ToString(), Classes.Editor.SolutionState.SelectedTileID);
+                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.ToString(), Classes.Editor.SolutionState.SelectedTileID);
                     }
                     else
                     {
@@ -326,9 +326,9 @@ namespace ManiacEditor.Methods
         }
         public static void OpenSceneFolder()
         {
-            if (Editor.Paths.SceneFile_Source != null && Editor.Paths.SceneFile_Source.SourceDirectory != "")
+            if (ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory != "")
             {
-                string SceneFilename_mod = Editor.Paths.SceneFile_Source.SourceDirectory.Replace('/', '\\');
+                string SceneFilename_mod = ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory.Replace('/', '\\');
                 OpenFolder(SceneFilename_mod);
             }
             else

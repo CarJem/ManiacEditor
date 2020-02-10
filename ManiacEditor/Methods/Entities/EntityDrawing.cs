@@ -510,7 +510,7 @@ namespace ManiacEditor.Methods.Entities
 			string path, path2;
 			string dataDirectory = dataFolder;
 			// Checks the Stage Folder First
-			path = EditorInstance.Paths.CurrentZone + "\\" + name + ".bin";
+			path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone + "\\" + name + ".bin";
 			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 			if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
 			{
@@ -526,7 +526,7 @@ namespace ManiacEditor.Methods.Entities
 				}
 				if (!File.Exists(path2))
 				{
-					path = EditorInstance.Paths.CurrentZone + "\\" + name + ".bin";
+					path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "\\Sprites") + "\\" + path;
 				}
 			}
@@ -540,18 +540,18 @@ namespace ManiacEditor.Methods.Entities
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
-					path = EditorInstance.Paths.CurrentZone.Substring(0, EditorInstance.Paths.CurrentZone.Length - 1) + "\\" + name + ".bin";
+					path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Substring(0, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Length - 1) + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 					if (!File.Exists(path2))
 					{
 						// Checks for name without the last character and without the numbers in the entity name
 						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-						path = path = EditorInstance.Paths.CurrentZone.Substring(0, EditorInstance.Paths.CurrentZone.Length - 1) + "\\" + adjustedName + ".bin";
+						path = path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Substring(0, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Length - 1) + "\\" + adjustedName + ".bin";
 						path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 						if (!File.Exists(path2))
 						{
 							// Checks for name without any numbers in the Zone name
-							string adjustedZone = Regex.Replace(EditorInstance.Paths.CurrentZone, @"[\d-]", string.Empty);
+							string adjustedZone = Regex.Replace(ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone, @"[\d-]", string.Empty);
 							path = path = adjustedZone + "\\" + name + ".bin";
 							path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 							if (!File.Exists(path2))
