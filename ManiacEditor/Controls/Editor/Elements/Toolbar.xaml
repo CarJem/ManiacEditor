@@ -190,7 +190,7 @@
                     </Button.ContextMenu>
                 </Button>
 
-                <ToggleButton x:Name="ChunksToolButton" Style="{DynamicResource ToolbarToggleButton}"   Click="ToggleChunksToolEvent" Content="{DynamicResource Stamp}"></ToggleButton>
+                <ToggleButton x:Name="ChunksToolButton" Style="{DynamicResource ToolbarToggleButton}" Click="ToggleChunksToolEvent" Content="{DynamicResource Stamp}"></ToggleButton>
                 <Separator/>
                 <ToggleButton x:Name="EncorePaletteButton" Style="{DynamicResource ToolbarToggleButton}"  Click="EnableEncorePaletteEvent" Content="{DynamicResource PaletteWheel}"></ToggleButton>
                 <ToggleButton x:Name="ShowTileIDButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ToggleShowTileIDEvent" Content="{DynamicResource Info}"></ToggleButton>

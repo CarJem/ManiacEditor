@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
             <ScrollBar x:Name="vScrollBar1" Width="15" Orientation="Vertical" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1"></ScrollBar>
             <ScrollBar x:Name="hScrollBar1" Height="15" Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0"></ScrollBar>
-            <Grid Background="Red" Grid.Column="1" Grid.Row="1"></Grid>
+            <Grid Background="{DynamicResource ScrollBar.Static.Background}" Grid.Column="1" Grid.Row="1"></Grid>
             <WindowsFormsHost x:Name="Host" DpiChanged="Host_DpiChanged" SizeChanged="SharpPanel_SizeChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0"></WindowsFormsHost>
         </Grid>
         <Grid.ContextMenu>

@@ -41,6 +41,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         private void T_Tick(object sender, EventArgs e)
         {
             UpdateHUDInfo();
+
         }
 
         public void UpdateInstance(MainEditor editor)
@@ -277,8 +278,11 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public void UpdatePopupSize()
         {
-            int desiredWidth = (int)Instance.ViewPanel.SharpPanel.ActualWidth - (int)Instance.ViewPanel.SharpPanel.vScrollBar1.Width - 10;
-            int desiredHeight = (int)Instance.ViewPanel.SharpPanel.ActualHeight - (int)Instance.ViewPanel.SharpPanel.hScrollBar1.Height - 10;
+            int scrollWidth = double.IsNaN(Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth) ? 0 : (int)Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth;
+            int scrollHeight = double.IsNaN(Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight) ? 0 : (int)Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight;
+
+            int desiredWidth = (int)Instance.ViewPanel.SharpPanel.ActualWidth - scrollWidth - 10;
+            int desiredHeight = (int)Instance.ViewPanel.SharpPanel.ActualHeight - scrollHeight - 10;
 
             if (ViewPanelHUD.MaxWidth != desiredWidth || ViewPanelHUD.MaxHeight != desiredHeight)
             {

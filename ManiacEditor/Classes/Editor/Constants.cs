@@ -142,10 +142,21 @@ namespace ManiacEditor.Classes.Editor
         #endregion
 
 
+        public static string GetAppDataFolder()
+        {
+            if (Methods.Settings.MyInternalSettings.PortableMode)
+            {
+                return GetExecutingDirectoryName();
+            }
+            else
+            {
+                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor");
+            }
+        }
 
         public static string GetLoggingFolder()
         {
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "Logs");
+            string path = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor"), "Logs");
             if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
             return path;
         }
@@ -153,7 +164,7 @@ namespace ManiacEditor.Classes.Editor
         {
             get
             {
-                string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "UpdateRequests");
+                string path = System.IO.Path.Combine(GetAppDataFolder(), "UpdateRequests");
                 if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
                 return path;
             }

@@ -1,173 +1,187 @@
-############################################################################################
-#      NSIS Installation Script created by NSIS Quick Setup Script Generator v1.09.18
-#               Entirely Edited with NullSoft Scriptable Installation System                
-#              by Vlasis K. Barkas aka Red Wine red_wine@freemail.gr Sep 2006               
-############################################################################################
+;--------------------------------
+; Headers
 
-!define APP_NAME "Maniac Editor [Generations Edition]"
-!define COMP_NAME "CarJem Generations"
-!define WEB_SITE "https://twitter.com/carter5467_99"
-!define VERSION "1.00.00.00"
-!define COPYRIGHT "Author  © 2019"
-!define DESCRIPTION "Application"
-!define INSTALLER_NAME "D:\Users\CarJem\source\rsdk_repos\ManiacEditor-GenerationsEdition\Installer\Setup.exe"
-!define MAIN_APP_EXE "ManiacEditor.exe"
-!define INSTALL_TYPE "SetShellVarContext current"
-!define REG_ROOT "HKCU"
-!define REG_APP_PATH "Software\Microsoft\Windows\CurrentVersion\App Paths\${MAIN_APP_EXE}"
-!define UNINSTALL_PATH "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
+!include "MUI2.nsh"
 
-######################################################################
+;--------------------------------
+; Defintions
 
-VIProductVersion  "${VERSION}"
-VIAddVersionKey "ProductName"  "${APP_NAME}"
-VIAddVersionKey "CompanyName"  "${COMP_NAME}"
-VIAddVersionKey "LegalCopyright"  "${COPYRIGHT}"
-VIAddVersionKey "FileDescription"  "${DESCRIPTION}"
-VIAddVersionKey "FileVersion"  "${VERSION}"
+; Images
+!define MUI_WELCOMEFINISHPAGE_BITMAP 	"win.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP 	"win.bmp"
 
-######################################################################
+; Metadata (Edit these Freely)
+!define APP_NAME 				"Maniac Editor - Generations Edition"
+!define COMP_NAME 				"CarJem Generations"
+!define WEB_SITE 				"https://twitter.com/carter5467_99"
+!define COPYRIGHT 				"CarJem Generations Â© 2020"
+!define DESCRIPTION 			"Application"
+!define VERSION 				"1.00.00.00"
 
-SetCompressor ZLIB
-Name "${APP_NAME}"
-Caption "${APP_NAME}"
-OutFile "${INSTALLER_NAME}"
-BrandingText "${APP_NAME}"
-XPStyle on
-InstallDirRegKey "${REG_ROOT}" "${REG_APP_PATH}" ""
-InstallDir "$PROGRAMFILES\ManiacEditor"
+; File Paths/Names (Edit these Freely)
+!define INSTALLER_DEST_FILE 	"Setup.exe"
+!define INSTALLER_DEST_DIR 		"D:\Users\CarJem\source\rsdk_repos\ManiacEditor-GenerationsEdition\Installer"
+!define INSTALLER_DEST 			"${INSTALLER_DEST_DIR}\${INSTALLER_DEST_FILE}"
+!define INSTALL_DIR_NAME 		"ManiacEditor"
+!define MAIN_APP_EXE 			"ManiacEditor.exe"
+!define MAKE_DIRECTORY			"D:\Users\CarJem\source\rsdk_repos\ManiacEditor-GenerationsEdition\ManiacEditor\bin\Release\*.*"
+!define STARTMENU_DIR_NAME		"ManiacEditor"
+!define APPDATA_DIRECTORY		"ManiacEditor"
 
-######################################################################
+; Section Descriptors
 
-############################################################################################
-#Custom Images
-############################################################################################
+!define DESC_Section1 "Maniac Editor's Core and Essential Files"
+!define DESC_Section2 "Install Maniac Editor with Shortcuts and an Uninstaller Linked to the System"
+!define DESC_Section3 "Extract Maniac Editor to a Folder for More Lightweight use"
+!define DESC_Section4 "Clear Maniac Editor's App Data Folder and All of it's Data"
+!define DESC_Section5 "Shortcuts Originally Created on Install"
 
-!define MUI_WELCOMEFINISHPAGE_BITMAP "win.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "win.bmp"
 
-############################################################################################
+; Misc Installer Paths/Defintions
+!define REG_APP_PATH 			"Software\Microsoft\Windows\CurrentVersion\App Paths\${MAIN_APP_EXE}"
+!define UNINSTALL_PATH 			"Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
+!define INSTALL_TYPE 			"SetShellVarContext current"
+!define REG_ROOT 				"HKCU"
 
-!include "MUI.nsh"
+; Version Keys
+VIProductVersion 				"${VERSION}"
+VIAddVersionKey 				"ProductName"  		"${APP_NAME}"
+VIAddVersionKey 				"CompanyName"  		"${COMP_NAME}"
+VIAddVersionKey 				"LegalCopyright"  	"${COPYRIGHT}"
+VIAddVersionKey 				"FileDescription"  	"${DESCRIPTION}"
+VIAddVersionKey 				"FileVersion"  		"${VERSION}"
 
+; Interface Settings
 !define MUI_ABORTWARNING
-!define MUI_UNABORTWARNING
+
+; Installer Declarations
+SetCompressor 		ZLIB
+Name 				"${APP_NAME}"
+Caption 			"${APP_NAME}"
+OutFile 			"${INSTALLER_DEST}"
+BrandingText 		"${APP_NAME}"
+XPStyle 			on
+InstallDirRegKey 	"${REG_ROOT}" "${REG_APP_PATH}" ""
+InstallDir 			"$PROGRAMFILES\${INSTALL_DIR_NAME}"
+
+;--------------------------------
+; Pages
+
+; Installer Pages ;---------
 
 !insertmacro MUI_PAGE_WELCOME
 
-!ifdef LICENSE_TXT
-!insertmacro MUI_PAGE_LICENSE "${LICENSE_TXT}"
-!endif
-
+!insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 
 !ifdef REG_START_MENU
 !define MUI_STARTMENUPAGE_NODISABLE
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "ManiacEditor"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "${STARTMENU_DIR_NAME}"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "${REG_ROOT}"
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "${UNINSTALL_PATH}"
+!define MUI_STARTMENUPAGE_REGISTRY_KEY 	"${UNINSTALL_PATH}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${REG_START_MENU}"
 !insertmacro MUI_PAGE_STARTMENU Application $SM_Folder
 !endif
-
 !insertmacro MUI_PAGE_INSTFILES
 
 !define MUI_FINISHPAGE_RUN "$INSTDIR\${MAIN_APP_EXE}"
 !insertmacro MUI_PAGE_FINISH
 
-!insertmacro MUI_UNPAGE_CONFIRM
 
+; Uninstaller Pages ;---------
+!insertmacro MUI_UNPAGE_WELCOME
+!insertmacro MUI_UNPAGE_COMPONENTS
 !insertmacro MUI_UNPAGE_INSTFILES
-
 !insertmacro MUI_UNPAGE_FINISH
+
+;--------------------------------
+; Languages
 
 !insertmacro MUI_LANGUAGE "English"
 
-######################################################################
+;--------------------------------
+; Install Section
 
-Section -MainProgram
-${INSTALL_TYPE}
+Section "Essential Files" ESSENTIAL_FILES
+SectionIn RO
 SetOverwrite ifnewer
 SetOutPath "$INSTDIR"
-File /r "D:\Users\CarJem\source\rsdk_repos\ManiacEditor-GenerationsEdition\ManiacEditor\bin\Release\*.*"
+File /r "${MAKE_DIRECTORY}"
 SectionEnd
 
-######################################################################
+Section /o "Portable Install" PORTABLE_INSTALL
+SectionIn 1
 
-Section -Icons_Reg
-SetOutPath "$INSTDIR"
+CreateDirectory "$INSTDIR\Settings"
+FileOpen $0 "$INSTDIR\Settings\internal_switches.json" w
+FileWrite $0 "{$\"PortableMode$\":true}"
+FileClose $0
+
+SectionEnd
+
+Section "Standard Install" STANDARD_INSTALL
+SectionIn 2
 WriteUninstaller "$INSTDIR\uninstall.exe"
-
-!ifdef REG_START_MENU
-!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-CreateDirectory "$SMPROGRAMS\$SM_Folder"
-CreateShortCut "$SMPROGRAMS\$SM_Folder\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
+CreateDirectory "$SMPROGRAMS\${STARTMENU_DIR_NAME}"
+CreateShortCut "$SMPROGRAMS\${STARTMENU_DIR_NAME}\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
 CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
-CreateShortCut "$SMPROGRAMS\$SM_Folder\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
-
-!ifdef WEB_SITE
-WriteIniStr "$INSTDIR\${APP_NAME} website.url" "InternetShortcut" "URL" "${WEB_SITE}"
-CreateShortCut "$SMPROGRAMS\$SM_Folder\${APP_NAME} Website.lnk" "$INSTDIR\${APP_NAME} website.url"
-!endif
-!insertmacro MUI_STARTMENU_WRITE_END
-!endif
-
-!ifndef REG_START_MENU
-CreateDirectory "$SMPROGRAMS\ManiacEditor"
-CreateShortCut "$SMPROGRAMS\ManiacEditor\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
-CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
-CreateShortCut "$SMPROGRAMS\ManiacEditor\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
-
-!ifdef WEB_SITE
-WriteIniStr "$INSTDIR\${APP_NAME} website.url" "InternetShortcut" "URL" "${WEB_SITE}"
-CreateShortCut "$SMPROGRAMS\ManiacEditor\${APP_NAME} Website.lnk" "$INSTDIR\${APP_NAME} website.url"
-!endif
-!endif
-
-WriteRegStr ${REG_ROOT} "${REG_APP_PATH}" "" "$INSTDIR\${MAIN_APP_EXE}"
-WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "DisplayName" "${APP_NAME}"
-WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "UninstallString" "$INSTDIR\uninstall.exe"
-WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "DisplayIcon" "$INSTDIR\${MAIN_APP_EXE}"
-WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "DisplayVersion" "${VERSION}"
-WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "Publisher" "${COMP_NAME}"
-
-!ifdef WEB_SITE
-WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "URLInfoAbout" "${WEB_SITE}"
-!endif
+CreateShortCut "$SMPROGRAMS\${STARTMENU_DIR_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
 SectionEnd
 
-######################################################################
 
-Section Uninstall
-${INSTALL_TYPE}
+Function .onInit
+  StrCpy $1 ${STANDARD_INSTALL}
+FunctionEnd
+
+Function .onSelChange
+  !insertmacro StartRadioButtons $1
+   !insertmacro RadioButton ${PORTABLE_INSTALL}
+   !insertmacro RadioButton ${STANDARD_INSTALL}
+  !insertmacro EndRadioButtons
+FunctionEnd
+
+;--------------------------------
+; Uninstall Section
+
+Section "Un.Essential Files" UN_ESSENTIAL_FILES
+SectionIn RO
+
 RmDir /r "$INSTDIR"
 
-!ifdef REG_START_MENU
-!insertmacro MUI_STARTMENU_GETFOLDER "Application" $SM_Folder
-Delete "$SMPROGRAMS\$SM_Folder\${APP_NAME}.lnk"
-Delete "$SMPROGRAMS\$SM_Folder\Uninstall ${APP_NAME}.lnk"
-!ifdef WEB_SITE
-Delete "$SMPROGRAMS\$SM_Folder\${APP_NAME} Website.lnk"
-!endif
+SectionEnd
+
+Section /o "Un.Application Data" UN_APP_DATA
+
+RmDir /r "$APPDATA\${APPDATA_DIRECTORY}"
+
+SectionEnd
+
+Section "Un.Shortcuts and Uninstaller" UN_SHORTCUTS
+SectionIn RO
+
+Delete "$SMPROGRAMS\${STARTMENU_DIR_NAME}\${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\${STARTMENU_DIR_NAME}\Uninstall ${APP_NAME}.lnk"
 Delete "$DESKTOP\${APP_NAME}.lnk"
-
-RmDir "$SMPROGRAMS\$SM_Folder"
-!endif
-
-!ifndef REG_START_MENU
-Delete "$SMPROGRAMS\ManiacEditor\${APP_NAME}.lnk"
-Delete "$SMPROGRAMS\ManiacEditor\Uninstall ${APP_NAME}.lnk"
-!ifdef WEB_SITE
-Delete "$SMPROGRAMS\ManiacEditor\${APP_NAME} Website.lnk"
-!endif
-Delete "$DESKTOP\${APP_NAME}.lnk"
-
-RmDir "$SMPROGRAMS\ManiacEditor"
-!endif
+RmDir "$SMPROGRAMS\${STARTMENU_DIR_NAME}"
 
 DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"
 DeleteRegKey ${REG_ROOT} "${UNINSTALL_PATH}"
+
 SectionEnd
 
-######################################################################
+;--------------------------------
+; Descriptions
 
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+!insertmacro MUI_DESCRIPTION_TEXT ${ESSENTIAL_FILES} "${DESC_Section1}"
+!insertmacro MUI_DESCRIPTION_TEXT ${STANDARD_INSTALL} "${DESC_Section2}"
+!insertmacro MUI_DESCRIPTION_TEXT ${PORTABLE_INSTALL} "${DESC_Section3}"
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+!insertmacro MUI_UNFUNCTION_DESCRIPTION_BEGIN
+!insertmacro MUI_DESCRIPTION_TEXT ${UN_ESSENTIAL_FILES} "${DESC_Section1}"
+!insertmacro MUI_DESCRIPTION_TEXT ${UN_APP_DATA} "${DESC_Section4}"
+!insertmacro MUI_DESCRIPTION_TEXT ${UN_SHORTCUTS} "${DESC_Section5}"
+!insertmacro MUI_UNFUNCTION_DESCRIPTION_END
+
+;--------------------------------

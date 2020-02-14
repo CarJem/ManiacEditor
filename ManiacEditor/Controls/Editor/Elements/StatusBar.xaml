@@ -8,12 +8,12 @@
              xmlns:maniac="clr-namespace:ManiacEditor.Bindings"
              mc:Ignorable="d local" 
              d:DesignHeight="70" d:DesignWidth="800" MaxHeight="70" MinHeight="70">
-    <Grid>
+    <Grid Background="{DynamicResource StatusBarBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="35" Grid.Row="0" Background="{DynamicResource StatusBarBackground}">
+        <Grid x:Name="StatusBar1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="35" Grid.Row="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -49,8 +49,11 @@
             </StatusBarItem>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="5">
-                <wpfTool:SplitButton Style="{DynamicResource StatusBarSplitButton}" x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2" Content="{DynamicResource Gear}">
-                    <wpfTool:SplitButton.DropDownContent>
+                <wpfTool:SplitButton Style="{DynamicResource StatusBarSplitButton}" x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2">
+                    <wpfTool:SplitButton.Content>
+                        <ContentPresenter Content="{DynamicResource Gear}" ></ContentPresenter>
+                    </wpfTool:SplitButton.Content>
+                <wpfTool:SplitButton.DropDownContent>
                         <StackPanel Background="{DynamicResource ContextMenuBackground}">
                             <MenuItem x:Name="QuickEditEntitiesTransparentLayers" Header="Edit Entites Transparency" Click="QuickButtonClickEvent"></MenuItem>
                             <MenuItem x:Name="QuickSwapEncoreManiaEntitVisibility" Header="Toggle Encore/Mania Entities" Click="QuickButtonClickEvent"></MenuItem>
@@ -87,7 +90,7 @@
                 <MenuItem x:Name="TileManiacIntergrationItem" Header="Edit Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
             </MenuItem>
         </Grid>
-        <Grid x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Height="35" Background="{DynamicResource StatusBarBackground}">
+        <Grid x:Name="StatusBar2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Height="35">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>

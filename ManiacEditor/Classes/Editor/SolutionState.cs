@@ -722,9 +722,16 @@ namespace ManiacEditor.Classes.Editor
             if (value != null) SetToolModes(4, value.Value);
             else SetToolModes(4, Instance.EditorToolbar.SplineToolButton.IsChecked.Value);
         }
-        public static void ChunksMode()
+
+        public static void ChunksMode(bool isClick = false)
         {
-            if (IsTilesEdit()) Instance.EditorToolbar.ChunksToolButton.IsChecked ^= true;
+            if (!isClick)
+            {
+                bool isEnabled = Instance.EditorToolbar.ChunksToolButton.IsChecked.Value;
+                if (isEnabled) Instance.EditorToolbar.ChunksToolButton.IsChecked = true;
+                else Instance.EditorToolbar.ChunksToolButton.IsChecked = false;
+            }
+
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void SetToolModes(int selectedID, bool value)
