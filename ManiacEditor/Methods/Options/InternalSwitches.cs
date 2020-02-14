@@ -7,10 +7,22 @@ using ManiacEditor.Classes.Editor;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace ManiacEditor.Core.Options
+namespace ManiacEditor.Methods.Options
 {
     public class InternalSwitches
     {
+        public static bool TestPortableModeEligibilty()
+        {
+            if (GenerationsLib.Core.FileHelpers.CanWrite(ManiacEditor.Classes.Editor.Constants.SettingsPortableDirectory))
+            {
+                return true;
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Can't Activate Portable Mode! The place where Maniac Editor is installed is unabled to be written to! Install Maniac Editor somewhere besides the Program Files folder or somewhere with writing permisions for this user to use this functionality!");
+                return false;
+            }
+        }
         public bool PortableMode { get; set; } = false;
 
         #region Accessors

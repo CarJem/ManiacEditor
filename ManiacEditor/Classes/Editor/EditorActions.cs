@@ -58,7 +58,7 @@ namespace ManiacEditor.Classes.Editor
             if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
             if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
 
-            Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
         }
         public static void ZoomOut()
         {
@@ -66,7 +66,7 @@ namespace ManiacEditor.Classes.Editor
             if (Classes.Editor.SolutionState.ZoomLevel >= 5) Classes.Editor.SolutionState.ZoomLevel = 5;
             if (Classes.Editor.SolutionState.ZoomLevel <= -5) Classes.Editor.SolutionState.ZoomLevel = -5;
 
-            Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(0, 0));
         }
         public static void PasteToChunks()
         {
@@ -334,7 +334,7 @@ namespace ManiacEditor.Classes.Editor
                     Instance.EntitiesToolbar.UpdateCurrentEntityProperites();
                 }
             }
-            Instance.DeviceModel.GraphicPanel.Render();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void EditorRedo()
@@ -350,7 +350,7 @@ namespace ManiacEditor.Classes.Editor
                     Instance.EntitiesToolbar.UpdateCurrentEntityProperites();
                 }
             }
-            Instance.DeviceModel.GraphicPanel.Render();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)
@@ -576,7 +576,7 @@ namespace ManiacEditor.Classes.Editor
         {
             if (CenterCoords)
             {
-                Rectangle r = Instance.DeviceModel.GraphicPanel.GetScreen();
+                Rectangle r = Instance.ViewPanel.SharpPanel.GraphicPanel.GetScreen();
                 int x2 = (int)(r.Width * Classes.Editor.SolutionState.Zoom);
                 int y2 = (int)(r.Height * Classes.Editor.SolutionState.Zoom);
 
@@ -587,8 +587,8 @@ namespace ManiacEditor.Classes.Editor
                 if ((ResultY <= 0)) ResultY = 0;
 
 
-                Classes.Editor.SolutionState.ViewPositionX = ResultX;
-                Classes.Editor.SolutionState.ViewPositionY = ResultY;
+                Classes.Editor.SolutionState.SetViewPositionX(ResultX);
+                Classes.Editor.SolutionState.SetViewPositionY(ResultY);
             }
             else
             {
@@ -598,8 +598,8 @@ namespace ManiacEditor.Classes.Editor
                 if ((ResultX <= 0)) ResultX = 0;
                 if ((ResultY <= 0)) ResultY = 0;
 
-                Classes.Editor.SolutionState.ViewPositionX = ResultX;
-                Classes.Editor.SolutionState.ViewPositionY = ResultY;
+                Classes.Editor.SolutionState.SetViewPositionX(ResultX);
+                Classes.Editor.SolutionState.SetViewPositionY(ResultY);
             }
         }
 
@@ -699,19 +699,19 @@ namespace ManiacEditor.Classes.Editor
         }
         public static void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Core.Settings.MyDevSettings.DevForceRestartData = Instance.DataDirectory;
-            Core.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
-            Core.Settings.MyDevSettings.DevForceRestartX = (short)(Classes.Editor.SolutionState.ViewPositionX / Classes.Editor.SolutionState.Zoom);
-            Core.Settings.MyDevSettings.DevForceRestartY = (short)(Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom);
-            Core.Settings.MyDevSettings.DevForceRestartZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
-            Core.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode;
-            Core.Settings.MyDevSettings.DevForceRestartID = Classes.Editor.SolutionState.LevelID;
-            Core.Settings.MyDevSettings.DevForceRestartCurrentName = ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
-            Core.Settings.MyDevSettings.DevForceRestartCurrentZone = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
-            Core.Settings.MyDevSettings.DevForceRestartSceneID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
-            Core.Settings.MyDevSettings.DevForceRestartIsBrowsed = ManiacEditor.Classes.Editor.Solution.Paths.Browsed;
-            Core.Settings.MyDevSettings.DevForceRestartResourcePacks = new System.Collections.Specialized.StringCollection();
-            Core.Settings.MyDevSettings.DevForceRestartResourcePacks.AddRange(Instance.ResourcePackList.ToArray());
+            Methods.Settings.MyDevSettings.DevForceRestartData = Instance.DataDirectory;
+            Methods.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
+            Methods.Settings.MyDevSettings.DevForceRestartX = (short)(Classes.Editor.SolutionState.ViewPositionX / Classes.Editor.SolutionState.Zoom);
+            Methods.Settings.MyDevSettings.DevForceRestartY = (short)(Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom);
+            Methods.Settings.MyDevSettings.DevForceRestartZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
+            Methods.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode;
+            Methods.Settings.MyDevSettings.DevForceRestartID = Classes.Editor.SolutionState.LevelID;
+            Methods.Settings.MyDevSettings.DevForceRestartCurrentName = ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
+            Methods.Settings.MyDevSettings.DevForceRestartCurrentZone = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
+            Methods.Settings.MyDevSettings.DevForceRestartSceneID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
+            Methods.Settings.MyDevSettings.DevForceRestartIsBrowsed = ManiacEditor.Classes.Editor.Solution.Paths.Browsed;
+            Methods.Settings.MyDevSettings.DevForceRestartResourcePacks = new System.Collections.Specialized.StringCollection();
+            Methods.Settings.MyDevSettings.DevForceRestartResourcePacks.AddRange(Instance.ResourcePackList.ToArray());
         }
         public static void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -723,20 +723,20 @@ namespace ManiacEditor.Classes.Editor
 
         public static void SwapEncoreManiaEntityVisibility()
         {
-            if (Core.Settings.MyDefaults.ShowEncoreEntities == true && Core.Settings.MyDefaults.ShowManiaEntities == true)
+            if (Methods.Settings.MyDefaults.ShowEncoreEntities == true && Methods.Settings.MyDefaults.ShowManiaEntities == true)
             {
-                Core.Settings.MyDefaults.ShowManiaEntities = true;
-                Core.Settings.MyDefaults.ShowEncoreEntities = false;
+                Methods.Settings.MyDefaults.ShowManiaEntities = true;
+                Methods.Settings.MyDefaults.ShowEncoreEntities = false;
             }
-            if (Core.Settings.MyDefaults.ShowEncoreEntities == true && Core.Settings.MyDefaults.ShowManiaEntities == false)
+            if (Methods.Settings.MyDefaults.ShowEncoreEntities == true && Methods.Settings.MyDefaults.ShowManiaEntities == false)
             {
-                Core.Settings.MyDefaults.ShowManiaEntities = true;
-                Core.Settings.MyDefaults.ShowEncoreEntities = false;
+                Methods.Settings.MyDefaults.ShowManiaEntities = true;
+                Methods.Settings.MyDefaults.ShowEncoreEntities = false;
             }
             else
             {
-                Core.Settings.MyDefaults.ShowManiaEntities = false;
-                Core.Settings.MyDefaults.ShowEncoreEntities = true;
+                Methods.Settings.MyDefaults.ShowManiaEntities = false;
+                Methods.Settings.MyDefaults.ShowEncoreEntities = true;
             }
 
         }

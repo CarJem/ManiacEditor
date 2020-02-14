@@ -27,11 +27,21 @@ namespace ManiacEditor.Controls.Editor.Elements
         public ViewPanel()
         {
             InitializeComponent();
+            SplitContainer.MyEvent += SplitContainer_MyEvent;
+        }
+
+        private void SplitContainer_MyEvent(object sender, EventArgs e)
+        {
+            if (Instance != null)
+            {
+                //Instance.DeviceModel.ResetViewSize(true);
+            }
         }
 
         public void UpdateInstance(MainEditor editor)
         {
             Instance = editor;
+            SharpPanel.UpdateInstance(editor);
         }
     }
 }

@@ -226,7 +226,7 @@ namespace ManiacEditor.Methods.Internal
         public static void UpdateButtonColors()
         {
             var converter = new System.Windows.Media.BrushConverter();
-            if (ManiacEditor.Core.Settings.MySettings.NightMode)
+            if (ManiacEditor.Methods.Settings.MySettings.NightMode)
             {
                 ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
             }
@@ -246,7 +246,7 @@ namespace ManiacEditor.Methods.Internal
             if (CWC != null) NormalColor = CWC.Value;
             else NormalColor = Color.Black;
 
-            return (ManiacEditor.Core.Settings.MySettings.NightMode ? NightColor : NormalColor);
+            return (ManiacEditor.Methods.Settings.MySettings.NightMode ? NightColor : NormalColor);
         }
         #endregion
 
@@ -255,22 +255,22 @@ namespace ManiacEditor.Methods.Internal
         {
             if (colorID == "Blue")
             {
-                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
+                if (ManiacEditor.Methods.Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
                 else return System.Drawing.Color.Blue;
             }
             else if (colorID == "Green")
             {
-                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
+                if (ManiacEditor.Methods.Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
                 else return System.Drawing.Color.Green;
             }
             else if (colorID == "Red")
             {
-                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211, 76, 49);
+                if (ManiacEditor.Methods.Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211, 76, 49);
                 else return System.Drawing.Color.Red;
             }
             else
             {
-                if (ManiacEditor.Core.Settings.MySettings.NightMode) return System.Drawing.Color.White;
+                if (ManiacEditor.Methods.Settings.MySettings.NightMode) return System.Drawing.Color.White;
                 else return System.Drawing.Color.Black;
             }
         }
@@ -354,7 +354,7 @@ namespace ManiacEditor.Methods.Internal
 
         public static void UpdateThemeForItemsWaiting()
         {
-            if (FormsModelAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
+            if (FormsModelAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel != null) RefreshFormsModel();
             if (TilesToolbarAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
             if (EntitiesToolbarAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
             if (StartScreenAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
@@ -363,7 +363,7 @@ namespace ManiacEditor.Methods.Internal
         public static void RefreshTheme()
         {
             ManiacEditor.Controls.Editor.MainEditor.Instance.Refresh();
-            if (ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel != null) RefreshFormsModel();
+            if (ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel != null) RefreshFormsModel();
             else FormsModelAwaitingRefresh = true;
             if (ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
             else StartScreenAwaitingRefresh = true;
@@ -399,8 +399,8 @@ namespace ManiacEditor.Methods.Internal
 
         public static void RefreshFormsModel()
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.SetupScrollBars(true);
+            ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.Refresh();
+            ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.SetupScrollBars(true);
             FormsModelAwaitingRefresh = false;
         }
 

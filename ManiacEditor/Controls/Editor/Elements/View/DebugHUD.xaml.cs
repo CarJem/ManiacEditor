@@ -20,7 +20,7 @@ using System.Diagnostics;
 namespace ManiacEditor.Controls.Editor.Elements.View
 {
     /// <summary>
-    /// Interaction logic for EditorHUD.xaml
+    /// Interaction logic for DebugHUD.xaml
     /// </summary>
     public partial class DebugHUD : UserControl
     {
@@ -46,9 +46,6 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         public void UpdateInstance(MainEditor editor)
         {
             Instance = editor;
-            (Instance as Window).SizeChanged += Editor_SizeChanged;
-            (Instance as Window).LocationChanged += Editor_LocationChanged;
-            (Instance as Window).MouseMove += Editor_MouseMove;
             InitilizeHUD();
         }
 
@@ -60,22 +57,22 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             {
                 w.FocusableChanged += delegate (object sender2, DependencyPropertyChangedEventArgs args)
                 {
-                    UpdatePopupVisibility();
+                    UpdatePopupSize();
                 };
                 w.IsVisibleChanged += delegate (object sender2, DependencyPropertyChangedEventArgs args)
                 {
-                    UpdatePopupVisibility();
+                    UpdatePopupSize();
                 };
                 w.LocationChanged += delegate (object sender2, EventArgs args)
                 {
-                    UpdatePopupVisibility();
+                    UpdatePopupSize();
                 };
                 w.SizeChanged += delegate (object sender3, SizeChangedEventArgs e2)
                 {
-                    UpdatePopupVisibility();
+                    UpdatePopupSize();
                 };
             }
-            UpdatePopupVisibility();
+            UpdatePopupSize();
         }
 
         private bool HUDItemNeedsUpdate(string item1, string item2)
@@ -89,8 +86,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             if (Instance != null && !System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
                 if (HUDItemNeedsUpdate(FPSCounter.Text, GetFPS())) FPSCounter.Text = GetFPS();
-                if (HUDItemNeedsUpdate(RenderCallCounter.Text, GetRenderCallCount())) RenderCallCounter.Text = GetRenderCallCount();
-                if (HUDItemNeedsUpdate(MemoryUsage.Text, GetMemoryUsage())) MemoryUsage.Text = GetMemoryUsage();
+                if (HUDItemNeedsUpdate(MemoryCounter.Text, GetMemoryUsage())) MemoryCounter.Text = GetMemoryUsage();
                 if (HUDItemNeedsUpdate(PhysicalMemoryUsage.Text, GetPhysicalMemoryUsage())) PhysicalMemoryUsage.Text = GetPhysicalMemoryUsage();
 
                 if (HUDItemNeedsUpdate(DataFolder.Text, GetDataFolder())) DataFolder.Text = GetDataFolder();
@@ -115,29 +111,16 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             else return "Scene TileConfig Path: N/A";
         }
 
-        public string GetRenderCallCount()
-        {
-            try
-            {
-                double fps = Instance.DeviceModel.GraphicPanel.RenderCallCount;
-                return "Render Calls: " + fps.ToString();
-            }
-            catch
-            {
-                return "Render Calls: N/A";
-            }
-        }
-
         public string GetFPS()
         {
             try
             {
-                double fps = Instance.DeviceModel.GraphicPanel.FPS;
-                return "FPS: " + fps.ToString();
+                int fps = (int)Instance.ViewPanel.SharpPanel.GraphicPanel.FPS;
+                return fps.ToString();
             }
             catch
             {
-                return "FPS: N/A";
+                return "FF";
             }
 
         }
@@ -147,7 +130,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             Process proc = Process.GetCurrentProcess();
             long memory = proc.PrivateMemorySize64;
             double finalMem = ConvertBytesToMegabytes(memory);
-            return "Memory Usage: " + finalMem.ToString() + " MB";
+            return ((int)finalMem).ToString();
         }
 
         public string GetPhysicalMemoryUsage()
@@ -181,7 +164,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetZoom()
         {
-            return "Zoom Level: " + Classes.Editor.SolutionState.Zoom;
+            return Math.Round(Classes.Editor.SolutionState.Zoom, 2).ToString();
         }
 
         public string GetSelectedZone()
@@ -283,37 +266,37 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             return rect.IntersectsWith(bounds);
         }
 
-
-        private void Editor_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            UpdatePopupVisibility();
-        }
-
-        private void Editor_LocationChanged(object sender, EventArgs e)
-        {
-            UpdatePopupVisibility();
-        }
-        private void Editor_MouseMove(object sender, MouseEventArgs e)
-        {
-            //UpdatePopupVisibility();
-        }
-
         public void UpdatePopupVisibility()
         {
-            int desiredWidth = (int)Instance.ViewPanel.SharpPanel.ActualWidth - 40;
-            int desiredHeight = (int)Instance.ViewPanel.SharpPanel.ActualHeight - 40;
-
-            if (Display.MaxWidth != desiredWidth || Display.MaxHeight != desiredHeight)
-            {
-                Display.MaxWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
-                Display.MaxHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
-            }
-
             if (IsUserVisible(Instance.ViewPanel.SharpPanel) && Classes.Editor.SolutionState.IsSceneLoaded() && Classes.Editor.SolutionState.DebugStatsVisibleOnPanel)
             {
                 ViewPanelHUD.IsOpen = true;
             }
             else ViewPanelHUD.IsOpen = false;
+        }
+
+        public void UpdatePopupSize()
+        {
+            int desiredWidth = (int)Instance.ViewPanel.SharpPanel.ActualWidth - (int)Instance.ViewPanel.SharpPanel.vScrollBar1.Width - 10;
+            int desiredHeight = (int)Instance.ViewPanel.SharpPanel.ActualHeight - (int)Instance.ViewPanel.SharpPanel.hScrollBar1.Height - 10;
+
+            if (ViewPanelHUD.MaxWidth != desiredWidth || ViewPanelHUD.MaxHeight != desiredHeight)
+            {
+                //Display.MaxWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                //Display.MaxHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                //Display.MinWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                //Display.MinHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                ViewPanelHUD.Width = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                ViewPanelHUD.Height = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                ViewPanelHUD.MaxWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                ViewPanelHUD.MaxHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                ViewPanelHUD.MinWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                ViewPanelHUD.MinHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+            }
 
             if (Instance.ViewPanel.SharpPanel.IsLoaded)
             {
@@ -331,12 +314,12 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         private void ViewPanelHUD_Closed(object sender, EventArgs e)
         {
-            UpdatePopupVisibility();
+            UpdatePopupSize();
         }
 
         private void ViewPanelHUD_Opened(object sender, EventArgs e)
         {
-            UpdatePopupVisibility();
+            UpdatePopupSize();
         }
 
         #endregion

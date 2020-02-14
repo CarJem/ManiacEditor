@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Runtime;
 using System.Runtime.Serialization;
 
-namespace ManiacEditor.Core.Options
+namespace ManiacEditor.Methods.Options
 {
     [DataContract]
     public class InputPreferences

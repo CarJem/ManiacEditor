@@ -92,12 +92,12 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region Internal/Public/Vital Classes
-        internal Classes.Editor.Scene.EditorBackground BackgroundDX;
+        internal Classes.Editor.Scene.EditorBackground EditBackground;
         public Methods.Entities.EntityDrawing EntityDrawing;
         public Classes.Editor.SolutionState StateModel;
         public Classes.Editor.Scene.EditorChunks Chunks;
         public Methods.Layers.TileFindReplace FindAndReplace;
-        public Core.ProcessMemory GameMemory = new Core.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
+        public Methods.Runtime.ProcessMemory GameMemory = new Methods.Runtime.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
         #endregion
 
@@ -105,7 +105,6 @@ namespace ManiacEditor.Controls.Editor
         public ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar TilesToolbar = null;
         public ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
         public ManiacEditor.Controls.Editor.Elements.StartScreen StartScreen;
-        public ManiacEditor.Controls.GraphicsModel DeviceModel;
         #endregion
 
 
@@ -121,7 +120,7 @@ namespace ManiacEditor.Controls.Editor
             Methods.Internal.Theming.UpdateInstance(this);
             Methods.Internal.Settings.UpdateInstance(this);
 
-            Methods.Internal.Theming.UseDarkTheme_WPF(ManiacEditor.Core.Settings.MySettings.NightMode);
+            Methods.Internal.Theming.UseDarkTheme_WPF(ManiacEditor.Methods.Settings.MySettings.NightMode);
             Instance = this;
             InitializeComponent();
 
@@ -133,17 +132,19 @@ namespace ManiacEditor.Controls.Editor
 
             System.Windows.Application.Current.MainWindow = this;
 
+            InitilizeEditor();
+            /*
             try
             {
-                InitilizeEditor();
+
             }
             catch (Exception ex)
             {
                 Debug.Print("Couldn't Initialize Editor!" + ex.ToString());
                 throw ex;
-            }
+            }*/
 
-            if (ManiacEditor.Core.Settings.MyDevSettings.UseAutoForcefulStartup) OpenSceneForceFully();
+            if (ManiacEditor.Methods.Settings.MyDevSettings.UseAutoForcefulStartup) OpenSceneForceFully();
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -159,17 +160,13 @@ namespace ManiacEditor.Controls.Editor
 
         public void InitilizeEditor()
         {
-            DeviceModel = new GraphicsModel(this);
-
             this.Activated += new System.EventHandler(this.Editor_Activated);
-
 
             ExtraLayerEditViewButtons = new Dictionary<EditLayerToggleButton, EditLayerToggleButton>();
             ExtraLayerSeperators = new List<Separator>();
 
             RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
             RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
-
 
             //Old Classes
             EntityDrawing = new Methods.Entities.EntityDrawing(this);
@@ -189,7 +186,7 @@ namespace ManiacEditor.Controls.Editor
             ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Initilize(this);
             Methods.ProgramLauncher.UpdateInstance(this);
             Methods.Prefrences.DataPackStorage.Initilize(this);
-            Methods.GameHandler.UpdateInstance(this);
+            Methods.Runtime.GameHandler.UpdateInstance(this);
             ViewPanel.UpdateInstance(this);
             ManiacEditor.Classes.Editor.EditorActions.UpdateInstance(this);
             ViewPanel.InfoHUD.UpdateInstance(this);
@@ -200,15 +197,10 @@ namespace ManiacEditor.Controls.Editor
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Methods.ProgramBase.GetCasualVersion());
 
-
-
-
-
-
             Extensions.ExternalExtensions.AllocConsole();
             Extensions.ExternalExtensions.HideConsoleWindow();
             RefreshCollisionColours();
-            DeviceModel.UpdateViewSize();
+            ViewPanel.SharpPanel.ResizeGraphicsPanel();
             Methods.Internal.UserInterface.UpdateControls();
             Methods.Internal.Settings.TryLoadSettings();
 
@@ -253,7 +245,7 @@ namespace ManiacEditor.Controls.Editor
         #region Editor Events
         private void Editor_Activated(object sender, EventArgs e)
         {
-            DeviceModel.GraphicPanel.Focus();
+            ViewPanel.SharpPanel.GraphicPanel.Focus();
             if (TileManiacInstance.hasModified)
             {
                 Methods.Internal.UserInterface.ReloadSpritesAndTextures();
@@ -266,10 +258,10 @@ namespace ManiacEditor.Controls.Editor
 
             try
             {
-                Methods.GameHandler.GameRunning = false;
-                var mySettings = Core.Settings.MySettings;
-                ManiacEditor.Core.Settings.MySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
-                Core.Settings.SaveAllSettings();
+                Methods.Runtime.GameHandler.GameRunning = false;
+                var mySettings = Methods.Settings.MySettings;
+                ManiacEditor.Methods.Settings.MySettings.IsMaximized = WindowState == System.Windows.WindowState.Maximized;
+                Methods.Settings.SaveAllSettings();
             }
             catch (Exception ex)
             {
@@ -281,7 +273,7 @@ namespace ManiacEditor.Controls.Editor
                 ManiaHost.ForceKillSonicMania();
             }
 
-            DeviceModel.Dispose();
+            ViewPanel.SharpPanel.Dispose();
             //editorView = null;
             ViewPanel.SharpPanel.Host.Child.Dispose();
             //host = null;
@@ -298,7 +290,6 @@ namespace ManiacEditor.Controls.Editor
             }
 
         }
-
         private void Editor_KeyUp(object sender, KeyEventArgs e)
         {
             var e2 = KeyEventExts.ToWinforms(e);
@@ -308,15 +299,10 @@ namespace ManiacEditor.Controls.Editor
             }
 
         }
-
-        public void Editor_Resize(object sender, RoutedEventArgs e) { DeviceModel.ResizeGraphicsModel(sender, e); }
+        public void Editor_Resize(object sender, RoutedEventArgs e) { ViewPanel.SharpPanel.ResizeGraphicsPanel(); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewPanel.SharpPanel.Host.Child = DeviceModel;
-
-            ViewPanel.SharpPanel.Host.Foreground = (SolidColorBrush)FindResource("NormalText");
-
-            DeviceModel.GraphicPanel.Init(DeviceModel);
+            ViewPanel.SharpPanel.InitalizeGraphicsPanel();
         }
         #endregion
 
@@ -346,14 +332,14 @@ namespace ManiacEditor.Controls.Editor
             */
 
             var _extraViewLayer = Classes.Editor.Solution.CurrentScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
-            _extraViewLayer.Draw(DeviceModel.GraphicPanel);
+            _extraViewLayer.Draw(ViewPanel.SharpPanel.GraphicPanel);
         }
         public void Run()
         {
             Show();
             Focus();
-            DeviceModel.Show();
-            DeviceModel.GraphicPanel.Run();
+            ViewPanel.SharpPanel.GraphicPanel.Show();
+            ViewPanel.SharpPanel.GraphicPanel.Run();
 
         }
         public void UpdateStartScreen(bool visible, bool firstLoad = false)
@@ -430,32 +416,40 @@ namespace ManiacEditor.Controls.Editor
         }
         public void RefreshCollisionColours(bool RefreshMasks = false)
         {
-            if (Classes.Editor.Solution.CurrentScene != null && Classes.Editor.Solution.CurrentTiles != null)
+            try
             {
-                switch (Classes.Editor.SolutionState.CollisionPreset)
+                if (Classes.Editor.Solution.CurrentScene != null && Classes.Editor.Solution.CurrentTiles != null)
                 {
-                    case 2:
-                        CollisionAllSolid = Classes.Editor.SolutionState.CollisionSAColour;
-                        CollisionTopOnlySolid = Classes.Editor.SolutionState.CollisionTOColour;
-                        CollisionLRDSolid = Classes.Editor.SolutionState.CollisionLRDColour;
-                        break;
-                    case 1:
-                        CollisionAllSolid = Color.Black;
-                        CollisionTopOnlySolid = Color.Yellow;
-                        CollisionLRDSolid = Color.Red;
-                        break;
-                    case 0:
-                        CollisionAllSolid = Color.White;
-                        CollisionTopOnlySolid = Color.Yellow;
-                        CollisionLRDSolid = Color.Red;
-                        break;
-                }
+                    switch (Classes.Editor.SolutionState.CollisionPreset)
+                    {
+                        case 2:
+                            CollisionAllSolid = Classes.Editor.SolutionState.CollisionSAColour;
+                            CollisionTopOnlySolid = Classes.Editor.SolutionState.CollisionTOColour;
+                            CollisionLRDSolid = Classes.Editor.SolutionState.CollisionLRDColour;
+                            break;
+                        case 1:
+                            CollisionAllSolid = Color.Black;
+                            CollisionTopOnlySolid = Color.Yellow;
+                            CollisionLRDSolid = Color.Red;
+                            break;
+                        case 0:
+                            CollisionAllSolid = Color.White;
+                            CollisionTopOnlySolid = Color.Yellow;
+                            CollisionLRDSolid = Color.Red;
+                            break;
+                    }
 
-                if (RefreshMasks)
-                {
-                    //UI.ReloadSpritesAndTextures();
+                    if (RefreshMasks)
+                    {
+                        //UI.ReloadSpritesAndTextures();
+                    }
                 }
             }
+            catch
+            {
+
+            }
+
 
         }
         #endregion
@@ -575,7 +569,7 @@ namespace ManiacEditor.Controls.Editor
                 Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedN.Value)
                 {
-                    if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
+                    if (!ManiacEditor.Methods.Settings.MySettings.KeepLayersVisible)
                     {
                         EditorToolbar.ShowFGLow.IsChecked = false;
                         EditorToolbar.ShowFGHigh.IsChecked = false;
@@ -603,7 +597,7 @@ namespace ManiacEditor.Controls.Editor
                 Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedA.Value)
                 {
-                    if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
+                    if (!ManiacEditor.Methods.Settings.MySettings.KeepLayersVisible)
                     {
                         EditorToolbar.ShowFGLow.IsChecked = false;
                         EditorToolbar.ShowFGHigh.IsChecked = false;
@@ -631,7 +625,7 @@ namespace ManiacEditor.Controls.Editor
                 Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedB.Value)
                 {
-                    if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
+                    if (!ManiacEditor.Methods.Settings.MySettings.KeepLayersVisible)
                     {
                         EditorToolbar.ShowFGLow.IsChecked = false;
                         EditorToolbar.ShowFGHigh.IsChecked = false;
@@ -663,18 +657,18 @@ namespace ManiacEditor.Controls.Editor
         {
             MenuItem newItem = new MenuItem()
             {
-                Header = ManiacEditor.Core.Settings.MySettings.ModLoaderConfigsNames[i],
-                Tag = ManiacEditor.Core.Settings.MySettings.ModLoaderConfigs[i]
+                Header = ManiacEditor.Methods.Settings.MySettings.ModLoaderConfigsNames[i],
+                Tag = ManiacEditor.Methods.Settings.MySettings.ModLoaderConfigs[i]
             };
             newItem.Click += ModConfigItemClicked;
-            if (newItem.Tag.ToString() == ManiacEditor.Core.Settings.MySettings.LastModConfig) newItem.IsChecked = true;
+            if (newItem.Tag.ToString() == ManiacEditor.Methods.Settings.MySettings.LastModConfig) newItem.IsChecked = true;
             return newItem;
         }
         private void ModConfigItemClicked(object sender, RoutedEventArgs e)
         {
             var modConfig_CheckedItem = (sender as MenuItem);
             SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
-            ManiacEditor.Core.Settings.MySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
+            ManiacEditor.Methods.Settings.MySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
         }
         private void SelectConfigToolStripMenuItem_Click(MenuItem modConfig_CheckedItem)
         {
@@ -721,13 +715,13 @@ namespace ManiacEditor.Controls.Editor
         {
             try
             {
-                var mySettings = Core.Settings.MySettings;
-                var dataDirectories = ManiacEditor.Core.Settings.MySettings.DataDirectories;
+                var mySettings = Methods.Settings.MySettings;
+                var dataDirectories = ManiacEditor.Methods.Settings.MySettings.DataDirectories;
 
                 if (dataDirectories == null)
                 {
                     dataDirectories = new StringCollection();
-                    ManiacEditor.Core.Settings.MySettings.DataDirectories = dataDirectories;
+                    ManiacEditor.Methods.Settings.MySettings.DataDirectories = dataDirectories;
                 }
 
                 if (dataDirectories.Contains(dataDirectory)) dataDirectories.Remove(dataDirectory);
@@ -739,7 +733,7 @@ namespace ManiacEditor.Controls.Editor
 
                 dataDirectories.Insert(0, dataDirectory);
 
-                ManiacEditor.Core.Options.GeneralSettings.Save();
+                ManiacEditor.Methods.Options.GeneralSettings.Save();
 
                 UpdateDataFolderLabel(dataDirectory);
 

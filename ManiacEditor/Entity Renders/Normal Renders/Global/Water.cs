@@ -117,7 +117,7 @@ namespace ManiacEditor.Entity_Renders
 					{
 						if (selected)
 						{
-							if (!Core.Settings.MyPerformance.UseSimplifedWaterRendering)
+							if (!Methods.Settings.MyPerformance.UseSimplifedWaterRendering)
 							{
 								d.DrawRectangle(0, heightX, Classes.Editor.Solution.SceneWidth, heightX, Classes.Editor.SolutionState.waterColor);
 								d.DrawLine(0, heightX, Classes.Editor.Solution.SceneWidth, heightX, SystemColors.White);
@@ -142,7 +142,7 @@ namespace ManiacEditor.Entity_Renders
 						}
 						else
 						{
-							if (!Core.Settings.MyPerformance.UseSimplifedWaterRendering)
+							if (!Methods.Settings.MyPerformance.UseSimplifedWaterRendering)
 							{
 								if (Classes.Editor.SolutionState.AlwaysShowWaterLevel)
 								{

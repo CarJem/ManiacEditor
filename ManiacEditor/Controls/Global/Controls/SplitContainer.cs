@@ -27,12 +27,23 @@ namespace ManiacEditor.Controls.Global.Controls
     /// </summary>
     public class SplitContainer : Control
     {
+
         public SplitContainer()
         {
             this.DefaultStyleKey = typeof(SplitContainer);
 
             this.CommandBindings.Add(new CommandBinding(Commands.SizeChanged, Spliter_SizeChanged));
             this.CommandBindings.Add(new CommandBinding(Commands.DragDelta, Spliter_DragDelta));
+        }
+
+        public event EventHandler MyEvent;
+
+        private void OnEvent()
+        {
+            if (MyEvent != null)
+            {
+                MyEvent(this, EventArgs.Empty);
+            }
         }
 
         #region LeftContainer
@@ -76,11 +87,17 @@ namespace ManiacEditor.Controls.Global.Controls
         #region Splitter Events
         private void Spliter_DragDelta(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Instance != null) Instance.DeviceModel.ResizeGraphicsModel(sender, e);
+            if (Instance != null)
+            {
+                Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
+            }
         }
         private void Spliter_SizeChanged(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Instance != null) Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY));
+            if (Instance != null)
+            {
+                Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY));
+            }
         }
         #endregion
 
@@ -209,9 +226,9 @@ namespace ManiacEditor.Controls.Global.Controls
                     ToolbarLeft.MaxWidth = 0;
                     SplitterLeft.Width = new GridLength(0);
                     SplitterLeft.MinWidth = 0;
-
                 }
             }
+            OnEvent();
 
         }
     }

@@ -385,12 +385,12 @@ namespace ManiacEditor.Methods.Entities
         public static string GetEditorStaticBitmapPath(string assetName)
         {
             string targetFile = "";
-            if (assetName == "EditorAssets") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorAssets.gif");
-            else if (assetName == "HUDEditorText") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorText.gif");
-            else if (assetName == "EditorIcons2") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorIcons2.gif");
-            else if (assetName == "TransportTubes") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "TransportTubes.gif");
-            else if (assetName == "EditorUIRender") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "MenuRenders.gif");
-            else targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "SuperSpecialRing.gif");
+            if (assetName == "EditorAssets") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorAssets.gif");
+            else if (assetName == "HUDEditorText") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorText.gif");
+            else if (assetName == "EditorIcons2") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorIcons2.gif");
+            else if (assetName == "TransportTubes") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "TransportTubes.gif");
+            else if (assetName == "EditorUIRender") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "MenuRenders.gif");
+            else targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "SuperSpecialRing.gif");
 
             return targetFile;
         }
@@ -441,22 +441,22 @@ namespace ManiacEditor.Methods.Entities
             switch (name)
             {
                 case "EditorAssets":
-                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorAssets.bin");
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorAssets.bin");
                     break;
                 case "HUDEditorText":
-                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorText.bin");
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorText.bin");
                     break;
                 case "EditorIcons2":
-                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorIcons2.bin");
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorIcons2.bin");
                     break;
                 case "TransportTubes":
-                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "TransportTubes.bin");
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "TransportTubes.bin");
                     break;
                 case "EditorUIRender":
-                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "EditorUIRender.bin");
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorUIRender.bin");
                     break;
                 case "SuperSpecialRing":
-                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Global\\", "SuperSpecialRing.bin");
+                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "SuperSpecialRing.bin");
                     break;
                 default:
                     path = null;

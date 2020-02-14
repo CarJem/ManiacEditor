@@ -31,12 +31,6 @@ namespace ManiacEditor
 
         public bool mouseMoved { get; set; } = false;
 
-        public int DrawWidth { get; set; }
-        public int DrawHeight { get; set; }
-
-        public int ScreenPosWidth;
-        public int ScreenPosHeight;
-
         private Sprite sprite;
         private Sprite sprite2;
         Texture tx;
@@ -53,8 +47,6 @@ namespace ManiacEditor
         double totalTime;
         long frameCount;
         double measuredFPS;
-
-        public int RenderCallCount { get; set; } = 0;
 
 
         public bool bRender = true;
@@ -133,6 +125,10 @@ namespace ManiacEditor
                 // Setup our D3D stuff
                 presentParams = new PresentParameters();
                 presentParams.Windowed = true;
+                presentParams.DeviceWindowHandle = this.Handle;
+                presentParams.BackBufferHeight = this.Height;
+                presentParams.BackBufferWidth = this.Width;
+                presentParams.PresentationInterval = PresentInterval.Immediate;
                 presentParams.SwapEffect = SwapEffect.Discard;
 
                 Capabilities caps = direct3d.Adapters.First().GetCaps(DeviceType.Hardware);
@@ -156,9 +152,9 @@ namespace ManiacEditor
 
 
                 _device = new Device(direct3d, 0, DeviceType.Hardware, this.Handle, createFlags, presentParams);
-                _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
-                _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
-                _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
+                _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
+                _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
+                _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                 //_device.SetRenderState(RenderState.ZWriteEnable, false);
                 //_device.SetRenderState(RenderState.ZEnable, false);
 
@@ -258,11 +254,14 @@ namespace ManiacEditor
 
         public void ResetDevice()
         {
-            DisposeDeviceResources();
-            _parent.DisposeTextures();
-            _device.Reset(presentParams);
-            deviceLost = false;
-            InitDeviceResources();
+            if (_parent != null && _device != null)
+            {
+                DisposeDeviceResources();
+                _parent.DisposeTextures();
+                _device.Reset(presentParams);
+                deviceLost = false;
+                InitDeviceResources();
+            }
         }
 
         private void MakeGray(Bitmap image)
@@ -304,11 +303,10 @@ namespace ManiacEditor
         /// </summary>
         /// 
 
-        private static bool isRendering { get; set; } = false;
+        public static bool isRendering { get; private set; } = false;
 
         public void Render()
         {
-            RenderCallCount = RenderCallCount + 1;
             //System.Threading.Tasks.Task.Run(new Action(() => {
                 if (deviceLost) AttemptRecovery();
                 if (deviceLost) return;
@@ -345,9 +343,9 @@ namespace ManiacEditor
                     else if (zoom < 1)
                     {
                         // If zoomout, just do near-neighbor scaling
-                        _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.GaussianQuad);
-                        _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.GaussianQuad);
-                        _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.GaussianQuad);
+                        _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
+                        _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
+                        _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                     }
 
                     sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
@@ -384,7 +382,6 @@ namespace ManiacEditor
                         throw ex;
                 }
                 isRendering = false;
-            RenderCallCount = RenderCallCount - 1;
             //}));
         }
 

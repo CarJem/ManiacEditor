@@ -54,7 +54,7 @@ namespace ManiacEditor.Methods
 
         public static void CheatEngine()
         {
-            String cheatEngineProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Core.Settings.MyDefaults.CheatEnginePath);
+            String cheatEngineProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Methods.Settings.MyDefaults.CheatEnginePath);
             IntPtr hWnd = FindWindow(cheatEngineProcessName, null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName(cheatEngineProcessName).FirstOrDefault();
             if (processes != null)
@@ -72,7 +72,7 @@ namespace ManiacEditor.Methods
             else
             {
                 // Ask where the Mania Mod Manager is located when not set
-                if (string.IsNullOrEmpty(ManiacEditor.Core.Settings.MyDefaults.CheatEnginePath))
+                if (string.IsNullOrEmpty(ManiacEditor.Methods.Settings.MyDefaults.CheatEnginePath))
                 {
                     var ofd = new OpenFileDialog
                     {
@@ -80,19 +80,19 @@ namespace ManiacEditor.Methods
                         Filter = "Windows PE Executable|*.exe"
                     };
                     if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        ManiacEditor.Core.Settings.MyDefaults.CheatEnginePath = ofd.FileName;
+                        ManiacEditor.Methods.Settings.MyDefaults.CheatEnginePath = ofd.FileName;
                 }
                 else
                 {
-                    if (!File.Exists(ManiacEditor.Core.Settings.MyDefaults.CheatEnginePath))
+                    if (!File.Exists(ManiacEditor.Methods.Settings.MyDefaults.CheatEnginePath))
                     {
-                        ManiacEditor.Core.Settings.MyDefaults.CheatEnginePath = "";
+                        ManiacEditor.Methods.Settings.MyDefaults.CheatEnginePath = "";
                         return;
                     }
                 }
 
-                if (File.Exists(ManiacEditor.Core.Settings.MyDefaults.CheatEnginePath))
-                    Process.Start(ManiacEditor.Core.Settings.MyDefaults.CheatEnginePath);
+                if (File.Exists(ManiacEditor.Methods.Settings.MyDefaults.CheatEnginePath))
+                    Process.Start(ManiacEditor.Methods.Settings.MyDefaults.CheatEnginePath);
             }
         }
         public static void TileManiacNormal()
@@ -145,7 +145,7 @@ namespace ManiacEditor.Methods
         }
         public static void ManiaModManager()
         {
-            String modProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Core.Settings.MyDefaults.ModLoaderPath);
+            String modProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath);
             IntPtr hWnd = FindWindow(modProcessName, null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName(modProcessName).FirstOrDefault();
             if (processes != null)
@@ -163,7 +163,7 @@ namespace ManiacEditor.Methods
             else
             {
                 // Ask where the Mania Mod Manager is located when not set
-                if (string.IsNullOrEmpty(ManiacEditor.Core.Settings.MyDefaults.ModLoaderPath))
+                if (string.IsNullOrEmpty(ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath))
                 {
                     var ofd = new OpenFileDialog
                     {
@@ -171,19 +171,19 @@ namespace ManiacEditor.Methods
                         Filter = "Windows PE Executable|*.exe"
                     };
                     if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        ManiacEditor.Core.Settings.MyDefaults.ModLoaderPath = ofd.FileName;
+                        ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath = ofd.FileName;
                 }
                 else
                 {
-                    if (!File.Exists(ManiacEditor.Core.Settings.MyDefaults.ModLoaderPath))
+                    if (!File.Exists(ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath))
                     {
-                        ManiacEditor.Core.Settings.MyDefaults.ModLoaderPath = "";
+                        ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath = "";
                         return;
                     }
                 }
 
-                if (File.Exists(ManiacEditor.Core.Settings.MyDefaults.ModLoaderPath))
-                    Process.Start(ManiacEditor.Core.Settings.MyDefaults.ModLoaderPath);
+                if (File.Exists(ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath))
+                    Process.Start(ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath);
             }
         }
         public static void RSDKUnpacker()
@@ -197,7 +197,7 @@ namespace ManiacEditor.Methods
         }
         public static void RSDKAnnimationEditor()
         {
-            String aniProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath);
+            String aniProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Methods.Settings.MyDefaults.AnimationEditorPath);
             IntPtr hWnd = FindWindow(aniProcessName, null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName(aniProcessName).FirstOrDefault();
             if (processes != null)
@@ -216,7 +216,7 @@ namespace ManiacEditor.Methods
             {
 
                 // Ask where RSDK Annimation Editor is located when not set
-                if (string.IsNullOrEmpty(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath))
+                if (string.IsNullOrEmpty(ManiacEditor.Methods.Settings.MyDefaults.AnimationEditorPath))
                 {
                     var ofd = new OpenFileDialog
                     {
@@ -224,19 +224,19 @@ namespace ManiacEditor.Methods
                         Filter = "Windows Executable|*.exe"
                     };
                     if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath = ofd.FileName;
+                        ManiacEditor.Methods.Settings.MyDefaults.AnimationEditorPath = ofd.FileName;
                 }
                 else
                 {
-                    if (!File.Exists(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath))
+                    if (!File.Exists(ManiacEditor.Methods.Settings.MyDefaults.AnimationEditorPath))
                     {
-                        ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath = "";
+                        ManiacEditor.Methods.Settings.MyDefaults.AnimationEditorPath = "";
                         return;
                     }
                 }
 
                 ProcessStartInfo psi;
-                psi = new ProcessStartInfo(ManiacEditor.Core.Settings.MyDefaults.AnimationEditorPath);
+                psi = new ProcessStartInfo(ManiacEditor.Methods.Settings.MyDefaults.AnimationEditorPath);
                 Process.Start(psi);
             }
         }
@@ -283,7 +283,7 @@ namespace ManiacEditor.Methods
         }
         public static void SonicManiaHeadless()
         {
-            Methods.GameHandler.RunSequence(null, null, false);
+            Methods.Runtime.GameHandler.RunSequence(null, null, false);
         }
         public static void DuplicateObjectIDHealer()
         {
@@ -364,9 +364,9 @@ namespace ManiacEditor.Methods
         }
         public static void OpenSonicManiaFolder()
         {
-            if (ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath != null && ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath != "" && File.Exists(ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath))
+            if (ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath != null && ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath != "" && File.Exists(ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath))
             {
-                string GameFolder = ManiacEditor.Core.Settings.MyDefaults.SonicManiaPath;
+                string GameFolder = ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath;
                 string GameFolder_mod = GameFolder.Replace('/', '\\');
                 Process.Start("explorer.exe", "/select, " + GameFolder_mod);
             }
@@ -380,11 +380,11 @@ namespace ManiacEditor.Methods
         #region Saved Place
         public static void OpenASavedPlaceDropDownOpening(object sender, RoutedEventArgs e)
         {
-            if (ManiacEditor.Core.Settings.MySettings.SavedPlaces != null && ManiacEditor.Core.Settings.MySettings.SavedPlaces.Count > 0)
+            if (ManiacEditor.Methods.Settings.MySettings.SavedPlaces != null && ManiacEditor.Methods.Settings.MySettings.SavedPlaces.Count > 0)
             {
                 Editor.MenuBar.openASavedPlaceToolStripMenuItem.Items.Clear();
                 var allItems = Editor.MenuBar.openASavedPlaceToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                foreach (string savedPlace in ManiacEditor.Core.Settings.MySettings.SavedPlaces)
+                foreach (string savedPlace in ManiacEditor.Methods.Settings.MySettings.SavedPlaces)
                 {
                     var savedPlaceItem = new System.Windows.Controls.MenuItem()
                     {
@@ -619,7 +619,7 @@ namespace ManiacEditor.Methods
 
 
             Editor.SetupLayerButtons();
-            Editor.DeviceModel.ResetViewSize();
+            Editor.ViewPanel.SharpPanel.ResetZoomLevel();
             Methods.Internal.UserInterface.UpdateControls();
             Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;
         }

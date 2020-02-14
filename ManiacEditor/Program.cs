@@ -19,7 +19,7 @@ namespace ManiacEditor
         {
             ManiacEditor.Methods.ProgramBase.StartLogging();
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up Options Files...");
-            ManiacEditor.Core.Settings.Init();
+            ManiacEditor.Methods.Settings.Init();
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Starting Maniac Editor...");
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -47,7 +47,7 @@ namespace ManiacEditor
         private static void StartApp()
         {
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Launching the Map Editor...");
-            if (Core.Settings.MySettings.ShowUnhandledExceptions)
+            if (Methods.Settings.MySettings.ShowUnhandledExceptions)
             {
                 try
                 {

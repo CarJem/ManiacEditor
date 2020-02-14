@@ -1227,6 +1227,14 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 
         public void Draw(DevicePanel d)
         {
+            if (ManiacEditor.Classes.Editor.SolutionState.ParallaxAnimationChecked && ManiacEditor.Classes.Editor.SolutionState.AllowAnimations && AllowLayerToAnimateParallax) DrawLayerScroll(d);
+            else DrawLayer(d);
+
+            if (ShowLayerScrollLines) DrawScrollLines(d);
+        }
+
+        public void DrawLayer(DevicePanel d)
+        {
             int Transperncy;
 
 
@@ -1579,7 +1587,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
             {
                 foreach (var lines in layer.LinesMapList)
                 {
-                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.GraphicPanel);
+                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.GraphicPanel);
                     HorizontalRuleMapIndex++;
                 }
                 HorizontalRuleMapIndex = 0;

@@ -30,7 +30,7 @@ namespace ManiacEditor.Methods.Internal
 
             if (stageLoad)
             {
-                Instance.DeviceModel.UpdateViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
+                Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
             }
 
             Methods.Internal.Theming.UpdateButtonColors();
@@ -113,6 +113,8 @@ namespace ManiacEditor.Methods.Internal
                 {
                     Instance.TilesToolbar.Dispose();
                     Instance.TilesToolbar = null;
+                    Instance.Editor_Resize(null, null);
+                    
                     Instance.Focus();
                 }
             }
@@ -171,7 +173,6 @@ namespace ManiacEditor.Methods.Internal
             {
                 Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
                 Instance.ViewPanel.SplitContainer.UpdateToolbars(true, false);
-                Instance.Editor_Resize(null, null);
             }
 
             SetSelectOnlyButtonsState(enabled);
@@ -226,7 +227,7 @@ namespace ManiacEditor.Methods.Internal
                 Instance.EditorToolbar.EditFGLower.IsEnabled = false;
 
             }
-            Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
+            Instance.ViewPanel.InfoHUD.UpdatePopupSize();
         }
         public static void UpdateTilesOptions()
         {
@@ -394,15 +395,15 @@ namespace ManiacEditor.Methods.Internal
         {
             if (Instance != null)
             {
-                if (Core.Settings.MySettings.EntityFreeCam)
+                if (Methods.Settings.MySettings.EntityFreeCam)
                 {
-                    Instance.DeviceModel.vScrollBar1.IsEnabled = false;
-                    Instance.DeviceModel.hScrollBar1.IsEnabled = false;
+                    Instance.ViewPanel.SharpPanel.vScrollBar1.IsEnabled = false;
+                    Instance.ViewPanel.SharpPanel.hScrollBar1.IsEnabled = false;
                 }
                 else
                 {
-                    Instance.DeviceModel.vScrollBar1.IsEnabled = true;
-                    Instance.DeviceModel.hScrollBar1.IsEnabled = true;
+                    Instance.ViewPanel.SharpPanel.vScrollBar1.IsEnabled = true;
+                    Instance.ViewPanel.SharpPanel.hScrollBar1.IsEnabled = true;
                 }
 
                 bool parallaxAnimationInProgress = Classes.Editor.SolutionState.AllowAnimations && Classes.Editor.SolutionState.ParallaxAnimationChecked;
@@ -414,8 +415,8 @@ namespace ManiacEditor.Methods.Internal
                 SetSceneOnlyButtonsState(Classes.Editor.Solution.CurrentScene != null && !parallaxAnimationInProgress, stageLoad);
                 SetParallaxAnimationOnlyButtonsState(parallaxAnimationInProgress);
                 UpdateSplineToolbox();
-                Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Core.Settings.MyDefaults.CustomGridSizeValue);
-                Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
+                Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Methods.Settings.MyDefaults.CustomGridSizeValue);
+                Instance.ViewPanel.InfoHUD.UpdatePopupSize();
             }
         }
         public static void UpdateTooltips()

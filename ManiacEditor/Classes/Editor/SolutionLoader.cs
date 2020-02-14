@@ -41,7 +41,7 @@ namespace ManiacEditor.Classes.Editor
             {
                 string directoryPath = Path.GetDirectoryName(makerDialog.SceneFolder);
 
-                Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(Instance.DeviceModel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
+                Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(Instance.ViewPanel.SharpPanel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
                 Classes.Editor.Solution.TileConfig = new Tileconfig();
                 Classes.Editor.Solution.CurrentTiles = new Classes.Editor.Scene.EditorTiles();
                 Classes.Editor.Solution.StageConfig = new StageConfig();
@@ -65,11 +65,11 @@ namespace ManiacEditor.Classes.Editor
                 Instance.SetupLayerButtons();
 
 
-                Instance.BackgroundDX = new Classes.Editor.Scene.EditorBackground(Instance);
+                Instance.EditBackground = new Classes.Editor.Scene.EditorBackground(Instance);
 
                 Classes.Editor.Solution.Entities = new Classes.Editor.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
 
-                Instance.DeviceModel.UpdateViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
+                Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
 
                 Methods.Internal.UserInterface.UpdateControls(true);
             }
@@ -137,7 +137,7 @@ namespace ManiacEditor.Classes.Editor
                 AllowSceneChange = true;
                 return AllowSceneChange;
             }
-            else if (ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded() == true && ManiacEditor.Core.Settings.MySettings.DisableSaveWarnings == false)
+            else if (ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded() == true && ManiacEditor.Methods.Settings.MySettings.DisableSaveWarnings == false)
             {
 
                 if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || Classes.Editor.SolutionState.QuitWithoutSavingWarningRequired == true)
@@ -525,7 +525,7 @@ namespace ManiacEditor.Classes.Editor
                 {
                     Classes.Editor.SolutionState.LevelID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentLevelID;
                     string sceneFilePath = (ManiacEditor.Classes.Editor.Solution.Paths.Browsed ? ManiacEditor.Classes.Editor.Solution.Paths.GetScenePathFromFile(ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath) : ManiacEditor.Classes.Editor.Solution.Paths.GetScenePath());
-                    Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(sceneFilePath, Instance.DeviceModel.GraphicPanel, Instance);
+                    Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(sceneFilePath, Instance.ViewPanel.SharpPanel.GraphicPanel, Instance);
                 }
                 catch (Exception ex)
                 {
@@ -611,7 +611,7 @@ namespace ManiacEditor.Classes.Editor
             {
                 //Using Instance Means the Stuff Hasn't Stated 
                 Classes.Editor.SolutionState.LevelID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentLevelID;
-                Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(ManiacEditor.Classes.Editor.Solution.Paths.GetScenePath(), Instance.DeviceModel.GraphicPanel, Instance);
+                Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(ManiacEditor.Classes.Editor.Solution.Paths.GetScenePath(), Instance.ViewPanel.SharpPanel.GraphicPanel, Instance);
 
                 //ACT File (Encore Colors)
                 Instance.EncorePalette = Classes.Editor.Solution.CurrentScene.GetEncorePalette(ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone, Instance.DataDirectory, ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID, "", 1);
@@ -656,7 +656,7 @@ namespace ManiacEditor.Classes.Editor
             try
             {
                 Classes.Editor.SolutionState.LevelID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentLevelID;
-                Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(ManiacEditor.Classes.Editor.Solution.Paths.GetScenePathFromFile(ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath), Instance.DeviceModel.GraphicPanel, Instance);
+                Classes.Editor.Solution.CurrentScene = new Classes.Editor.Scene.EditorScene(ManiacEditor.Classes.Editor.Solution.Paths.GetScenePathFromFile(ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath), Instance.ViewPanel.SharpPanel.GraphicPanel, Instance);
 
 
                 //ACT File (Encore Colors)
@@ -698,34 +698,36 @@ namespace ManiacEditor.Classes.Editor
         }
         public static void AfterLoad()
         {
+            /*
             try
             {
-                SetupObjectsList();
-                SetupDiscordRP(ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath);
-                Stamps StageStamps = ManiacEditor.Classes.Editor.Solution.Paths.GetEditorStamps(ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone);
-                Instance.Chunks = new Classes.Editor.Scene.EditorChunks(Instance, Classes.Editor.Solution.CurrentTiles, StageStamps);
-                Instance.BackgroundDX = new Classes.Editor.Scene.EditorBackground(Instance);
-                Classes.Editor.Solution.Entities = new Classes.Editor.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
 
-                Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
-
-                ReadManiacINIFile();
-                Instance.UpdateStartScreen(false);
-                Instance.UpdateDataFolderLabel(null, null);
-                Instance.SetupLayerButtons();
-                Classes.Editor.SolutionState.UpdateMultiLayerSelectMode();
-                Methods.Internal.UserInterface.UpdateControls(true);
-                Methods.Prefrences.SceneHistoryStorage.AddRecentFile(Methods.Prefrences.SceneHistoryStorage.GenerateNewEntry());
-                ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.AddRecentFile(ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.GenerateNewEntry());
-                Instance.DeviceModel.UpdateViewSize((int)(Classes.Editor.Solution.SceneWidth * Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.Solution.SceneHeight * Classes.Editor.SolutionState.Zoom));
-                Instance.DeviceModel.ResetViewSize();
 
             }
             catch (Exception ex)
             {
                 LoadingFailed(ex);
                 return;
-            }
+            }*/
+
+            SetupObjectsList();
+            SetupDiscordRP(ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath);
+            Stamps StageStamps = ManiacEditor.Classes.Editor.Solution.Paths.GetEditorStamps(ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone);
+            Instance.Chunks = new Classes.Editor.Scene.EditorChunks(Instance, Classes.Editor.Solution.CurrentTiles, StageStamps);
+            Instance.EditBackground = new Classes.Editor.Scene.EditorBackground(Instance);
+            Classes.Editor.Solution.Entities = new Classes.Editor.Scene.EditorEntities(Classes.Editor.Solution.CurrentScene);
+
+            Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Classes.Editor.Solution.CurrentScene.Objects);
+
+            ReadManiacINIFile();
+            Instance.UpdateStartScreen(false);
+            Instance.UpdateDataFolderLabel(null, null);
+            Instance.SetupLayerButtons();
+            Classes.Editor.SolutionState.UpdateMultiLayerSelectMode();
+            Methods.Internal.UserInterface.UpdateControls(true);
+            Methods.Prefrences.SceneHistoryStorage.AddRecentFile(Methods.Prefrences.SceneHistoryStorage.GenerateNewEntry());
+            ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.AddRecentFile(ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.GenerateNewEntry());
+            Instance.ViewPanel.SharpPanel.ResetZoomLevel();
 
         }
         public static bool PreLoad()

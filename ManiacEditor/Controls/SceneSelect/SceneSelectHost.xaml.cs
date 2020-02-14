@@ -73,8 +73,8 @@ namespace ManiacEditor.Controls.SceneSelect
 
         public SceneSelectHost(Gameconfig config = null, Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null)
 		{
-			if (Core.Settings.MySettings.DataDirectories != null)  Core.Settings.MySettings.DataDirectories.Remove(null);
-			if (Core.Settings.MySettings.SavedPlaces != null)  Core.Settings.MySettings.SavedPlaces.Remove(null);
+			if (Methods.Settings.MySettings.DataDirectories != null)  Methods.Settings.MySettings.DataDirectories.Remove(null);
+			if (Methods.Settings.MySettings.SavedPlaces != null)  Methods.Settings.MySettings.SavedPlaces.Remove(null);
 
 			EditorInstance = _Instance;
 			InitializeComponent();
@@ -810,18 +810,18 @@ namespace ManiacEditor.Controls.SceneSelect
         private void RemoveSavedPlaceEvent(object sender, EventArgs e)
 		{
 			String toRemove = RecentsTree.SelectedNode.Tag.ToString();
-			if (Core.Settings.MySettings.SavedPlaces.Contains(toRemove))
+			if (Methods.Settings.MySettings.SavedPlaces.Contains(toRemove))
 			{
-				Core.Settings.MySettings.SavedPlaces.Remove(toRemove);
+				Methods.Settings.MySettings.SavedPlaces.Remove(toRemove);
 			}
 			ReloadRecentsTree();
 		}
 		private void RemoveDataFolderEvent(object sender, EventArgs e)
 		{
 			String toRemove = RecentsTree.SelectedNode.Tag.ToString();
-			if (Core.Settings.MySettings.DataDirectories.Contains(toRemove))
+			if (Methods.Settings.MySettings.DataDirectories.Contains(toRemove))
 			{
-				Core.Settings.MySettings.DataDirectories.Remove(toRemove);
+				Methods.Settings.MySettings.DataDirectories.Remove(toRemove);
 			}
 			
 			ReloadRecentsTree();
@@ -848,9 +848,9 @@ namespace ManiacEditor.Controls.SceneSelect
             RecentsTree.ImageList.Images.Add("Folder", Properties.Resources.folder);
             RecentsTree.ImageList.Images.Add("File", Properties.Resources.file);
 
-            if (Core.Settings.MySettings.DataDirectories != null && Core.Settings.MySettings.DataDirectories?.Count > 0)
+            if (Methods.Settings.MySettings.DataDirectories != null && Methods.Settings.MySettings.DataDirectories?.Count > 0)
             {
-                foreach (string dataDir in Core.Settings.MySettings.DataDirectories)
+                foreach (string dataDir in Methods.Settings.MySettings.DataDirectories)
                 {
                     var node = RecentsTree.Nodes[0].Nodes.Add(dataDir);
                     node.Tag = dataDir;
@@ -860,12 +860,12 @@ namespace ManiacEditor.Controls.SceneSelect
                 RecentsTree.Nodes[0].ExpandAll();
             }
 
-            if (Core.Settings.MySettings.SavedPlaces != null && Core.Settings.MySettings.SavedPlaces?.Count > 0)
+            if (Methods.Settings.MySettings.SavedPlaces != null && Methods.Settings.MySettings.SavedPlaces?.Count > 0)
             {
                 StringCollection recentFolders = new StringCollection();
                 this.RecentsTree.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
                 int index = this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder");
-                recentFolders = Core.Settings.MySettings.SavedPlaces;
+                recentFolders = Methods.Settings.MySettings.SavedPlaces;
                 foreach (string folder in recentFolders)
                 {
                     var node = RecentsTree.Nodes[1].Nodes.Add(folder, folder, index, index);
@@ -1022,7 +1022,7 @@ namespace ManiacEditor.Controls.SceneSelect
         public void LoadFromGameConfig(Gameconfig config)
         {
             ReloadScenesTree(config);
-            if (Core.Settings.MyDefaults.SceneSelectFilesViewDefault) this.isFilesView.IsChecked = true;
+            if (Methods.Settings.MyDefaults.SceneSelectFilesViewDefault) this.isFilesView.IsChecked = true;
             else this.isFilesView.IsChecked = false;
         }
         public void ReloadScenesTree(Gameconfig config)
@@ -1212,9 +1212,9 @@ namespace ManiacEditor.Controls.SceneSelect
 		{
 			if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Data Directories", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				if (Core.Settings.MySettings.DataDirectories != null)
+				if (Methods.Settings.MySettings.DataDirectories != null)
 				{
-					Core.Settings.MySettings.DataDirectories.Clear();
+					Methods.Settings.MySettings.DataDirectories.Clear();
 					
 					ReloadRecentsTree();
 				}
@@ -1228,9 +1228,9 @@ namespace ManiacEditor.Controls.SceneSelect
 		{
 			if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Saved Places", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				if (Core.Settings.MySettings.SavedPlaces != null)
+				if (Methods.Settings.MySettings.SavedPlaces != null)
 				{
-					Core.Settings.MySettings.SavedPlaces.Clear();
+					Methods.Settings.MySettings.SavedPlaces.Clear();
 					ReloadRecentsTree();
 				}
 			}
@@ -1366,7 +1366,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             try
             {
-                var mySettings = Core.Settings.MySettings;
+                var mySettings = Methods.Settings.MySettings;
                 var savedPlaces = mySettings.SavedPlaces;
 
                 if (savedPlaces == null)
@@ -1382,7 +1382,7 @@ namespace ManiacEditor.Controls.SceneSelect
 
                 savedPlaces.Insert(0, savedFolder);
 
-                Core.Options.GeneralSettings.Save();
+                Methods.Options.GeneralSettings.Save();
 
                 ReloadRecentsTree();
             }

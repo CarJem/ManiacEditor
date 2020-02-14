@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace ManiacEditor.Core.Options
+namespace ManiacEditor.Methods.Options
 {
     public class DefaultInputPreferences
     {

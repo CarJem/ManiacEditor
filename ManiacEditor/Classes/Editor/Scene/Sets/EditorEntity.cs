@@ -246,11 +246,11 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 _entity.Position.Y.High = (short)diff.Y;
             }
 
-            if (Methods.GameHandler.GameRunning && ManiacEditor.Core.Settings.MyGameOptions.RealTimeObjectMovementMode && !IsInternalObject)
+            if (Methods.Runtime.GameHandler.GameRunning && ManiacEditor.Methods.Settings.MyGameOptions.RealTimeObjectMovementMode && !IsInternalObject)
             {
 
-                int ObjectStart = Methods.GameHandler.ObjectStart[Methods.GameHandler.GameVersion.IndexOf(Methods.GameHandler.SelectedGameVersion)];
-                int ObjectSize = Methods.GameHandler.ObjectSize[Methods.GameHandler.GameVersion.IndexOf(Methods.GameHandler.SelectedGameVersion)];
+                int ObjectStart = Methods.Runtime.GameHandler.ObjectStart[Methods.Runtime.GameHandler.GameVersion.IndexOf(Methods.Runtime.GameHandler.SelectedGameVersion)];
+                int ObjectSize = Methods.Runtime.GameHandler.ObjectSize[Methods.Runtime.GameHandler.GameVersion.IndexOf(Methods.Runtime.GameHandler.SelectedGameVersion)];
 
                 int ObjectAddress = ObjectStart + (ObjectSize * Classes.Editor.Solution.Entities.GetRealSlotID(_entity));
                 ManiacEditor.Controls.Editor.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
@@ -294,15 +294,15 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                  * 
                  */
                 filteredOut =
-					((filter == 1 || filter == 5) && !ManiacEditor.Core.Settings.MyDefaults.ShowBothEntities) ||
-					(filter == 2 && !ManiacEditor.Core.Settings.MyDefaults.ShowManiaEntities) ||
-					(filter == 4 && !ManiacEditor.Core.Settings.MyDefaults.ShowEncoreEntities) ||
-					(filter == 255 && !ManiacEditor.Core.Settings.MyDefaults.ShowPinballEntities) ||
-					((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !ManiacEditor.Core.Settings.MyDefaults.ShowOtherEntities);
+					((filter == 1 || filter == 5) && !ManiacEditor.Methods.Settings.MyDefaults.ShowBothEntities) ||
+					(filter == 2 && !ManiacEditor.Methods.Settings.MyDefaults.ShowManiaEntities) ||
+					(filter == 4 && !ManiacEditor.Methods.Settings.MyDefaults.ShowEncoreEntities) ||
+					(filter == 255 && !ManiacEditor.Methods.Settings.MyDefaults.ShowPinballEntities) ||
+					((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !ManiacEditor.Methods.Settings.MyDefaults.ShowOtherEntities);
 			}
 			else
 			{
-                filteredOut = !ManiacEditor.Core.Settings.MyDefaults.ShowFilterlessEntities;
+                filteredOut = !ManiacEditor.Methods.Settings.MyDefaults.ShowFilterlessEntities;
 			}
 
 
@@ -430,7 +430,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         public virtual void DrawBase(Classes.Editor.Draw.GraphicsHandler d, bool drawSelectionBox = true)
         {
             List<string> entityRenderList = Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender;
-            List<string> onScreenExlusionList = (ManiacEditor.Core.Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : Methods.Entities.EntityDrawing.RenderingSettings.ObjectCullingExclusions);
+            List<string> onScreenExlusionList = (ManiacEditor.Methods.Settings.MyPerformance.DisableRendererExclusions ? new List<string>() : Methods.Entities.EntityDrawing.RenderingSettings.ObjectCullingExclusions);
          
             if (!onScreenExlusionList.Contains(_entity.Object.Name.Name)) if (!this.IsObjectOnScreen(d)) return;
             System.Drawing.Color color = GetBoxInsideColor();
@@ -450,7 +450,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 
 			if (!drawSelectionBoxInFront && !Classes.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized && drawSelectionBox) DrawSelectionBox(d, x, y, Transparency, color, color2);
 
-            if (!ManiacEditor.Core.Settings.MyPerformance.NeverLoadEntityTextures)
+            if (!ManiacEditor.Methods.Settings.MyPerformance.NeverLoadEntityTextures)
             {
                 if (entityRenderList.Contains(name)) PrimaryDraw(d, onScreenExlusionList);
                 else FallbackDraw(d, x, y, _ChildX, _ChildY, Transparency, color);
@@ -460,11 +460,11 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 		}
         public virtual void PrimaryDraw(Classes.Editor.Draw.GraphicsHandler d, List<string> onScreenExlusionList)
         {
-            if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(_entity.Object.Name.Name)) && ManiacEditor.Core.Settings.MyPerformance.UseAlternativeRenderingMode)
+            if ((this.IsObjectOnScreen(d) || onScreenExlusionList.Contains(_entity.Object.Name.Name)) && ManiacEditor.Methods.Settings.MyPerformance.UseAlternativeRenderingMode)
             {
                 ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
             }
-            else if (!ManiacEditor.Core.Settings.MyPerformance.UseAlternativeRenderingMode)
+            else if (!ManiacEditor.Methods.Settings.MyPerformance.UseAlternativeRenderingMode)
             {
                 ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.DrawOthers(d, _entity, this, childX, childY, index, previousChildCount, platformAngle, EditorAnimations, Selected, childDrawAddMode);
             }
@@ -537,7 +537,7 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
                 d.DrawLine(x, y, x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                 d.DrawLine(x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                 d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                if (ManiacEditor.Core.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
+                if (ManiacEditor.Methods.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
                 {
                     if (Classes.Editor.SolutionState.Zoom >= 1)
                     {

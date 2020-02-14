@@ -21,7 +21,7 @@
                     <myControls:WaitingPanel x:Name="WaitingPanel"></myControls:WaitingPanel>
                     <myControls:ScrollGrid Margin="3" x:Name="ScrollGrid"></myControls:ScrollGrid>
                     <Grid Margin="3" x:Name="CenterPanel">
-                        <myControls:DebugHUD x:Name="InfoHUD"></myControls:DebugHUD>
+                        <myControls:DebugHUD x:Name="InfoHUD" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:DebugHUD>
                         <myControls:SharpPanel x:Name="SharpPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:SharpPanel>
                     </Grid>
                 </Grid>

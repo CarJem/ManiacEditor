@@ -27,10 +27,10 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 		{
 			try
 			{
-				if (Core.Settings.MySettings.ModLoaderConfigs != null && Core.Settings.MySettings.ModLoaderConfigsNames != null)
+				if (Methods.Settings.MySettings.ModLoaderConfigs != null && Methods.Settings.MySettings.ModLoaderConfigsNames != null)
 				{
-					Core.Settings.MySettings.ModLoaderConfigs.Clear();
-					Core.Settings.MySettings.ModLoaderConfigsNames.Clear();
+					Methods.Settings.MySettings.ModLoaderConfigs.Clear();
+					Methods.Settings.MySettings.ModLoaderConfigsNames.Clear();
 				}
 				string[] filePaths = Directory.GetFiles(Path.GetFullPath(Environment.CurrentDirectory + "\\Config\\"), "*.ini", SearchOption.TopDirectoryOnly);
 				if (filePaths != null)
@@ -39,9 +39,9 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 					{
 						string config = File.ReadAllText(file);
 						string fileName = file.Substring(file.LastIndexOf("\\") + 1);
-						if (Core.Settings.MySettings.ModLoaderConfigs == null)
+						if (Methods.Settings.MySettings.ModLoaderConfigs == null)
 						{
-							Core.Settings.MySettings.ModLoaderConfigs = new StringCollection();
+							Methods.Settings.MySettings.ModLoaderConfigs = new StringCollection();
 						}
 						addModConfig(config);
 						addModConfigName(fileName);
@@ -62,7 +62,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 		{
 			try
 			{
-				var mySettings = Core.Settings.MySettings;
+				var mySettings = Methods.Settings.MySettings;
 				var modConfigs = mySettings.ModLoaderConfigs;
 
 				if (modConfigs == null)
@@ -73,7 +73,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 
 				modConfigs.Insert(0, config);
 
-				Core.Options.GeneralSettings.Save();
+				Methods.Options.GeneralSettings.Save();
 
 			}
 			catch (Exception ex)
@@ -86,7 +86,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 		{
 			try
 			{
-				var mySettings2 = Core.Settings.MySettings;
+				var mySettings2 = Methods.Settings.MySettings;
 				var modConfigNames = mySettings2.ModLoaderConfigsNames;
 
 				if (modConfigNames == null)
@@ -98,7 +98,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 				modConfigNames.Insert(0, config);
 
 
-				Core.Options.GeneralSettings.Save();
+				Methods.Options.GeneralSettings.Save();
 			}
 			catch (Exception ex)
 			{
@@ -110,7 +110,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 		{
 			try
 			{
-				foreach (String s in Core.Settings.MySettings.ModLoaderConfigsNames)
+				foreach (String s in Methods.Settings.MySettings.ModLoaderConfigsNames)
 				{
 					Label configFile = new Label()
 					{
@@ -150,8 +150,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
 
 			File.Delete(Environment.CurrentDirectory + "\\Config\\" + nameToRemove);
 			listView1.Items.Clear();
-			Core.Settings.MySettings.ModLoaderConfigsNames.RemoveAt(position);
-			Core.Settings.MySettings.ModLoaderConfigs.RemoveAt(position);
+			Methods.Settings.MySettings.ModLoaderConfigsNames.RemoveAt(position);
+			Methods.Settings.MySettings.ModLoaderConfigs.RemoveAt(position);
 			getPaths();
 			InitList();
 

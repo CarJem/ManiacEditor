@@ -11,12 +11,8 @@ namespace ManiacEditor.Methods.Prefrences
 		private static Controls.Editor.MainEditor Instance;
         public static ManiacEditor.Classes.Internal.SceneHistoryCollection Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
         static IniData RecentsListInfo;
-        private static string SettingsFolder { get => GetRecentsListDirectory(); }
+        private static string SettingsFolder { get => ManiacEditor.Classes.Editor.Constants.GetSettingsDirectory(); }
 
-        private static string GetRecentsListDirectory()
-        {
-            return (Core.Settings.MyInternalSettings.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
-        }
 
         public static void UpdateInstance(Controls.Editor.MainEditor instance)
         {

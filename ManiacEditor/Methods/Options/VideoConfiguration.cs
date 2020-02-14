@@ -7,7 +7,7 @@ using ManiacEditor.Classes.Editor;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace ManiacEditor.Core.Options
+namespace ManiacEditor.Methods.Options
 {
     public class VideoConfiguration
     {

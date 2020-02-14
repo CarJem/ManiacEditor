@@ -89,9 +89,9 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
 
-            if (Core.Settings.MyKeyBinds == null) return nullString;
+            if (Methods.Settings.MyKeyBinds == null) return nullString;
 
-            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
+            var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
             if (keybindDict != null)
             {
                 keyBindList = keybindDict.Cast<string>().ToList();
@@ -279,7 +279,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.EnableFasterNudge ^= true; }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
         public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true; }
-        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.DeviceModel.UpdateZoomLevel(0, new System.Drawing.Point(0, 0)); }
+        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.UpdateZoomLevel(0, new System.Drawing.Point(0, 0)); }
         private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseLargeDebugStats ^= true; }
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.EditorActions.SetManiaMenuInputType(sender, e); }
         public void MenuButtonChangedEvent(string tag) { ManiacEditor.Classes.Editor.EditorActions.SetManiaMenuInputType(tag); }

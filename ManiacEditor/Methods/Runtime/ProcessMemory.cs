@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ManiacEditor.Core
+namespace ManiacEditor.Methods.Runtime
 {
     // NOTE: This class is incomplete 
     public class ProcessMemory

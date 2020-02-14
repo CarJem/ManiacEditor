@@ -182,9 +182,9 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
            
-            if (Core.Settings.MyKeyBinds == null) return nullString;
+            if (Methods.Settings.MyKeyBinds == null) return nullString;
 
-            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
+            var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
             if (keybindDict != null)
             {
                 keyBindList = keybindDict.Cast<string>().ToList();
@@ -232,7 +232,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                 bothFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(1);
                 pinballFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(255);
             }
-            if (Core.Settings.MySettings.UseBitOperators)
+            if (Methods.Settings.MySettings.UseBitOperators)
             {
                 maniaFilterCheck.Content = "Mania (0b0010)";
                 encoreFilterCheck.Content = "Encore (0b0100)";

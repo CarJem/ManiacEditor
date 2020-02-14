@@ -26,7 +26,7 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
-            if (Methods.GameHandler.SelectedGameVersion == "1.3")
+            if (Methods.Runtime.GameHandler.SelectedGameVersion == "1.3")
             {
                 editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SignPost", d.DevicePanel, 4, -1, false, false, false);
                 if (editorAnim != null && editorAnim.Frames.Count != 0)

@@ -89,12 +89,12 @@ namespace ManiacEditor.Controls.Editor.Elements
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 
-			if (!Core.Settings.MySettings.NeverShowThisAgain)
+			if (!Methods.Settings.MySettings.NeverShowThisAgain)
 			{
 				DeveloperNoteOverlay.Visibility = Visibility.Visible;
 			}
 
-			if (!Core.Settings.MyDevSettings.DevAutoStart)
+			if (!Methods.Settings.MyDevSettings.DevAutoStart)
 			{
 				devCheck.Visibility = Visibility.Hidden;
 				devLink.Visibility = Visibility.Hidden;
@@ -109,8 +109,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 
 		private void DeveloperNoteAcceptedButton_Click(object sender, RoutedEventArgs e)
 		{
-			Core.Settings.MySettings.NeverShowThisAgain = true;
-            Core.Options.GeneralSettings.Save();
+			Methods.Settings.MySettings.NeverShowThisAgain = true;
+            Methods.Options.GeneralSettings.Save();
 
             DeveloperNoteOverlay.Visibility = Visibility.Hidden;
 		}
@@ -122,8 +122,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 			else if (superRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(2);
 			else if (hyperRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(3);
 
-			Core.Settings.MySettings.ShowFirstTimeSetup = false;
-			Core.Options.GeneralSettings.Save();
+			Methods.Settings.MySettings.ShowFirstTimeSetup = false;
+			Methods.Options.GeneralSettings.Save();
             FirstTimeOverlay.Visibility = Visibility.Hidden;
 			SceneSelectHost.Visibility = Visibility.Visible;
 		}
@@ -150,7 +150,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
 		private void CheckBox_Click(object sender, RoutedEventArgs e)
 		{
-			Core.Options.DevelopmentStates.Save();
+			Methods.Options.DevelopmentStates.Save();
 		}
 	}
 }

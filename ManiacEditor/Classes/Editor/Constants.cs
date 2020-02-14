@@ -21,18 +21,29 @@ namespace ManiacEditor.Classes.Editor
         #region Folder/File Paths
 
         #region Settings Files/Folders
+
+        public static string GetSettingsDirectory()
+        {
+            return (Methods.Settings.MyInternalSettings.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
+        }
+
         public static string SettingsStaticDirectory 
         { 
             get 
             {
-                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config");
+                string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "Settings");
+                //string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config");
+                if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+                return path;
             } 
         }
         public static string SettingsPortableDirectory
         {
             get
             {
-                return System.IO.Path.Combine(GetExecutingDirectoryName(), "Settings");
+                string path = System.IO.Path.Combine(GetExecutingDirectoryName(), "Settings");
+                if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+                return path;
             }
         }
 
@@ -41,7 +52,7 @@ namespace ManiacEditor.Classes.Editor
         {
             get
             {
-                if (Core.Settings.MyInternalSettings.PortableMode)
+                if (Methods.Settings.MyInternalSettings.PortableMode)
                 {
                     return System.IO.Path.Combine(SettingsPortableDirectory, "defaults.json");
                 }
@@ -55,7 +66,7 @@ namespace ManiacEditor.Classes.Editor
         {
             get
             {
-                if (Core.Settings.MyInternalSettings.PortableMode)
+                if (Methods.Settings.MyInternalSettings.PortableMode)
                 {
                     return System.IO.Path.Combine(SettingsPortableDirectory, "dev_settings.json");
                 }
@@ -69,7 +80,7 @@ namespace ManiacEditor.Classes.Editor
         {
             get
             {
-                if (Core.Settings.MyInternalSettings.PortableMode)
+                if (Methods.Settings.MyInternalSettings.PortableMode)
                 {
                     return System.IO.Path.Combine(SettingsPortableDirectory, "gameplay_options.json");
                 }
@@ -83,7 +94,7 @@ namespace ManiacEditor.Classes.Editor
         {
             get
             {
-                if (Core.Settings.MyInternalSettings.PortableMode)
+                if (Methods.Settings.MyInternalSettings.PortableMode)
                 {
                     return System.IO.Path.Combine(SettingsPortableDirectory, "general_settings.json");
                 }
@@ -97,7 +108,7 @@ namespace ManiacEditor.Classes.Editor
         {
             get
             {
-                if (Core.Settings.MyInternalSettings.PortableMode)
+                if (Methods.Settings.MyInternalSettings.PortableMode)
                 {
                     return System.IO.Path.Combine(SettingsPortableDirectory, "input_mappings.json");
                 }
@@ -111,7 +122,7 @@ namespace ManiacEditor.Classes.Editor
         {
             get
             {
-                if (Core.Settings.MyInternalSettings.PortableMode)
+                if (Methods.Settings.MyInternalSettings.PortableMode)
                 {
                     return System.IO.Path.Combine(SettingsPortableDirectory, "video_settings.json");
                 }
@@ -134,13 +145,17 @@ namespace ManiacEditor.Classes.Editor
 
         public static string GetLoggingFolder()
         {
-            return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "logs");
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "Logs");
+            if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+            return path;
         }
         public static string DownloadRequestsFolder
         {
             get
             {
-                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "UpdateRequests");
+                string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ManiacEditor", "UpdateRequests");
+                if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+                return path;
             }
         }
         private static string GetExecutingDirectoryName()

@@ -261,7 +261,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowCollisionB ^= true; }
         private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.ShowFlippedTileHelper ^= true; }
         public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.UseEncoreColors ^= true; }
-        private void RunSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.RunScene(); }
+        private void RunSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.RunScene(); }
         private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 0; }
         private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 1; }
         private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Classes.Editor.SolutionState.CollisionPreset = 2; }
@@ -357,14 +357,14 @@ namespace ManiacEditor.Controls.Editor.Elements
         #endregion
 
         #region Game Running Events
-        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.MoveThePlayerToHere(); }
-        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.SetPlayerRespawnToHere(); }
-        private void MoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.CheckpointSelected = true; }
-        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.UpdateCheckpoint(new System.Drawing.Point(0, 0), false); }
-        private void AssetReset(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.AssetReset(); }
-        private void RestartScene(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.RestartScene(); }
-        private void TrackThePlayer(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.TrackthePlayer(sender, e); }
-        private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { ManiacEditor.Methods.GameHandler.UpdateRunSceneDropdown(); }
+        private void MoveThePlayerToHere(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.MoveThePlayerToHere(); }
+        private void SetPlayerRespawnToHere(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.SetPlayerRespawnToHere(); }
+        private void MoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.CheckpointSelected = true; }
+        private void RemoveCheckpoint(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.UpdateCheckpoint(new System.Drawing.Point(0, 0), false); }
+        private void AssetReset(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.AssetReset(); }
+        private void RestartScene(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.RestartScene(); }
+        private void TrackThePlayer(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.TrackthePlayer(sender, e); }
+        private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.UpdateRunSceneDropdown(); }
         #endregion
 
         #endregion
@@ -711,7 +711,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                 Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedN.Value)
                 {
-                    if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
+                    if (!ManiacEditor.Methods.Settings.MySettings.KeepLayersVisible)
                     {
                         ShowFGLow.IsChecked = false;
                         ShowFGHigh.IsChecked = false;
@@ -739,7 +739,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                 Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedA.Value)
                 {
-                    if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
+                    if (!ManiacEditor.Methods.Settings.MySettings.KeepLayersVisible)
                     {
                         ShowFGLow.IsChecked = false;
                         ShowFGHigh.IsChecked = false;
@@ -767,7 +767,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                 Classes.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedB.Value)
                 {
-                    if (!ManiacEditor.Core.Settings.MySettings.KeepLayersVisible)
+                    if (!ManiacEditor.Methods.Settings.MySettings.KeepLayersVisible)
                     {
                         ShowFGLow.IsChecked = false;
                         ShowFGHigh.IsChecked = false;
@@ -799,18 +799,18 @@ namespace ManiacEditor.Controls.Editor.Elements
         {
             MenuItem newItem = new MenuItem()
             {
-                Header = ManiacEditor.Core.Settings.MySettings.ModLoaderConfigsNames[i],
-                Tag = ManiacEditor.Core.Settings.MySettings.ModLoaderConfigs[i]
+                Header = ManiacEditor.Methods.Settings.MySettings.ModLoaderConfigsNames[i],
+                Tag = ManiacEditor.Methods.Settings.MySettings.ModLoaderConfigs[i]
             };
             newItem.Click += ModConfigItemClicked;
-            if (newItem.Tag.ToString() == ManiacEditor.Core.Settings.MySettings.LastModConfig) newItem.IsChecked = true;
+            if (newItem.Tag.ToString() == ManiacEditor.Methods.Settings.MySettings.LastModConfig) newItem.IsChecked = true;
             return newItem;
         }
         private void ModConfigItemClicked(object sender, RoutedEventArgs e)
         {
             var modConfig_CheckedItem = (sender as MenuItem);
             SelectConfigToolStripMenuItem_Click(modConfig_CheckedItem);
-            ManiacEditor.Core.Settings.MySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
+            ManiacEditor.Methods.Settings.MySettings.LastModConfig = modConfig_CheckedItem.Tag.ToString();
         }
         public void EditConfigsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -820,7 +820,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             // TODO: Fix NullReferenceException on Settings.mySettings.modConfigs
             selectConfigToolStripMenuItem.Items.Clear();
-            for (int i = 0; i < ManiacEditor.Core.Settings.MySettings.ModLoaderConfigs.Count; i++)
+            for (int i = 0; i < ManiacEditor.Methods.Settings.MySettings.ModLoaderConfigs.Count; i++)
             {
                 selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
             }
@@ -902,9 +902,9 @@ namespace ManiacEditor.Controls.Editor.Elements
             RunSceneButton.IsEnabled = enabled;
             RunSceneDropDown.IsEnabled = enabled && RunSceneButton.IsEnabled;
 
-            if (Methods.GameHandler.GameRunning || System.Diagnostics.Process.GetProcessesByName("SonicMania").FirstOrDefault() != null)
+            if (Methods.Runtime.GameHandler.GameRunning || System.Diagnostics.Process.GetProcessesByName("SonicMania").FirstOrDefault() != null)
             {
-                if (Methods.GameHandler.GameRunning) RunSceneIcon.Fill = System.Windows.Media.Brushes.Blue;
+                if (Methods.Runtime.GameHandler.GameRunning) RunSceneIcon.Fill = System.Windows.Media.Brushes.Blue;
                 else RunSceneIcon.Fill = System.Windows.Media.Brushes.Green;
             }
             else
@@ -1095,7 +1095,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             Save.IsEnabled = enabled;
 
-            if (Core.Settings.MyPerformance.ReduceZoom)
+            if (Methods.Settings.MyPerformance.ReduceZoom)
             {
                 ZoomInButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel < 5;
                 ZoomOutButton.IsEnabled = enabled && Classes.Editor.SolutionState.ZoomLevel > -2;
@@ -1142,9 +1142,9 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
 
-            if (Core.Settings.MyKeyBinds == null) return nullString;
+            if (Methods.Settings.MyKeyBinds == null) return nullString;
 
-            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
+            var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
             if (keybindDict != null)
             {
                 keyBindList = keybindDict.Cast<string>().ToList();

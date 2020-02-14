@@ -65,7 +65,7 @@ namespace ManiacEditor.Controls.Utility
 		{
 			InitializeComponent();
 			_editorScene = editorScene;
-			if (Core.Settings.MySettings.NightMode)
+			if (Methods.Settings.MySettings.NightMode)
 			{
 				SetRTFText(ManiacEditor.Properties.Resources.LayerManagerWarningDarkTheme);
 			}

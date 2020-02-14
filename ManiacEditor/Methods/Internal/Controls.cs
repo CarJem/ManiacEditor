@@ -84,7 +84,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void EnforceCursorPosition()
         {
-            if (Core.Settings.MySettings.ScrollerAutoCenters)
+            if (Methods.Settings.MySettings.ScrollerAutoCenters)
             {
                 ForceAutoScrollMousePosition = true;
                 System.Windows.Point pointFromParent = Instance.ViewPanel.SharpPanel.TranslatePoint(new System.Windows.Point(0, 0), Instance);
@@ -107,9 +107,9 @@ namespace ManiacEditor.Methods.Internal
                 Classes.Editor.SolutionState.AutoScrolling = true;
                 Classes.Editor.SolutionState.AutoScrollingDragged = false;
                 Classes.Editor.SolutionState.AutoScrollPosition = new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY);
-                if (Instance.DeviceModel.vScrollBar1.IsVisible && Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
-                else if (Instance.DeviceModel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
-                else if (Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
+                if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible && Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
+                else if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
+                else if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
                 else Classes.Editor.SolutionState.AutoScrolling = false;
             }
             void ScrollerModeOff()
@@ -125,12 +125,11 @@ namespace ManiacEditor.Methods.Internal
         #region Scroller Mode Events
         public static void ScrollerMouseMove(MouseEventArgs e)
         {
-            Instance.DeviceModel.SyncScrollBarsWithPos();
             if (ForceAutoScrollMousePosition) UpdateAutoScrollerPosition(e);
             if (Classes.Editor.SolutionState.AutoScrolling) Classes.Editor.SolutionState.AutoScrollingDragged = true;
 
-            double xMove = (Instance.DeviceModel.hScrollBar1.IsVisible) ? e.X - Classes.Editor.SolutionState.ViewPositionX - Classes.Editor.SolutionState.AutoScrollPosition.X : 0;
-            double yMove = (Instance.DeviceModel.vScrollBar1.IsVisible) ? e.Y - Classes.Editor.SolutionState.ViewPositionY - Classes.Editor.SolutionState.AutoScrollPosition.Y : 0;
+            double xMove = (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) ? e.X - Classes.Editor.SolutionState.ViewPositionX - Classes.Editor.SolutionState.AutoScrollPosition.X : 0;
+            double yMove = (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) ? e.Y - Classes.Editor.SolutionState.ViewPositionY - Classes.Editor.SolutionState.AutoScrollPosition.Y : 0;
 
             if (Math.Abs(xMove) < 15) xMove = 0;
             if (Math.Abs(yMove) < 15) yMove = 0;
@@ -153,9 +152,9 @@ namespace ManiacEditor.Methods.Internal
                 else if (yMove < 0) SetAutoScrollerApperance(AutoScrollDirection.N);
                 else
                 {
-                    if (Instance.DeviceModel.vScrollBar1.IsVisible && Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
-                    else if (Instance.DeviceModel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
-                    else if (Instance.DeviceModel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
+                    if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible && Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
+                    else if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
+                    else if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
                 }
             }
 
@@ -168,20 +167,20 @@ namespace ManiacEditor.Methods.Internal
 
             if (x < 0) x = 0;
             if (y < 0) y = 0;
-            if (x > Instance.DeviceModel.hScrollBar1.Maximum) x = Instance.DeviceModel.hScrollBar1.Maximum;
-            if (y > Instance.DeviceModel.vScrollBar1.Maximum) y = Instance.DeviceModel.vScrollBar1.Maximum;
+            if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
+            if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
 
             if (x != position.X || y != position.Y)
             {
-                if (Instance.DeviceModel.vScrollBar1.IsVisible) Instance.DeviceModel.vScrollBar1.Value = y;
-                if (Instance.DeviceModel.hScrollBar1.IsVisible) Instance.DeviceModel.hScrollBar1.Value = x;
-                Instance.DeviceModel.GraphicPanel.OnMouseMoveEventCreate();
-                Instance.DeviceModel.GraphicPanel.Render();
+                if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
+                if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
+                Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             }
         }
         public static void ScrollerMouseUp(MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle) if (Core.Settings.MySettings.ScrollerPressReleaseMode) ToggleAutoScrollerMode(e);
+            if (e.Button == MouseButtons.Middle) if (Methods.Settings.MySettings.ScrollerPressReleaseMode) ToggleAutoScrollerMode(e);
         }
         public static void ScrollerMouseDown(MouseEventArgs e)
         {
@@ -202,7 +201,7 @@ namespace ManiacEditor.Methods.Internal
         {
             if (Classes.Editor.SolutionState.AutoScrolling) ScrollerMouseMove(e);
             Instance.EditorStatusBar.UpdatePositionLabel(e);
-            if (Methods.GameHandler.GameRunning) InteractiveMouseMove(e);
+            if (Methods.Runtime.GameHandler.GameRunning) InteractiveMouseMove(e);
 
             if (Classes.Editor.SolutionState.RegionX1 != -1)
             {
@@ -235,8 +234,8 @@ namespace ManiacEditor.Methods.Internal
             void EdgeMove()
             {
                 System.Windows.Point position = new System.Windows.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY); ;
-                double ScreenMaxX = position.X + Instance.DeviceModel.splitContainer1.Panel1.Width - (int)Instance.DeviceModel.vScrollBar.ActualWidth;
-                double ScreenMaxY = position.Y + Instance.DeviceModel.splitContainer1.Panel1.Height - (int)Instance.DeviceModel.hScrollBar.ActualHeight;
+                double ScreenMaxX = position.X + (int)Instance.ViewPanel.SharpPanel.RenderingWidth - (int)Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth;
+                double ScreenMaxY = position.Y + (int)Instance.ViewPanel.SharpPanel.RenderingHeight - (int)Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight;
                 double ScreenMinX = position.X;
                 double ScreenMinY = position.Y;
 
@@ -262,21 +261,21 @@ namespace ManiacEditor.Methods.Internal
 
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
-                if (x > Instance.DeviceModel.hScrollBar1.Maximum) x = Instance.DeviceModel.hScrollBar1.Maximum;
-                if (y > Instance.DeviceModel.vScrollBar1.Maximum) y = Instance.DeviceModel.vScrollBar1.Maximum;
+                if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
+                if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
 
                 if (x != position.X || y != position.Y)
                 {
-                    if (Instance.DeviceModel.vScrollBar1.IsVisible)
+                    if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible)
                     {
-                        Instance.DeviceModel.vScrollBar1.Value = y;
+                        Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
                     }
-                    if (Instance.DeviceModel.hScrollBar1.IsVisible)
+                    if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible)
                     {
-                        Instance.DeviceModel.hScrollBar1.Value = x;
+                        Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
                     }
-                    Instance.DeviceModel.GraphicPanel.OnMouseMoveEventCreate();
-                    if (Classes.Editor.SolutionState.AnyDragged) Instance.DeviceModel.GraphicPanel.Render();
+                    Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
+                    if (Classes.Editor.SolutionState.AnyDragged) Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
 
 
 
@@ -391,7 +390,7 @@ namespace ManiacEditor.Methods.Internal
                     Classes.Editor.Solution.EditLayerB?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
                 }
 
-                Instance.DeviceModel.GraphicPanel.Render();
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 // FIX: Determine if this is Needed.
                 //Editor.Instance.UI.UpdateEditLayerActions();
                 if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
@@ -597,20 +596,20 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void InteractiveMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            if (Methods.GameHandler.PlayerSelected)
+            if (Methods.Runtime.GameHandler.PlayerSelected)
             {
                 Task.Run(() =>
                 {
-                    Methods.GameHandler.MovePlayer(new Point(e.X, e.Y), Classes.Editor.SolutionState.Zoom, Methods.GameHandler.SelectedPlayer);
+                    Methods.Runtime.GameHandler.MovePlayer(new Point(e.X, e.Y), Classes.Editor.SolutionState.Zoom, Methods.Runtime.GameHandler.SelectedPlayer);
                 });
             }
 
-            if (Methods.GameHandler.CheckpointSelected)
+            if (Methods.Runtime.GameHandler.CheckpointSelected)
             {
                 Task.Run(() =>
                 {
                     Point clicked_point = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
-                    Methods.GameHandler.UpdateCheckpoint(clicked_point, true);
+                    Methods.Runtime.GameHandler.UpdateCheckpoint(clicked_point, true);
                 });
             }
         }
@@ -734,7 +733,7 @@ namespace ManiacEditor.Methods.Internal
         #region Mouse Down Events
         public static void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (!Classes.Editor.SolutionState.AutoScrolling) Instance.DeviceModel.GraphicPanel.Focus();
+            if (!Classes.Editor.SolutionState.AutoScrolling) Instance.ViewPanel.SharpPanel.GraphicPanel.Focus();
 
             if (e.Button == MouseButtons.Left) MouseDownLeft(e);
             else if (e.Button == MouseButtons.Right) MouseDownRight(e);
@@ -817,14 +816,14 @@ namespace ManiacEditor.Methods.Internal
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (Methods.GameHandler.PlayerSelected)
+                if (Methods.Runtime.GameHandler.PlayerSelected)
                 {
-                    Methods.GameHandler.PlayerSelected = false;
-                    Methods.GameHandler.SelectedPlayer = 0;
+                    Methods.Runtime.GameHandler.PlayerSelected = false;
+                    Methods.Runtime.GameHandler.SelectedPlayer = 0;
                 }
-                if (Methods.GameHandler.CheckpointSelected)
+                if (Methods.Runtime.GameHandler.CheckpointSelected)
                 {
-                    Methods.GameHandler.CheckpointSelected = false;
+                    Methods.Runtime.GameHandler.CheckpointSelected = false;
                 }
             }
         }
@@ -906,7 +905,7 @@ namespace ManiacEditor.Methods.Internal
         #region Mouse Wheel Events
         public static void MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Instance.DeviceModel.GraphicPanel.Focus();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Focus();
             if (CtrlPressed()) MouseWheelZooming(sender, e);
             else MouseWheelScrolling(sender, e);
         }
@@ -914,7 +913,7 @@ namespace ManiacEditor.Methods.Internal
         {
             int maxZoom;
             int minZoom;
-            if (Core.Settings.MyPerformance.ReduceZoom)
+            if (Methods.Settings.MyPerformance.ReduceZoom)
             {
                 maxZoom = 5;
                 minZoom = -2;
@@ -929,12 +928,12 @@ namespace ManiacEditor.Methods.Internal
             if (Classes.Editor.SolutionState.ZoomLevel > maxZoom) Classes.Editor.SolutionState.ZoomLevel = maxZoom;
             if (Classes.Editor.SolutionState.ZoomLevel < minZoom) Classes.Editor.SolutionState.ZoomLevel = minZoom;
 
-            Instance.DeviceModel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
+            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new Point(e.X - Classes.Editor.SolutionState.ViewPositionX, e.Y - Classes.Editor.SolutionState.ViewPositionY));
         }
         private static void MouseWheelScrolling(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (Instance.DeviceModel.vScrollBar1.IsVisible || Instance.DeviceModel.hScrollBar1.IsVisible) ScrollMove();
-            if (Core.Settings.MySettings.EntityFreeCam) FreeCamScroll();
+            if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible || Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) ScrollMove();
+            if (Methods.Settings.MySettings.EntityFreeCam) FreeCamScroll();
 
             void ScrollMove()
             {
@@ -942,12 +941,12 @@ namespace ManiacEditor.Methods.Internal
                 {
                     if (ShiftPressed())
                     {
-                        if (Instance.DeviceModel.hScrollBar1.IsVisible) MouseWheelScrollingX(sender, e);
+                        if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) MouseWheelScrollingX(sender, e);
                         else MouseWheelScrollingY(sender, e);
                     }
                     else
                     {
-                        if (Instance.DeviceModel.vScrollBar1.IsVisible) MouseWheelScrollingY(sender, e);
+                        if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) MouseWheelScrollingY(sender, e);
                         else MouseWheelScrollingX(sender, e);
                     }
                 }
@@ -955,12 +954,12 @@ namespace ManiacEditor.Methods.Internal
                 {
                     if (ShiftPressed())
                     {
-                        if (Instance.DeviceModel.vScrollBar1.IsVisible) MouseWheelScrollingY(sender, e);
+                        if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) MouseWheelScrollingY(sender, e);
                         else MouseWheelScrollingX(sender, e);
                     }
                     else
                     {
-                        if (Instance.DeviceModel.hScrollBar1.IsVisible) MouseWheelScrollingX(sender, e);
+                        if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) MouseWheelScrollingX(sender, e);
                         else MouseWheelScrollingY(sender, e);
                     }
                 }
@@ -973,17 +972,17 @@ namespace ManiacEditor.Methods.Internal
         }
         private static void MouseWheelScrollingY(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            double y = Instance.DeviceModel.vScrollBar1.Value - e.Delta;
+            double y = Instance.ViewPanel.SharpPanel.vScrollBar1.Value - e.Delta;
             if (y < 0) y = 0;
-            if (y > Instance.DeviceModel.vScrollBar1.Maximum) y = Instance.DeviceModel.vScrollBar1.Maximum;
-            Instance.DeviceModel.vScrollBar1.Value = y;
+            if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
+            Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
         }
         private static void MouseWheelScrollingX(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            double x = Instance.DeviceModel.hScrollBar1.Value - e.Delta;
+            double x = Instance.ViewPanel.SharpPanel.hScrollBar1.Value - e.Delta;
             if (x < 0) x = 0;
-            if (x > Instance.DeviceModel.hScrollBar1.Maximum) x = Instance.DeviceModel.hScrollBar1.Maximum;
-            Instance.DeviceModel.hScrollBar1.Value = x;
+            if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
+            Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
         }
         #endregion
 
@@ -991,7 +990,7 @@ namespace ManiacEditor.Methods.Internal
         #region Mouse Click Events/Methods
         public static void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Instance.DeviceModel.GraphicPanel.Focus();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Focus();
             if (e.Button == MouseButtons.Right)
             {
                 if (Instance.EditorToolbar.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
@@ -1084,12 +1083,12 @@ namespace ManiacEditor.Methods.Internal
 
                 Classes.Editor.SolutionState.SelectedTileID = tile;
                 Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = (tile < 1023);
-                Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning && Methods.GameHandler.CheckpointEnabled;
-                Instance.ViewPanel.SharpPanel.assetResetToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning && Methods.GameHandler.CheckpointEnabled;
+                Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning && Methods.Runtime.GameHandler.CheckpointEnabled;
+                Instance.ViewPanel.SharpPanel.assetResetToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning && Methods.Runtime.GameHandler.CheckpointEnabled;
 
 
                 Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
@@ -1101,15 +1100,15 @@ namespace ManiacEditor.Methods.Internal
                 Point clicked_point_tile = new Point((int)(e.X / Classes.Editor.SolutionState.Zoom), (int)(e.Y / Classes.Editor.SolutionState.Zoom));
                 string tile = "N/A";
                 Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
-                Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
 
-                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.assetResetToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
-                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.setPlayerRespawnToHereToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.removeCheckpointToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.assetResetToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.restartSceneToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
+                Instance.ViewPanel.SharpPanel.moveCheckpointToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
 
                 Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
                 Instance.ViewPanel.SharpPanel.ViewPanelContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
@@ -1235,13 +1234,13 @@ namespace ManiacEditor.Methods.Internal
         public static void GraphicPanel_OnKeyUp(object sender, KeyEventArgs e)
         {
             // Tiles Toolbar Flip Horizontal
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipHTiles, true))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipHTiles, true))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Instance.TilesToolbar.SetSelectTileOption(0, false);
             }
             // Tiles Toolbar Flip Vertical
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipVTiles, true))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipVTiles, true))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Instance.TilesToolbar.SetSelectTileOption(1, false);
@@ -1253,73 +1252,73 @@ namespace ManiacEditor.Methods.Internal
             if (parallaxAnimationInProgress) return;
 
             // Faster Nudge Toggle
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.NudgeFaster))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.NudgeFaster))
             {
                 Classes.Editor.SolutionState.EnableFasterNudge ^= true;
             }
             // Scroll Lock Toggle
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ScrollLock))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ScrollLock))
             {
                 Classes.Editor.SolutionState.ScrollLocked ^= true;
             }
             // Switch Scroll Lock Type
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ScrollLockTypeSwitch))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ScrollLockTypeSwitch))
             {
                 Classes.Editor.EditorActions.SetScrollLockDirection();
 
             }
             // Tiles Toolbar Flip Vertical
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipVTiles, true))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipVTiles, true))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Instance.TilesToolbar.SetSelectTileOption(1, true);
             }
             // Tiles Toolbar Flip Horizontal
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipHTiles, true))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipHTiles, true))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit() && Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     Instance.TilesToolbar.SetSelectTileOption(0, true);
             }
             // Open Click (Alt: Open Data Dir)
-            else if ((Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.OpenDataDir)))
+            else if ((Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.OpenDataDir)))
             {
                 ManiacEditor.Classes.Editor.SolutionLoader.OpenDataDirectory();
             }
-            else if ((Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Open)))
+            else if ((Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Open)))
             {
                 ManiacEditor.Classes.Editor.SolutionLoader.OpenScene();
             }
             // New Click
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.New))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.New))
             {
                 //ManiacEditor.Classes.Editor.SolutionLoader.NewScene();
             }
             // Save Click (Alt: Save As)
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.SaveAs))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.SaveAs))
             {
                 ManiacEditor.Classes.Editor.SolutionLoader.Save();
             }
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds._Save))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds._Save))
             {
                 ManiacEditor.Classes.Editor.SolutionLoader.SaveAs();
             }
             // Undo
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Undo))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Undo))
             {
                 ManiacEditor.Classes.Editor.EditorActions.EditorUndo();
             }
             // Redo
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Redo))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Redo))
             {
                 ManiacEditor.Classes.Editor.EditorActions.EditorRedo();
             }
             // Developer Interface
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.DeveloperInterface))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.DeveloperInterface))
             {
                 ManiacEditor.Classes.Editor.EditorActions.EditorUndo();
             }
             // Save for Force Open on Startup
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ForceOpenOnStartup))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ForceOpenOnStartup))
             {
                 ManiacEditor.Classes.Editor.EditorActions.EditorRedo();
             }
@@ -1337,66 +1336,66 @@ namespace ManiacEditor.Methods.Internal
         public static void GraphicPanel_OnKeyDownLoaded(object sender, KeyEventArgs e)
         {
             // Reset Zoom Level
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ResetZoomLevel))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ResetZoomLevel))
             {
-                Instance.DeviceModel.UpdateZoomLevel(0, new Point(0, 0));
+                Instance.ViewPanel.SharpPanel.UpdateZoomLevel(0, new Point(0, 0));
             }
             //Refresh Tiles and Sprites
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.RefreshResources))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.RefreshResources))
             {
                 Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             }
             //Run Scene
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.RunScene))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.RunScene))
             {
-                Methods.GameHandler.RunScene();
+                Methods.Runtime.GameHandler.RunScene();
             }
             //Show Path A
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ShowPathA) && ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded())
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ShowPathA) && ManiacEditor.Classes.Editor.SolutionState.IsSceneLoaded())
             {
                 Classes.Editor.SolutionState.ShowCollisionA ^= true;
             }
             //Show Path B
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ShowPathB))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ShowPathB))
             {
                 Classes.Editor.SolutionState.ShowCollisionB ^= true;
             }
             //Unload Scene
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.UnloadScene))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.UnloadScene))
             {
                 Instance.MenuBar.UnloadSceneEvent(null, null);
             }
             //Toggle Grid Visibility
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ShowGrid))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ShowGrid))
             {
                 Classes.Editor.SolutionState.ShowGrid ^= true;
             }
             //Toggle Tile ID Visibility
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.ShowTileID))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.ShowTileID))
             {
                 Classes.Editor.SolutionState.ShowTileID ^= true;
             }
             //Status Box Toggle
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.StatusBoxToggle))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.StatusBoxToggle))
             {
                 Classes.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true;
-                Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
+                Instance.ViewPanel.InfoHUD.UpdatePopupSize();
             }
         }
         public static void GraphicPanel_OnKeyDownEditing(object sender, KeyEventArgs e)
         {
             //Paste
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Paste))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Paste))
             {
                 Classes.Editor.EditorActions.Paste();
             }
             //Paste to Chunk
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.PasteToChunk))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.PasteToChunk))
             {
                 Classes.Editor.EditorActions.PasteToChunks();
             }
             //Select All
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.SelectAll))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.SelectAll))
             {
                 Classes.Editor.EditorActions.SelectAll();
             }
@@ -1409,7 +1408,7 @@ namespace ManiacEditor.Methods.Internal
         public static void GraphicPanel_OnKeyDownSelectedEditing(object sender, KeyEventArgs e)
         {
             // Delete
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Delete))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Delete))
             {
                 ManiacEditor.Classes.Editor.EditorActions.DeleteSelected();
             }
@@ -1421,39 +1420,39 @@ namespace ManiacEditor.Methods.Internal
             }
 
             //Cut 
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Cut))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Cut))
             {
                 Classes.Editor.EditorActions.Cut();
             }
             //Copy
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Copy))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Copy))
             {
                 Classes.Editor.EditorActions.Copy();
             }
             //Duplicate
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Duplicate))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Duplicate))
             {
                 Classes.Editor.EditorActions.Duplicate();
             }
             //Delete
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.Delete))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Delete))
             {
                 Classes.Editor.EditorActions.Delete();
             }
             // Flip Vertical Individual
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipVIndv))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipVIndv))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
                     Classes.Editor.EditorActions.FlipVerticalIndividual();
             }
             // Flip Horizontal Individual
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipHIndv))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipHIndv))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
                     Classes.Editor.EditorActions.FlipHorizontalIndividual();
             }
             // Flip Vertical
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipV))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipV))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
                     Classes.Editor.EditorActions.FlipVertical();
@@ -1462,7 +1461,7 @@ namespace ManiacEditor.Methods.Internal
             }
 
             // Flip Horizontal
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.FlipH))
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.FlipH))
             {
                 if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
                     Classes.Editor.EditorActions.FlipHorizontal();
@@ -1472,12 +1471,12 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void OnKeyDownTools(object sender, KeyEventArgs e)
         {
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.PointerTool) && Instance.EditorToolbar.PointerToolButton.IsEnabled) Classes.Editor.SolutionState.PointerMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.SelectTool) && Instance.EditorToolbar.SelectToolButton.IsEnabled) Classes.Editor.SolutionState.SelectionMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.DrawTool) && Instance.EditorToolbar.DrawToolButton.IsEnabled) Classes.Editor.SolutionState.DrawMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.MagnetTool) && Instance.EditorToolbar.MagnetMode.IsEnabled) Classes.Editor.SolutionState.UseMagnetMode ^= true;
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.SplineTool) && Instance.EditorToolbar.SplineToolButton.IsEnabled) Classes.Editor.SolutionState.SplineMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.StampTool) && Instance.EditorToolbar.ChunksToolButton.IsEnabled) Classes.Editor.SolutionState.ChunksMode();
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.PointerTool) && Instance.EditorToolbar.PointerToolButton.IsEnabled) Classes.Editor.SolutionState.PointerMode(true);
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.SelectTool) && Instance.EditorToolbar.SelectToolButton.IsEnabled) Classes.Editor.SolutionState.SelectionMode(true);
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.DrawTool) && Instance.EditorToolbar.DrawToolButton.IsEnabled) Classes.Editor.SolutionState.DrawMode(true);
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.MagnetTool) && Instance.EditorToolbar.MagnetMode.IsEnabled) Classes.Editor.SolutionState.UseMagnetMode ^= true;
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.SplineTool) && Instance.EditorToolbar.SplineToolButton.IsEnabled) Classes.Editor.SolutionState.SplineMode(true);
+            else if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.StampTool) && Instance.EditorToolbar.ChunksToolButton.IsEnabled) Classes.Editor.SolutionState.ChunksMode();
 
         }
         #endregion
@@ -1485,123 +1484,123 @@ namespace ManiacEditor.Methods.Internal
         #region Tile Maniac Keyboard Inputs
         public static void TileManiac_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacNewInstance))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacNewInstance))
             {
                 CollisionEditor.Instance.newInstanceToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacOpen))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacOpen))
             {
                 CollisionEditor.Instance.OpenToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacSave))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacSave))
             {
                 CollisionEditor.Instance.saveToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacSaveAs))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacSaveAs))
             {
                 CollisionEditor.Instance.saveAsToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacSaveUncompressed))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacSaveUncompressed))
             {
                 CollisionEditor.Instance.saveUncompressedToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacSaveAsUncompressed))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacSaveAsUncompressed))
             {
                 CollisionEditor.Instance.saveAsUncompressedToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacbackupConfig))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacbackupConfig))
             {
                 CollisionEditor.Instance.tileConfigbinToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacbackupImage))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacbackupImage))
             {
                 CollisionEditor.Instance.x16TilesgifToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacExportColMask))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacExportColMask))
             {
                 CollisionEditor.Instance.exportCurrentCollisionMaskAsToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacOpenSingleColMask))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacOpenSingleColMask))
             {
                 CollisionEditor.Instance.openSingleCollisionMaskToolStripMenuItem_Click_1(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacImportFromOlderRSDK))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacImportFromOlderRSDK))
             {
                 CollisionEditor.Instance.importFromOlderRSDKVersionToolStripMenuItem_Click(null, null);
             }
 
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacCopy))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacCopy))
             {
                 CollisionEditor.Instance.copyToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacPastetoOther))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacPastetoOther))
             {
                 CollisionEditor.Instance.copyToOtherPathToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacPaste))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacPaste))
             {
                 CollisionEditor.Instance.pasteToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacMirrorMode))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacMirrorMode))
             {
                 CollisionEditor.Instance.mirrorPathsToolStripMenuItem1.IsChecked = !CollisionEditor.Instance.mirrorPathsToolStripMenuItem1.IsChecked;
                 CollisionEditor.Instance.mirrorPathsToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacRestorePathA))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacRestorePathA))
             {
                 CollisionEditor.Instance.pathAToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacRestorePathB))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacRestorePathB))
             {
                 CollisionEditor.Instance.pathBToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacRestorePaths))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacRestorePaths))
             {
                 CollisionEditor.Instance.bothToolStripMenuItem_Click(null, null);
             }
 
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacShowPathB))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacShowPathB))
             {
                 CollisionEditor.Instance.showPathBToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacShowGrid))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacShowGrid))
             {
                 CollisionEditor.Instance.showGridToolStripMenuItem.IsChecked = !CollisionEditor.Instance.showGridToolStripMenuItem.IsChecked;
                 CollisionEditor.Instance.showGridToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacClassicMode))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacClassicMode))
             {
                 CollisionEditor.Instance.classicViewModeToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacWindowAlwaysOnTop))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacWindowAlwaysOnTop))
             {
                 CollisionEditor.Instance.windowAlwaysOnTop.IsChecked = !CollisionEditor.Instance.windowAlwaysOnTop.IsChecked;
                 CollisionEditor.Instance.WindowAlwaysOnTop_Click(null, null);
             }
 
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacSplitFile))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacSplitFile))
             {
                 CollisionEditor.Instance.splitFileToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacFlipTileH))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacFlipTileH))
             {
                 CollisionEditor.Instance.flipTileHorizontallyToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacFlipTileV))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacFlipTileV))
             {
                 CollisionEditor.Instance.flipTileVerticallyToolStripMenuItem_Click(null, null);
             }
 
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacHomeFolderOpen))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacHomeFolderOpen))
             {
                 CollisionEditor.Instance.openCollisionHomeFolderToolStripMenuItem_Click(null, null);
             }
 
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacAbout))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacAbout))
             {
                 CollisionEditor.Instance.aboutToolStripMenuItem1_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Core.Settings.MyKeyBinds.TileManiacSettings))
+            if (Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.TileManiacSettings))
             {
                 CollisionEditor.Instance.settingsToolStripMenuItem_Click(null, null);
             }

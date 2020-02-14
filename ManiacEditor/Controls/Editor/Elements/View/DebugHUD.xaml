@@ -8,70 +8,57 @@
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <genLib:NonTopmostPopup x:Name="ViewPanelHUD" AllowsTransparency="True" PlacementRectangle="0,25,0,0" Opened="ViewPanelHUD_Opened" Closed="ViewPanelHUD_Closed"  StaysOpen="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
-        <Grid Margin="10" x:Name="Display">
-            <StackPanel Visibility="Collapsed">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/Position.png"></Image>
-                    <Grid Width="8"></Grid>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/1.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/2.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/3.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/4.png"></Image>
-                    <Grid Width="8"></Grid>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/5.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/6.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/7.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/8.png"></Image>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/World.png"></Image>
-                    <Grid Width="26"></Grid>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/9.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/A.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/B.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/C.png"></Image>
-                    <Grid Width="8"></Grid>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/D.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/E.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/F.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/F.png"></Image>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/Time.png"></Image>
-                    <Grid Width="36"></Grid>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/DoubleQuote.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/B.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/E.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/E.png"></Image>
-                    <Grid Width="8"></Grid>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/F.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/0.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/0.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/D.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num/DoubleQuote.png"></Image>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Headers/FPS.png"></Image>
-                    <Grid Width="44"></Grid>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num_Blue/6.png"></Image>
-                    <Image Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/EditorHUD/Num_Blue/0.png"></Image>
-                </StackPanel>
+    <genLib:NonTopmostPopup x:Name="ViewPanelHUD" AllowsTransparency="True"  PlacementRectangle="0,25,0,0" Opened="ViewPanelHUD_Opened" Closed="ViewPanelHUD_Closed"  StaysOpen="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
+        <Grid Margin="10" x:Name="Display" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsHitTestVisible="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="1"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="40"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28"></RowDefinition>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition Height="28"></RowDefinition>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition Height="28"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Stretch="Uniform" HorizontalAlignment="Left" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/FPS.png"></Image>
+                    <Image Stretch="Uniform" HorizontalAlignment="Left" Grid.Row="2" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/RAM.png"></Image>
+                    <Image Stretch="Uniform" HorizontalAlignment="Left" Grid.Row="4" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/Zoom.png"></Image>
+                    <global:RenderedTextBox HorizontalAlignment="Right" Grid.Column="2" Scale="28" x:Name="FPSCounter" IsHitTestVisible="False" Type="HUD" OverlayBackground="Transparent"></global:RenderedTextBox>
+
+                    <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <global:RenderedTextBox Scale="28" x:Name="MemoryCounter" IsHitTestVisible="False" Type="HUD" OverlayBackground="Transparent"></global:RenderedTextBox>
+                        <Grid Width="4"></Grid>
+                        <Image Stretch="Fill" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/MB.png"></Image>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Image Stretch="Fill" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/X.png"></Image>
+                        <Grid Width="4"></Grid>
+                        <global:RenderedTextBox Scale="28" x:Name="ZoomValue" IsHitTestVisible="False" Type="HUD" OverlayBackground="Transparent"></global:RenderedTextBox>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
-            <StackPanel>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="FPSCounter" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="RenderCallCounter" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="MemoryUsage" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="PhysicalMemoryUsage" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="DataFolder" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="MasterDataFolder" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="ScenePath" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="SceneFilePath" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="ZoomValue" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="SetupObject" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="SelectedZone" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
-                <Grid Height="16"></Grid>
-                <global:RenderedTextBox Margin="0,0,0,5" Scale="8" x:Name="InfoToggle" Type="TextAHighlight" Background="#90000000"></global:RenderedTextBox>
+            <StackPanel Grid.Row="2" VerticalAlignment="Bottom" IsHitTestVisible="False">
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="PhysicalMemoryUsage" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="DataFolder" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="MasterDataFolder" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="ScenePath" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="SceneFilePath" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="SetupObject" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="SelectedZone" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
+                <Grid Height="20" IsHitTestVisible="False"></Grid>
+                <global:RenderedTextBox IsHitTestVisible="False" Margin="0,0,0,5" Scale="13" x:Name="InfoToggle" Type="TextAHighlight" OverlayBackground="#90000000"></global:RenderedTextBox>
             </StackPanel>
         </Grid>
     </genLib:NonTopmostPopup>

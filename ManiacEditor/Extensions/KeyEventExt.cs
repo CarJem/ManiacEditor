@@ -119,9 +119,9 @@ namespace ManiacEditor.Extensions
 
             if (!Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
 
-            if (Core.Settings.MyKeyBinds == null) return nullString;
+            if (Methods.Settings.MyKeyBinds == null) return nullString;
 
-            var keybindDict = Core.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
+            var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
             if (keybindDict != null)
             {
                 keyBindList = keybindDict.Cast<string>().ToList();

@@ -21,7 +21,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 	{
 		public Action<int> SelectedEntity;
 		public Action<Actions.IAction> AddAction;
-		public Action<RSDKv5.SceneObject> Spawn;
+		public Action<RSDKv5.SceneObject> Spawn { get; set; }
         public Action<RSDKv5.SceneObject> SpawnInternal;
 
 
@@ -163,7 +163,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				bothFilter.Foreground = Methods.Internal.Theming.GetColorBrush(1);
 				otherFilter.Foreground = Methods.Internal.Theming.GetColorBrush(0);
 			}
-			if (Core.Settings.MySettings.UseBitOperators)
+			if (Methods.Settings.MySettings.UseBitOperators)
 			{
 				maniaFilter.Content = "Mania (0b0010)";
 				encoreFilter.Content = "Encore (0b0100)";
@@ -301,7 +301,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		{
 			if (startup)
 			{
-				switch(Core.Settings.MyDefaults.DefaultFilter[0])
+				switch(Methods.Settings.MyDefaults.DefaultFilter[0])
 				{
 					case 'M':
 						defaultFilter.SelectedIndex = 0;
@@ -328,22 +328,22 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				switch (defaultFilter.SelectedIndex)
 				{
 					case 0:
-						Core.Settings.MyDefaults.DefaultFilter = "M";
+						Methods.Settings.MyDefaults.DefaultFilter = "M";
 						break;
 					case 1:
-						Core.Settings.MyDefaults.DefaultFilter = "E";
+						Methods.Settings.MyDefaults.DefaultFilter = "E";
 						break;
 					case 2:
-						Core.Settings.MyDefaults.DefaultFilter = "B";
+						Methods.Settings.MyDefaults.DefaultFilter = "B";
 						break;
 					case 3:
-						Core.Settings.MyDefaults.DefaultFilter = "P";
+						Methods.Settings.MyDefaults.DefaultFilter = "P";
 						break;
 					case 4:
-						Core.Settings.MyDefaults.DefaultFilter = "O";
+						Methods.Settings.MyDefaults.DefaultFilter = "O";
 						break;
 					default:
-						Core.Settings.MyDefaults.DefaultFilter = "M";
+						Methods.Settings.MyDefaults.DefaultFilter = "M";
 						break;
 				}
 			}
@@ -854,7 +854,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 if (selectedItem.Tag is RSDKv5.SceneObject)
                 {
                     var obj = selectedItem.Tag as RSDKv5.SceneObject;
-                    switch (Core.Settings.MyDefaults.DefaultFilter[0])
+                    switch (Methods.Settings.MyDefaults.DefaultFilter[0])
                     {
                         case 'M':
                             Classes.Editor.Solution.Entities.DefaultFilter = 2;

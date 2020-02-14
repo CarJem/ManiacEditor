@@ -19,7 +19,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
             ofd.Title = "Select SonicMania.exe";
             ofd.Filter = "Windows PE Executable|*.exe";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Core.Settings.MyDefaults.SonicManiaPath = ofd.FileName;
+                Methods.Settings.MyDefaults.SonicManiaPath = ofd.FileName;
         }
 
         private void button14_Click(object sender, RoutedEventArgs e)
@@ -28,13 +28,13 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
             ofd.Title = "Select ManiaModManager.exe";
             ofd.Filter = "Windows PE Executable|*.exe";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Core.Settings.MyDefaults.ModLoaderPath = ofd.FileName;
+                Methods.Settings.MyDefaults.ModLoaderPath = ofd.FileName;
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Core.Options.GeneralSettings.Save();
+            Methods.Options.GeneralSettings.Save();
             DialogResult = true;
         }
 
@@ -47,7 +47,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         {
             if (VersionSelector.SelectedIndex != -1)
             {
-                Methods.GameHandler.SelectedGameVersion = Methods.GameHandler.GameVersion[VersionSelector.SelectedIndex];
+                Methods.Runtime.GameHandler.SelectedGameVersion = Methods.Runtime.GameHandler.GameVersion[VersionSelector.SelectedIndex];
             }
         }
     }

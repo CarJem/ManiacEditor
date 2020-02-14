@@ -411,13 +411,13 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 		private void TilesToolbar_Load(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("Send to debug output.");
-			trackBar1.Value = Core.Settings.MyDefaults.TilesDefaultZoom;
-            trackBar2.Value = Core.Settings.MyDefaults.ChunksDefaultZoom;
+			trackBar1.Value = Methods.Settings.MyDefaults.TilesDefaultZoom;
+            trackBar2.Value = Methods.Settings.MyDefaults.ChunksDefaultZoom;
 
-            option3CheckBox.IsChecked = Core.Settings.MyDefaults.SolidTopADefault;
-            option4CheckBox.IsChecked = Core.Settings.MyDefaults.SolidAllButTopADefault;
-            option5CheckBox.IsChecked = Core.Settings.MyDefaults.SolidTopBDefault;
-            option6CheckBox.IsChecked = Core.Settings.MyDefaults.SolidAllButTopBDefault;
+            option3CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidTopADefault;
+            option4CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidAllButTopADefault;
+            option5CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidTopBDefault;
+            option6CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidAllButTopBDefault;
 
         }
 

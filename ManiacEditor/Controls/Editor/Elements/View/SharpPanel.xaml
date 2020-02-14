@@ -4,10 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements.View"
+             xmlns:elements="clr-namespace:ManiacEditor.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <WindowsFormsHost SnapsToDevicePixels="True" x:Name="Host" DpiChanged="Host_DpiChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></WindowsFormsHost>
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="17"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="17"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ScrollBar x:Name="vScrollBar1" Width="15" Orientation="Vertical" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1"></ScrollBar>
+            <ScrollBar x:Name="hScrollBar1" Height="15" Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0"></ScrollBar>
+            <Grid Background="Red" Grid.Column="1" Grid.Row="1"></Grid>
+            <WindowsFormsHost x:Name="Host" DpiChanged="Host_DpiChanged" SizeChanged="SharpPanel_SizeChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0"></WindowsFormsHost>
+        </Grid>
         <Grid.ContextMenu>
             <ContextMenu x:Name="ViewPanelContextMenu">
                 <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>

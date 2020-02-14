@@ -11,12 +11,7 @@ namespace ManiacEditor.Methods.Prefrences
 		public static Controls.Editor.MainEditor Instance;
 		static IniData ModPackInfo;
 		public static List<Tuple<string, List<Tuple<string, string>>>> ModListInformation;
-        private static string SettingsFolder { get => GetDataPackDirectory(); }
-
-        private static string GetDataPackDirectory()
-        {
-            return (Core.Settings.MyInternalSettings.PortableMode ? Classes.Editor.Constants.SettingsPortableDirectory : Classes.Editor.Constants.SettingsStaticDirectory);
-        }
+		private static string SettingsFolder { get => ManiacEditor.Classes.Editor.Constants.GetSettingsDirectory(); }
 
 		public static void Initilize(Controls.Editor.MainEditor instance)
 		{
