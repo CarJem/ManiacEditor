@@ -169,6 +169,7 @@ namespace ManiacEditor.Controls.Editor
             StartScreen = new ManiacEditor.Controls.Editor.Elements.StartScreen(this);
 
             //Classes
+            Methods.Entities.SplineSpawning.UpdateInstance(this);
             Classes.Editor.SolutionPaths.UpdateInstance(this);
             Methods.Prefrences.SceneCurrentSettings.UpdateInstance(this);
             Methods.Internal.UserInterface.UpdateInstance(this);

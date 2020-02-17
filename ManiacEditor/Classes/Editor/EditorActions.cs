@@ -326,12 +326,15 @@ namespace ManiacEditor.Classes.Editor
                     }
                 }
                 IAction act = Instance.UndoStack.Pop();
-                act.Undo();
-                Instance.RedoStack.Push(act.Redo());
-                if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && ManiacEditor.Classes.Editor.SolutionState.IsSelected())
+                if (act != null)
                 {
-                    // We need to update the properties of the selected entity
-                    Instance.EntitiesToolbar.UpdateCurrentEntityProperites();
+                    act.Undo();
+                    Instance.RedoStack.Push(act.Redo());
+                    if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit() && ManiacEditor.Classes.Editor.SolutionState.IsSelected())
+                    {
+                        // We need to update the properties of the selected entity
+                        Instance.EntitiesToolbar.UpdateCurrentEntityProperites();
+                    }
                 }
             }
             Instance.ViewPanel.SharpPanel.GraphicPanel.Render();

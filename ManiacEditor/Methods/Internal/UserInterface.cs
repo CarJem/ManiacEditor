@@ -267,7 +267,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void UpdateEntitiesToolbarList()
         {
-            Instance.EntitiesToolbar.Entities = Classes.Editor.Solution.Entities.Entities.Select(x => x.Entity).ToList();
+            Instance.EntitiesToolbar.Entities = Classes.Editor.Solution.Entities.Entities.Values.Select(x => x.Entity).ToList();
         }
         public static void UpdateEditLayerActions()
         {
@@ -379,9 +379,14 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void UpdateSplineToolbox()
         {
-            //Editor.Instance.SplineInfoLabel1.Text = string.Format("Number of Spline Objects: {0}", Editor.Instance.UIModes.SplineTotalNumberOfObjects);
-            //Editor.Instance.SplineInfoLabel2.Text = string.Format("Point Frequency: {0}", Editor.Instance.UIModes.SplineSize);
-            //Editor.Instance.SplineInfoLabel3.Text = string.Format("Total Number of Rendered Points: {0}", Editor.Instance.UIModes.SplineCurrentPointsDrawn);
+            if (Instance != null && Instance.EditorToolbar != null)
+            {
+                int splineID = Instance.EditorToolbar.SplineGroupID.Value.Value;
+                //Instance.EditorToolbar.SplineInfoLabel1.Header = string.Format("Number of Spline Entities: {0}", Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineSize);
+                Instance.EditorToolbar.SplineInfoLabel1.Header = string.Empty;
+                Instance.EditorToolbar.SplineInfoLabel2.Header = string.Format("TotalNumber of Spline Objects: {0}", Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects);
+                Instance.EditorToolbar.SplineInfoLabel3.Header = string.Format("Total Number of Rendered Points: {0}", Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered);
+            }
         }
         public static void UpdateCustomColors()
         {
@@ -478,8 +483,16 @@ namespace ManiacEditor.Methods.Internal
             if (actionStack?.Count > 0)
             {
                 IAction action = actionStack.Peek();
-                tsb.Visibility = Visibility.Visible;
-                tsb.Text = string.Format("({0})", action.Description);
+                if (action != null)
+                {
+                    tsb.Visibility = Visibility.Visible;
+                    tsb.Text = string.Format("({0})", action.Description);
+                }
+                else
+                {
+                    tsb.Visibility = Visibility.Collapsed;
+                    tsb.Text = string.Empty;
+                }
             }
             else
             {
@@ -492,8 +505,17 @@ namespace ManiacEditor.Methods.Internal
             if (actionStack?.Count > 0)
             {
                 IAction action = actionStack.Peek();
-                System.Windows.Controls.ToolTip tooltip = new System.Windows.Controls.ToolTip { Content = string.Format(tsb.Tag.ToString(), action.Description + " ") };
-                tsb.ToolTip = tooltip;
+                if (action != null)
+                {
+                    System.Windows.Controls.ToolTip tooltip = new System.Windows.Controls.ToolTip { Content = string.Format(tsb.Tag.ToString(), action.Description + " ") };
+                    tsb.ToolTip = tooltip;
+                }
+                else
+                {
+                    System.Windows.Controls.ToolTip tooltip = new System.Windows.Controls.ToolTip { Content = string.Format(tsb.Tag.ToString(), string.Empty) };
+                    tsb.ToolTip = tooltip;
+                }
+
             }
             else
             {

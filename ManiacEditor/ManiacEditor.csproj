@@ -265,6 +265,7 @@
       <DependentUpon>RenderedTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\SplitContainer.cs" />
+    <Compile Include="Methods\Entities\SplineSpawning.cs" />
     <Compile Include="Methods\Options\DevelopmentStates.cs" />
     <Compile Include="Methods\Options\DefaultPrefrences.cs" />
     <Compile Include="Methods\Options\GameplaySettings.cs" />

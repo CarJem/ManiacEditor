@@ -48,7 +48,7 @@ namespace ManiacEditor.Classes.Editor
             }
             else if (IsEntitiesEdit())
             {
-                return Classes.Editor.Solution.Entities.IsSelected();
+                return Classes.Editor.Solution.Entities.IsAnythingSelected();
             }
             return false;
         }
@@ -764,7 +764,7 @@ namespace ManiacEditor.Classes.Editor
 
 
             public bool SplineToolShowLines { get; set; } = true; //Self Explanatory
-            public int SplineCurrentPointsDrawn { get; set; } = 0; //Self Explanatory
+            public int SplineNumberOfObjectsRendered { get; set; } = 0; //Self Explanatory
             public int SplineTotalNumberOfObjects { get; set; } = 0; //Self Explanatory
             public bool SplineToolShowPoints { get; set; } = true; //Self Explanatory
             public bool SplineToolShowObject { get; set; } = false; //Self Explanatory

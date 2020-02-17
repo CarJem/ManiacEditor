@@ -54,7 +54,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     try
                     {
-                        Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                        Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                         childEntity.childDraw = false;
                         childEntity.childDrawAddMode = false;
                         childEntity.childX = 0;
@@ -184,14 +184,14 @@ namespace ManiacEditor.Entity_Renders
                             position = Animation.ProcessMovingPlatform2D(posX, posY, x, y, frame.Frame.Width, frame.Frame.Height, (uint)speed);
                         }
 
-                        if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
+                        if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Values.ToList().Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
                             {
                                 try
                                 {
-                                    Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                    Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                     childEntity.childDraw = true;
                                     childEntity.childX = position[0];
                                     childEntity.childY = -position[1];
@@ -249,12 +249,12 @@ namespace ManiacEditor.Entity_Renders
                             }
                         }
 
-                        if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1))
+                        if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Values.ToList().Exists(t => t.Entity.SlotID == entity.SlotID + 1))
                         {
                             previousChildCount = childCount;
                             for (int i = 0; i < childCount; i++)
                             {
-                                Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
+                                Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(t => t.Entity.SlotID == entity.SlotID + (i + 1)).FirstOrDefault();
                                 childEntity.childDraw = true;
                                 childEntity.childX = newX;
                                 childEntity.childY = -newY;
@@ -307,12 +307,12 @@ namespace ManiacEditor.Entity_Renders
                                     d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), linePoints[0] + frame.Frame.PivotX, linePoints[1] + frame.Frame.PivotY,
                                         frame.ImageWidth, frame.ImageHeight, false, Transparency);
 
-                                    if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
+                                    if (childCount != 0 && Classes.Editor.Solution.Entities.Entities.Values.ToList().Exists(t => t.Entity.SlotID == entity.SlotID + 1)) 
                                     {
                                         previousChildCount = childCount;
                                         for (int z = 0; z < childCount; z++)
                                         {
-                                            Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
+                                            Classes.Editor.Scene.Sets.EditorEntity childEntity = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(t => t.Entity.SlotID == entity.SlotID + (z + 1)).FirstOrDefault();
                                             if (childEntity != null)
                                             {
                                                 childEntity.childDraw = true;

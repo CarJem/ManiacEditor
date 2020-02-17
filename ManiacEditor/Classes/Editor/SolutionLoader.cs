@@ -259,7 +259,7 @@ namespace ManiacEditor.Classes.Editor
                 {
                     using (var g = System.Drawing.Graphics.FromImage(bitmap))
                     {
-                        for (i = 0; i < Classes.Editor.Solution.Entities.Entities.Count; i++)
+                        for (i = 0; i < Classes.Editor.Solution.Entities.Entities.Values.Count; i++)
                         {
                             //if (!Instance.CanWriteFile(fileName))
                             // {
@@ -268,7 +268,7 @@ namespace ManiacEditor.Classes.Editor
                             //}
                             try
                             {
-                                Classes.Editor.Solution.Entities.Entities[i].ExportDraw(g,false);
+                                Classes.Editor.Solution.Entities.Entities.Values.ToList()[i].ExportDraw(g,false);
                             }
                             catch
                             {
@@ -432,9 +432,9 @@ namespace ManiacEditor.Classes.Editor
                 Zone = sceneState.Zone,
                 LoadType = sceneState.LoadType,
                 Name = sceneState.Name,
-                ResourcePacks = sceneState.ResourcePacks
+                ResourcePacks = sceneState.ResourcePacks,
+                DataDirectory = sceneState.DataDirectory
             };
-            ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.SetDataDirectory(sceneState.DataDirectory);
         }
 
         #endregion

@@ -928,7 +928,7 @@ namespace ManiacEditor.Controls.SceneSelect
 
             if (AllowedToProceed)
             {
-                this.SceneState.SetDataDirectory(dataDirectory);
+                this.SceneState.DataDirectory = dataDirectory;
                 Gameconfig GameConfig = ManiacEditor.Classes.Editor.SolutionPaths.GetGameConfig(dataDirectory);
                 if (GameConfig != null)
                 {
@@ -942,7 +942,7 @@ namespace ManiacEditor.Controls.SceneSelect
             }
             else
             {
-                this.SceneState.SetDataDirectory("");
+                this.SceneState.DataDirectory = "";
             }
 
             dataLabelToolStripItem.Content = "Data Directory: " + this.SceneState.DataDirectory;
@@ -961,7 +961,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             this.SceneState.ResourcePacks.Clear();
             Classes.Editor.SolutionState.DataDirectoryReadOnlyMode = false;
-            this.SceneState.SetDataDirectory("");
+            this.SceneState.DataDirectory = "";
             dataPackStatusLabel.Content = "";
             UnloadDataDirectory();
         }
@@ -991,7 +991,7 @@ namespace ManiacEditor.Controls.SceneSelect
 
             foreach (var item in pack.Item2)
             {
-                if (item.Item1 == "DataDir") this.SceneState.SetDataDirectory(item.Item2);
+                if (item.Item1 == "DataDir") this.SceneState.DataDirectory = item.Item2;
                 else if (item.Item1 == "Mod") this.SceneState.ResourcePacks.Add(item.Item2);
                 else if (item.Item1 == "ReadOnlyDataFolder" && item.Item2 == "TRUE") Classes.Editor.SolutionState.DataDirectoryReadOnlyMode = true;
             }
@@ -1314,7 +1314,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 if (string.IsNullOrWhiteSpace(newDataDirectory)) return;
                 if (ManiacEditor.Classes.Editor.SolutionPaths.DoesDataDirHaveGameConfig(newDataDirectory))
                 {
-                    this.SceneState.SetDataDirectory(newDataDirectory);
+                    this.SceneState.DataDirectory = newDataDirectory;
                     returnDataDirectory = newDataDirectory;
                     bool goodDataDir = ManiacEditor.Classes.Editor.SolutionPaths.SetGameConfig();
                     if (goodDataDir == true)

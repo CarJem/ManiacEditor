@@ -186,7 +186,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		{
 
 			//This if statement Triggers when the toolbar opens for the first time
-			if (FirstLoad) _entities = Classes.Editor.Solution.Entities.Entities.Select(x => x.Entity).ToList();
+			if (FirstLoad) _entities = Classes.Editor.Solution.Entities.Entities.Values.Select(x => x.Entity).ToList();
             SceneEntitiesList.Items.Clear();
 
             int count = (2301 > _entities.Count() ? _entities.Count() : 2031);
@@ -857,19 +857,19 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                     switch (Methods.Settings.MyDefaults.DefaultFilter[0])
                     {
                         case 'M':
-                            Classes.Editor.Solution.Entities.DefaultFilter = 2;
+                            Classes.Editor.Solution.Entities.CurrentDefaultFilter = 2;
                             break;
                         case 'E':
-                            Classes.Editor.Solution.Entities.DefaultFilter = 4;
+                            Classes.Editor.Solution.Entities.CurrentDefaultFilter = 4;
                             break;
                         case 'B':
-                            Classes.Editor.Solution.Entities.DefaultFilter = 1;
+                            Classes.Editor.Solution.Entities.CurrentDefaultFilter = 1;
                             break;
                         case 'P':
-                            Classes.Editor.Solution.Entities.DefaultFilter = 255;
+                            Classes.Editor.Solution.Entities.CurrentDefaultFilter = 255;
                             break;
                         default:
-                            Classes.Editor.Solution.Entities.DefaultFilter = 0;
+                            Classes.Editor.Solution.Entities.CurrentDefaultFilter = 0;
                             break;
                     }
                     Spawn?.Invoke(obj);
@@ -969,7 +969,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
         {
             System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
             Classes.Editor.Solution.Entities.Deselect();
-            Classes.Editor.Solution.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
+            Classes.Editor.Solution.Entities.Entities.Values.Where(x => x.Entity.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
             TabControl.SelectedIndex = 0;
             SelectedEntities = Classes.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
         }
@@ -993,7 +993,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 if (ObjectList[index] != null)
                 {
                     Classes.Editor.Solution.Entities.Deselect();
-                    Classes.Editor.Solution.Entities.Entities.Where(x => x.Entity.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
+                    Classes.Editor.Solution.Entities.Entities.Values.Where(x => x.Entity.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
                     TabControl.SelectedIndex = 0;
                     SelectedEntities = Classes.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
                 }

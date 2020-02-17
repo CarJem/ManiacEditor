@@ -95,7 +95,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
         public void DrawGrid(DevicePanel d)
         {
-            int GridSize = (EditorInstance != null ? Classes.Editor.SolutionState.GridSize : 0);
+            int GridSize = (EditorInstance != null ? Classes.Editor.SolutionState.GridSize : 16);
             Rectangle screen = d.GetScreen();
 
 			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Classes.Editor.SolutionState.GridColor.R, Classes.Editor.SolutionState.GridColor.B, Classes.Editor.SolutionState.GridColor.G);

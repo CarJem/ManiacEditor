@@ -212,6 +212,17 @@ namespace ManiacEditor.Controls.Editor.Elements
             else SelectedSplineRender.IsDropDownOpen = false;
         }
 
+        private async void RenderSelectedSpline_Click(object sender, RoutedEventArgs e)
+        {
+            if (Classes.Editor.SolutionState.SplineOptionsGroup[Classes.Editor.SolutionState.SelectedSplineID].SplineObjectRenderingTemplate != null)
+            {
+                await Task.Run(() => Methods.Entities.SplineSpawning.RenderSplineByID(Classes.Editor.SolutionState.SelectedSplineID));
+                Methods.Internal.UserInterface.UpdateSplineToolbox();
+                Methods.Internal.UserInterface.UpdateControls();
+            }
+
+        }
+
         #endregion
         #region Draw Tool Options Events
         bool AllowDrawBrushSizeChange = true;
@@ -1197,5 +1208,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             }
         }
+
+
     }
 }

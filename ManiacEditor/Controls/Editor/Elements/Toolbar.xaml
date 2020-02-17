@@ -151,11 +151,11 @@
                                 <Button Content="None" Width="200" VerticalAlignment="Stretch" x:Name="SplineRenderObjectName" Click="SplineRenderObjectName_Click"></Button>
                             </Grid>
                             <Separator Margin="0,10"></Separator>
-                            <MenuItem x:Name="SplineInfoLabel1" IsEnabled="False" Visibility="Visible" Header="Number of Spline Objects: {0}"></MenuItem>
-                            <MenuItem x:Name="SplineInfoLabel2" IsEnabled="False" Visibility="Visible" Header="Point Frequency: {0}"></MenuItem>
-                            <MenuItem x:Name="SplineInfoLabel3" IsEnabled="False" Visibility="Visible" Header="Total Number of Spawing Objects: {0}"></MenuItem>
-                            <MenuItem Header="Render Selected Spline"></MenuItem>
-                            <MenuItem Header="Render All Splines"></MenuItem>
+                            <MenuItem x:Name="SplineInfoLabel1" IsEnabled="False" Visibility="Visible" Header=""></MenuItem>
+                            <MenuItem x:Name="SplineInfoLabel2" IsEnabled="False" Visibility="Visible" Header="Total Number of Spline Objects: {0}"></MenuItem>
+                            <MenuItem x:Name="SplineInfoLabel3" IsEnabled="False" Visibility="Visible" Header="Total Number of Rendered Objects: {0}"></MenuItem>
+                            <MenuItem Header="Render Selected Spline" x:Name="RenderSelectedSpline" Click="RenderSelectedSpline_Click"></MenuItem>
+                            <MenuItem Visibility="Collapsed" Header="Render All Splines"></MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
@@ -213,7 +213,7 @@
                                 <MenuItem.Header>
                                     <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
                                         <TextBlock Name="CustomGridLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
-                                        <wpfTool:IntegerUpDown AllowDrop="False" Width="20" Name="CustomGridSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent"  ValueChanged="CustomGridSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
+                                        <wpfTool:IntegerUpDown AllowDrop="False" Width="20" Minimum="16" Name="CustomGridSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent"  ValueChanged="CustomGridSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
                                     </StackPanel>
                                 </MenuItem.Header>
                             </MenuItem>

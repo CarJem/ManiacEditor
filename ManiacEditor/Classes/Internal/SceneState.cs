@@ -16,7 +16,7 @@ namespace ManiacEditor.Classes.Internal
 		public string Zone { get; set; } = "";
 		public string Name { get; set; } = "";
 		public string SceneID { get; set; } = "";
-		public string DataDirectory { get; private set; } = "";
+		public string DataDirectory { get; set; } = "";
 		public LoadMethod LoadType { get; set; } = SceneState.LoadMethod.Unspecified;
 		public bool IsFullPath
 		{
@@ -51,11 +51,6 @@ namespace ManiacEditor.Classes.Internal
 			SceneID = sceneID;
 			LoadType = loadType;
 			if (rpList != null) ResourcePacks = rpList;
-		}
-
-		public void SetDataDirectory(string path)
-		{
-			DataDirectory = path;
 		}
 
 		public void Clear()

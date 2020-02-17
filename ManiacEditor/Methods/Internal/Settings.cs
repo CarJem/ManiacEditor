@@ -258,6 +258,11 @@ namespace ManiacEditor.Methods.Internal
             Classes.Editor.SolutionState.DebugStatsVisibleOnPanel = ManiacEditor.Methods.Settings.MyDefaults.ShowDebugStatsDefault;
             Classes.Editor.SolutionState.UseLargeDebugStats = ManiacEditor.Methods.Settings.MyDefaults.LargeDebugStatsDefault;
 
+            if (ManiacEditor.Methods.Settings.MyDefaults.CustomGridSizeValue < 16)
+            {
+                ManiacEditor.Methods.Settings.MyDefaults.CustomGridSizeValue = 16;
+                ManiacEditor.Methods.Options.DefaultPrefrences.Save();
+            }
             Classes.Editor.SolutionState.GridCustomSize = ManiacEditor.Methods.Settings.MyDefaults.CustomGridSizeValue;
 
             if (ManiacEditor.Methods.Settings.MyDefaults.DefaultGridSizeOption == 0) Classes.Editor.SolutionState.GridCustomSize = 16;
