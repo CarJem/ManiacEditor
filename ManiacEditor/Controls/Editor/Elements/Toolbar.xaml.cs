@@ -1054,8 +1054,10 @@ namespace ManiacEditor.Controls.Editor.Elements
                 else if (enabled && EditFGLower.IsCheckedA.Value) Classes.Editor.Solution.EditLayerA = Classes.Editor.Solution.FGLower;
                 else if (enabled && MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
                 {
+
                     var selectedExtraLayerButton = MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
-                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
+                    int index = MainEditor.Instance.ExtraLayerEditViewButtons.IndexOf(selectedExtraLayerButton);
+                    var editorLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.ElementAt(index);
 
                     Classes.Editor.Solution.EditLayerA = editorLayer;
                 }

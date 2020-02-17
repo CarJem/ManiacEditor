@@ -51,14 +51,6 @@ namespace ManiacEditor.Controls.Editor
         public System.Timers.Timer Timer = new System.Timers.Timer();
         #endregion
 
-        #region Editor Paths
-        public string DataDirectory; //Used to get the current Data Directory
-        public string MasterDataDirectory = Environment.CurrentDirectory + "\\Data"; //Used as a way of allowing mods to not have to lug all the files in their folder just to load in Maniac.
-        public IList<string> ResourcePackList { get; set; } = new List<string>();
-        public string LoadedDataPack = "";
-        public string[] EncorePalette = new string[6]; //Used to store the location of the encore palletes
-        #endregion
-
         #region Extra Layer Buttons
         public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
         public IList<Separator> ExtraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
@@ -177,7 +169,7 @@ namespace ManiacEditor.Controls.Editor
             StartScreen = new ManiacEditor.Controls.Editor.Elements.StartScreen(this);
 
             //Classes
-            Classes.Editor.Solution.Paths.UpdateInstance(this);
+            Classes.Editor.SolutionPaths.UpdateInstance(this);
             Methods.Prefrences.SceneCurrentSettings.UpdateInstance(this);
             Methods.Internal.UserInterface.UpdateInstance(this);
             Methods.Internal.Controls.UpdateInstance(this);
@@ -210,24 +202,6 @@ namespace ManiacEditor.Controls.Editor
 
         #endregion
 
-        #region GameConfig/Data Folders
-        public string GetDataDirectory()
-        {
-            using (var folderBrowserDialog = new GenerationsLib.Core.FolderSelectDialog())
-            {
-                folderBrowserDialog.Title = "Select Data Folder";
-
-                if (!folderBrowserDialog.ShowDialog())
-                    return null;
-
-                return folderBrowserDialog.FileName;
-            }
-        }
-        public bool SetGameConfig() { return ManiacEditor.Classes.Editor.Solution.Paths.SetGameConfig(); }
-        public bool IsDataDirectoryValid(string directoryToCheck) { return ManiacEditor.Classes.Editor.Solution.Paths.IsDataDirectoryValid(directoryToCheck); }
-
-        #endregion
-
         #region Open Scene Methods
         public void OpenSceneForceFully()
         {
@@ -235,7 +209,7 @@ namespace ManiacEditor.Controls.Editor
             if (item != null)
             {
                 Classes.Editor.Solution.UnloadScene();
-                DataDirectory = item.DataDirectory;
+                ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData = item.SceneState;
                 ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneFromSaveState(item);
             }
         }
@@ -305,8 +279,6 @@ namespace ManiacEditor.Controls.Editor
             ViewPanel.SharpPanel.InitalizeGraphicsPanel();
         }
         #endregion
-
-
 
         #region Misc Events
         public void DrawLayers(int drawOrder = 0)
@@ -384,7 +356,7 @@ namespace ManiacEditor.Controls.Editor
 
                 if (Classes.Editor.SolutionState.UseEncoreColors)
                 {
-                    if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles?.Image.Reload(EncorePalette[0]);
+                    if (Classes.Editor.Solution.CurrentTiles != null) Classes.Editor.Solution.CurrentTiles?.Image.Reload(Classes.Editor.SolutionPaths.EncorePalette[0]);
                 }
                 else
                 {
@@ -688,9 +660,9 @@ namespace ManiacEditor.Controls.Editor
             if (ManiacEditor.Classes.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
             Classes.Editor.Solution.UnloadScene();
             Methods.Internal.Settings.UseDefaultPrefrences();
-            DataDirectory = newDataDirectory;
+            ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.SetDataDirectory(newDataDirectory);
             AddRecentDataFolder(newDataDirectory);
-            bool goodGameConfig = SetGameConfig();
+            bool goodGameConfig = ManiacEditor.Classes.Editor.SolutionPaths.SetGameConfig();
             if (goodGameConfig == true)
             {
                 ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneUsingSceneSelect();
@@ -709,7 +681,7 @@ namespace ManiacEditor.Controls.Editor
         private void UpdateDataFolderLabel(string dataDirectory = null)
         {
             if (dataDirectory != null) EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
-            else EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), DataDirectory);
+            else EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory);
         }
         public void AddRecentDataFolder(string dataDirectory)
         {
@@ -777,7 +749,6 @@ namespace ManiacEditor.Controls.Editor
 
         private MenuItem CreateRecentScenesMenuLink(string target, bool startScreenEntry = false)
         {
-
             MenuItem newItem = new MenuItem();
             TextBlock label = new TextBlock();
 
@@ -794,8 +765,7 @@ namespace ManiacEditor.Controls.Editor
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
             var item = Methods.Prefrences.SceneHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
-            DataDirectory = item.DataDirectory;
-            ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneFromSaveState(item.DataDirectory, item.Result, item.LevelID, item.isEncore, item.CurrentName, item.CurrentZone, item.CurrentSceneID, item.Browsed, item.ResourcePacks);
+            ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneFromSaveState(item);
             Methods.Prefrences.SceneHistoryStorage.AddRecentFile(item);
         }
         private void CleanUpRecentScenesList()
@@ -859,8 +829,7 @@ namespace ManiacEditor.Controls.Editor
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
             var item = ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
-            DataDirectory = item.DataDirectory;
-            ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneSelectFromPreviousConfiguration(item);
+            ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneSelectFromPreviousDataPackSetup(item);
             ManiacEditor.Methods.Prefrences.DataStateHistoryStorage.AddRecentFile(item);
         }
         private void CleanUpDataSourcesList()

@@ -467,7 +467,7 @@ namespace ManiacEditor.Methods.Runtime
             if (File.Exists(modLoaderDLL))
                 WorkingDirectory = ManiaDir;
             else
-                WorkingDirectory = Path.GetDirectoryName(Editor.DataDirectory);
+                WorkingDirectory = Path.GetDirectoryName(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory);
 
             return WorkingDirectory;
         }

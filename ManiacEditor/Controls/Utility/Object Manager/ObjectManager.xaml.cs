@@ -69,13 +69,22 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString())) {
-                        lvc.Foreground = Brushes.Red;
-                    }
-                    else
-                    {
-                        lvc.Foreground = Brushes.GreenYellow;
-                    }
+					if (Classes.Editor.Solution.GameConfig != null)
+					{
+						if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+						{
+							lvc.Foreground = Brushes.Red;
+						}
+						else
+						{
+							lvc.Foreground = Brushes.GreenYellow;
+						}
+					}
+					else
+					{
+						lvc.Foreground = Brushes.GreenYellow;
+					}
+
                 }
                 lvc.Checked += lvObjects_ItemChecked;
 
@@ -179,15 +188,22 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-                    if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
-                    {
-                        lvc.Foreground = Brushes.Red;
-                    }
-                    else
-                    {
-                        lvc.Foreground = Brushes.GreenYellow;
-                    }
-                }
+					if (Classes.Editor.Solution.GameConfig != null)
+					{
+						if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+						{
+							lvc.Foreground = Brushes.Red;
+						}
+						else
+						{
+							lvc.Foreground = Brushes.GreenYellow;
+						}
+					}
+					else
+					{
+						lvc.Foreground = Brushes.GreenYellow;
+					}
+				}
                 InstanceID++;
 
 				bool alreadyChecked = false;

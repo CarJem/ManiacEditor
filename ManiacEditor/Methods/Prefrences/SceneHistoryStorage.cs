@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using IniParser;
-using IniParser.Model;
+using Newtonsoft.Json;
 
 namespace ManiacEditor.Methods.Prefrences
 {
@@ -10,7 +9,6 @@ namespace ManiacEditor.Methods.Prefrences
 	{
 		private static Controls.Editor.MainEditor Instance;
         public static ManiacEditor.Classes.Internal.SceneHistoryCollection Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
-        static IniData RecentsListInfo;
         private static string SettingsFolder { get => ManiacEditor.Classes.Editor.Constants.GetSettingsDirectory(); }
 
 
@@ -61,26 +59,30 @@ namespace ManiacEditor.Methods.Prefrences
 
             string Title = "";
             string Name = "";
-            if (Instance.LoadedDataPack != "")
+            if (ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack != "")
             {
-                if (!ManiacEditor.Classes.Editor.Solution.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0} Data Pack", Instance.LoadedDataPack, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone, ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID, "/n/n", (ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode ? "+" : ""));
-                else Title = string.Format("{1}{2}{0} Data Pack", Instance.LoadedDataPack, ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath, "/n/n");
+                if (!ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsFullPath) Title = string.Format("{1}:{2}{4}{3}{0} Data Pack", ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.SceneID, "/n/n", (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));
+                else Title = string.Format("{1}{2}{0} Data Pack", ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.FilePath, "/n/n");
+            }
+            else if (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.WasSelfLoaded)
+            {
+                Title = string.Format("{1}\\{2}{4}{3}{0}", System.IO.Path.GetDirectoryName(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.FilePath), ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone, System.IO.Path.GetFileName(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.FilePath), "/n/n", (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));                
             }
             else
             {
-                if (!ManiacEditor.Classes.Editor.Solution.Paths.Browsed) Title = string.Format("{1}:{2}{4}{3}{0}", Instance.DataDirectory, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone, ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID, "/n/n", (ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode ? "+" : ""));
-                else Title = string.Format("{1}{2}{0}", Instance.DataDirectory, ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath, "/n/n");
+                if (!ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsFullPath) Title = string.Format("{1}:{2}{4}{3}{0}", ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.SceneID, "/n/n", (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));
+                else Title = string.Format("{1}{2}{0}", ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.FilePath, "/n/n");
             }
 
-            Name += Instance.DataDirectory;
-            Name += ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.FilePath;
             Name += Classes.Editor.SolutionState.LevelID;
-            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
-            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
-            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentScene;
-            Name += ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
-            Name += ManiacEditor.Classes.Editor.Solution.Paths.Browsed.ToString();
-            Name += ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode.ToString();
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Name;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentScene;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.SceneID;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsFullPath.ToString();
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode.ToString();
 
 
 
@@ -89,19 +91,12 @@ namespace ManiacEditor.Methods.Prefrences
             int y1 = (short)(Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom);
             section.EntryName = Title;
             section.RealEntryName = Name;
-            section.DataDirectory = Instance.DataDirectory;
-            section.Result = ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
+            section.SceneState = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData;
             section.x = x1;
             section.y = y1;
             section.ZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
-            section.isEncore = ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode;
-            section.LevelID = Classes.Editor.SolutionState.LevelID;
-            section.CurrentName = ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
-            section.CurrentZone = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
-            section.CurrentSceneID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
-            section.Browsed = ManiacEditor.Classes.Editor.Solution.Paths.Browsed;
-            section.LoadedDataPack = Instance.LoadedDataPack;
-            foreach (var pack in Instance.ResourcePackList)
+            section.LoadedDataPack = ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack;
+            foreach (var pack in ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks)
             {
                 section.ResourcePacks.Add(pack);
                 ResourcePackEntryNumber++;
@@ -114,7 +109,7 @@ namespace ManiacEditor.Methods.Prefrences
 		{
 			if (GetFile() == false)
 			{
-				var ModListFile = File.Create(Path.Combine(SettingsFolder, "RecentsLists.ini"));
+				var ModListFile = File.Create(Path.Combine(SettingsFolder, "RecentsLists.json"));
 				ModListFile.Close();
 				if (GetFile() == false) return;
 			}
@@ -123,96 +118,45 @@ namespace ManiacEditor.Methods.Prefrences
 
 		public static void InterpretInformation()
 		{
-
-            Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
-			foreach (var section in RecentsListInfo.Sections)
-			{
-                ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState saveState = new ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState();
-                saveState.RealEntryName = section.SectionName;
-                foreach (var items in section.Keys)
-                {
-                    if (items.KeyName == "DataFolder") saveState.DataDirectory = items.Value;
-                    else if (items.KeyName == "EntryName") saveState.EntryName = items.Value;
-                    else if (items.KeyName == "SceneFile") saveState.Result = items.Value;
-                    else if (items.KeyName == "PositionX") saveState.x = (Int32.TryParse(items.Value, out int _x) ? _x : 0);
-                    else if (items.KeyName == "PositionY") saveState.y = (Int32.TryParse(items.Value, out int _y) ? _y : 0);
-                    else if (items.KeyName == "ZoomLevel") saveState.ZoomLevel = (Int32.TryParse(items.Value, out int _zoom) ? _zoom : 0);
-                    else if (items.KeyName == "LevelID") saveState.LevelID = (Int32.TryParse(items.Value, out int _levelID) ? _levelID : 0);
-                    else if (items.KeyName == "IsEncore") saveState.isEncore = (bool.TryParse(items.Value, out bool state) ? state : false);
-                    else if (items.KeyName == "WasBrowsed") saveState.Browsed = (bool.TryParse(items.Value, out bool state) ? state : false);
-                    else if (items.KeyName == "SceneID") saveState.CurrentSceneID = items.Value;
-                    else if (items.KeyName == "ZoneName") saveState.CurrentZone = items.Value;
-                    else if (items.KeyName == "LoadedDataPack") saveState.LoadedDataPack = items.Value;
-                    else if (items.KeyName == "SceneName") saveState.CurrentName = items.Value;
-                    else if (isDataPack(items.KeyName)) saveState.ResourcePacks.Add(items.Value);
-                }
-                Collection.List.Add(saveState);
-
-            }
-
-            bool isDataPack(string title)
+            try
             {
-                if (title.StartsWith("DataPackPart")) return true;
-                else return false;
+                string path = GetFilePath();
+                string data = File.ReadAllText(path);
+                ManiacEditor.Classes.Internal.SceneHistoryCollection _Collection = JsonConvert.DeserializeObject<ManiacEditor.Classes.Internal.SceneHistoryCollection>(data);
+                if (_Collection != null) Collection = _Collection;
+                else Collection = new Classes.Internal.SceneHistoryCollection();
+
             }
+            catch
+            {
+                Collection = new Classes.Internal.SceneHistoryCollection();
+            }
+
         }
 
-        private static SectionData GetSectionData(ManiacEditor.Classes.Internal.SceneHistoryCollection.SaveState item)
+        public static string GetFilePath()
         {
-            int ResourcePackEntryNumber = 1;
-            SectionData section = new SectionData(item.RealEntryName);
-            section.Keys.AddKey("EntryName", item.EntryName);
-            section.Keys.AddKey("DataFolder", item.DataDirectory);
-            section.Keys.AddKey("SceneFile", item.Result);
-            section.Keys.AddKey("PositionX", item.x.ToString());
-            section.Keys.AddKey("PositionY", item.y.ToString());
-            section.Keys.AddKey("ZoomLevel", item.ZoomLevel.ToString());
-            section.Keys.AddKey("IsEncore", item.isEncore.ToString());
-            section.Keys.AddKey("LevelID", item.LevelID.ToString());
-            section.Keys.AddKey("SceneName", item.CurrentName);
-            section.Keys.AddKey("ZoneName", item.CurrentZone);
-            section.Keys.AddKey("SceneID", item.CurrentSceneID);
-            section.Keys.AddKey("WasBrowsed", item.Browsed.ToString());
-            foreach (var pack in item.ResourcePacks)
-            {
-                section.Keys.AddKey("DataPackPart" + ResourcePackEntryNumber.ToString(), pack);
-                ResourcePackEntryNumber++;
-            }
-            return section;
+            return Path.Combine(Path.Combine(SettingsFolder, "RecentsLists.json"));
         }
 
-		public static void SaveFile()
+        public static void SaveFile()
 		{
-			IniData SaveData = new IniData();
-			foreach (var pair in Collection.List)
-			{
-                SectionData section = GetSectionData(pair);
-                SaveData.Sections.Add(section);
-			}
-			string path = Path.Combine(SettingsFolder, "RecentsLists.ini");
-			var parser = new FileIniDataParser();
-			parser.WriteFile(path, SaveData);
-		}
-
-		public static FileStream GetRecentsList(string path)
-		{
-			if (!File.Exists(path)) return null;
-			return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-		}
+            var path = GetFilePath();
+            string data = JsonConvert.SerializeObject(Collection, Formatting.Indented);
+            File.WriteAllText(path, data);
+        }
 
 		public static bool GetFile()
 		{
-			var parser = new FileIniDataParser();
-            if (!File.Exists(Path.Combine(SettingsFolder, "RecentsLists.ini")))
+            if (!File.Exists(Path.Combine(SettingsFolder, "RecentsLists.json")))
             {
                 return false;
             }
 			else
 			{
-                IniData file = parser.ReadFile(Path.Combine(SettingsFolder, "RecentsLists.ini"));
-                RecentsListInfo = file;
+                return true;
 			}
-			return true;
+
 		}
     }
 

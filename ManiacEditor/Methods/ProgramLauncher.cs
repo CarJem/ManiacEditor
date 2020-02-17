@@ -103,7 +103,7 @@ namespace ManiacEditor.Methods
             {
                 if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                 {
-                    Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.ToString());
+                    Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.ToString());
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace ManiacEditor.Methods
                 {
                     if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
                     {
-                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.ToString(), Classes.Editor.SolutionState.SelectedTileID);
+                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.ToString(), Classes.Editor.SolutionState.SelectedTileID);
                     }
                     else
                     {
@@ -326,9 +326,9 @@ namespace ManiacEditor.Methods
         }
         public static void OpenSceneFolder()
         {
-            if (ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory != "")
+            if (ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source != null && ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory != "")
             {
-                string SceneFilename_mod = ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory.Replace('/', '\\');
+                string SceneFilename_mod = ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory.Replace('/', '\\');
                 OpenFolder(SceneFilename_mod);
             }
             else
@@ -351,7 +351,7 @@ namespace ManiacEditor.Methods
         }
         public static void OpenDataDirectory()
         {
-            string DataDirectory_mod = Editor.DataDirectory.Replace('/', '\\');
+            string DataDirectory_mod = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory.Replace('/', '\\');
             if (DataDirectory_mod != null && DataDirectory_mod != "" && Directory.Exists(DataDirectory_mod))
             {
                 OpenFolder(DataDirectory_mod);
@@ -422,12 +422,12 @@ namespace ManiacEditor.Methods
         #region Data Packs
         public static void OpenAResourcePackFolderDropDownOpening(object sender, RoutedEventArgs e)
         {
-            if (Classes.Editor.Solution.CurrentScene == null) Editor.ResourcePackList.Clear();
-            if (Editor.ResourcePackList != null && Editor.ResourcePackList.Count > 0)
+            if (Classes.Editor.Solution.CurrentScene == null) ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks.Clear();
+            if (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks != null && ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks.Count > 0)
             {
                 Editor.MenuBar.openAResourcePackFolderToolStripMenuItem.Items.Clear();
                 var allItems = Editor.MenuBar.openAResourcePackFolderToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                foreach (string savedPlace in Editor.ResourcePackList)
+                foreach (string savedPlace in ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks)
                 {
                     var savedPlaceItem = new System.Windows.Controls.MenuItem()
                     {
@@ -501,9 +501,9 @@ namespace ManiacEditor.Methods
             ManiacEditor.Controls.SceneSelect.SceneSelectWindow select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Classes.Editor.Solution.GameConfig, Editor);
             select.Owner = Window.GetWindow(window);
             select.ShowDialog();
-            if (select.SceneSelect.SelectedSceneResult == null)
+            if (select.SceneSelect.SceneState.FilePath == null)
                 return null;
-            selectedScene = select.SceneSelect.SelectedSceneResult;
+            selectedScene = select.SceneSelect.SceneState.FilePath;
 
             if (!File.Exists(selectedScene))
             {
@@ -512,7 +512,7 @@ namespace ManiacEditor.Methods
                 string part1 = splitted[0];
                 string part2 = splitted[1];
 
-                selectedScene = Path.Combine(Editor.DataDirectory, "Stages", part1, part2);
+                selectedScene = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Stages", part1, part2);
             }
             return new Scene(selectedScene);
         }
@@ -567,7 +567,7 @@ namespace ManiacEditor.Methods
                     fd.Filter = "Stage Config File|*.bin";
                     fd.DefaultExt = ".bin";
                     fd.Title = "Select Stage Config File";
-                    fd.InitialDirectory = Path.Combine(Editor.DataDirectory, "Stages");
+                    fd.InitialDirectory = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Stages");
                     if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         try

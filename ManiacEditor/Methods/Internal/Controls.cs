@@ -1282,7 +1282,7 @@ namespace ManiacEditor.Methods.Internal
             // Open Click (Alt: Open Data Dir)
             else if ((Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.OpenDataDir)))
             {
-                ManiacEditor.Classes.Editor.SolutionLoader.OpenDataDirectory();
+                ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneSelect();
             }
             else if ((Extensions.KeyEventExts.isCombo(e, Methods.Settings.MyKeyBinds.Open)))
             {

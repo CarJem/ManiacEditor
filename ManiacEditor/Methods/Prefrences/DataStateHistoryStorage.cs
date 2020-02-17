@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using IniParser;
-using IniParser.Model;
+using Newtonsoft.Json;
 
 namespace ManiacEditor.Methods.Prefrences
 {
@@ -10,7 +9,6 @@ namespace ManiacEditor.Methods.Prefrences
     {
         private static Controls.Editor.MainEditor Instance;
         public static ManiacEditor.Classes.Internal.DataStateHistoryCollection Collection = new ManiacEditor.Classes.Internal.DataStateHistoryCollection();
-        static IniData RecentsListInfo;
         private static string SettingsFolder { get => GetRecentsListDirectory(); }
 
         private static string GetRecentsListDirectory()
@@ -65,33 +63,33 @@ namespace ManiacEditor.Methods.Prefrences
 
             string Title = "";
             string Name = "";
-            if (Instance.LoadedDataPack != "")
+            if (ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack != "")
             {
-                Title = string.Format("{0} Data Pack", Instance.LoadedDataPack);
+                Title = string.Format("{0} Data Pack", ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack);
             }
             else
             {
-                Title = string.Format("{0}", Instance.DataDirectory);
+                Title = string.Format("{0}", ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory);
             }
 
 
 
 
             ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState section = new ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState();
-            section.DataDirectory = Instance.DataDirectory;
+            section.DataDirectory = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
             section.EntryName = Title;
-            section.LoadedDataPack = Instance.LoadedDataPack;
-            section.isDataPack = Instance.LoadedDataPack != "" && Instance.ResourcePackList.Count > 0;
+            section.LoadedDataPack = ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack;
+            section.isDataPack = ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack != "" && ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks.Count > 0;
 
-            Name += Instance.DataDirectory;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
             Name += section.isDataPack.ToString();
-            Name += Instance.LoadedDataPack;
+            Name += ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack;
 
             section.RealEntryName = Name;
 
 
 
-            foreach (var pack in Instance.ResourcePackList)
+            foreach (var pack in ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks)
             {
                 section.ResourcePacks.Add(pack);
                 ResourcePackEntryNumber++;
@@ -104,7 +102,7 @@ namespace ManiacEditor.Methods.Prefrences
         {
             if (GetFile() == false)
             {
-                var ModListFile = File.Create(Path.Combine(SettingsFolder, "RecentDataLists.ini"));
+                var ModListFile = File.Create(Path.Combine(SettingsFolder, "RecentDataLists.json"));
                 ModListFile.Close();
                 if (GetFile() == false) return;
             }
@@ -113,79 +111,41 @@ namespace ManiacEditor.Methods.Prefrences
 
         public static void InterpretInformation()
         {
-
-            Collection = new ManiacEditor.Classes.Internal.DataStateHistoryCollection();
-            foreach (var section in RecentsListInfo.Sections)
+            try
             {
-                ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState saveState = new ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState();
-                saveState.RealEntryName = section.SectionName;
-                foreach (var items in section.Keys)
-                {
-                    if (items.KeyName == "DataFolder") saveState.DataDirectory = items.Value;
-                    else if (items.KeyName == "EntryName") saveState.EntryName = items.Value;
-                    else if (items.KeyName == "IsDataPack") saveState.isDataPack = (bool.TryParse(items.Value, out bool state) ? state : false);
-                    else if (items.KeyName == "LoadedDataPack") saveState.LoadedDataPack = items.Value;
-                    else if (isDataPack(items.KeyName)) saveState.ResourcePacks.Add(items.Value);
-                }
-                Collection.List.Add(saveState);
-
+                string path = GetFilePath();
+                string data = File.ReadAllText(path);
+                ManiacEditor.Classes.Internal.DataStateHistoryCollection _Collection = JsonConvert.DeserializeObject<ManiacEditor.Classes.Internal.DataStateHistoryCollection>(data);
+                if (_Collection != null) Collection = _Collection;
+                else Collection = new Classes.Internal.DataStateHistoryCollection();
+            }
+            catch
+            {
+                Collection = new Classes.Internal.DataStateHistoryCollection();
             }
 
-            bool isDataPack(string title)
-            {
-                if (title.StartsWith("DataPackPart")) return true;
-                else return false;
-            }
-        }
-
-        private static SectionData GetSectionData(ManiacEditor.Classes.Internal.DataStateHistoryCollection.SaveState item)
-        {
-            int ResourcePackEntryNumber = 1;
-            SectionData section = new SectionData(item.RealEntryName);
-            section.Keys.AddKey("EntryName", item.EntryName);
-            section.Keys.AddKey("DataFolder", item.DataDirectory);
-            section.Keys.AddKey("IsDataPack", item.isDataPack.ToString());
-            section.Keys.AddKey("LoadedDataPack", item.LoadedDataPack);
-            foreach (var pack in item.ResourcePacks)
-            {
-                section.Keys.AddKey("DataPackPart" + ResourcePackEntryNumber.ToString(), pack);
-                ResourcePackEntryNumber++;
-            }
-            return section;
         }
 
         public static void SaveFile()
         {
-            IniData SaveData = new IniData();
-            foreach (var pair in Collection.List)
-            {
-                SectionData section = GetSectionData(pair);
-                SaveData.Sections.Add(section);
-            }
-            string path = Path.Combine(SettingsFolder, "RecentDataLists.ini");
-            var parser = new FileIniDataParser();
-            parser.WriteFile(path, SaveData);
-        }
-
-        public static FileStream GetRecentsList(string path)
-        {
-            if (!File.Exists(path)) return null;
-            return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var path = GetFilePath();
+            string data = JsonConvert.SerializeObject(Collection, Formatting.Indented);
+            File.WriteAllText(path, data);
         }
 
         public static bool GetFile()
         {
-            var parser = new FileIniDataParser();
-            if (!File.Exists(Path.Combine(SettingsFolder, "RecentDataLists.ini")))
+            if (!File.Exists(Path.Combine(SettingsFolder, "RecentDataLists.json")))
             {
                 return false;
             }
-            else
-            {
-                IniData file = parser.ReadFile(Path.Combine(SettingsFolder, "RecentDataLists.ini"));
-                RecentsListInfo = file;
-            }
-            return true;
+            else return true;
+
+        }
+
+        public static string GetFilePath()
+        {
+            return Path.Combine(Path.Combine(SettingsFolder, "RecentDataLists.json"));
         }
     }
 

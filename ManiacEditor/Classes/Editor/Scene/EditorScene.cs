@@ -118,6 +118,7 @@ namespace ManiacEditor.Classes.Editor.Scene
 
         public String[] GetEncorePalette(string SelectedZone, string DataDirectory, string SelectedScene, string Result, int searchType, string userLoad = "")
         {
+            if (!System.IO.Directory.Exists(DataDirectory)) return new string[6];
             string EncorePallete1 = ""; //Base Pallete
             string EncorePallete2 = "";
             string EncorePallete3 = "";

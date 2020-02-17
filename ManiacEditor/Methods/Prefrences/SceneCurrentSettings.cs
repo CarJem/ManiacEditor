@@ -38,12 +38,12 @@ namespace ManiacEditor.Methods.Prefrences
 
         public static void UpdateFilePath()
         {
-            ManiacINIPath = Path.Combine(ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory, "Maniac.json");
+            ManiacINIPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory, "Maniac.json");
         }
 
         public static string GetFilePath()
         {
-            return Path.Combine(ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory, "Maniac.json");
+            return Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory, "Maniac.json");
         }
 
         public static void CreateFile()

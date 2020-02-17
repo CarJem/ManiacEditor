@@ -14,16 +14,9 @@ namespace ManiacEditor.Classes.Internal
         {
             public string RealEntryName = "";
             public string EntryName = "";
-            public string DataDirectory = "";
-            public string Result = "";
-            public int LevelID;
+            public SceneState SceneState = new SceneState();
             public int ZoomLevel;
-            public bool isEncore = false;
-            public string CurrentZone = "";
-            public string CurrentName = "";
             public string LoadedDataPack = "";
-            public string CurrentSceneID = "";
-            public bool Browsed = false;
             public IList<string> ResourcePacks = new List<string>();
             public int x;
             public int y;
@@ -33,14 +26,7 @@ namespace ManiacEditor.Classes.Internal
             {
                 LoadedDataPack = "";
                 EntryName = "";
-                DataDirectory = "";
-                Result = "";
-                LevelID = -1;
-                isEncore = false;
-                CurrentZone = "";
-                CurrentName = "";
-                CurrentSceneID = "";
-                Browsed = false;
+                SceneState = new SceneState();
                 ResourcePacks = new List<string>();
                 x = 0;
                 y = 0;

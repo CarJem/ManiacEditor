@@ -1191,14 +1191,17 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
         #region New Draw Method
         public void Dispose()
         {
-            for (int y = 0; y < ChunksHeight; y++)
+            if (ChunkMap != null)
             {
-                for (int x = 0; x < ChunksWidth; x++)
+                for (int y = 0; y < ChunksHeight; y++)
                 {
-                    if (ChunkMap[y][x] != null)
+                    for (int x = 0; x < ChunksWidth; x++)
                     {
-                        ChunkMap[y][x].Dispose();
-                        ChunkMap[y][x] = null;
+                        if (ChunkMap[y][x] != null)
+                        {
+                            ChunkMap[y][x].Dispose();
+                            ChunkMap[y][x] = null;
+                        }
                     }
                 }
             }
@@ -1207,18 +1210,21 @@ namespace ManiacEditor.Classes.Editor.Scene.Sets
 
         public void InvalidateChunks()
         {
-            for (int y = 0; y < ChunksHeight; y++)
+            if (ChunkMap != null)
             {
-                for (int x = 0; x < ChunksWidth; x++)
+                for (int y = 0; y < ChunksHeight; y++)
                 {
-                    if (ChunkMap[y][x] != null)
+                    for (int x = 0; x < ChunksWidth; x++)
                     {
-                        ChunkMap[y][x].Dispose();
-                        ChunkMap[y][x] = null;
+                        if (ChunkMap[y][x] != null)
+                        {
+                            ChunkMap[y][x].Dispose();
+                            ChunkMap[y][x] = null;
+                        }
                     }
                 }
-            }
-        }
+
+            }        }
 
         public void DisposeTextures()
         {

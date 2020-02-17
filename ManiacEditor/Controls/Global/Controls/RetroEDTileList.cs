@@ -454,7 +454,7 @@ namespace ManiacEditor.Controls.Global.Controls
 			{
 				if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.tcf == null)
 				{
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.ToString(), SelectedIndex);
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedIndex);
 				}
 				else
 				{

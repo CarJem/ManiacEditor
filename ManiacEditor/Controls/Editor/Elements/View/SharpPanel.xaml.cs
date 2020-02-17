@@ -637,7 +637,8 @@ namespace ManiacEditor.Controls.Editor.Elements.View
                 {
                     if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
                     {
-                        var _extraViewLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(elb.Key.Text));
+                        int index = Instance.ExtraLayerEditViewButtons.IndexOf(elb);
+                        var _extraViewLayer = Classes.Editor.Solution.CurrentScene.OtherLayers.ElementAt(index);
                         _extraViewLayer.Draw(GraphicPanel);
                     }
                 }
@@ -761,7 +762,10 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
             void DrawLayer(bool ShowLayer, bool EditLayer, Classes.Editor.Scene.Sets.EditorLayer layer)
             {
-                if (ShowLayer || EditLayer) layer.Draw(GraphicPanel);
+                if (layer != null)
+                {
+                    if (ShowLayer || EditLayer) layer.Draw(GraphicPanel);
+                }
             }
 
             void DrawGameElements()

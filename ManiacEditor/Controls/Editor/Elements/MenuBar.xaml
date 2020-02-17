@@ -15,11 +15,11 @@
         <Menu x:Name="MenuBar" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="20" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}" Grid.RowSpan="2">
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="4,0,0,0" >
                 <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"/>
-                <MenuItem x:Name="openToolStripMenuItem" Header="Open" Click="OpenSceneEvent"/>
-                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryEvent"/>
+                <MenuItem x:Name="openToolStripMenuItem" Header="Open Scene..." Click="OpenSceneEvent"/>
+                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Scene Select..." Click="OpenDataDirectoryEvent"/>
                 <Separator/>
                 <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="SaveSceneEvent"/>
-                <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As" Click="SaveSceneAsEvent"/>
+                <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As..." Click="SaveSceneAsEvent"/>
                 <Separator/>
                 <MenuItem x:Name="unloadSceneToolStripMenuItem" Header="Unload Scene" Click="UnloadSceneEvent"/>
                 <Separator/>

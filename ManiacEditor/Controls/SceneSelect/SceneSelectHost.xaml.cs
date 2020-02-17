@@ -36,13 +36,7 @@ namespace ManiacEditor.Controls.SceneSelect
 
 
         //Information For the File Handler
-        public string SelectedSceneResult = null;
-        public int LevelID = -1;
-		public string CurrentZone = "";
-		public string CurrentName = "";
-		public string CurrentSceneID = "";
-        public bool isEncore = false;
-        public bool Browsed = false;
+        public Classes.Internal.SceneState SceneState { get; set; } = new Classes.Internal.SceneState();
 
         #region Winform Stuff
         private System.ComponentModel.IContainer components = null;
@@ -449,8 +443,9 @@ namespace ManiacEditor.Controls.SceneSelect
 			open.Filter = "Scene File|*.bin";
 			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
-				SelectedSceneResult = open.FileName;
-				Browsed = true;
+				SceneState.FilePath = open.FileName;
+                SceneState.SceneDirectory = System.IO.Path.GetDirectoryName(open.FileName);
+                SceneState.LoadType = Classes.Internal.SceneState.LoadMethod.FullPath;
 				Close();
 			}
 		}
@@ -461,8 +456,9 @@ namespace ManiacEditor.Controls.SceneSelect
 			open.Filter = "Scene File|*.bin";
 			if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
 			{
-				SelectedSceneResult = open.FileName;             
-				Browsed = true;
+				SceneState.FilePath = open.FileName;
+                SceneState.SceneDirectory = System.IO.Path.GetDirectoryName(open.FileName);
+                SceneState.LoadType = Classes.Internal.SceneState.LoadMethod.FullPath;
 				Close();
 			}
 		}
@@ -837,7 +833,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (EditorInstance == null) return;
 
-            if (EditorInstance.DataDirectory != null) dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
+            if (this.SceneState.DataDirectory != null) dataLabelToolStripItem.Content = "Data Directory: " + this.SceneState.DataDirectory;
             else dataLabelToolStripItem.Content = "Data Directory: NULL";
 
             RecentsTree.Nodes.Clear();
@@ -921,11 +917,9 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void LoadDataDirectory(string dataDirectory)
         {
-            EditorInstance.DataDirectory = dataDirectory;
-
             bool AllowedToProceed = true;
 
-            if (EditorInstance.DataDirectory != null) dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
+            if (this.SceneState.DataDirectory != null) dataLabelToolStripItem.Content = "Data Directory: " + this.SceneState.DataDirectory;
             else
             {
                 UnloadDataDirectory();
@@ -934,8 +928,8 @@ namespace ManiacEditor.Controls.SceneSelect
 
             if (AllowedToProceed)
             {
-                String SelectedDataDirectory = RecentsTree.SelectedNode.Tag.ToString();
-                Gameconfig GameConfig = ManiacEditor.Classes.Editor.Solution.Paths.SetandReturnGameConfig(SelectedDataDirectory);
+                this.SceneState.SetDataDirectory(dataDirectory);
+                Gameconfig GameConfig = ManiacEditor.Classes.Editor.SolutionPaths.GetGameConfig(dataDirectory);
                 if (GameConfig != null)
                 {
                     _GameConfig = GameConfig;
@@ -948,8 +942,10 @@ namespace ManiacEditor.Controls.SceneSelect
             }
             else
             {
-                EditorInstance.DataDirectory = "";
+                this.SceneState.SetDataDirectory("");
             }
+
+            dataLabelToolStripItem.Content = "Data Directory: " + this.SceneState.DataDirectory;
 
         }
         private void UnloadDataDirectory()
@@ -963,15 +959,15 @@ namespace ManiacEditor.Controls.SceneSelect
 
         public void UnloadDataPack()
         {
-            EditorInstance.ResourcePackList.Clear();
+            this.SceneState.ResourcePacks.Clear();
             Classes.Editor.SolutionState.DataDirectoryReadOnlyMode = false;
-            EditorInstance.DataDirectory = null;
+            this.SceneState.SetDataDirectory("");
             dataPackStatusLabel.Content = "";
             UnloadDataDirectory();
         }
         public void LoadDataPackFromTag(string tag)
         {
-            PreviousDataFolder = EditorInstance.DataDirectory;
+            PreviousDataFolder = this.SceneState.DataDirectory;
             if (!Int32.TryParse(tag, out int Index)) return;
             if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation == null) return;
 
@@ -981,7 +977,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void LoadDataPackFromName(string packName)
         {
-            PreviousDataFolder = EditorInstance.DataDirectory;
+            PreviousDataFolder = this.SceneState.DataDirectory;
             if (ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation == null) return;
 
             var pack = ManiacEditor.Methods.Prefrences.DataPackStorage.ModListInformation.Where(x => x.Item1 == packName).FirstOrDefault();
@@ -991,23 +987,23 @@ namespace ManiacEditor.Controls.SceneSelect
         public void LoadDataPack(Tuple<string,List<Tuple<string,string>>> pack)
         {
             bool AllowedToProceed = true;
-            EditorInstance.LoadedDataPack = pack.Item1;
+            ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack = pack.Item1;
 
             foreach (var item in pack.Item2)
             {
-                if (item.Item1 == "DataDir") EditorInstance.DataDirectory = item.Item2;
-                else if (item.Item1 == "Mod") EditorInstance.ResourcePackList.Add(item.Item2);
+                if (item.Item1 == "DataDir") this.SceneState.SetDataDirectory(item.Item2);
+                else if (item.Item1 == "Mod") this.SceneState.ResourcePacks.Add(item.Item2);
                 else if (item.Item1 == "ReadOnlyDataFolder" && item.Item2 == "TRUE") Classes.Editor.SolutionState.DataDirectoryReadOnlyMode = true;
             }
-            Gameconfig GameConfig = ManiacEditor.Classes.Editor.Solution.Paths.SetandReturnGameConfig();
+            Gameconfig GameConfig = ManiacEditor.Classes.Editor.SolutionPaths.GetGameConfig(this.SceneState);
 
             if (GameConfig == null) AllowedToProceed = false;
-            if (EditorInstance.DataDirectory == null) AllowedToProceed = false;
+            if (this.SceneState.DataDirectory == null) AllowedToProceed = false;
 
             if (AllowedToProceed)
             {
-                dataLabelToolStripItem.Content = "Data Directory: " + EditorInstance.DataDirectory;
-                dataPackStatusLabel.Content = "Loaded Data Pack: " + EditorInstance.LoadedDataPack;
+                dataLabelToolStripItem.Content = "Data Directory: " + this.SceneState.DataDirectory;
+                dataPackStatusLabel.Content = "Loaded Data Pack: " + ManiacEditor.Classes.Editor.SolutionPaths.LoadedDataPack;
                 LoadFromGameConfig(GameConfig);
                 _GameConfig = GameConfig;
             }
@@ -1138,13 +1134,13 @@ namespace ManiacEditor.Controls.SceneSelect
                             Gameconfig.SceneInfo scene = tag.Item1;
                             if (scene != null)
                             {
-                                CurrentSceneID = scene.SceneID;
-                                CurrentZone = scene.Zone;
-                                CurrentName = scene.Name;
-                                LevelID = scene.LevelID;
-                                isEncore = (scene.ModeFilter == 5 ? true : false);
+                                SceneState.SceneID = scene.SceneID;
+                                SceneState.Zone = scene.Zone;
+                                SceneState.Name = scene.Name;
+                                SceneState.LevelID = scene.LevelID;
+                                SceneState.IsEncoreMode = (scene.ModeFilter == 5 ? true : false);
                                 CurrenInfoLabel.Visibility = Visibility.Visible;
-                                CurrenInfoLabel.Content = string.Format("Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3} || Encore: {4}", LevelID, CurrentSceneID, CurrentName, CurrentZone, (isEncore ? "Yes" : "No"));
+                                CurrenInfoLabel.Content = string.Format("Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3} || Encore: {4}", SceneState.LevelID, SceneState.SceneID, SceneState.Name, SceneState.Zone, (SceneState.IsEncoreMode ? "Yes" : "No"));
                             }
                             else Reset();
                         }
@@ -1159,13 +1155,13 @@ namespace ManiacEditor.Controls.SceneSelect
                             var scene = cat.Scenes.Where(t => t.Index == ScenesTree.SelectedNode.Index).FirstOrDefault();
                             if (scene != null)
                             {
-                                CurrentSceneID = scene.SceneID;
-                                CurrentZone = scene.Zone;
-                                CurrentName = scene.Name;
-                                LevelID = scene.LevelID;
-                                isEncore = (scene.ModeFilter == 5 ? true : false);
+                                SceneState.SceneID = scene.SceneID;
+                                SceneState.Zone = scene.Zone;
+                                SceneState.Name = scene.Name;
+                                SceneState.LevelID = scene.LevelID;
+                                SceneState.IsEncoreMode = (scene.ModeFilter == 5 ? true : false);
                                 CurrenInfoLabel.Visibility = Visibility.Visible;
-                                CurrenInfoLabel.Content = string.Format("Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3} || Encore: {4}", LevelID, CurrentSceneID, CurrentName, CurrentZone, (isEncore ? "Yes" : "No"));
+                                CurrenInfoLabel.Content = string.Format("Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3} || Encore: {4}", SceneState.LevelID, SceneState.SceneID, SceneState.Name, SceneState.Zone, (SceneState.IsEncoreMode ? "Yes" : "No"));
                             }
                         }
                         else Reset();
@@ -1179,11 +1175,11 @@ namespace ManiacEditor.Controls.SceneSelect
 
             void Reset()
             {
-                CurrentSceneID = "";
-                CurrentZone = "";
-                CurrentName = "";
-                isEncore = false;
-                LevelID = -1;
+                SceneState.SceneID = "";
+                SceneState.Zone = "";
+                SceneState.Name = "";
+                SceneState.IsEncoreMode = false;
+                SceneState.LevelID = -1;
                 CurrenInfoLabel.Visibility = Visibility.Hidden;
             }
 
@@ -1274,7 +1270,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (!Classes.Editor.SolutionState.isImportingObjects)
             {
-                ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneUsingExistingSceneSelect(this);
+                ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneUsingSceneSelect(this);
             }
             if (Window != null) Window.Close();
 
@@ -1288,17 +1284,17 @@ namespace ManiacEditor.Controls.SceneSelect
 		}
         private void SelectButtonEvent(object sender, RoutedEventArgs e)
         {
-            Classes.Editor.SolutionState.LevelID = LevelID;
+            Classes.Editor.SolutionState.LevelID = SceneState.LevelID;
             if (!isFilesView.IsChecked.Value)
             {
-                SelectedSceneResult = ScenesTree.SelectedNode.Tag as string;
+                SceneState.FilePath = ScenesTree.SelectedNode.Tag as string;
             }
             else
             {
                 Tuple<Gameconfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<Gameconfig.SceneInfo, string>;
                 if (tag != null)
                 {
-                    SelectedSceneResult = tag.Item2;
+                    SceneState.FilePath = tag.Item2;
                 }
                 else return;
             }
@@ -1312,18 +1308,18 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (Classes.Editor.SolutionState.isImportingObjects == false)
             {
-                string newDataDirectory = EditorInstance.GetDataDirectory();
+                string newDataDirectory = ManiacEditor.Classes.Editor.SolutionPaths.SelectDataDirectory();
                 string returnDataDirectory;
 
                 if (string.IsNullOrWhiteSpace(newDataDirectory)) return;
-                if (EditorInstance.IsDataDirectoryValid(newDataDirectory))
+                if (ManiacEditor.Classes.Editor.SolutionPaths.DoesDataDirHaveGameConfig(newDataDirectory))
                 {
-                    EditorInstance.DataDirectory = newDataDirectory;
+                    this.SceneState.SetDataDirectory(newDataDirectory);
                     returnDataDirectory = newDataDirectory;
-                    bool goodDataDir = EditorInstance.SetGameConfig();
+                    bool goodDataDir = ManiacEditor.Classes.Editor.SolutionPaths.SetGameConfig();
                     if (goodDataDir == true)
                     {
-                        EditorInstance.AddRecentDataFolder(EditorInstance.DataDirectory);
+                        EditorInstance.AddRecentDataFolder(this.SceneState.DataDirectory);
                         ReloadRecentsTree();
                     }
 

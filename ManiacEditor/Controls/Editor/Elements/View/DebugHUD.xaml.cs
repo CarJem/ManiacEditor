@@ -108,7 +108,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetSceneTileConfigPath()
         {
-            if (ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.SourcePath != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(ManiacEditor.Classes.Editor.Solution.Paths.TileConfig_Source.SourcePath, "TileConfig.bin").ToString();
+            if (ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source != null && ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.SourcePath != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.SourcePath, "TileConfig.bin").ToString();
             else return "Scene TileConfig Path: N/A";
         }
 
@@ -170,20 +170,20 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetSelectedZone()
         {
-            if (ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone != null && ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone != "") return "Selected Zone: " + ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
+            if (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone != null && ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone != "") return "Selected Zone: " + ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone;
             else return "Selected Zone: N/A";
         }
 
         public string GetSceneFilePath()
         {
-            if (ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourcePath != "") return "Scene File: " + ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourcePath;
+            if (ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source != null && ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourcePath != "") return "Scene File: " + ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourcePath;
             else return "Scene File: N/A";
         }
 
         public string GetScenePath()
         {
 
-            if (ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source != null && ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory != "") return "Scene Path: " + ManiacEditor.Classes.Editor.Solution.Paths.SceneFile_Source.SourceDirectory;
+            if (ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source != null && ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory != "") return "Scene Path: " + ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory;
             else return "Scene Path: N/A";
         }
 
@@ -191,7 +191,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         {   
             if (Instance != null)
             {
-                if (Instance.DataDirectory != null && Instance.DataDirectory != "") return "Data Directory: " + Instance.DataDirectory;
+                if (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory != null && ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory != "") return "Data Directory: " + ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
                 else return "Data Directory: N/A";
             }
             return "Data Directory: N/A";
@@ -199,7 +199,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         }
         public string GetMasterDataFolder()
         {
-            if (Instance.MasterDataDirectory != null && Instance.MasterDataDirectory != "") return "Master Data Directory: " + Instance.MasterDataDirectory;
+            if (ManiacEditor.Classes.Editor.SolutionPaths.MasterDataDirectory != null && ManiacEditor.Classes.Editor.SolutionPaths.MasterDataDirectory != "") return "Master Data Directory: " + ManiacEditor.Classes.Editor.SolutionPaths.MasterDataDirectory;
             else return "Master Data Directory: N/A";
         }
 

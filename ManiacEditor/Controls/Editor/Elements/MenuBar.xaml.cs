@@ -44,7 +44,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             maniacinieditorToolStripMenuItem.IsEnabled = enabled;
             exportToolStripMenuItem.IsEnabled = enabled;
 
-            newShortcutToolStripMenuItem.IsEnabled = System.IO.Directory.Exists(ManiacEditor.Controls.Editor.MainEditor.Instance.DataDirectory);
+            newShortcutToolStripMenuItem.IsEnabled = System.IO.Directory.Exists(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory);
             withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Editor.Solution.CurrentScene != null;
             withCurrentCoordinatesToolStripMenuItem.IsEnabled = Classes.Editor.Solution.CurrentScene != null;
             changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
@@ -235,7 +235,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         #region File Events
         private void NewSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.NewScene(); }
         public void OpenSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.OpenScene(); }
-        public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.OpenDataDirectory(); }
+        public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneSelect(); }
         public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.Save(); }
         private void ExitEditorEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.Close(); }
         private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Classes.Editor.SolutionLoader.ExportAsPNG(); }

@@ -73,38 +73,38 @@ namespace ManiacEditor.Entity_Renders
 
         private string GetParallaxPath (Controls.Editor.MainEditor EditorInstance)
         {
-            string name = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Replace("\\", "");
+            string name = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Replace("\\", "");
             string zoneName = "";
             string binPath = "";
             string parallaxName = "";
             // Normal Check First
             zoneName = name;
             parallaxName = name + "Parallax";
-            binPath = Path.Combine(EditorInstance.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+            binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
             if (!File.Exists(binPath))
             {
                 //Stick with the Zone Name, but ditch the last char for parallax
                 zoneName = name;
                 parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                binPath = Path.Combine(EditorInstance.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                 if (!File.Exists(binPath))
                 {
                     //Remove the Last Char of the Zone Name and Parallax but use "1" for the Zone Name
                     zoneName = name.Substring(0, name.Length - 1) + "1";
                     parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                    binPath = Path.Combine(EditorInstance.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                    binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                     if (!File.Exists(binPath))
                     {
                         //Remove the Last Char of the Zone Name and Parallax but use "2" for the Zone Name
                         zoneName = name.Substring(0, name.Length - 1) + "2";
                         parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                        binPath = Path.Combine(EditorInstance.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                        binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                         if (!File.Exists(binPath))
                         {
                             //Remove the Last Char of the Zone Name and Parallax
                             zoneName = name.Substring(0, name.Length - 1);
                             parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                            binPath = Path.Combine(EditorInstance.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                            binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                         }
                     }
                 }

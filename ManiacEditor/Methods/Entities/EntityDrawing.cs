@@ -379,7 +379,7 @@ namespace ManiacEditor.Methods.Entities
         }
         public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
         {
-            if (Classes.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), EditorInstance.EncorePalette[0]);
+            if (Classes.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), ManiacEditor.Classes.Editor.SolutionPaths.EncorePalette[0]);
             else return map;
         }
         public static string GetEditorStaticBitmapPath(string assetName)
@@ -477,7 +477,7 @@ namespace ManiacEditor.Methods.Entities
             else
             {
 				bool AssetFound = false;
-				foreach (string dataDir in EditorInstance.ResourcePackList)
+				foreach (string dataDir in ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks)
 				{
 					Tuple<string, string> Findings = GetAssetSourcePath(dataDir, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)
@@ -491,7 +491,7 @@ namespace ManiacEditor.Methods.Entities
 
 				if (!AssetFound)
 				{
-					Tuple<string, string> Findings = GetAssetSourcePath(EditorInstance.DataDirectory, name);
+					Tuple<string, string> Findings = GetAssetSourcePath(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)
 					{
 						AssetFound = true;
@@ -510,7 +510,7 @@ namespace ManiacEditor.Methods.Entities
 			string path, path2;
 			string dataDirectory = dataFolder;
 			// Checks the Stage Folder First
-			path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone + "\\" + name + ".bin";
+			path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
 			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 			if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
 			{
@@ -526,7 +526,7 @@ namespace ManiacEditor.Methods.Entities
 				}
 				if (!File.Exists(path2))
 				{
-					path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone + "\\" + name + ".bin";
+					path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "\\Sprites") + "\\" + path;
 				}
 			}
@@ -540,18 +540,18 @@ namespace ManiacEditor.Methods.Entities
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
-					path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Substring(0, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Length - 1) + "\\" + name + ".bin";
+					path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 					if (!File.Exists(path2))
 					{
 						// Checks for name without the last character and without the numbers in the entity name
 						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-						path = path = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Substring(0, ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone.Length - 1) + "\\" + adjustedName + ".bin";
+						path = path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + adjustedName + ".bin";
 						path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 						if (!File.Exists(path2))
 						{
 							// Checks for name without any numbers in the Zone name
-							string adjustedZone = Regex.Replace(ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone, @"[\d-]", string.Empty);
+							string adjustedZone = Regex.Replace(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone, @"[\d-]", string.Empty);
 							path = path = adjustedZone + "\\" + name + ".bin";
 							path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 							if (!File.Exists(path2))

@@ -616,13 +616,13 @@ namespace ManiacEditor.Classes.Editor
         }
         public static void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
         {
-            string dataDir = Instance.DataDirectory;
+            string dataDir = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
             Classes.Editor.EditorActions.CreateShortcut(dataDir);
         }
         public static void MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string dataDir = Instance.DataDirectory;
-            string scenePath = ManiacEditor.Classes.Editor.Solution.Paths.GetScenePath();
+            string dataDir = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
+            string scenePath = ManiacEditor.Classes.Editor.SolutionPaths.GetScenePath();
             int rX = (short)(Classes.Editor.SolutionState.ViewPositionX);
             int rY = (short)(Classes.Editor.SolutionState.ViewPositionY);
             double _ZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
@@ -632,8 +632,8 @@ namespace ManiacEditor.Classes.Editor
         }
         public static void MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string dataDir = Instance.DataDirectory;
-            string scenePath = ManiacEditor.Classes.Editor.Solution.Paths.GetScenePath();
+            string dataDir = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
+            string scenePath = ManiacEditor.Classes.Editor.SolutionPaths.GetScenePath();
             int rX = 0;
             int rY = 0;
             bool isEncoreSet = Classes.Editor.SolutionState.UseEncoreColors;
@@ -699,19 +699,19 @@ namespace ManiacEditor.Classes.Editor
         }
         public static void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Methods.Settings.MyDevSettings.DevForceRestartData = Instance.DataDirectory;
-            Methods.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Classes.Editor.Solution.Paths.SceneFilePath;
+            Methods.Settings.MyDevSettings.DevForceRestartData = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
+            Methods.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.FilePath;
             Methods.Settings.MyDevSettings.DevForceRestartX = (short)(Classes.Editor.SolutionState.ViewPositionX / Classes.Editor.SolutionState.Zoom);
             Methods.Settings.MyDevSettings.DevForceRestartY = (short)(Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom);
             Methods.Settings.MyDevSettings.DevForceRestartZoomLevel = Classes.Editor.SolutionState.ZoomLevel;
-            Methods.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Classes.Editor.Solution.Paths.isEncoreMode;
+            Methods.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode;
             Methods.Settings.MyDevSettings.DevForceRestartID = Classes.Editor.SolutionState.LevelID;
-            Methods.Settings.MyDevSettings.DevForceRestartCurrentName = ManiacEditor.Classes.Editor.Solution.Paths.CurrentName;
-            Methods.Settings.MyDevSettings.DevForceRestartCurrentZone = ManiacEditor.Classes.Editor.Solution.Paths.CurrentZone;
-            Methods.Settings.MyDevSettings.DevForceRestartSceneID = ManiacEditor.Classes.Editor.Solution.Paths.CurrentSceneID;
-            Methods.Settings.MyDevSettings.DevForceRestartIsBrowsed = ManiacEditor.Classes.Editor.Solution.Paths.Browsed;
+            Methods.Settings.MyDevSettings.DevForceRestartCurrentName = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Name;
+            Methods.Settings.MyDevSettings.DevForceRestartCurrentZone = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone;
+            Methods.Settings.MyDevSettings.DevForceRestartSceneID = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.SceneID;
+            Methods.Settings.MyDevSettings.DevForceRestartIsBrowsed = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.IsFullPath;
             Methods.Settings.MyDevSettings.DevForceRestartResourcePacks = new System.Collections.Specialized.StringCollection();
-            Methods.Settings.MyDevSettings.DevForceRestartResourcePacks.AddRange(Instance.ResourcePackList.ToArray());
+            Methods.Settings.MyDevSettings.DevForceRestartResourcePacks.AddRange(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks.ToArray());
         }
         public static void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -871,7 +871,7 @@ namespace ManiacEditor.Classes.Editor
             if (sender != null)
             {
                 var clickedItem = sender as System.Windows.Controls.MenuItem;
-                string StartDir = Instance.DataDirectory;
+                string StartDir = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
                 try
                 {
                     using (var fd = new System.Windows.Forms.OpenFileDialog())
@@ -882,9 +882,9 @@ namespace ManiacEditor.Classes.Editor
                         fd.InitialDirectory = Path.Combine(StartDir, "Palettes");
                         if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
-                            Instance.EncorePalette = Classes.Editor.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
+                            ManiacEditor.Classes.Editor.SolutionPaths.EncorePalette = Classes.Editor.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
                             Classes.Editor.SolutionState.EncoreSetupType = 0;
-                            if (File.Exists(Instance.EncorePalette[0]))
+                            if (File.Exists(ManiacEditor.Classes.Editor.SolutionPaths.EncorePalette[0]))
                             {
                                 Classes.Editor.SolutionState.EncorePaletteExists = true;
                                 Classes.Editor.SolutionState.UseEncoreColors = true;
@@ -900,9 +900,9 @@ namespace ManiacEditor.Classes.Editor
             }
             else if (path != "")
             {
-                Instance.EncorePalette = Classes.Editor.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
+                ManiacEditor.Classes.Editor.SolutionPaths.EncorePalette = Classes.Editor.Solution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
                 Classes.Editor.SolutionState.EncoreSetupType = 0;
-                if (File.Exists(Instance.EncorePalette[0]))
+                if (File.Exists(ManiacEditor.Classes.Editor.SolutionPaths.EncorePalette[0]))
                 {
                     Classes.Editor.SolutionState.EncorePaletteExists = true;
                     Classes.Editor.SolutionState.UseEncoreColors = true;
