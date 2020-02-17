@@ -655,21 +655,6 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region Recent Data Folder Methods
-        public void ResetDataDirectoryToAndResetScene(string newDataDirectory)
-        {
-            if (ManiacEditor.Classes.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
-            Classes.Editor.Solution.UnloadScene();
-            Methods.Internal.Settings.UseDefaultPrefrences();
-            ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.SetDataDirectory(newDataDirectory);
-            AddRecentDataFolder(newDataDirectory);
-            bool goodGameConfig = ManiacEditor.Classes.Editor.SolutionPaths.SetGameConfig();
-            if (goodGameConfig == true)
-            {
-                ManiacEditor.Classes.Editor.SolutionLoader.OpenSceneUsingSceneSelect();
-            }
-
-
-        }
         public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
         {
             string dataFolderTag_Normal = "Data Directory: {0}";
@@ -746,7 +731,6 @@ namespace ManiacEditor.Controls.Editor
                 StartScreen.NoRecentsLabel1.Visibility = Visibility.Visible;
             }
         }
-
         private MenuItem CreateRecentScenesMenuLink(string target, bool startScreenEntry = false)
         {
             MenuItem newItem = new MenuItem();
@@ -847,9 +831,5 @@ namespace ManiacEditor.Controls.Editor
 
 
         #endregion
-
-
-
-
     }
 }

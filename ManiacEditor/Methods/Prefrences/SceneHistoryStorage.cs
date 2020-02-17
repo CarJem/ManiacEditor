@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace ManiacEditor.Methods.Prefrences
 {
@@ -30,7 +31,7 @@ namespace ManiacEditor.Methods.Prefrences
             {
 
                 if (Collection == null) Collection = new ManiacEditor.Classes.Internal.SceneHistoryCollection();
-                if (Collection.List.Contains(NewEntry) || Collection.List.Contains(NewEntry)) Collection.List.Remove(NewEntry);
+                if (Collection.List.Exists(x => x.RealEntryName == NewEntry.RealEntryName)) Collection.List.RemoveAll(x => x.RealEntryName == NewEntry.RealEntryName);
 
                 if (Collection.List.Count >= 10)
                 {

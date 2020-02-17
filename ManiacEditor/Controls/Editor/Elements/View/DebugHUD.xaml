@@ -51,35 +51,31 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Row="2" VerticalAlignment="Bottom" IsHitTestVisible="False" HorizontalAlignment="Left">
-                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="PhysicalMemoryUsage"></TextBlock>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5" Visibility="Collapsed">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="PhysicalMemoryUsage"></TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="DataFolder"></TextBlock>
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="DataFolder"></TextBlock>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5" Visibility="Collapsed">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="MasterDataFolder"></TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="MasterDataFolder"></TextBlock>
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="ScenePath"></TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="ScenePath"></TextBlock>
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="SceneFilePath"></TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="SceneFilePath"></TextBlock>
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="SetupObject"></TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="SetupObject"></TextBlock>
-                    </StackPanel>
-                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="SelectedZone"></TextBlock>
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="SelectedZone"></TextBlock>
                     </StackPanel>
                     <Grid Height="20" IsHitTestVisible="False" Margin="0,0,0,5"></Grid>
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
-                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="10" x:Name="InfoToggle"></TextBlock>
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="InfoToggle"></TextBlock>
                     </StackPanel>
-
-
-
-
                 </StackPanel>
             </Grid>
         </genLib:NonTopmostPopup.Child>

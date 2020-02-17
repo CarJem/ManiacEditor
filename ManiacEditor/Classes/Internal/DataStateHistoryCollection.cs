@@ -8,7 +8,7 @@ namespace ManiacEditor.Classes.Internal
 {
     public class DataStateHistoryCollection
     {
-        public IList<SaveState> List = new List<SaveState>();
+        public List<SaveState> List = new List<SaveState>();
 
         public class SaveState
         {

@@ -1029,6 +1029,7 @@ namespace ManiacEditor.Methods.Internal
             Instance.EditorStatusBar.TileManiacIntergrationItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
 
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
+            info.Style = (System.Windows.Style)Instance.FindResource("DefaultContextMenuStyle");
             info.ItemsSource = Instance.EditorStatusBar.TilesContext.Items;
             info.Foreground = (System.Windows.Media.SolidColorBrush)Instance.FindResource("NormalText");
             info.Background = (System.Windows.Media.SolidColorBrush)Instance.FindResource("NormalBackground");
@@ -1055,8 +1056,7 @@ namespace ManiacEditor.Methods.Internal
                 Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", e.X, e.Y);
             }
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
-
-            info.Style = (System.Windows.Style)Instance.FindResource("NormalText");
+            info.Style = (System.Windows.Style)Instance.FindResource("DefaultContextMenuStyle");
             info.ItemsSource = Instance.EditorStatusBar.EntityContext.Items;
             info.Foreground = (System.Windows.Media.SolidColorBrush)Instance.FindResource("NormalText");
             info.Background = (System.Windows.Media.SolidColorBrush)Instance.FindResource("NormalBackground");

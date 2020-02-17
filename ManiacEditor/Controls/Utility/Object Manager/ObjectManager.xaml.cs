@@ -527,5 +527,29 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 			Methods.ProgramLauncher.ImportSounds(GetWindow(this));
 			ReloadList();
 		}
+
+
+	}
+
+	public class AutoSizedGridView : GridView
+	{
+
+		protected override void PrepareItem(ListViewItem item)
+		{
+			foreach (GridViewColumn column in Columns)
+			{
+				// Setting NaN for the column width automatically determines the required
+				// width enough to hold the content completely.
+
+				// If the width is NaN, first set it to ActualWidth temporarily.
+				if (double.IsNaN(column.Width))
+					column.Width = column.ActualWidth;
+
+				// Finally, set the column with to NaN. This raises the property change
+				// event and re computes the width.
+				column.Width = double.NaN;
+			}
+			base.PrepareItem(item);
+		}
 	}
 }

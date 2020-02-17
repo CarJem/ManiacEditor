@@ -1419,6 +1419,7 @@
     <None Include="Properties\PreBuild.bat" />
     <Resource Include="Resources\Fonts\sonic-1-hud-font.ttf" />
     <Resource Include="Resources\Fonts\sonic2system.ttf" />
+    <Resource Include="Resources\Fonts\sonic-hud-font.ttf" />
     <None Include="Resources\Text\LayerManagerWarning1.rtf" />
     <None Include="Resources\Text\ObjectWarning1.rtf" />
     <None Include="Resources\Sounds\OhNo.wav" />
