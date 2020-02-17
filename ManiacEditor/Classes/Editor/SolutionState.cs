@@ -758,7 +758,7 @@ namespace ManiacEditor.Classes.Editor
             private void SetSplineSize(int value)
             {
                 _SplineSize = value;
-                Methods.Internal.UserInterface.UpdateControls();
+                Instance.Dispatcher.Invoke(() => Methods.Internal.UserInterface.UpdateControls());
             }
 
 

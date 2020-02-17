@@ -376,6 +376,7 @@ namespace ManiacEditor.Methods.Internal
                 Instance.EditorToolbar.SplineRenderObjectName.Content = Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
             else
                 Instance.EditorToolbar.SplineRenderObjectName.Content = "None";
+
         }
         public static void UpdateSplineToolbox()
         {
@@ -386,6 +387,15 @@ namespace ManiacEditor.Methods.Internal
                 Instance.EditorToolbar.SplineInfoLabel1.Header = string.Empty;
                 Instance.EditorToolbar.SplineInfoLabel2.Header = string.Format("TotalNumber of Spline Objects: {0}", Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects);
                 Instance.EditorToolbar.SplineInfoLabel3.Header = string.Format("Total Number of Rendered Points: {0}", Classes.Editor.SolutionState.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered);
+
+                if (Classes.Editor.SolutionState.SplineOptionsGroup[Classes.Editor.SolutionState.SelectedSplineID].SplineObjectRenderingTemplate != null && Classes.Editor.SolutionState.SplineOptionsGroup[Classes.Editor.SolutionState.SelectedSplineID].SplineTotalNumberOfObjects >= 2)
+                {
+                    Instance.EditorToolbar.RenderSelectedSpline.IsEnabled = true;
+                }
+                else
+                {
+                    Instance.EditorToolbar.RenderSelectedSpline.IsEnabled = false;
+                }
             }
         }
         public static void UpdateCustomColors()

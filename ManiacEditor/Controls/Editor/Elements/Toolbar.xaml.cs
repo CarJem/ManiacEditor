@@ -134,7 +134,6 @@ namespace ManiacEditor.Controls.Editor.Elements
                 SelectedSplineIDChangedEvent(SplineGroupID.Value.Value);
             }
         }
-
         public void SelectedSplineIDChangedEvent(int value)
         {
             AllowSplineUpdateEvent = false;
@@ -147,38 +146,40 @@ namespace ManiacEditor.Controls.Editor.Elements
             AllowSplineUpdateEvent = true;
 
         }
-
-        private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private async void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
-            if (SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
+            if (HasFullyInitialized)
             {
-                AllowSplineFreqeunceUpdate = false;
-                int size = (int)SplinePointSeperationNUD.Value;
-                SplinePointSeperationSlider.Value = size;
-                Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.Size, size);
-                AllowSplineFreqeunceUpdate = true;
+                if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
+                if (SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
+                {
+                    AllowSplineFreqeunceUpdate = false;
+                    int size = (int)SplinePointSeperationNUD.Value;
+                    SplinePointSeperationSlider.Value = size;
+                    await Task.Run(() => Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.Size, size));
+                    AllowSplineFreqeunceUpdate = true;
+                }
             }
         }
-
-        private void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private async void SplinePointFrequenceChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
-            if (SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
+            if (HasFullyInitialized)
             {
-                AllowSplineFreqeunceUpdate = false;
-                int size = (int)SplinePointSeperationSlider.Value;
-                SplinePointSeperationNUD.Value = size;
-                Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.Size, size);
-                AllowSplineFreqeunceUpdate = true;
+                if (!Classes.Editor.SolutionState.AllowSplineOptionsUpdate) return;
+                if (SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
+                {
+                    AllowSplineFreqeunceUpdate = false;
+                    int size = (int)SplinePointSeperationSlider.Value;
+                    SplinePointSeperationNUD.Value = size;
+                    await Task.Run(() => Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.Size, size));
+                    AllowSplineFreqeunceUpdate = true;
+                }
             }
         }
-
         private void SplineLineMode_Click(object sender, RoutedEventArgs e)
         {
             Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.LineMode, SplineLineMode.IsChecked.Value);
         }
-
         private void SplineOvalMode_Click(object sender, RoutedEventArgs e)
         {
             Classes.Editor.SolutionState.AdjustSplineGroupOptions(Classes.Editor.SolutionState.SplineOption.OvalMode, SplineOvalMode.IsChecked.Value);
@@ -205,16 +206,14 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             }
         }
-
         private void SplineRenderObjectName_Click(object sender, RoutedEventArgs e)
         {
             if (!SelectedSplineRender.IsDropDownOpen) SelectedSplineRender.IsDropDownOpen = true;
             else SelectedSplineRender.IsDropDownOpen = false;
         }
-
         private async void RenderSelectedSpline_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Editor.SolutionState.SplineOptionsGroup[Classes.Editor.SolutionState.SelectedSplineID].SplineObjectRenderingTemplate != null)
+            if (Classes.Editor.SolutionState.SplineOptionsGroup[Classes.Editor.SolutionState.SelectedSplineID].SplineObjectRenderingTemplate != null && Classes.Editor.SolutionState.SplineOptionsGroup[Classes.Editor.SolutionState.SelectedSplineID].SplineTotalNumberOfObjects >= 2)
             {
                 await Task.Run(() => Methods.Entities.SplineSpawning.RenderSplineByID(Classes.Editor.SolutionState.SelectedSplineID));
                 Methods.Internal.UserInterface.UpdateSplineToolbox();
