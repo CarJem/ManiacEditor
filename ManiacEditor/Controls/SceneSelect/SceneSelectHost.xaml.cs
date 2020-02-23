@@ -1316,7 +1316,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 {
                     this.SceneState.DataDirectory = newDataDirectory;
                     returnDataDirectory = newDataDirectory;
-                    bool goodDataDir = ManiacEditor.Classes.Editor.SolutionPaths.SetGameConfig();
+                    bool goodDataDir = ManiacEditor.Classes.Editor.SolutionPaths.SetGameConfig(returnDataDirectory);
                     if (goodDataDir == true)
                     {
                         EditorInstance.AddRecentDataFolder(this.SceneState.DataDirectory);

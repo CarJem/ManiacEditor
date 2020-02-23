@@ -39,6 +39,7 @@ namespace ManiacEditor.Controls.Updater
         private bool AwaitingAsync { get; set; } = false;
         public bool isOnline { get; private set; }
         public string VersionCheckFileName { get; private set; }
+        public string UpdateFileName { get; private set; }
         public string InstallerDownloadURL { get; private set; }
 
 
@@ -288,10 +289,44 @@ namespace ManiacEditor.Controls.Updater
         }
         #endregion
 
+        #region Install Update Methods
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo(InstallerDownloadURL);
-            Process.Start(sInfo);
+            try
+            {
+                isOnline = IsNetworkAvailable();
+
+                if (isOnline)
+                {
+                    string download_path = ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder;
+                    string url = InstallerDownloadURL;
+                    UpdateFileName = DownloadFromURL(url, download_path, DownloadUpdateFileComplete, false);
+                }
+                else
+                {
+                    MessageBox.Show("Unable to download update package! Your not online!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failure grabbing latest update package: " + ex.Message);
+            }
         }
+
+        private void DownloadUpdateFileComplete()
+        {
+            try
+            {
+                string updateLocation = System.IO.Path.Combine(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder, UpdateFileName);
+                Process.Start(updateLocation);
+                Environment.Exit(0);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        #endregion
     }
 }

@@ -673,6 +673,7 @@ namespace ManiacEditor.Controls.Editor
         {
             try
             {
+                if (ManiacEditor.Methods.Settings.MySettings.DataDirectories == null) ManiacEditor.Methods.Settings.MySettings.DataDirectories = new StringCollection();
                 var mySettings = Methods.Settings.MySettings;
                 var dataDirectories = ManiacEditor.Methods.Settings.MySettings.DataDirectories;
 
