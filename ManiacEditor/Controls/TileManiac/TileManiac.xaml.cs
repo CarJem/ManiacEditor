@@ -722,7 +722,7 @@ namespace ManiacEditor.Controls.TileManiac
             this.CollisionList.Refresh();
             this.CollisionList.vScrollBar1Host.Refresh();
             this.CollisionList.vScrollBar1Host.scroller.Refresh();
-            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark ? Methods.Internal.Theming.darkTheme0 : System.Drawing.Color.White);
+            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark ? Methods.Internal.Theming.DarkTheme0 : System.Drawing.Color.White);
             this.CollisionList.BackColor = ListBackColor;
         }
 

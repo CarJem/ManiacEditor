@@ -574,8 +574,10 @@ namespace ManiacEditor.Methods.Editor
             shortcut.WorkingDirectory = Environment.CurrentDirectory;
             shortcut.Save();
         }
-        public static void GoToPosition(int x, int y, bool CenterCoords = true, bool ShortcutClear = false)
+        public static void GoToPosition(int x, int y, bool CenterCoords = true)
         {
+            if (Methods.Editor.SolutionState.UnlockCamera) CenterCoords = true;
+
             if (CenterCoords)
             {
                 Rectangle r = Instance.ViewPanel.SharpPanel.GraphicPanel.GetScreen();
@@ -585,8 +587,8 @@ namespace ManiacEditor.Methods.Editor
                 int ResultX = (int)(x * Methods.Editor.SolutionState.Zoom) - x2 / 2;
                 int ResultY = (int)(y * Methods.Editor.SolutionState.Zoom) - y2 / 2;
 
-                if ((ResultX <= 0)) ResultX = 0;
-                if ((ResultY <= 0)) ResultY = 0;
+                if ((ResultX <= 0 && !Methods.Editor.SolutionState.UnlockCamera)) ResultX = 0;
+                if ((ResultY <= 0 && !Methods.Editor.SolutionState.UnlockCamera)) ResultY = 0;
 
 
                 Methods.Editor.SolutionState.SetViewPositionX(ResultX);

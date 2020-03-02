@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.Integration;
 
 namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
 {
@@ -59,12 +60,24 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             PropertyObject = Property;
             ValueControl = new PropertyEntryValue();
             ValueControl.Value1Label.Text = Property.ValueName;
-            GenerateHostControl(Property.Value);
+            GenerateHostControl(Property.Value, Property.Type);
+            base.MouseEnter += PropertyEntryControlAttribute_MouseEnter;
             base.Children.Add(ValueControl);
         }
-        private void GenerateHostControl(object DefaultValue)
+
+        private void PropertyEntryControlAttribute_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            HostType = DefaultValue.GetType();
+            if (HostType == typeof(string))
+            {
+                //StringTextboxControl.Focus();
+            }
+        }
+
+        private void GenerateHostControl(object DefaultValue, Type CurrentType)
+        {
+            if (DefaultValue != null) HostType = DefaultValue.GetType();
+            else HostType = CurrentType;
+
             if (HostType == typeof(byte))
             {
                 ByteNumericControl = new Xceed.Wpf.Toolkit.ByteUpDown();
@@ -113,8 +126,9 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             }
             else if (HostType == typeof(string))
             {
-                StringTextboxControl = new System.Windows.Controls.TextBox();
+                StringTextboxControl = new System.Windows.Controls.TextBox() { IsInactiveSelectionHighlightEnabled = true };
                 StringTextboxControl.Text = (string)DefaultValue;
+                TextBoxLastString = (string)DefaultValue;
                 ValueControl.Value1Host.Children.Add(StringTextboxControl);
             }
             else if (HostType == typeof(float))
@@ -216,6 +230,8 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             }
             else if (HostType == typeof(string))
             {
+                StringTextboxControl.PreviewKeyDown -= StringTextboxControl_KeyDown;
+                StringTextboxControl.TextChanged -= StringTextboxControl_TextChanged;
                 StringTextboxControl.GotFocus -= StringTextboxControl_GotFocus;
                 StringTextboxControl.LostFocus -= StringTextboxControl_LostFocus;
             }
@@ -228,6 +244,7 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
                 ColorPickerControl.SelectedColorChanged -= Host_SelectedColorChanged;
             }
         }
+
         public void EnableEvents()
         {
             if (HostType == typeof(byte))
@@ -261,6 +278,8 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             }
             else if (HostType == typeof(string))
             {
+                StringTextboxControl.PreviewKeyDown += StringTextboxControl_KeyDown;
+                StringTextboxControl.TextChanged += StringTextboxControl_TextChanged;
                 StringTextboxControl.GotFocus += StringTextboxControl_GotFocus;
                 StringTextboxControl.LostFocus += StringTextboxControl_LostFocus;
             }
@@ -273,6 +292,7 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
                 ColorPickerControl.SelectedColorChanged += Host_SelectedColorChanged;
             }
         }
+
         public override void Dispose()
         {
             DisableEvents();
@@ -314,7 +334,6 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             }
             else if (HostType == typeof(string))
             {
-
                 ValueControl.Value1Host.Children.Remove(StringTextboxControl);
                 StringTextboxControl = null;
             }
@@ -341,14 +360,30 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, OldColor, NewColor));
         }
 
-        private void StringTextboxControl_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+        private void StringTextboxControl_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, TextBoxLastString, StringTextboxControl.Text));
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, TextBoxLastString, StringTextboxControl.Text));
+                TextBoxLastString = StringTextboxControl.Text;
+            }
+            else e.Handled = false;
         }
 
-        private void StringTextboxControl_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        private void StringTextboxControl_LostFocus(object sender, EventArgs e)
         {
+            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, TextBoxLastString, StringTextboxControl.Text));
             TextBoxLastString = StringTextboxControl.Text;
+        }
+
+        private void StringTextboxControl_GotFocus(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StringTextboxControl_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void Host_Checked(object sender, System.Windows.RoutedEventArgs e)

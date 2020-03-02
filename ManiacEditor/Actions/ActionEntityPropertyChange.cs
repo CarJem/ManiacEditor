@@ -49,9 +49,9 @@ namespace ManiacEditor.Actions
 
             if (redo)
             {
-                foreach (var entry in MultipleActions)
+                for (int i = 0; i < MultipleActions.Count; i++)
                 {
-                    entry.Redo();
+                    MultipleActions[i] = (MultipleActions[i].Redo() as ActionEntityPropertyChange);
                 }
             }
         }

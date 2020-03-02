@@ -550,14 +550,14 @@ namespace ManiacEditor.Methods.Editor
                     bool valid = ManiacEditor.Methods.Editor.SolutionPaths.GetTileConfig(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.IsFullPath);
                     if (valid == false)
                     {
-                        throw new Exception("TileConfig.bin was unable to be found or could not be loaded properly!");
+                        //throw new Exception("TileConfig.bin was unable to be found or could not be loaded properly!");
                     }
                 }
                 catch (Exception ex)
                 {
-                    LoadFailed = true;
-                    LoadingFailed(ex);
-                    return;
+                    //LoadFailed = true;
+                    //LoadingFailed(ex);
+                    //return;
                 }
 
                 #endregion

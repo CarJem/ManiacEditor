@@ -28,7 +28,6 @@ namespace ManiacEditor.Classes.Options
         public bool UseBitOperators { get; set; } = false;
         public bool ShowFirstTimeSetup { get; set; } = true;
         public bool NightMode { get; set; } = true;
-        public bool EntityFreeCam { get; set; } = false;
         public string LastModConfig { get; set; }
         public bool ScrollerAutoCenters { get; set; } = false;
         public bool ShowUnhandledExceptions { get; set; } = false;

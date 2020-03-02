@@ -33,6 +33,7 @@ using ManiacEditor.Controls.Editor.Controls;
 using ManiacEditor.Enums;
 using ManiacEditor.EventHandlers;
 using ManiacEditor.Extensions;
+using System.Windows.Forms.Integration;
 
 
 namespace ManiacEditor.Controls.Editor
@@ -105,7 +106,6 @@ namespace ManiacEditor.Controls.Editor
         #region Editor Initalizing Methods
         public MainEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
         {
-
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up the Map Editor...");
 
             Methods.Internal.Theming.UpdateInstance(this);
@@ -114,6 +114,8 @@ namespace ManiacEditor.Controls.Editor
             Methods.Internal.Theming.UseDarkTheme_WPF(ManiacEditor.Properties.Settings.MySettings.NightMode);
             Instance = this;
             InitializeComponent();
+
+            ElementHost.EnableModelessKeyboardInterop(this);
 
             Timer.Interval = 1;
             Timer.Elapsed += Timer_Elapsed;
@@ -257,7 +259,7 @@ namespace ManiacEditor.Controls.Editor
         private void Editor_KeyDown(object sender, KeyEventArgs e)
         {
             var e2 = KeyEventExts.ToWinforms(e);
-            if (e2 != null)
+            if (e2 != null && ViewPanel.IsFocused)
             {
                 Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e2);
             }
@@ -266,7 +268,7 @@ namespace ManiacEditor.Controls.Editor
         private void Editor_KeyUp(object sender, KeyEventArgs e)
         {
             var e2 = KeyEventExts.ToWinforms(e);
-            if (e2 != null)
+            if (e2 != null && ViewPanel.IsFocused)
             {
                 Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e2);
             }

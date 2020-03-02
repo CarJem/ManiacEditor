@@ -25,7 +25,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </GridSplitter>
-                        <ContentPresenter Grid.Column="2" Margin="3" x:Name="CenterPanel" Content="{TemplateBinding CenterContainer}"></ContentPresenter>
+                        <ContentPresenter Grid.Column="2" x:Name="CenterPanel" Content="{TemplateBinding CenterContainer}"></ContentPresenter>
                         <GridSplitter x:Name="SpliterRight" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Grid.RowSpan="2">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="DragDelta">

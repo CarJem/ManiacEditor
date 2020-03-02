@@ -410,7 +410,7 @@ namespace ManiacEditor.Methods.Internal
         {
             if (Instance != null)
             {
-                if (Properties.Settings.MySettings.EntityFreeCam)
+                if (Methods.Editor.SolutionState.UnlockCamera)
                 {
                     Instance.ViewPanel.SharpPanel.vScrollBar1.IsEnabled = false;
                     Instance.ViewPanel.SharpPanel.hScrollBar1.IsEnabled = false;

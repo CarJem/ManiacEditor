@@ -272,6 +272,10 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void RightToolbarToggleDev_Click(object sender, RoutedEventArgs e) { if (Instance != null) Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true); }
         private void EnableAllButtonsToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.EnableAllButtonsToolStripMenuItem_Click(sender, e); }
         #endregion
+        private void UnlockCameraToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Methods.Editor.SolutionState.UnlockCamera ^= true;
+        }
         public void GoToPositionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.GoToPosition(sender, e); }
         private void UndoEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.EditorUndo(); }
         private void RedoEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.EditorRedo(); }

@@ -581,40 +581,49 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					if (entity.AttributeExists(Category, GetAttributeTypeFromName(Name)))
 					{
 						var attribute = entity.GetAttribute(Category);
-						ActionList.Add(new Actions.ActionEntityPropertyChange(entity, Property, GetValueRaw(attribute), NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
 						switch (attribute.Type)
 						{
 							case RSDKv5.AttributeTypes.UINT8:
+								OldValue = attribute.ValueUInt8;
 								attribute.ValueUInt8 = (byte)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.UINT16:
+								OldValue = attribute.ValueUInt16;
 								attribute.ValueUInt16 = (ushort)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.UINT32:
+								OldValue = attribute.ValueUInt32;
 								attribute.ValueUInt32 = (uint)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.INT8:
+								OldValue = attribute.ValueInt8;
 								attribute.ValueInt8 = (sbyte)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.INT16:
+								OldValue = attribute.ValueInt16;
 								attribute.ValueInt16 = (short)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.INT32:
+								OldValue = attribute.ValueInt32;
 								attribute.ValueInt32 = (int)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.ENUM:
+								OldValue = attribute.ValueEnum;
 								attribute.ValueEnum = (int)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.BOOL:
+								OldValue = attribute.ValueBool;
 								attribute.ValueBool = (bool)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.STRING:
+								OldValue = attribute.ValueString;
 								attribute.ValueString = (string)NewValue;
 								break;
 							case RSDKv5.AttributeTypes.VECTOR2:
 								float fvalue = (float)NewValue;
 								if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
 								var pos = attribute.ValueVector2;
+								OldValue = pos;
 								if (Name == "x")
 								{
 									pos.X.High = (short)fvalue;
@@ -632,6 +641,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 								attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
 								break;
 						}
+						ActionList.Add(new Actions.ActionEntityPropertyChange(entity, Property, OldValue, NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
 					}
 				}
 				UpdatePropertiesGrid(entities);
@@ -883,39 +893,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 		}
 
-		public object GetValueRaw(AttributeValue item)
-		{
-			switch (item.Type)
-			{
-				case AttributeTypes.UINT8:
-					return item.ValueUInt8;
-				case AttributeTypes.UINT16:
-					return item.ValueUInt16;
-				case AttributeTypes.UINT32:
-					return item.ValueUInt32;
-				case AttributeTypes.INT8:
-					return item.ValueInt8;
-				case AttributeTypes.INT16:
-					return item.ValueInt16;
-				case AttributeTypes.INT32:
-					return item.ValueInt32;
-				case AttributeTypes.ENUM:
-					return item.ValueEnum;
-				case AttributeTypes.BOOL:
-					return item.ValueBool;
-				case AttributeTypes.STRING:
-					return item.ValueString;
-				case AttributeTypes.VECTOR2:
-					return item.ValueVector2;
-				case AttributeTypes.VECTOR3:
-					return item.ValueVector3;
-				case AttributeTypes.COLOR:
-					return item.ValueColor;
-				default:
-					return null;
-			}
-		}
-
 		#endregion
 
 		#region Old
@@ -982,21 +959,8 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 if (ObjectList[i].Visibility != Visibility.Collapsed) SceneEntitiesList.Items.Add(ObjectList[i]);
             }
 
-            if (CurrentEntity != null) GoToObject.IsEnabled = true;
-			else GoToObject.IsEnabled = false;
-
-            if (Methods.Editor.Solution.Entities.SelectedEntities != null && Methods.Editor.Solution.Entities.SelectedEntities.Count > 1 && !Methods.Editor.Solution.Entities.SelectedEntities.ToList().Exists(x => x.IsInternalObject))
-            {
-                SortSelectedSlotIDs.IsEnabled = true;
-                SortSelectedSlotIDsOptimized.IsEnabled = true;
-                SortSelectedSlotIDsOrdered.IsEnabled = true;
-            }
-            else
-            {
-                SortSelectedSlotIDs.IsEnabled = false;
-                SortSelectedSlotIDsOptimized.IsEnabled = false;
-                SortSelectedSlotIDsOrdered.IsEnabled = false;
-            }
+            if (CurrentEntity != null) GoToObjectButton.IsEnabled = true;
+			else GoToObjectButton.IsEnabled = false;
         }
 		public Visibility GetObjectListItemVisiblity(string name, ushort slotID)
 		{
@@ -1191,7 +1155,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		}
 		private void button2_Click(object sender, RoutedEventArgs e)
 		{
-			MoreButton.ContextMenu.IsOpen = true;
+			GoToObjectButton.ContextMenu.IsOpen = true;
 		}
 		private void goToThisEntityToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -1225,18 +1189,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		{
 
 		}
-        private void SortSelectedSlotIDs_Click(object sender, RoutedEventArgs e)
-        {
-            Methods.Editor.Solution.Entities.OrderSelectedSlotIDs();
-        }
-        private void SortSelectedSlotIDsOptimized_Click(object sender, RoutedEventArgs e)
-        {
-            Methods.Editor.Solution.Entities.OrderSelectedSlotIDs(true);
-        }
-        private void SortSelectedSlotIDsOrdered_Click(object sender, RoutedEventArgs e)
-        {
-            Methods.Editor.Solution.Entities.OrderSelectedSlotIDs(false, true);
-        }
         private void EntitiesList_Click(object sender, RoutedEventArgs e)
         {
             if (TabControl.SelectedIndex != 2)

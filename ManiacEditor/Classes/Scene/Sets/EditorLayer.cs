@@ -1252,10 +1252,10 @@ namespace ManiacEditor.Classes.Scene.Sets
                 Transperncy = 0xFF;
 
             Rectangle screen = d.GetScreen();
-            int pos_x = screen.X;
-            int pos_y = screen.Y;
-            int width = screen.Width;
-            int height = screen.Height;
+            int pos_x = (Methods.Editor.SolutionState.UnlockCamera ? 0 : screen.X);
+            int pos_y = (Methods.Editor.SolutionState.UnlockCamera ? 0 : screen.Y);
+            int width = (Methods.Editor.SolutionState.UnlockCamera ? this.WidthPixels : screen.Width);
+            int height = (Methods.Editor.SolutionState.UnlockCamera ? this.HeightPixels : screen.Height);
 
             if (pos_x >= 0 && pos_y >= 0 && width >= 0 && height >= 0)
             {

@@ -90,10 +90,25 @@ namespace ManiacEditor.Methods.Editor
         #endregion
 
         #region View Position Controls
-        public static int CustomViewPositionX { get; set; } = 0;
-        public static int CustomViewPositionY { get; set; } = 0;
         public static int ViewPositionX { get => GetViewPositionX(); }
         public static int ViewPositionY { get => GetViewPositionY(); }
+        public static bool UnlockCamera
+        {
+            get
+            {
+                return _UnlockCamera;
+            }
+            set
+            {
+                _UnlockCamera = value;
+                Instance.MenuBar.UnlockCameraToolStripMenuItem.IsChecked = _UnlockCamera;
+                SetViewPositionX(0);
+                SetViewPositionY(0);
+                Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
+            }
+        }
+
+        private static bool _UnlockCamera { get; set; } = false;
 
 
         public static int GetViewPositionX()

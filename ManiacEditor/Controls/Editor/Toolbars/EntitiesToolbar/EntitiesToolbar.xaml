@@ -9,7 +9,7 @@
              xmlns:propGrid="clr-namespace:ManiacEditor.Controls.Global.Controls.PropertyGrid"
              mc:Ignorable="d"
              d:DesignHeight="525" d:DesignWidth="300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
-    <Grid>
+    <Grid Focusable="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -38,7 +38,7 @@
                 </ComboBox>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="EntityEditor" Header="Entity Editor" Foreground="{DynamicResource NormalText}" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2">
+        <GroupBox x:Name="EntityEditor" Header="Entity Editor" Foreground="{DynamicResource NormalText}" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -65,17 +65,7 @@
                         <Button MouseWheel="EntitiesList_MouseWheel" Foreground="{DynamicResource NormalText}" x:Name="entitiesList" Height="30" Margin="0,0,0,0" Click="EntitiesList_Click"></Button>
                         <wpfTool:ButtonSpinner Grid.Column="1" Height="30" BorderThickness="0" Width="17" Spin="ButtonSpinner_Spin"></wpfTool:ButtonSpinner>
                     </Grid>
-                        <wpfTool:SplitButton x:Name="MoreButton" Height="30" Margin="5,0,0,0" Width="19" Grid.Column="1" Click="button2_Click">
-                        <wpfTool:SplitButton.DropDownContent>
-                            <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                                <MenuItem x:Name="GoToObject" Header="Go to this Entity" Click="goToThisEntityToolStripMenuItem_Click"></MenuItem>
-                                <MenuItem x:Name="SortSelectedSlotIDs" Header="Sort Selected Object's Slot IDs" Click="SortSelectedSlotIDs_Click"></MenuItem>
-                                <MenuItem x:Name="SortSelectedSlotIDsOptimized" Header="Sort Selected Object's Slot IDs (Optimized Mode)" Click="SortSelectedSlotIDsOptimized_Click"></MenuItem>
-                                <MenuItem x:Name="SortSelectedSlotIDsOrdered" Header="Sort Selected Object's Slot IDs (Ordered Mode)" Click="SortSelectedSlotIDsOrdered_Click"></MenuItem>
-
-                            </StackPanel>
-                        </wpfTool:SplitButton.DropDownContent>
-                    </wpfTool:SplitButton>
+                    <Button x:Name="GoToObjectButton" Content="&#x1F50D;" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" Click="goToThisEntityToolStripMenuItem_Click"></Button>
                 </Grid>
 
 
@@ -126,14 +116,6 @@
                 </Grid>
             </Grid>
         </GroupBox>
-        <Grid Grid.Row="3" Grid.ColumnSpan="2" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <GroupBox Foreground="{DynamicResource NormalText}" Grid.Row="0" Header="Value Editor">
-                <wpfTool:IntegerUpDown Name="CurrentValue"></wpfTool:IntegerUpDown>
-            </GroupBox>
-        </Grid>
     </Grid>
     <UserControl.Resources>
         <ResourceDictionary>

@@ -162,13 +162,13 @@ namespace ManiacEditor.Methods.Internal
             double x = xMove / 10 + position.X;
             double y = yMove / 10 + position.Y;
 
-            Methods.Editor.SolutionState.CustomViewPositionX += (int)xMove / 10;
-            Methods.Editor.SolutionState.CustomViewPositionY += (int)yMove / 10;
-
-            if (x < 0) x = 0;
-            if (y < 0) y = 0;
-            if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
-            if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
+            if (!Methods.Editor.SolutionState.UnlockCamera)
+            {
+                if (x < 0) x = 0;
+                if (y < 0) y = 0;
+                if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
+                if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
+            }
 
             if (x != position.X || y != position.Y)
             {
@@ -259,10 +259,14 @@ namespace ManiacEditor.Methods.Internal
                     y += (e.Y - ScreenMinY) / 10;
                 }
 
-                if (x < 0) x = 0;
-                if (y < 0) y = 0;
-                if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
-                if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
+                if (!Methods.Editor.SolutionState.UnlockCamera)
+                {
+                    if (x < 0) x = 0;
+                    if (y < 0) y = 0;
+                    if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
+                    if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
+                }
+
 
                 if (x != position.X || y != position.Y)
                 {
@@ -936,7 +940,6 @@ namespace ManiacEditor.Methods.Internal
         private static void MouseWheelScrolling(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible || Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) ScrollMove();
-            if (Properties.Settings.MySettings.EntityFreeCam) FreeCamScroll();
 
             void ScrollMove()
             {
@@ -967,24 +970,25 @@ namespace ManiacEditor.Methods.Internal
                     }
                 }
             }
-            void FreeCamScroll()
-            {
-                if (Methods.Editor.SolutionState.ScrollDirection == (int)Axis.X) Methods.Editor.SolutionState.CustomViewPositionX -= e.Delta;
-                else Methods.Editor.SolutionState.CustomViewPositionY -= e.Delta;
-            }
         }
         private static void MouseWheelScrollingY(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             double y = Instance.ViewPanel.SharpPanel.vScrollBar1.Value - e.Delta;
-            if (y < 0) y = 0;
-            if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
+            if (!Methods.Editor.SolutionState.UnlockCamera)
+            {
+                if (y < 0) y = 0;
+                if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
+            }
             Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
         }
         private static void MouseWheelScrollingX(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             double x = Instance.ViewPanel.SharpPanel.hScrollBar1.Value - e.Delta;
-            if (x < 0) x = 0;
-            if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
+            if (!Methods.Editor.SolutionState.UnlockCamera)
+            {
+                if (x < 0) x = 0;
+                if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
+            }
             Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
         }
         #endregion
@@ -1480,7 +1484,6 @@ namespace ManiacEditor.Methods.Internal
             else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.MagnetTool) && Instance.EditorToolbar.MagnetMode.IsEnabled) Methods.Editor.SolutionState.UseMagnetMode ^= true;
             else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.SplineTool) && Instance.EditorToolbar.SplineToolButton.IsEnabled) Methods.Editor.SolutionState.SplineMode(true);
             else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.StampTool) && Instance.EditorToolbar.ChunksToolButton.IsEnabled) Methods.Editor.SolutionState.ChunksMode();
-
         }
         #endregion
 

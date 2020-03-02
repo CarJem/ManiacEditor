@@ -194,8 +194,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         }
         public System.Drawing.Rectangle GetScreen()
         {
-            if (Properties.Settings.MySettings.EntityFreeCam) return new System.Drawing.Rectangle(Methods.Editor.SolutionState.CustomViewPositionX, Methods.Editor.SolutionState.CustomViewPositionY, RenderingWidth, RenderingHeight);
-            else return new System.Drawing.Rectangle((int)Methods.Editor.SolutionState.ViewPositionX, (int)Methods.Editor.SolutionState.ViewPositionY, RenderingWidth, RenderingHeight);
+            return new System.Drawing.Rectangle((int)Methods.Editor.SolutionState.ViewPositionX, (int)Methods.Editor.SolutionState.ViewPositionY, RenderingWidth, RenderingHeight);
         }
         public void DisposeTextures()
         {
@@ -261,8 +260,16 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         {
             if (Instance != null)
             {
-                RenderingWidth = (int)(this.ActualWidth * DPIScale);
-                RenderingHeight = (int)(this.ActualHeight * DPIScale);
+                if (Methods.Editor.SolutionState.UnlockCamera)
+                {
+                    RenderingWidth = (int)(this.ActualWidth * DPIScale);
+                    RenderingHeight = (int)(this.ActualHeight * DPIScale);
+                }
+                else
+                {
+                    RenderingWidth = (int)(Methods.Editor.Solution.SceneWidth * GetZoom() * DPIScale);
+                    RenderingHeight = (int)(Methods.Editor.Solution.SceneHeight * GetZoom() * DPIScale);
+                }
             }
         }
 
@@ -318,7 +325,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             if (this.hScrollBar1.IsVisible)
             {
                 int value = (int)((zoom_point.X + oldShiftX) / old_zoom * Methods.Editor.SolutionState.Zoom - zoom_point.X);
-                value = (int)Math.Min((this.hScrollBar1.Maximum), Math.Max(0, value));
+                if (!Methods.Editor.SolutionState.UnlockCamera) value = (int)Math.Min((this.hScrollBar1.Maximum), Math.Max(0, value));
                 Methods.Editor.SolutionState.SetViewPositionX(value);
             }
         }
@@ -327,7 +334,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             if (this.vScrollBar1.IsVisible)
             {
                 int value = (int)((zoom_point.Y + oldShiftY) / old_zoom * Methods.Editor.SolutionState.Zoom - zoom_point.Y);
-                value = (int)Math.Min((this.vScrollBar1.Maximum), Math.Max(0, value));
+                if (!Methods.Editor.SolutionState.UnlockCamera) value = (int)Math.Min((this.vScrollBar1.Maximum), Math.Max(0, value));
                 Methods.Editor.SolutionState.SetViewPositionY(value);
             }
         }
@@ -420,11 +427,11 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         #region Graphics Model Keyboard Events
         private void GraphicsModel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (!GraphicPanel.Focused) GraphicPanel_OnKeyDown(sender, e);
+            if (GraphicPanel.Focused) GraphicPanel_OnKeyDown(sender, e);
         }
         private void GraphicsModel_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (!GraphicPanel.Focused) GraphicPanel_OnKeyUp(sender, e);
+            if (GraphicPanel.Focused) GraphicPanel_OnKeyUp(sender, e);
         }
         #endregion
 
@@ -436,15 +443,13 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             UpdateScrollViewportSize();
             UpdateScrollBarSizes();
             UpdateScrollBarMaximumValues();
-            UpdateGraphicPanelSize();
-            if (!Properties.Settings.MySettings.EntityFreeCam) SyncScrollBarsWithMaximum();
+            UpdateGraphicPanelBackgroundColor();
+            if (!Methods.Editor.SolutionState.UnlockCamera) SyncScrollBarsWithMaximum();
         }
 
-        private void UpdateGraphicPanelSize()
+        private void UpdateGraphicPanelBackgroundColor()
         {
-            //this.GraphicPanel.Width = RenderingWidth;
-            //this.GraphicPanel.Height = RenderingHeight;
-            //GraphicPanel.ResetDevice();
+            this.GraphicPanel.DeviceBackColor = (Properties.Settings.MySettings.NightMode ? Methods.Internal.Theming.DarkTheme0 : System.Drawing.Color.Gray);
         }
 
         #endregion
@@ -506,10 +511,27 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         }
         private void UpdateScrollBarMaximumValues()
         {
-            double height = !double.IsNaN(this.vScrollBar1.ActualHeight) ? this.vScrollBar1.ActualHeight : 0;
-            double width = !double.IsNaN(this.hScrollBar1.ActualWidth) ? this.hScrollBar1.ActualWidth : 0;
-            vScrollBar1.Maximum = (ManiacEditor.Methods.Editor.Solution.SceneHeight * ManiacEditor.Methods.Editor.SolutionState.Zoom) - height;
-            hScrollBar1.Maximum = (ManiacEditor.Methods.Editor.Solution.SceneWidth * ManiacEditor.Methods.Editor.SolutionState.Zoom) - width;
+            if (!Methods.Editor.SolutionState.UnlockCamera)
+            {
+                double height = !double.IsNaN(this.vScrollBar1.ActualHeight) ? this.vScrollBar1.ActualHeight : 0;
+                double width = !double.IsNaN(this.hScrollBar1.ActualWidth) ? this.hScrollBar1.ActualWidth : 0;
+
+                vScrollBar1.Minimum = 0;
+                hScrollBar1.Minimum = 0;
+
+                vScrollBar1.Maximum = (ManiacEditor.Methods.Editor.Solution.SceneHeight * ManiacEditor.Methods.Editor.SolutionState.Zoom) - height;
+                hScrollBar1.Maximum = (ManiacEditor.Methods.Editor.Solution.SceneWidth * ManiacEditor.Methods.Editor.SolutionState.Zoom) - width;
+            }
+            else
+            {
+                vScrollBar1.Minimum = double.MinValue;
+                hScrollBar1.Minimum = double.MinValue;
+
+                vScrollBar1.Maximum = double.MaxValue;
+                hScrollBar1.Maximum = double.MaxValue;
+
+            }
+
         }
         private void UpdateScrollIncrementsX()
         {
@@ -545,8 +567,8 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             Visibility nvscrollbar = Visibility.Visible;
             Visibility nhscrollbar = Visibility.Visible;
 
-            if (this.hScrollBar1.Maximum == 0) nhscrollbar = Visibility.Hidden;
-            if (this.vScrollBar1.Maximum == 0) nvscrollbar = Visibility.Hidden;
+            if (this.hScrollBar1.Maximum == 0 && !Methods.Editor.SolutionState.UnlockCamera) nhscrollbar = Visibility.Hidden;
+            if (this.vScrollBar1.Maximum == 0 && !Methods.Editor.SolutionState.UnlockCamera) nvscrollbar = Visibility.Hidden;
 
             this.vScrollBar1.Visibility = nvscrollbar;
             this.hScrollBar1.Visibility = nhscrollbar;
@@ -571,8 +593,6 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             if (Methods.Editor.Solution.CurrentScene != null)
             {
                 DrawBackground();
-
-                //if (UIModes.DebugStatsVisibleOnPanel && Classes.Edit.Scene.EditorSolution.CurrentScene != null) DrawDebugHUD();
 
                 if (Methods.Editor.Solution.CurrentScene.OtherLayers.Contains(Methods.Editor.Solution.EditLayerA)) Methods.Editor.Solution.EditLayerA.Draw(GraphicPanel);
 
@@ -612,6 +632,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
             if (Methods.Editor.SolutionState.ShowGrid && Methods.Editor.Solution.CurrentScene != null) Instance.EditBackground.DrawGrid(GraphicPanel);
 
+            if (Methods.Editor.SolutionState.UnlockCamera) DrawSceneBounds();
 
             if (Methods.Runtime.GameHandler.GameRunning) DrawGameElements();
 
@@ -620,7 +641,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             void DrawBackground()
             {
                 if (!ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.HideNormalBackground == false) Instance.EditBackground.Draw(GraphicPanel);
-                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.ShowEditLayerBackground == true) Instance.EditBackground.DrawEdit(GraphicPanel);
+                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.ShowEditLayerBackground == true) Instance.EditBackground.Draw(GraphicPanel, true);
             }
 
             void DrawScroller()
@@ -669,21 +690,19 @@ namespace ManiacEditor.Controls.Editor.Elements.View
                 }
             }
 
-            /*
-            void DrawDebugHUD()
+            void DrawSceneBounds()
             {
-                Point point = new Point((short)(15), (short)(15));
+                int x1 = 0;
+                int x2 = Methods.Editor.Solution.SceneWidth;
+                int y1 = 0;
+                int y2 = Methods.Editor.Solution.SceneHeight;
 
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y, StateModel.GetDataFolder(), true, 255, 15);
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 1, StateModel.GetMasterDataFolder(), true, 255, 22);
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 2, StateModel.GetScenePath(), true, 255, 11);
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 3, StateModel.GetSceneFilePath(), true, 255, 12);
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 4, StateModel.GetZoom(), true, 255, 11);
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 5, StateModel.GetSetupObject(), true, 255, 13);
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 6, StateModel.GetSelectedZone(), true, 255, 14);
 
-                DebugTextHUD.DrawEditorHUDText(this, GraphicPanel, point.X, point.Y + 12 * 8, "Use " + EditorControls.KeyBindPraser("StatusBoxToggle") + " to Toggle this Information", true, 255, EditorControls.KeyBindPraser("StatusBoxToggle").Length, 4);
-            }*/
+                GraphicPanel.DrawLine(x1, y1, x1, y2, System.Drawing.Color.White);
+                GraphicPanel.DrawLine(x1, y1, x2, y1, System.Drawing.Color.White);
+                GraphicPanel.DrawLine(x2, y2, x1, y2, System.Drawing.Color.White);
+                GraphicPanel.DrawLine(x2, y2, x2, y1, System.Drawing.Color.White);
+            }
 
             void DrawSelectionBox(bool resetSelection = false)
             {

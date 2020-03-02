@@ -15,7 +15,7 @@ namespace ManiacEditor.Methods.Internal
     {
         private static ManiacEditor.Controls.Editor.MainEditor Instance;
         //Dark Theme
-        public static Color darkTheme0 = Color.FromArgb(255, 40, 40, 40);
+        public static Color DarkTheme0 = Color.FromArgb(255, 40, 40, 40);
         public static Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
         public static Color darkTheme2 = Color.FromArgb(255, 70, 70, 70);
         public static Color darkTheme3 = Color.White;

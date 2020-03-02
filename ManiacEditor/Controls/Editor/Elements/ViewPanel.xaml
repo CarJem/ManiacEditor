@@ -9,27 +9,29 @@
              xmlns:myControls="clr-namespace:ManiacEditor.Controls.Editor.Elements.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}" Margin="3">
-        <StackPanel></StackPanel>
-        <global:SplitContainer x:Name="SplitContainer">
-            <global:SplitContainer.LeftContainer>
-                <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelLeft"></Grid>
-            </global:SplitContainer.LeftContainer>
-            <global:SplitContainer.CenterContainer>
-                <Grid>
-                    <myControls:WaitingPanel x:Name="WaitingPanel"></myControls:WaitingPanel>
-                    <myControls:ScrollGrid Margin="3" x:Name="ScrollGrid"></myControls:ScrollGrid>
-                    <Grid Margin="3" x:Name="CenterPanel">
-                        <myControls:DebugHUD x:Name="InfoHUD" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:DebugHUD>
-                        <myControls:SharpPanel x:Name="SharpPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:SharpPanel>
+    <Border BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="2">
+        <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}">
+            <StackPanel></StackPanel>
+            <global:SplitContainer x:Name="SplitContainer">
+                <global:SplitContainer.LeftContainer>
+                    <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelLeft"></Grid>
+                </global:SplitContainer.LeftContainer>
+                <global:SplitContainer.CenterContainer>
+                    <Grid>
+                        <myControls:WaitingPanel x:Name="WaitingPanel"></myControls:WaitingPanel>
+                        <myControls:ScrollGrid x:Name="ScrollGrid"></myControls:ScrollGrid>
+                        <Grid x:Name="CenterPanel">
+                            <myControls:DebugHUD x:Name="InfoHUD" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:DebugHUD>
+                            <myControls:SharpPanel x:Name="SharpPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:SharpPanel>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </global:SplitContainer.CenterContainer>
-            <global:SplitContainer.RightContainer>
-                <Grid>
-                    <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelRight"></Grid>
-                </Grid>
-            </global:SplitContainer.RightContainer>
-        </global:SplitContainer>
-    </Grid>
+                </global:SplitContainer.CenterContainer>
+                <global:SplitContainer.RightContainer>
+                    <Grid>
+                        <Grid Background="{DynamicResource StatusBarBackground}" x:Name="ToolBarPanelRight"></Grid>
+                    </Grid>
+                </global:SplitContainer.RightContainer>
+            </global:SplitContainer>
+        </Grid>
+    </Border>
 </UserControl>

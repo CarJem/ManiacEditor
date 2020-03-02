@@ -90,6 +90,7 @@
                 <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="SetEncorePalleteEvent"/>
                 <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="SetEncorePalleteEvent"/>
                 </MenuItem>
+                <MenuItem x:Name="UnlockCameraToolStripMenuItem" Header="Unlock Camera Boundaries" IsCheckable="True" Click="UnlockCameraToolStripMenuItem_Click"/>
                 <MenuItem x:Name="statsViewerToolStripMenuItem" Header="Editor HUD...">
                     <MenuItem x:Name="showStatsToolStripMenuItem" Header="Enable HUD" Click="ToggleDebugHUDEvent"/>
                     <Separator Visibility="Hidden"/>
