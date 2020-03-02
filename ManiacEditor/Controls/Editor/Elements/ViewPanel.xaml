@@ -7,7 +7,6 @@
              xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls"
              xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
              xmlns:myControls="clr-namespace:ManiacEditor.Controls.Editor.Elements.View"
-             xmlns:jungle="clr-namespace:JungleControls;assembly=JungleControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource NormalBackground}" Margin="3">

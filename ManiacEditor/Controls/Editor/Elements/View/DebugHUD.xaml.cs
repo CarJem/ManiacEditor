@@ -108,7 +108,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetSceneTileConfigPath()
         {
-            if (ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source != null && ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.SourcePath != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.SourcePath, "TileConfig.bin").ToString();
+            if (ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source != null && ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.SourcePath != "") return "Scene TileConfig Path: " + System.IO.Path.Combine(ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.SourcePath, "TileConfig.bin").ToString();
             else return "Scene TileConfig Path: N/A";
         }
 
@@ -165,25 +165,25 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetZoom()
         {
-            return Math.Round(Classes.Editor.SolutionState.Zoom, 2).ToString();
+            return Math.Round(Methods.Editor.SolutionState.Zoom, 2).ToString();
         }
 
         public string GetSelectedZone()
         {
-            if (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone != null && ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone != "") return "Selected Zone: " + ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone;
+            if (ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone != null && ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone != "") return "Selected Zone: " + ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone;
             else return "Selected Zone: N/A";
         }
 
         public string GetSceneFilePath()
         {
-            if (ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source != null && ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourcePath != "") return "Scene File: " + ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourcePath;
+            if (ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source != null && ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source.SourcePath != "") return "Scene File: " + ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source.SourcePath;
             else return "Scene File: N/A";
         }
 
         public string GetScenePath()
         {
 
-            if (ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source != null && ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory != "") return "Scene Path: " + ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.SourceDirectory;
+            if (ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source != null && ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source.SourceDirectory != "") return "Scene Path: " + ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source.SourceDirectory;
             else return "Scene Path: N/A";
         }
 
@@ -191,7 +191,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         {   
             if (Instance != null)
             {
-                if (ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory != null && ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory != "") return "Data Directory: " + ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
+                if (ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory != null && ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory != "") return "Data Directory: " + ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.DataDirectory;
                 else return "Data Directory: N/A";
             }
             return "Data Directory: N/A";
@@ -199,15 +199,15 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         }
         public string GetMasterDataFolder()
         {
-            if (ManiacEditor.Classes.Editor.SolutionPaths.MasterDataDirectory != null && ManiacEditor.Classes.Editor.SolutionPaths.MasterDataDirectory != "") return "Master Data Directory: " + ManiacEditor.Classes.Editor.SolutionPaths.MasterDataDirectory;
+            if (ManiacEditor.Methods.Editor.SolutionPaths.DefaultMasterDataDirectory != null && ManiacEditor.Methods.Editor.SolutionPaths.DefaultMasterDataDirectory != "") return "Master Data Directory: " + ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory;
             else return "Master Data Directory: N/A";
         }
 
         public string GetSetupObject()
         {
-            if (Classes.Editor.Solution.Entities != null && Classes.Editor.Solution.Entities.SetupObject != null && Classes.Editor.Solution.Entities.SetupObject != "")
+            if (Methods.Editor.Solution.Entities != null && Methods.Editor.Solution.Entities.SetupObject != null && Methods.Editor.Solution.Entities.SetupObject != "")
             {
-                return "Setup Object: " + Classes.Editor.Solution.Entities.SetupObject;
+                return "Setup Object: " + Methods.Editor.Solution.Entities.SetupObject;
             }
             else
             {
@@ -218,8 +218,8 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public string GetPosition()
         {
-            int x = (int)((Classes.Editor.SolutionState.ViewPositionX / Classes.Editor.SolutionState.Zoom) / 16);
-            int y = (int)((Classes.Editor.SolutionState.ViewPositionY / Classes.Editor.SolutionState.Zoom) / 16);
+            int x = (int)((Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.Zoom) / 16);
+            int y = (int)((Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.Zoom) / 16);
             return string.Format("Position: {0}, {1}", x, y);
         }
 
@@ -269,7 +269,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         public void UpdatePopupVisibility()
         {
-            if (IsUserVisible(Instance.ViewPanel.SharpPanel) && Classes.Editor.SolutionState.IsSceneLoaded() && Classes.Editor.SolutionState.DebugStatsVisibleOnPanel)
+            if (IsUserVisible(Instance.ViewPanel.SharpPanel) && Methods.Editor.SolutionState.IsSceneLoaded() && Methods.Editor.SolutionState.DebugStatsVisibleOnPanel)
             {
                 ViewPanelHUD.IsOpen = true;
             }

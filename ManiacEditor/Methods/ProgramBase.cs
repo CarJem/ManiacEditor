@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
 using System.Windows;
-using ManiacEditor.Classes.Internal;
+using ManiacEditor.Classes.General;
 
 
 namespace ManiacEditor.Methods
@@ -231,6 +231,7 @@ namespace ManiacEditor.Methods
         public static void StartLogging()
         {
             log4net.GlobalContext.Properties["MEVersion"] = GetCasualVersion().ToString();
+            log4net.GlobalContext.Properties["LogDirectory"] = Methods.ProgramPaths.GetLoggingFolder;
             log4net.Config.XmlConfigurator.Configure();
             Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -285,7 +286,7 @@ namespace ManiacEditor.Methods
 
         static void CleanUpLogsFolder()
         {
-            string folder = Classes.Editor.Constants.GetLoggingFolder();
+            string folder = Methods.ProgramPaths.GetLoggingFolder;
             if (Directory.Exists(folder))
             {
                 DirectoryInfo logsFolder = new DirectoryInfo(folder);

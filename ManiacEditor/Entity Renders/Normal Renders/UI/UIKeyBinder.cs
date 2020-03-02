@@ -6,9 +6,9 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int platformAngle = properties.PlatformAngle;
             Methods.Entities.EntityAnimator Animation = properties.Animations;
             bool selected  = properties.isSelected;
-            string text = "Text" + Classes.Editor.SolutionState.CurrentLanguage;
+            string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
             int type = (int)entity.attributesMap["type"].ValueUInt8;
             int inputID = (int)entity.attributesMap["inputID"].ValueUInt8;
             int width = 48;
@@ -63,13 +63,13 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frame = editorAnim.Frames[Animation.index];
                 e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x, y + frame.Frame.PivotY,
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
             if (editorAnimKey != null && editorAnimKey.Frames.Count != 0)
             {
                 var frame = editorAnimKey.Frames[Animation.index];
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - 16, y + frame.Frame.PivotY,
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - 16, y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
             }
 

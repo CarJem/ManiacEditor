@@ -197,14 +197,14 @@ namespace ManiacEditor.Controls.TileManiac
 
 		void LoadSettings()
 		{
-			if (Methods.Settings.MyDefaults.TileManiacListSetting == 0)
+			if (Properties.Settings.MyDefaults.TileManiacListSetting == 0)
 			{
 				uncheckListViews();
 				collisionViewRadioButton.IsChecked = true;
 				lockRadioButtons = false;
 				listSetting = 0;
 			}
-			else if (Methods.Settings.MyDefaults.TileManiacListSetting == 1)
+			else if (Properties.Settings.MyDefaults.TileManiacListSetting == 1)
 			{
 				uncheckListViews();
 				tileViewRadioButton.IsChecked = true;
@@ -212,7 +212,7 @@ namespace ManiacEditor.Controls.TileManiac
 				listSetting = 1;
 			}
 
-			if (Methods.Settings.MyDefaults.TileManiacRenderViewerSetting == 0)
+			if (Properties.Settings.MyDefaults.TileManiacRenderViewerSetting == 0)
 			{
 				unCheckModes();
 				tileViewButton.IsChecked = true;
@@ -221,7 +221,7 @@ namespace ManiacEditor.Controls.TileManiac
 				changingModes = false;
 				viewerSetting = 0;
 			}
-			else if (Methods.Settings.MyDefaults.TileManiacRenderViewerSetting == 1)
+			else if (Properties.Settings.MyDefaults.TileManiacRenderViewerSetting == 1)
 			{
 				unCheckModes();
 				colllisionViewButton.IsChecked = true;
@@ -230,7 +230,7 @@ namespace ManiacEditor.Controls.TileManiac
 				changingModes = false;
 				viewerSetting = 1;
 			}
-			else if (Methods.Settings.MyDefaults.TileManiacRenderViewerSetting == 2)
+			else if (Properties.Settings.MyDefaults.TileManiacRenderViewerSetting == 2)
 			{
 				unCheckModes();
 				overlayViewButton.IsChecked = true;
@@ -239,12 +239,12 @@ namespace ManiacEditor.Controls.TileManiac
 				changingModes = false;
 				viewerSetting = 2;
 			}
-			if (Methods.Settings.MyDefaults.TileManiacShowGrid)
+			if (Properties.Settings.MyDefaults.TileManiacShowGrid)
 			{
 				showGridToolStripMenuItem.IsChecked = true;
 				showGrid = true;
 			}
-			if (Methods.Settings.MyDefaults.TileManiacClassicMode)
+			if (Properties.Settings.MyDefaults.TileManiacClassicMode)
 			{
 				CollisionViewer.IsEnabled = false;
 				CollisionViewer.Visibility =  Visibility.Hidden;
@@ -260,7 +260,7 @@ namespace ManiacEditor.Controls.TileManiac
 				ClassicMode.Visibility = Visibility.Hidden;
 				ClassicMode.IsEnabled = false;
 			}
-			switch (Methods.Settings.MyDefaults.TileManiacViewAppearanceMode)
+			switch (Properties.Settings.MyDefaults.TileManiacViewAppearanceMode)
 			{
 				case 0:
 					overlayToolStripMenuItem.IsChecked = true;
@@ -273,14 +273,14 @@ namespace ManiacEditor.Controls.TileManiac
 					viewAppearanceMode = 1;
 					break;
 			}
-			if (Methods.Settings.MyDefaults.TileManiacMirrorMode)
+			if (Properties.Settings.MyDefaults.TileManiacMirrorMode)
 			{
 				mirrorPathsToolStripMenuItem1.IsChecked = true;
 				mirrorMode = true;
 				UpdateMirrorModeStatusLabel();
 
 			}
-			if (Methods.Settings.MyDefaults.TileManiacWindowAlwaysOnTop)
+			if (Properties.Settings.MyDefaults.TileManiacWindowAlwaysOnTop)
 			{
 				windowAlwaysOnTop.IsChecked = true;
 				this.Topmost = true;
@@ -504,9 +504,9 @@ namespace ManiacEditor.Controls.TileManiac
 				{
 					if (imageIsModified && indexedImagedLoaded)
 					{
-						if (!Methods.Settings.MyDefaults.TileManiacAllowDirect16x16TilesGIFEditing)
+						if (!Properties.Settings.MyDefaults.TileManiacAllowDirect16x16TilesGIFEditing)
 						{
-							if (Methods.Settings.MyDefaults.TileManiacPromptForChoiceOnImageWrite)
+							if (Properties.Settings.MyDefaults.TileManiacPromptForChoiceOnImageWrite)
 							{
 								MessageBoxResult result = MessageBox.Show("You have made changes that require the 16x16Tiles.gif to be modifed. While this feature should normally work just fine, it may cause some issues, which is why you may choose if you want to or not. So do you want to save directly to the 16x16Tiles.gif? (Click No will save to 16x16Tiles_Copy.gif, and Cancel with not write this file at all) (You also can change this dialog's visibility in options)", "Saving 16x16Tiles.gif", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 								if (result == MessageBoxResult.Yes)
@@ -1895,7 +1895,7 @@ namespace ManiacEditor.Controls.TileManiac
 				colllisionViewButton.IsChecked = true;
 				CollisionPicBox.Visible = true;
 				PicBoxHost3Collision.Visibility = Visibility.Visible;
-				Methods.Options.GeneralSettings.Save();
+				Classes.Options.GeneralSettings.Save();
 				changingModes = false;
 				RefreshUI();
 
@@ -1909,7 +1909,7 @@ namespace ManiacEditor.Controls.TileManiac
 				unCheckModes();
 				tileViewButton.IsChecked = true;
 				viewerSetting = 1;
-				Methods.Options.GeneralSettings.Save();
+				Classes.Options.GeneralSettings.Save();
 				PicBoxHost2Tile.Visibility = Visibility.Visible;
 				TilePicBox.Visible = true;
 				changingModes = false;
@@ -1924,7 +1924,7 @@ namespace ManiacEditor.Controls.TileManiac
 			{
 				unCheckModes();
 				viewerSetting = 2;
-				Methods.Options.GeneralSettings.Save();
+				Classes.Options.GeneralSettings.Save();
 				overlayViewButton.IsChecked = true;
 				PicBoxHost1Overlay.Visibility = Visibility.Visible;
 				overlayPicBox.Visible = true;
@@ -1955,7 +1955,7 @@ namespace ManiacEditor.Controls.TileManiac
 			{
 				uncheckListViews();
 				listSetting = 1;
-				Methods.Options.GeneralSettings.Save();
+				Classes.Options.GeneralSettings.Save();
 				tileViewRadioButton.IsChecked = true;
 				lockRadioButtons = false;
 				refreshCollision();
@@ -1969,7 +1969,7 @@ namespace ManiacEditor.Controls.TileManiac
 			{
 				uncheckListViews();
 				listSetting = 0;
-				Methods.Options.GeneralSettings.Save();
+				Classes.Options.GeneralSettings.Save();
 				collisionViewRadioButton.IsChecked = true;
 				lockRadioButtons = false;
 				refreshCollision();
@@ -2004,7 +2004,7 @@ namespace ManiacEditor.Controls.TileManiac
 		{
 			if (!showPathB)
 			{
-				if (Clipboard.ContainsData("TileManiacCollision") && Methods.Settings.MyDefaults.TileManiacEnableWindowsClipboard)
+				if (Clipboard.ContainsData("TileManiacCollision") && Properties.Settings.MyDefaults.TileManiacEnableWindowsClipboard)
 				{
 					var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
 					if (copyData != null)
@@ -2022,7 +2022,7 @@ namespace ManiacEditor.Controls.TileManiac
 			}
 			else if (showPathB)
 			{
-				if (Clipboard.ContainsData("TileManiacCollision") && Methods.Settings.MyDefaults.TileManiacEnableWindowsClipboard)
+				if (Clipboard.ContainsData("TileManiacCollision") && Properties.Settings.MyDefaults.TileManiacEnableWindowsClipboard)
 				{
 					var copyData = Clipboard.GetData("TileManiacCollision") as TileConfig.CollisionMask;
 					if (copyData != null)
@@ -2713,7 +2713,7 @@ namespace ManiacEditor.Controls.TileManiac
 		{
 			try
 			{
-				Methods.Options.GeneralSettings.Save();
+				Classes.Options.GeneralSettings.Save();
 			}
 			catch (Exception ex)
 			{

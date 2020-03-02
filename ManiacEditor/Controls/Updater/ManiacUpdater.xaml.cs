@@ -124,7 +124,7 @@ namespace ManiacEditor.Controls.Updater
 
                 if (isOnline)
                 {
-                    string download_path = ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder;
+                    string download_path = Methods.ProgramPaths.DownloadRequestsFolder;
                     string url = @"https://raw.githubusercontent.com/CarJem/GenerationsLib.Updates/master/UpdateMetadata/ManiacEditor_Updates.json";
                     VersionCheckFileName = DownloadFromURL(url, download_path, DownloadVersionCheckFileComplete);
                 }
@@ -143,13 +143,13 @@ namespace ManiacEditor.Controls.Updater
 
         private void CleanCache()
         {
-            foreach (var file in Directory.EnumerateFiles(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder, "*.*"))
+            foreach (var file in Directory.EnumerateFiles(Methods.ProgramPaths.DownloadRequestsFolder, "*.*"))
             {
                 File.Delete(file);
             }
         }
 
-        private void UpdateUpdaterText(int state, Classes.Internal.VersionCheck versionCheck = null)
+        private void UpdateUpdaterText(int state, Classes.General.VersionCheck versionCheck = null)
         {
             if (state == 0)
             {
@@ -202,7 +202,7 @@ namespace ManiacEditor.Controls.Updater
         {
             try
             {
-                Classes.Internal.VersionCheck versionCheck = new Classes.Internal.VersionCheck(new FileInfo(System.IO.Path.Combine(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder, VersionCheckFileName)));
+                Classes.General.VersionCheck versionCheck = new Classes.General.VersionCheck(new FileInfo(System.IO.Path.Combine(Methods.ProgramPaths.DownloadRequestsFolder, VersionCheckFileName)));
 
                 var current = Methods.ProgramBase.GetVersion();
                 var remote = versionCheck.Version;
@@ -298,7 +298,7 @@ namespace ManiacEditor.Controls.Updater
 
                 if (isOnline)
                 {
-                    string download_path = ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder;
+                    string download_path = Methods.ProgramPaths.DownloadRequestsFolder;
                     string url = InstallerDownloadURL;
                     UpdateFileName = DownloadFromURL(url, download_path, DownloadUpdateFileComplete, false);
                 }
@@ -317,7 +317,7 @@ namespace ManiacEditor.Controls.Updater
         {
             try
             {
-                string updateLocation = System.IO.Path.Combine(ManiacEditor.Classes.Editor.Constants.DownloadRequestsFolder, UpdateFileName);
+                string updateLocation = System.IO.Path.Combine(Methods.ProgramPaths.DownloadRequestsFolder, UpdateFileName);
                 Process.Start(updateLocation);
                 Environment.Exit(0);
             }

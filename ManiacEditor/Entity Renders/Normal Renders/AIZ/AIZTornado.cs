@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -33,15 +33,15 @@ namespace ManiacEditor.Entity_Renders
                 Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
                 Animation.ProcessAnimation2(frame3.Entry.SpeedMultiplyer, frame3.Entry.Frames.Count, frame3.Frame.Delay);
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame3),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
                     x + frame3.Frame.PivotX,
                     y + frame3.Frame.PivotY,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame2),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
                     x + frame2.Frame.PivotX,
                     y + frame2.Frame.PivotY,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);

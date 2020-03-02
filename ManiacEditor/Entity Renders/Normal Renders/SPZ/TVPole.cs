@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -32,21 +32,21 @@ namespace ManiacEditor.Entity_Renders
                 {
                     if (xx == 0)
                     {
-                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                             x + (wEven ? frame2.Frame.PivotX : -frame.Frame.Width) + (-value / 2 + xx) * frame2.Frame.Width,
                             y + frame2.Frame.PivotY,
                             frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
                     }
                     else if (xx == value)
                     {
-                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame3),
+                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
                             x + (wEven ? frame3.Frame.PivotX : -frame3.Frame.Width) + (-value / 2 + xx) * frame3.Frame.Width,
                             y + frame3.Frame.PivotY,
                             frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
                     }
                     else
                     {
-                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame2),
+                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
                             x + (wEven ? frame2.Frame.PivotX : -frame2.Frame.Width) + (-value / 2 + xx) * frame2.Frame.Width,
                             y + frame2.Frame.PivotY,
                             frame2.Frame.Width, frame2.Frame.Height, false, Transparency);

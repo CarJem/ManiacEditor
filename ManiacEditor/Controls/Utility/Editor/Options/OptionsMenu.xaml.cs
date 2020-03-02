@@ -35,33 +35,33 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 		{
 			InitializeComponent();
 
-            SetScrollerToggleTypeRadioButtonState(Methods.Settings.MySettings.ScrollerPressReleaseMode);
+            SetScrollerToggleTypeRadioButtonState(Properties.Settings.MySettings.ScrollerPressReleaseMode);
             CheckGraphicalSettingTimer = new System.Windows.Forms.Timer();
 			CheckGraphicalSettingTimer.Interval = 10;
 			CheckGraphicalSettingTimer.Tick += CheckGraphicalPresetModeState;
 
-			if (Methods.Settings.MyDefaults.ScrollLockDirectionDefault == false) radioButtonX.IsChecked = true;
+			if (Properties.Settings.MyDefaults.ScrollLockDirectionDefault == false) radioButtonX.IsChecked = true;
 			else radioButtonY.IsChecked = true;
 
-            if (Methods.Settings.MyInternalSettings.PortableMode) PortableCheckbox.IsChecked = true;
+            if (Properties.Settings.MyInternalSettings.PortableMode) PortableCheckbox.IsChecked = true;
             else NonPortableCheckbox.IsChecked = true;
 
-            if (Methods.Settings.MyDefaults.SceneSelectFilesViewDefault) SceneSelectRadio2.IsChecked = true;
+            if (Properties.Settings.MyDefaults.SceneSelectFilesViewDefault) SceneSelectRadio2.IsChecked = true;
             else SceneSelectRadio1.IsChecked = true;
 
-            collisionColorsRadioGroupUpdate(Methods.Settings.MyDefaults.DefaultCollisionColors);
+            collisionColorsRadioGroupUpdate(Properties.Settings.MyDefaults.DefaultCollisionColors);
 			collisionColorsRadioGroupCheckChangeAllowed = true;
-			if (Methods.Settings.MyDefaults.DefaultGridSizeOption == 0) uncheckOtherGridDefaults(1);
-			if (Methods.Settings.MyDefaults.DefaultGridSizeOption == 1) uncheckOtherGridDefaults(2);
-			if (Methods.Settings.MyDefaults.DefaultGridSizeOption == 2) uncheckOtherGridDefaults(3);
-			if (Methods.Settings.MyDefaults.DefaultGridSizeOption == 3) uncheckOtherGridDefaults(4);
+			if (Properties.Settings.MyDefaults.DefaultGridSizeOption == 0) uncheckOtherGridDefaults(1);
+			if (Properties.Settings.MyDefaults.DefaultGridSizeOption == 1) uncheckOtherGridDefaults(2);
+			if (Properties.Settings.MyDefaults.DefaultGridSizeOption == 2) uncheckOtherGridDefaults(3);
+			if (Properties.Settings.MyDefaults.DefaultGridSizeOption == 3) uncheckOtherGridDefaults(4);
 
-            if (Methods.Settings.MyInternalSettings.PortableMode) PortableCheckbox.IsChecked = true;
+            if (Properties.Settings.MyInternalSettings.PortableMode) PortableCheckbox.IsChecked = true;
             else NonPortableCheckbox.IsChecked = true;
 
 			foreach (RadioButton rdo in Extensions.Extensions.FindVisualChildren<RadioButton>(MenuLangGroup))
 			{
-				if (rdo.Tag.ToString() == Methods.Settings.MyDefaults.MenuLanguageDefault)
+				if (rdo.Tag.ToString() == Properties.Settings.MyDefaults.MenuLanguageDefault)
 				{
 					rdo.IsChecked = true;
 				}
@@ -69,7 +69,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 			foreach (RadioButton rdo in Extensions.Extensions.FindVisualChildren<RadioButton>(ButtonLayoutGroup))
 			{
-				if (rdo.Tag.ToString() == Methods.Settings.MyDefaults.MenuButtonLayoutDefault)
+				if (rdo.Tag.ToString() == Properties.Settings.MyDefaults.MenuButtonLayoutDefault)
 				{
 					rdo.IsChecked = true;
 				}
@@ -77,7 +77,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 
 
-			if (Methods.Settings.MySettings.NightMode)
+			if (Properties.Settings.MySettings.NightMode)
 			{
 				DarkModeCheckBox.IsChecked = true;
 			}
@@ -87,7 +87,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			SetAllKeybindTextboxes();
 			UpdateCustomColors();
 
-            switch (Methods.Settings.MyDefaults.TileManiacListSetting)
+            switch (Properties.Settings.MyDefaults.TileManiacListSetting)
             {
                 case 0:
                     collisionListRadioButton.IsChecked = true;
@@ -96,7 +96,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                     tileListRadioButton.IsChecked = true;
                     break;
             }
-            switch (Methods.Settings.MyDefaults.TileManiacViewAppearanceMode)
+            switch (Properties.Settings.MyDefaults.TileManiacViewAppearanceMode)
             {
                 case 0:
                     overlayEditorViewRadioButton.IsChecked = true;
@@ -105,7 +105,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                     collisionEditorViewRadioButton.IsChecked = true;
                     break;
             }
-            switch (Methods.Settings.MyDefaults.TileManiacRenderViewerSetting)
+            switch (Properties.Settings.MyDefaults.TileManiacRenderViewerSetting)
             {
                 case 0:
                     tileRenderViewRadioButton.IsChecked = true;
@@ -122,11 +122,11 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void UpdateCustomColors()
 		{
-			CSAC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Settings.MyDefaults.CollisionSAColour.A, Methods.Settings.MyDefaults.CollisionSAColour.R, Methods.Settings.MyDefaults.CollisionSAColour.G, Methods.Settings.MyDefaults.CollisionSAColour.B));
-			SSTOC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Settings.MyDefaults.CollisionTOColour.A, Methods.Settings.MyDefaults.CollisionTOColour.R, Methods.Settings.MyDefaults.CollisionTOColour.G, Methods.Settings.MyDefaults.CollisionTOColour.B));
-			CSLRDC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Settings.MyDefaults.CollisionLRDColour.A, Methods.Settings.MyDefaults.CollisionLRDColour.R, Methods.Settings.MyDefaults.CollisionLRDColour.G, Methods.Settings.MyDefaults.CollisionLRDColour.B));
-			WLC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Settings.MyDefaults.WaterEntityColorDefault.A, Methods.Settings.MyDefaults.WaterEntityColorDefault.R, Methods.Settings.MyDefaults.WaterEntityColorDefault.G, Methods.Settings.MyDefaults.WaterEntityColorDefault.B));
-			GDC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Settings.MyDefaults.DefaultGridColor.A, Methods.Settings.MyDefaults.DefaultGridColor.R, Methods.Settings.MyDefaults.DefaultGridColor.G, Methods.Settings.MyDefaults.DefaultGridColor.B));
+			CSAC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.CollisionSAColour.A, Properties.Settings.MyDefaults.CollisionSAColour.R, Properties.Settings.MyDefaults.CollisionSAColour.G, Properties.Settings.MyDefaults.CollisionSAColour.B));
+			SSTOC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.CollisionTOColour.A, Properties.Settings.MyDefaults.CollisionTOColour.R, Properties.Settings.MyDefaults.CollisionTOColour.G, Properties.Settings.MyDefaults.CollisionTOColour.B));
+			CSLRDC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.CollisionLRDColour.A, Properties.Settings.MyDefaults.CollisionLRDColour.R, Properties.Settings.MyDefaults.CollisionLRDColour.G, Properties.Settings.MyDefaults.CollisionLRDColour.B));
+			WLC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.WaterEntityColorDefault.A, Properties.Settings.MyDefaults.WaterEntityColorDefault.R, Properties.Settings.MyDefaults.WaterEntityColorDefault.G, Properties.Settings.MyDefaults.WaterEntityColorDefault.B));
+			GDC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.DefaultGridColor.A, Properties.Settings.MyDefaults.DefaultGridColor.R, Properties.Settings.MyDefaults.DefaultGridColor.G, Properties.Settings.MyDefaults.DefaultGridColor.B));
 		}
 
 		private void CheckGraphicalPresetModeState(object sender, EventArgs e)
@@ -166,11 +166,11 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				if (SceneSelectRadio2.IsChecked == true)
 				{
-					Methods.Settings.MyDefaults.SceneSelectFilesViewDefault = true;
+					Properties.Settings.MyDefaults.SceneSelectFilesViewDefault = true;
 				}
 				else
 				{
-					Methods.Settings.MyDefaults.SceneSelectFilesViewDefault = false;
+					Properties.Settings.MyDefaults.SceneSelectFilesViewDefault = false;
 
 				}
 			}
@@ -182,11 +182,11 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				if (SceneSelectRadio2.IsChecked == true)
 				{
-					Methods.Settings.MyDefaults.SceneSelectFilesViewDefault = true;
+					Properties.Settings.MyDefaults.SceneSelectFilesViewDefault = true;
 				}
 				else
 				{
-					Methods.Settings.MyDefaults.SceneSelectFilesViewDefault = false;
+					Properties.Settings.MyDefaults.SceneSelectFilesViewDefault = false;
 
 				}
 			}
@@ -199,11 +199,11 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				if (radioButtonY.IsChecked == true)
 				{
-					Methods.Settings.MyDefaults.ScrollLockDirectionDefault = true;
+					Properties.Settings.MyDefaults.ScrollLockDirectionDefault = true;
 				}
 				else
 				{
-					Methods.Settings.MyDefaults.ScrollLockDirectionDefault = false;
+					Properties.Settings.MyDefaults.ScrollLockDirectionDefault = false;
 
 				}
 			}
@@ -215,11 +215,11 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				if (radioButtonX.IsChecked == true)
 				{
-					Methods.Settings.MyDefaults.ScrollLockDirectionDefault = false;
+					Properties.Settings.MyDefaults.ScrollLockDirectionDefault = false;
 				}
 				else
 				{
-					Methods.Settings.MyDefaults.ScrollLockDirectionDefault = true;
+					Properties.Settings.MyDefaults.ScrollLockDirectionDefault = true;
 
 				}
 			}
@@ -230,22 +230,22 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
         {
             if (MessageBox.Show("Are you sure you want to wipe your settings? (This is includes all of your Keybinds, Data Directories, Defaults and so on...)", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                Methods.Settings.ResetAllSettings();
+                Properties.Settings.ResetAllSettings();
             }
         }
 
 		private void RPCCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 		{
-			if (Methods.Settings.MySettings.ShowDiscordRPC == false)
+			if (Properties.Settings.MySettings.ShowDiscordRPC == false)
 			{
 				RPCCheckBox.IsChecked = true;
-				Methods.Settings.MySettings.ShowDiscordRPC = true;
-				DiscordRP.UpdateDiscord(ManiacEditor.Classes.Editor.SolutionPaths.SceneFile_Source.ToString());
+				Properties.Settings.MySettings.ShowDiscordRPC = true;
+				DiscordRP.UpdateDiscord(ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source.ToString());
 			}
 			else
 			{
 				RPCCheckBox.IsChecked = false;
-				Methods.Settings.MySettings.ShowDiscordRPC = false;
+				Properties.Settings.MySettings.ShowDiscordRPC = false;
 				DiscordRP.UpdateDiscord();
 			}
 		}
@@ -262,7 +262,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void button11_Click(object sender, RoutedEventArgs e)
 		{
-            Methods.Settings.SaveAllSettings();
+            Properties.Settings.SaveAllSettings();
             this.DialogResult = true;
         }
 
@@ -272,7 +272,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
             ofd.Title = "Select Mania Mod Manager.exe";
             ofd.Filter = "Windows PE Executable|*.exe";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Methods.Settings.MyDefaults.ModLoaderPath = ofd.FileName;
+                Properties.Settings.MyDefaults.ModLoaderPath = ofd.FileName;
         }
 
         private void SonicMania_Click(object sender, RoutedEventArgs e)
@@ -281,7 +281,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
             ofd.Title = "Select Sonic Mania.exe";
             ofd.Filter = "Windows PE Executable|*.exe";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Methods.Settings.MyDefaults.SonicManiaPath = ofd.FileName;
+                Properties.Settings.MyDefaults.SonicManiaPath = ofd.FileName;
         }
 
         private void button15_Click(object sender, RoutedEventArgs e)
@@ -290,7 +290,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			ofd.Title = "Select RSDK Animation Editor.exe";
 			ofd.Filter = "Windows PE Executable|*.exe";
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				Methods.Settings.MyDefaults.AnimationEditorPath = ofd.FileName;
+				Properties.Settings.MyDefaults.AnimationEditorPath = ofd.FileName;
 		}
 
 		private void uncheckOtherGridDefaults(int i)
@@ -298,28 +298,28 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			switch (i)
 			{
 				case 1:
-                    Methods.Settings.MyDefaults.DefaultGridSizeOption = 0;
+                    Properties.Settings.MyDefaults.DefaultGridSizeOption = 0;
 					x16checkbox.IsChecked = true;
 					x128checkbox.IsChecked = false;
 					x256checkbox.IsChecked = false;
 					customGridCheckbox.IsChecked = false;
 					break;
 				case 2:
-                    Methods.Settings.MyDefaults.DefaultGridSizeOption = 1;
+                    Properties.Settings.MyDefaults.DefaultGridSizeOption = 1;
                     x16checkbox.IsChecked = false;
 					x128checkbox.IsChecked = true;
 					x256checkbox.IsChecked = false;
 					customGridCheckbox.IsChecked = false;
 					break;
 				case 3:
-                    Methods.Settings.MyDefaults.DefaultGridSizeOption = 2;
+                    Properties.Settings.MyDefaults.DefaultGridSizeOption = 2;
                     x16checkbox.IsChecked = false;
 					x128checkbox.IsChecked = false;
 					x256checkbox.IsChecked = true;
 					customGridCheckbox.IsChecked = false;
 					break;
 				case 4:
-                    Methods.Settings.MyDefaults.DefaultGridSizeOption = 3;
+                    Properties.Settings.MyDefaults.DefaultGridSizeOption = 3;
                     x16checkbox.IsChecked = false;
 					x128checkbox.IsChecked = false;
 					x256checkbox.IsChecked = false;
@@ -389,7 +389,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
-				Methods.Settings.MyDefaults.DefaultGridColor = colorSelect.Color;
+				Properties.Settings.MyDefaults.DefaultGridColor = colorSelect.Color;
                 UpdateCustomColors();
             }
         }
@@ -401,8 +401,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
-				Methods.Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
-				Classes.Editor.SolutionState.waterColor = colorSelect.Color;
+				Properties.Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
+				Methods.Editor.SolutionState.waterColor = colorSelect.Color;
 			}
 		}
 
@@ -413,7 +413,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
-				Methods.Settings.MyDefaults.CollisionTOColour = colorSelect.Color;
+				Properties.Settings.MyDefaults.CollisionTOColour = colorSelect.Color;
                 UpdateCustomColors();
             }
         }
@@ -425,7 +425,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
-				Methods.Settings.MyDefaults.CollisionLRDColour = colorSelect.Color;
+				Properties.Settings.MyDefaults.CollisionLRDColour = colorSelect.Color;
                 UpdateCustomColors();
             }
         }
@@ -437,7 +437,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
-				Methods.Settings.MyDefaults.CollisionSAColour = colorSelect.Color;
+				Properties.Settings.MyDefaults.CollisionSAColour = colorSelect.Color;
                 UpdateCustomColors();
             }
         }
@@ -468,21 +468,21 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                 }
             }
             */
-            Methods.Settings.ReloadAllSettings();
+            Properties.Settings.ReloadAllSettings();
 
-            if (DarkModeCheckBox.IsChecked == true && !Methods.Settings.MySettings.NightMode)
+            if (DarkModeCheckBox.IsChecked == true && !Properties.Settings.MySettings.NightMode)
 			{
-				Methods.Settings.MySettings.NightMode = true;
-				Methods.Options.GeneralSettings.Save();
+				Properties.Settings.MySettings.NightMode = true;
+				Classes.Options.GeneralSettings.Save();
 				App.ChangeSkin(Skin.Dark);
 				App.SkinChanged = true;
 				Methods.Internal.Theming.RefreshTheme();
 
 			}
-			else if (!DarkModeCheckBox.IsChecked == true && Methods.Settings.MySettings.NightMode)
+			else if (!DarkModeCheckBox.IsChecked == true && Properties.Settings.MySettings.NightMode)
 			{
-				Methods.Settings.MySettings.NightMode = false;
-				Methods.Options.GeneralSettings.Save();
+				Properties.Settings.MySettings.NightMode = false;
+				Classes.Options.GeneralSettings.Save();
 				App.ChangeSkin(Skin.Light);
 				App.SkinChanged = true;
 				Methods.Internal.Theming.RefreshTheme();
@@ -504,13 +504,13 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 		private void radioButton12_Click(object sender, RoutedEventArgs e)
 		{
 			RadioButton button = sender as RadioButton;
-			if (sender != null) Methods.Settings.MyDefaults.MenuLanguageDefault = button.Tag.ToString();
+			if (sender != null) Properties.Settings.MyDefaults.MenuLanguageDefault = button.Tag.ToString();
 		}
 
 		private void SetButtonLayoutDefault(object sender, RoutedEventArgs e)
 		{
 			RadioButton button = sender as RadioButton;
-			if (sender != null) Methods.Settings.MyDefaults.MenuButtonLayoutDefault = button.Tag.ToString();
+			if (sender != null) Properties.Settings.MyDefaults.MenuButtonLayoutDefault = button.Tag.ToString();
 		}
 
 
@@ -530,7 +530,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			{
 				string keybindName = KeyBind.Tag.ToString();
 
-				List<string> keyBindList = Methods.Settings.MyKeyBinds.GetInput(keybindName) as List<string>;
+				List<string> keyBindList = Properties.Settings.MyKeyBinds.GetInput(keybindName) as List<string>;
 
 				KeyBindConfigurator keybinder = new KeyBindConfigurator(keybindName);
 				keybinder.ShowDialog();
@@ -540,11 +540,11 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 					System.Windows.Forms.Keys keyBindtoSet = keybinder.CurrentBindingKey;
 					int keyIndex = keybinder.ListIndex;
 
-					var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keybindName) as List<string>;
+					var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keybindName) as List<string>;
 					String KeyString = kc.ConvertToString(keyBindtoSet);
 					keybindDict.RemoveAt(keyIndex);
 					keybindDict.Add(KeyString);
-					Methods.Settings.MyKeyBinds.SetInput(keybindName , keybindDict);
+					Properties.Settings.MyKeyBinds.SetInput(keybindName , keybindDict);
 				}
 			}
 			SetAllKeybindTextboxes();
@@ -559,14 +559,14 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			AllKeyBinds = new List<string>();
 			KnownKeybinds.Clear();
 			KnownKeybinds = new List<string>();
-			foreach (var currentProperty in Methods.Settings.MyKeyBinds.GetType().GetProperties())
+			foreach (var currentProperty in Properties.Settings.MyKeyBinds.GetType().GetProperties())
 			{
 				KnownKeybinds.Add(currentProperty.Name);
 			}
 			foreach (string keybind in KnownKeybinds)
 			{
 				if (!Extensions.Extensions.KeyBindsSettingExists(keybind)) continue;
-				var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keybind) as List<string>;
+				var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keybind) as List<string>;
 				if (keybindDict != null && keybindDict.Count != 0)
 				{
 					foreach (string item in keybindDict)
@@ -641,7 +641,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			List<string> keyBindList = new List<string>();
 			List<string> keyBindDuplicatesList = new List<string>();
 
-			var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
+			var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
 			if (keybindDict != null) keyBindList = keybindDict.Cast<string>().ToList();
 			if (keyBindList != null)
 			{
@@ -665,7 +665,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 			if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return new Tuple<string, string>("N/A", null);
 
-			var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
+			var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
 			if (keybindDict != null)
 			{
 				keyBindList = keybindDict.Cast<string>().ToList();
@@ -702,7 +702,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-            Methods.Settings.ReloadAllSettings();
+            Properties.Settings.ReloadAllSettings();
 			this.DialogResult = true;
 		}
 
@@ -725,9 +725,9 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
         {
             if (settingsTypeChangeLock == false)
             {
-				if (sender == PortableCheckbox && !Methods.Settings.MyInternalSettings.PortableMode)
+				if (sender == PortableCheckbox && !Properties.Settings.MyInternalSettings.PortableMode)
 				{
-					if (Methods.Options.InternalSwitches.TestPortableModeEligibilty() == true)
+					if (Classes.Options.InternalSwitches.TestPortableModeEligibilty() == true)
 					{
 						bool result = MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes;
 						if (result == true) SetPortableModeState(true);
@@ -737,7 +737,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 						}
 					}
 				}
-				else if (sender == NonPortableCheckbox && Methods.Settings.MyInternalSettings.PortableMode)
+				else if (sender == NonPortableCheckbox && Properties.Settings.MyInternalSettings.PortableMode)
 				{
 					bool result = MessageBox.Show("To apply this setting, the application must close. Would you like to continue?", "", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes;
 					if (result == true) SetStaticModeState(true);
@@ -750,7 +750,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 			void ResetToCurrent()
 			{
-				if (Methods.Settings.MyInternalSettings.PortableMode == true)
+				if (Properties.Settings.MyInternalSettings.PortableMode == true)
 				{
 					SetPortableModeState();
 				}
@@ -770,8 +770,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			
 			if (saveToFile)
 			{
-				Methods.Settings.MyInternalSettings.PortableMode = true;
-				Methods.Options.InternalSwitches.Save();
+				Properties.Settings.MyInternalSettings.PortableMode = true;
+				Classes.Options.InternalSwitches.Save();
 				Environment.Exit(0);
 			}
 		}
@@ -784,8 +784,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 			if (saveToFile)
 			{
-				Methods.Settings.MyInternalSettings.PortableMode = false;
-				Methods.Options.InternalSwitches.Save();
+				Properties.Settings.MyInternalSettings.PortableMode = false;
+				Classes.Options.InternalSwitches.Save();
 				Environment.Exit(0);
 			}
 		}
@@ -793,12 +793,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
         private void DataDirectoriesExport_Click(object sender, RoutedEventArgs e)
         {
 
-            if (Methods.Settings.MySettings.DataDirectories != null && Methods.Settings.MySettings.DataDirectories.Count >= 1)
+            if (Properties.Settings.MySettings.SavedDataDirectories != null && Properties.Settings.MySettings.SavedDataDirectories.Count >= 1)
             {
-                string[] output = new string[Methods.Settings.MySettings.DataDirectories.Count];
-                Methods.Settings.MySettings.DataDirectories.CopyTo(output, 0);
+                string[] output = new string[Properties.Settings.MySettings.SavedDataDirectories.Count];
+                Properties.Settings.MySettings.SavedDataDirectories.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
-                fsd.InitialDirectory = Classes.Editor.Constants.SettingsPortableDirectory;
+                fsd.InitialDirectory = Methods.ProgramPaths.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)
                 {
@@ -813,12 +813,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
         private void SavedPlacesExport_Click(object sender, RoutedEventArgs e)
         {
-            if (Methods.Settings.MySettings.SavedPlaces != null && Methods.Settings.MySettings.SavedPlaces.Count >= 1)
+            if (Properties.Settings.MySettings.SavedPlaces != null && Properties.Settings.MySettings.SavedPlaces.Count >= 1)
             {
-                string[] output = new string[Methods.Settings.MySettings.SavedPlaces.Count];
-                Methods.Settings.MySettings.SavedPlaces.CopyTo(output, 0);
+                string[] output = new string[Properties.Settings.MySettings.SavedPlaces.Count];
+                Properties.Settings.MySettings.SavedPlaces.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
-                fsd.InitialDirectory = Classes.Editor.Constants.SettingsPortableDirectory;
+                fsd.InitialDirectory = Methods.ProgramPaths.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
                 if (fsd.ShowDialog() == true)
                 {
@@ -848,7 +848,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                 List<string> input = System.IO.File.ReadAllLines(filename).ToList();
                 foreach (var entry in input)
                 {
-                    if (!Methods.Settings.MySettings.DataDirectories.Contains(entry)) Methods.Settings.MySettings.DataDirectories.Add(entry);
+                    if (!Properties.Settings.MySettings.SavedDataDirectories.Contains(entry)) Properties.Settings.MySettings.SavedDataDirectories.Add(entry);
                 }
 
             }
@@ -872,7 +872,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
                 List<string> input = System.IO.File.ReadAllLines(filename).ToList();
                 foreach (var entry in input)
                 {
-                    if (!Methods.Settings.MySettings.SavedPlaces.Contains(entry)) Methods.Settings.MySettings.SavedPlaces.Add(entry);
+                    if (!Properties.Settings.MySettings.SavedPlaces.Contains(entry)) Properties.Settings.MySettings.SavedPlaces.Add(entry);
                 }
 
             }
@@ -884,12 +884,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
             if (button == ScrollerToggleModeClickButton)
             {
                 SetScrollerToggleTypeRadioButtonState(false);
-                Methods.Settings.MySettings.ScrollerPressReleaseMode = false;
+                Properties.Settings.MySettings.ScrollerPressReleaseMode = false;
             }
             else
             {
                 SetScrollerToggleTypeRadioButtonState(true);
-                Methods.Settings.MySettings.ScrollerPressReleaseMode = true;
+                Properties.Settings.MySettings.ScrollerPressReleaseMode = true;
             }
         }
 
@@ -908,12 +908,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
             if (e.Source == tileListRadioButton)
             {
-                Methods.Settings.MyDefaults.TileManiacListSetting = 1;
+                Properties.Settings.MyDefaults.TileManiacListSetting = 1;
                 tileListRadioButton.IsChecked = true;
             }
             else if (e.Source == collisionListRadioButton)
             {
-                Methods.Settings.MyDefaults.TileManiacListSetting = 0;
+                Properties.Settings.MyDefaults.TileManiacListSetting = 0;
                 collisionListRadioButton.IsChecked = true;
             }
         }
@@ -925,12 +925,12 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
             if (e.Source == collisionEditorViewRadioButton)
             {
-                Methods.Settings.MyDefaults.TileManiacViewAppearanceMode = 1;
+                Properties.Settings.MyDefaults.TileManiacViewAppearanceMode = 1;
                 collisionEditorViewRadioButton.IsChecked = true;
             }
             else if (e.Source == overlayEditorViewRadioButton)
             {
-                Methods.Settings.MyDefaults.TileManiacViewAppearanceMode = 0;
+                Properties.Settings.MyDefaults.TileManiacViewAppearanceMode = 0;
                 overlayEditorViewRadioButton.IsChecked = true;
             }
         }
@@ -943,17 +943,17 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
             if (e.Source == tileRenderViewRadioButton)
             {
-                Methods.Settings.MyDefaults.TileManiacRenderViewerSetting = 0;
+                Properties.Settings.MyDefaults.TileManiacRenderViewerSetting = 0;
                 tileRenderViewRadioButton.IsChecked = true;
             }
             else if (e.Source == collisionRenderViewRadioButton)
             {
-                Methods.Settings.MyDefaults.TileManiacRenderViewerSetting = 1;
+                Properties.Settings.MyDefaults.TileManiacRenderViewerSetting = 1;
                 collisionRenderViewRadioButton.IsChecked = true;
             }
             else if (e.Source == overlayRenderViewRadioButton)
             {
-                Methods.Settings.MyDefaults.TileManiacRenderViewerSetting = 2;
+                Properties.Settings.MyDefaults.TileManiacRenderViewerSetting = 2;
                 overlayRenderViewRadioButton.IsChecked = true;
             }
         }

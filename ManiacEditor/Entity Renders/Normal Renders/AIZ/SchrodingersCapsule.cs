@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -33,15 +33,15 @@ namespace ManiacEditor.Entity_Renders
                 var buttonFrame = editorAnimButton.Frames[0];
 
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(buttonFrame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(buttonFrame),
                     x + buttonFrame.Frame.PivotX - (fliph ? (buttonFrame.Frame.Width - editorAnimButton.Frames[0].Frame.Width) : 0),
                     y + exclamationFrame.Frame.PivotY + (flipv ? (buttonFrame.Frame.Height - editorAnimButton.Frames[0].Frame.Height) : 0),
                     buttonFrame.Frame.Width, buttonFrame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(exclamationFrame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(exclamationFrame),
                     x + exclamationFrame.Frame.PivotX - (fliph ? (exclamationFrame.Frame.Width - editorAnimExclamation.Frames[3].Frame.Width) : 0),
                     y + exclamationFrame.Frame.PivotY + (flipv ? (exclamationFrame.Frame.Height - editorAnimExclamation.Frames[3].Frame.Height) : 0),
                     exclamationFrame.Frame.Width, exclamationFrame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(insideFrame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(insideFrame),
                     x + insideFrame.Frame.PivotX - (fliph ? (insideFrame.Frame.Width - editorAnimInside.Frames[2].Frame.Width) : 0),
                     y + insideFrame.Frame.PivotY + (flipv ? (insideFrame.Frame.Height - editorAnimInside.Frames[2].Frame.Height) : 0),
                     insideFrame.Frame.Width, insideFrame.Frame.Height, false, Transparency);
@@ -59,11 +59,11 @@ namespace ManiacEditor.Entity_Renders
                     Animation.ProcessAnimation(rayFrame.Entry.SpeedMultiplyer, rayFrame.Entry.Frames.Count, rayFrame.Frame.Delay);
                     //Animation.ProcessAnimation2(mightyFrame.Entry.SpeedMultiplyer, mightyFrame.Entry.Frames.Count, mightyFrame.Frame.Delay);
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(mightyFrame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(mightyFrame),
                         x + mightyFrame.Frame.PivotX - (fliph ? (mightyFrame.Frame.Width - mightyAnim.Frames[0].Frame.Width) : 0) + 15,
                         y + mightyFrame.Frame.PivotY + (flipv ? (mightyFrame.Frame.Height - mightyAnim.Frames[0].Frame.Height) : 0),
                         mightyFrame.Frame.Width, mightyFrame.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(rayFrame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(rayFrame),
                         x + rayFrame.Frame.PivotX - (fliph ? (rayFrame.Frame.Width - rayAnim.Frames[0].Frame.Width) : 0) - 15,
                         y + rayFrame.Frame.PivotY + (flipv ? (rayFrame.Frame.Height - rayAnim.Frames[0].Frame.Height) : 0),
                         rayFrame.Frame.Width, rayFrame.Frame.Height, false, Transparency);
@@ -77,7 +77,7 @@ namespace ManiacEditor.Entity_Renders
 
                     Animation.ProcessAnimation3(glassFrame.Entry.SpeedMultiplyer, glassFrame.Entry.Frames.Count, glassFrame.Frame.Delay);
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(glassFrame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(glassFrame),
                         x + glassFrame.Frame.PivotX - (fliph ? (glassFrame.Frame.Width - editorAnimGlass.Frames[0].Frame.Width) : 0),
                         y + glassFrame.Frame.PivotY + (flipv ? (glassFrame.Frame.Height - editorAnimGlass.Frames[0].Frame.Height) : 0),
                         glassFrame.Frame.Width, glassFrame.Frame.Height, false, 50);
@@ -87,11 +87,11 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);

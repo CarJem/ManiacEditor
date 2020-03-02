@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -38,14 +38,14 @@ namespace ManiacEditor.Entity_Renders
 
                 for (int y2 = 0; y2 <= size; ++y2)
                 {
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + -frame.Frame.Width + (-1 / 2 + 1) * frame.Frame.Width + frame.Frame.PivotX,
                         y + -frame.Frame.Height + (-size / 2 + y2) * frame.Frame.Height,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                     if (y2 == size)
                     {
                         y2 = y2 + 2;
-                        d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(crankTop),
+                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(crankTop),
                             x + crankTop.Frame.PivotX,
                             y + -crankTop.Frame.Height + (-size / 2 + y2) * frame.Frame.Height,
                             crankTop.Frame.Width, crankTop.Frame.Height, false, Transparency);
@@ -53,33 +53,33 @@ namespace ManiacEditor.Entity_Renders
                 }
                 int yy = 0;
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(platformEndCap),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(platformEndCap),
                         x + platformEndCap.Frame.PivotX,
                         y + -platformEndCap.Frame.Height + (-size / 2 + yy) * frame.Frame.Height + offTop - platformEndCap.Frame.PivotY - (hEven ? 0 : 4),
                         platformEndCap.Frame.Width, platformEndCap.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(platform),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(platform),
                         x + platform.Frame.PivotX,
                         y + -platform.Frame.Height + (-size / 2 + yy) * frame.Frame.Height + offTop - platform.Frame.PivotY - (hEven ? 0 : 4),
                         platform.Frame.Width, platform.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(platformEndCap2),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(platformEndCap2),
                         x + platformEndCap2.Frame.PivotX,
                         y + -platformEndCap2.Frame.Height + (-size / 2 + yy) * frame.Frame.Height + offBottom - platformEndCap2.Frame.PivotY - (hEven ? 0 : 4),
                         platformEndCap2.Frame.Width, platformEndCap2.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(platform),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(platform),
                         x + platform.Frame.PivotX,
                         y + -platform.Frame.Height + (-size / 2 + yy) * frame.Frame.Height + offBottom - platform.Frame.PivotY - (hEven ? 0 : 4),
                         platform.Frame.Width, platform.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(crankHolder),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(crankHolder),
                         x + crankHolder.Frame.PivotX + 74,
                         y + -crankHolder.Frame.Height + (-size / 2 + yy) * frame.Frame.Height + crankHolder.Frame.PivotY + 16,
                         crankHolder.Frame.Width, crankHolder.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(crankHandle),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(crankHandle),
                         x + crankHandle.Frame.PivotX + 56,
                         y + -crankHandle.Frame.Height + (-size / 2 + yy) * frame.Frame.Height + crankHandle.Frame.PivotY,
                         crankHandle.Frame.Width, crankHandle.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(crankTop),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(crankTop),
                         x + crankTop.Frame.PivotX,
                         y + -crankTop.Frame.Height + (-size / 2 + yy) * frame.Frame.Height + crankTop.Frame.PivotY,
                         crankTop.Frame.Width, crankTop.Frame.Height, false, Transparency);

@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Linq;
 using System.Collections.Generic;
-using ManiacEditor.Classes.Internal;
+using ManiacEditor.Classes.General;
 
 namespace ManiacEditor
 {
@@ -14,12 +14,15 @@ namespace ManiacEditor
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        [STAThread]
+        [STAThread] 
         static void Main(string[] args)
         {
+            Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + "DLLs");
+
+            Classes.Options.InternalSwitches.Init();
             ManiacEditor.Methods.ProgramBase.StartLogging();
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up Options Files...");
-            ManiacEditor.Methods.Settings.Init();
+            ManiacEditor.Properties.Settings.Init();
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Starting Maniac Editor...");
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -47,7 +50,7 @@ namespace ManiacEditor
         private static void StartApp()
         {
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Launching the Map Editor...");
-            if (Methods.Settings.MySettings.ShowUnhandledExceptions)
+            if (Properties.Settings.MySettings.ShowUnhandledExceptions)
             {
                 try
                 {

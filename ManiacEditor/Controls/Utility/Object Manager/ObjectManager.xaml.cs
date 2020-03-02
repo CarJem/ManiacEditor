@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Data;
-using Microsoft.Scripting.Utils;
 using RSDKv5;
 using System.Collections.ObjectModel;
 using ManiacEditor.Extensions;
@@ -40,7 +39,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
+            if (Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -69,9 +68,9 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-					if (Classes.Editor.Solution.GameConfig != null)
+					if (Methods.Editor.Solution.GameConfig != null)
 					{
-						if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+						if (!Methods.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
 						{
 							lvc.Foreground = Brushes.Red;
 						}
@@ -188,9 +187,9 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-					if (Classes.Editor.Solution.GameConfig != null)
+					if (Methods.Editor.Solution.GameConfig != null)
 					{
-						if (!Classes.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+						if (!Methods.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
 						{
 							lvc.Foreground = Brushes.Red;
 						}
@@ -326,7 +325,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
                             }
                         }
 
-						if (Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
+						if (Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -462,7 +461,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		private void backupStageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ManiacEditor.Classes.Editor.SolutionLoader.StageConfigBackup(null, null);
+			ManiacEditor.Methods.Editor.SolutionLoader.StageConfigBackup(null, null);
 		}
 
 		private void lvObjects_ItemChecked(object sender, RoutedEventArgs e)
@@ -474,11 +473,11 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 		{
 			if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
-				Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed = true;
+				Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				Classes.Editor.SolutionState.RemoveStageConfigEntriesAllowed = false;
+				Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed = false;
 			}
 		}
 

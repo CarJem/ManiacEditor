@@ -16,7 +16,8 @@
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="4,0,0,0" >
                 <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"/>
                 <MenuItem x:Name="openToolStripMenuItem" Header="Open Scene..." Click="OpenSceneEvent"/>
-                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Scene Select..." Click="OpenDataDirectoryEvent"/>
+                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory..." Click="OpenDataDirectoryEvent"/>
+                <MenuItem x:Name="openSceneSelectToolStripMenuItem" Header="Open Scene Select..." Click="OpenSceneSelectEvent"/>
                 <Separator/>
                 <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="SaveSceneEvent"/>
                 <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As..." Click="SaveSceneAsEvent"/>

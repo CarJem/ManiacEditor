@@ -8,7 +8,7 @@
         xmlns:genLib="clr-namespace:GenerationsLib.WPF.Styles;assembly=GenerationsLib.WPF"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Height="Auto" Width="Auto" MinHeight="300" MinWidth="832" Background="{DynamicResource NormalBackground}" x:Name="SceneOpener"  Loaded="WindowLoaded">
+        Height="Auto" Width="Auto" MinHeight="300" MinWidth="832" Background="{DynamicResource NormalBackground}" x:Name="SceneOpener"  Loaded="OnLoadedEvent">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -23,11 +23,23 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="TopPanel" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Background="{DynamicResource StatusBarBackground}" Grid.Column="0" Grid.ColumnSpan="2">
-
-            <Label HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="dataLabelToolStripItem" Content="Data Directory: NULL" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,0,0,0"></Label>
-            <Menu HorizontalAlignment="Right" Background="{DynamicResource StatusBarBackground}">
-                <MenuItem x:Name="ModPackEditorButton" Height="30" Padding="15,0" Header="Mod Pack Editor" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="OpenModPackEditorEvent"></MenuItem>
-                <MenuItem x:Name="refreshButton" Height="30" Padding="15,0" Header="Refresh" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="SceneSelectGotFocusEvent"></MenuItem>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Grid.Row="0" BorderThickness="1" BorderBrush="{DynamicResource ButtonBorder}">
+                <TextBlock HorizontalAlignment="Left" Background="{DynamicResource ButtonBackground}" Foreground="{DynamicResource NormalText}" VerticalAlignment="Center" x:Name="MasterDataLabelToolStripItem" Text="Master Data Directory: "  Padding="6" Margin="0,0,0,0"></TextBlock>
+            </Border>
+            <ComboBox VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Grid.Column="1" x:Name="MasterDataDirectorySelectorComboBox">
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ComboBoxItem}">
+                        <Setter Property="Width" Value="{Binding ElementName=MasterDataDirectorySelectorComboBox, Path=ActualWidth}"/>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+            </ComboBox>
+            <Menu HorizontalAlignment="Right" Background="{DynamicResource StatusBarBackground}" Grid.Column="2">
+                <MenuItem x:Name="refreshButton" Height="30" Padding="15,0" Header="Refresh" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="RefreshButtonEvent"></MenuItem>
                 <MenuItem x:Name="optionsButton" Height="30" Padding="15,0" Header="Options" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" HorizontalAlignment="Right">
                     <MenuItem Header="Remove All Data Directories" Click="RemoveAllDataFoldersEvent"></MenuItem>
                     <MenuItem Header="Remove All Saved Places" Click="RemoveAllSavedPlacesEvent"></MenuItem>
@@ -68,14 +80,14 @@
             <CheckBox Visibility="Hidden" x:Name="preRenderCheckbox" Grid.Row="3" Grid.Column="0" Content="Pre-Render on Load" Margin="10,0,0,0" VerticalAlignment="Center"></CheckBox>
         </StackPanel>
 
-        <Button IsEnabled="False" x:Name="browse" Grid.Row="3" Grid.Column="0" Height="25" Content="Browse..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="BrowseEvent"></Button>
+        <Button IsEnabled="False" x:Name="browse" Grid.Row="3" Grid.Column="0" Height="25" Content="Browse..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="BrowseButtonEvent"></Button>
         <Button IsEnabled="False" x:Name="selectButton" Click="SelectButtonEvent" Height="25" Grid.Row="3" Grid.Column="0" Content="Select" Margin="0,5,10,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
 
         <Button Grid.Row="3" Grid.Column="1" Height="25" Content="Load Selected" Margin="0,5,190,5" Width="100" VerticalAlignment="Center" HorizontalAlignment="Right" Click="LoadEvent"></Button>
         <wpfTool:SplitButton x:Name="addButton" Grid.Row="3" Height="25" Grid.Column="1" Content="Add..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="AddDataDirectoryEvent">
             <wpfTool:SplitButton.DropDownContent>
                 <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                    <MenuItem Header="Data Directory" Click="AddDataDirectoryEvent"></MenuItem>
+                    <MenuItem Header="Saved Data Directory" Click="AddDataDirectoryEvent"></MenuItem>
                     <MenuItem Header="Saved Place" Click="AddSavedPlaceEvent"></MenuItem>
                 </StackPanel>
             </wpfTool:SplitButton.DropDownContent>
@@ -86,12 +98,9 @@
 
 
 
-        <ToolBarPanel x:Name="BottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="41" Background="{DynamicResource StatusBarBackground}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-            <Menu HorizontalAlignment="Right">
-                <MenuItem x:Name="unloadModButton" Height="41" Padding="15,0" Header="Unload Data Pack" Grid.Column="2" Background="{DynamicResource StatusBarBackground}" BorderThickness="0" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="UnloadDataPackEvent"></MenuItem>
-            </Menu>
-            <Label HorizontalAlignment="Left" VerticalContentAlignment="Center" x:Name="dataPackStatusLabel" Content="" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0,-40,0,0"></Label>
-        </ToolBarPanel>
+        <Grid x:Name="BottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="41" Background="{DynamicResource StatusBarBackground}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="dataLabelToolStripItem" Content="Data Directory: NULL" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"></Label>
+        </Grid>
 
 
     </Grid>

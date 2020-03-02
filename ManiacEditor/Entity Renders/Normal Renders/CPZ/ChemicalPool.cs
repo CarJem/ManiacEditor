@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -41,7 +41,7 @@ namespace ManiacEditor.Entity_Renders
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                                 (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
                                 y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + i) * frame.Frame.Height,
                                 frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -61,7 +61,7 @@ namespace ManiacEditor.Entity_Renders
                         bool wEven = width % 2 == 0;
                         bool hEven = height % 2 == 0;
                         for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                                 (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
                                 (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),
                                 frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -70,7 +70,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High);

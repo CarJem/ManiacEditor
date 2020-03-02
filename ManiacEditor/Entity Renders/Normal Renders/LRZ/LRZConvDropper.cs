@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frame = editorAnim.Frames[Animation.index];
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -62,7 +62,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                         (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (false ? width : 0)) * frame.Frame.Width),
                         (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (false ? height : 0)) * frame.Frame.Height),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -74,7 +74,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                         (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (false ? width : 0)) * frame.Frame.Width),
                         (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (true ? height : 0)) * frame.Frame.Height),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -86,7 +86,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                         (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (true ? width : 0)) * frame.Frame.Width),
                         (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (false ? height : 0)) * frame.Frame.Height),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -97,7 +97,7 @@ namespace ManiacEditor.Entity_Renders
                 if (editorAnim != null && editorAnim.Frames.Count != 0)
                 {
                     var frame = editorAnim.Frames[Animation.index];
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                         (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (true ? width : 0)) * frame.Frame.Width),
                         (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (true ? height : 0)) * frame.Frame.Height),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -106,7 +106,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["detectSize"].ValueVector2.X.High - 1) / 16;
             var heightPixels = (int)(entity.attributesMap["detectSize"].ValueVector2.Y.High - 1) / 16;

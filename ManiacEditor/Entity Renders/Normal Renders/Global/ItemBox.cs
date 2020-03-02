@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -39,14 +39,14 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frameBox = editorAnimBox.Frames[0];
                     var frameEffect = editorAnimEffect.Frames[0];
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameBox), x + frameBox.Frame.PivotX, y + frameBox.Frame.PivotY,
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBox), x + frameBox.Frame.PivotX, y + frameBox.Frame.PivotY,
                         frameBox.Frame.Width, frameBox.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameEffect), x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameEffect), x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3),
                         frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
                 }
         }
 
-        public void IceDraw(Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int forceType = 0)
+        public void IceDraw(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int forceType = 0)
         {
             var value = (forceType == -1 ? 0 : forceType);
             bool fliph = false;
@@ -57,14 +57,14 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frameBox = editorAnimBox.Frames[0];
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameBox), x + frameBox.Frame.PivotX, y + frameBox.Frame.PivotY,
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBox), x + frameBox.Frame.PivotX, y + frameBox.Frame.PivotY,
                     frameBox.Frame.Width, frameBox.Frame.Height, false, Transparency);
 
             }
             if (editorAnimEffect != null && editorAnimEffect.Frames.Count != 0 && forceType != -1)
             {
                 var frameEffect = editorAnimEffect.Frames[0];
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameEffect), x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3), frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameEffect), x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3), frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
             }
         }
 

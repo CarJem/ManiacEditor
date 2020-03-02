@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -66,12 +66,12 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + (fliph ? -frame.Frame.PivotX : frame.Frame.PivotX) - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0) + offsetX,
                     y + (flipv ? -frame.Frame.PivotY : frame.Frame.PivotY) + (flipv ? (frame.Frame.Height - frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0) + offsetY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame2),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
                     x + (fliph ? -frame2.Frame.PivotX : frame2.Frame.PivotX) - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0) + offsetX,
                     y + (flipv ? -frame2.Frame.PivotY : frame2.Frame.PivotY) + (flipv ? (frame2.Frame.Height - frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0) + offsetY,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);

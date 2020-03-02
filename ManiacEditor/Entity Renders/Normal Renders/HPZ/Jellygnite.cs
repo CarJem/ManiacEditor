@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -46,22 +46,22 @@ namespace ManiacEditor.Entity_Renders
                 var frameFront = editorAnimFront.Frames[0];
                 var frameBack = editorAnimBack.Frames[0];
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
                 for (int i = 0; i < 4; i++)
                 {
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameFront),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameFront),
                         x + frameFront.Frame.PivotX + 12,
                         y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameFront),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameFront),
                         x + frameFront.Frame.PivotX - 12,
                         y + frameFront.Frame.PivotY + 6 + 6 * i,
                         frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameBack),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBack),
                         x + frameBack.Frame.PivotX,
                         y + frameBack.Frame.PivotY + 6 + 6 * i,
                         frameBack.Frame.Width, frameBack.Frame.Height, false, Transparency);

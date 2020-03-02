@@ -280,7 +280,7 @@ namespace ManiacEditor.Methods.Runtime
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == Classes.Editor.SolutionState.PlayerBeingTracked) Classes.Editor.EditorActions.GoToPosition(x, y);
+            if (playerID == Methods.Editor.SolutionState.PlayerBeingTracked) Methods.Editor.EditorActions.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -326,12 +326,12 @@ namespace ManiacEditor.Methods.Runtime
             {
                 if (showFrame)
                 {
-                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
-                    d.DrawLine(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y, x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Classes.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
+                    d.DrawLine(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    if (Methods.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -398,12 +398,12 @@ namespace ManiacEditor.Methods.Runtime
             {
                 if (showFrame)
                 {
-                    d.DrawRectangle(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
-                    d.DrawLine(x, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y, x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    d.DrawLine(x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y, x + Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH, y + Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Classes.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(0x00, System.Drawing.Color.MediumPurple));
+                    d.DrawLine(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
+                    if (Methods.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -467,7 +467,7 @@ namespace ManiacEditor.Methods.Runtime
             if (File.Exists(modLoaderDLL))
                 WorkingDirectory = ManiaDir;
             else
-                WorkingDirectory = Path.GetDirectoryName(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory);
+                WorkingDirectory = Path.GetDirectoryName(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory);
 
             return WorkingDirectory;
         }
@@ -483,9 +483,9 @@ namespace ManiacEditor.Methods.Runtime
         {
             if (!GameRunning)
             {
-                if (ManiacEditor.Methods.Settings.MyDefaults.ModLoaderPath != null && ManiacEditor.Methods.Settings.MySettings.ModLoaderConfigs?.Count > 0)
+                if (ManiacEditor.Properties.Settings.MyDefaults.ModLoaderPath != null && ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs?.Count > 0)
                 {
-                    string ConfigPath = ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath;
+                    string ConfigPath = ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath;
                     System.Windows.Controls.MenuItem dropDownItem = Editor.EditorToolbar.selectConfigToolStripMenuItem.Items[0] as System.Windows.Controls.MenuItem;
                     ConfigPath = ConfigPath.Replace('/', '\\');
                     ConfigPath = ConfigPath.Replace("SonicMania.exe", "//mods//ManiaModLoader.ini");
@@ -545,9 +545,9 @@ namespace ManiacEditor.Methods.Runtime
                         while (Editor.GameMemory.ReadByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)]) == 0x00) Thread.Sleep(1);
 
                         // Swap the Scene
-                        if (Classes.Editor.SolutionState.LevelID != -1)
+                        if (Methods.Editor.SolutionState.LevelID != -1)
                         {
-                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Classes.Editor.SolutionState.LevelID);
+                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Methods.Editor.SolutionState.LevelID);
                             // Restart the Scene
                             Editor.GameMemory.WriteByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                         }
@@ -565,7 +565,7 @@ namespace ManiacEditor.Methods.Runtime
                     while (!GameReady)
                         Thread.Sleep(10);
                     /* Level != Main Menu*/
-                    while (Editor.GameMemory.ReadByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x02 || ManiacEditor.Methods.Settings.MyGameOptions.GameQuitOnMenu == true)
+                    while (Editor.GameMemory.ReadByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x02 || ManiacEditor.Properties.Settings.MyGameOptions.GameQuitOnMenu == true)
                     {
                         // Check if the user closed the game
                         if (GameProcess.HasExited || !GameRunning)
@@ -580,7 +580,7 @@ namespace ManiacEditor.Methods.Runtime
                         UseCheatCodes(GameProcess);
                         // Makes sure the process is attached and patches are applied
                         // Set Player 1 Controller Set to 1 (If we set it to AnyController (0x00) we can't use Debug Mode In-Game)
-                        if (Editor.GameMemory.ReadByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x01 && ManiacEditor.Methods.Settings.MyGameOptions.GameAutoInput == false)
+                        if (Editor.GameMemory.ReadByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x01 && ManiacEditor.Properties.Settings.MyGameOptions.GameAutoInput == false)
                         {
                             Editor.GameMemory.WriteByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0x01); //setting this to 0x00 causes the inability to use debug mode
                             Editor.GameMemory.WriteByte(Player2_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0xFF);
@@ -600,7 +600,7 @@ namespace ManiacEditor.Methods.Runtime
         private static string GetSonicManiaPath()
         {
             //"steam://run/584400"
-            if (string.IsNullOrEmpty(ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath))
+            if (string.IsNullOrEmpty(ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath))
             {
                 var ofd = new OpenFileDialog
                 {
@@ -608,18 +608,18 @@ namespace ManiacEditor.Methods.Runtime
                     Filter = "Windows PE Executable|*.exe"
                 };
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath = ofd.FileName;
+                    ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath = ofd.FileName;
                 else return "";
             }
             else
             {
-                if (!File.Exists(ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath))
+                if (!File.Exists(ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath))
                 {
-                    ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath = "";
+                    ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath = "";
                     return "";
                 }
             }
-            return ManiacEditor.Methods.Settings.MyDefaults.SonicManiaPath;
+            return ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath;
         }
         public static void UseCheatCodes(Process p)
         {
@@ -630,9 +630,9 @@ namespace ManiacEditor.Methods.Runtime
                 Editor.GameMemory.Offset = 0;
 
             // Mania Plus Patches
-            if (ManiacEditor.Methods.Settings.MyGameOptions.EnableDebugMode) Editor.GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug
-            if (ManiacEditor.Methods.Settings.MyGameOptions.EnableDevMode) Editor.GameMemory.WriteByte(EnableDevMenu[GameVersion.IndexOf(SelectedGameVersion)], EnableDevMenu_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Allow DevMenu
-            if (ManiacEditor.Methods.Settings.MyGameOptions.DisableBackgroundPausing) Editor.GameMemory.WriteByte(DisableBackgroundPausing[GameVersion.IndexOf(SelectedGameVersion)], DisableBackgroundPausing_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Disable Background Pausing
+            if (ManiacEditor.Properties.Settings.MyGameOptions.EnableDebugMode) Editor.GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug
+            if (ManiacEditor.Properties.Settings.MyGameOptions.EnableDevMode) Editor.GameMemory.WriteByte(EnableDevMenu[GameVersion.IndexOf(SelectedGameVersion)], EnableDevMenu_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Allow DevMenu
+            if (ManiacEditor.Properties.Settings.MyGameOptions.DisableBackgroundPausing) Editor.GameMemory.WriteByte(DisableBackgroundPausing[GameVersion.IndexOf(SelectedGameVersion)], DisableBackgroundPausing_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Disable Background Pausing
         }
 
 
@@ -645,14 +645,14 @@ namespace ManiacEditor.Methods.Runtime
             if (GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom));
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom));
+                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
             }
         }
 
         public static void SetPlayerRespawnToHere()
         {
-            Point clicked_point = new Point((int)(Classes.Editor.SolutionState.LastX / Classes.Editor.SolutionState.Zoom), (int)(Classes.Editor.SolutionState.LastY / Classes.Editor.SolutionState.Zoom));
+            Point clicked_point = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
             if (GameRunning)
             {
                 UpdateCheckpoint(clicked_point);
@@ -670,12 +670,12 @@ namespace ManiacEditor.Methods.Runtime
                     UncheckAllPlayers();
                     item.IsChecked = true;
                     int.TryParse(item.Tag.ToString(), out int player);
-                    Classes.Editor.SolutionState.PlayerBeingTracked = player;
+                    Methods.Editor.SolutionState.PlayerBeingTracked = player;
                 }
                 else
                 {
                     item.IsChecked = false;
-                    Classes.Editor.SolutionState.PlayerBeingTracked = -1;
+                    Methods.Editor.SolutionState.PlayerBeingTracked = -1;
                 }
 
 

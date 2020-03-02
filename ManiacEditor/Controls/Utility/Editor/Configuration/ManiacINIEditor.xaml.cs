@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using ManiacEditor.Classes.Internal;
+using ManiacEditor.Classes.Prefrences;
 
 namespace ManiacEditor.Controls.Utility.Editor.Configuration
 {
@@ -14,7 +14,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Configuration
         private Controls.Editor.MainEditor Instance;
         private bool updatingKeys { get; set; } = false;
         private bool updatingValues { get; set; } = false;
-        private SceneSettings ManiacINIDataUnedited;
+        private SceneCurrentSettings.SceneSettings ManiacINIDataUnedited;
 
         //TODO : Make Functional Again.
 

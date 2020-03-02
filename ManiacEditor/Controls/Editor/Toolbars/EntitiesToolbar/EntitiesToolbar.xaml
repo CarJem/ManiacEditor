@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ManiacEditor"
              xmlns:maniac="clr-namespace:ManiacEditor"
-            xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:propGrid="clr-namespace:ManiacEditor.Controls.Global.Controls.PropertyGrid"
              mc:Ignorable="d"
              d:DesignHeight="525" d:DesignWidth="300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
     <Grid>
@@ -81,9 +82,8 @@
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
                     <TabControl Name="TabControl" SelectionChanged="TabControl_SelectionChanged" Background="{DynamicResource ButtonBackground}">
                         <TabItem Visibility="Collapsed" Header="Properties" Name="PropertiesTab" Foreground="{DynamicResource NormalText}">
-                            <Grid Background="{DynamicResource ButtonBackground}">
-                                <WindowsFormsHost x:Name="entityPropertiesLegacy"></WindowsFormsHost>
-                            </Grid>
+                            <propGrid:PropertyControl PropertyValueChanged="PropertiesGrid_PropertyValueChanged"  Background="{DynamicResource ButtonBackground}" x:Name="PropertiesGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            </propGrid:PropertyControl>
                         </TabItem>
                         <TabItem Visibility="Collapsed" Header="Selection Info" Name="SelectionInfoTab" Foreground="{DynamicResource NormalText}">
                             <Grid Background="{DynamicResource ButtonBackground}">

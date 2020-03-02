@@ -14,9 +14,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 		public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
 
 		bool disposing = false;
-		ManiacEditor.Classes.Editor.Draw.GIF TileGridImage;
+		ManiacEditor.Methods.Draw.GIF TileGridImage;
 		string TilesImagePath;
-		public Action<int> TileDoubleClick { get; set; } 
+		public Action<ushort> TileDoubleClick { get; set; } 
 
 		bool TilesFlipHorizontal = false;
 		bool TilesFlipVertical = false;
@@ -32,15 +32,39 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
 		public Action<int, bool> TileOptionChanged;
 
-		CheckBox[] selectTileOptionsCheckboxes = new CheckBox[6];
-		CheckBox[] tileOptionsCheckboxes = new CheckBox[4];
+		CheckBox[] CurrentTileCheckboxOptions = new CheckBox[6];
+		CheckBox[] SelectedTilesCheckboxOptions = new CheckBox[4];
 		bool setCheckboxes;
 
-		public int SelectedTile
+		public int SelectedTileIndex
 		{
 			get
 			{
 				return TilesList.SelectedIndex;
+			}
+		}
+
+		public ushort SelectedTile
+		{
+			get
+			{
+				ushort Tile = (ushort)TilesList.SelectedIndex;
+
+				bool FlipX = CurrentTileCheckboxOptions[0].IsChecked.Value;
+				bool FlipY = CurrentTileCheckboxOptions[1].IsChecked.Value;
+				bool SolidTopA = CurrentTileCheckboxOptions[2].IsChecked.Value;
+				bool SolidLrbA = CurrentTileCheckboxOptions[3].IsChecked.Value;
+				bool SolidTopB = CurrentTileCheckboxOptions[4].IsChecked.Value;
+				bool SolidLrbB = CurrentTileCheckboxOptions[5].IsChecked.Value;
+
+				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(10, FlipX, Tile);
+				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(11, FlipY, Tile);
+				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(12, SolidTopA, Tile);
+				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(13, SolidLrbA, Tile);
+				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(14, SolidTopB, Tile);
+				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(15, SolidLrbB, Tile);
+
+				return Tile;
 			}
 		}
 
@@ -56,7 +80,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
 		public void SetSelectTileOption(int option, bool state)
 		{
-			selectTileOptionsCheckboxes[option].IsChecked = state;
+			CurrentTileCheckboxOptions[option].IsChecked = state;
 		}
 
 		public void SetTileOptionState(int option, TileOptionState state)
@@ -65,26 +89,26 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 			switch (state)
 			{
 				case TileOptionState.Disabled:
-					tileOptionsCheckboxes[option].IsEnabled = false;
-					tileOptionsCheckboxes[option].IsChecked = false;
+					SelectedTilesCheckboxOptions[option].IsEnabled = false;
+					SelectedTilesCheckboxOptions[option].IsChecked = false;
 					break;
 				case TileOptionState.Checked:
-					tileOptionsCheckboxes[option].IsEnabled = true;
-					tileOptionsCheckboxes[option].IsChecked = true;
+					SelectedTilesCheckboxOptions[option].IsEnabled = true;
+					SelectedTilesCheckboxOptions[option].IsChecked = true;
 					break;
 				case TileOptionState.Unchcked:
-					tileOptionsCheckboxes[option].IsEnabled = true;
-					tileOptionsCheckboxes[option].IsChecked = false;
+					SelectedTilesCheckboxOptions[option].IsEnabled = true;
+					SelectedTilesCheckboxOptions[option].IsChecked = false;
 					break;
 				case TileOptionState.Indeterminate:
-					tileOptionsCheckboxes[option].IsEnabled = true;
-					tileOptionsCheckboxes[option].IsChecked = null;
+					SelectedTilesCheckboxOptions[option].IsEnabled = true;
+					SelectedTilesCheckboxOptions[option].IsChecked = null;
 					break;
 			}
 			setCheckboxes = false;
 		}
 
-		public TilesToolbar(Classes.Editor.Scene.EditorTiles tiles, String data_directory, String Colors, ManiacEditor.Controls.Editor.MainEditor instance)
+		public TilesToolbar(Classes.Scene.EditorTiles tiles, String data_directory, String Colors, ManiacEditor.Controls.Editor.MainEditor instance)
 		{
             try
             {
@@ -93,20 +117,20 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
                 EditorInstance = instance;
 
-                tileOptionsCheckboxes[0] = tileOption1;
-                tileOptionsCheckboxes[1] = tileOption2;
-                tileOptionsCheckboxes[2] = tileOption3;
-                tileOptionsCheckboxes[3] = tileOption4;
+                SelectedTilesCheckboxOptions[0] = tileOption1;
+                SelectedTilesCheckboxOptions[1] = tileOption2;
+                SelectedTilesCheckboxOptions[2] = tileOption3;
+                SelectedTilesCheckboxOptions[3] = tileOption4;
 
-                selectTileOptionsCheckboxes[0] = option1CheckBox;
-                selectTileOptionsCheckboxes[1] = option2CheckBox;
-                selectTileOptionsCheckboxes[2] = option3CheckBox;
-                selectTileOptionsCheckboxes[3] = option4CheckBox;
-                selectTileOptionsCheckboxes[4] = option5CheckBox;
-                selectTileOptionsCheckboxes[5] = option6CheckBox;
+                CurrentTileCheckboxOptions[0] = option1CheckBox;
+                CurrentTileCheckboxOptions[1] = option2CheckBox;
+                CurrentTileCheckboxOptions[2] = option3CheckBox;
+                CurrentTileCheckboxOptions[3] = option4CheckBox;
+                CurrentTileCheckboxOptions[4] = option5CheckBox;
+                CurrentTileCheckboxOptions[5] = option6CheckBox;
 
                 TilesImagePath = data_directory + "\\16x16Tiles.gif";
-                TileGridImage = new Classes.Editor.Draw.GIF((TilesImagePath), Colors);
+                TileGridImage = new Methods.Draw.GIF((TilesImagePath), Colors);
 
                 UpdateShortcuts();
 
@@ -200,7 +224,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 			if (disposing) return;
 			if (e.Button == System.Windows.Forms.MouseButtons.Left)
 			{
-				if (SelectedTile != -1 && TileDoubleClick != null)
+				if (SelectedTileIndex != -1 && TileDoubleClick != null)
 				{
 					TileDoubleClick(SelectedTile);
 				}
@@ -215,7 +239,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 				if (TilesList.SelectedIndex != -1)
 				{
 					TilesList.editCollisionToolStripMenuItem.Enabled = true;
-					TilesList.editCollisionToolStripMenuItem.Text = string.Format("Edit Collision of Tile {0} with Tile Maniac", SelectedTile);
+					TilesList.editCollisionToolStripMenuItem.Text = string.Format("Edit Collision of Tile {0} with Tile Maniac", SelectedTileIndex);
 
 					TilesList.Tiles16ToolStrip.Show(TilesList, e.Location);
 				}
@@ -239,9 +263,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 			if (disposing) return;
 			if (e.Button == System.Windows.Forms.MouseButtons.Left)
 			{
-				if (SelectedTile != -1)
+				if (SelectedTileIndex != -1)
 				{
-					Int32 val = SelectedTile;
+					Int32 val = SelectedTileIndex;
 					TilesList.DoDragDrop(val, System.Windows.Forms.DragDropEffects.Move);
 				}
 			}
@@ -259,7 +283,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
 		private void ChunkList_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit())
+			if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit())
 			{
 				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
 
@@ -268,7 +292,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
 		private void TilesListList_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (ManiacEditor.Classes.Editor.SolutionState.IsTilesEdit())
+			if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
 			{
 				EditorInstance.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
 			}
@@ -338,7 +362,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
 			if (disposing) return;
 			TilesList.Images.Clear();
-			TileGridImage = new Classes.Editor.Draw.GIF((TilesImagePath), colors);
+			TileGridImage = new Methods.Draw.GIF((TilesImagePath), colors);
 
 			for (int i = 0; i < 1024; i++)
 			{
@@ -411,13 +435,13 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 		private void TilesToolbar_Load(object sender, RoutedEventArgs e)
 		{
 			Debug.WriteLine("Send to debug output.");
-			trackBar1.Value = Methods.Settings.MyDefaults.TilesDefaultZoom;
-            trackBar2.Value = Methods.Settings.MyDefaults.ChunksDefaultZoom;
+			trackBar1.Value = Properties.Settings.MyDefaults.TilesDefaultZoom;
+            trackBar2.Value = Properties.Settings.MyDefaults.ChunksDefaultZoom;
 
-            option3CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidTopADefault;
-            option4CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidAllButTopADefault;
-            option5CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidTopBDefault;
-            option6CheckBox.IsChecked = Methods.Settings.MyDefaults.SolidAllButTopBDefault;
+            option3CheckBox.IsChecked = Properties.Settings.MyDefaults.SolidTopADefault;
+            option4CheckBox.IsChecked = Properties.Settings.MyDefaults.SolidAllButTopADefault;
+            option5CheckBox.IsChecked = Properties.Settings.MyDefaults.SolidTopBDefault;
+            option6CheckBox.IsChecked = Properties.Settings.MyDefaults.SolidAllButTopBDefault;
 
         }
 
@@ -508,25 +532,25 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 					MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 					if (result == MessageBoxResult.Yes)
 					{
-						EditorInstance.Chunks.StageStamps?.Write(ManiacEditor.Classes.Editor.SolutionPaths.Stamps_Source.ToString());
+						EditorInstance.Chunks.StageStamps?.Write(ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.ToString());
 					}
 				}
 				else
 				{
-					EditorInstance.Chunks.StageStamps?.Write(ManiacEditor.Classes.Editor.SolutionPaths.Stamps_Source.ToString());
+					EditorInstance.Chunks.StageStamps?.Write(ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.ToString());
 				}
 			}
 			catch (Exception ex)
 			{
-				Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{ManiacEditor.Classes.Editor.SolutionPaths.Stamps_Source.SourcePath}' Error: {ex.Message}");
+				Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.SourcePath}' Error: {ex.Message}");
 			}
 		}
 
         private void AutoGenerateChunks_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Editor.Solution.EditLayerA != null && Classes.Editor.Solution.EditLayerB != null)
+            if (Methods.Editor.Solution.EditLayerA != null && Methods.Editor.Solution.EditLayerB != null)
             {
-                EditorInstance.Chunks.AutoGenerateChunks(Classes.Editor.Solution.EditLayerA, Classes.Editor.Solution.EditLayerB);
+                EditorInstance.Chunks.AutoGenerateChunks(Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB);
                 ChunksReload();
             }
         }
@@ -544,16 +568,16 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
         private void AutoGenerateChunksSingle_Click(object sender, RoutedEventArgs e)
         {
-            if (Classes.Editor.Solution.EditLayerA != null)
+            if (Methods.Editor.Solution.EditLayerA != null)
             {
-                EditorInstance.Chunks.AutoGenerateChunks(Classes.Editor.Solution.EditLayerA);
+                EditorInstance.Chunks.AutoGenerateChunks(Methods.Editor.Solution.EditLayerA);
                 ChunksReload();
             }
         }
 
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            if (!ManiacEditor.Classes.Editor.SolutionState.IsChunksEdit()) SetDropdownItemsState(false);
+            if (!ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) SetDropdownItemsState(false);
             else SetDropdownItemsState(true);
         }
 

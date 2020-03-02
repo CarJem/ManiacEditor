@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -30,30 +30,30 @@ namespace ManiacEditor.Entity_Renders
             int TargetY = (int)entity.attributesMap["targetPos"].ValueVector2.Y.High;
             var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 7, fliph, flipv, false);
 
-            width = RoundNum(width, Classes.Editor.Constants.TILE_SIZE) / Classes.Editor.Constants.TILE_SIZE;
-            height = RoundNum(height, Classes.Editor.Constants.TILE_SIZE) / Classes.Editor.Constants.TILE_SIZE;
-            TargetX = RoundNum(TargetX, Classes.Editor.Constants.TILE_SIZE) / Classes.Editor.Constants.TILE_SIZE;
-            TargetY = RoundNum(TargetY, Classes.Editor.Constants.TILE_SIZE) / Classes.Editor.Constants.TILE_SIZE;
+            width = RoundNum(width, Methods.Editor.EditorConstants.TILE_SIZE) / Methods.Editor.EditorConstants.TILE_SIZE;
+            height = RoundNum(height, Methods.Editor.EditorConstants.TILE_SIZE) / Methods.Editor.EditorConstants.TILE_SIZE;
+            TargetX = RoundNum(TargetX, Methods.Editor.EditorConstants.TILE_SIZE) / Methods.Editor.EditorConstants.TILE_SIZE;
+            TargetY = RoundNum(TargetY, Methods.Editor.EditorConstants.TILE_SIZE) / Methods.Editor.EditorConstants.TILE_SIZE;
 
             //d.DrawRectangle(x - width / 2, y - height / 2, x + width/2, y + height/2, System.Drawing.Color.White);
             // The position for some platforms are still off a bit (but it's very decent)
-            if (Classes.Editor.Solution.CurrentScene?.Move != null)
+            if (Methods.Editor.Solution.CurrentScene?.Move != null)
             {
-                SceneLayer Move = Classes.Editor.Solution.CurrentScene?.Move.Layer;
+                SceneLayer Move = Methods.Editor.Solution.CurrentScene?.Move.Layer;
 
                 DrawPlatformTiles(d, Move, x, y, TargetX, TargetY, width, height, Transparency, e.Selected);
 
             }
         }
 
-        private void DrawPlatformTiles(Classes.Editor.Draw.GraphicsHandler d, SceneLayer _layer, int ObjectX, int ObjectY, int CenterX, int CenterY, int width, int height, int Transperncy, bool selected = false)
+        private void DrawPlatformTiles(Methods.Draw.GraphicsHandler d, SceneLayer _layer, int ObjectX, int ObjectY, int CenterX, int CenterY, int width, int height, int Transperncy, bool selected = false)
         {
             //Rectangle rect = GetTileArea(x2, y2, width, height, _layer);
 
             if (width == 0 || height == 0) return;
 
-            int x = ObjectX - ((width * Classes.Editor.Constants.TILE_SIZE) / 2);
-            int y = ObjectY - ((height * Classes.Editor.Constants.TILE_SIZE) / 2);
+            int x = ObjectX - ((width * Methods.Editor.EditorConstants.TILE_SIZE) / 2);
+            int y = ObjectY - ((height * Methods.Editor.EditorConstants.TILE_SIZE) / 2);
 
             int TargetX = CenterX - width / 2;
             int TargetY = CenterY - height / 2;
@@ -69,7 +69,7 @@ namespace ManiacEditor.Entity_Renders
                     // We will draw those later
                     if (_layer.Tiles?[TileY][TileX] != 0xffff)
                     {
-                        DrawTile(d, _layer.Tiles[TileY][TileX], x + (tx * Classes.Editor.Constants.TILE_SIZE), y + (ty * Classes.Editor.Constants.TILE_SIZE), selected, Transperncy);
+                        DrawTile(d, _layer.Tiles[TileY][TileX], x + (tx * Methods.Editor.EditorConstants.TILE_SIZE), y + (ty * Methods.Editor.EditorConstants.TILE_SIZE), selected, Transperncy);
                     }
                 }
             }
@@ -97,12 +97,12 @@ namespace ManiacEditor.Entity_Renders
         }
 
 
-        public void DrawTile(Classes.Editor.Draw.GraphicsHandler d, ushort tile, int x, int y, bool selected, int Transperncy)
+        public void DrawTile(Methods.Draw.GraphicsHandler d, ushort tile, int x, int y, bool selected, int Transperncy)
         {
             bool flipX = ((tile >> 10) & 1) == 1;
             bool flipY = ((tile >> 11) & 1) == 1;
-            d.DrawBitmap(Classes.Editor.Solution.CurrentTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE), flipX, flipY),
-            x, y, Classes.Editor.Constants.TILE_SIZE, Classes.Editor.Constants.TILE_SIZE, selected, Transperncy);
+            d.DrawBitmap(Methods.Editor.Solution.CurrentTiles.Image.GetTexture(d.DevicePanel._device, new Rectangle(0, (tile & 0x3ff) * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), flipX, flipY),
+            x, y, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, selected, Transperncy);
         }
 
         private int RoundNum(int num, int step)

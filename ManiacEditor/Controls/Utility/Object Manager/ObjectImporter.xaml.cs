@@ -40,8 +40,8 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
         public void SetupWindow()
         {
-            if (Classes.Editor.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
-            if (Methods.Settings.MySettings.NightMode) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
+            if (Methods.Editor.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
+            if (Properties.Settings.MySettings.NightMode) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
             else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 
@@ -125,7 +125,13 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             MegaList.ForEach(x => x.Objects = x.Objects.Where(sso => !GlobalObjects.Contains(sso)).ToList());
             MegaList.Insert(0, new ImportableZoneObject("Global", GlobalObjects));
 
-            if (Methods.Settings.MySettings.RemoveObjectImportLock == false)
+            foreach (var item in GlobalObjects)
+            {
+                _sourceSceneObjects.Insert(0, item);
+            }
+
+
+            if (Properties.Settings.MySettings.RemoveObjectImportLock == false)
             {
                 MegaList.ForEach(x => x.Objects = x.Objects.Where(sso => !targetNames.Contains(sso.Name.Name)).ToList());
             }
@@ -185,7 +191,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             var targetNames = targetSceneObjects.Select(tso => tso.Name.ToString());
             var importableObjects = sourceSceneObjects.Where(sso => !targetNames.Contains(sso.Name.ToString()))
                                                         .OrderBy(sso => sso.Name.ToString());
-            if (Methods.Settings.MySettings.RemoveObjectImportLock == true)
+            if (Properties.Settings.MySettings.RemoveObjectImportLock == true)
             {
                 importableObjects = _sourceSceneObjects.OrderBy(sso => sso.Name.ToString());
             }
@@ -259,14 +265,17 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
                     if (!(item.Content is SettingsHeader))
                     {
                         SceneObject objectToImport = _sourceSceneObjects.Where(sso => sso.Name.ToString().Equals(item.Content.ToString())).FirstOrDefault();
-                        objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
-                        _targetSceneObjects.Add(objectToImport);
-
-                        if (Classes.Editor.SolutionState.AddStageConfigEntriesAllowed)
+                        if (objectToImport != null)
                         {
-                            if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
+                            objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
+                            _targetSceneObjects.Add(objectToImport);
+
+                            if (Methods.Editor.SolutionState.AddStageConfigEntriesAllowed)
                             {
-                                _stageConfig.ObjectsNames.Add(item.Content.ToString());
+                                if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
+                                {
+                                    _stageConfig.ObjectsNames.Add(item.Content.ToString());
+                                }
                             }
                         }
                     }
@@ -290,11 +299,11 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 		{
 			if (checkBox1.IsChecked.Value)
 			{
-				Classes.Editor.SolutionState.AddStageConfigEntriesAllowed = true;
+				Methods.Editor.SolutionState.AddStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				Classes.Editor.SolutionState.AddStageConfigEntriesAllowed = false;
+				Methods.Editor.SolutionState.AddStageConfigEntriesAllowed = false;
 			}
 		}
 	}

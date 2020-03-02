@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -39,31 +39,31 @@ namespace ManiacEditor.Entity_Renders
                 var frame6 = editorAnim4.Frames[0];
                 var frame7 = editorAnim3.Frames[0];
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, 45);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame7),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame7),
                     x + frame7.Frame.PivotX + (fliph ? 10 : 0),
                     y + frame7.Frame.PivotY,
                     frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame2),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
                     x + frame2.Frame.PivotX,
                     y + frame2.Frame.PivotY,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame3),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
                     x + frame3.Frame.PivotX,
                     y + frame3.Frame.PivotY,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame4),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame4),
                     x + frame4.Frame.PivotX,
                     y + frame4.Frame.PivotY,
                     frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame5),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame5),
                     x + frame5.Frame.PivotX,
                     y + frame5.Frame.PivotY,
                     frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame6),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame6),
                     x + frame6.Frame.PivotX,
                     y + frame6.Frame.PivotY,
                     frame6.Frame.Width, frame6.Frame.Height, false, Transparency);

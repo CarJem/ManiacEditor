@@ -96,7 +96,7 @@ namespace ManiacEditor.Controls.Global.Controls
         {
             if (Instance != null)
             {
-                Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Classes.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Classes.Editor.SolutionState.ViewPositionX, Classes.Editor.SolutionState.ViewPositionY));
+                Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Methods.Editor.SolutionState.ViewPositionX, Methods.Editor.SolutionState.ViewPositionY));
             }
         }
         #endregion

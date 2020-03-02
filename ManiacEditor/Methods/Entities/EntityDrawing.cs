@@ -24,7 +24,7 @@ namespace ManiacEditor.Methods.Entities
         public List<LinkedRenderer> LinkedEntityRenderers = new List<LinkedRenderer>();
 
         // Object List for initilizing the if statement
-        public static Classes.Internal.EntityRenderingOptions RenderingSettings;
+        public static Classes.General.EntityRenderingOptions RenderingSettings;
         public List<string> rendersWithErrors = new List<string>();
         public List<string> linkedrendersWithErrors = new List<string>();
 
@@ -155,7 +155,7 @@ namespace ManiacEditor.Methods.Entities
             AnimsToLoad.Add(entry);
             return null;
         }
-        public void LoadNextAnimation(Classes.Editor.Scene.Sets.EditorEntity entity)
+        public void LoadNextAnimation(Classes.Scene.Sets.EditorEntity entity)
         {
             if (AnimsToLoad.Count == 0)
                 return;
@@ -205,7 +205,7 @@ namespace ManiacEditor.Methods.Entities
                 }
                 if (val.d != null)
                 {
-                    val.anim.Frames[val.anim.loadedFrames].Texture = Classes.Editor.Draw.TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
+                    val.anim.Frames[val.anim.loadedFrames].Texture = Methods.Draw.TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
                     //val.anim.Frames[val.anim.loadedFrames]._Bitmap.Dispose();
                     //val.anim.Frames[val.anim.loadedFrames]._Bitmap = null;
                 }
@@ -328,7 +328,7 @@ namespace ManiacEditor.Methods.Entities
         public Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
         {
             Texture texture = null;
-            if (LoadImageToDX) texture = Classes.Editor.Draw.TextureCreator.FromBitmap(d._device, finalMap);
+            if (LoadImageToDX) texture = Methods.Draw.TextureCreator.FromBitmap(d._device, finalMap);
             return new Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame()
             {
                 Texture = texture,
@@ -379,7 +379,7 @@ namespace ManiacEditor.Methods.Entities
         }
         public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
         {
-            if (Classes.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), ManiacEditor.Classes.Editor.SolutionPaths.EncorePalette[0]);
+            if (Methods.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
             else return map;
         }
         public static string GetEditorStaticBitmapPath(string assetName)
@@ -426,7 +426,7 @@ namespace ManiacEditor.Methods.Entities
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-            g.DrawImage(Classes.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
+            g.DrawImage(Methods.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
                 new Rectangle(x * 16, y * 16, 16, 16));
         }
 
@@ -477,7 +477,7 @@ namespace ManiacEditor.Methods.Entities
             else
             {
 				bool AssetFound = false;
-				foreach (string dataDir in ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.ResourcePacks)
+				foreach (string dataDir in ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
 				{
 					Tuple<string, string> Findings = GetAssetSourcePath(dataDir, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)
@@ -491,7 +491,7 @@ namespace ManiacEditor.Methods.Entities
 
 				if (!AssetFound)
 				{
-					Tuple<string, string> Findings = GetAssetSourcePath(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, name);
+					Tuple<string, string> Findings = GetAssetSourcePath(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)
 					{
 						AssetFound = true;
@@ -510,7 +510,7 @@ namespace ManiacEditor.Methods.Entities
 			string path, path2;
 			string dataDirectory = dataFolder;
 			// Checks the Stage Folder First
-			path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
+			path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
 			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 			if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
 			{
@@ -526,7 +526,7 @@ namespace ManiacEditor.Methods.Entities
 				}
 				if (!File.Exists(path2))
 				{
-					path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
+					path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "\\Sprites") + "\\" + path;
 				}
 			}
@@ -540,18 +540,18 @@ namespace ManiacEditor.Methods.Entities
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
-					path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + name + ".bin";
+					path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 					if (!File.Exists(path2))
 					{
 						// Checks for name without the last character and without the numbers in the entity name
 						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-						path = path = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + adjustedName + ".bin";
+						path = path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + adjustedName + ".bin";
 						path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 						if (!File.Exists(path2))
 						{
 							// Checks for name without any numbers in the Zone name
-							string adjustedZone = Regex.Replace(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone, @"[\d-]", string.Empty);
+							string adjustedZone = Regex.Replace(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone, @"[\d-]", string.Empty);
 							path = path = adjustedZone + "\\" + name + ".bin";
 							path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 							if (!File.Exists(path2))
@@ -806,11 +806,11 @@ namespace ManiacEditor.Methods.Entities
 
         public ColorPalette[] GetStageConfigColors()
         {
-            var stgCfg = Classes.Editor.Solution.StageConfig;
+            var stgCfg = Methods.Editor.Solution.StageConfig;
             ColorPalette[] stageConfigColors = new ColorPalette[8];
             for (int i = 0; i < 8; i++)
             {
-                stageConfigColors[i] = Classes.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
+                stageConfigColors[i] = Methods.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
             }
             for (int i = 0; i < 8; i++)
             {
@@ -834,7 +834,7 @@ namespace ManiacEditor.Methods.Entities
 
         // These are special
 
-        public void DrawOthers(ManiacEditor.Classes.Editor.Draw.GraphicsHandler d, SceneEntity entity, Classes.Editor.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, Methods.Entities.EntityAnimator EditorAnimations, bool Selected, bool childDrawAddMode, bool graphicsMode = false)
+        public void DrawOthers(ManiacEditor.Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, Methods.Entities.EntityAnimator EditorAnimations, bool Selected, bool childDrawAddMode, bool graphicsMode = false)
         {
             int x = entity.Position.X.High + childX;
             int y = entity.Position.Y.High + childY;
@@ -843,12 +843,12 @@ namespace ManiacEditor.Methods.Entities
                 x = childX;
                 y = childY;
             }
-            int Transparency = (Classes.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 
             Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected);
 
             try
-			{		
+			{		     
 				if (!rendersWithErrors.Contains(entity.Object.Name.Name))
                 {
                     if (entity.Object.Name.Name.Contains("Setup"))
@@ -880,8 +880,8 @@ namespace ManiacEditor.Methods.Entities
 			}
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
-                rendersWithErrors.Add(entity.Object.Name.Name);
+                //MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
+                //rendersWithErrors.Add(entity.Object.Name.Name);
             }
 
 

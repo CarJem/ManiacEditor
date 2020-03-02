@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -38,19 +38,19 @@ namespace ManiacEditor.Entity_Renders
                 var frame4 = editorAnim4.Frames[0];
                 var frame5 = editorAnim5.Frames[0];
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame2),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
                     x + frame2.Frame.PivotX - (fliph ? 76 : 0),
                     y + frame2.Frame.PivotY,
                     frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX,
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame3),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
                     x + frame3.Frame.PivotX - (fliph ? 59 : 0),
                     y + frame3.Frame.PivotY,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame5),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame5),
                     x + frame5.Frame.PivotX - (fliph ? frame.Frame.Width + 4: 0),
                     y + frame5.Frame.PivotY,
                     frame5.Frame.Width, frame5.Frame.Height, false, Transparency);

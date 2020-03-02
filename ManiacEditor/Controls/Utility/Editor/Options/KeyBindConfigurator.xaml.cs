@@ -64,7 +64,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 
 		private void SetupExistingKeybinds(string keyRefrence)
 		{
-			var keybindDict = Methods.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
+			var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
 			if (keybindDict != null) KeyBindsList = keybindDict.Cast<string>().ToArray();
 			KeyCount = KeyBindsList.Count();
 
@@ -145,10 +145,10 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 			MessageBoxResult result = MessageBox.Show("You can not reverse this, do you want to continue?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.Yes)
 			{
-                Methods.Settings.MyKeyBinds.SetInput(KeyRefrence, Methods.Settings.MyDefaultKeyBinds.GetInput(KeyRefrence));
+                Properties.Settings.MyKeyBinds.SetInput(KeyRefrence, Properties.Settings.MyDefaultKeyBinds.GetInput(KeyRefrence));
 
-                Methods.Options.InputPreferences.Save();
-				Methods.Options.InputPreferences.Reload();
+                Classes.Options.InputPreferences.Save();
+				Classes.Options.InputPreferences.Reload();
 				KeysConverter kc = new KeysConverter();
 				CurrentBindingKey = (Keys)kc.ConvertFromString(KeyBindsList[ListIndex].ToString());
 

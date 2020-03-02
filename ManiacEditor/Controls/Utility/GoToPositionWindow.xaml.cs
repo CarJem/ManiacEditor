@@ -36,17 +36,17 @@ namespace ManiacEditor.Controls.Utility
             foreach (var player in GetPlayers())
             {
                 Position pos = player.Entity.Position;
-                String id = player.Entity.SlotID.ToString();
+                String id = player.SlotID.ToString();
                 String posText = "X: " + pos.X.High + " Y: " + pos.Y.High;
                 ComboBox1.Items.Add("[" + id + "] " + posText);
                 PlayerSpawnPositionsList.Add(pos);
             }
         }
 
-        private List<Classes.Editor.Scene.Sets.EditorEntity> GetPlayers()
+        private List<Classes.Scene.Sets.EditorEntity> GetPlayers()
         {
-            List<Classes.Editor.Scene.Sets.EditorEntity> players = new List<Classes.Editor.Scene.Sets.EditorEntity>();
-            foreach (var _entity in Classes.Editor.Solution.Entities.Entities.Values)
+            List<Classes.Scene.Sets.EditorEntity> players = new List<Classes.Scene.Sets.EditorEntity>();
+            foreach (var _entity in Methods.Editor.Solution.Entities.Entities)
             {
                 if (_entity.Entity.Object.Name.Name == "Player")
                 {
@@ -59,9 +59,9 @@ namespace ManiacEditor.Controls.Utility
 
         public void GetSavedPositions()
         {
-            if (Methods.Prefrences.SceneCurrentSettings.ManiacINIData.Positions != null)
+            if (Classes.Prefrences.SceneCurrentSettings.ManiacINIData.Positions != null)
             {
-                var SavedPositions = Methods.Prefrences.SceneCurrentSettings.ManiacINIData.Positions;
+                var SavedPositions = Classes.Prefrences.SceneCurrentSettings.ManiacINIData.Positions;
                 if (SavedPositions.Count != 0) SavedPositionsList.IsEnabled = true;
                 else SavedPositionsList.IsEnabled = false;
                 foreach (var positions in SavedPositions)
@@ -77,7 +77,7 @@ namespace ManiacEditor.Controls.Utility
         private void GoToPlayer_Click(object sender, RoutedEventArgs e)
         {
             int i = ComboBox1.SelectedIndex;
-            Classes.Editor.EditorActions.GoToPosition(PlayerSpawnPositionsList[i].X.High, PlayerSpawnPositionsList[i].Y.High, true);
+            Methods.Editor.EditorActions.GoToPosition(PlayerSpawnPositionsList[i].X.High, PlayerSpawnPositionsList[i].Y.High, true);
             this.Close();
         }
 
@@ -92,7 +92,7 @@ namespace ManiacEditor.Controls.Utility
 
             if (SavePositionCheckbox.IsChecked.Value)
             {
-                Methods.Prefrences.SceneCurrentSettings.AddSavedCoordinates(SavedPositionTextBox.Text, goTo_X, goTo_Y, tilesMode);
+                Classes.Prefrences.SceneCurrentSettings.AddSavedCoordinates(SavedPositionTextBox.Text, goTo_X, goTo_Y, tilesMode);
             }
 
             if (tilesMode)
@@ -100,7 +100,7 @@ namespace ManiacEditor.Controls.Utility
                 goTo_X *= 16;
                 goTo_Y *= 16;
             }
-            Classes.Editor.EditorActions.GoToPosition(goTo_X, goTo_Y, true);
+            Methods.Editor.EditorActions.GoToPosition(goTo_X, goTo_Y, true);
             this.Close();
         }
 

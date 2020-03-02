@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -26,14 +26,14 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frameBase = editorAnimBase.Frames[0];
                 var frameTop = editorAnimTop.Frames[0];
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameBase), x + frameBase.Frame.PivotX, y + frameBase.Frame.PivotY,
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBase), x + frameBase.Frame.PivotX, y + frameBase.Frame.PivotY,
                     frameBase.Frame.Width, frameBase.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameTop), x + frameTop.Frame.PivotX, y + frameTop.Frame.PivotY,
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameTop), x + frameTop.Frame.PivotX, y + frameTop.Frame.PivotY,
                     frameTop.Frame.Width, frameTop.Frame.Height, false, Transparency);
                 for (int i = 0; i < editorAnimFins.Frames.Count; ++i)
                 {
                     var frame = editorAnimFins.Frames[i];
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
                 }
             }

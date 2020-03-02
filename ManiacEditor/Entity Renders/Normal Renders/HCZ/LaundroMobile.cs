@@ -6,9 +6,9 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -57,30 +57,30 @@ namespace ManiacEditor.Entity_Renders
 
                 if (type == 0) {
                     Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameRockets),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameRockets),
                         x + frameRockets.Frame.PivotX - 4,
                         y + frameRockets.Frame.PivotY - 27,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX,
                         y + frame.Frame.PivotY,
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(framePropel),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(framePropel),
                         x + framePropel.Frame.PivotX,
                         y + framePropel.Frame.PivotY,
                         framePropel.Frame.Width, framePropel.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameRockets),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameRockets),
                         x + frameRockets.Frame.PivotX - 18,
                         y + frameRockets.Frame.PivotY + 20,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameRockets),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameRockets),
                         x + frameRockets.Frame.PivotX - 18,
                         y + frameRockets.Frame.PivotY - 27,
                         frameRockets.Frame.Width, frameRockets.Frame.Height, false, Transparency);
                 }
                     else if (type == 1) {
                     Animation.ProcessAnimation3(frameBomb.Entry.SpeedMultiplyer, frameBomb.Entry.Frames.Count, frameBomb.Frame.Delay);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameBomb),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBomb),
                             x + frameBomb.Frame.PivotX,
                             y + frameBomb.Frame.PivotY,
                             frameBomb.Frame.Width, frameBomb.Frame.Height, false, Transparency);
@@ -88,40 +88,40 @@ namespace ManiacEditor.Entity_Renders
                     else if (type == 2)
                     {
                     Animation.ProcessAnimation2(frameLaundry.Entry.SpeedMultiplyer, frameLaundry.Entry.Frames.Count, frameLaundry.Frame.Delay);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y + frameLaundry.Frame.PivotY + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y + frameLaundry.Frame.PivotY + frameLaundry.Frame.PivotY + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y + frameLaundry.Frame.PivotY + -(frameLaundry.Frame.PivotY * 2) + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaundry),
                         x + frameLaundry.Frame.PivotX,
                         y - frameLaundry.Frame.PivotY + -(frameLaundry.Frame.PivotY * 2) + 16,
                         frameLaundry.Frame.Width, frameLaundry.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameLaundryCenterBottom),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaundryCenterBottom),
                         x + frameLaundryCenterBottom.Frame.PivotX,
                         y + frameLaundryCenterBottom.Frame.PivotY + frameLaundryCenterBottom.Frame.PivotY * 3 + 16,
                         frameLaundryCenterBottom.Frame.Width, frameLaundryCenterBottom.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameLaundryCenterTop),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaundryCenterTop),
                         x + frameLaundryCenterTop.Frame.PivotX,
                         y + frameLaundryCenterTop.Frame.PivotY,
                         frameLaundryCenterTop.Frame.Width, frameLaundryCenterTop.Frame.Height, false, Transparency);
 
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameLaundryCenter),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaundryCenter),
                         x + frameLaundryCenter.Frame.PivotX,
                         y + frameLaundryCenter.Frame.PivotY + frameLaundryCenter.Frame.PivotY*2 + 16,
                         frameLaundryCenter.Frame.Width, frameLaundryCenter.Frame.Height, false, Transparency);
                     }
                     else if (type == 4 || type == 5) {
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameBlock),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBlock),
                             x + frameBlock.Frame.PivotX,
                             y + frameBlock.Frame.PivotY,
                             frameBlock.Frame.Width, frameBlock.Frame.Height, false, Transparency);
@@ -131,7 +131,7 @@ namespace ManiacEditor.Entity_Renders
                         if (editorAnimIcon != null && editorAnimIcon.Frames.Count != 0)
                         {
                             var frameIcon = editorAnimIcon.Frames[0];
-                            d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameIcon), x + frameIcon.Frame.PivotX, y + frameIcon.Frame.PivotY,
+                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameIcon), x + frameIcon.Frame.PivotX, y + frameIcon.Frame.PivotY,
                                 frameIcon.Frame.Width, frameIcon.Frame.Height, false, Transparency);
                         }
                     }

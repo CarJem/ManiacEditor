@@ -20,8 +20,13 @@ namespace ManiacEditor.Controls.Editor.Elements
 		public StartScreen(ManiacEditor.Controls.Editor.MainEditor instance)
 		{
 			InitializeComponent();
+			this.Loaded += StartScreen_Loaded;
+			SelectScreen = new ManiacEditor.Controls.SceneSelect.SceneSelectHost(null, EditorInstance);
 			EditorInstance = instance;
-            SelectScreen = new ManiacEditor.Controls.SceneSelect.SceneSelectHost(null, instance);
+		}
+
+		private void StartScreen_Loaded(object sender, RoutedEventArgs e)
+		{
 			SceneSelectHost.Children.Add(SelectScreen);
 			SelectScreen.Refresh();
 		}
@@ -89,12 +94,12 @@ namespace ManiacEditor.Controls.Editor.Elements
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 
-			if (!Methods.Settings.MySettings.NeverShowThisAgain)
+			if (!Properties.Settings.MySettings.NeverShowThisAgain)
 			{
 				DeveloperNoteOverlay.Visibility = Visibility.Visible;
 			}
 
-			if (!Methods.Settings.MyDevSettings.DevAutoStart)
+			if (!Properties.Settings.MyDevSettings.DevAutoStart)
 			{
 				devCheck.Visibility = Visibility.Hidden;
 				devLink.Visibility = Visibility.Hidden;
@@ -109,8 +114,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 
 		private void DeveloperNoteAcceptedButton_Click(object sender, RoutedEventArgs e)
 		{
-			Methods.Settings.MySettings.NeverShowThisAgain = true;
-            Methods.Options.GeneralSettings.Save();
+			Properties.Settings.MySettings.NeverShowThisAgain = true;
+            Classes.Options.GeneralSettings.Save();
 
             DeveloperNoteOverlay.Visibility = Visibility.Hidden;
 		}
@@ -122,8 +127,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 			else if (superRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(2);
 			else if (hyperRadioButton.IsChecked.Value) Methods.Internal.Settings.ApplyPreset(3);
 
-			Methods.Settings.MySettings.ShowFirstTimeSetup = false;
-			Methods.Options.GeneralSettings.Save();
+			Properties.Settings.MySettings.ShowFirstTimeSetup = false;
+			Classes.Options.GeneralSettings.Save();
             FirstTimeOverlay.Visibility = Visibility.Hidden;
 			SceneSelectHost.Visibility = Visibility.Visible;
 		}
@@ -150,7 +155,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
 		private void CheckBox_Click(object sender, RoutedEventArgs e)
 		{
-			Methods.Options.DevelopmentStates.Save();
+			Classes.Options.DevelopmentStates.Save();
 		}
 	}
 }

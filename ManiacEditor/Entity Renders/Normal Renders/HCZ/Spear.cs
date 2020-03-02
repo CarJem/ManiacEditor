@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -43,11 +43,11 @@ namespace ManiacEditor.Entity_Renders
                 var frame = editorAnim.Frames[0];
                 var frameSpear = editorAnimSpear.Frames[0];
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameSpear),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameSpear),
                     x + (fliph ? -frameSpear.Frame.PivotX - frameSpear.Frame.Width : frameSpear.Frame.PivotX),
                     y + (flipv ? -frameSpear.Frame.PivotY - frameSpear.Frame.Height : frameSpear.Frame.PivotY),
                     frameSpear.Frame.Width, frameSpear.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + (fliph ? -frame.Frame.PivotX - frame.Frame.Width : frame.Frame.PivotX),
                     y + (flipv ? -frame.Frame.PivotY - frame.Frame.Height : frame.Frame.PivotY),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);

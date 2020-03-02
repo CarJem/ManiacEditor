@@ -7,9 +7,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -38,12 +38,12 @@ namespace ManiacEditor.Entity_Renders
 
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX + (direction == 1 ? length / 2 : -(length / 2)),
                     y + frame.Frame.PivotY,
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameEnd),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameEnd),
                     x + frameEnd.Frame.PivotX - (direction == 1 ? length / 2 : -(length / 2)),
                     y + frameEnd.Frame.PivotY,
                     frameEnd.Frame.Width, frameEnd.Frame.Height, false, Transparency);
@@ -53,7 +53,7 @@ namespace ManiacEditor.Entity_Renders
                 int length2 = (length / 16 ) - 1;
                 for (int i = 0; i < length2; i++)
                 {
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameMid),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameMid),
                         start_x + frameMid.Frame.PivotX + 16*i,
                         y - 21 + frameMid.Frame.PivotY,
                         frameMid.Frame.Width, frameMid.Frame.Height, false, Transparency);
@@ -61,7 +61,7 @@ namespace ManiacEditor.Entity_Renders
 
                 for (int i = 0; i < length2; i++)
                 {
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frameMid2),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameMid2),
                         start_x2 + frameMid2.Frame.PivotX + 16 * i,
                         y + 21 + frameMid2.Frame.PivotY,
                         frameMid2.Frame.Width, frameMid2.Frame.Height, false, Transparency);

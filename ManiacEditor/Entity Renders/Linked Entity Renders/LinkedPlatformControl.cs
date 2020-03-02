@@ -19,8 +19,8 @@ namespace ManiacEditor.Entity_Renders
             int minimumSlot = (int)targetSlotID;
             int maximumSlot = (int)targetSlotID + (int)NodeCount;
 
-            List<Tuple<Classes.Editor.Scene.Sets.EditorEntity, Classes.Editor.Scene.Sets.EditorEntity>> NodePoints = new List<Tuple<Classes.Editor.Scene.Sets.EditorEntity, Classes.Editor.Scene.Sets.EditorEntity>>();
-            List<Classes.Editor.Scene.Sets.EditorEntity> ChildPoints = new List<Classes.Editor.Scene.Sets.EditorEntity>();
+            List<Tuple<Classes.Scene.Sets.EditorEntity, Classes.Scene.Sets.EditorEntity>> NodePoints = new List<Tuple<Classes.Scene.Sets.EditorEntity, Classes.Scene.Sets.EditorEntity>>();
+            List<Classes.Scene.Sets.EditorEntity> ChildPoints = new List<Classes.Scene.Sets.EditorEntity>();
 
             int currentTargetSlotID = targetSlotID;
             int remainder = (NodeCount % 2 == 1 ? 1 : 0);
@@ -32,10 +32,10 @@ namespace ManiacEditor.Entity_Renders
                 if (targetID2 >= maximumSlot)
                 {
                     targetID2 = minimumSlot;
-                    var target1 = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(e => e.Entity.SlotID == targetID1).First();
-                    var target2 = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(e => e.Entity.SlotID == targetID2).First();
+                    var target1 = Methods.Editor.Solution.Entities.Entities.ToList().Where(e => e.SlotID == targetID1).First();
+                    var target2 = Methods.Editor.Solution.Entities.Entities.ToList().Where(e => e.SlotID == targetID2).First();
 
-                    NodePoints.Add(new Tuple<Classes.Editor.Scene.Sets.EditorEntity, Classes.Editor.Scene.Sets.EditorEntity>(target1, target2));
+                    NodePoints.Add(new Tuple<Classes.Scene.Sets.EditorEntity, Classes.Scene.Sets.EditorEntity>(target1, target2));
                 }
                 currentTargetSlotID = currentTargetSlotID + 1;
             }
@@ -54,7 +54,7 @@ namespace ManiacEditor.Entity_Renders
                 int targetID = currentTargetSlotID;
 
 
-                var target1 = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(e => e.Entity.SlotID == targetID).First();
+                var target1 = Methods.Editor.Solution.Entities.Entities.ToList().Where(e => e.SlotID == targetID).First();
 
                 ChildPoints.Add(target1);
                 currentTargetSlotID = currentTargetSlotID + 1;
@@ -68,7 +68,7 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var tagged = Classes.Editor.Solution.Entities.Entities.Values.ToList().Where(e => e.Entity.AttributeExists("tag", RSDKv5.AttributeTypes.UINT8));
+            var tagged = Methods.Editor.Solution.Entities.Entities.ToList().Where(e => e.Entity.AttributeExists("tag", RSDKv5.AttributeTypes.UINT8));
             var triggers = tagged.Where(e => e.Entity.GetAttribute("tag").ValueUInt8 == ControlTag);
 
             if (triggers != null && triggers.Any())

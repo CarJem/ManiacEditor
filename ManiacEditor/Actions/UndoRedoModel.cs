@@ -18,17 +18,17 @@ namespace ManiacEditor.Actions
     {
         public static void UpdateUndoRedo()
         {
-            if (ManiacEditor.Classes.Editor.SolutionState.IsEntitiesEdit())
+            if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
             {
-                if (Classes.Editor.Solution.Entities.SelectedEntities.Count > 0)
+                if (Methods.Editor.Solution.Entities.SelectedEntities.Count > 0)
                 {
-                    IAction action = new ActionMoveEntities(Classes.Editor.Solution.Entities.SelectedEntities.ToList(), new Point(Classes.Editor.SolutionState.DraggedX, Classes.Editor.SolutionState.DraggedY));
-                    if (Classes.Editor.Solution.Entities.LastAction != null)
+                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedEntities.ToList(), new Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
+                    if (Methods.Editor.Solution.Entities.LastAction != null)
                     {
                         // If it is move & duplicate, merge them together
                         var taction = new ActionsGroup();
-                        taction.AddAction(Classes.Editor.Solution.Entities.LastAction);
-                        Classes.Editor.Solution.Entities.LastAction = null;
+                        taction.AddAction(Methods.Editor.Solution.Entities.LastAction);
+                        Methods.Editor.Solution.Entities.LastAction = null;
                         taction.AddAction(action);
                         taction.Close();
                         action = taction;
@@ -37,15 +37,15 @@ namespace ManiacEditor.Actions
                     Controls.Editor.MainEditor.Instance.RedoStack.Clear();
                     Methods.Internal.UserInterface.UpdateControls();
                 }
-                if (Classes.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
+                if (Methods.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
                 {
-                    IAction action = new ActionMoveEntities(Classes.Editor.Solution.Entities.SelectedInternalEntities.ToList(), new Point(Classes.Editor.SolutionState.DraggedX, Classes.Editor.SolutionState.DraggedY));
-                    if (Classes.Editor.Solution.Entities.LastActionInternal != null)
+                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedInternalEntities.ToList(), new Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
+                    if (Methods.Editor.Solution.Entities.LastActionInternal != null)
                     {
                         // If it is move & duplicate, merge them together
                         var taction = new ActionsGroup();
-                        taction.AddAction(Classes.Editor.Solution.Entities.LastActionInternal);
-                        Classes.Editor.Solution.Entities.LastActionInternal = null;
+                        taction.AddAction(Methods.Editor.Solution.Entities.LastActionInternal);
+                        Methods.Editor.Solution.Entities.LastActionInternal = null;
                         taction.AddAction(action);
                         taction.Close();
                         action = taction;

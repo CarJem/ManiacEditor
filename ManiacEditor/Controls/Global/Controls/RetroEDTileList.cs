@@ -450,11 +450,11 @@ namespace ManiacEditor.Controls.Global.Controls
 			{
                 ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Show();
 			}
-			if (Classes.Editor.Solution.TileConfig != null && Classes.Editor.Solution.CurrentTiles != null)
+			if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
 			{
 				if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.tcf == null)
 				{
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Classes.Editor.Solution.TileConfig, ManiacEditor.Classes.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedIndex);
+                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedIndex);
 				}
 				else
 				{

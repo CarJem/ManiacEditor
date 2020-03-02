@@ -1,5 +1,6 @@
 ﻿using RSDKv5;
 using System;
+using System.Collections.Generic;
 
 namespace ManiacEditor.Actions
 {
@@ -30,6 +31,43 @@ namespace ManiacEditor.Actions
         public IAction Redo()
         {
             return new ActionEntityPropertyChange(entity, tag, newValue, oldValue, setValue);
+        }
+    }
+
+    class ActionEntityMultiplePropertyChange : IAction
+    {
+        string tag;
+        List<ActionEntityPropertyChange> MultipleActions;
+        List<SceneEntity> entities;
+        public string Description => $"Changing {tag} on {entities.Count} Entities";
+
+        public ActionEntityMultiplePropertyChange(List<SceneEntity> entities, string tag, List<ActionEntityPropertyChange> multipleActions, bool redo = false)
+        {
+            this.entities = entities;
+            this.tag = tag;
+            this.MultipleActions = multipleActions;
+
+            if (redo)
+            {
+                foreach (var entry in MultipleActions)
+                {
+                    entry.Redo();
+                }
+            }
+        }
+
+        public void Undo()
+        {
+            foreach (var entry in MultipleActions)
+            {
+                entry.Undo();
+            }
+
+        }
+
+        public IAction Redo()
+        {
+            return new ActionEntityMultiplePropertyChange(entities, tag, MultipleActions, true);
         }
     }
 

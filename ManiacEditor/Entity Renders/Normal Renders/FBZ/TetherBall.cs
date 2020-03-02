@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
         //TODO: Get the Angle Calculations Correct
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -85,7 +85,7 @@ namespace ManiacEditor.Entity_Renders
                     int x_alt = x + 6;
                     int[] linePoints = RotatePoints(x_alt + (frame2.Frame.Width) * i, y, x, y, angleStartInt);
                     
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame2),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
                         linePoints[0] + frame2.Frame.PivotX,
                         linePoints[1] + frame2.Frame.PivotY,
                         frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
@@ -98,7 +98,7 @@ namespace ManiacEditor.Entity_Renders
                 int[] processPoints;
                 processPoints = RotatePoints(x + length, y, x, y, angleStartInt);
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame3),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
                     processPoints[0] + frame3.Frame.PivotX,
                     processPoints[1] + frame3.Frame.PivotY,
                     frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
@@ -106,7 +106,7 @@ namespace ManiacEditor.Entity_Renders
                 // TetherBall Center
                 if (drawType == true)
                 {
-                    d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                         x + frame.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
                         y + frame.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
                         frame.Frame.Width, frame.Frame.Height, false, Transparency);

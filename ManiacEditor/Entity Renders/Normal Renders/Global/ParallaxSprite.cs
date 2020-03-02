@@ -8,9 +8,9 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Classes.Editor.Draw.GraphicsHandler d = properties.Graphics;
+            Methods.Draw.GraphicsHandler d = properties.Graphics;
             SceneEntity entity = properties.Object; 
-            Classes.Editor.Scene.Sets.EditorEntity e = properties.EditorObject;
+            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
             int x = properties.X;
             int y = properties.Y;
             int Transparency = properties.Transparency;
@@ -50,21 +50,21 @@ namespace ManiacEditor.Entity_Renders
             }
 
             var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 12, fliph, flipv, false);
-            if (Classes.Editor.SolutionState.ShowParallaxSprites)
+            if (Methods.Editor.SolutionState.ShowParallaxSprites)
             {
                 editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2(Animation.parallaxSprite, d.DevicePanel, aniID, -1, fliph, flipv, false);
             }
             if (editorAnim != null && editorAnim.Frames.Count != 0)
             {
                 var frame = editorAnim.Frames[0];
-                if (Classes.Editor.SolutionState.ShowParallaxSprites)
+                if (Methods.Editor.SolutionState.ShowParallaxSprites)
                 {
                     frame = editorAnim.Frames[Animation.index];
                 }
 
                 Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(new Classes.Editor.Draw.GraphicsHandler.GraphicsInfo(frame),
+                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
                     x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
                     y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
                     frame.Frame.Width, frame.Frame.Height, false, Transparency);
@@ -73,38 +73,38 @@ namespace ManiacEditor.Entity_Renders
 
         private string GetParallaxPath (Controls.Editor.MainEditor EditorInstance)
         {
-            string name = ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.Zone.Replace("\\", "");
+            string name = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Replace("\\", "");
             string zoneName = "";
             string binPath = "";
             string parallaxName = "";
             // Normal Check First
             zoneName = name;
             parallaxName = name + "Parallax";
-            binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+            binPath = Path.Combine(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
             if (!File.Exists(binPath))
             {
                 //Stick with the Zone Name, but ditch the last char for parallax
                 zoneName = name;
                 parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                binPath = Path.Combine(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                 if (!File.Exists(binPath))
                 {
                     //Remove the Last Char of the Zone Name and Parallax but use "1" for the Zone Name
                     zoneName = name.Substring(0, name.Length - 1) + "1";
                     parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                    binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                    binPath = Path.Combine(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                     if (!File.Exists(binPath))
                     {
                         //Remove the Last Char of the Zone Name and Parallax but use "2" for the Zone Name
                         zoneName = name.Substring(0, name.Length - 1) + "2";
                         parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                        binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                        binPath = Path.Combine(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                         if (!File.Exists(binPath))
                         {
                             //Remove the Last Char of the Zone Name and Parallax
                             zoneName = name.Substring(0, name.Length - 1);
                             parallaxName = name.Substring(0, name.Length - 1) + "Parallax";
-                            binPath = Path.Combine(ManiacEditor.Classes.Editor.SolutionPaths.CurrentSceneData.DataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
+                            binPath = Path.Combine(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Sprites") + '\\' + zoneName + '\\' + parallaxName + ".bin";
                         }
                     }
                 }

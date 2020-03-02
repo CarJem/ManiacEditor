@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls.RenderedText"
+             xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls"
             xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements.View"
              mc:Ignorable="d" 
@@ -57,7 +57,7 @@
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
                         <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="DataFolder"></TextBlock>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5" Visibility="Collapsed">
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
                         <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="MasterDataFolder"></TextBlock>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">

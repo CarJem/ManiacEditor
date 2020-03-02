@@ -10,7 +10,7 @@ using Rectangle = System.Drawing.Rectangle;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 using Bitmap = System.Drawing.Bitmap;
-using ManiacEditor.Event_Handlers;
+using ManiacEditor.EventHandlers;
 using System.Diagnostics;
 
 
@@ -218,10 +218,10 @@ namespace ManiacEditor
             sprite = new Sprite(_device);
             sprite2 = new Sprite(_device);
 
-            tx = Classes.Editor.Draw.TextureCreator.FromBitmap(_device, txb);
-            hcursor = Classes.Editor.Draw.TextureCreator.FromBitmap(_device, hcursorb);
-            vcursor = Classes.Editor.Draw.TextureCreator.FromBitmap(_device, vcursorb);
-            hvcursor = Classes.Editor.Draw.TextureCreator.FromBitmap(_device, hvcursorb);
+            tx = Methods.Draw.TextureCreator.FromBitmap(_device, txb);
+            hcursor = Methods.Draw.TextureCreator.FromBitmap(_device, hcursorb);
+            vcursor = Methods.Draw.TextureCreator.FromBitmap(_device, vcursorb);
+            hvcursor = Methods.Draw.TextureCreator.FromBitmap(_device, hvcursorb);
 
             font = new Font(_device, fontDescription);
             fontBold = new Font(_device, fontDescriptionBold);
@@ -247,6 +247,10 @@ namespace ManiacEditor
                 {
                     // If it's still lost or lost again, just do nothing
                     if (ex.ResultCode == ResultCode.DeviceLost) return;
+                    else if (ex.ResultCode == ResultCode.OutOfVideoMemory)
+                    {
+
+                    }
                     else throw ex;
                 }
             }

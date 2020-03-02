@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
         }
 
         public abstract string GetObjectName();
-        public void DrawLinkArrow(Classes.Editor.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
+        public void DrawLinkArrow(Methods.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;
@@ -35,31 +35,31 @@ namespace ManiacEditor.Entity_Renders
             if (Math.Abs(dx) > Math.Abs(dy))
             {
                 // horizontal difference greater than vertical difference
-                offsetY = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
-                offsetDestinationY = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetDestinationY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
 
                 if (dx > 0)
                 {
-                    offsetX = Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH;
+                    offsetX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH;
                 }
                 else
                 {
-                    offsetDestinationX = Classes.Editor.Constants.ENTITY_NAME_BOX_WIDTH;
+                    offsetDestinationX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH;
                 }
             }
             else
             {
                 // vertical difference greater than horizontal difference
-                offsetX = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
-                offsetDestinationX = Classes.Editor.Constants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetDestinationX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
 
                 if (dy > 0)
                 {
-                    offsetY = Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT;
                 }
                 else
                 {
-                    offsetDestinationY = Classes.Editor.Constants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetDestinationY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT;
                 }
             }
 
@@ -69,7 +69,7 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         Color.GreenYellow);
         }
-        public void DrawCenteredLinkArrow(Classes.Editor.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Color? colur = null)
+        public void DrawCenteredLinkArrow(Methods.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Color? colur = null)
         {
             if (SetFilter(end) == true) return;
             Color color = (colur != null ? colur.Value : Color.GreenYellow);
@@ -92,7 +92,7 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         color);
         }
-        public void DrawCenteredSpline(Classes.Editor.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
+        public void DrawCenteredSpline(Methods.Draw.GraphicsHandler d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;
@@ -145,20 +145,20 @@ namespace ManiacEditor.Entity_Renders
                  * 
                  */
                 filteredOut =
-                    ((filter == 1 || filter == 5) && !Methods.Settings.MyDefaults.ShowBothEntities) ||
-                    (filter == 2 && !Methods.Settings.MyDefaults.ShowManiaEntities) ||
-                    (filter == 4 && !Methods.Settings.MyDefaults.ShowEncoreEntities) ||
-                    (filter == 255 && !Methods.Settings.MyDefaults.ShowPinballEntities) ||
-                    ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !Methods.Settings.MyDefaults.ShowOtherEntities);
+                    ((filter == 1 || filter == 5) && !Properties.Settings.MyDefaults.ShowBothEntities) ||
+                    (filter == 2 && !Properties.Settings.MyDefaults.ShowManiaEntities) ||
+                    (filter == 4 && !Properties.Settings.MyDefaults.ShowEncoreEntities) ||
+                    (filter == 255 && !Properties.Settings.MyDefaults.ShowPinballEntities) ||
+                    ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !Properties.Settings.MyDefaults.ShowOtherEntities);
             }
             else
             {
-                filteredOut = !Methods.Settings.MyDefaults.ShowFilterlessEntities;
+                filteredOut = !Properties.Settings.MyDefaults.ShowFilterlessEntities;
             }
 
             if (EditorInstance != null)
             {
-                if (Classes.Editor.SolutionState.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Classes.Editor.SolutionState.entitiesTextFilter))
+                if (Methods.Editor.SolutionState.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Methods.Editor.SolutionState.entitiesTextFilter))
                 {
                     filteredOut = true;
                 }

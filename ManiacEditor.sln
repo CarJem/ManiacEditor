@@ -44,8 +44,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{
 		Installer\win.bmp = Installer\win.bmp
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Refrences", "Refrences", "{B176EBAB-06A0-401E-9E8F-A8C05A252E25}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManiacEditor.Core", "ManiacEditor.Core\ManiacEditor.Core.csproj", "{790117F4-A54F-4DA0-80CE-AB91BFCEED64}"
 EndProject
 Global
