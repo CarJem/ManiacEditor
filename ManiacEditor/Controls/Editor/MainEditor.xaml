@@ -37,15 +37,12 @@
         <!--Main View-->
         <Grid Panel.ZIndex="1" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="1"  Background="{DynamicResource ToolbarBackground}" Margin="0,85,0,0">
             <TabControl Name="EditorTabControl" BorderThickness="0 1 0 0" Background="{DynamicResource ToolbarBackground}">
-                <TabItem Header="Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
+                <TabItem Header="Maniac Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
                     <Grid>
                         <Border Grid.ColumnSpan="5" Margin="10" BorderBrush="Transparent" BorderThickness="1">
                             <editorControls:ViewPanel x:Name="ViewPanel"></editorControls:ViewPanel>
                         </Border>
                     </Grid>
-                </TabItem>
-                <TabItem Header="Game" HorizontalAlignment="Right" Foreground="{DynamicResource NormalText}">
-                    <editorControls:ManiaHost genTools:DesignModeTool.IsHidden="True" x:Name="ManiaHost" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></editorControls:ManiaHost>
                 </TabItem>
                 <TabControl.Resources>
                     <Style TargetType="TabPanel">

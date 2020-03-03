@@ -43,10 +43,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
             maniacinieditorToolStripMenuItem.IsEnabled = enabled;
             exportToolStripMenuItem.IsEnabled = enabled;
-
-            newShortcutToolStripMenuItem.IsEnabled = System.IO.Directory.Exists(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory);
-            withoutCurrentCoordinatesToolStripMenuItem.IsEnabled = Methods.Editor.Solution.CurrentScene != null;
-            withCurrentCoordinatesToolStripMenuItem.IsEnabled = Methods.Editor.Solution.CurrentScene != null;
             changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
         }
 
@@ -140,19 +136,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             redoToolStripMenuItem.IsEnabled = enabled && ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Count > 0;
 
             findAndReplaceToolStripMenuItem.IsEnabled = enabled && Methods.Editor.Solution.EditLayerA != null;
-
-            if (Methods.Editor.Solution.Entities != null && Methods.Editor.Solution.Entities.SelectedEntities != null && Methods.Editor.Solution.Entities.SelectedEntities.Count > 1)
-            {
-                SortSelectedSlotIDs.IsEnabled = true;
-                SortSelectedSlotIDsOptimized.IsEnabled = true;
-                SortSelectedSlotIDsOrdered.IsEnabled = true;
-            }
-            else
-            {
-                SortSelectedSlotIDs.IsEnabled = false;
-                SortSelectedSlotIDsOptimized.IsEnabled = false;
-                SortSelectedSlotIDsOrdered.IsEnabled = false;
-            }
         }
 
         public void SetPasteButtonsState(bool enabled)
@@ -192,7 +175,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             void SetPasteEnabledButtons(bool pasteEnabled)
             {
                 pasteToolStripMenuItem.IsEnabled = pasteEnabled;
-                pasteToToolStripMenuItem.IsEnabled = pasteEnabled;
                 pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit();
             }
 
@@ -287,7 +269,6 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.UpdateZoomLevel(0, new System.Drawing.Point(0, 0)); }
         private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.UseLargeDebugStats ^= true; }
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SetManiaMenuInputType(sender, e); }
-        public void MenuButtonChangedEvent(string tag) { ManiacEditor.Methods.Editor.EditorActions.SetManiaMenuInputType(tag); }
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.EntitiesVisibileAboveAllLayers ^= true; }
         private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized ^= true; }
         private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.PrioritizedEntityViewing ^= true; }
@@ -297,23 +278,15 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowEntitySelectionBoxes ^= true; }
         private void ShowWaterLevelEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowWaterLevel ^= true; }
         private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.AlwaysShowWaterLevel ^= true; }
-        private void SortSelectedSlotIDsEvent(object sender, RoutedEventArgs e) { Methods.Editor.Solution.Entities.OrderSelectedSlotIDs(); }
-        private void SortSelectedSlotIDsOptimizedEvent(object sender, RoutedEventArgs e) { Methods.Editor.Solution.Entities.OrderSelectedSlotIDs(true); }
-        private void SortSelectedSlotIDsOrderedEvent(object sender, RoutedEventArgs e) { Methods.Editor.Solution.Entities.OrderSelectedSlotIDs(false, true); }
         private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.SizeWaterLevelwithBounds ^= true; }
         private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SwapEncoreManiaEntityVisibility(); }
         private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowParallaxSprites ^= true; }
         private void SetScrollDirectionEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SetScrollLockDirection(); }
         private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowEntityPathArrows ^= true; }
         private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.ManiaMenuLanguageChanged(sender, e); }
-        private void OptimizeEntitySlotIDsEvent(object sender, RoutedEventArgs e) { if (Methods.Editor.Solution.CurrentScene != null) Methods.Editor.Solution.Entities.OptimizeAllSlotIDs(); }
-        private void ToggleRightClickSlotIDSwapEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.RightClicktoSwapSlotID ^= true; }
         private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.CopyAir ^= true; }
         private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.ChangeLevelID(sender, e); }
         private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.MultiLayerEditMode ^= true; }
-        private void MakeDataFolderShortcutEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.MakeShortcutForDataFolderOnly(sender, e); }
-        private void MakeShortcutWithCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.MakeShortcutWithCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
-        private void MakeShortcutWithoutCurrentCoordinatesEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.MakeShortcutWithoutCurrentCoordinatesToolStripMenuItem_Click(sender, e); }
         private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SoundLooperToolStripMenuItem_Click(sender, e); }
         private void FindUnusedTiles(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.FindAndReplace.FindUnusedTiles(); }
 

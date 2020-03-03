@@ -260,13 +260,11 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.SelectionMode(); }
         private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.PointerMode(); }
         private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.DrawMode(); }
-        private void ToggleInteractionToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.InteractionMode(); }
         private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.SplineMode(); }
         private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ChunksMode(true); }
         public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(); }
         public void ToggleShowTileIDEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowTileID ^= true; }
         private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Methods.Editor.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
-        public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
         public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowCollisionA ^= true; }
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowCollisionB ^= true; }
         private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowFlippedTileHelper ^= true; }
@@ -971,7 +969,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             DrawToolButton.IsEnabled = enabled && ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() || ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit();
             DrawToolDropdown.IsEnabled = enabled && ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() || ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit();
 
-            InteractionToolButton.IsEnabled = enabled;
             ChunksToolButton.IsEnabled = enabled && ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit();
 
             SplineToolButton.IsEnabled = enabled && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit();
@@ -1134,7 +1131,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             ZoomOutButton.ToolTip = "Zoom In (Ctrl + Wheel Down)";
             SelectToolButton.ToolTip = "Selection Tool" + KeyBindPraser("SelectTool", true);
             DrawToolButton.ToolTip = "Draw Tool" + KeyBindPraser("DrawTool", true);
-            InteractionToolButton.ToolTip = "Interaction Tool";
             ShowCollisionAButton.ToolTip = "Show Collision Layer A" + KeyBindPraser("ShowPathA", true, true);
             ShowCollisionBButton.ToolTip = "Show Collision Layer B" + KeyBindPraser("ShowPathB", true, true);
             FlipAssistButton.ToolTip = "Show Flipped Tile Helper";

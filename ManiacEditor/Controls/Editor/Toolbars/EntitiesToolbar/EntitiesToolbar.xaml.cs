@@ -1194,7 +1194,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
             if (TabControl.SelectedIndex != 2)
             {
                 TabControl.SelectedIndex = 2;
-                if (CurrentEntity != null)
+                if (CurrentEntity != null && ObjectList.ToList().Exists(x => x != null && x.Tag.ToString() == CurrentEntity.SlotID.ToString()))
                 {
                     var currObject = ObjectList.Where(x => x.Tag.ToString() == CurrentEntity.SlotID.ToString()).FirstOrDefault();
                     if (currObject != null)

@@ -205,7 +205,7 @@ namespace ManiacEditor.Methods.Internal
 
             if (Methods.Editor.SolutionState.RegionX1 != -1)
             {
-                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) TilesEditMouseMoveDraggingStarted(e);
+                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) TilesEditMouseMoveDraggingStarted(e);
                 else if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) ChunksEditMouseMoveDraggingStarted(e);
                 else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) EntitiesEditMouseMoveDraggingStarted(e);
 
@@ -711,10 +711,7 @@ namespace ManiacEditor.Methods.Internal
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (Methods.Editor.Solution.Entities.SelectedEntities.Count == 2 && Methods.Editor.SolutionState.RightClicktoSwapSlotID)
-                {
-                    Methods.Editor.Solution.Entities.SwapSlotIDsFromPair();
-                }
+
             }
         }
         public static void ChunksEditMouseUp(System.Windows.Forms.MouseEventArgs e)
@@ -755,7 +752,7 @@ namespace ManiacEditor.Methods.Internal
         {
             if (ManiacEditor.Methods.Editor.SolutionState.IsEditing() && !Methods.Editor.SolutionState.Dragged)
             {
-                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !Instance.EditorToolbar.InteractionToolButton.IsChecked.Value && !ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) TilesEditMouseDown(e);
+                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) TilesEditMouseDown(e);
                 if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit() && ManiacEditor.Methods.Editor.SolutionState.IsSceneLoaded()) ChunksEditMouseDown(e);
                 else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) EntitiesEditMouseDown(e);
             }
@@ -1000,9 +997,9 @@ namespace ManiacEditor.Methods.Internal
             Instance.ViewPanel.SharpPanel.GraphicPanel.Focus();
             if (e.Button == MouseButtons.Right)
             {
-                if (Instance.EditorToolbar.InteractionToolButton.IsChecked.Value) InteractiveContextMenu(e);
-                else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() && !Instance.EditorToolbar.DrawToolButton.IsChecked.Value && !Instance.EditorToolbar.SplineToolButton.IsChecked.Value && (!Methods.Editor.SolutionState.RightClicktoSwapSlotID || Methods.Editor.Solution.Entities.SelectedEntities.Count <= 1)) EntitiesEditContextMenu(e);
+                if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() && !Instance.EditorToolbar.DrawToolButton.IsChecked.Value && !Instance.EditorToolbar.SplineToolButton.IsChecked.Value) EntitiesEditContextMenu(e);
                 else if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !Instance.EditorToolbar.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
+                else InteractiveContextMenu(e);
             }
 
         }

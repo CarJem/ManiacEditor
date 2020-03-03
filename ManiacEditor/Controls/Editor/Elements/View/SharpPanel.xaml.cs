@@ -449,7 +449,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
         private void UpdateGraphicPanelBackgroundColor()
         {
-            this.GraphicPanel.DeviceBackColor = (Properties.Settings.MySettings.NightMode ? Methods.Internal.Theming.DarkTheme0 : System.Drawing.Color.Gray);
+            //this.GraphicPanel.DeviceBackColor = (Properties.Settings.MySettings.NightMode ? Methods.Internal.Theming.DarkTheme0 : System.Drawing.Color.Gray);
         }
 
         #endregion

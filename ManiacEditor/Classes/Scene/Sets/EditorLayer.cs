@@ -21,8 +21,6 @@ namespace ManiacEditor.Classes.Scene.Sets
         private SceneLayer _layer;
         internal SceneLayer Layer { get => _layer; }
 
-        public DevicePanel GraphicsPanel;
-
         public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
 
         private ChunkVBO[][] ChunkMap;
@@ -106,6 +104,11 @@ namespace ManiacEditor.Classes.Scene.Sets
         static int DivideRoundUp(int number, int by)
         {
             return (number + by - 1) / by;
+        }
+
+        static int ModulusRoundUp(int number, int by)
+        {
+            return (number + by - 1) % by;
         }
 
 
@@ -338,7 +341,9 @@ namespace ManiacEditor.Classes.Scene.Sets
         private void InitiallizeChunkMap()
         {
             ChunksWidth = DivideRoundUp(Width, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
+            ChunksWidth += ModulusRoundUp(Width, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
             ChunksHeight = DivideRoundUp(Height, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
+            ChunksHeight += ModulusRoundUp(Height, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
 
             ChunkMap = new ChunkVBO[ChunksHeight][];
             for (int i = 0; i < ChunkMap.Length; ++i)
@@ -1271,7 +1276,8 @@ namespace ManiacEditor.Classes.Scene.Sets
                         if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
                         {
                             Rectangle rect = GetTilesChunkArea(x, y);
-                            d.DrawBitmap(GetChunk(d, x, y), rect.X * Methods.Editor.EditorConstants.TILE_SIZE, rect.Y * Methods.Editor.EditorConstants.TILE_SIZE, rect.Width * Methods.Editor.EditorConstants.TILE_SIZE, rect.Height * Methods.Editor.EditorConstants.TILE_SIZE, false, Transperncy);
+                            var texture = GetChunk(d, x, y);
+                            if (texture != null) d.DrawBitmap(texture, rect.X * Methods.Editor.EditorConstants.TILE_SIZE, rect.Y * Methods.Editor.EditorConstants.TILE_SIZE, rect.Width * Methods.Editor.EditorConstants.TILE_SIZE, rect.Height * Methods.Editor.EditorConstants.TILE_SIZE, false, Transperncy);
                         }
                         else InvalidateChunk(x, y);
                     }
@@ -1362,6 +1368,8 @@ namespace ManiacEditor.Classes.Scene.Sets
                 if (ChunkMap[y][x] != null && ChunkMap[y][x].HasBeenSelectedPrior) InvalidateChunk(x, y);
                 else if (ChunkMap[y][x] != null) InvalidateChunk(x, y);
                 Rectangle rect = GetTilesChunkArea(x, y);
+
+                if (rect.Width <= 0 || rect.Height <= 0) return null;
 
                 Bitmap bmp2 = new Bitmap(rect.Width * Methods.Editor.EditorConstants.TILE_SIZE, rect.Height * Methods.Editor.EditorConstants.TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);

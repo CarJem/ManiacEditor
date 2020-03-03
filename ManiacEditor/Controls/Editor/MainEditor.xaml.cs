@@ -243,11 +243,6 @@ namespace ManiacEditor.Controls.Editor
                 Debug.Write("Failed to write settings: " + ex);
             }
 
-            if (ManiaHost._process != null)
-            {
-                ManiaHost.ForceKillSonicMania();
-            }
-
             ViewPanel.SharpPanel.Dispose();
             //editorView = null;
             ViewPanel.SharpPanel.Host.Child.Dispose();
@@ -468,8 +463,8 @@ namespace ManiacEditor.Controls.Editor
                 };
                 EditorToolbar.LayerToolbar.Items.Insert(EditorToolbar.LayerToolbar.Items.IndexOf(EditorToolbar.extraViewLayersSeperator), tsb);
                 tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
-                tsb.IsLayerOptionsEnabled = true;
-
+                tsb.IsLayerOptionsEnabled = false;
+                tsb.IsLayerControlsHidden = true;
 
                 _extraLayerViewButtons.Add(tsb);
             }

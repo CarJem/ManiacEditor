@@ -17,6 +17,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 		public string SelectedSavedPlace = "";
 		public string SelectedModFolder = "";
 
+		private bool AlreadyLoaded = false;
+
 		public StartScreen(ManiacEditor.Controls.Editor.MainEditor instance)
 		{
 			InitializeComponent();
@@ -27,8 +29,12 @@ namespace ManiacEditor.Controls.Editor.Elements
 
 		private void StartScreen_Loaded(object sender, RoutedEventArgs e)
 		{
-			SceneSelectHost.Children.Add(SelectScreen);
-			SelectScreen.Refresh();
+			if (!AlreadyLoaded)
+			{
+				AlreadyLoaded = true;
+				SceneSelectHost.Children.Add(SelectScreen);
+				SelectScreen.Refresh();
+			}
 		}
 
 		private void linkLabel3_LinkClicked(object sender, RoutedEventArgs e)

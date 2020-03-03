@@ -40,13 +40,13 @@
                 <MenuItem x:Name="RecentScenes" Header="Open Recently Opened Scenes" SubmenuOpened="RecentScenes_SubmenuOpened">
                     <MenuItem x:Name="NoRecentScenesItem" Header="No Recently Opened Scenes" IsEnabled="False"/>
                 </MenuItem>
-                <MenuItem x:Name="RecentDataSources" Header="Open Recently Opened Data Folders / Packs" SubmenuOpened="RecentDataSources_SubmenuOpened">
-                    <MenuItem x:Name="NoRecentDataSources" Header="No Recently Opened Data Folders / Packs" IsEnabled="False"/>
+                <MenuItem x:Name="RecentDataSources" Header="Open Recently Opened Data Folders" SubmenuOpened="RecentDataSources_SubmenuOpened">
+                    <MenuItem x:Name="NoRecentDataSources" Header="No Recently Opened Data Folders" IsEnabled="False"/>
                 </MenuItem>
                 <Separator />
                 <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitEditorEvent"/>
             </MenuItem>
-            <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center" >
+            <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center">
                 <MenuItem x:Name="undoToolStripMenuItem" Click="UndoEvent">
                     <MenuItem.Header>
                         <StackPanel Background="Transparent">
@@ -67,9 +67,7 @@
                 <MenuItem x:Name="cutToolStripMenuItem" Header="Cut" Click="CutEvent"/>
                 <MenuItem x:Name="copyToolStripMenuItem" Header="Copy" Click="CopyEvent"/>
                 <MenuItem x:Name="pasteToolStripMenuItem" Header="Paste" Click="PasteEvent"/>
-                <MenuItem x:Name="pasteToToolStripMenuItem" Header="Paste to">
-                    <MenuItem x:Name="pasteTochunkToolStripMenuItem" Header="Chunk" Click="PasteToChunksEvent"/>
-                </MenuItem>
+                <MenuItem x:Name="pasteTochunkToolStripMenuItem" Header="Paste to Chunk" Click="PasteToChunksEvent"/>
                 <MenuItem x:Name="duplicateToolStripMenuItem" Header="Duplicate" Click="DuplicateEvent"/>
                 <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllEvent"/>
                 <MenuItem x:Name="deleteToolStripMenuItem" Header="Delete" Click="DeleteEvent"/>
@@ -99,7 +97,6 @@
                     <MenuItem x:Name="useLargeTextToolStripMenuItem" Header="Use Increased Size" Click="UseLargeDebugHUDText"/>
                 </MenuItem>
                 <MenuItem x:Name="resetZoomLevelToolstripMenuItem" Header="Reset Zoom Level" Click="ResetZoomLevelEvent"/>
-                <MenuItem x:Name="goToToolStripMenuItem" Header="Warp To..." Click="GoToPositionEvent"/>
                 <MenuItem x:Name="scrollLockToolStripMenuItem" Header="Scroll Lock...">
                     <MenuItem x:Name="statusNAToolStripMenuItem" Header="Enabled" Click="ToggleScrollLockEvent"/>
                     <MenuItem x:Name="axisToolStripMenuItem" Header="Axis...">
@@ -129,26 +126,7 @@
                 <MenuItem x:Name="moveExtraLayersToFrontToolStripMenuItem" Click="MoveExtraLayersToFrontEvent" Header="Move All Extra Layers to Front"></MenuItem>
             </MenuItem>
             <MenuItem x:Name="entitiesToolStripMenuItem" Header="Entities">
-                <TextBlock x:Name="EntitiesEditorOptionsLabel" TextWrapping="Wrap" Text="Editing Options:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></TextBlock>
-                <Separator Margin="0,5"/>
-                <MenuItem x:Name="rightClicktoSwapSlotIDs" Click="ToggleRightClickSlotIDSwapEvent" Header="Right Click to Swap Slot IDs">
-                </MenuItem>
-                <TextBlock Text="NOTE: Only works on selections of two entities" TextWrapping="Wrap" IsEnabled="False" Margin="1,0,0,0" Foreground="{DynamicResource DisabledText}"></TextBlock>
-                <Separator Visibility="Hidden"></Separator>
-                <TextBlock x:Name="EntitiesToolsLabel" TextWrapping="Wrap" Text="Quick Tools:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></TextBlock>
-                <Separator></Separator>
                 <MenuItem x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Click="SwapEncoreManiaEntityVisibilityEvent" Header="Toggle Encore/Mania Object Visibility"></MenuItem>
-                <MenuItem x:Name="SortSelectedSlotIDs" Click="SortSelectedSlotIDsEvent" Header="Sort Selected Object's Slot IDs" IsEnabled="False">
-                </MenuItem>
-                <MenuItem x:Name="SortSelectedSlotIDsOptimized" Click="SortSelectedSlotIDsOptimizedEvent" Header="Sort Selected Object's Slot IDs (Optimized Mode)" IsEnabled="False">
-                </MenuItem>
-                <MenuItem x:Name="SortSelectedSlotIDsOrdered" Click="SortSelectedSlotIDsOrderedEvent" Header="Sort Selected Object's Slot IDs (Ordered Mode)" IsEnabled="False">
-                </MenuItem>
-                <MenuItem x:Name="optimizeEntitySlotIDsToolStripMenuItem" Click="OptimizeEntitySlotIDsEvent" Header="Optimize Entity Slot IDs" IsEnabled="False">
-                </MenuItem>
-                <Separator Visibility="Hidden"></Separator>
-                <TextBlock x:Name="VisibilityOptionsLabel2" TextWrapping="Wrap" Text="Visibility Options:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></TextBlock>
-                <Separator></Separator>
                 <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" IsCheckable="True" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
                 <MenuItem x:Name="prioritizedViewingToolStripMenuItem" Header="Prioritized Viewing" Click="PrioritizedEntityViewingEvent"/>
                 <MenuItem x:Name="SelectionBoxesAlwaysPrioritized" Click="EntitySelectionBoxesAlwaysPrioritizedEvent" IsChecked="True" Header="Selection Boxes Always Prioritized"></MenuItem>
@@ -203,16 +181,8 @@
                 <MenuItem x:Name="findAndReplaceToolStripMenuItem" Header="Find and Replace..." Click="FindAndReplaceToolEvent"/>
                 <Separator></Separator>
                 <MenuItem x:Name="nudgeSelectionFasterToolStripMenuItem" Header="Nudge Selection Faster" Click="ToggleFasterNudgeEvent"/>
-                <MenuItem x:Name="overlayImageToolStripMenuItem" Header="Overlay Image" IsEnabled="False"/>
+                <MenuItem x:Name="goToToolStripMenuItem" Header="Warp To..." Click="GoToPositionEvent"/>
                 <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID..." Click="ChangeLevelIDEvent"/>
-                <MenuItem x:Name="newShortcutToolStripMenuItem" Visibility="Collapsed" Header="Create a Desktop Shortcut">
-                    <MenuItem x:Name="toolStripMenuItem2" Header="From Current Config:" IsEnabled="False"/>
-                    <Separator/>
-                    <MenuItem x:Name="withCurrentCoordinatesToolStripMenuItem" Header="With Current Coordinates" Click="MakeShortcutWithCurrentCoordinatesEvent"/>
-                    <MenuItem x:Name="withoutCurrentCoordinatesToolStripMenuItem" Header="Without Coordinates (Recommended)" Click="MakeShortcutWithoutCurrentCoordinatesEvent"/>
-                    <Separator/>
-                    <MenuItem x:Name="makeForDataFolderOnlyToolStripMenuItem" Header="Make for Data Folder Only" Click="MakeDataFolderShortcutEvent"/>
-                </MenuItem>
                 <Separator/>
                 <MenuItem x:Name="developerToolStripMenuItem1" Header="Developer Tools">
                     <MenuItem x:Name="developerInterfaceToolStripMenuItem" Header="Developer Interface" Click="DeveloperTerminalEvent"/>
@@ -273,9 +243,6 @@
                     <MenuItem x:Name="maniaPalGameConfigToolStripMenuItem" Header="ManiaPal (Game Config)" Click="ColorPaletteEditorToolStripMenuItem_Click"/>
                     <Separator/>
                     <MenuItem x:Name="maniaPalHint" Header="Hint:" IsEnabled="False" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
-                </MenuItem>
-                <MenuItem Header="RetroED Tools...">
-                    <MenuItem Header="RSDK Unpacker" Name="RSDKUnpacker" Click="RSDKUnpackerEvent"></MenuItem>
                 </MenuItem>
                 <MenuItem Visibility="Collapsed" x:Name="optionsToolStripMenuItem2" Header="Options" IsEnabled="False"/>
             </MenuItem>

@@ -518,20 +518,6 @@ namespace ManiacEditor.Methods.Editor
         }
         private static bool _CopyAir = false;
 
-        public static bool RightClicktoSwapSlotID
-        {
-            get
-            {
-                return _RightClicktoSwapSlotID;
-            }
-            set
-            {
-                _RightClicktoSwapSlotID = value;
-                Instance.MenuBar.rightClicktoSwapSlotIDs.IsChecked = value;
-            }
-        }
-        private static bool _RightClicktoSwapSlotID = false;
-
         public static int FasterNudgeAmount
         {
             get
@@ -712,10 +698,6 @@ namespace ManiacEditor.Methods.Editor
             if (value != null) SetToolModes(2, value.Value);
             else SetToolModes(2, Instance.EditorToolbar.DrawToolButton.IsChecked.Value);
         }
-        public static void InteractionMode(bool? value = null)
-        {
-            SetToolModes(3, Instance.EditorToolbar.InteractionToolButton.IsChecked.Value);
-        }
 
         //Determines the Draw Tool's Brush Size (Tiles Only)
         public static int DrawBrushSize { get => GetDrawBrushSize(); set => SetDrawBrushSize(value); }
@@ -754,7 +736,6 @@ namespace ManiacEditor.Methods.Editor
             Instance.EditorToolbar.PointerToolButton.IsChecked = (selectedID == 0 ? value : false);
             Instance.EditorToolbar.SelectToolButton.IsChecked = (selectedID == 1 ? value : false);
             Instance.EditorToolbar.DrawToolButton.IsChecked = (selectedID == 2 ? value : false);
-            Instance.EditorToolbar.InteractionToolButton.IsChecked = (selectedID == 3 ? value : false);
             Instance.EditorToolbar.SplineToolButton.IsChecked = (selectedID == 4 ? value : false);
             Methods.Internal.UserInterface.UpdateControls();
         }

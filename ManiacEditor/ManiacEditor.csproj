@@ -583,9 +583,6 @@
     <Compile Include="Controls\Editor\Controls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\ManiaHost.xaml.cs">
-      <DependentUpon>ManiaHost.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Editor\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
       <DependentUpon>TilesTabControl.xaml</DependentUpon>
     </Compile>
@@ -1539,10 +1536,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Assets\Icons.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Editor\Elements\ManiaHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

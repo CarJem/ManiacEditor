@@ -160,7 +160,6 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <ToggleButton x:Name="InteractionToolButton"  Click="ToggleInteractionToolEvent" Content="{DynamicResource Interaction}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
                 <ToggleButton x:Name="MagnetMode" Click="ToggleMagnetToolEvent" Content="{DynamicResource Magnet}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
 
                 <Button IsEnabled="False" Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
@@ -374,7 +373,7 @@
                 <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLow" Text="FG Low" TextForeground="Red" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></maniac:EditLayerToggleButton>
                 <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigh" Text="FG High" TextForeground="Red" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></maniac:EditLayerToggleButton>
                 <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigher" Text="FG Higher" TextForeground="Red" Click="EditFGHigher_Click" RightClick="EditFGHigher_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton x:Name="EditEntities" Text="Entities" TextForeground="Red" Click="EditEntities_Click"/>
+                <maniac:EditLayerToggleButton IsLayerControlsHidden="True" IsLayerOptionsEnabled="False" x:Name="EditEntities" Text="Entities" TextForeground="Red" Click="EditEntities_Click"/>
 
 
                 <ToolBar.Resources>
@@ -385,14 +384,6 @@
             </ToolBar>
         </ToolBarTray>
 
-        <Grid Visibility="Visible" x:Name="MultiLayerHint" Grid.Row="1" Margin="5" VerticalAlignment="Center" Grid.Column="1">
-            <StackPanel Background="Transparent">
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"  Text="Multi-Layer Select Controls" Foreground="{DynamicResource NormalText}"></TextBlock>
-                <Separator></Separator>
-                <TextBlock x:Name="LayerALabel" HorizontalAlignment="Center" Foreground="{DynamicResource EditLayerASelectedColor}" Grid.Row="0" Text="Edit Layer A: Right Click"/>
-                <TextBlock x:Name="LayerBLabel"  HorizontalAlignment="Center"  Foreground="{DynamicResource EditLayerBSelectedColor}" Grid.Row="1" Text="Edit Layer B: Left Click"/>
-            </StackPanel>
-        </Grid>
         <wpfTool:SplitButton x:Name="FutureAddonButton" Visibility="Collapsed" Grid.RowSpan="2" Margin="5,0,0,0" Width="19" Grid.Column="1">
             <wpfTool:SplitButton.DropDownContent>
                 <StackPanel Background="{DynamicResource ContextMenuBackground}">

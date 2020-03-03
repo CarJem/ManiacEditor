@@ -52,8 +52,20 @@ namespace ManiacEditor.Controls.Editor.Controls
             ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
         }
 
+		private void GetIsLayerControlsHidden()
+		{
+			if (IsLayerControlsHidden)
+			{
+				LayerOptionsDropdownButton.IsEnabled = false;
+			}
+			else
+			{
+				LayerOptionsDropdownButton.IsEnabled = true;
+			}
+		}
 
-        public bool AllowParallaxAnimation { get => GetAllowParallaxAnimation(); set => SetAllowParallaxAnimation(value); }
+
+		public bool AllowParallaxAnimation { get => GetAllowParallaxAnimation(); set => SetAllowParallaxAnimation(value); }
         private bool _AllowParallaxAnimation = false;
 
         private bool GetAllowParallaxAnimation()
@@ -149,6 +161,19 @@ namespace ManiacEditor.Controls.Editor.Controls
 			set { DualSelectModeEnabled = value;}
 		}
 
+		public bool IsLayerControlsHidden
+		{
+			get 
+			{ 
+				return (bool)base.GetValue(HideLayerControls); 
+			}
+			set 
+			{ 
+				base.SetValue(HideLayerControls, value);
+				GetIsLayerControlsHidden();
+			}
+		}
+
 		public bool? IsCheckedN
 		{
 			get { return LayerToggle.IsChecked; }
@@ -189,6 +214,9 @@ DependencyProperty.Register("IsCheckedB", typeof(bool), typeof(EditLayerToggleBu
 
 		public static readonly DependencyProperty DualSelectMode =
 DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
+
+		public static readonly DependencyProperty HideLayerControls =
+DependencyProperty.Register("HideLayerControls", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
 
 		public EditLayerToggleButton()
 		{
@@ -256,10 +284,54 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 
 		private void LayerToggle_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if (LayerToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 1);
-			else if (LayerAToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 2);
-			else if (LayerBToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 3);
-			else SetLayerSelectedButtonColors(ToggleButton, 0);
+			if (LayerToggle.IsChecked.Value)
+			{
+				SetLayerSelectedButtonColors(ToggleButton, 1);
+				SetLayerSelectedCheckState(1);
+			}
+			else if (LayerAToggle.IsChecked.Value)
+			{
+				SetLayerSelectedButtonColors(ToggleButton, 2);
+				SetLayerSelectedCheckState(2);
+			}
+			else if (LayerBToggle.IsChecked.Value)
+			{
+				SetLayerSelectedButtonColors(ToggleButton, 3);
+				SetLayerSelectedCheckState(3);
+			}
+			else
+			{
+				SetLayerSelectedButtonColors(ToggleButton, 0);
+				SetLayerSelectedCheckState(0);
+			}
+		}
+
+		protected void SetLayerSelectedCheckState(int mode)
+		{
+			// 0 - Not Checked
+			// 1 - Checked
+			// 2 - Checked (Edit Layer A)
+			// 3 - Checked (Edit Layer B)
+
+			switch (mode)
+			{
+				case 0:
+					SetAsEditLayerA.IsChecked = false;
+					SetAsEditLayerB.IsChecked = false;
+					break;
+				case 1:
+					SetAsEditLayerA.IsChecked = false;
+					SetAsEditLayerB.IsChecked = false;
+					break;
+				case 2:
+					SetAsEditLayerA.IsChecked = true;
+					SetAsEditLayerB.IsChecked = false;
+					break;
+				case 3:
+					SetAsEditLayerA.IsChecked = false;
+					SetAsEditLayerB.IsChecked = true;
+					break;
+			}
 		}
 
 		protected void SetLayerSelectedButtonColors(Button toggle, int mode = 0)
@@ -315,7 +387,7 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 					this.Click(this, e);
 				}
             }
-
+			LayerToggle_Unchecked(null, null);
 
 		}
 
@@ -332,8 +404,8 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 				LayerToggle.IsChecked = !LayerToggle.IsChecked.Value;
 				if (this.Click != null) this.Click(this, e);
 			}
-
-        }
+			LayerToggle_Unchecked(null, null);
+		}
 
 		protected void ToggleButton_MouseLeave(object sender, MouseEventArgs e)
 		{
@@ -342,6 +414,7 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 			else if (LayerAToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 2);
 			else if (LayerBToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 3);
 			else SetLayerSelectedButtonColors(ToggleButton, 0);
+
 		}
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -372,6 +445,36 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
             GetShowLayerScrollLines();
             GetAllowParallaxAnimation();
         }
-    }
+
+
+		private void SetEditLayerState(bool isLayerB, RoutedEventArgs e)
+		{
+			if (!isLayerB)
+			{
+				LayerAToggle.IsChecked = !LayerAToggle.IsChecked.Value;
+				if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
+				if (this.Click != null) this.Click(this, e);
+			}
+			else
+			{
+				LayerBToggle.IsChecked = !LayerBToggle.IsChecked.Value;
+				if (LayerAToggle.IsChecked.Value) LayerAToggle.IsChecked = false;
+				if (this.Click != null) this.Click(this, e);
+			}
+			LayerToggle_Unchecked(null, null);
+
+		}
+
+
+		private void SetAsEditLayerA_Click(object sender, RoutedEventArgs e)
+		{
+			SetEditLayerState(false, e);
+		}
+
+		private void SetAsEditLayerB_Click(object sender, RoutedEventArgs e)
+		{
+			SetEditLayerState(true, e);
+		}
+	}
 
 }
