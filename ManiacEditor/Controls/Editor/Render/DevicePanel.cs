@@ -494,7 +494,7 @@ namespace ManiacEditor
             DrawBitmap(image, x, y, 0, 0, width, height, selected, transparency, CustomColor);
         }
 
-        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, Color? CustomColor = null, bool canRotate = false)
+        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, Color? CustomColor = null)
         {
             Color CustomSelectedColor = Color.BlueViolet;
             if (CustomColor == null) CustomColor = Color.White;
@@ -503,21 +503,14 @@ namespace ManiacEditor
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
 
-            var lastState = sprite.Transform;
-            float rotate;
-
-            if (canRotate)
-            {
-                rotate = (float)(Properties.Settings.MyDevSettings.DevInt1);
-
-                // rotate about (0,0)
-                sprite.Transform *= Matrix.RotationZ(rotate);
-            }
-
+            //Rotate: Part 1
+            //var lastState = sprite.Transform;
+            //sprite.Transform *= Matrix.RotationZ(rotate);
 
             DrawTexture(image, new Rectangle(rect_x, rect_y, width, height), new Vector3(new float[] { 0, 0, 0 }), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? CustomSelectedColor : Color.FromArgb(transparency, CustomColor.Value));
 
-            sprite.Transform = lastState;
+            //Rotate: Part 2
+            //sprite.Transform = lastState;
         }
 
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
