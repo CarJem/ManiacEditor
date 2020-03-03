@@ -16,372 +16,175 @@ using ImageMagick;
 
 namespace ManiacEditor.Methods.Entities
 {
-    [Serializable]
-    public class EntityDrawing
+    public static class EntityDrawing
     {
+        #region Definitions
         // Object Render List
-        public List<EntityRenderer> EntityRenderers = new List<EntityRenderer>();
-        public List<LinkedRenderer> LinkedEntityRenderers = new List<LinkedRenderer>();
+        public static List<EntityRenderer> EntityRenderers { get; set; } = new List<EntityRenderer>();
+        public static List<LinkedRenderer> LinkedEntityRenderers = new List<LinkedRenderer>();
 
         // Object List for initilizing the if statement
         public static Classes.General.EntityRenderingOptions RenderingSettings;
-        public List<string> rendersWithErrors = new List<string>();
-        public List<string> linkedrendersWithErrors = new List<string>();
+        public static List<string> RendersWithErrors = new List<string>();
+        public static List<string> LinkedRendersWithErrors = new List<string>();
 
-        public string GetAnimationLoadingKey(string name, int AnimID, int FrameID, bool FlipH, bool FlipV, Flag FlagAttributes, int TextureRotation, bool Rotate, bool LegacyRotate, bool StackFrames, int StackStart, int StackEnd)
+        public static Dictionary<string, EditorAnimation> AnimationCache = new Dictionary<string, EditorAnimation>();
+
+        private static Controls.Editor.MainEditor Instance;
+        #endregion
+
+        #region Init
+        public static void UpdateInstance(Controls.Editor.MainEditor instance)
         {
-            return $"{name}-{AnimID}-{FrameID}-{FlipH}-{FlipV}-{FlagAttributes}-{TextureRotation}-{Rotate}-{LegacyRotate}-{StackFrames}-{StackStart}-{StackEnd}";
+            Instance = instance;
         }
+        #endregion
 
-        public List<Methods.Entities.EntityDrawing.LoadAnimationData> AnimsToLoad = new List<Methods.Entities.EntityDrawing.LoadAnimationData>();
-        public Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation> Animations = new Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation>();
-        public Dictionary<string, Bitmap> Sheets = new Dictionary<string, Bitmap>();
-        public bool Working = false;
-
-        public Controls.Editor.MainEditor EditorInstance;
-
-        public enum Flag : int
+        #region Loading/Calling
+        public static EditorAnimation LoadAnimation(DevicePanel d, string name)
         {
-            DefaultBehavior = 0,
-            FullEngineRotation = 1,
-            PartialEngineRotation = 2,
-            StaticRotationUsingExtraFrames = 3,
-            Unknown = 4    
-        }
-
-        public EntityDrawing(Controls.Editor.MainEditor instance)
-        {
-            EditorInstance = instance;
-        }
-
-        public static Animation rsdkAnim;
-
-        #region New Animation System
-        /// <summary>
-        /// Loads / Gets the Sprite Animation
-        /// </summary>
-        /// <param name="name">The Name of the object</param>
-        /// <param name="d">The DevicePanel</param>
-        /// <param name="AnimID">The Animation ID (-1 to Load Normal)</param>
-        /// <param name="FrameID">The Frame ID for the specified Animation (-1 to load all frames)</param>
-        /// <param name="FlipH">Flip the Texture Horizontally</param>
-        /// <param name="FlipV">Flip the Texture Vertically</param>
-        /// <param name="Rotate">Flip the Texture Vertically</param>
-        /// <param name="TextureRotation">The Angle at Which the Texture is Rotated</param>
-        /// <param name="LoadImageToDX">Load the Image to a SharpDX Texture</param>
-        /// <param name="LegacyRotate">Use the Old Method for Rotating the Images</param>
-        /// <param name="FlagAttributes">Determines the Animation Procecedure When Processing the Animation</param>
-        /// <param name="StackFrames">Whether the Images Should Be Merged On Top of Each Other Or Not</param>
-        /// <param name="StackStart">Start Point in the Stack (When StackFrames is True)</param>
-        /// <param name="StackEnd">End Point in the Stack (When StackFrames is True)</param>
-        /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool Rotate = false, int TextureRotation = 0, bool LoadImageToDX = true, bool LegacyRotate = false, Flag FlagAttributes = Flag.DefaultBehavior, bool StackFrames = false, int StackStart = 0, int StackEnd = 0)
-        {
-            string key = GetAnimationLoadingKey(name, AnimID, FrameID, FlipH, FlipV, FlagAttributes, TextureRotation, Rotate, LegacyRotate, StackFrames, StackStart, StackEnd);
-            var anim = new Methods.Entities.EntityDrawing.EditorAnimation();
-            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
+            if (AnimationCache.ContainsKey(name))
             {
-                if (Animations[key].Ready) return Animations[key]; // Use the already loaded Amination
+                if (AnimationCache[name].Spritesheets != null)
+                {
+                    return AnimationCache[name];
+                }
                 else return null;
-            }
-
-            Animations.Add(key, anim);
-
-            // Get the path of the object's textures
-            string assetName = (EditorInstance.userDefinedEntityRenderSwaps.Keys.Contains(name) ? EditorInstance.userDefinedEntityRenderSwaps[name] : name);
-            Tuple<string, string> AssetInfo = GetAssetPath(name);
-            string path2 = AssetInfo.Item1;
-            string dataFolderLocation = AssetInfo.Item2;
-            if (!File.Exists(path2) || path2 == null) return null;
-            using (var stream = File.OpenRead(path2)) { rsdkAnim = new Animation(new RSDKv5.Reader(stream)); }
-            if (AnimID >= rsdkAnim.Animations.Count) AnimID = rsdkAnim.Animations.Count - 1;
-            
-            if (StackFrames) anim = ProcessAnimationFramesAsStack(name, d, AnimID, FrameID, StackStart, StackEnd, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
-            else anim = ProcessAnimationFrames(name, d, AnimID, FrameID, FlipH, FlipV, assetName, dataFolderLocation, LoadImageToDX, anim, LegacyRotate, TextureRotation, FlagAttributes, Rotate);
-
-            if (anim == null) return null;
-
-            anim.ImageLoaded = true;
-            if (LoadImageToDX) anim.Ready = true;
-            Working = false;
-            return anim;
-        }
-        /// <summary>
-        /// Gets the Sprite Animation, and if not found send a new LoadAnimationData to put it in the queue to be loaded
-        /// </summary>
-        /// <param name="name">The Name of the object</param>
-        /// <param name="d">The DevicePanel</param>
-        /// <param name="AnimID">The Animation ID (-1 to Load Normal)</param>
-        /// <param name="FrameID">The Frame ID for the specified Animation (-1 to load all frames)</param>
-        /// <param name="FlipH">Flip the Texture Horizontally</param>
-        /// <param name="FlipV">Flip the Texture Vertically</param>
-        /// <param name="Rotate">Flip the Texture Vertically</param>
-        /// <param name="TextureRotation">The Angle at Which the Texture is Rotated</param>
-        /// <param name="LoadImageToDX">Load the Image to a SharpDX Texture</param>
-        /// <param name="LegacyRotate">Use the Old Method for Rotating the Images</param>
-        /// <param name="FlagAttributes">Determines the Animation Procecedure When Processing the Animation</param>
-        /// <param name="StackFrames">Whether the Images Should Be Merged On Top of Each Other Or Not</param>
-        /// <param name="StackStart">Start Point in the Stack (When StackFrames is True)</param>
-        /// <param name="StackEnd">End Point in the Stack (When StackFrames is True)</param>
-        /// <returns>The fully loaded Animation</returns>
-        public EditorAnimation LoadAnimation2(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, bool Rotate = false, int TextureRotation = 0, bool LoadImageToDX = true, bool LegacyRotate = false, Flag FlagAttributes = Flag.DefaultBehavior, bool StackFrames = false, int StackStart = 0, int StackEnd = 0)
-        {
-            string key = GetAnimationLoadingKey(name, AnimID, FrameID, FlipH, FlipV, FlagAttributes, TextureRotation, Rotate, LegacyRotate, StackFrames, StackStart, StackEnd);
-            if (EditorInstance.EntityDrawing.Animations.ContainsKey(key))
-            {
-                if (Animations[key].Ready)
-                {
-                    // Use the already loaded Amination
-                    return Animations[key];
-                }
-                else
-                    return null;
-            }
-            var entry = new Methods.Entities.EntityDrawing.LoadAnimationData()
-            {
-                name = name,
-                d = d,
-                AnimId = AnimID,
-                frameId = FrameID,
-                fliph = FlipH,
-                flipv = FlipV,
-                rotate = Rotate,
-                textureRotation = TextureRotation,
-                flag = FlagAttributes,
-                stackStart = StackStart,
-                stackEnd = StackEnd,
-                legacyRotation = LegacyRotate
-            };
-            AnimsToLoad.Add(entry);
-            return null;
-        }
-        public void LoadNextAnimation(Classes.Scene.Sets.EditorEntity entity)
-        {
-            if (AnimsToLoad.Count == 0)
-                return;
-            if (AnimsToLoad.Count < 1)
-            {
-                //Break Here
-            }
-            var val = AnimsToLoad[0];
-            if (val.anim == null)
-            {
-                string key = GetAnimationLoadingKey(val.name, val.AnimId, val.frameId, val.fliph, val.flipv, val.flag, val.textureRotation, val.rotate, val.legacyRotation, val.stackFrames, val.stackStart, val.stackEnd);
-                if (!Animations.ContainsKey(key))
-                {
-                    if (!Working)
-                    {
-                        try
-                        {
-                            LoadAnimation(val.name, val.d, val.AnimId, val.frameId, val.fliph, val.flipv, val.rotate, val.textureRotation, false, val.legacyRotation, val.flag, val.stackFrames, val.stackStart, val.stackEnd);
-                            entity.uniqueKey = GetAnimationLoadingKey(val.name, val.AnimId, val.frameId, val.fliph, val.flipv, val.flag, val.textureRotation, val.rotate, val.legacyRotation, val.stackFrames, val.stackStart, val.stackEnd);
-                        }
-                        catch (Exception)
-                        {
-                            // lots of changes introduced by Plus, just hide errors for now (evil I know!)
-                            //Console.WriteLine($"Pop loading next animiation. {val.name}, {val.AnimId}, {val.frameId}, {val.fliph}, {val.flipv}, {val.rotate}", e);
-                        }
-                    }
-                }
-                else
-                {
-                    val.anim = Animations[key];
-                }
 
             }
-            if (val.anim == null)
-            {
-                return;
-            }
-            if (val.anim.Ready)
-                AnimsToLoad.RemoveAt(0);
             else
             {
-                if (val.anim.Frames.Count == 0)
-                {
-                    val.anim.Ready = true;
-                    AnimsToLoad.RemoveAt(0);
-                    return;
-                }
-                if (val.d != null)
-                {
-                    val.anim.Frames[val.anim.loadedFrames].Texture = Methods.Draw.TextureCreator.FromBitmap(val.d._device, val.anim.Frames[val.anim.loadedFrames]._Bitmap);
-                    //val.anim.Frames[val.anim.loadedFrames]._Bitmap.Dispose();
-                    //val.anim.Frames[val.anim.loadedFrames]._Bitmap = null;
-                }
-                ++val.anim.loadedFrames;
-                if (val.anim.loadedFrames == val.anim.Frames.Count)
-                {
-                    val.anim.Ready = true;
-                    AnimsToLoad.RemoveAt(0);
-                }
-
+                LoadNextAnimation(d, name);
+                return null;
             }
         }
-        public EditorAnimation ProcessAnimationFrames(string name, DevicePanel d, int AnimID, int FrameID, bool FlipH, bool FlipV, string assetName, string dataFolderLocation, bool LoadImageToDX, EditorAnimation anim, bool LegacyRotate, int TextureRotation, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false)
+        public static void LoadNextAnimation(DevicePanel d, string name)
         {
-            AnimID = CheckAnimID(AnimID, Rotate);
-            for (int i = 0; i < rsdkAnim.Animations[AnimID].Frames.Count; ++i)
+            if (AnimationCache.ContainsKey(name)) return;
+            else
             {
-                var animiation = rsdkAnim.Animations[AnimID];
-                var frame = animiation.Frames[i];
-                if (FrameID >= 0 && FrameID < animiation.Frames.Count && FrameID != -1) frame = animiation.Frames[FrameID];
-                frame = OptimizeFrame(frame);
-                if (frame == null) return null;
-                Bitmap map = null;
-                bool noEncoreColors = false;
-                map = GetAnimationBitmap(name, AnimID, FrameID, assetName, dataFolderLocation, i, map, frame, noEncoreColors);
-
-
-                // We are storing the first colour from the palette so we can use it to make sprites transparent
-                var colour = map.Palette.Entries[0];
-
-                // Slow
-                if (FlagAttributes == Flag.FullEngineRotation || FlagAttributes == Flag.PartialEngineRotation)
+                var Animation = new EditorAnimation();
+                var AssetInfo = GetAssetPath(name);
+                Animation.SourcePath = AssetInfo.Item1;
+                Animation.SourceDirectory = AssetInfo.Item2;
+                if (AssetInfo.Item1 != string.Empty && AssetInfo.Item1 != null && File.Exists(AssetInfo.Item1))
                 {
-                    map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour);
-                    map = RotateImage(map, TextureRotation, colour);
-                    map = FitForSharpDXTexture(map);
-                }
-                else
-                {                    
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour, TextureRotation, Rotate, LegacyRotate);
-                    if (TextureRotation != 0 && LegacyRotate)
-                    {
-                        map = RotateImageLegacy(map, TextureRotation, colour);
-                        frame.Height = (short)(frame.Width + frame.Height + 64);
-                        frame.Width = (short)(frame.Height + frame.Width + 32);
-                    }
-                }
-                map = RemoveColourImage(map, colour, map.Width, map.Height);
-                Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
-                map.Dispose();
-
-                var editorFrame = GenerateNewFrame(frame, d, AnimID, finalMap, LoadImageToDX);
-                if (LoadImageToDX == false) editorFrame._Bitmap = finalMap;
-                anim.Frames.Add(editorFrame);
-                if (FrameID != -1) break;
-            }
-            return anim;
-
-        }
-
-        public Animation.AnimationEntry.Frame OptimizeFrame(Animation.AnimationEntry.Frame frame)
-        {
-            if (frame.X <= -1) frame.X = 0;
-            if (frame.Y <= -1) frame.Y = 0;
-            if (frame.Width <= -1) frame.Width = 0;
-            if (frame.Height <= -1) frame.Height = 0;
-            if (frame.Width == 0) return null;
-            if (frame.Height == 0) return null;
-            return frame;
-        }
-
-
-        public EditorAnimation ProcessAnimationFramesAsStack(string name, DevicePanel d, int AnimID, int FrameID, int StartID, int EndID, bool FlipH, bool FlipV, string assetName, string dataFolderLocation, bool LoadImageToDX, EditorAnimation anim, bool LegacyRotate, int TextureRotation, Flag FlagAttributes = Flag.DefaultBehavior, bool Rotate = false)
-        {
-            //Copied Unmodified Code from ProcessAnimationFrames, still need to implement this section correctly.
-
-            for (int i = 0; i < rsdkAnim.Animations[AnimID].Frames.Count; ++i)
-            {
-                var animiation = rsdkAnim.Animations[AnimID];
-                var frame = animiation.Frames[i];
-                if (FrameID >= 0 && FrameID < animiation.Frames.Count) frame = animiation.Frames[FrameID];
-                frame = OptimizeFrame(frame);
-                if (frame == null) return null;
-                Bitmap map = null;
-                bool noEncoreColors = false;
-                map = GetAnimationBitmap(name, AnimID, FrameID, assetName, dataFolderLocation, i, map, frame, noEncoreColors);
-                // We are storing the first colour from the palette so we can use it to make sprites transparent
-                var colour = map.Palette.Entries[0];
-
-                // Slow
-                if (FlagAttributes == Flag.FullEngineRotation || FlagAttributes == Flag.PartialEngineRotation)
-                {
-                    map = SimplyCropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour);
-                    map = RotateImage(map, TextureRotation, colour);
-                    map = FitForSharpDXTexture(map);
-                    map = RemoveColourImage(map, colour, map.Width, map.Height);
+                    Animation RSDKAnim;
+                    using (var stream = File.OpenRead(AssetInfo.Item1)) { RSDKAnim = new Animation(new RSDKv5.Reader(stream)); }
+                    Animation.Animation = RSDKAnim;
+                    Animation.Spritesheets = GetAnimationSpriteSheetTextures(d, RSDKAnim, Animation.SourcePath, Animation.SourceDirectory, false);
                 }
                 else
                 {
-                    map = CropImage(map, new Rectangle(frame.X, frame.Y, frame.Width, frame.Height), FlipH, FlipV, colour, TextureRotation, Rotate, LegacyRotate);
-                    if (TextureRotation != 0 && LegacyRotate)
+                    Animation.Animation = null;
+                    Animation.Spritesheets = null;
+                }
+                AnimationCache.Add(name, Animation);
+            }
+        }
+        #endregion
+
+        #region Texture Collection
+        public static Dictionary<string, Classes.General.TextureExt> GetAnimationSpriteSheetTextures(DevicePanel d, Animation Animation, string SourcePath, string SourceDirectory, bool NoEncoreColors)
+        {
+            Dictionary<string, Classes.General.TextureExt> SpriteSheetTextures = new Dictionary<string, Classes.General.TextureExt>();
+
+            foreach (var spriteSheetName in Animation.SpriteSheets)
+            {
+                Bitmap SpriteSheetBMP;
+                string TargetFile;
+
+                if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(SourcePath)) TargetFile = GetEditorStaticBitmapPath(SourcePath);
+                else TargetFile = Path.Combine(SourceDirectory, "Sprites", spriteSheetName.Replace('/', '\\'));
+
+
+                if (!File.Exists(TargetFile)) SpriteSheetBMP = null;
+                else
+                {
+                    try
                     {
-                        map = RotateImageLegacy(map, TextureRotation, colour);
-                        frame.Height = (short)(frame.Width + frame.Height + 64);
-                        frame.Width = (short)(frame.Height + frame.Width + 32);
+                        using (Stream stream = File.OpenRead(TargetFile))
+                        {
+                            Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
+                            var colour = disposable.Palette.Entries[0];
+                            SpriteSheetBMP = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
+                            SpriteSheetBMP = SetEncoreColors(SpriteSheetBMP, NoEncoreColors);
+                            SpriteSheetBMP = RemoveColourImage(SpriteSheetBMP, colour);
+                            disposable.Dispose();
+                        }
+                    }
+                    catch
+                    {
+                        SpriteSheetBMP = null;
                     }
                 }
 
-                Bitmap finalMap = map.Clone(new Rectangle(0, 0, map.Width, map.Height), map.PixelFormat);
-                map.Dispose();
-
-                var editorFrame = GenerateNewFrame(frame, d, AnimID, finalMap, LoadImageToDX);
-                if (LoadImageToDX == false) editorFrame._Bitmap = finalMap;
-                anim.Frames.Add(editorFrame);
-                if (FrameID != -1) break;
-            }
-            return anim;
-
-        }
-        public Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame GenerateNewFrame(RSDKv5.Animation.AnimationEntry.Frame frame, DevicePanel d, int AnimID, Bitmap finalMap, bool LoadImageToDX)
-        {
-            Texture texture = null;
-            if (LoadImageToDX) texture = Methods.Draw.TextureCreator.FromBitmap(d._device, finalMap);
-            return new Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame()
-            {
-                Texture = texture,
-                Frame = frame,
-                Entry = rsdkAnim.Animations[AnimID],
-                ImageWidth = finalMap.Size.Width,
-                ImageHeight = finalMap.Size.Height
-            };
-        }
-        public Bitmap GetAnimationBitmap(string name, int AnimID, int FrameID, string assetName, string dataFolderLocation, int index, Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame, bool noEncoreColors)
-        {
-            if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) noEncoreColors = true;
-            if (frame.SpriteSheet > rsdkAnim.SpriteSheets.Count) frame.SpriteSheet = (byte)(rsdkAnim.SpriteSheets.Count - 1);
-            if (!Sheets.ContainsKey(rsdkAnim.SpriteSheets[frame.SpriteSheet]))
-            {
-                string targetFile;
-                if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(assetName)) targetFile = GetEditorStaticBitmapPath(assetName);
-                else targetFile = Path.Combine(dataFolderLocation, "Sprites", rsdkAnim.SpriteSheets[frame.SpriteSheet].Replace('/', '\\'));
-                if (!File.Exists(targetFile)) map = AddNullLookup(map, frame);
-                else map = OpenBitmapTargetFile(map, frame, targetFile, noEncoreColors);
-            }
-            else if (Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]] != null)
-            {
-                map = Sheets[rsdkAnim.SpriteSheets[frame.SpriteSheet]];
-                map = TestForEncoreColors(map, noEncoreColors, frame);
+                if (SpriteSheetBMP != null)
+                {
+                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), Methods.Draw.TextureCreator.FromBitmap(d._device, SpriteSheetBMP));
+                }
             }
 
-            return map;
+            return SpriteSheetTextures;
         }
-        public Bitmap AddNullLookup(Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame)
+
+        public static Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour)
         {
-            // Add a Null to our lookup, so we can avoid looking again in the future
-            Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
-            return null;
+            source.MakeTransparent(colour);
+            return source;
         }
-        public Bitmap OpenBitmapTargetFile(Bitmap map, RSDKv5.Animation.AnimationEntry.Frame frame, string targetFile, bool noEncoreColors)
+        public static Bitmap SetEncoreColors(Bitmap map, bool NoEncoreColors)
         {
-            using (Stream stream = File.OpenRead(targetFile))
-            {
-                Bitmap disposable = (Bitmap)System.Drawing.Bitmap.FromStream(stream);
-                map = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
-                //Encore Colors
-                map = TestForEncoreColors(map, noEncoreColors, frame);
-                Sheets.Add(rsdkAnim.SpriteSheets[frame.SpriteSheet], map);
-                disposable.Dispose();
-            }
-            return map;
-        }
-        public Bitmap TestForEncoreColors(Bitmap map, bool NoEncoreColors, RSDKv5.Animation.AnimationEntry.Frame frame)
-        {
-            if (Methods.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false && (frame.Width != 0 || frame.Height != 0)) return SetEncoreColors((Bitmap)map.Clone(), ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
+            if (Methods.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false) return SetColors((Bitmap)map.Clone(), ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
             else return map;
+
+            Bitmap SetColors(Bitmap _bitmap, string encoreColors)
+            {
+                if (encoreColors == "") return _bitmap;
+                Bitmap _bitmapEditMemory;
+                _bitmapEditMemory = _bitmap.Clone(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), PixelFormat.Format8bppIndexed);
+
+                //Encore Palettes (WIP Potentially Improvable)
+                RSDKv5.Color[] readableColors = new RSDKv5.Color[256];
+                bool loadSpecialColors = false;
+                if (encoreColors != null && File.Exists(encoreColors))
+                {
+                    using (var stream = File.OpenRead(encoreColors))
+                    {
+                        for (int y = 0; y < 255; ++y)
+                        {
+                            readableColors[y].R = (byte)stream.ReadByte();
+                            readableColors[y].G = (byte)stream.ReadByte();
+                            readableColors[y].B = (byte)stream.ReadByte();
+                        }
+                    }
+                    loadSpecialColors = true;
+                }
+
+                if (loadSpecialColors == true)
+                {
+                    ColorPalette pal = _bitmapEditMemory.Palette;
+                    if (_bitmapEditMemory.Palette.Entries.Length == 256)
+                    {
+                        for (int y = 0; y < 255; ++y)
+                        {
+                            if (readableColors[y].R != 255 && readableColors[y].G != 0 && readableColors[y].B != 255)
+                            {
+                                pal.Entries[y] = SystemColor.FromArgb(readableColors[y].R, readableColors[y].G, readableColors[y].B);
+                            }
+                        }
+                        _bitmapEditMemory.Palette = pal;
+                    }
+
+                }
+                _bitmap = (Bitmap)_bitmapEditMemory.Clone();
+                _bitmapEditMemory.Dispose();
+                return _bitmap;
+            }
         }
+        #endregion
+
+        #region Asset Retrival
         public static string GetEditorStaticBitmapPath(string assetName)
         {
             string targetFile = "";
@@ -394,47 +197,6 @@ namespace ManiacEditor.Methods.Entities
 
             return targetFile;
         }
-
-        public int CheckAnimID(int AnimId, bool rotate)
-        {
-            if (AnimId == -1)
-            {
-                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Normal"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Normal"));
-                else AnimId = 0;
-                // Use Vertical Amination if one exists
-                if (rotate && rsdkAnim.Animations.Any(t => t.AnimName.EndsWith(" V"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.EndsWith(" V"));
-            }
-            if (AnimId == -2)
-            {
-                if (rsdkAnim.Animations.Any(t => t.AnimName.Contains("Swing"))) AnimId = rsdkAnim.Animations.FindIndex(t => t.AnimName.Contains("Swing"));
-                else AnimId = 0;
-            }
-
-            return AnimId;
-        }
-
-        #endregion
-
-        public void DrawObjectTile(Graphics g, ushort tile, int x, int y)
-        {
-            ushort TileIndex = (ushort)(tile & 0x3ff);
-            int TileIndexInt = (int)TileIndex;
-            bool flipX = ((tile >> 10) & 1) == 1;
-            bool flipY = ((tile >> 11) & 1) == 1;
-            bool SolidTopA = ((tile >> 12) & 1) == 1;
-            bool SolidLrbA = ((tile >> 13) & 1) == 1;
-            bool SolidTopB = ((tile >> 14) & 1) == 1;
-            bool SolidLrbB = ((tile >> 15) & 1) == 1;
-
-            g.DrawImage(Methods.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * 16, 16, 16), flipX, flipY),
-                new Rectangle(x * 16, y * 16, 16, 16));
-        }
-
-        private Rectangle GetTilePlatformArea(int x, int y, int width, int height)
-        {
-            return new Rectangle(x, y, width, height);
-        }
-
         public static string GetEditorStaticAssetPath(string name)
         {
             string path;
@@ -464,8 +226,7 @@ namespace ManiacEditor.Methods.Entities
             }
             return path;
         }
-
-        public Tuple<String, String> GetAssetPath(string name)
+        public static Tuple<String, String> GetAssetPath(string name)
         {
 			string path = "";
 			string dataDirectory = "";
@@ -504,17 +265,16 @@ namespace ManiacEditor.Methods.Entities
 
             return Tuple.Create(path, dataDirectory);
         }
-
-		public Tuple<string, string> GetAssetSourcePath(string dataFolder, string name)
+		public static Tuple<string, string> GetAssetSourcePath(string dataFolder, string name)
 		{
 			string path, path2;
 			string dataDirectory = dataFolder;
 			// Checks the Stage Folder First
 			path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
 			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-			if (EditorInstance.userDefinedSpritePaths != null && EditorInstance.userDefinedSpritePaths.Count != 0)
+			if (Instance.userDefinedSpritePaths != null && Instance.userDefinedSpritePaths.Count != 0)
 			{
-				foreach (string userDefinedPath in EditorInstance.userDefinedSpritePaths)
+				foreach (string userDefinedPath in Instance.userDefinedSpritePaths)
 				{
 					path = userDefinedPath + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
@@ -620,319 +380,243 @@ namespace ManiacEditor.Methods.Entities
 			}
 			return Tuple.Create(path2, dataDirectory);
 		}
+        #endregion
 
-        public Bitmap CropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour, int rotateImg = 0, bool rotate = false, bool legacyRotate = false)
+        #region Disposal
+        public static void ReleaseResources()
         {
-            Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
-            using (Graphics g = Graphics.FromImage(bmp2)) g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-            if (fliph && flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-            else if (fliph) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            else if (flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            if (rotate && !legacyRotate) bmp2 = RotateImage(bmp2, rotateImg, colour);
 
-
-
-            //if (!legacyRotate)
-            //{
-            // AH-HA! The Memory Issue lies here, the larger the bitmap, the more unused memory we have. (UPDATE: Inital Fix to the Problem)
-            var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
-            int factor = 64;
-            int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
-            if (newSize == 0) newSize = factor;
-            while (newSize < squareSize) newSize += factor;
-
-            Bitmap bmp = new Bitmap(newSize, newSize);
-            using (Graphics g = Graphics.FromImage(bmp))
+            foreach (var pair in AnimationCache)
             {
-                if (rotate && !legacyRotate) g.DrawImage(bmp2, bmp.Width / 2 - bmp2.Width / 2, bmp.Height / 2 - bmp2.Height / 2, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
-                else g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
-
-            }
-            bmp2.Dispose();
-            //bmp.Save(Environment.CurrentDirectory + "//Images" + "//" + name + (rotateImg != 0 ? "_" + rotateImg : "") + (frameID != -1 ? "_" + frameID : "") + (animID != -1 ? "_" + animID : "") + ".gif");
-            return bmp;
-            //  }
-            // else
-            // {
-            //     Bitmap bmp = new Bitmap(1024, 1024);
-            //     using (Graphics g = Graphics.FromImage(bmp))
-            //         g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
-            //     return bmp;
-            //}
-
-
-        }
-
-		public Bitmap SimplyCropImage(Bitmap source, Rectangle section, bool fliph, bool flipv, SystemColor colour)
-		{
-			Bitmap bmp2 = new Bitmap(section.Size.Width, section.Size.Height);
-			using (Graphics g = Graphics.FromImage(bmp2)) g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-			if (fliph && flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-			else if (fliph) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipX);
-			else if (flipv) bmp2.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
-			return bmp2;
-
-		}
-
-		public Bitmap FitForSharpDXTexture(Bitmap source)
-		{	
-			var squareSize = (source.Width > source.Height ? source.Width : source.Height);
-			int factor = 32;
-			int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
-			if (newSize == 0) newSize = factor;
-			while (newSize < squareSize) newSize += factor;
-
-			Bitmap bmp = new Bitmap(newSize, newSize);
-			using (Graphics g = Graphics.FromImage(bmp))
-			{
-				g.DrawImage(source, bmp.Width / 2 - source.Width / 2, bmp.Height / 2 - source.Height / 2, new Rectangle(0, 0, source.Width, source.Height), GraphicsUnit.Pixel);
-			}
-			source.Dispose();
-			return bmp;
-
-		}
-
-		public Bitmap RotateImage(Bitmap img, double rotationAngle, SystemColor colour)
-        {
-            // I don't know who though it was a good idea to disable this, but it is essential for rotating textures
-            img.MakeTransparent(colour);
-            MagickImage image = new MagickImage(img);
-            image.RePage();
-            image.BackgroundColor =  SystemColor.Transparent;
-            image.Interpolate = PixelInterpolateMethod.Nearest;
-            image.Rotate(rotationAngle);
-            image.RePage();               
-            Bitmap bmp = image.ToBitmap();
-            image.Dispose();            
-            return bmp;
-            
-        }
-
-        public Bitmap RotateImageLegacy(Bitmap img, double rotationAngle, SystemColor colour)
-        {
-            // Get a reasonable size
-            int width;
-            int height;
-            int xDiffrence = img.Width - img.Height;
-            int yDiffrence = img.Height - img.Width;
-            if (xDiffrence < 0)
-            {
-                xDiffrence = -xDiffrence;
-            }
-            if (yDiffrence < 0)
-            {
-                yDiffrence = -yDiffrence;
-            }
-            width = img.Width + xDiffrence;
-            height = img.Height + yDiffrence;
-
-            float pointX = img.Width / 16;
-            float pointY = img.Height / 16;
-
-            //create an empty Bitmap image 
-            Bitmap bmp = new Bitmap(width, height);
-
-            using (Graphics gfx = Graphics.FromImage(bmp))
-            {
-                //set the point system origin to the center of our image
-                gfx.TranslateTransform(pointX, pointY);
-
-                //now rotate the image
-                gfx.RotateTransform((float)rotationAngle);
-
-                //move the point system origin back to 0,0
-                gfx.TranslateTransform(-pointX, -pointY);
-
-                //set the InterpolationMode to HighQualityBicubic so to ensure a high
-                //quality image once it is transformed to the specified size
-                gfx.InterpolationMode = InterpolationMode.NearestNeighbor;
-
-                //draw our new image onto the graphics object with its center on the center of rotation
-                gfx.DrawImage(img, new PointF(pointX, pointY));
-            }
-            return bmp;
-        }
-
-        public Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour, int width, int height)
-        {
-            source.MakeTransparent(colour);
-            return source;
-        }
-
-        private Bitmap SetEncoreColors(Bitmap _bitmap, string encoreColors = null)
-        {
-            if (encoreColors == "") return _bitmap;
-            Bitmap _bitmapEditMemory;
-            _bitmapEditMemory = _bitmap.Clone(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), PixelFormat.Format8bppIndexed);
-
-            //Encore Palettes (WIP Potentially Improvable)
-            RSDKv5.Color[] readableColors = new RSDKv5.Color[256];
-            bool loadSpecialColors = false;
-            if (encoreColors != null && File.Exists(encoreColors))
-            {
-                using (var stream = File.OpenRead(encoreColors))
+                if (pair.Value.Spritesheets != null)
                 {
-                    for (int y = 0; y < 255; ++y)
+                    foreach (var anim in pair.Value.Spritesheets)
                     {
-                        readableColors[y].R = (byte)stream.ReadByte();
-                        readableColors[y].G = (byte)stream.ReadByte();
-                        readableColors[y].B = (byte)stream.ReadByte();
+                        anim.Value?.Dispose();
                     }
                 }
-                loadSpecialColors = true;
-            }
-
-            if (loadSpecialColors == true)
-            {
-                ColorPalette pal = _bitmapEditMemory.Palette;
-                if (_bitmapEditMemory.Palette.Entries.Length == 256)
-                {
-                    for (int y = 0; y < 255; ++y)
-                    {
-                        if (readableColors[y].R != 255 && readableColors[y].G != 0 && readableColors[y].B != 255)
-                        {
-                            pal.Entries[y] = SystemColor.FromArgb(readableColors[y].R, readableColors[y].G, readableColors[y].B);
-                        }
-                    }
-                    _bitmapEditMemory.Palette = pal;
-                }
+                pair.Value.Spritesheets = null;
 
             }
-			_bitmap = (Bitmap)_bitmapEditMemory.Clone();
-			_bitmapEditMemory.Dispose();
-            return _bitmap;
+
+            AnimationCache.Clear();
+
         }
 
-        public ColorPalette[] GetStageConfigColors()
-        {
-            var stgCfg = Methods.Editor.Solution.StageConfig;
-            ColorPalette[] stageConfigColors = new ColorPalette[8];
-            for (int i = 0; i < 8; i++)
-            {
-                stageConfigColors[i] = Methods.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, 0, 1024, 1024)).Palette;
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                for (int x = 0; x < 16; x++)
-                {
-                    for (int y = 0; y < 16; y++)
-                    {
-                        try
-                        {
-                            stageConfigColors[i].Entries[16 * x + y] = System.Drawing.Color.FromArgb(stgCfg.Palettes[i].Colors[x][y].R, stgCfg.Palettes[i].Colors[x][y].G, stgCfg.Palettes[i].Colors[x][y].B);
-                        }
-                        catch
-                        {
-                            stageConfigColors[i].Entries[16 * x + y] = System.Drawing.Color.Black;
-                        }
-                    }
-                }
-            }
-            return stageConfigColors;
-        }
+        #endregion
 
-        // These are special
-
-        public void DrawOthers(ManiacEditor.Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int childX, int childY, int index, int previousChildCount, int platformAngle, Methods.Entities.EntityAnimator EditorAnimations, bool Selected, bool childDrawAddMode, bool graphicsMode = false)
+        #region Drawing
+        public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.Sets.EditorEntity e)
         {
-            int x = entity.Position.X.High + childX;
-            int y = entity.Position.Y.High + childY;
-            if (childDrawAddMode == false)
-            {
-                x = childX;
-                y = childY;
-            }
+            int x = e.Entity.Position.X.High;
+            int y = e.Entity.Position.Y.High;
             int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 
-            Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, entity, e, x, y, Transparency, index, previousChildCount, platformAngle, EditorAnimations, Selected);
+            Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, e, x, y, Transparency);
 
+            if (!RendersWithErrors.Contains(e.Entity.Object.Name.Name))
+            {
+                var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Entity.Object.Name.Name).FirstOrDefault();
+                if (RenderDrawing != null)
+                    RenderDrawing.Draw(properties);
+            }
+
+
+        }
+        public static System.Drawing.Color GetBoxBorderColor(Classes.Scene.Sets.EditorEntity e)
+        {
+            System.Drawing.Color color = System.Drawing.Color.DarkBlue;
+            if (e.HasSpecificFilter(1) || e.HasSpecificFilter(5))
+            {
+                color = System.Drawing.Color.DarkBlue;
+            }
+            else if (e.HasSpecificFilter(2))
+            {
+                color = System.Drawing.Color.DarkRed;
+            }
+            else if (e.HasSpecificFilter(4))
+            {
+                color = System.Drawing.Color.DarkGreen;
+            }
+            else if (e.HasSpecificFilter(255))
+            {
+                color = System.Drawing.Color.Purple;
+            }
+            else if (e.HasFilterOther())
+            {
+                color = System.Drawing.Color.Yellow;
+            }
+            else if (!e.HasFilter())
+            {
+                color = System.Drawing.Color.White;
+            }
+            return color;
+
+        }
+        public static System.Drawing.Color GetBoxBackgroundColor(Classes.Scene.Sets.EditorEntity e)
+        {
+            if (e.InTempSelection)
+            {
+                return (e.TempSelected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+            }
+            else
+            {
+                return (e.Selected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+            }
+        }
+        public static int GetTransparencyLevel()
+        {
+            return (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
+        }
+        public static bool CanDraw(string Name)
+        {
+            return Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Contains(Name);
+        }
+        public static bool CanDrawLinked(string Name)
+        {
+            return Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name) && Methods.Editor.SolutionState.ShowEntityPathArrows;
+        }
+        public static void DrawLinked(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity)
+        {
             try
-			{		     
-				if (!rendersWithErrors.Contains(entity.Object.Name.Name))
-                {
-                    if (entity.Object.Name.Name.Contains("Setup"))
-                    {
-                        if (e.RenderDrawing == null) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "ZoneSetup").FirstOrDefault();
-                        if (e.RenderDrawing != null)
-                            e.RenderDrawing.Draw(properties);
-                    }
-					else if (entity.Object.Name.Name.Contains("Intro") || entity.Object.Name.Name.Contains("Outro"))
-                    {
-                        if (e.RenderDrawing == null) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "Outro_Intro_Object").FirstOrDefault();
-                        if (e.RenderDrawing != null)
-                            e.RenderDrawing.Draw(properties);
-                    }
-                    else if (entity.Object.Name.Name.Contains("TornadoPath") || entity.Object.Name.Name.Contains("AIZTornadoPath"))
-                    {
-                        if (e.RenderDrawing == null) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == "TornadoPath").FirstOrDefault();
-                        if (e.RenderDrawing != null)
-                            e.RenderDrawing.Draw(properties);
-                    }
-                    else
-                    {
-                        if (e.RenderDrawing == null || e.RenderDrawing.GetObjectName() != entity.Object.Name.Name) e.RenderDrawing = EditorInstance.EntityDrawing.EntityRenderers.Where(t => t.GetObjectName() == entity.Object.Name.Name).FirstOrDefault();
-                        if (e.RenderDrawing != null)
-                            e.RenderDrawing.Draw(properties);
-                    }
-				}
-
-			}
+            {
+                var structure = new Structures.LinkedEntityRenderProp(d, _entity.Entity, _entity);
+                LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name.ToString()).FirstOrDefault();
+                if (renderer != null) renderer.Draw(structure);
+            }
             catch (Exception ex)
             {
-                //MessageBox.Show("Unable to load the render for " + entity.Object.Name.Name + "! " + ex.ToString());
-                //rendersWithErrors.Add(entity.Object.Name.Name);
+                System.Windows.MessageBox.Show("Unable to load the linked render for " + _entity.Entity.Object.Name.Name + "! " + ex.ToString());
+                LinkedRendersWithErrors.Add(_entity.Entity.Object.Name.Name);
+
             }
-
-
         }
-
-		[Serializable]
-        public class EditorAnimation
+        public static void DrawInternal(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity)
         {
-            public int loadedFrames = 0;
-            public bool Ready = false;
-            public bool ImageLoaded = false;
-            public List<EditorFrame> Frames = new List<EditorFrame>();
-            public class EditorFrame
+            int Transparency = GetTransparencyLevel();
+
+            int x = _entity.Entity.Position.X.High;
+            int y = _entity.Entity.Position.Y.High;
+            DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red, _entity);
+        }
+        public static void DrawNormal(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity, bool CanDrawSelectionBox = true)
+        {
+            if (!IsObjectOnScreen(d, _entity)) return;
+
+            LoadNextAnimation(d, _entity.Name);
+
+            int X = _entity.Entity.Position.X.High;
+            int Y = _entity.Entity.Position.Y.High;
+            string Name = _entity.Entity.Object.Name.Name;
+            int Transparency = GetTransparencyLevel();
+            System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
+            System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
+
+            if (!ManiacEditor.Properties.Settings.MyPerformance.NeverLoadEntityTextures)
             {
-                public Texture Texture;
-                public Animation.AnimationEntry.Frame Frame;
-                public Animation.AnimationEntry Entry;
-                public Bitmap _Bitmap;
-                public int ImageWidth;
-                public int ImageHeight;
+                if (CanDraw(Name)) DrawDedicatedRender(d, _entity);
+                else FallbackDraw(d, _entity.Name, X, Y, Transparency);
+            }
+
+            if (CanDrawSelectionBox) DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity);
+        }
+        public static void FallbackDraw(DevicePanel d, string Name, int X, int Y, int Transparency)
+        {
+            int FrameID = 0;
+            int AnimID = 0;
+
+            var animation = LoadAnimation(d, Name);
+            if (animation != null && animation.Animation != null && animation.Animation.Animations.Count() > AnimID && animation.Animation.Animations[AnimID].Frames.Count() > FrameID)
+            {
+                var frame = animation.Animation.Animations[AnimID].Frames[FrameID];
+                int spritesheet_index = (int)frame.SpriteSheet;
+                d.DrawBitmap(animation.Spritesheets.ElementAt(spritesheet_index).Value, X + frame.PivotX, Y + frame.PivotX, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, null);
+            }
+
+        }
+        public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.Sets.EditorEntity e)
+        {
+            if (Methods.Editor.SolutionState.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
+            {
+                if (e.RenderNotFound)
+                {
+                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BackgroundBoxColor));
+                }
+                else
+                {
+                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(BorderBoxColor, e));
+                }
+                d.DrawLine(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                if (ManiacEditor.Properties.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
+                {
+                    if (Methods.Editor.SolutionState.Zoom >= 1)
+                    {
+                        d.DrawTextSmall(string.Format("{0} (ID: {1})", e.Entity.Object.Name, e.SlotID), x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    }
+                }
+
+                if (e.SelectedIndex != -1)
+                {
+                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 1, y + 1, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
+                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x, y, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
+                }
             }
         }
+        public static System.Drawing.Color GetSelectedColor(System.Drawing.Color color, Classes.Scene.Sets.EditorEntity e)
+        {
+            if (e.InTempSelection)
+            {
+                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+            }
+            else
+            {
+                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+            }
+        }
+        public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity)
+        {
+            int x = _entity.Entity.Position.X.High;
+            int y = _entity.Entity.Position.Y.High;
+            int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
+
+            bool isObjectVisibile = false;
+
+
+            if (!_entity.FilteredOut)
+            {
+                var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name).FirstOrDefault();
+                if (RenderDrawing != null)
+                {
+                    isObjectVisibile = RenderDrawing.isObjectOnScreen(d, _entity.Entity, null, x, y, 0);
+                }
+                else
+                {
+                    isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
+                }
+            }
+
+            isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
+            return isObjectVisibile;
+
+
+        }
+        #endregion
 
         [Serializable]
-        public class LoadAnimationData
+        public class EditorAnimation
         {
-            public string name;
-            public DevicePanel d;
-            public int AnimId, frameId;
-            public bool fliph, flipv, rotate, legacyRotation, stackFrames;
-            public int stackStart, stackEnd, textureRotation;
-            public Flag flag;
-
-            public EditorAnimation anim;
+            public string Name { get; set; }
+            public string SourcePath { get; set; }
+            public string SourceDirectory { get; set; }
+            public Dictionary<string, Classes.General.TextureExt> Spritesheets { get; set; }
+            public Animation Animation { get; set; }
         }
 
 
-        public void ReleaseResources()
-        {
 
-            foreach (var pair in Sheets)
-                pair.Value?.Dispose();
-            Sheets.Clear();
-
-
-            foreach (var pair in Animations)
-                foreach (var pair2 in pair.Value.Frames)
-                    pair2.Texture?.Dispose();
-
-            Animations.Clear();
-        }
 
     }
 }

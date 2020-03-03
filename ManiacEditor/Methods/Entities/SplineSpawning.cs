@@ -50,7 +50,7 @@ namespace ManiacEditor.Methods.Entities
                 }
             }
 
-            ManiacEditor.Methods.Editor.Solution.Entities.DeleteInternalEntities(EntitiesToRemove, true);
+            ManiacEditor.Methods.Editor.Solution.Entities.DeleteEntities(EntitiesToRemove, true, true);
             Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastActionInternal);
             Instance.RedoStack.Clear();
         }
@@ -71,7 +71,7 @@ namespace ManiacEditor.Methods.Entities
                 {
                     EntitiesAddList.Add(new KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>(selectedOptions.SplineObjectRenderingTemplate.Entity.Object, new RSDKv5.Position((short)p.X, (short)p.Y)));
                 }
-                Methods.Editor.Solution.Entities.Add(EntitiesAddList);
+                Methods.Editor.Solution.Entities.SpawnMultiple(EntitiesAddList);
                 Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
                 Instance.RedoStack.Clear();
             }

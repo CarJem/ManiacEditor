@@ -85,7 +85,6 @@ namespace ManiacEditor.Controls.Editor
 
         #region Internal/Public/Vital Classes
         internal Classes.Scene.EditorBackground EditBackground;
-        public Methods.Entities.EntityDrawing EntityDrawing;
         public Methods.Editor.SolutionState StateModel;
         public Classes.Scene.EditorChunks Chunks;
         public Methods.Layers.TileFindReplace FindAndReplace;
@@ -162,7 +161,7 @@ namespace ManiacEditor.Controls.Editor
             RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
 
             //Old Classes
-            EntityDrawing = new Methods.Entities.EntityDrawing(this);
+
             StateModel = new Methods.Editor.SolutionState(this);
             FindAndReplace = new Methods.Layers.TileFindReplace(this);
 
@@ -170,6 +169,7 @@ namespace ManiacEditor.Controls.Editor
             StartScreen = new ManiacEditor.Controls.Editor.Elements.StartScreen(this);
 
             //Classes
+            Methods.Entities.EntityDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
             Methods.Editor.SolutionPaths.UpdateInstance(this);
             Classes.Prefrences.SceneCurrentSettings.UpdateInstance(this);

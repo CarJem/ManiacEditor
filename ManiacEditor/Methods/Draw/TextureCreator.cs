@@ -9,9 +9,10 @@ namespace ManiacEditor.Methods.Draw
 {
     public class TextureCreator
     {
-        public static Texture FromBitmap(Device device, Bitmap bitmap)
+        
+        public static Classes.General.TextureExt FromBitmap(Device device, Bitmap bitmap)
         {
-            Texture texture = new Texture(device, bitmap.Width, bitmap.Height, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
+            Classes.General.TextureExt texture = new Classes.General.TextureExt(device, bitmap.Width, bitmap.Height, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
             DataStream data;
             DataRectangle rec = texture.LockRectangle(0, LockFlags.None, out data);
             BitmapData bd = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
@@ -30,9 +31,9 @@ namespace ManiacEditor.Methods.Draw
             return texture;
         }
 
-        public static Texture FromBitmapChunk(Device device, Bitmap bitmap)
+        public static Classes.General.TextureExt FromBitmapChunk(Device device, Bitmap bitmap)
         {
-            Texture texture = new Texture(device, 128, 128, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
+            Classes.General.TextureExt texture = new Classes.General.TextureExt(device, 128, 128, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
             DataStream data;
             DataRectangle rec = texture.LockRectangle(0, LockFlags.None, out data);
             BitmapData bd = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, 128, 128), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);

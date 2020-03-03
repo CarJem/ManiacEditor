@@ -1355,7 +1355,7 @@ namespace ManiacEditor.Classes.Scene.Sets
 
         }
 
-        public Texture GetChunk(DevicePanel d, int x, int y)
+        public Classes.General.TextureExt GetChunk(DevicePanel d, int x, int y)
         {
             bool isSelected = isChunkSelected(x, y);
             if (ChunkMap[y][x] != null && ChunkMap[y][x].IsReady && !ChunkMap[y][x].HasBeenSelectedPrior && !isSelected)
@@ -1532,7 +1532,17 @@ namespace ManiacEditor.Classes.Scene.Sets
 
         #region Horizontal Layer Scroll Rendering
 
-        Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame> HorizontalLayerScrollAnimationList = new Dictionary<string, Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame>();
+        public class EditorFrame
+        {
+            public Classes.General.TextureExt Texture;
+            public Animation.AnimationEntry.Frame Frame;
+            public Animation.AnimationEntry Entry;
+            public Bitmap _Bitmap;
+            public int ImageWidth;
+            public int ImageHeight;
+        }
+
+        Dictionary<string, EditorFrame> HorizontalLayerScrollAnimationList = new Dictionary<string, EditorFrame>();
 
         private static Bitmap cropImage(Bitmap img, Rectangle cropArea)
         {
@@ -1555,7 +1565,7 @@ namespace ManiacEditor.Classes.Scene.Sets
                 section = cropImage(bitmap, new Rectangle(0, startIndex, WidthPixels, lineCount));
             }
 
-            List<Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame> LayerFrames = new List<Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame>();
+            List<EditorFrame> LayerFrames = new List<EditorFrame>();
             System.Drawing.Bitmap parallax = new System.Drawing.Bitmap(WidthPixels, lineCount);
             using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(parallax))
             {
@@ -1564,7 +1574,7 @@ namespace ManiacEditor.Classes.Scene.Sets
                 g.DrawImage(section1, 0, 0);
             }
 
-            Texture texture = null;
+            Classes.General.TextureExt texture = null;
             texture = Methods.Draw.TextureCreator.FromBitmap(d._device, parallax);
             var animFrame = new Animation.AnimationEntry.Frame()
             {
@@ -1573,7 +1583,7 @@ namespace ManiacEditor.Classes.Scene.Sets
                 Width = (short)parallax.Size.Width,
                 Height = (short)lineCount
             };
-            var frame = new Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame()
+            var frame = new EditorFrame()
             {
                 Texture = texture,
                 Frame = animFrame,
@@ -1743,7 +1753,7 @@ namespace ManiacEditor.Classes.Scene.Sets
         public class ChunkVBO
         {
             public bool IsReady = false;
-            public SharpDX.Direct3D9.Texture Texture;
+            public Classes.General.TextureExt Texture;
             public bool HasBeenRendered = false;
             public bool HasBeenSelectedPrior = false;
 

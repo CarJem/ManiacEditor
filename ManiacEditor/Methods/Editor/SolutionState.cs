@@ -315,7 +315,7 @@ namespace ManiacEditor.Methods.Editor
                 _UseEncoreColors = value;
                 Methods.Editor.Solution.CurrentTiles?.Image.Reload((value ? ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0] : null));
                 Instance.TilesToolbar?.Reload((value ? ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0] : null));
-                Instance.EntityDrawing.ReleaseResources();
+                Methods.Entities.EntityDrawing.ReleaseResources();
             }
         }
         private static bool _UseEncoreColors = false;

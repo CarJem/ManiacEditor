@@ -8,13 +8,13 @@ namespace ManiacEditor.Structures
 {
     public struct LinkedEntityRenderProp
     {
-        public Methods.Draw.GraphicsHandler Graphics { get; set; }
+        public DevicePanel Graphics { get; set; }
 
         public RSDKv5.SceneEntity Object { get; set; }
 
         public Classes.Scene.Sets.EditorEntity EditorObject { get; set; }
 
-        public LinkedEntityRenderProp(Methods.Draw.GraphicsHandler d, RSDKv5.SceneEntity currentEntity, Classes.Scene.Sets.EditorEntity ObjectInstance)
+        public LinkedEntityRenderProp(DevicePanel d, RSDKv5.SceneEntity currentEntity, Classes.Scene.Sets.EditorEntity ObjectInstance)
         {
             Graphics = d;
             Object = currentEntity;

@@ -898,7 +898,7 @@ namespace ManiacEditor.Methods.Internal
                 {
                     ManiacEditor.Methods.Editor.EditorActions.Deselect();
                     Methods.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
-                    Methods.Editor.Solution.Entities.DeleteInternallySelected();
+                    Methods.Editor.Solution.Entities.DeleteSelected(true);
                     ManiacEditor.Methods.Editor.EditorActions.UpdateLastEntityAction();
                 }
             }
@@ -1050,7 +1050,7 @@ namespace ManiacEditor.Methods.Internal
                 var currentEntity = Methods.Editor.Solution.Entities.GetEntityAt(clicked_point);
 
                 Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
-                Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", currentEntity.SlotID, Environment.NewLine, Methods.Editor.Solution.Entities.GetRealSlotID(currentEntity.Entity));
+                Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0}", currentEntity.SlotID);
                 Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Entity.Position.X.High, currentEntity.Entity.Position.Y.High);
             }
             else

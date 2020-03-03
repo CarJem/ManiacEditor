@@ -19,7 +19,7 @@ namespace ManiacEditor.Methods.Editor
             {
                 return false;
             }
-            Instance.EntityDrawing.ReleaseResources();
+            Methods.Entities.EntityDrawing.ReleaseResources();
             return true;
         }
 
@@ -278,7 +278,7 @@ namespace ManiacEditor.Methods.Editor
                             //}
                             try
                             {
-                                Methods.Editor.Solution.Entities.Entities.ToList()[i].ExportDraw(g,false);
+                                //Methods.Editor.Solution.Entities.Entities.ToList()[i].ExportDraw(g,false);
                             }
                             catch
                             {

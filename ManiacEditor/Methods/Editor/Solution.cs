@@ -111,7 +111,7 @@ namespace ManiacEditor.Methods.Editor
             Methods.Internal.UserInterface.UpdateControls();
 
             // clear memory a little more aggressively 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EntityDrawing.ReleaseResources();
+            Methods.Entities.EntityDrawing.ReleaseResources();
             GC.Collect();
             Methods.Editor.Solution.TileConfig = null;
 

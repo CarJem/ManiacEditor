@@ -33,13 +33,13 @@ namespace ManiacEditor
 
         private Sprite sprite;
         private Sprite sprite2;
-        Texture tx;
+        Classes.General.TextureExt tx;
         Bitmap txb;
-        Texture hvcursor;
+        Classes.General.TextureExt hvcursor;
         Bitmap hvcursorb;
-        Texture vcursor;
+        Classes.General.TextureExt vcursor;
         Bitmap vcursorb;
-        Texture hcursor;
+        Classes.General.TextureExt hcursor;
         Bitmap hcursorb;
 
         public double FPS { get; set; } = 0.0;
@@ -479,32 +479,45 @@ namespace ManiacEditor
                 || (y + height) * zoom < screen.Y);
         }
 
-        private void DrawTexture(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+        private void DrawTexture(Classes.General.TextureExt image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
             sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
         }
-        private void DrawTexture2(Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+        private void DrawTexture2(Classes.General.TextureExt image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
             sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
 
         }
 
-        public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency, Color? CustomColor = null)
+        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency, Color? CustomColor = null)
         {
-            if (!IsObjectOnScreen(x, y, width, height)) return;
+            DrawBitmap(image, x, y, 0, 0, width, height, selected, transparency, CustomColor);
+        }
 
+        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, Color? CustomColor = null, bool canRotate = false)
+        {
             Color CustomSelectedColor = Color.BlueViolet;
-            if (CustomColor == null)
-            {
-                CustomColor = Color.White;
-            }
-            else
-            {
-                CustomSelectedColor = Extensions.Extensions.Blend(Color.Purple, CustomColor.Value, 100);
-            }
+            if (CustomColor == null) CustomColor = Color.White;
+            else CustomSelectedColor = Extensions.Extensions.Blend(Color.Purple, CustomColor.Value, 100);
+
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
-            DrawTexture(image, new Rectangle(0, 0, width, height), new Vector3(), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? CustomSelectedColor : Color.FromArgb(transparency, CustomColor.Value));
+
+            var lastState = sprite.Transform;
+            float rotate;
+
+            if (canRotate)
+            {
+                rotate = (float)(Properties.Settings.MyDevSettings.DevInt1);
+
+                // rotate about (0,0)
+                sprite.Transform *= Matrix.RotationZ(rotate);
+            }
+
+
+            DrawTexture(image, new Rectangle(rect_x, rect_y, width, height), new Vector3(new float[] { 0, 0, 0 }), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? CustomSelectedColor : Color.FromArgb(transparency, CustomColor.Value));
+
+            sprite.Transform = lastState;
         }
 
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)

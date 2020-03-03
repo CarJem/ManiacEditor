@@ -10,8 +10,7 @@ namespace ManiacEditor.Methods.Draw
 
         public class GraphicsInfo
         {
-            public Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame EntityFrame;
-            public SharpDX.Direct3D9.Texture Texture;
+            public Classes.General.TextureExt Texture;
 
 
             public RenderType ObjectType;
@@ -22,13 +21,7 @@ namespace ManiacEditor.Methods.Draw
 
             }
 
-            public GraphicsInfo(Methods.Entities.EntityDrawing.EditorAnimation.EditorFrame frame)
-            {
-                EntityFrame = frame;
-                ObjectType = RenderType.EditorFrame;
-            }
-
-            public GraphicsInfo(SharpDX.Direct3D9.Texture _texture)
+            public GraphicsInfo(Classes.General.TextureExt _texture)
             {
                 Texture = _texture;
                 ObjectType = RenderType.Texture;
@@ -61,18 +54,18 @@ namespace ManiacEditor.Methods.Draw
             if (GraphicsMode == GraphicsType.SharpDX)
             {
                 if (info.ObjectType == GraphicsInfo.RenderType.Texture) DevicePanel.DrawBitmap(info.Texture, x, y, width, height, selected, transparency, CustomColor);
-                else if (info.ObjectType == GraphicsInfo.RenderType.EditorFrame) DevicePanel.DrawBitmap(info.EntityFrame.Texture, x, y, width, height, selected, transparency, CustomColor);
+                //else if (info.ObjectType == GraphicsInfo.RenderType.EditorFrame) DevicePanel.DrawBitmap(info.EntityFrame.Texture, x, y, width, height, selected, transparency, CustomColor);
             }
             else if (GraphicsMode == GraphicsType.System)
             {
                 if (info.ObjectType == GraphicsInfo.RenderType.EditorFrame)
                 {
-                    if (info.EntityFrame._Bitmap != null) SystemGraphics.DrawImage(info.EntityFrame._Bitmap, x, y);
+                    //if (info.EntityFrame._Bitmap != null) SystemGraphics.DrawImage(info.EntityFrame._Bitmap, x, y);
                 }
             }
         }
 
-        public void DrawBitmap(SharpDX.Direct3D9.Texture image, int x, int y, int width, int height, bool selected, int transparency, System.Drawing.Color? CustomColor = null)
+        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency, System.Drawing.Color? CustomColor = null)
         {
             if (GraphicsMode == GraphicsType.SharpDX)
             {

@@ -335,12 +335,13 @@ namespace ManiacEditor.Methods.Runtime
                 }
                 else
                 {
+                    /*
                     var editorAnim = Editor.EntityDrawing.LoadAnimation2("HUD", d, 2, frameID, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0 && ID != 0)
                     {
                         var frame = editorAnim.Frames[0];
                         d.DrawBitmap(frame.Texture, x, y, frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
+                    }*/
                 }
 
 
@@ -407,12 +408,13 @@ namespace ManiacEditor.Methods.Runtime
                 }
                 else
                 {
+                    /*
                     var editorAnim = Editor.EntityDrawing.LoadAnimation2("StarPost", d, 1, 0, false, false, false);
                     if (editorAnim != null && editorAnim.Frames.Count != 0)
                     {
                         var frame = editorAnim.Frames[0];
                         d.DrawBitmap(frame.Texture, x, y, frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
+                    }*/
                 }
 
 

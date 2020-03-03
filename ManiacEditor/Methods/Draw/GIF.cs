@@ -18,7 +18,7 @@ namespace ManiacEditor.Methods.Draw
 
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmapCache = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmap_selected_Cache = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
-        Dictionary<Tuple<Rectangle, bool, bool>, Texture> _texturesCache = new Dictionary<Tuple<Rectangle, bool, bool>, Texture>();
+        Dictionary<Tuple<Rectangle, bool, bool>, Classes.General.TextureExt> _texturesCache = new Dictionary<Tuple<Rectangle, bool, bool>, Classes.General.TextureExt>();
 
         public GIF(string filename, string encoreColors = null)
         {
@@ -191,23 +191,6 @@ namespace ManiacEditor.Methods.Draw
             return _bitmap;
         }
 
-        // TOREMOVE
-        public Texture GetTexture(Device device, Rectangle section, bool flipX = false, bool flipY = false)
-        {
-            Texture texture;
-            if (_texturesCache.TryGetValue(new Tuple<Rectangle, bool, bool>(section, flipX, flipY), out texture)) return texture;
-
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                GetBitmap(section, flipX, flipY).Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                texture = Texture.FromStream(device, memoryStream);
-            }
-
-            _texturesCache[new Tuple<Rectangle, bool, bool>(section, flipX, flipY)] = texture;
-            return texture;
-        }
-
         public void Dispose()
         {
             ReleaseResources();
@@ -216,7 +199,7 @@ namespace ManiacEditor.Methods.Draw
         public void DisposeTextures()
         {
             if (null == _texturesCache) return;
-            foreach (Texture texture in _texturesCache.Values)
+            foreach (Classes.General.TextureExt texture in _texturesCache.Values)
                 texture?.Dispose();
             _texturesCache.Clear();
         }

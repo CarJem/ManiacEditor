@@ -137,7 +137,7 @@ namespace ManiacEditor.Methods.Internal
                         }),
                         Spawn = new Action<SceneObject>(x =>
                         {
-                            Methods.Editor.Solution.Entities.Add(x, GetEntitySpawnPoint());
+                            Methods.Editor.Solution.Entities.Spawn(x, GetEntitySpawnPoint());
                             Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
                             Instance.RedoStack.Clear();
                             UpdateControls();
@@ -540,7 +540,7 @@ namespace ManiacEditor.Methods.Internal
                 // release all our resources, and force a reload of the tiles
                 // Entities should take care of themselves
                 Instance.DisposeTextures();
-                Instance.EntityDrawing.ReleaseResources();
+                Methods.Entities.EntityDrawing.ReleaseResources();
                 //EditorEntity_ini.rendersWithErrors.Clear();
 
                 //Reload for Encore Palletes, otherwise reload the image normally

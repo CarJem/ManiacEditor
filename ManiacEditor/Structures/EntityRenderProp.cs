@@ -8,31 +8,19 @@ namespace ManiacEditor.Structures
 {
     public struct EntityRenderProp
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Transparency { get; set; }
-        public int Index { get; set; }
-        public int PreviousChildCount { get; set; }
-        public int PlatformAngle { get; set; }
-        public RSDKv5.SceneEntity Object { get; set; }
         public Classes.Scene.Sets.EditorEntity EditorObject { get; set; }
-        public Methods.Entities.EntityAnimator Animations { get; set; }
-        public Methods.Draw.GraphicsHandler Graphics { get; set; }
-        public bool isSelected { get; set; }
+        public DevicePanel Graphics { get; set; }
+        public int DrawX { get; set; }
+        public int DrawY { get; set; }
+        public int Transparency { get; set; }
 
-        public EntityRenderProp(Methods.Draw.GraphicsHandler d, RSDKv5.SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int transparency, int index = 0, int previousChildCount = 0, int platformAngle = 0, Methods.Entities.EntityAnimator Animation = null, bool selected = false)
+        public EntityRenderProp(DevicePanel d, Classes.Scene.Sets.EditorEntity e, int X, int Y, int _Transparency)
         {
             Graphics = d;
-            Object = entity;
             EditorObject = e;
-            X = x;
-            Y = y;
-            Transparency = transparency;
-            Index = index;
-            PreviousChildCount = previousChildCount;
-            PlatformAngle = platformAngle;
-            Animations = Animation;
-            isSelected = selected;
+            DrawX = X;
+            DrawY = Y;
+            Transparency = _Transparency;
         }
 
     }

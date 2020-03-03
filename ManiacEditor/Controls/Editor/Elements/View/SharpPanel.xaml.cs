@@ -584,7 +584,6 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             bool showEntities = Instance.EditorToolbar.ShowEntities.IsChecked.Value && !Instance.EditorToolbar.EditEntities.IsCheckedAll;
             bool showEntitiesEditing = Instance.EditorToolbar.EditEntities.IsCheckedAll;
 
-            bool PriorityMode = Methods.Editor.SolutionState.PrioritizedEntityViewing;
             bool AboveAllMode = Methods.Editor.SolutionState.EntitiesVisibileAboveAllLayers;
 
             Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
@@ -598,30 +597,21 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
                 if (!Methods.Editor.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
+                if (showEntities && !AboveAllMode) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
+
                 DrawLayer(Instance.EditorToolbar.ShowFGLower.IsChecked.Value, Instance.EditorToolbar.EditFGLower.IsCheckedAll, Methods.Editor.Solution.FGLower);
 
                 DrawLayer(Instance.EditorToolbar.ShowFGLow.IsChecked.Value, Instance.EditorToolbar.EditFGLow.IsCheckedAll, Methods.Editor.Solution.FGLow);
 
-
-                if (showEntities && !AboveAllMode)
-                    if (PriorityMode) EntitiesDraw(2);
-                    else EntitiesDraw(0);
-
                 DrawLayer(Instance.EditorToolbar.ShowFGHigh.IsChecked.Value, Instance.EditorToolbar.EditFGHigh.IsCheckedAll, Methods.Editor.Solution.FGHigh);
-
-                if (showEntities && PriorityMode && !AboveAllMode) EntitiesDraw(3);
 
                 DrawLayer(Instance.EditorToolbar.ShowFGHigher.IsChecked.Value, Instance.EditorToolbar.EditFGHigher.IsCheckedAll, Methods.Editor.Solution.FGHigher);
 
                 if (Methods.Editor.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
-                if (showEntitiesEditing || AboveAllMode)
-                    if (PriorityMode) EntitiesDraw(1);
-                    else EntitiesDraw(0);
+                if (showEntitiesEditing || AboveAllMode) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
 
-                if (Methods.Editor.Solution.CurrentScene != null) Methods.Editor.Solution.Entities.DrawInternalObjects(GraphicPanel);
-
-                if (Methods.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized && (showEntities || showEntitiesEditing)) Methods.Editor.Solution.Entities.DrawSelectionBoxes(GraphicPanel);
+                Methods.Editor.Solution.Entities.DrawInternal(GraphicPanel);
 
             }
 
@@ -661,32 +651,6 @@ namespace ManiacEditor.Controls.Editor.Elements.View
                         var _extraViewLayer = Methods.Editor.Solution.CurrentScene.OtherLayers.ElementAt(index);
                         _extraViewLayer.Draw(GraphicPanel);
                     }
-                }
-            }
-
-            void EntitiesDraw(int mode)
-            {
-                switch (mode)
-                {
-                    case 0:
-                        Methods.Editor.Solution.Entities.Draw(GraphicPanel);
-                        break;
-                    case 1:
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, -1);
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 0);
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 1);
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 2);
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 3);
-                        break;
-                    case 2:
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, -1);
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 0);
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 1);
-                        break;
-                    case 3:
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 2);
-                        Methods.Editor.Solution.Entities.DrawPriority(GraphicPanel, 3);
-                        break;
                 }
             }
 
