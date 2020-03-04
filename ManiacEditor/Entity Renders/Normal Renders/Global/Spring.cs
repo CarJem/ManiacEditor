@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
                 {
                     var frame = Animation.Animation.Animations[animID].Frames[0];
 
-                    d.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x + frame.PivotX, y + frame.PivotY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, fliph, flipv);
+                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x + frame.PivotX, y + frame.PivotY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, fliph, flipv);
                 }
             }
         }

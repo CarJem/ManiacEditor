@@ -1277,7 +1277,7 @@ namespace ManiacEditor.Classes.Scene
                         {
                             Rectangle rect = GetTilesChunkArea(x, y);
                             var texture = GetChunk(d, x, y);
-                            if (texture != null) d.DrawBitmap(texture, rect.X * Methods.Editor.EditorConstants.TILE_SIZE, rect.Y * Methods.Editor.EditorConstants.TILE_SIZE, rect.Width * Methods.Editor.EditorConstants.TILE_SIZE, rect.Height * Methods.Editor.EditorConstants.TILE_SIZE, false, Transperncy);
+                            if (texture != null) d.DrawTexture(texture, rect.X * Methods.Editor.EditorConstants.TILE_SIZE, rect.Y * Methods.Editor.EditorConstants.TILE_SIZE, rect.Width * Methods.Editor.EditorConstants.TILE_SIZE, rect.Height * Methods.Editor.EditorConstants.TILE_SIZE, false, Transperncy);
                         }
                         else InvalidateChunk(x, y);
                     }
@@ -1671,8 +1671,8 @@ namespace ManiacEditor.Classes.Scene
 
                         if (frame != null)
                         {
-                            d.DrawBitmap(frame.Texture, frame.Frame.X + WidthPixels - scrollPoint, frame.Frame.Y, scrollPoint, frame.Frame.Height, false, 0xFF);
-                            d.DrawBitmap(frame.Texture, frame.Frame.X - scrollPoint, frame.Frame.Y, frame.Frame.Width, frame.Frame.Height, false, 0xFF);
+                            d.DrawTexture(frame.Texture, frame.Frame.X + WidthPixels - scrollPoint, frame.Frame.Y, scrollPoint, frame.Frame.Height, false, 0xFF);
+                            d.DrawTexture(frame.Texture, frame.Frame.X - scrollPoint, frame.Frame.Y, frame.Frame.Width, frame.Frame.Height, false, 0xFF);
                         }
                     }
                 }

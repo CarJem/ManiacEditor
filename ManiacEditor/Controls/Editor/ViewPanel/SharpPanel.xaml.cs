@@ -85,7 +85,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         public void InitalizeGraphicsPanel()
         {
             this.Host.Foreground = (SolidColorBrush)FindResource("NormalText");
-            //this.GraphicPanel.Init(this);
+            this.GraphicPanel.Init(this);
         }
         private void SetupScrollBarEvents()
         {

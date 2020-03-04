@@ -56,7 +56,7 @@ namespace ManiacEditor.Methods.Draw
         {
             if (GraphicsMode == GraphicsType.SharpDX)
             {
-                if (info.ObjectType == GraphicsInfo.RenderType.Texture) DevicePanel.DrawBitmap(info.Texture, x, y, width, height, selected, transparency);
+                if (info.ObjectType == GraphicsInfo.RenderType.Texture) DevicePanel.DrawTexture(info.Texture, x, y, width, height, selected, transparency);
                 //else if (info.ObjectType == GraphicsInfo.RenderType.EditorFrame) DevicePanel.DrawBitmap(info.EntityFrame.Texture, x, y, width, height, selected, transparency, CustomColor);
             }
             else if (GraphicsMode == GraphicsType.System)
@@ -72,7 +72,7 @@ namespace ManiacEditor.Methods.Draw
         {
             if (GraphicsMode == GraphicsType.SharpDX)
             {
-                DevicePanel.DrawBitmap(image, x, y, width, height, selected, transparency);
+                DevicePanel.DrawTexture(image, x, y, width, height, selected, transparency);
             }
         }
 

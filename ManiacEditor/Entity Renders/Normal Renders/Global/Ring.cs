@@ -62,7 +62,7 @@ namespace ManiacEditor.Entity_Renders
                         int radiusInt = (int)Math.Sqrt(radius);
                         int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
                         int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
-                        Properties.Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, (x + newX) + frame.PivotX, (y - newY) + frame.PivotY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
+                        Properties.Graphics.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, (x + newX) + frame.PivotX, (y - newY) + frame.PivotY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                     }
                     else if (moveType == 1)
                     {
@@ -73,12 +73,12 @@ namespace ManiacEditor.Entity_Renders
                         if (amplitudeX <= -1) posX = -posX;
                         if (amplitudeY <= -1) posY = -posY;
 
-                        Properties.Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, (x + position[0]) + frame.PivotX, (y - position[1]) + frame.PivotY, frame.X, frame.Y,
+                        Properties.Graphics.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, (x + position[0]) + frame.PivotX, (y - position[1]) + frame.PivotY, frame.X, frame.Y,
                             frame.Width, frame.Height, false, Transparency);
                     }
                     else
                     {
-                        Properties.Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value,
+                        Properties.Graphics.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value,
                             x + frame.PivotX,
                             y + frame.PivotY, frame.X, frame.Y,
                             frame.Width, frame.Height, false, Transparency);
