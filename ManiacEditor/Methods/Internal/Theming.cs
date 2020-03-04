@@ -94,7 +94,10 @@ namespace ManiacEditor.Methods.Internal
         {
             get
             {
-                if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Dark || Properties.Settings.MySettings.UserTheme == Enums.Skin.Beta) return true;
+                if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Dark ||
+                    Properties.Settings.MySettings.UserTheme == Enums.Skin.Beta ||
+                    Properties.Settings.MySettings.UserTheme == Enums.Skin.Shard
+                    ) return true;
                 else return false;
             }
         }

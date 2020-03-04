@@ -44,7 +44,7 @@ namespace ManiacEditor
                 if (dict is SkinResourceDictionary skinDict)
                     skinDict.UpdateSource();
                 else
-                    dict.Source = dict.Source;
+                     dict.Source = dict.Source;
             }
         }
 	}

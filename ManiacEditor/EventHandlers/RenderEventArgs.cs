@@ -1,5 +1,5 @@
 ﻿using System;
-using SFML.Graphics;
+using SharpDX.Direct3D9;
 
 namespace ManiacEditor.EventHandlers
 {
@@ -8,9 +8,9 @@ namespace ManiacEditor.EventHandlers
 
     public class DeviceEventArgs : EventArgs
     {
-        private RenderWindow _device;
+        private Device _device;
 
-        public RenderWindow Device
+        public Device Device
         {
             get
             {
@@ -18,7 +18,7 @@ namespace ManiacEditor.EventHandlers
             }
         }
 
-        public DeviceEventArgs(RenderWindow device)
+        public DeviceEventArgs(Device device)
         {
             _device = device;
         }

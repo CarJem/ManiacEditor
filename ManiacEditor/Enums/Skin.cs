@@ -11,6 +11,7 @@ namespace ManiacEditor.Enums
         Light,
         Dark, 
         Beta,
+        Shard,
         CarJem
     }
 }

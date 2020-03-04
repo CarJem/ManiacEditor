@@ -356,7 +356,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         }
         private void SetDeviceSleepState(bool state)
         {
-            GraphicPanel.bRender = state;
+            GraphicPanel.AllowLoopToRender = state;
             if (state == true)
             {
                 Methods.Internal.UserInterface.ReloadSpritesAndTextures();
@@ -375,7 +375,7 @@ namespace ManiacEditor.Controls.Editor.Elements.View
         private void GraphicPanel_OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseUp(sender, e); }
         private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseWheel(sender, e); }
         private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseClick(sender, e); }
-        public void GraphicPanel_OnResetDevice(object sender, DeviceEventArgs e) { Device device = e.Device; }
+        public void GraphicPanel_OnResetDevice(object sender, DeviceEventArgs e) {  }
         private void GraphicPanel_OnRender(object sender, DeviceEventArgs e) { GP_Render(); }
         public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e) { Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e); }
         public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e) { Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e); }
@@ -394,14 +394,14 @@ namespace ManiacEditor.Controls.Editor.Elements.View
             {
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 Methods.Editor.Solution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Editor.SolutionState.ViewPositionX) / Methods.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Methods.Editor.SolutionState.ViewPositionY) / Methods.Editor.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex);
-                GraphicPanel.Render();
+                GraphicPanel.RenderSFML();
 
             }
         }
         private void GP_DragLeave(object sender, EventArgs e)
         {
             Methods.Editor.Solution.EditLayerA?.EndDragOver(true);
-            GraphicPanel.Render();
+            GraphicPanel.RenderSFML();
         }
         private void GP_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {

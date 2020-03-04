@@ -27,9 +27,53 @@ namespace ManiacEditor
 
         #region Members
 
+        #region SFML Variables
+
+        // On this event we can start to render our scene
+        public event RenderEventHandler OnRender;
+
+        // Now we know that the device is created
+        public event CreateDeviceEventHandler OnCreateDevice;
+
+        public SFML.Graphics.RenderWindow RenderWindow;
+
+        public IDrawArea _parent = null;
+        #endregion
+
+        #region FPS Variables
+        public double FPS { get; set; } = 0.0;
+        System.Diagnostics.Stopwatch clock;
+        double totalTime;
+        long frameCount;
+        double measuredFPS;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Extend this list of properties if you like
+        /// </summary>
+        private Color _deviceBackColor = Color.Black;
+
+        public Color DeviceBackColor
+        {
+            get { return _deviceBackColor; }
+            set { _deviceBackColor = value; }
+        }
 
 
-        public bool mouseMoved { get; set; } = false;
+        #endregion
+
+        #region Other Variables
+        public static bool isRendering { get; private set; } = false;
+        public bool MouseMoved { get; set; } = false;
+        public MouseEventArgs LastEvent;
+        public bool AllowLoopToRender = true;
+        public bool DeviceLost;
+        #endregion
+
+        #region Old SharpDX Stuff
 
         private Sprite sprite;
         private Sprite sprite2;
@@ -42,33 +86,17 @@ namespace ManiacEditor
         Classes.General.TextureExt hcursor;
         Bitmap hcursorb;
 
-        public double FPS { get; set; } = 0.0;
-        System.Diagnostics.Stopwatch clock;
-        double totalTime;
-        long frameCount;
-        double measuredFPS;
 
 
-        public bool bRender = true;
 
         // The DirectX device
         public Device _device = null;
-        public bool deviceLost;
         private Direct3D direct3d = new Direct3D();
         private Font font;
         private Font fontBold;
         // The Form to place the DevicePanel onto
-        public IDrawArea _parent = null;
+
         private PresentParameters presentParams;
-        // On this event we can start to render our scene
-        public event RenderEventHandler OnRender;
-
-        // Now we know that the device is created
-        public event CreateDeviceEventHandler OnCreateDevice;
-
-        public MouseEventArgs lastEvent;
-
-
         public static FontDescription fontDescription = new FontDescription()
         {
             Height = 18,
@@ -81,7 +109,6 @@ namespace ManiacEditor
             Quality = FontQuality.Antialiased,
             Weight = FontWeight.Regular
         };
-
         public static FontDescription fontDescriptionBold = new FontDescription()
         {
             Height = 18,
@@ -95,7 +122,7 @@ namespace ManiacEditor
             Weight = FontWeight.Bold
         };
 
-
+        #endregion
 
         #endregion
 
@@ -110,105 +137,16 @@ namespace ManiacEditor
 
         #region Init DX
 
-        /// <summary>
-        /// Init the DirectX-Stuff here
-        /// </summary>
-        /// <param name="parent">parent of the DevicePanel</param>
-        /// 
-
-        public void Init(IDrawArea parent)
-        {
-            try
-            {
-                _parent = parent;
-
-                // Setup our D3D stuff
-                presentParams = new PresentParameters();
-                presentParams.Windowed = true;
-                presentParams.DeviceWindowHandle = this.Handle;
-                presentParams.BackBufferHeight = this.Height;
-                presentParams.BackBufferWidth = this.Width;
-                presentParams.PresentationInterval = PresentInterval.Immediate;
-                presentParams.SwapEffect = SwapEffect.Discard;
-
-                Capabilities caps = direct3d.Adapters.First().GetCaps(DeviceType.Hardware);
-
-                CreateFlags createFlags;
-
-                if ((caps.DeviceCaps & DeviceCaps.HWTransformAndLight) != 0)
-                {
-                    createFlags = CreateFlags.HardwareVertexProcessing;
-                }
-                else
-                {
-                    createFlags = CreateFlags.SoftwareVertexProcessing;
-                }
-
-                if ((caps.DeviceCaps & DeviceCaps.PureDevice) != 0 && createFlags ==
-                    CreateFlags.HardwareVertexProcessing)
-                {
-                    createFlags |= CreateFlags.PureDevice;
-                }
-
-
-                _device = new Device(direct3d, 0, DeviceType.Hardware, this.Handle, createFlags, presentParams);
-                _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
-                _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
-                _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
-                _device.SetRenderState(RenderState.CullMode, false);
-                //_device.SetRenderState(RenderState.ZWriteEnable, false);
-                //_device.SetRenderState(RenderState.ZEnable, false);
-
-                if (OnCreateDevice != null)
-                {
-                    OnCreateDevice(this, new DeviceEventArgs(_device));
-                }
-
-
-
-                txb = new Bitmap(1, 1);
-                using (Graphics g = Graphics.FromImage(txb))
-                    g.Clear(Color.White);
-                hcursorb = new Bitmap(32, 32);
-                using (Graphics g = Graphics.FromImage(hcursorb))
-                    Cursors.NoMoveHoriz.Draw(g, new Rectangle(0, 0, 32, 32));
-                MakeGray(hcursorb);
-
-                vcursorb = new Bitmap(32, 32);
-                using (Graphics g = Graphics.FromImage(vcursorb))
-                    Cursors.NoMoveVert.Draw(g, new Rectangle(0, 0, 32, 32));
-                MakeGray(vcursorb);
-
-                hvcursorb = new Bitmap(32, 32);
-                using (Graphics g = Graphics.FromImage(hvcursorb))
-                    Cursors.NoMove2D.Draw(g, new Rectangle(0, 0, 32, 32));
-                MakeGray(hvcursorb);
-
-                InitDeviceResources();
-            }
-            catch (SharpDXException ex)
-            {
-                throw new ArgumentException("Error initializing DirectX", ex);
-            }
-            catch (DllNotFoundException)
-            {
-                throw new Exception("Please install DirectX Redistributable June 2010");
-            }
-        }
-
-
-
         public void Run()
-        {
-          
+        {         
             RenderLoop.Run(this, () =>
             {
                 // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
-                if (bRender) Render();
-                if (mouseMoved)
+                if (AllowLoopToRender) RenderSFML();
+                if (MouseMoved)
                 {
-                    OnMouseMove(lastEvent);
-                    mouseMoved = false;
+                    OnMouseMove(LastEvent);
+                    MouseMoved = false;
                 }
                 Application.DoEvents();
             });
@@ -229,6 +167,37 @@ namespace ManiacEditor
 
             clock = Stopwatch.StartNew();
         }
+
+
+        #endregion
+
+        #region Init SFML
+
+        /// <summary>
+        /// Init SFML Render
+        /// </summary>
+        /// <param name="parent">parent of the DevicePanel</param>
+        public void Init(IDrawArea parent)
+        {
+            _parent = parent;
+            SFML.Window.ContextSettings settings = new SFML.Window.ContextSettings();
+
+            RenderWindow = new SFML.Graphics.RenderWindow(this.Handle);
+            RenderWindow.SetFramerateLimit(60);
+
+            if (OnCreateDevice != null)
+            {
+                OnCreateDevice(this, new DeviceEventArgs(RenderWindow));
+            }
+
+            RenderWindow.SetActive();
+
+        }
+
+        #endregion
+
+        #region Reset DX
+
         /// <summary>
         /// Attempt to recover the device if it is lost.
         /// </summary>
@@ -264,57 +233,28 @@ namespace ManiacEditor
                 DisposeDeviceResources();
                 _parent.DisposeTextures();
                 _device.Reset(presentParams);
-                deviceLost = false;
+                DeviceLost = false;
                 InitDeviceResources();
             }
         }
 
-        private void MakeGray(Bitmap image)
-        {
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Height; y++)
-                {
-                    if (image.GetPixel(x, y).Name == "ffffffff")
-                        image.SetPixel(x, y, Color.Transparent);
-                    else if (image.GetPixel(x, y).Name == "ff000000")
-                        image.SetPixel(x, y, Color.Gray);
-                }
-            }
-        }
+        #endregion
+
+        #region Reset SFML
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// Extend this list of properties if you like
-        /// </summary>
-        private Color _deviceBackColor = Color.Black;
-
-        public Color DeviceBackColor
-        {
-            get { return _deviceBackColor; }
-            set { _deviceBackColor = value; }
-        }
-
-
-        #endregion
-
-        #region Rendering
+        #region Rendering DX
 
         /// <summary>
         /// Rendering-method
         /// </summary>
         /// 
-
-        public static bool isRendering { get; private set; } = false;
-
-        public void Render()
+        public void OldRender()
         {
             //System.Threading.Tasks.Task.Run(new Action(() => {
-                if (deviceLost) AttemptRecovery();
-                if (deviceLost) return;
+                if (DeviceLost) AttemptRecovery();
+                if (DeviceLost) return;
                 //if (isRendering) return;
 
                 if (_device == null)
@@ -356,7 +296,7 @@ namespace ManiacEditor
                     sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
 
                     // Render of scene here
-                    if (OnRender != null) OnRender(this, new DeviceEventArgs(_device));
+                    if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
 
                     sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
 
@@ -382,7 +322,7 @@ namespace ManiacEditor
                 catch (SharpDXException ex)
                 {
                     if (ex.ResultCode == ResultCode.DeviceLost)
-                        deviceLost = true;
+                        DeviceLost = true;
                     else
                         throw ex;
                 }
@@ -390,15 +330,34 @@ namespace ManiacEditor
             //}));
         }
 
+
+
         #endregion
 
-        #region Overrides
+        #region Rendering SFML
 
-        protected override void OnPaint(PaintEventArgs e)
+        /// <summary>
+        /// The New Rendering-method
+        /// </summary>
+        /// 
+        public void RenderSFML()
         {
-            this.Render();
+
+            // Clear Back Buffer
+
+            // Render of Scene Here
+            if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
+
+            // Present
         }
 
+        #endregion
+
+        #region Event/Overrides
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            this.RenderSFML();
+        }
         protected override bool IsInputKey(Keys keyData)
         {
             switch (keyData)
@@ -416,40 +375,40 @@ namespace ManiacEditor
         {
             return this.AutoScrollPosition;
         }
-
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            lastEvent = e;
+            LastEvent = e;
             var screen = _parent.GetScreen();
             base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + screen.X, e.Y + screen.Y, e.Delta));
         }
-
         protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
         {
             base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
         }
-
         protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
         {
             base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
         }
-
         protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
         {
             base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
         }
-
         protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
             base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
         }
-
         protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
             base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
         }
+        public void OnMouseMoveEventCreate()
+        {
+            Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y);
+        }
 
         #endregion
+
+        #region Get Screen
 
         public Rectangle GetScreen()
         {
@@ -463,7 +422,6 @@ namespace ManiacEditor
                     (int)Math.Ceiling(screen.Width / zoom),
                     (int)Math.Ceiling(screen.Height / zoom));
         }
-
         public bool IsObjectOnScreen(int x, int y, int width, int height)
         {
             Rectangle screen = _parent.GetScreen();
@@ -480,6 +438,9 @@ namespace ManiacEditor
                 || (y + height) * zoom < screen.Y);
         }
 
+        #endregion
+
+        #region Draw Methods
         private void DrawTexture(Classes.General.TextureExt image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
             sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
@@ -489,12 +450,10 @@ namespace ManiacEditor
             sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
 
         }
-
         public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency)
         {
             DrawBitmap(image, x, y, 0, 0, width, height, selected, transparency);
         }
-
         public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0)
         {
 
@@ -522,7 +481,6 @@ namespace ManiacEditor
 
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
-
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
         {
             Rectangle screen = _parent.GetScreen();
@@ -553,7 +511,6 @@ namespace ManiacEditor
             }
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
-
         public void DrawLinePaperRoller(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4)
         {
             Rectangle screen = _parent.GetScreen();
@@ -583,7 +540,6 @@ namespace ManiacEditor
             //}
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
-
         public void DrawArrow(int x0, int y0, int x1, int y1, Color color)
         {
             int x2, y2, x3, y3;
@@ -599,7 +555,6 @@ namespace ManiacEditor
             DrawLine(x1, y1, x2, y2, color);
             DrawLine(x1, y1, x3, y3, color);
         }
-
         public void DrawBézierSplineCubic(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color color)
         {
             for (double i = 0; i < 1; i += 0.01)
@@ -624,8 +579,14 @@ namespace ManiacEditor
 
                 DrawLinePBP(x, y, x, y, color);
             }
-        }
 
+            int getPt(int n1, int n2, double perc)
+            {
+                int diff = n2 - n1;
+
+                return (int)(n1 + (diff * perc));
+            }
+        }
         public void DrawBézierSplineQuadratic(int x1, int y1, int x2, int y2, int x3, int y3, Color color)
         {
             for (double i = 0; i < 1; i += 0.01)
@@ -642,17 +603,15 @@ namespace ManiacEditor
 
                 DrawLinePBP(x, y, x, y, color);
             }
+
+
+            int getPt(int n1, int n2, double perc)
+            {
+                int diff = n2 - n1;
+
+                return (int)(n1 + (diff * perc));
+            }
         }
-
-
-
-        int getPt(int n1, int n2, double perc)
-        {
-            int diff = n2 - n1;
-
-            return (int)(n1 + (diff * perc));
-        }
-
         public void DrawLinePBP(int x0, int y0, int x1, int y1, Color color)
         {
             Rectangle screen = _parent.GetScreen();
@@ -702,7 +661,6 @@ namespace ManiacEditor
             }
             DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
         }
-
         void DrawLinePBPDoted(int x0, int y0, int x1, int y1, Color color, Color color2, Color color3, Color color4)
         {
             Rectangle screen = _parent.GetScreen();
@@ -777,7 +735,6 @@ namespace ManiacEditor
             }
             DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
         }
-
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
@@ -786,7 +743,6 @@ namespace ManiacEditor
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
-
         public void DrawQuad(int x1, int y1, int x2, int y2, Color color)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
@@ -795,7 +751,6 @@ namespace ManiacEditor
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
-
         public void DrawText(string text, int x, int y, int width, Color color, bool bold)
         {
             Rectangle screen = _parent.GetScreen();
@@ -835,17 +790,16 @@ namespace ManiacEditor
             //hcursor = new Texture(_device, hcursorb, Usage.Dynamic, Pool.Default);
             DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
         }
-
         public void DrawVertCursor(int x, int y)
         {
             //vcursor = new Texture(_device, vcursorb, Usage.Dynamic, Pool.Default);
             DrawTexture2(vcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
             DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
         }
-        public void OnMouseMoveEventCreate()
-        {
-            Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y);
-        }
+
+        #endregion
+
+        #region Disposing
 
         public void DisposeDeviceResources(int type = 0)
         {
@@ -893,7 +847,6 @@ namespace ManiacEditor
             }
 
         }
-
         public new void Dispose()
         {
             DisposeDeviceResources();
@@ -902,6 +855,8 @@ namespace ManiacEditor
             direct3d.Dispose();
             base.Dispose();
         }
+
+        #endregion
 
 
     }

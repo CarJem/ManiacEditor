@@ -9,7 +9,12 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <skin:SkinResourceDictionary BetaSource="Controls/Assets/ColorLibraryBeta.xaml" DarkSource="Controls/Assets/ColorLibraryDark.xaml" LightSource="Controls/Assets/ColorLibraryLight.xaml" />
+                <skin:SkinResourceDictionary
+                    CarJemSource="Controls/Assets/Themes/CarJemTheme.xaml" 
+                    BetaSource="Controls/Assets/Themes/BetaTheme.xaml" 
+                    ShardSource="Controls/Assets/Themes/ShardTheme.xaml" 
+                    DarkSource="Controls/Assets/Themes/DarkTheme.xaml" 
+                    LightSource="Controls/Assets/Themes/LightTheme.xaml" />
                 <ResourceDictionary Source="Controls/Assets/Icons.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/IconLibrary.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ButtonStyle.xaml"></ResourceDictionary>

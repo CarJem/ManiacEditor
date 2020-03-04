@@ -17,11 +17,9 @@
     <SolidColorBrush x:Key="EditLayerBSelectedColor" Color="#C900FF"/>
     <SolidColorBrush x:Key="EditLayerBSelectedColorBack" Color="#90C900FF"/>
 
-    <SolidColorBrush x:Key="SelectedColor1" Color="Blue"/>
-    <SolidColorBrush x:Key="SelectedColor2" Color="#232370"/>
-    <SolidColorBrush x:Key="SelectedColor3" Color="#FF4646FF"/>
-    <SolidColorBrush x:Key="SelectedColor4" Color="#680000FF"/>
-    <SolidColorBrush x:Key="SelectedColor5" Color="#232370"/>
+    <SolidColorBrush x:Key="SelectedColor1" Color="Yellow"/>
+    <SolidColorBrush x:Key="SelectedColor2" Color="#FF7F9200"/>
+    <SolidColorBrush x:Key="SelectedColor3" Color="#7EAEAE06"/>
 
     <SolidColorBrush x:Key="PressedBackground1" Color="#FF555555"/>
 
@@ -30,36 +28,36 @@
     <SolidColorBrush x:Key="HintedText" Color="#A2A2A2"/>
     <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
 
-    <SolidColorBrush x:Key="DisabledText" Color="Gray"/>
-    <SolidColorBrush x:Key="DisabledElement" Color="Gray"/>
+    <SolidColorBrush x:Key="DisabledText" Color="#888800"/>
+    <SolidColorBrush x:Key="DisabledElement" Color="#670000"/>
 
-    <SolidColorBrush x:Key="NormalText" Color="White"/>
-    <SolidColorBrush x:Key="NormalElementColor" Color="White"/>
+    <SolidColorBrush x:Key="NormalText" Color="Yellow"/>
+    <SolidColorBrush x:Key="NormalElementColor" Color="Red"/>
 
-    <SolidColorBrush x:Key="PressedElementColor" Color="#FFE4E4E4"/>
+    <SolidColorBrush x:Key="PressedElementColor" Color="#FF980000"/>
 
     <SolidColorBrush x:Key="TransparentElement" Color="Transparent"/>
 
-    <SolidColorBrush x:Key="HyperLinkColor" Color="#31A2F7"/>
+    <SolidColorBrush x:Key="HyperLinkColor" Color="Red"/>
 
     <SolidColorBrush x:Key="InactiveListItemColor" Color="#FF646464"/>
 
 
-    <SolidColorBrush x:Key="NormalBackground" Color="#272727"/>
-    <SolidColorBrush x:Key="NormalBackground2" Color="#2E2E2E"/>
+    <SolidColorBrush x:Key="NormalBackground" Color="Black"/>
+    <SolidColorBrush x:Key="NormalBackground2" Color="#1B1B1B"/>
     <SolidColorBrush x:Key="TextBoxBackground" Color="#404040"/>
     <SolidColorBrush x:Key="TextBoxBackground2" Color="#383838"/>
     <SolidColorBrush x:Key="ToolbarBackground" Color="#282828"/>
     <SolidColorBrush x:Key="ToolbarOverflowBackground" Color="#282828"/>
-    <SolidColorBrush x:Key="StatusBarBackground" Color="#FF343434"/>
-    <SolidColorBrush x:Key="MenuBar" Color="#282828"/>
-    <SolidColorBrush x:Key="ContextMenuBackground" Color="#282828"/>
+    <SolidColorBrush x:Key="StatusBarBackground" Color="#FF212020"/>
+    <SolidColorBrush x:Key="MenuBar" Color="#464646"/>
+    <SolidColorBrush x:Key="ContextMenuBackground" Color="#101010"/>
     <SolidColorBrush x:Key="ContextMenuBackground2" Color="#354B4B4B"/>
     <SolidColorBrush x:Key="ButtonBackground" Color="#FF494949"/>
     <SolidColorBrush x:Key="StartScreenBackground" Color="#8B343434"/>
 
     <SolidColorBrush x:Key="ButtonBorder" Color="#FF5D5D5D"/>
-    <SolidColorBrush x:Key="ContextMenuBorder" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ContextMenuBorder" Color="#FAFF00"/>
     <SolidColorBrush x:Key="ComboBoxBorder" Color="#FF515151"/>
     <SolidColorBrush x:Key="DisabledBorder" Color="#FF3C3C3C"/>
 
@@ -77,10 +75,22 @@
         <GradientStop Color="{Binding Color, Source={StaticResource TextBoxBackground2}}" Offset="0.9" />
     </LinearGradientBrush>
 
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHover.Background" Color="#1FD6DA26"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHover.Border" Color="#A8D6DA26"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelected.Background" Color="#1FD6DA26"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelected.Border" Color="#FFD6DA26"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedHover.Background" Color="#2EE9FF00"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedHover.Border" Color="#99D4D900"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedNoFocus.Background" Color="#3DDADADA"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedNoFocus.Border" Color="#FFDADADA"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewFocus.Border" Color="#FFCBDA26"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Background" Color="#54DAD226"/>
+    <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Border" Color="#FFD6DA26"/>
+
     <SolidColorBrush x:Key="Button.Static.Background" Color="{Binding Color, Source={StaticResource ButtonBackground}}"/>
     <SolidColorBrush x:Key="Button.Static.Border" Color="{Binding Color, Source={StaticResource ButtonBorder}}"/>
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="{Binding Color, Source={StaticResource PressedBackground1}}"/>
-    <SolidColorBrush x:Key="Button.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="Button.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="Button.Pressed.Background" Color="{Binding Color, Source={StaticResource SelectedColor2}}"/>
     <SolidColorBrush x:Key="Button.Pressed.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="Button.Disabled.Background" Color="{Binding Color, Source={StaticResource DisabledBackground1}}"/>
@@ -88,12 +98,12 @@
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="{Binding Color, Source={StaticResource DisabledElement}}"/>
 
     <SolidColorBrush x:Key="MenuItem.Context.Selected.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
-    <SolidColorBrush x:Key="MenuItem.Context.Selected.Background" Color="{Binding Color, Source={StaticResource SelectedColor4}}"/>
+    <SolidColorBrush x:Key="MenuItem.Context.Selected.Background" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
 
     <SolidColorBrush x:Key="OptionMark.Static.Background" Color="{Binding Color, Source={StaticResource TextBoxBackground}}"/>
     <SolidColorBrush x:Key="OptionMark.Static.Border" Color="{Binding Color, Source={StaticResource ButtonBorder}}"/>
     <SolidColorBrush x:Key="OptionMark.MouseOver.Background"  Color="{Binding Color, Source={StaticResource PressedBackground1}}"/>
-    <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="{Binding Color, Source={StaticResource SelectedColor2}}"/>
     <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="{Binding Color, Source={StaticResource DisabledBackground1}}"/>
     <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="{Binding Color, Source={StaticResource DisabledBorder}}"/>
@@ -122,9 +132,9 @@
 
     <SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="{Binding Color, Source={StaticResource NormalText}}"/>
     <SolidColorBrush x:Key="SliderThumb.MouseOver.Background" Color="{Binding Color, Source={StaticResource PressedBackground1}}"/>
-    <SolidColorBrush x:Key="SliderThumb.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="SliderThumb.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="SliderThumb.Pressed.Background" Color="{Binding Color, Source={StaticResource PressedBackground1}}"/>
-    <SolidColorBrush x:Key="SliderThumb.Pressed.Border" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="SliderThumb.Pressed.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="SliderThumb.Disabled.Background" Color="{Binding Color, Source={StaticResource DisabledBackground1}}"/>
     <SolidColorBrush x:Key="SliderThumb.Disabled.Border" Color="{Binding Color, Source={StaticResource DisabledBorder}}"/>
     <SolidColorBrush x:Key="SliderThumb.Static.Background" Color="{Binding Color, Source={StaticResource TextBoxBackground}}"/>
@@ -135,7 +145,7 @@
     <SolidColorBrush x:Key="RadioButton.Static.Background" Color="{Binding Color, Source={StaticResource TextBoxBackground}}"/>
     <SolidColorBrush x:Key="RadioButton.Static.Border" Color="{Binding Color, Source={StaticResource ButtonBorder}}"/>
     <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="{Binding Color, Source={StaticResource PressedBackground1}}"/>
-    <SolidColorBrush x:Key="RadioButton.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="RadioButton.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph" Color="{Binding Color, Source={StaticResource SelectedColor2}}"/>
     <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="{Binding Color, Source={StaticResource DisabledBackground1}}"/>
     <SolidColorBrush x:Key="RadioButton.Disabled.Border" Color="{Binding Color, Source={StaticResource DisabledBorder}}"/>
@@ -149,10 +159,10 @@
     <SolidColorBrush x:Key="ListItemSelectedFill" Color="{Binding Color, Source={StaticResource SelectedColor2}}"/>
     <SolidColorBrush x:Key="ListItemSelectedInactiveFill" Color="{Binding Color, Source={StaticResource InactiveListItemColor}}"/>
     <SolidColorBrush x:Key="ListItemSelectedHoverFill" Color="{Binding Color, Source={StaticResource SelectedColor2}}"/>
-    <SolidColorBrush x:Key="ListItemHoverBorder" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
-    <SolidColorBrush x:Key="ListItemSelectedBorder" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="ListItemHoverBorder" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
+    <SolidColorBrush x:Key="ListItemSelectedBorder" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="ListItemSelectedInactiveBorder"  Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
-    <SolidColorBrush x:Key="ListItemSelectedHoverBorder" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="ListItemSelectedHoverBorder" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
 
     <SolidColorBrush x:Key="ScrollBar.Static.Background" Color="#171717"/>
     <SolidColorBrush x:Key="ScrollBar.Static.Border"  Color="#171717"/>
@@ -181,6 +191,6 @@
     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey }" Color="{Binding Color, Source={StaticResource NormalBackground}}"/>
 
     <SolidColorBrush x:Key="TextBox.Static.Border" Color="{Binding Color, Source={StaticResource ButtonBorder}}"/>
-    <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor3}}"/>
+    <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
     <SolidColorBrush x:Key="TextBox.Focus.Border" Color="{Binding Color, Source={StaticResource SelectedColor1}}"/>
 </ResourceDictionary>
