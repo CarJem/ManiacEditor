@@ -155,6 +155,7 @@ namespace ManiacEditor
                 _device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
+                _device.SetRenderState(RenderState.CullMode, false);
                 //_device.SetRenderState(RenderState.ZWriteEnable, false);
                 //_device.SetRenderState(RenderState.ZEnable, false);
 
@@ -489,28 +490,37 @@ namespace ManiacEditor
 
         }
 
-        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency, Color? CustomColor = null)
+        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency)
         {
-            DrawBitmap(image, x, y, 0, 0, width, height, selected, transparency, CustomColor);
+            DrawBitmap(image, x, y, 0, 0, width, height, selected, transparency);
         }
 
-        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, Color? CustomColor = null)
+        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0)
         {
-            Color CustomSelectedColor = Color.BlueViolet;
-            if (CustomColor == null) CustomColor = Color.White;
-            else CustomSelectedColor = Extensions.Extensions.Blend(Color.Purple, CustomColor.Value, 100);
 
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
 
-            //Rotate: Part 1
-            //var lastState = sprite.Transform;
-            //sprite.Transform *= Matrix.RotationZ(rotate);
+            Rectangle boundBox = new Rectangle(rect_x, rect_y, width, height);
+            Vector3 position = new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0);
+            Vector3 center = new Vector3(new float[] { 0, 0, 0 });
+            if (fliph || flipv)
+            {
+                if (fliph) position.X = -position.X;
+                if (flipv) position.Y = -position.Y;
 
-            DrawTexture(image, new Rectangle(rect_x, rect_y, width, height), new Vector3(new float[] { 0, 0, 0 }), new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0), (selected) ? CustomSelectedColor : Color.FromArgb(transparency, CustomColor.Value));
+                if (fliph) center.X = -boundBox.Width;
+                if (flipv) center.Y = -boundBox.Height;
 
-            //Rotate: Part 2
-            //sprite.Transform = lastState;
+                float negatedZoom = -(float)zoom;
+                float normalZoom = (float)zoom;
+
+                sprite.Transform = Matrix.Scaling((fliph ? negatedZoom : normalZoom), (flipv ? negatedZoom : normalZoom), 1f);
+            }
+
+            DrawTexture(image, boundBox, center, position, (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
+
+            sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
 
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)

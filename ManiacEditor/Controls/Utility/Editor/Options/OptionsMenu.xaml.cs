@@ -75,12 +75,7 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
 				}
 			}
 
-
-
-			if (Properties.Settings.MySettings.NightMode)
-			{
-				DarkModeCheckBox.IsChecked = true;
-			}
+			UserThemeComboBox.SelectedIndex = (int)Properties.Settings.MySettings.UserTheme;
 
 			CheckGraphicalPresetModeState(null, null);
 
@@ -469,29 +464,36 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
             }
             */
             Properties.Settings.ReloadAllSettings();
+			var selected = ApplySkinFromSelectedIndex();
 
-            if (DarkModeCheckBox.IsChecked == true && !Properties.Settings.MySettings.NightMode)
+			if (Properties.Settings.MySettings.UserTheme != selected)
 			{
-				Properties.Settings.MySettings.NightMode = true;
+
+				Properties.Settings.MySettings.UserTheme = selected;
 				Classes.Options.GeneralSettings.Save();
-				App.ChangeSkin(Skin.Dark);
+				App.ChangeSkin(selected);
 				App.SkinChanged = true;
 				Methods.Internal.Theming.RefreshTheme();
-
 			}
-			else if (!DarkModeCheckBox.IsChecked == true && Properties.Settings.MySettings.NightMode)
-			{
-				Properties.Settings.MySettings.NightMode = false;
-				Classes.Options.GeneralSettings.Save();
-				App.ChangeSkin(Skin.Light);
-				App.SkinChanged = true;
-				Methods.Internal.Theming.RefreshTheme();
-
-            }
 
 
 
         }
+
+		private Enums.Skin ApplySkinFromSelectedIndex()
+		{
+			switch (UserThemeComboBox.SelectedIndex)
+			{
+				case 0:
+					return Enums.Skin.Light;
+				case 1:
+					return Enums.Skin.Dark;
+				case 2:
+					return Enums.Skin.Beta;
+				default:
+					return Enums.Skin.Light;
+			}
+		}
 
 
 
@@ -958,6 +960,8 @@ namespace ManiacEditor.Controls.Utility.Editor.Options
             }
         }
 
-        #endregion
-    }
+		#endregion
+
+
+	}
 }

@@ -172,8 +172,8 @@
                                 <Condition Property="RenderEnabled" Value="True"/>
                                 <Condition Property="RenderPressed" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource RSDK_ButtonPressed_Border}"/>
-                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource RSDK_ButtonPressed_Background}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -182,8 +182,8 @@
                                 <Condition Property="RenderMouseOver" Value="True"/>
                                 <Condition Property="RenderPressed" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource RSDK_ButtonMouseOver_Border}"/>
-                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource RSDK_ButtonMouseOver_Background}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.MouseOver.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -192,8 +192,8 @@
                                 <Condition Property="RenderMouseOver" Value="False"/>
                                 <Condition Property="RenderPressed" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource RSDK_ButtonPressed_Border}"/>
-                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource RSDK_ButtonPressed_Background}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -202,8 +202,8 @@
                                 <Condition Property="RenderPressed" Value="False"/>
                                 <Condition Property="RenderMouseOver" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource RSDK_ButtonPressed_Border}"/>
-                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource RSDK_ButtonPressed_Background}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

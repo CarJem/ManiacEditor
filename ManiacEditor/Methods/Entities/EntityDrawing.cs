@@ -530,7 +530,7 @@ namespace ManiacEditor.Methods.Entities
             {
                 var frame = animation.Animation.Animations[AnimID].Frames[FrameID];
                 int spritesheet_index = (int)frame.SpriteSheet;
-                d.DrawBitmap(animation.Spritesheets.ElementAt(spritesheet_index).Value, X + frame.PivotX, Y + frame.PivotX, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, null);
+                d.DrawBitmap(animation.Spritesheets.ElementAt(spritesheet_index).Value, X + frame.PivotX, Y + frame.PivotX, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
             }
 
         }

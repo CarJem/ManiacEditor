@@ -88,16 +88,28 @@ namespace ManiacEditor.Methods.Internal
             }
 
         }
-        public static void UseDarkTheme_WPF(bool state = false)
+
+
+        public static bool UseNightColors
         {
-            if (state)
+            get
             {
-                App.ChangeSkin(Skin.Dark);
+                if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Dark || Properties.Settings.MySettings.UserTheme == Enums.Skin.Beta) return true;
+                else return false;
+            }
+        }
+
+        public static void UseDarkTheme_WPF()
+        {
+            
+            if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Dark || Properties.Settings.MySettings.UserTheme == Enums.Skin.Beta)
+            {
+                App.ChangeSkin(Properties.Settings.MySettings.UserTheme);
                 UseDarkTheme(true);
             }
             else
             {
-                App.ChangeSkin(Skin.Light);
+                App.ChangeSkin(Properties.Settings.MySettings.UserTheme);
                 UseDarkTheme(false);
             }
         }
@@ -226,7 +238,7 @@ namespace ManiacEditor.Methods.Internal
         public static void UpdateButtonColors()
         {
             var converter = new System.Windows.Media.BrushConverter();
-            if (ManiacEditor.Properties.Settings.MySettings.NightMode)
+            if (UseNightColors)
             {
                 ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
             }
@@ -246,7 +258,7 @@ namespace ManiacEditor.Methods.Internal
             if (CWC != null) NormalColor = CWC.Value;
             else NormalColor = Color.Black;
 
-            return (ManiacEditor.Properties.Settings.MySettings.NightMode ? NightColor : NormalColor);
+            return (UseNightColors ? NightColor : NormalColor);
         }
         #endregion
 
@@ -255,22 +267,22 @@ namespace ManiacEditor.Methods.Internal
         {
             if (colorID == "Blue")
             {
-                if (ManiacEditor.Properties.Settings.MySettings.NightMode) return System.Drawing.Color.LightBlue;
+                if (UseNightColors) return System.Drawing.Color.LightBlue;
                 else return System.Drawing.Color.Blue;
             }
             else if (colorID == "Green")
             {
-                if (ManiacEditor.Properties.Settings.MySettings.NightMode) return System.Drawing.Color.LightGreen;
+                if (UseNightColors) return System.Drawing.Color.LightGreen;
                 else return System.Drawing.Color.Green;
             }
             else if (colorID == "Red")
             {
-                if (ManiacEditor.Properties.Settings.MySettings.NightMode) return System.Drawing.Color.FromArgb(211, 76, 49);
+                if (UseNightColors) return System.Drawing.Color.FromArgb(211, 76, 49);
                 else return System.Drawing.Color.Red;
             }
             else
             {
-                if (ManiacEditor.Properties.Settings.MySettings.NightMode) return System.Drawing.Color.White;
+                if (UseNightColors) return System.Drawing.Color.White;
                 else return System.Drawing.Color.Black;
             }
         }

@@ -237,6 +237,9 @@
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
     <Compile Include="Classes\General\TextureExt.cs" />
     <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
+    <Compile Include="Controls\Editor\Elements\View\RenderPanel.xaml.cs">
+      <DependentUpon>RenderPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
@@ -250,6 +253,7 @@
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedRenderer.cs" />
     <Compile Include="Entity Renders\Normal Renders\Global\Ring.cs" />
     <Compile Include="Entity Renders\Normal Renders\Global\Spring.cs" />
+    <Compile Include="Enums\Skin.cs" />
     <Compile Include="EventHandlers\TileConfigException.cs" />
     <Compile Include="Methods\Draw\ExperimentalRendering.cs" />
     <Compile Include="Methods\Editor\EditorConstants.cs" />
@@ -1218,6 +1222,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Assets\ColorLibraryBeta.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Editor\Elements\View\DebugHUD.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1235,6 +1243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Editor\Elements\ViewPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Editor\Elements\View\RenderPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1472,6 +1484,9 @@
     </PackageReference>
     <PackageReference Include="nrtftree-library">
       <Version>0.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="SFML.Net">
+      <Version>2.5.0</Version>
     </PackageReference>
     <PackageReference Include="SharpDX.Desktop">
       <Version>4.2.0</Version>

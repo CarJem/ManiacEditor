@@ -27,7 +27,7 @@ namespace ManiacEditor.Classes.Options
         public System.Collections.Specialized.StringCollection ModLoaderConfigsNames { get; set; }
         public bool UseBitOperators { get; set; } = false;
         public bool ShowFirstTimeSetup { get; set; } = true;
-        public bool NightMode { get; set; } = true;
+        public Enums.Skin UserTheme { get; set; } = Enums.Skin.Light;
         public string LastModConfig { get; set; }
         public bool ScrollerAutoCenters { get; set; } = false;
         public bool ShowUnhandledExceptions { get; set; } = false;

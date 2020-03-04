@@ -7,6 +7,7 @@ namespace ManiacEditor.Controls.Assets
     {
         private Uri _DarkSource;
         private Uri _LightSource;
+        private Uri _BetaSource;
 
         public Uri DarkSource
         {
@@ -27,6 +28,16 @@ namespace ManiacEditor.Controls.Assets
             }
         }
 
+        public Uri BetaSource
+        {
+            get { return _BetaSource; }
+            set
+            {
+                _BetaSource = value;
+                UpdateSource();
+            }
+        }
+
         public void UpdateSource()
         {
             var val = GetSkin();
@@ -36,14 +47,18 @@ namespace ManiacEditor.Controls.Assets
 
         public Uri GetSkin()
         {
-            if (App.Skin == Skin.Light)
+            if (App.Skin == Enums.Skin.Light)
             {
                 return LightSource;
             }
-            else if (App.Skin == Skin.Dark)
+            else if (App.Skin == Enums.Skin.Dark)
             {
                 return DarkSource;
 
+            }
+            else if (App.Skin == Enums.Skin.Beta)
+            {
+                return BetaSource;
             }
             else return DarkSource;
         }

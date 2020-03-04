@@ -49,11 +49,11 @@ namespace ManiacEditor.Methods.Draw
         }
 
 
-        public void DrawBitmap(GraphicsInfo info, int x, int y, int width, int height, bool selected, int transparency, System.Drawing.Color? CustomColor = null)
+        public void DrawBitmap(GraphicsInfo info, int x, int y, int width, int height, bool selected, int transparency)
         {
             if (GraphicsMode == GraphicsType.SharpDX)
             {
-                if (info.ObjectType == GraphicsInfo.RenderType.Texture) DevicePanel.DrawBitmap(info.Texture, x, y, width, height, selected, transparency, CustomColor);
+                if (info.ObjectType == GraphicsInfo.RenderType.Texture) DevicePanel.DrawBitmap(info.Texture, x, y, width, height, selected, transparency);
                 //else if (info.ObjectType == GraphicsInfo.RenderType.EditorFrame) DevicePanel.DrawBitmap(info.EntityFrame.Texture, x, y, width, height, selected, transparency, CustomColor);
             }
             else if (GraphicsMode == GraphicsType.System)
@@ -65,11 +65,11 @@ namespace ManiacEditor.Methods.Draw
             }
         }
 
-        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency, System.Drawing.Color? CustomColor = null)
+        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency)
         {
             if (GraphicsMode == GraphicsType.SharpDX)
             {
-                DevicePanel.DrawBitmap(image, x, y, width, height, selected, transparency, CustomColor);
+                DevicePanel.DrawBitmap(image, x, y, width, height, selected, transparency);
             }
         }
 

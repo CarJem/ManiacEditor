@@ -597,7 +597,7 @@ namespace ManiacEditor.Controls.SceneSelect
         #region UI Related Methods
         public void RefreshTheme()
         {
-            if (App.Skin == Skin.Dark)
+            if (App.Skin == Enums.Skin.Dark)
             {
                 ScenesTree.BackColor = Methods.Internal.Theming.darkTheme1;
                 ScenesTree.ForeColor = Methods.Internal.Theming.darkTheme3;

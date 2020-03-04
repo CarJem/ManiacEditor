@@ -76,7 +76,14 @@
                             <controls:SettingsHeader HeaderName="Other Settings"></controls:SettingsHeader>
                             <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
                             <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
-                            <CheckBox x:Name="DarkModeCheckBox" Content="Use Dark Theme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"/>
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,5">
+                                <TextBlock Text="User Theme: " VerticalAlignment="Center"></TextBlock>
+                                <ComboBox x:Name="UserThemeComboBox" Width="256" SelectedIndex="0">
+                                    <ComboBoxItem Content="Light Theme" Width="256"></ComboBoxItem>
+                                    <ComboBoxItem Content="Dark Theme" Width="256"></ComboBoxItem>
+                                    <ComboBoxItem Content="Beta Angel Theme" Width="256"></ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
                            
                             <controls:SettingsHeader HeaderName="Experimental Options"></controls:SettingsHeader>
                             <CheckBox IsChecked="{maniac:SettingBinding RemoveObjectImportLock}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">

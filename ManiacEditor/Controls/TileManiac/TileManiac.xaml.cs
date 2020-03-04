@@ -714,15 +714,15 @@ namespace ManiacEditor.Controls.TileManiac
         {
             if (OldColViewer != null)
             {
-                if (App.Skin == Skin.Dark) OldColViewer.Opacity = 0.5;
+                if (App.Skin == Enums.Skin.Dark) OldColViewer.Opacity = 0.5;
                 else OldColViewer.Opacity = 1.0;
             }
-            if (App.Skin == Skin.Dark) CollisionColor = Color.FromArgb(20, 148, 20);
+            if (App.Skin == Enums.Skin.Dark) CollisionColor = Color.FromArgb(20, 148, 20);
             else CollisionColor = Color.FromArgb(255, 0, 255, 0);
             this.CollisionList.Refresh();
             this.CollisionList.vScrollBar1Host.Refresh();
             this.CollisionList.vScrollBar1Host.scroller.Refresh();
-            System.Drawing.Color ListBackColor = (App.Skin == Skin.Dark ? Methods.Internal.Theming.DarkTheme0 : System.Drawing.Color.White);
+            System.Drawing.Color ListBackColor = (App.Skin == Enums.Skin.Dark ? Methods.Internal.Theming.DarkTheme0 : System.Drawing.Color.White);
             this.CollisionList.BackColor = ListBackColor;
         }
 

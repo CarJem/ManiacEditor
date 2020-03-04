@@ -110,7 +110,7 @@ namespace ManiacEditor.Controls.Editor
             Methods.Internal.Theming.UpdateInstance(this);
             Methods.Internal.Settings.UpdateInstance(this);
 
-            Methods.Internal.Theming.UseDarkTheme_WPF(ManiacEditor.Properties.Settings.MySettings.NightMode);
+            Methods.Internal.Theming.UseDarkTheme_WPF();
             Instance = this;
             InitializeComponent();
 

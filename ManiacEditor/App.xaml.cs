@@ -12,18 +12,18 @@ namespace ManiacEditor
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public enum Skin { Dark, Light }
+
 
     public partial class App : Application
     {
-        public static Skin Skin { get; set; } = Skin.Dark;
+        public static Enums.Skin Skin { get; set; } = Enums.Skin.Dark;
 
         public static bool SkinChanged { get; set; } = false;
 
 
         public App()
         {
-            ChangeSkin(Skin.Dark);
+            ChangeSkin(Enums.Skin.Dark);
             this.InitializeComponent();
         }
 
@@ -34,7 +34,7 @@ namespace ManiacEditor
             UI.Run();
         }
 
-		public static void ChangeSkin(Skin newSkin)
+		public static void ChangeSkin(Enums.Skin newSkin)
         {
             Skin = newSkin;
 

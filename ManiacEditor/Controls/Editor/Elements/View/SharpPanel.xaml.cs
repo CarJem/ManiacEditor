@@ -607,9 +607,11 @@ namespace ManiacEditor.Controls.Editor.Elements.View
 
                 DrawLayer(Instance.EditorToolbar.ShowFGHigher.IsChecked.Value, Instance.EditorToolbar.EditFGHigher.IsCheckedAll, Methods.Editor.Solution.FGHigher);
 
+                if (showEntities && AboveAllMode) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
+
                 if (Methods.Editor.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
-                if (showEntitiesEditing || AboveAllMode) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
+                if (showEntitiesEditing) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
 
                 Methods.Editor.Solution.Entities.DrawInternal(GraphicPanel);
 
