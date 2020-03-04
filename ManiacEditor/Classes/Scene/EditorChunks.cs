@@ -150,7 +150,7 @@ namespace ManiacEditor.Classes.Scene
 			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPoints));
 		}
 
-        public void AutoGenerateChunks(Classes.Scene.Sets.EditorLayer LayerA)
+        public void AutoGenerateChunks(Classes.Scene.EditorLayer LayerA)
         {
             Methods.Internal.UserInterface.UpdateWaitingScreen(true);
             Methods.Internal.UserInterface.ToggleEditorButtons(false);
@@ -197,7 +197,7 @@ namespace ManiacEditor.Classes.Scene
             thread.Start();
         }
 
-        public void AutoGenerateChunks(Classes.Scene.Sets.EditorLayer LayerA, Classes.Scene.Sets.EditorLayer LayerB)
+        public void AutoGenerateChunks(Classes.Scene.EditorLayer LayerA, Classes.Scene.EditorLayer LayerB)
         {
             Methods.Internal.UserInterface.UpdateWaitingScreen(true);
             Methods.Internal.UserInterface.ToggleEditorButtons(false);
@@ -304,7 +304,7 @@ namespace ManiacEditor.Classes.Scene
 			StageStamps.StampList.Add(new Stamps.TileChunk(convertedPointsAFinal, convertedPointsBFinal));
 		}
 
-		public void PasteStamp(Point ChunkCoord, int index, Classes.Scene.Sets.EditorLayer EditLayerA, Classes.Scene.Sets.EditorLayer EditLayerB, bool deleteMode = false)
+		public void PasteStamp(Point ChunkCoord, int index, Classes.Scene.EditorLayer EditLayerA, Classes.Scene.EditorLayer EditLayerB, bool deleteMode = false)
 		{
 			Point TileCoord = new Point(ChunkCoord.X * 128, ChunkCoord.Y * 128);
 			Dictionary<Point, ushort> ConvertedChunkA = new Dictionary<Point, ushort>();
@@ -327,7 +327,7 @@ namespace ManiacEditor.Classes.Scene
 			EditLayerB?.Deselect();
 		}
 
-        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Scene.Sets.EditorLayer EditLayerA, Classes.Scene.Sets.EditorLayer EditLayerB, int chunkSize = 8)
+        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Scene.EditorLayer EditLayerA, Classes.Scene.EditorLayer EditLayerB, int chunkSize = 8)
         {
             Point TileCoord = new Point(point.X * 128, point.Y * 128);
             for (int x = 0; x < chunkSize; x++)
@@ -351,7 +351,7 @@ namespace ManiacEditor.Classes.Scene
             return true;
         }
 
-        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Scene.Sets.EditorLayer EditLayer, int chunkSize = 8)
+        public bool DoesChunkMatch(Point point, Stamps.TileChunk CompareChunk, Classes.Scene.EditorLayer EditLayer, int chunkSize = 8)
 		{
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
 			for (int x = 0; x < chunkSize; x++)
@@ -389,7 +389,7 @@ namespace ManiacEditor.Classes.Scene
             return true;
         }
 
-        public bool IsChunkEmpty(Point point, Classes.Scene.Sets.EditorLayer EditLayer, int chunkSize = 8)
+        public bool IsChunkEmpty(Point point, Classes.Scene.EditorLayer EditLayer, int chunkSize = 8)
 		{
 			if (EditLayer == null) return true;
 			Point TileCoord = new Point(point.X * 128, point.Y * 128);
@@ -405,7 +405,7 @@ namespace ManiacEditor.Classes.Scene
 			}
 			return true;
 		}
-        public bool IsChunkEmpty(Point point, Classes.Scene.Sets.EditorLayer EditLayerA, Classes.Scene.Sets.EditorLayer EditLayerB, int chunkSize = 8)
+        public bool IsChunkEmpty(Point point, Classes.Scene.EditorLayer EditLayerA, Classes.Scene.EditorLayer EditLayerB, int chunkSize = 8)
         {
             bool isEmptyA = IsChunkEmpty(point, EditLayerA, chunkSize);
             bool isEmptyB = IsChunkEmpty(point, EditLayerB, chunkSize);

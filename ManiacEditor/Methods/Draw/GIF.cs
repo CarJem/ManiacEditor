@@ -18,7 +18,7 @@ namespace ManiacEditor.Methods.Draw
 
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmapCache = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmap_selected_Cache = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
-        Dictionary<Tuple<Rectangle, bool, bool>, Classes.General.TextureExt> _texturesCache = new Dictionary<Tuple<Rectangle, bool, bool>, Classes.General.TextureExt>();
+        Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture> _texturesCache = new Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture>();
 
         public GIF(string filename, string encoreColors = null)
         {
@@ -199,7 +199,7 @@ namespace ManiacEditor.Methods.Draw
         public void DisposeTextures()
         {
             if (null == _texturesCache) return;
-            foreach (Classes.General.TextureExt texture in _texturesCache.Values)
+            foreach (var texture in _texturesCache.Values)
                 texture?.Dispose();
             _texturesCache.Clear();
         }

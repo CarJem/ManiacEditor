@@ -37,7 +37,7 @@ namespace ManiacEditor.Methods.Entities
 
         private static void RemoveSplineObjects(int splineID)
         {
-            List<Classes.Scene.Sets.EditorEntity> EntitiesToRemove = new List<Classes.Scene.Sets.EditorEntity>();
+            List<Classes.Scene.EditorEntity> EntitiesToRemove = new List<Classes.Scene.EditorEntity>();
             foreach (var entity in ManiacEditor.Methods.Editor.Solution.Entities.InternalEntities)
             {
                 if (entity.Name == "Spline")

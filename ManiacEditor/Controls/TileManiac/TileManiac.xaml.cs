@@ -31,12 +31,12 @@ using ManiacEditor.Controls.TileManiac.Controls;
 using ManiacEditor.Extensions;
 
 using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Editor;
+using ManiacEditor.Controls.Utility.Editors;
 using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
 using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Editor.Dev;
-using ManiacEditor.Controls.Utility.Editor.Configuration;
-using ManiacEditor.Controls.Utility.Editor.Options;
+using ManiacEditor.Controls.Utility.Editors.Dev;
+using ManiacEditor.Controls.Utility.Editors.Configuration;
+using ManiacEditor.Controls.Options;
 
 
 namespace ManiacEditor.Controls.TileManiac
@@ -2630,7 +2630,7 @@ namespace ManiacEditor.Controls.TileManiac
 
 		public void settingsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-            ManiacEditor.Controls.Utility.Editor.Options.OptionsMenu options = new ManiacEditor.Controls.Utility.Editor.Options.OptionsMenu();
+            ManiacEditor.Controls.Options.OptionsMenu options = new ManiacEditor.Controls.Options.OptionsMenu();
             options.Owner = this;
             options.ShowDialog();
 		}

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements"
              xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls"
              xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
-             xmlns:myControls="clr-namespace:ManiacEditor.Controls.Editor.Elements.View"
+             xmlns:myControls="clr-namespace:ManiacEditor.Controls.Editor.ViewPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="2">

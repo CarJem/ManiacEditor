@@ -64,7 +64,7 @@
         </Setter>
     </Style>
     <Style x:Key="ToolbarButton" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource NormalText}"></Setter>
         <Setter Property="Background" Value="Transparent"></Setter>
@@ -85,17 +85,17 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.MouseOver.Border}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Background" TargetName="border" Value="{DynamicResource ContextMenuSelectedColorBack}"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.5"></Setter>
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource Button.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -120,21 +120,21 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Background" TargetName="border" Value="{DynamicResource ContextMenuSelectedColorBack}"></Setter>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.5"></Setter>
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource Button.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -146,8 +146,8 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Background" Value="{StaticResource ButtonBackground}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorder}"/>
+        <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
@@ -172,7 +172,7 @@
                                 <Condition Property="RenderEnabled" Value="True"/>
                                 <Condition Property="RenderPressed" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Border}"/>
                             <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -182,7 +182,7 @@
                                 <Condition Property="RenderMouseOver" Value="True"/>
                                 <Condition Property="RenderPressed" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Border}"/>
                             <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.MouseOver.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -192,7 +192,7 @@
                                 <Condition Property="RenderMouseOver" Value="False"/>
                                 <Condition Property="RenderPressed" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Border}"/>
                             <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -202,7 +202,7 @@
                                 <Condition Property="RenderPressed" Value="False"/>
                                 <Condition Property="RenderMouseOver" Value="False"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{StaticResource Button.Pressed.Border}"/>
+                            <Setter Property="BorderBrush" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Border}"/>
                             <Setter Property="Background" TargetName="OuterBorder" Value="{DynamicResource Button.Pressed.Background}"/>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -224,9 +224,9 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+        <Setter Property="Background" Value="{DynamicResource Button.Static.Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Button.Static.Border}"/>
         <Setter Property="DropDownContentBackground">
             <Setter.Value>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -398,7 +398,7 @@
     <Style x:Key="StatusBarToggleButton" x:Name="StatusBarToggleButtons" TargetType="{x:Type ToggleButton}">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
-        <Setter Property="Foreground" Value="{StaticResource NormalText}"/>
+        <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">

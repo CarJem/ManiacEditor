@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-        public virtual bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public virtual bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
             return d.IsObjectOnScreen(x, y, 20, 20);
         }

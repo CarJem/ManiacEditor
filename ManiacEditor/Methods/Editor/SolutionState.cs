@@ -828,7 +828,7 @@ namespace ManiacEditor.Methods.Editor
                 }
             }
 
-            public Classes.Scene.Sets.EditorEntity SplineObjectRenderingTemplate { get; set; }
+            public Classes.Scene.EditorEntity SplineObjectRenderingTemplate { get; set; }
 
             public string SplineRenderingObjectName { get => GetSplineRenderingObjectName(); }
 
@@ -934,11 +934,11 @@ namespace ManiacEditor.Methods.Editor
                     }
                     break;
                 case SplineOption.SpawnObject:
-                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineObjectRenderingTemplate = (Classes.Scene.Sets.EditorEntity)value;
+                    if (SplineOptionsGroup.ContainsKey(SelectedSplineID)) SplineOptionsGroup[SelectedSplineID].SplineObjectRenderingTemplate = (Classes.Scene.EditorEntity)value;
                     else
                     {
                         SplineOptions options = new SplineOptions();
-                        options.SplineObjectRenderingTemplate = (Classes.Scene.Sets.EditorEntity)value;
+                        options.SplineObjectRenderingTemplate = (Classes.Scene.EditorEntity)value;
                         SplineOptionsGroup.Add(SelectedSplineID, options);
                     }
                     break;

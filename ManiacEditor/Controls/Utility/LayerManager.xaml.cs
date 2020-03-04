@@ -25,7 +25,7 @@ namespace ManiacEditor.Controls.Utility
 	public partial class LayerManager : Window
 	{
 		private Classes.Scene.EditorScene _editorScene;
-		private IList<Classes.Scene.Sets.EditorLayer> Layers
+		private IList<Classes.Scene.EditorLayer> Layers
 		{
 			get => _editorScene?.AllLayersList;
 		}
@@ -45,7 +45,7 @@ namespace ManiacEditor.Controls.Utility
 			get => GetSelectedLayerScroll();
 		}
 
-        private Classes.Scene.Sets.EditorLayer SelectedLayer;
+        private Classes.Scene.EditorLayer SelectedLayer;
 
 		private bool LockSelectionChangedTriggers = false;
 		private bool _layerArrangementChanged = false;
@@ -56,7 +56,7 @@ namespace ManiacEditor.Controls.Utility
 		int nudLineCountTemp = 0;
 
 		//Clipboards
-		private Classes.Scene.Sets.EditorLayer LayerClipboard;
+		private Classes.Scene.EditorLayer LayerClipboard;
 
 
 
@@ -300,7 +300,7 @@ namespace ManiacEditor.Controls.Utility
 
 		private void btnAdd_Click(object sender, RoutedEventArgs e)
 		{
-			Classes.Scene.Sets.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
+			Classes.Scene.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
 			Layers.Add(newEditorLayer);
 			int newIndex = Layers.IndexOf(newEditorLayer);
 			lbLayers.SelectedIndex = newIndex;
@@ -424,7 +424,7 @@ namespace ManiacEditor.Controls.Utility
 
 		private void btnRemoveHorizontalMapping_Click(object sender, RoutedEventArgs e)
 		{
-			var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.ElementAt(GetSelectedLayerScroll()).LinesMapList.ElementAt(GetSelectedHorizontalMap()) as Classes.Scene.Sets.EditorLayer.ScrollInfoLines;
+			var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayeRules.ElementAt(GetSelectedLayerScroll()).LinesMapList.ElementAt(GetSelectedHorizontalMap()) as Classes.Scene.EditorLayer.ScrollInfoLines;
 			if (null == current) return;
 
 			if (MessageBox.Show($@"Deleting a set of horizontal scrolling rule mappings can not be undone!
@@ -492,9 +492,9 @@ namespace ManiacEditor.Controls.Utility
 			}
 		}
 
-		private void CopyLayerToClipboard(Classes.Scene.Sets.EditorLayer layerToCopy)
+		private void CopyLayerToClipboard(Classes.Scene.EditorLayer layerToCopy)
 		{
-			Classes.Scene.Sets.EditorLayer copyData = layerToCopy;
+			Classes.Scene.EditorLayer copyData = layerToCopy;
 
 			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
 			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
@@ -511,7 +511,7 @@ namespace ManiacEditor.Controls.Utility
 			// For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
 			if (Clipboard.ContainsData("ManiacLayer") && false)
 			{
-				var layerToPaste = (Classes.Scene.Sets.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
+				var layerToPaste = (Classes.Scene.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
 
 				Layers.Insert(Layers.Count - 1, layerToPaste);
 

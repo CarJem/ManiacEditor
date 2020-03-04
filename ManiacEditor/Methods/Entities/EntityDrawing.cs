@@ -1,5 +1,4 @@
 ﻿using RSDKv5;
-using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,6 +12,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using ImageMagick;
+using SFML.Graphics;
 
 namespace ManiacEditor.Methods.Entities
 {
@@ -85,9 +85,9 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Texture Collection
-        public static Dictionary<string, Classes.General.TextureExt> GetAnimationSpriteSheetTextures(DevicePanel d, Animation Animation, string SourcePath, string SourceDirectory, bool NoEncoreColors)
+        public static Dictionary<string, Texture> GetAnimationSpriteSheetTextures(DevicePanel d, Animation Animation, string SourcePath, string SourceDirectory, bool NoEncoreColors)
         {
-            Dictionary<string, Classes.General.TextureExt> SpriteSheetTextures = new Dictionary<string, Classes.General.TextureExt>();
+            Dictionary<string, Texture> SpriteSheetTextures = new Dictionary<string, Texture>();
 
             foreach (var spriteSheetName in Animation.SpriteSheets)
             {
@@ -121,7 +121,7 @@ namespace ManiacEditor.Methods.Entities
 
                 if (SpriteSheetBMP != null)
                 {
-                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), Methods.Draw.TextureCreator.FromBitmap(d._device, SpriteSheetBMP));
+                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), Methods.Draw.TextureHelper.FromBitmap(SpriteSheetBMP));
                 }
             }
 
@@ -406,7 +406,7 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Drawing
-        public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.Sets.EditorEntity e)
+        public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.EditorEntity e)
         {
             int x = e.Entity.Position.X.High;
             int y = e.Entity.Position.Y.High;
@@ -423,7 +423,7 @@ namespace ManiacEditor.Methods.Entities
 
 
         }
-        public static System.Drawing.Color GetBoxBorderColor(Classes.Scene.Sets.EditorEntity e)
+        public static System.Drawing.Color GetBoxBorderColor(Classes.Scene.EditorEntity e)
         {
             System.Drawing.Color color = System.Drawing.Color.DarkBlue;
             if (e.HasSpecificFilter(1) || e.HasSpecificFilter(5))
@@ -453,7 +453,7 @@ namespace ManiacEditor.Methods.Entities
             return color;
 
         }
-        public static System.Drawing.Color GetBoxBackgroundColor(Classes.Scene.Sets.EditorEntity e)
+        public static System.Drawing.Color GetBoxBackgroundColor(Classes.Scene.EditorEntity e)
         {
             if (e.InTempSelection)
             {
@@ -476,7 +476,7 @@ namespace ManiacEditor.Methods.Entities
         {
             return Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name) && Methods.Editor.SolutionState.ShowEntityPathArrows;
         }
-        public static void DrawLinked(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity)
+        public static void DrawLinked(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
             try
             {
@@ -491,7 +491,7 @@ namespace ManiacEditor.Methods.Entities
 
             }
         }
-        public static void DrawInternal(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity)
+        public static void DrawInternal(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
             int Transparency = GetTransparencyLevel();
 
@@ -499,7 +499,7 @@ namespace ManiacEditor.Methods.Entities
             int y = _entity.Entity.Position.Y.High;
             DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red, _entity);
         }
-        public static void DrawNormal(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity, bool CanDrawSelectionBox = true)
+        public static void DrawNormal(DevicePanel d, Classes.Scene.EditorEntity _entity, bool CanDrawSelectionBox = true)
         {
             if (!IsObjectOnScreen(d, _entity)) return;
 
@@ -534,7 +534,7 @@ namespace ManiacEditor.Methods.Entities
             }
 
         }
-        public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.Sets.EditorEntity e)
+        public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
         {
             if (Methods.Editor.SolutionState.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
             {
@@ -565,7 +565,7 @@ namespace ManiacEditor.Methods.Entities
                 }
             }
         }
-        public static System.Drawing.Color GetSelectedColor(System.Drawing.Color color, Classes.Scene.Sets.EditorEntity e)
+        public static System.Drawing.Color GetSelectedColor(System.Drawing.Color color, Classes.Scene.EditorEntity e)
         {
             if (e.InTempSelection)
             {
@@ -576,7 +576,7 @@ namespace ManiacEditor.Methods.Entities
                 return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
             }
         }
-        public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.Sets.EditorEntity _entity)
+        public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
             int x = _entity.Entity.Position.X.High;
             int y = _entity.Entity.Position.Y.High;
@@ -611,7 +611,7 @@ namespace ManiacEditor.Methods.Entities
             public string Name { get; set; }
             public string SourcePath { get; set; }
             public string SourceDirectory { get; set; }
-            public Dictionary<string, Classes.General.TextureExt> Spritesheets { get; set; }
+            public Dictionary<string, Texture> Spritesheets { get; set; }
             public Animation Animation { get; set; }
         }
 

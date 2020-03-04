@@ -9,12 +9,12 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Editor;
+using ManiacEditor.Controls.Utility.Editors;
 using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
 using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Editor.Dev;
-using ManiacEditor.Controls.Utility.Editor.Configuration;
-using ManiacEditor.Controls.Utility.Editor.Options;
+using ManiacEditor.Controls.Utility.Editors.Dev;
+using ManiacEditor.Controls.Utility.Editors.Configuration;
+using ManiacEditor.Controls.Options;
 
 namespace ManiacEditor.Controls.Utility.Object_Manager
 {

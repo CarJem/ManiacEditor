@@ -14,15 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
-using ManiacEditor.Controls.Editor.Controls;
+using ManiacEditor.Controls.Global;
 
 using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Editor;
+using ManiacEditor.Controls.Utility.Editors;
 using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
 using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Editor.Dev;
-using ManiacEditor.Controls.Utility.Editor.Configuration;
-using ManiacEditor.Controls.Utility.Editor.Options;
+using ManiacEditor.Controls.Utility.Editors.Dev;
+using ManiacEditor.Controls.Utility.Editors.Configuration;
 
 using ManiacEditor.Extensions;
 
@@ -613,7 +612,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
 
             //EDIT BUTTONS
-            foreach (Classes.Scene.Sets.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
+            foreach (Classes.Scene.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
             {
                 EditLayerToggleButton tsb = new EditLayerToggleButton()
                 {
@@ -637,7 +636,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerSeperators.Add(tss);
 
             //VIEW BUTTONS
-            foreach (Classes.Scene.Sets.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
+            foreach (Classes.Scene.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
             {
                 EditLayerToggleButton tsb = new EditLayerToggleButton()
                 {
@@ -688,7 +687,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         /// <param name="layer">The layer of the scene from which to extract a name.</param>
         /// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
         /// <param name="editButton">The button which controls editing the layer.</param>
-        private void UpdateDualButtonsControlsForLayer(Classes.Scene.Sets.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+        private void UpdateDualButtonsControlsForLayer(Classes.Scene.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
         {
             bool layerValid = layer != null;
             visibilityButton.IsChecked = layerValid;

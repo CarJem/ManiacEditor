@@ -38,13 +38,13 @@ namespace ManiacEditor.Methods.Editor
         #endregion
 
         #region Layers
-        public static Classes.Scene.Sets.EditorLayer FGHigher => CurrentScene?.HighDetails;
-        public static Classes.Scene.Sets.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
-        public static Classes.Scene.Sets.EditorLayer FGLow => CurrentScene?.ForegroundLow;
-        public static Classes.Scene.Sets.EditorLayer FGLower => CurrentScene?.LowDetails;
-        public static Classes.Scene.Sets.EditorLayer ScratchLayer => CurrentScene?.Scratch;
-        public static Classes.Scene.Sets.EditorLayer EditLayerA { get; set; }
-        public static Classes.Scene.Sets.EditorLayer EditLayerB { get; set; }
+        public static Classes.Scene.EditorLayer FGHigher => CurrentScene?.HighDetails;
+        public static Classes.Scene.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
+        public static Classes.Scene.EditorLayer FGLow => CurrentScene?.ForegroundLow;
+        public static Classes.Scene.EditorLayer FGLower => CurrentScene?.LowDetails;
+        public static Classes.Scene.EditorLayer ScratchLayer => CurrentScene?.Scratch;
+        public static Classes.Scene.EditorLayer EditLayerA { get; set; }
+        public static Classes.Scene.EditorLayer EditLayerB { get; set; }
         #endregion
 
         #region Screen Size

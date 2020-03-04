@@ -1,0 +1,166 @@
+﻿<Window x:Class="ManiacEditor.Controls.Utility.Editors.Dev.DeveloperTerminal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:ManiacEditor"
+        xmlns:maniac="clr-namespace:ManiacEditor.Bindings"
+        mc:Ignorable="d"
+        Title="Developer Terminal" Height="379" Width="649" Background="{DynamicResource NormalBackground}" Foreground="{DynamicResource NormalText}" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="True">
+    <Grid>
+        <GroupBox Margin="10" Header="Value Incermenter">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt1" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt1}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 1"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt2" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt2}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 2"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt3" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt3}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 3"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt4" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt4}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 4"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt5" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt5}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 5"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt6" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt6}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 6"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt7" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt7}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 7"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox x:Name="DevInt8" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt8}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 8"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt9" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt9}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 9"></Label>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt10" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt10}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 10"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt11" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt11}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 11"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt12" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt12}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 12"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt13" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt13}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 13"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt14" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt14}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 14"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt15" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt15}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 15"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt16" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt16}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 16"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt17" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt17}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 17"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt18" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt18}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 18"></Label>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt19" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt19}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 19"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt20" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt20}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 20"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt21" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt21}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 21"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt22" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt22}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 22"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt23" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt23}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 23"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt24" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt24}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 24"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt25" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt25}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 25"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt26" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt26}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 26"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <CheckBox Name="DevInt27" VerticalAlignment="Center"></CheckBox>
+                        <wpfTool:DoubleUpDown Width="150" Value="{maniac:DevSettingsBinding DevInt27}"></wpfTool:DoubleUpDown>
+                        <Label Content="Int 27"></Label>
+                    </StackPanel>
+                    <Button Content="Copy Checked Values to Clipboard" Click="Button_Click"></Button>
+                </StackPanel>
+
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</Window>

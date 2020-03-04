@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Input;
-using ManiacEditor.Controls.Editor.Controls;
+using ManiacEditor.Controls.Global;
 using ManiacEditor.Enums;
 using ManiacEditor.EventHandlers;
 using ManiacEditor.Extensions;
@@ -201,7 +201,7 @@ namespace ManiacEditor.Methods.Editor
                 {
 
                     Point p = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
-                    return Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                    return Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {
@@ -222,7 +222,7 @@ namespace ManiacEditor.Methods.Editor
             Methods.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
             Methods.Internal.UserInterface.UpdateEditLayerActions();
         }
-        public static void EditorPlaceTile(Point position, ushort tile, Classes.Scene.Sets.EditorLayer layer, bool isDrawing = false)
+        public static void EditorPlaceTile(Point position, ushort tile, Classes.Scene.EditorLayer layer, bool isDrawing = false)
         {
             if (isDrawing)
             {
@@ -277,15 +277,15 @@ namespace ManiacEditor.Methods.Editor
         }
         public static void FlipEntities(FlipDirection direction)
         {
-            Dictionary<Classes.Scene.Sets.EditorEntity, Point> initalPos = new Dictionary<Classes.Scene.Sets.EditorEntity, Point>();
-            Dictionary<Classes.Scene.Sets.EditorEntity, Point> postPos = new Dictionary<Classes.Scene.Sets.EditorEntity, Point>();
-            foreach (Classes.Scene.Sets.EditorEntity e in Methods.Editor.Solution.Entities.SelectedEntities)
+            Dictionary<Classes.Scene.EditorEntity, Point> initalPos = new Dictionary<Classes.Scene.EditorEntity, Point>();
+            Dictionary<Classes.Scene.EditorEntity, Point> postPos = new Dictionary<Classes.Scene.EditorEntity, Point>();
+            foreach (Classes.Scene.EditorEntity e in Methods.Editor.Solution.Entities.SelectedEntities)
             {
                 initalPos.Add(e, new Point(e.PositionX, e.PositionY));
             }
             Methods.Editor.Solution.Entities.Flip(direction);
             Instance.EntitiesToolbar.UpdateSelectedProperties();
-            foreach (Classes.Scene.Sets.EditorEntity e in Methods.Editor.Solution.Entities.SelectedEntities)
+            foreach (Classes.Scene.EditorEntity e in Methods.Editor.Solution.Entities.SelectedEntities)
             {
                 postPos.Add(e, new Point(e.PositionX, e.PositionY));
             }
@@ -373,7 +373,7 @@ namespace ManiacEditor.Methods.Editor
             }
             else if (hasMultipleValidLayers && Methods.Editor.SolutionState.MultiLayerEditMode)
             {
-                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Scene.Sets.EditorLayer.CopyMultiSelectionToClipboard(Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB);
+                Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> copyData = Classes.Scene.EditorLayer.CopyMultiSelectionToClipboard(Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
                 if (!doNotUseWindowsClipboard)
@@ -389,7 +389,7 @@ namespace ManiacEditor.Methods.Editor
         {
             if (Instance.EntitiesToolbar.IsFocused == false)
             {
-                List<Classes.Scene.Sets.EditorEntity> copyData = Methods.Editor.Solution.Entities.CopyToClipboard();
+                List<Classes.Scene.EditorEntity> copyData = Methods.Editor.Solution.Entities.CopyToClipboard();
 
                 /*
                 // Prepare each Entity for the copy to release unnecessary data
@@ -415,7 +415,7 @@ namespace ManiacEditor.Methods.Editor
                     // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
                     if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
                     {
-                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), (List<Classes.Scene.Sets.EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), (List<Classes.Scene.EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
                         UpdateLastEntityAction();
                     }
 
@@ -527,8 +527,8 @@ namespace ManiacEditor.Methods.Editor
                 Instance.EntitiesToolbar.UpdateSelectedProperties();
 
                 // Try to merge with last move
-                List<Classes.Scene.Sets.EditorEntity> SelectedList = Methods.Editor.Solution.Entities.SelectedEntities.ToList();
-                List<Classes.Scene.Sets.EditorEntity> SelectedInternalList = Methods.Editor.Solution.Entities.SelectedInternalEntities.ToList();
+                List<Classes.Scene.EditorEntity> SelectedList = Methods.Editor.Solution.Entities.SelectedEntities.ToList();
+                List<Classes.Scene.EditorEntity> SelectedInternalList = Methods.Editor.Solution.Entities.SelectedInternalEntities.ToList();
                 bool selectedActionsState = Instance.UndoStack.Count > 0 && Instance.UndoStack.Peek() is ActionMoveEntities && (Instance.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedList, new Point(x, y));
                 bool selectedInternalActionsState = Instance.UndoStack.Count > 0 && Instance.UndoStack.Peek() is ActionMoveEntities && (Instance.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedInternalList, new Point(x, y));
 
@@ -656,7 +656,7 @@ namespace ManiacEditor.Methods.Editor
         }
         public static void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ManiacEditor.Controls.Utility.Editor.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Editor.Dev.MD5HashGen(Instance);
+            ManiacEditor.Controls.Utility.Editors.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Editors.Dev.MD5HashGen(Instance);
             hashmap.Show();
         }
         public static void FindAndReplaceTool(object sender, RoutedEventArgs e)

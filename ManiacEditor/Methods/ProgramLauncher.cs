@@ -9,12 +9,12 @@ using Color = System.Drawing.Color;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Editor;
+using ManiacEditor.Controls.Utility.Editors;
 using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
 using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Editor.Dev;
-using ManiacEditor.Controls.Utility.Editor.Configuration;
-using ManiacEditor.Controls.Utility.Editor.Options;
+using ManiacEditor.Controls.Utility.Editors.Dev;
+using ManiacEditor.Controls.Utility.Editors.Configuration;
+using ManiacEditor.Controls.Options;
 
 
 namespace ManiacEditor.Methods
@@ -730,7 +730,7 @@ namespace ManiacEditor.Methods
 
         public static void DevTerm()
         {
-            var DevController = new ManiacEditor.Controls.Utility.Editor.Dev.DeveloperTerminal(Editor);
+            var DevController = new ManiacEditor.Controls.Utility.Editors.Dev.DeveloperTerminal(Editor);
             DevController.Owner = Window.GetWindow(Editor);
             DevController.Show();
         }

@@ -12,12 +12,7 @@ using Point = System.Drawing.Point;
 using Bitmap = System.Drawing.Bitmap;
 using ManiacEditor.EventHandlers;
 using System.Diagnostics;
-
-
-/*
- * This file is a ported old rendering code
- * It will be replaced with OpenGL soon (Update: Or never if this pace keeps up - CarJem Generations)
- */
+using Texture = SFML.Graphics.Texture;
 
 
 namespace ManiacEditor
@@ -77,13 +72,13 @@ namespace ManiacEditor
 
         private Sprite sprite;
         private Sprite sprite2;
-        Classes.General.TextureExt tx;
+        Texture tx;
         Bitmap txb;
-        Classes.General.TextureExt hvcursor;
+        Texture hvcursor;
         Bitmap hvcursorb;
-        Classes.General.TextureExt vcursor;
+        Texture vcursor;
         Bitmap vcursorb;
-        Classes.General.TextureExt hcursor;
+        Texture hcursor;
         Bitmap hcursorb;
 
 
@@ -157,10 +152,10 @@ namespace ManiacEditor
             sprite = new Sprite(_device);
             sprite2 = new Sprite(_device);
 
-            tx = Methods.Draw.TextureCreator.FromBitmap(_device, txb);
-            hcursor = Methods.Draw.TextureCreator.FromBitmap(_device, hcursorb);
-            vcursor = Methods.Draw.TextureCreator.FromBitmap(_device, vcursorb);
-            hvcursor = Methods.Draw.TextureCreator.FromBitmap(_device, hvcursorb);
+            tx = Methods.Draw.TextureHelper.FromBitmap(txb);
+            hcursor = Methods.Draw.TextureHelper.FromBitmap(hcursorb);
+            vcursor = Methods.Draw.TextureHelper.FromBitmap(vcursorb);
+            hvcursor = Methods.Draw.TextureHelper.FromBitmap(hvcursorb);
 
             font = new Font(_device, fontDescription);
             fontBold = new Font(_device, fontDescriptionBold);
@@ -264,7 +259,7 @@ namespace ManiacEditor
                 try
                 {
 
-                    Rectangle screen = _parent.GetScreen();
+                    Rectangle screen = GetParentScreen();
                     double zoom = _parent.GetZoom();
 
                     //Clear the backbuffer
@@ -377,29 +372,32 @@ namespace ManiacEditor
         }
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            LastEvent = e;
-            var screen = _parent.GetScreen();
-            base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + screen.X, e.Y + screen.Y, e.Delta));
+            if (_parent != null)
+            {
+                LastEvent = e;
+                var screen = _parent.GetScreen();
+                base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + screen.X, e.Y + screen.Y, e.Delta));
+            }
         }
         protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+            base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
         }
         protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+            base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
         }
         protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+            base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
         }
         protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+            base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
         }
         protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + _parent.GetScreen().X, e.Y + _parent.GetScreen().Y, e.Delta));
+            base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
         }
         public void OnMouseMoveEventCreate()
         {
@@ -410,9 +408,17 @@ namespace ManiacEditor
 
         #region Get Screen
 
+
+        public Rectangle GetParentScreen()
+        {
+            if (_parent == null) return new Rectangle(0, 0, 10, 10);
+            else return _parent.GetScreen();
+        }
+
         public Rectangle GetScreen()
         {
-            Rectangle screen = _parent.GetScreen();
+            if (_parent == null) return new Rectangle(0, 0, 10, 10);
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
             if (zoom == 1.0)
                 return screen;
@@ -424,7 +430,8 @@ namespace ManiacEditor
         }
         public bool IsObjectOnScreen(int x, int y, int width, int height)
         {
-            Rectangle screen = _parent.GetScreen();
+            if (_parent == null) return false;
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
             if (zoom == 1.0)
                 return !(x > screen.X + screen.Width
@@ -441,23 +448,21 @@ namespace ManiacEditor
         #endregion
 
         #region Draw Methods
-        private void DrawTexture(Classes.General.TextureExt image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+        private void DrawTexture(SFML.Graphics.Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
-            sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+            //sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
         }
-        private void DrawTexture2(Classes.General.TextureExt image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
+        private void DrawTexture2(SFML.Graphics.Texture image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
-            sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
-
+            //sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
         }
-        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency)
+        public void DrawBitmap(SFML.Graphics.Texture image, int x, int y, int width, int height, bool selected, int transparency)
         {
             DrawBitmap(image, x, y, 0, 0, width, height, selected, transparency);
         }
-        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0)
+        public void DrawBitmap(SFML.Graphics.Texture image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0)
         {
-
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
 
             Rectangle boundBox = new Rectangle(rect_x, rect_y, width, height);
@@ -483,7 +488,7 @@ namespace ManiacEditor
         }
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
         {
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
             int width = Math.Abs(X2 - X1);
             int height = Math.Abs(Y2 - Y1);
@@ -513,7 +518,7 @@ namespace ManiacEditor
         }
         public void DrawLinePaperRoller(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4)
         {
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
             int width = Math.Abs(X2 - X1);
             int height = Math.Abs(Y2 - Y1);
@@ -614,7 +619,7 @@ namespace ManiacEditor
         }
         public void DrawLinePBP(int x0, int y0, int x1, int y1, Color color)
         {
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
             int dx, dy, inx, iny, e;
             int pixel_width = (int)Math.Ceiling(zoom);
@@ -663,7 +668,7 @@ namespace ManiacEditor
         }
         void DrawLinePBPDoted(int x0, int y0, int x1, int y1, Color color, Color color2, Color color3, Color color4)
         {
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
             int dx, dy, inx, iny, e;
             int pixel_width = (int)(Math.Ceiling(zoom + 0.3));
@@ -738,7 +743,7 @@ namespace ManiacEditor
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
@@ -746,14 +751,14 @@ namespace ManiacEditor
         public void DrawQuad(int x1, int y1, int x2, int y2, Color color)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
         public void DrawText(string text, int x, int y, int width, Color color, bool bold)
         {
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
             if (width >= 30)
             {
@@ -766,7 +771,7 @@ namespace ManiacEditor
         }
         public void DrawTextSmall(string text, int x, int y, int width, Color color, bool bold)
         {
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
 
             sprite.Transform = Matrix.Scaling((float)zoom / 4, (float)zoom / 4, 1f);
@@ -850,9 +855,9 @@ namespace ManiacEditor
         public new void Dispose()
         {
             DisposeDeviceResources();
-            _parent.DisposeTextures();
-            _device.Dispose();
-            direct3d.Dispose();
+            if (_parent != null) _parent.DisposeTextures();
+            if (_device != null) _device.Dispose();
+            if (direct3d != null) direct3d.Dispose();
             base.Dispose();
         }
 

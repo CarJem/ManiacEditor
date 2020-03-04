@@ -510,7 +510,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		private void mD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ManiacEditor.Controls.Utility.Editor.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Editor.Dev.MD5HashGen(EditorInstance);
+			ManiacEditor.Controls.Utility.Editors.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Editors.Dev.MD5HashGen(EditorInstance);
 			hashmap.Show();
 		}
 

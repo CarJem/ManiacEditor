@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements"
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-             xmlns:maniac="clr-namespace:ManiacEditor.Controls.Editor.Controls"
+             xmlns:maniac="clr-namespace:ManiacEditor.Controls.Global"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="1200">
     <Grid Background="{DynamicResource ToolbarBackground}">

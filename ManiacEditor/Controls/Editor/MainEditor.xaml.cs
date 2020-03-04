@@ -29,7 +29,7 @@ using MenuItem = System.Windows.Controls.MenuItem;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
-using ManiacEditor.Controls.Editor.Controls;
+using ManiacEditor.Controls.Global;
 using ManiacEditor.Enums;
 using ManiacEditor.EventHandlers;
 using ManiacEditor.Extensions;
@@ -52,7 +52,7 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region Extra Layer Buttons
-        public IDictionary<EditLayerToggleButton, EditLayerToggleButton> ExtraLayerEditViewButtons;
+        public IDictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton> ExtraLayerEditViewButtons;
         public IList<Separator> ExtraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
         #endregion
 
@@ -74,7 +74,7 @@ namespace ManiacEditor.Controls.Editor
         public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
         public Dictionary<Point, ushort> FindReplaceClipboard;
         public Dictionary<Point, ushort> TilesClipboardEditable;
-        public List<Classes.Scene.Sets.EditorEntity> entitiesClipboard;
+        public List<Classes.Scene.EditorEntity> entitiesClipboard;
         #endregion
 
         #region Collision Colours
@@ -154,7 +154,7 @@ namespace ManiacEditor.Controls.Editor
         {
             this.Activated += new System.EventHandler(this.Editor_Activated);
 
-            ExtraLayerEditViewButtons = new Dictionary<EditLayerToggleButton, EditLayerToggleButton>();
+            ExtraLayerEditViewButtons = new Dictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton>();
             ExtraLayerSeperators = new List<Separator>();
 
             RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
@@ -426,13 +426,13 @@ namespace ManiacEditor.Controls.Editor
         public void SetupLayerButtons()
         {
             TearDownExtraLayerButtons();
-            IList<EditLayerToggleButton> _extraLayerEditButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer Edit Buttons
-            IList<EditLayerToggleButton> _extraLayerViewButtons = new List<EditLayerToggleButton>(); //Used for Extra Layer View Buttons
+            IList<Controls.Global.EditLayerToggleButton> _extraLayerEditButtons = new List<Controls.Global.EditLayerToggleButton>(); //Used for Extra Layer Edit Buttons
+            IList<Controls.Global.EditLayerToggleButton> _extraLayerViewButtons = new List<Controls.Global.EditLayerToggleButton>(); //Used for Extra Layer View Buttons
 
             //EDIT BUTTONS
-            foreach (Classes.Scene.Sets.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
+            foreach (Classes.Scene.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
             {
-                EditLayerToggleButton tsb = new EditLayerToggleButton()
+                Controls.Global.EditLayerToggleButton tsb = new Controls.Global.EditLayerToggleButton()
                 {
                     Text = el.Name,
                     LayerName = "Edit" + el.Name
@@ -454,9 +454,9 @@ namespace ManiacEditor.Controls.Editor
             ExtraLayerSeperators.Add(tss);
 
             //VIEW BUTTONS
-            foreach (Classes.Scene.Sets.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
+            foreach (Classes.Scene.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
             {
-                EditLayerToggleButton tsb = new EditLayerToggleButton()
+                Controls.Global.EditLayerToggleButton tsb = new Controls.Global.EditLayerToggleButton()
                 {
                     Text = el.Name,
                     LayerName = "Show" + el.Name.Replace(" ", "")
@@ -505,7 +505,7 @@ namespace ManiacEditor.Controls.Editor
         /// <param name="layer">The layer of the scene from which to extract a name.</param>
         /// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
         /// <param name="editButton">The button which controls editing the layer.</param>
-        private void UpdateDualButtonsControlsForLayer(Classes.Scene.Sets.EditorLayer layer, ToggleButton visibilityButton, EditLayerToggleButton editButton)
+        private void UpdateDualButtonsControlsForLayer(Classes.Scene.EditorLayer layer, ToggleButton visibilityButton, Controls.Global.EditLayerToggleButton editButton)
         {
             bool layerValid = layer != null;
             visibilityButton.IsChecked = layerValid;
@@ -532,7 +532,7 @@ namespace ManiacEditor.Controls.Editor
 
             void Normal()
             {
-                EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+                Controls.Global.EditLayerToggleButton tsb = sender as Controls.Global.EditLayerToggleButton;
                 Methods.Editor.EditorActions.Deselect(false);
                 Methods.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedN.Value)
@@ -561,7 +561,7 @@ namespace ManiacEditor.Controls.Editor
             }
             void LayerA()
             {
-                EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+                Controls.Global.EditLayerToggleButton tsb = sender as Controls.Global.EditLayerToggleButton;
                 Methods.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedA.Value)
                 {
@@ -589,7 +589,7 @@ namespace ManiacEditor.Controls.Editor
             }
             void LayerB()
             {
-                EditLayerToggleButton tsb = sender as EditLayerToggleButton;
+                Controls.Global.EditLayerToggleButton tsb = sender as Controls.Global.EditLayerToggleButton;
                 Methods.Editor.EditorActions.Deselect(false);
                 if (tsb.IsCheckedB.Value)
                 {

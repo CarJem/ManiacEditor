@@ -235,11 +235,7 @@
     <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />
     <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
-    <Compile Include="Classes\General\TextureExt.cs" />
     <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
-    <Compile Include="Controls\Editor\Elements\View\RenderPanel.xaml.cs">
-      <DependentUpon>RenderPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
@@ -258,23 +254,23 @@
     <Compile Include="Methods\Draw\ExperimentalRendering.cs" />
     <Compile Include="Methods\Editor\EditorConstants.cs" />
     <Compile Include="Methods\Editor\EditorActions.cs" />
-    <Compile Include="Classes\Scene\Sets\EditorLayer.cs" />
+    <Compile Include="Classes\Scene\EditorLayer.cs" />
     <Compile Include="Classes\Scene\EditorScene.cs" />
     <Compile Include="Methods\Editor\SolutionPaths.cs" />
     <Compile Include="Classes\General\SceneState.cs" />
-    <Compile Include="Controls\Editor\Elements\View\DebugHUD.xaml.cs">
+    <Compile Include="Controls\Editor\ViewPanel\DebugHUD.xaml.cs">
       <DependentUpon>DebugHUD.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Editor\Elements\ViewPanel.xaml.cs">
       <DependentUpon>ViewPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\View\ScrollGrid.xaml.cs">
+    <Compile Include="Controls\Editor\ViewPanel\ScrollGrid.xaml.cs">
       <DependentUpon>ScrollGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\View\SharpPanel.xaml.cs">
+    <Compile Include="Controls\Editor\ViewPanel\SharpPanel.xaml.cs">
       <DependentUpon>SharpPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\View\WaitingPanel.xaml.cs">
+    <Compile Include="Controls\Editor\ViewPanel\WaitingPanel.xaml.cs">
       <DependentUpon>WaitingPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\RenderedTextBox.xaml.cs">
@@ -355,10 +351,10 @@
     <Compile Include="Controls\Utility\ExportAsImageGUI.xaml.cs">
       <DependentUpon>ExportAsImageGUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Options\SettingsHeader.xaml.cs">
+    <Compile Include="Controls\Options\SettingsHeader.xaml.cs">
       <DependentUpon>SettingsHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Controls\EditLayerToggleButton.xaml.cs">
+    <Compile Include="Controls\Global\Controls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Editor\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
@@ -367,10 +363,10 @@
     <Compile Include="Controls\Global\Controls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Configuration\CheatCodeManager.xaml.cs">
+    <Compile Include="Controls\Utility\Editors\Configuration\CheatCodeManager.xaml.cs">
       <DependentUpon>CheatCodeManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Configuration\RenderListManager.xaml.cs">
+    <Compile Include="Controls\Utility\Editors\Configuration\RenderListManager.xaml.cs">
       <DependentUpon>RenderListManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Utility\FindandReplaceTool.xaml.cs">
@@ -379,22 +375,22 @@
     <Compile Include="Controls\Dialog\UnloadingSceneWarning.xaml.cs">
       <DependentUpon>UnloadingSceneWarning.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Configuration\ModConfigManager.xaml.cs">
+    <Compile Include="Controls\Utility\Editors\Configuration\ModConfigManager.xaml.cs">
       <DependentUpon>ModConfigManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Editor\MainEditor.xaml.cs">
       <DependentUpon>MainEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Configuration\ModConfigEditor.xaml.cs">
+    <Compile Include="Controls\Utility\Editors\Configuration\ModConfigEditor.xaml.cs">
       <DependentUpon>ModConfigEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Dev\MD5HashGen.xaml.cs">
+    <Compile Include="Controls\Utility\Editors\Dev\MD5HashGen.xaml.cs">
       <DependentUpon>MD5HashGen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Updater\ManiacUpdaterWindow.xaml.cs">
       <DependentUpon>ManiacUpdaterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Configuration\ManiacINIEditor.xaml.cs">
+    <Compile Include="Controls\Utility\Editors\Configuration\ManiacINIEditor.xaml.cs">
       <DependentUpon>ManiacINIEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SceneSelect\EditSceneSelectInfoWindow.xaml.cs">
@@ -420,16 +416,16 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
-    <Compile Include="Controls\Utility\Editor\Options\AboutWindow.xaml.cs">
+    <Compile Include="Controls\Options\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Dev\DeveloperInterface.xaml.cs">
+    <Compile Include="Controls\Utility\Editors\Dev\DeveloperInterface.xaml.cs">
       <DependentUpon>DeveloperInterface.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Utility\GoToPositionWindow.xaml.cs">
       <DependentUpon>GoToPositionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Options\KeyBindConfigurator.xaml.cs">
+    <Compile Include="Controls\Options\KeyBindConfigurator.xaml.cs">
       <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Utility\LayerManager.xaml.cs">
@@ -438,7 +434,7 @@
     <Compile Include="Controls\Utility\Object Manager\ObjectManager.xaml.cs">
       <DependentUpon>ObjectManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Editor\Options\OptionsMenu.xaml.cs">
+    <Compile Include="Controls\Options\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Utility\Object Manager\AddAttributeWindow.xaml.cs">
@@ -492,12 +488,12 @@
     <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
     <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Classes\Scene\EditorEntities.cs" />
-    <Compile Include="Classes\Scene\Sets\EditorEntity.cs" />
+    <Compile Include="Classes\Scene\EditorEntity.cs" />
     <Compile Include="Methods\Runtime\ProcessMemory.cs" />
     <Compile Include="Methods\Internal\Settings.cs" />
     <Compile Include="Controls\Assets\SkinResourceDictionary.cs" />
     <Compile Include="Controls\Dialog\TextPrompt.cs" />
-    <Compile Include="Methods\Draw\TextureCreator.cs" />
+    <Compile Include="Methods\Draw\TextureHelper.cs" />
     <Compile Include="Interfaces\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1242,7 +1238,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Editor\Elements\View\DebugHUD.xaml">
+    <Page Include="Controls\Editor\ViewPanel\DebugHUD.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1262,19 +1258,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\View\RenderPanel.xaml">
+    <Page Include="Controls\Editor\ViewPanel\ScrollGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\View\ScrollGrid.xaml">
+    <Page Include="Controls\Editor\ViewPanel\SharpPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\View\SharpPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Editor\Elements\View\WaitingPanel.xaml">
+    <Page Include="Controls\Editor\ViewPanel\WaitingPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1310,11 +1302,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Options\SettingsHeader.xaml">
+    <Page Include="Controls\Options\SettingsHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Controls\EditLayerToggleButton.xaml">
+    <Page Include="Controls\Global\Controls\EditLayerToggleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1322,11 +1314,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Configuration\CheatCodeManager.xaml">
+    <Page Include="Controls\Utility\Editors\Configuration\CheatCodeManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Configuration\RenderListManager.xaml">
+    <Page Include="Controls\Utility\Editors\Configuration\RenderListManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1338,15 +1330,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Configuration\ModConfigManager.xaml">
+    <Page Include="Controls\Utility\Editors\Configuration\ModConfigManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Configuration\ModConfigEditor.xaml">
+    <Page Include="Controls\Utility\Editors\Configuration\ModConfigEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Options\AboutWindow.xaml">
+    <Page Include="Controls\Options\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1358,7 +1350,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Utility\Editor\Dev\DeveloperInterface.xaml">
+    <Page Include="Controls\Utility\Editors\Dev\DeveloperInterface.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1366,7 +1358,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Dev\MD5HashGen.xaml">
+    <Page Include="Controls\Utility\Editors\Dev\MD5HashGen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1382,7 +1374,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Configuration\ManiacINIEditor.xaml">
+    <Page Include="Controls\Utility\Editors\Configuration\ManiacINIEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1394,7 +1386,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Options\KeyBindConfigurator.xaml">
+    <Page Include="Controls\Options\KeyBindConfigurator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1426,7 +1418,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Editor\Options\OptionsMenu.xaml">
+    <Page Include="Controls\Options\OptionsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

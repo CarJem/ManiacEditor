@@ -28,36 +28,36 @@ namespace ManiacEditor.Classes.Scene
 
         #region Entity Collections
 
-        public List<Classes.Scene.Sets.EditorEntity> Entities { get; set; } = new List<Sets.EditorEntity>();
-        public List<Classes.Scene.Sets.EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
-        public List<Classes.Scene.Sets.EditorEntity> TemporarySelection { get; set; } = new List<Classes.Scene.Sets.EditorEntity>();
+        public List<Classes.Scene.EditorEntity> Entities { get; set; } = new List<EditorEntity>();
+        public List<Classes.Scene.EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
+        public List<Classes.Scene.EditorEntity> TemporarySelection { get; set; } = new List<Classes.Scene.EditorEntity>();
 
-        public List<Classes.Scene.Sets.EditorEntity> InternalEntities { get; set; } = new List<Sets.EditorEntity>();
-        public List<Classes.Scene.Sets.EditorEntity> SelectedInternalEntities { get => GetSelectedInternalEntities(); set => SetSelectedInternalEntities(value); }
-        public List<Classes.Scene.Sets.EditorEntity> InternalTempSelection { get; set; } = new List<Classes.Scene.Sets.EditorEntity>();
+        public List<Classes.Scene.EditorEntity> InternalEntities { get; set; } = new List<EditorEntity>();
+        public List<Classes.Scene.EditorEntity> SelectedInternalEntities { get => GetSelectedInternalEntities(); set => SetSelectedInternalEntities(value); }
+        public List<Classes.Scene.EditorEntity> InternalTempSelection { get; set; } = new List<Classes.Scene.EditorEntity>();
 
         #region Accessors
 
-        private void SetSelectedInternalEntities(IList<Classes.Scene.Sets.EditorEntity> SelectedObj)
+        private void SetSelectedInternalEntities(IList<Classes.Scene.EditorEntity> SelectedObj)
         {
-            List<Classes.Scene.Sets.EditorEntity> SortedList = InternalEntities.OrderBy(x => x.SelectedIndex).ToList();
+            List<Classes.Scene.EditorEntity> SortedList = InternalEntities.OrderBy(x => x.SelectedIndex).ToList();
             foreach (var entity in SortedList.Where(X => SelectedObj.Contains(X)).ToList())
             {
                 InternalEntities.Where(x => x == entity).FirstOrDefault().Selected = entity.Selected;
             }
         }
-        private List<Classes.Scene.Sets.EditorEntity> GetSelectedInternalEntities()
+        private List<Classes.Scene.EditorEntity> GetSelectedInternalEntities()
         {
             return InternalEntities.Where(x => x.Selected == true).ToList();
         }
-        private void SetSelectedEntities(IList<Classes.Scene.Sets.EditorEntity> SelectedObj)
+        private void SetSelectedEntities(IList<Classes.Scene.EditorEntity> SelectedObj)
         {
             foreach (var entity in SelectedObj)
             {
                 Entities[entity.SlotID].Selected = entity.Selected;
             }
         }
-        private List<Classes.Scene.Sets.EditorEntity> GetSelectedEntities()
+        private List<Classes.Scene.EditorEntity> GetSelectedEntities()
         {
             return Entities.Where(x => x.Selected == true).ToList();
         }
@@ -216,7 +216,7 @@ namespace ManiacEditor.Classes.Scene
 
             void SelectNormal()
             {
-                foreach (Classes.Scene.Sets.EditorEntity entity in Entities.ToList().Reverse<Classes.Scene.Sets.EditorEntity>())
+                foreach (Classes.Scene.EditorEntity entity in Entities.ToList().Reverse<Classes.Scene.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                     {
@@ -237,7 +237,7 @@ namespace ManiacEditor.Classes.Scene
             }
             void SelectInternal()
             {
-                foreach (Classes.Scene.Sets.EditorEntity entity in InternalEntities.ToList().Reverse<Classes.Scene.Sets.EditorEntity>())
+                foreach (Classes.Scene.EditorEntity entity in InternalEntities.ToList().Reverse<Classes.Scene.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                     {
@@ -262,10 +262,10 @@ namespace ManiacEditor.Classes.Scene
             TempSelectionUsingList(Entities.ToList());
             TempSelectionUsingList(InternalEntities.ToList());
 
-            void TempSelectionUsingList(List<Classes.Scene.Sets.EditorEntity> list)
+            void TempSelectionUsingList(List<Classes.Scene.EditorEntity> list)
             {
-                List<Classes.Scene.Sets.EditorEntity> newSelection = (from entity in list where entity.IsInArea(area) select entity).ToList();
-                List<Classes.Scene.Sets.EditorEntity> outsideSelection = (from entity in list where (!entity.IsInArea(area) && entity.InTempSelection) select entity).ToList();
+                List<Classes.Scene.EditorEntity> newSelection = (from entity in list where entity.IsInArea(area) select entity).ToList();
+                List<Classes.Scene.EditorEntity> outsideSelection = (from entity in list where (!entity.IsInArea(area) && entity.InTempSelection) select entity).ToList();
 
                 foreach (var entity in outsideSelection)
                 {
@@ -364,7 +364,7 @@ namespace ManiacEditor.Classes.Scene
         /// Adds an entity to the Scene, and consumes the specified ID Slot.
         /// </summary>
         /// <param name="entity">Entity to add to the scene.</param>
-        private void AddEntity(Classes.Scene.Sets.EditorEntity entity, bool isInternal = false)
+        private void AddEntity(Classes.Scene.EditorEntity entity, bool isInternal = false)
         {
             if (isInternal)
             {
@@ -387,7 +387,7 @@ namespace ManiacEditor.Classes.Scene
         /// Adds a set of entities to the Scene, and consumes the ID Slot specified for each.
         /// </summary>
         /// <param name="entities">Set of entities.</param>
-        private void AddEntities(IEnumerable<Classes.Scene.Sets.EditorEntity> entities, bool isInternal = false)
+        private void AddEntities(IEnumerable<Classes.Scene.EditorEntity> entities, bool isInternal = false)
         {
             if (entities == null)
             {
@@ -411,7 +411,7 @@ namespace ManiacEditor.Classes.Scene
         {
             var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(null)));
             editorEntity.Entity.Position = position;
-            var newEntities = new List<Classes.Scene.Sets.EditorEntity> { editorEntity };
+            var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
             LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
             AddEntities(newEntities);
             Deselect();
@@ -425,7 +425,7 @@ namespace ManiacEditor.Classes.Scene
         /// <param name="sceneObjects">A Dictonary containing the type of SceneObjects to create instances of & their locations to insert them into the scene.</param>
         public void SpawnMultiple(List<KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>> sceneObjects)
         {
-            var newEntities = new List<Classes.Scene.Sets.EditorEntity> { };
+            var newEntities = new List<Classes.Scene.EditorEntity> { };
             foreach (var keyPair in sceneObjects)
             {
                 var sceneObject = keyPair.Key;
@@ -450,7 +450,7 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Remove Entities
-        public void DeleteEntities(List<Classes.Scene.Sets.EditorEntity> entities, bool updateActions = false, bool isInternal = false)
+        public void DeleteEntities(List<Classes.Scene.EditorEntity> entities, bool updateActions = false, bool isInternal = false)
         {
             if (isInternal) Internal();
             else Normal(); 
@@ -491,17 +491,17 @@ namespace ManiacEditor.Classes.Scene
 
         #region Pinpoint Entity
 
-        public Classes.Scene.Sets.EditorEntity GetEntityAt(Point point)
+        public Classes.Scene.EditorEntity GetEntityAt(Point point)
         {
-            Classes.Scene.Sets.EditorEntity result1 = GetEntityAtNormal();
-            Classes.Scene.Sets.EditorEntity result2 = GetEntityAtInternal();
+            Classes.Scene.EditorEntity result1 = GetEntityAtNormal();
+            Classes.Scene.EditorEntity result2 = GetEntityAtInternal();
             return (result1 != null ? result1 : result2);
 
 
 
-            Classes.Scene.Sets.EditorEntity GetEntityAtNormal()
+            Classes.Scene.EditorEntity GetEntityAtNormal()
             {
-                foreach (Classes.Scene.Sets.EditorEntity entity in Entities.ToList().Reverse<Classes.Scene.Sets.EditorEntity>())
+                foreach (Classes.Scene.EditorEntity entity in Entities.ToList().Reverse<Classes.Scene.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                         return entity;
@@ -509,9 +509,9 @@ namespace ManiacEditor.Classes.Scene
                 return null;
             }
 
-            Classes.Scene.Sets.EditorEntity GetEntityAtInternal()
+            Classes.Scene.EditorEntity GetEntityAtInternal()
             {
-                foreach (Classes.Scene.Sets.EditorEntity entity in InternalEntities.ToList().Reverse<Classes.Scene.Sets.EditorEntity>())
+                foreach (Classes.Scene.EditorEntity entity in InternalEntities.ToList().Reverse<Classes.Scene.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                         return entity;
@@ -525,9 +525,9 @@ namespace ManiacEditor.Classes.Scene
             bool result2 = GetIsEntityAtWithList(InternalEntities.ToList());
             return (result1 != false ? result1 : result2);
 
-            bool GetIsEntityAtWithList(List<Classes.Scene.Sets.EditorEntity> list)
+            bool GetIsEntityAtWithList(List<Classes.Scene.EditorEntity> list)
             {
-                foreach (Classes.Scene.Sets.EditorEntity entity in list.Reverse<Classes.Scene.Sets.EditorEntity>())
+                foreach (Classes.Scene.EditorEntity entity in list.Reverse<Classes.Scene.EditorEntity>())
                 {
                     if (entity.ContainsPoint(point))
                         return true;
@@ -540,7 +540,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Object Generation
 
-        public Classes.Scene.Sets.EditorEntity GenerateSplineObject()
+        public Classes.Scene.EditorEntity GenerateSplineObject()
         {
             NameIdentifier Name = new NameIdentifier("Spline");
             List<AttributeInfo> Attributes = new List<AttributeInfo>();
@@ -550,24 +550,24 @@ namespace ManiacEditor.Classes.Scene
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
             Entity.attributesMap["SplineID"].ValueInt32 = ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
 
-            return new Classes.Scene.Sets.EditorEntity(Entity, true);
+            return new Classes.Scene.EditorEntity(Entity, true);
         }
         public void SpawnInternalSplineObject(RSDKv5.Position position)
         {
             var editorEntity = GenerateSplineObject();
             editorEntity.SlotID = GetFreeSlot(null, true);
             editorEntity.Entity.Position = position;
-            var newEntities = new List<Classes.Scene.Sets.EditorEntity> { editorEntity };
+            var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
             LastActionInternal = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x, true), x => DeleteEntities(x, false, true));
             AddEntities(newEntities, true);
             Deselect();
             editorEntity.Selected = true;
             SelectedInternalEntities.Add(editorEntity);
         }
-        public Classes.Scene.Sets.EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
+        public Classes.Scene.EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
         {
             sceneEntity.SlotID = (ushort)Entities.Count;
-            Classes.Scene.Sets.EditorEntity entity = new Classes.Scene.Sets.EditorEntity(sceneEntity);
+            Classes.Scene.EditorEntity entity = new Classes.Scene.EditorEntity(sceneEntity);
 
             if (entity.HasFilter() && CurrentDefaultFilter > -1)
             {
@@ -584,7 +584,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Set/Get Methods
 
-        public Classes.Scene.Sets.EditorEntity GetSelectedEntity()
+        public Classes.Scene.EditorEntity GetSelectedEntity()
         {
             if (SelectedEntities.Count > 0 && SelectedEntities[0] != null) return SelectedEntities[0];
             else return SelectedInternalEntities[0];
@@ -622,13 +622,13 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Duplication Entities
-        private void DuplicateEntities(List<Classes.Scene.Sets.EditorEntity> entities, bool isInternal = false)
+        private void DuplicateEntities(List<Classes.Scene.EditorEntity> entities, bool isInternal = false)
         {
             if (null == entities || !entities.Any()) return;
 
             // work out a slot for each entity, and add it in turn
             // this should prevent generating the same ID for each member of the list
-            var new_entities = new List<Classes.Scene.Sets.EditorEntity>();
+            var new_entities = new List<Classes.Scene.EditorEntity>();
             foreach (var entity in entities)
             {
                 ushort slot = GetFreeSlot(entity.Entity, isInternal);
@@ -676,12 +676,12 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Clipboard
-        public List<Classes.Scene.Sets.EditorEntity> CopyToClipboard(bool keepPosition = false)
+        public List<Classes.Scene.EditorEntity> CopyToClipboard(bool keepPosition = false)
         {
             if (SelectedEntities.Count == 0) return null;
             short minX = 0, minY = 0;
 
-            List<Classes.Scene.Sets.EditorEntity> copiedEntities = SelectedEntities.Select(x => GenerateEditorEntity(new RSDKv5.SceneEntity(x.Entity, x.SlotID))).ToList();
+            List<Classes.Scene.EditorEntity> copiedEntities = SelectedEntities.Select(x => GenerateEditorEntity(new RSDKv5.SceneEntity(x.Entity, x.SlotID))).ToList();
             if (!keepPosition)
             {
                 minX = copiedEntities.Min(x => x.Entity.Position.X.High);
@@ -691,7 +691,7 @@ namespace ManiacEditor.Classes.Scene
 
             return copiedEntities;
         }
-        public void PasteFromClipboard(Point newPos, List<Classes.Scene.Sets.EditorEntity> entities)
+        public void PasteFromClipboard(Point newPos, List<Classes.Scene.EditorEntity> entities)
         {
             DuplicateEntities(entities);
             foreach (var entity in SelectedEntities)

@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="ManiacEditor.Controls.Editor.ViewPanel.DebugHUD"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls"
+            xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
+             xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.ViewPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <genLib:NonTopmostPopup x:Name="ViewPanelHUD" AllowsTransparency="True"  PlacementRectangle="0,25,0,0" Opened="ViewPanelHUD_Opened" Closed="ViewPanelHUD_Closed"  StaysOpen="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
+        <genLib:NonTopmostPopup.Child>
+            <Grid Margin="10" x:Name="Display" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsHitTestVisible="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="1"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28"></RowDefinition>
+                            <RowDefinition Height="4"></RowDefinition>
+                            <RowDefinition Height="28"></RowDefinition>
+                            <RowDefinition Height="4"></RowDefinition>
+                            <RowDefinition Height="28"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Stretch="Uniform" HorizontalAlignment="Left" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/FPS.png"></Image>
+                        <Image Stretch="Uniform" HorizontalAlignment="Left" Grid.Row="2" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/RAM.png"></Image>
+                        <Image Stretch="Uniform" HorizontalAlignment="Left" Grid.Row="4" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/Zoom.png"></Image>
+                        <global:RenderedTextBox HorizontalAlignment="Right" Grid.Column="2" Scale="28" x:Name="FPSCounter" IsHitTestVisible="False" Type="HUD" OverlayBackground="Transparent"></global:RenderedTextBox>
+
+                        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <global:RenderedTextBox Scale="28" x:Name="MemoryCounter" IsHitTestVisible="False" Type="HUD" OverlayBackground="Transparent"></global:RenderedTextBox>
+                            <Grid Width="4"></Grid>
+                            <Image Stretch="Fill" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/MB.png"></Image>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Image Stretch="Fill" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="pack://application:,,,/Resources/HUD/Headers/X.png"></Image>
+                            <Grid Width="4"></Grid>
+                            <global:RenderedTextBox Scale="28" x:Name="ZoomValue" IsHitTestVisible="False" Type="HUD" OverlayBackground="Transparent"></global:RenderedTextBox>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Row="2" VerticalAlignment="Bottom" IsHitTestVisible="False" HorizontalAlignment="Left">
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5" Visibility="Collapsed">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="PhysicalMemoryUsage"></TextBlock>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="DataFolder"></TextBlock>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="MasterDataFolder"></TextBlock>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="ScenePath"></TextBlock>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="SceneFilePath"></TextBlock>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="SetupObject"></TextBlock>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="SelectedZone"></TextBlock>
+                    </StackPanel>
+                    <Grid Height="20" IsHitTestVisible="False" Margin="0,0,0,5"></Grid>
+                    <StackPanel HorizontalAlignment="Left" Background="#90000000" Margin="0,0,0,5">
+                        <TextBlock IsHitTestVisible="False" Foreground="Yellow" Text="" Style="{DynamicResource Sonic2System}" FontSize="8" x:Name="InfoToggle"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </genLib:NonTopmostPopup.Child>
+    </genLib:NonTopmostPopup>
+    <UserControl.Resources>
+        <Style x:Key="Sonic2System" TargetType="TextBlock">
+            <Setter Property="TextElement.FontFamily" Value="pack://application:,,,/Resources/Fonts/#Sonic2System"></Setter>
+            <Setter Property="Margin" Value="0,2,0,2"></Setter>
+            <!--
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" ShadowDepth="1" Opacity="1" Direction="330">
+                    </DropShadowEffect>
+                </Setter.Value>
+            </Setter>
+            -->
+        </Style>
+    </UserControl.Resources>
+</UserControl>

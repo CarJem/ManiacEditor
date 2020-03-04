@@ -1,5 +1,8 @@
 ﻿using System;
+using SFML.Graphics;
 using System.Drawing;
+using Color = System.Drawing.Color;
+using Font = System.Drawing.Font;
 
 namespace ManiacEditor.Methods.Draw
 {
@@ -10,7 +13,7 @@ namespace ManiacEditor.Methods.Draw
 
         public class GraphicsInfo
         {
-            public Classes.General.TextureExt Texture;
+            public Texture Texture;
 
 
             public RenderType ObjectType;
@@ -21,7 +24,7 @@ namespace ManiacEditor.Methods.Draw
 
             }
 
-            public GraphicsInfo(Classes.General.TextureExt _texture)
+            public GraphicsInfo(Texture _texture)
             {
                 Texture = _texture;
                 ObjectType = RenderType.Texture;
@@ -65,7 +68,7 @@ namespace ManiacEditor.Methods.Draw
             }
         }
 
-        public void DrawBitmap(Classes.General.TextureExt image, int x, int y, int width, int height, bool selected, int transparency)
+        public void DrawBitmap(Texture image, int x, int y, int width, int height, bool selected, int transparency)
         {
             if (GraphicsMode == GraphicsType.SharpDX)
             {

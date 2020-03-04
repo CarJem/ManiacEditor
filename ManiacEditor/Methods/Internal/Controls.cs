@@ -310,8 +310,8 @@ namespace ManiacEditor.Methods.Internal
                             Methods.Editor.SolutionState.TempSelectY2 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.Zoom);
                         }
 
-                        Point selectStart = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY1);
-                        Point selectEnd = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesBottomEdge(Methods.Editor.SolutionState.TempSelectX2, Methods.Editor.SolutionState.TempSelectY2);
+                        Point selectStart = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY1);
+                        Point selectEnd = Classes.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(Methods.Editor.SolutionState.TempSelectX2, Methods.Editor.SolutionState.TempSelectY2);
 
                         Methods.Editor.Solution.EditLayerA?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
                         Methods.Editor.Solution.EditLayerB?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
@@ -388,8 +388,8 @@ namespace ManiacEditor.Methods.Internal
                 }
                 else
                 {
-                    Point oldPointAligned = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(oldPoint.X, oldPoint.Y);
-                    Point newPointAligned = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(newPoint.X, newPoint.Y);
+                    Point oldPointAligned = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(oldPoint.X, oldPoint.Y);
+                    Point newPointAligned = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(newPoint.X, newPoint.Y);
                     Methods.Editor.Solution.EditLayerA?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
                     Methods.Editor.Solution.EditLayerB?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
                 }
@@ -538,7 +538,7 @@ namespace ManiacEditor.Methods.Internal
         public static void ChunksEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
             Point p = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
-            Point pC = Classes.Scene.Sets.EditorLayer.GetChunkCoordinates(p.X, p.Y);
+            Point pC = Classes.Scene.EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
             if (e.Button == MouseButtons.Left)
             {
@@ -575,7 +575,7 @@ namespace ManiacEditor.Methods.Internal
         {
             // There was just a click now we can determine that this click is dragging
             Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
-            Point chunk_point = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
+            Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
 
             bool PointASelected = Methods.Editor.Solution.EditLayerA?.DoesChunkContainASelectedTile(chunk_point) ?? false;
             bool PointBSelected = Methods.Editor.Solution.EditLayerB?.DoesChunkContainASelectedTile(chunk_point) ?? false;
@@ -670,8 +670,8 @@ namespace ManiacEditor.Methods.Internal
 
                 if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit())
                 {
-                    Point selectStart = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY1);
-                    Point selectEnd = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesBottomEdge(Methods.Editor.SolutionState.TempSelectX2, Methods.Editor.SolutionState.TempSelectY2);
+                    Point selectStart = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY1);
+                    Point selectEnd = Classes.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(Methods.Editor.SolutionState.TempSelectX2, Methods.Editor.SolutionState.TempSelectY2);
 
                     Methods.Editor.Solution.EditLayerA?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
                     Methods.Editor.Solution.EditLayerB?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
@@ -717,7 +717,7 @@ namespace ManiacEditor.Methods.Internal
         public static void ChunksEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
             Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
-            Point chunk_point = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
+            Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
             Rectangle clicked_chunk = new Rectangle(chunk_point.X, chunk_point.Y, 128, 128);
 
             Methods.Editor.Solution.EditLayerA?.Select(clicked_chunk, ShiftPressed() || CtrlPressed(), CtrlPressed());
@@ -838,7 +838,7 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
-                    Point pC = Classes.Scene.Sets.EditorLayer.GetChunkCoordinates(p.X, p.Y);
+                    Point pC = Classes.Scene.EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
                     if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                     {
@@ -864,7 +864,7 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     Point p = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
-                    Point chunk_point = Classes.Scene.Sets.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
+                    Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                     Rectangle clicked_chunk = new Rectangle(chunk_point.X, chunk_point.Y, 128, 128);
 
                     // Remove Stamp Sized Area
@@ -893,7 +893,7 @@ namespace ManiacEditor.Methods.Internal
             else if (e.Button == MouseButtons.Right)
             {
                 Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
-                Classes.Scene.Sets.EditorEntity atPoint = Methods.Editor.Solution.Entities.GetEntityAt(clicked_point);
+                Classes.Scene.EditorEntity atPoint = Methods.Editor.Solution.Entities.GetEntityAt(clicked_point);
                 if (atPoint != null && atPoint.Entity.Object.Name.Name == "Spline")
                 {
                     ManiacEditor.Methods.Editor.EditorActions.Deselect();
@@ -1006,7 +1006,7 @@ namespace ManiacEditor.Methods.Internal
         public static void TilesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
             string newLine = Environment.NewLine;
-            Point chunkPos = Classes.Scene.Sets.EditorLayer.GetChunkCoordinates(e.X / Methods.Editor.SolutionState.Zoom, e.Y / Methods.Editor.SolutionState.Zoom);
+            Point chunkPos = Classes.Scene.EditorLayer.GetChunkCoordinates(e.X / Methods.Editor.SolutionState.Zoom, e.Y / Methods.Editor.SolutionState.Zoom);
             Point tilePos;
             if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
             else tilePos = new Point(e.X / 16, e.Y / 16);

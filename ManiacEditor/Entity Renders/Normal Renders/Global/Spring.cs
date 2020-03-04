@@ -10,7 +10,7 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             SceneEntity entity = Properties.EditorObject.Entity; 
-            Classes.Scene.Sets.EditorEntity e = Properties.EditorObject;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
