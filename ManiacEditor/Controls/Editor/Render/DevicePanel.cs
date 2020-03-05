@@ -39,10 +39,9 @@ namespace ManiacEditor
 
         #region FPS Variables
         public double FPS { get; set; } = 0.0;
-        System.Diagnostics.Stopwatch clock;
-        double totalTime;
-        long frameCount;
-        double measuredFPS;
+        System.Diagnostics.Stopwatch FPS_Clock { get; set; }
+        double TotalTime_FPS { get; set; }
+        long FrameCount_FPS { get; set; }
 
         #endregion
 
@@ -63,48 +62,9 @@ namespace ManiacEditor
         #endregion
 
         #region Other Variables
-        public static bool isRendering { get; private set; } = false;
         public bool MouseMoved { get; set; } = false;
-        public MouseEventArgs LastEvent;
-        public bool AllowLoopToRender = true;
-        public bool DeviceLost;
-        #endregion
-
-        #region Old SharpDX Stuff
-
-        // The DirectX device
-        public Device _device = null;
-        private Direct3D direct3d = new Direct3D();
-        private Font font;
-        private Font fontBold;
-        // The Form to place the DevicePanel onto
-
-        private PresentParameters presentParams;
-        public static FontDescription fontDescription = new FontDescription()
-        {
-            Height = 18,
-            Italic = false,
-            CharacterSet = FontCharacterSet.Ansi,
-            FaceName = "Microsoft Sans Serif",
-            MipLevels = 0,
-            OutputPrecision = FontPrecision.TrueType,
-            PitchAndFamily = FontPitchAndFamily.Default,
-            Quality = FontQuality.Antialiased,
-            Weight = FontWeight.Regular
-        };
-        public static FontDescription fontDescriptionBold = new FontDescription()
-        {
-            Height = 18,
-            Italic = false,
-            CharacterSet = FontCharacterSet.Ansi,
-            FaceName = "Microsoft Sans Serif",
-            MipLevels = 0,
-            OutputPrecision = FontPrecision.TrueType,
-            PitchAndFamily = FontPitchAndFamily.Default,
-            Quality = FontQuality.Antialiased,
-            Weight = FontWeight.Bold
-        };
-
+        public MouseEventArgs LastEvent { get; set; }
+        public bool AllowLoopToRender { get; set; } = true;
         #endregion
 
         #endregion
@@ -118,35 +78,7 @@ namespace ManiacEditor
 
         #endregion
 
-        #region Init DX
-
-        public void Run()
-        {
-            RenderLoop.Run(this, () =>
-            {
-                // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
-                if (AllowLoopToRender) RenderSFML();
-                if (MouseMoved)
-                {
-                    OnMouseMove(LastEvent);
-                    MouseMoved = false;
-                }
-                Application.DoEvents();
-            });
-        }
-
-        public void InitDeviceResources()
-        {
-            font = new Font(_device, fontDescription);
-            fontBold = new Font(_device, fontDescriptionBold);
-
-            clock = Stopwatch.StartNew();
-        }
-
-
-        #endregion
-
-        #region Init SFML
+        #region Init
 
         private void CreateRenderWindow()
         {
@@ -172,6 +104,7 @@ namespace ManiacEditor
         {
             _parent = parent;
             CreateRenderWindow();
+            InitDeviceResources();
 
             if (OnCreateDevice != null)
             {
@@ -180,63 +113,52 @@ namespace ManiacEditor
 
         }
 
+        public void Run()
+        {
+            RenderLoop.Run(this, () =>
+            {
+                // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
+                if (AllowLoopToRender) Render();
+                if (MouseMoved)
+                {
+                    OnMouseMove(LastEvent);
+                    MouseMoved = false;
+                }
+                Application.DoEvents();
+            });
+        }
+
+        public void InitDeviceResources()
+        {
+            FPS_Clock = Stopwatch.StartNew();
+        }
+
         #endregion
 
-        #region Reset DX
+        #region Reset (Unused)
 
         /// <summary>
         /// Attempt to recover the device if it is lost.
         /// </summary>
         protected void AttemptRecovery()
         {
-            if (_device == null) return;
 
-            Result result = _device.TestCooperativeLevel();
-            if (result == ResultCode.DeviceLost) return;
-            if (result == ResultCode.DeviceNotReset)
-            {
-                try
-                {
-                    ResetDevice();
-                }
-                catch (SharpDXException ex)
-                {
-                    // If it's still lost or lost again, just do nothing
-                    if (ex.ResultCode == ResultCode.DeviceLost) return;
-                    else if (ex.ResultCode == ResultCode.OutOfVideoMemory)
-                    {
-
-                    }
-                    else throw ex;
-                }
-            }
         }
 
         public void ResetDevice()
         {
-            if (_parent != null && _device != null)
-            {
-                DisposeDeviceResources();
-                _parent.DisposeTextures();
-                _device.Reset(presentParams);
-                DeviceLost = false;
-                InitDeviceResources();
-            }
+
         }
 
         #endregion
 
-        #region Reset SFML
-
-        #endregion
-
-        #region Rendering SFML
+        #region Rendering
 
         /// <summary>
         /// The New Rendering-method
         /// </summary>
         /// 
-        public void RenderSFML()
+        public void Render()
         {
             RenderWindow.DispatchEvents();
             RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
@@ -245,6 +167,22 @@ namespace ManiacEditor
             if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
 
             RenderWindow.Display();
+            UpdateFPS();
+        }
+        private void UpdateFPS()
+        {
+            FrameCount_FPS++;
+            var timeElapsed = (double)FPS_Clock.ElapsedTicks / Stopwatch.Frequency; ;
+            TotalTime_FPS += timeElapsed;
+            if (TotalTime_FPS >= 1.0f)
+            {
+                FPS = (double)FrameCount_FPS / TotalTime_FPS;
+                FrameCount_FPS = 0;
+                TotalTime_FPS = 0.0;
+            }
+
+            FPS_Clock.Restart();
+
         }
 
         #endregion
@@ -638,10 +576,21 @@ namespace ManiacEditor
         }
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
         {
+            Rectangle screen = GetParentScreen();
+            double zoom = _parent.GetZoom();
+
+            int real_x1 = x1 - (int)(screen.X / zoom);
+            int real_x2 = x2 - (int)(screen.X / zoom);
+            int real_y1 = y1 - (int)(screen.Y / zoom);
+            int real_y2 = y2 - (int)(screen.Y / zoom);
+
+            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x1, real_y1);
+            SFML.System.Vector2f size = new SFML.System.Vector2f(real_x2 - real_x1, real_y2 - real_y1);
+
             SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
             rect.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
-            rect.Position = new SFML.System.Vector2f(x1, y1);
-            rect.Size = new SFML.System.Vector2f(x2 - x1, y2 - y1);
+            rect.Position = position;
+            rect.Size = size;
             RenderWindow.Draw(rect);
         }
         public void DrawQuad(int x1, int y1, int x2, int y2, Color color)
@@ -705,26 +654,14 @@ namespace ManiacEditor
 
         #region Disposing
 
-        public void DisposeDeviceResources(int type = 0)
+        public void DisposeDeviceResources()
         {
-            if (font != null)
-            {
-                font.Dispose();
-                font = null;
-            }
-            if (fontBold != null)
-            {
-                fontBold.Dispose();
-                fontBold = null;
-            }
 
         }
         public new void Dispose()
         {
             DisposeDeviceResources();
             if (_parent != null) _parent.DisposeTextures();
-            if (_device != null) _device.Dispose();
-            if (direct3d != null) direct3d.Dispose();
             if (RenderWindow != null) RenderWindow.Dispose();
             base.Dispose();
         }

@@ -394,14 +394,14 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
             {
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 Methods.Editor.Solution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Editor.SolutionState.ViewPositionX) / Methods.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Methods.Editor.SolutionState.ViewPositionY) / Methods.Editor.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex);
-                GraphicPanel.RenderSFML();
+                GraphicPanel.Render();
 
             }
         }
         private void GP_DragLeave(object sender, EventArgs e)
         {
             Methods.Editor.Solution.EditLayerA?.EndDragOver(true);
-            GraphicPanel.RenderSFML();
+            GraphicPanel.Render();
         }
         private void GP_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {

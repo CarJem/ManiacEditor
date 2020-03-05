@@ -336,7 +336,7 @@ namespace ManiacEditor.Methods.Editor
                     }
                 }
             }
-            Instance.ViewPanel.SharpPanel.GraphicPanel.RenderSFML();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void EditorRedo()
@@ -352,7 +352,7 @@ namespace ManiacEditor.Methods.Editor
                     Instance.EntitiesToolbar.UpdateSelectedProperties();
                 }
             }
-            Instance.ViewPanel.SharpPanel.GraphicPanel.RenderSFML();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void CopyTilesToClipboard(bool doNotUseWindowsClipboard = false)

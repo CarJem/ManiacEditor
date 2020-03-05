@@ -175,7 +175,7 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
                 if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
                 Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
-                Instance.ViewPanel.SharpPanel.GraphicPanel.RenderSFML();
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             }
         }
         public static void ScrollerMouseUp(MouseEventArgs e)
@@ -279,7 +279,7 @@ namespace ManiacEditor.Methods.Internal
                         Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
                     }
                     Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
-                    if (Methods.Editor.SolutionState.AnyDragged) Instance.ViewPanel.SharpPanel.GraphicPanel.RenderSFML();
+                    if (Methods.Editor.SolutionState.AnyDragged) Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
 
 
 
@@ -394,7 +394,7 @@ namespace ManiacEditor.Methods.Internal
                     Methods.Editor.Solution.EditLayerB?.MoveSelected(oldPointAligned, newPointAligned, CtrlPressed(), true);
                 }
 
-                Instance.ViewPanel.SharpPanel.GraphicPanel.RenderSFML();
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 // FIX: Determine if this is Needed.
                 //Editor.Instance.UI.UpdateEditLayerActions();
                 if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
@@ -741,7 +741,7 @@ namespace ManiacEditor.Methods.Internal
             else if (e.Button == MouseButtons.Right) MouseDownRight(e);
             else if (e.Button == MouseButtons.Middle) MouseDownMiddle(e);
 
-            Instance.ViewPanel.SharpPanel.GraphicPanel.RenderSFML();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
         }
         public static void MouseDownRight(System.Windows.Forms.MouseEventArgs e)
         {

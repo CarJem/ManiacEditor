@@ -251,7 +251,6 @@
     <Compile Include="Entity Renders\Normal Renders\Global\Spring.cs" />
     <Compile Include="Enums\Skin.cs" />
     <Compile Include="EventHandlers\TileConfigException.cs" />
-    <Compile Include="Methods\Draw\ExperimentalRendering.cs" />
     <Compile Include="Methods\Editor\EditorConstants.cs" />
     <Compile Include="Methods\Editor\EditorActions.cs" />
     <Compile Include="Classes\Scene\EditorLayer.cs" />
