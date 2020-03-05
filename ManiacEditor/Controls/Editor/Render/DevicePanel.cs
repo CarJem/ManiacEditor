@@ -251,14 +251,11 @@ namespace ManiacEditor
         #endregion
 
         #region Get Screen
-
-
         public Rectangle GetParentScreen()
         {
             if (_parent == null) return new Rectangle(0, 0, 10, 10);
             else return _parent.GetScreen();
         }
-
         public Rectangle GetScreen()
         {
             if (_parent == null) return new Rectangle(0, 0, 10, 10);
@@ -302,7 +299,13 @@ namespace ManiacEditor
             double zoom = _parent.GetZoom();
 
             Rectangle boundBox = new Rectangle(rect_x, rect_y, width, height);
-            Vector3 position = new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0);
+
+            int real_x = x - (int)(screen.X / zoom);
+            int real_y = y - (int)(screen.Y / zoom);
+
+            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x, real_y);
+            SFML.System.Vector2f size = new SFML.System.Vector2f(width, height);
+
             Vector3 center = new Vector3(new float[] { 0, 0, 0 });
             if (fliph || flipv)
             {
@@ -316,7 +319,13 @@ namespace ManiacEditor
                 float normalZoom = (float)zoom;
             }
 
-            //DrawTexture(image, boundBox, center, position, (selected) ? Color.BlueViolet : Color.FromArgb(transparency, Color.White));
+
+            SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
+            rect.Position = position;
+            rect.Size = size;
+            rect.Texture = image;
+            rect.TextureRect = new IntRect(rect_x, rect_y, width, height);
+            RenderWindow.Draw(rect);
         }
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
         {
