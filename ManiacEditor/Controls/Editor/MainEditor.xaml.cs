@@ -197,8 +197,9 @@ namespace ManiacEditor.Controls.Editor
             Methods.Internal.UserInterface.UpdateControls();
             Methods.Internal.Settings.TryLoadSettings();
 
-
             UpdateStartScreen(true, true);
+
+            ViewPanel.SharpPanel.InitalizeGraphicsPanel();
         }
 
         #endregion
@@ -272,7 +273,7 @@ namespace ManiacEditor.Controls.Editor
         public void Editor_Resize(object sender, RoutedEventArgs e) { ViewPanel.SharpPanel.ResizeGraphicsPanel(); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewPanel.SharpPanel.InitalizeGraphicsPanel();
+
         }
         #endregion
 

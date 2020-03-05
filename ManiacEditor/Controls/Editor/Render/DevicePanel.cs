@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Windows;
+using SFML.Graphics;
+using SFML.Window;
 using Font = SharpDX.Direct3D9.Font;
 using Rectangle = System.Drawing.Rectangle;
 using Color = System.Drawing.Color;
@@ -30,7 +32,7 @@ namespace ManiacEditor
         // Now we know that the device is created
         public event CreateDeviceEventHandler OnCreateDevice;
 
-        public SFML.Graphics.RenderWindow RenderWindow;
+        public SFML.Graphics.RenderWindow RenderWindow { get; set; }
 
         public IDrawArea _parent = null;
         #endregion
@@ -120,7 +122,17 @@ namespace ManiacEditor
 
         public void Run()
         {
-            RenderSFML();
+            RenderLoop.Run(this, () =>
+            {
+                // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
+                if (AllowLoopToRender) RenderSFML();
+                if (MouseMoved)
+                {
+                    OnMouseMove(LastEvent);
+                    MouseMoved = false;
+                }
+                Application.DoEvents();
+            });
         }
 
         public void InitDeviceResources()
@@ -136,6 +148,22 @@ namespace ManiacEditor
 
         #region Init SFML
 
+        private void CreateRenderWindow()
+        {
+            if (this.RenderWindow != null)
+            {
+                this.RenderWindow.SetActive(false);
+                this.RenderWindow.Dispose();
+            }
+
+            var context = new ContextSettings {  };
+            this.RenderWindow = new RenderWindow(this.Handle, context);
+
+            RenderWindow.SetFramerateLimit(60);
+
+            this.RenderWindow.SetActive(true);
+        }
+
         /// <summary>
         /// Init SFML Render
         /// </summary>
@@ -143,17 +171,12 @@ namespace ManiacEditor
         public void Init(IDrawArea parent)
         {
             _parent = parent;
-            SFML.Window.ContextSettings settings = new SFML.Window.ContextSettings();
-
-            RenderWindow = new SFML.Graphics.RenderWindow(this.Handle);
-            RenderWindow.SetFramerateLimit(60);
+            CreateRenderWindow();
 
             if (OnCreateDevice != null)
             {
                 OnCreateDevice(this, new DeviceEventArgs(RenderWindow));
             }
-
-            RenderWindow.SetActive();
 
         }
 
@@ -215,7 +238,6 @@ namespace ManiacEditor
         /// 
         public void RenderSFML()
         {
-
             RenderWindow.DispatchEvents();
             RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
 
@@ -228,9 +250,14 @@ namespace ManiacEditor
         #endregion
 
         #region Event/Overrides
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
-            this.RenderSFML();
+            base.OnPaint(e);
+        }
+
+        protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
         }
         protected override bool IsInputKey(Keys keyData)
         {
@@ -280,7 +307,7 @@ namespace ManiacEditor
         }
         public void OnMouseMoveEventCreate()
         {
-            Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y);
+            System.Windows.Forms.Cursor.Position = new Point(System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y);
         }
 
         #endregion

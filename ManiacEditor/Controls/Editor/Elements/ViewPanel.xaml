@@ -18,12 +18,12 @@
                 </global:SplitContainer.LeftContainer>
                 <global:SplitContainer.CenterContainer>
                     <Grid>
-                        <myControls:WaitingPanel x:Name="WaitingPanel"></myControls:WaitingPanel>
                         <myControls:ScrollGrid x:Name="ScrollGrid"></myControls:ScrollGrid>
                         <Grid x:Name="CenterPanel">
                             <myControls:DebugHUD x:Name="InfoHUD" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:DebugHUD>
                             <myControls:SharpPanel x:Name="SharpPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:SharpPanel>
                         </Grid>
+                        <myControls:WaitingPanel x:Name="WaitingPanel" Visibility="Collapsed"></myControls:WaitingPanel>
                     </Grid>
                 </global:SplitContainer.CenterContainer>
                 <global:SplitContainer.RightContainer>

@@ -1091,6 +1091,10 @@ namespace ManiacEditor.Classes.Scene
 
         private Rectangle GetChunkArea(int x, int y)
         {
+
+
+
+
             return new Rectangle(x, y, 128, 128);
         }
 
@@ -1244,8 +1248,12 @@ namespace ManiacEditor.Classes.Scene
             if (ShowLayerScrollLines) DrawScrollLines(d);
         }
 
+        private bool canDrawForSFML = false;
+
         public void DrawLayer(DevicePanel d)
         {
+            if (!canDrawForSFML) return;
+
             int Transperncy;
 
 

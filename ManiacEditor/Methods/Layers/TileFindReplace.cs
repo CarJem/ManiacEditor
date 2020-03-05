@@ -44,11 +44,11 @@ namespace ManiacEditor.Methods.Layers
 
             foreach (var editorLayer in Methods.Editor.Solution.CurrentScene.AllLayers)
             {
-                for (int x = 0; x < editorLayer.Layer.Width; x++)
+                for (int x = 0; x < editorLayer.Layer.Tiles.Length; x++)
                 {
-                    for (int y = 0; y < editorLayer.Height; y++)
+                    for (int y = 0; y < editorLayer.Layer.Tiles[x].Length; y++)
                     {
-                        ushort currentTile = editorLayer.GetTileAt(new Point(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE));
+                        ushort currentTile = editorLayer.Layer.Tiles[x][y];
                         int tileIndex = (currentTile & 0x3ff);
                         if (tileIndex == tile) unused = false;
 
