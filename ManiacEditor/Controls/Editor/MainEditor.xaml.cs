@@ -110,9 +110,10 @@ namespace ManiacEditor.Controls.Editor
             Methods.Internal.Theming.UpdateInstance(this);
             Methods.Internal.Settings.UpdateInstance(this);
 
-            Methods.Internal.Theming.UseDarkTheme_WPF();
+
             Instance = this;
             InitializeComponent();
+            Methods.Internal.Theming.SetTheme();
 
             ElementHost.EnableModelessKeyboardInterop(this);
 

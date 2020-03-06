@@ -2,8 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ManiacEditor.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:bindings="clr-namespace:ManiacEditor.Bindings"
              xmlns:maniac="clr-namespace:ManiacEditor"
              xmlns:update="clr-namespace:ManiacEditor.Controls.Updater"
@@ -88,6 +87,8 @@
                                         <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel5_LinkClicked"><Run Text="Settings"/></Hyperlink></TextBlock>
                                         <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel6_LinkClicked"><Run Text="Wiki"/></Hyperlink></TextBlock>
                                     </StackPanel>
+
+                                    
 
                                     <StackPanel Margin="4" Grid.Column="2" Grid.ColumnSpan="2">
                                         <TextBlock Width="Auto" Height="17" x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>

@@ -14,13 +14,90 @@ namespace ManiacEditor.Methods.Internal
     public static class Theming
     {
         private static ManiacEditor.Controls.Editor.MainEditor Instance;
-        //Dark Theme
-        public static Color DarkTheme0 = Color.FromArgb(255, 40, 40, 40);
-        public static Color darkTheme1 = Color.FromArgb(255, 50, 50, 50);
-        public static Color darkTheme2 = Color.FromArgb(255, 70, 70, 70);
-        public static Color darkTheme3 = Color.White;
-        public static Color darkTheme4 = Color.FromArgb(255, 49, 162, 247);
-        public static Color darkTheme5 = Color.FromArgb(255, 80, 80, 80);
+
+
+        private static Color GetResource(string resourceName)
+        {
+            try
+            {
+                var c = (SolidColorBrush)Instance.FindResource(resourceName);
+                if (c != null) return Color.FromArgb(c.Color.A, c.Color.R, c.Color.G, c.Color.B);
+                else return Color.Empty;
+            }
+            catch
+            {
+                return Color.Empty;
+            }
+
+
+        }
+
+        public static Color ThemeBrush1
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrush1");
+            }
+        }
+        public static Color ThemeBrush2
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrush2");
+            }
+        }
+        public static Color ThemeBrush3
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrush3");
+            }
+        }
+        public static Color ThemeBrush4
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrush4");
+            }
+        }
+        public static Color ThemeBrush5
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrush5");
+            }
+        }
+        public static Color ThemeBrush6
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrush6");
+            }
+        }
+
+        public static Color TileManiac_CollisionColor
+        {
+            get
+            {
+                return GetResource("TileManiac_CollisionColor");
+            }
+        }
+
+        public static Color ThemeBrushText
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrushText");
+            }
+        }
+
+        public static Color ThemeBrushBG
+        {
+            get
+            {
+                return GetResource("LegacyThemeBrushBG");
+            }
+        }
 
         public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor _instance)
         {
@@ -28,35 +105,35 @@ namespace ManiacEditor.Methods.Internal
         }
 
         #region Theming Stuff
-        public static void UseDarkTheme(bool state = false)
+        public static void SetThemeColors(bool UsingSystem = false)
         {
-            if (state)
+            if (!UsingSystem)
             {
                 SystemColorsUtility systemColors = new SystemColorsUtility();
-                systemColors.SetColor(KnownColor.Window, darkTheme1);
-                systemColors.SetColor(KnownColor.Highlight, Color.Blue);
-                systemColors.SetColor(KnownColor.WindowFrame, darkTheme2);
-                systemColors.SetColor(KnownColor.GradientActiveCaption, darkTheme1);
-                systemColors.SetColor(KnownColor.GradientInactiveCaption, darkTheme1);
-                systemColors.SetColor(KnownColor.ControlText, darkTheme3);
-                systemColors.SetColor(KnownColor.WindowText, darkTheme3);
-                systemColors.SetColor(KnownColor.GrayText, Color.Gray);
-                systemColors.SetColor(KnownColor.InfoText, darkTheme3);
-                systemColors.SetColor(KnownColor.MenuText, darkTheme3);
-                systemColors.SetColor(KnownColor.Control, darkTheme1);
-                systemColors.SetColor(KnownColor.ButtonHighlight, darkTheme3);
-                systemColors.SetColor(KnownColor.ButtonShadow, darkTheme2);
-                systemColors.SetColor(KnownColor.ButtonFace, darkTheme1);
-                systemColors.SetColor(KnownColor.Desktop, darkTheme1);
-                systemColors.SetColor(KnownColor.ControlLightLight, darkTheme2);
-                systemColors.SetColor(KnownColor.ControlLight, darkTheme1);
-                systemColors.SetColor(KnownColor.ControlDark, darkTheme3);
-                systemColors.SetColor(KnownColor.ControlDarkDark, darkTheme3);
-                systemColors.SetColor(KnownColor.ActiveBorder, darkTheme1);
-                systemColors.SetColor(KnownColor.ActiveCaption, darkTheme1);
-                systemColors.SetColor(KnownColor.ActiveCaptionText, darkTheme3);
-                systemColors.SetColor(KnownColor.InactiveBorder, darkTheme2);
-                systemColors.SetColor(KnownColor.MenuBar, darkTheme1);
+                systemColors.SetColor(KnownColor.Window, ThemeBrush2);
+                systemColors.SetColor(KnownColor.Highlight, ThemeBrush6);
+                systemColors.SetColor(KnownColor.WindowFrame, ThemeBrush3);
+                systemColors.SetColor(KnownColor.GradientActiveCaption, ThemeBrush2);
+                systemColors.SetColor(KnownColor.GradientInactiveCaption, ThemeBrush2);
+                systemColors.SetColor(KnownColor.ControlText, ThemeBrush4);
+                systemColors.SetColor(KnownColor.WindowText, ThemeBrush4);
+                systemColors.SetColor(KnownColor.GrayText, ThemeBrush5);
+                systemColors.SetColor(KnownColor.InfoText, ThemeBrush4);
+                systemColors.SetColor(KnownColor.MenuText, ThemeBrush4);
+                systemColors.SetColor(KnownColor.Control, ThemeBrush2);
+                systemColors.SetColor(KnownColor.ButtonHighlight, ThemeBrush4);
+                systemColors.SetColor(KnownColor.ButtonShadow, ThemeBrush3);
+                systemColors.SetColor(KnownColor.ButtonFace, ThemeBrush2);
+                systemColors.SetColor(KnownColor.Desktop, ThemeBrush2);
+                systemColors.SetColor(KnownColor.ControlLightLight, ThemeBrush3);
+                systemColors.SetColor(KnownColor.ControlLight, ThemeBrush2);
+                systemColors.SetColor(KnownColor.ControlDark, ThemeBrush4);
+                systemColors.SetColor(KnownColor.ControlDarkDark, ThemeBrush4);
+                systemColors.SetColor(KnownColor.ActiveBorder, ThemeBrush2);
+                systemColors.SetColor(KnownColor.ActiveCaption, ThemeBrush2);
+                systemColors.SetColor(KnownColor.ActiveCaptionText, ThemeBrush4);
+                systemColors.SetColor(KnownColor.InactiveBorder, ThemeBrush3);
+                systemColors.SetColor(KnownColor.MenuBar, ThemeBrush2);
             }
             else
             {
@@ -90,33 +167,30 @@ namespace ManiacEditor.Methods.Internal
         }
 
 
-        public static bool UseNightColors
+        public static bool UseExtendedColors
         {
             get
             {
-                if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Dark ||
-                    Properties.Settings.MySettings.UserTheme == Enums.Skin.Beta ||
-                    Properties.Settings.MySettings.UserTheme == Enums.Skin.Shard
-                    ) return true;
-                else return false;
+                if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Light) return false;
+                else return true;
             }
         }
 
-        public static void UseDarkTheme_WPF()
+        public static void SetTheme()
         {
             
-            if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Dark || Properties.Settings.MySettings.UserTheme == Enums.Skin.Beta)
+            if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Light)
             {
                 App.ChangeSkin(Properties.Settings.MySettings.UserTheme);
-                UseDarkTheme(true);
+                SetThemeColors(true);
             }
             else
             {
                 App.ChangeSkin(Properties.Settings.MySettings.UserTheme);
-                UseDarkTheme(false);
+                SetThemeColors(false);
             }
         }
-        public static Control UseExternalDarkTheme(Control control)
+        public static Control UseExternaTheme(Control control)
         {
             foreach (Control c in control.Controls)
             {
@@ -126,122 +200,43 @@ namespace ManiacEditor.Methods.Internal
                     {
                         if (c2 is System.Windows.Forms.NumericUpDown)
                         {
-                            c2.ForeColor = Color.Black;
-                            c2.BackColor = Color.White;
+                            c2.ForeColor = ThemeBrushText;
+                            c2.BackColor = ThemeBrushBG;
                         }
                         if (c2 is System.Windows.Forms.ComboBox)
                         {
-                            c2.ForeColor = Color.Black;
-                            c2.BackColor = Color.White;
+                            c2.ForeColor = ThemeBrushText;
+                            c2.BackColor = ThemeBrushBG;
                         }
                     }
                 }
 
                 if (c is System.Windows.Forms.Button)
                 {
-                    c.ForeColor = Color.Black;
+                    c.ForeColor = ThemeBrushText;
                 }
                 if (c is NumericUpDown)
                 {
-                    c.ForeColor = Color.Black;
-                    c.BackColor = Color.White;
+                    c.ForeColor = ThemeBrushText;
+                    c.BackColor = ThemeBrushBG;
                 }
                 if (c is System.Windows.Forms.ComboBox)
                 {
-                    c.ForeColor = Color.Black;
-                    c.BackColor = Color.White;
+                    c.ForeColor = ThemeBrushText;
+                    c.BackColor = ThemeBrushBG;
                 }
                 if (c is System.Windows.Forms.TextBox)
                 {
-                    c.ForeColor = Color.Black;
-                    c.BackColor = Color.White;
+                    c.ForeColor = ThemeBrushText;
+                    c.BackColor = ThemeBrushBG;
                 }
             }
             return control;
         }
-        public static void SetButtonColors(object sender, Color OverallColor)
-        {
-            if (sender is ToggleButton)
-            {
-
-                var item = (sender as ToggleButton);
-                if (item == null) return;
-                if (item.Content == null) return;
-                var objContent = (sender as ToggleButton).Content;
-                if (objContent == null) return;
-                if (objContent is System.Windows.Shapes.Rectangle)
-                {
-                    System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-                    Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-                    System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-                    content.Fill = new SolidColorBrush(ConvertedColor);
-
-                }
-
-
-            }
-
-            if (sender is Button)
-            {
-
-                var item = (sender as Button);
-                if (item == null) return;
-                if (item.Content == null) return;
-                var objContent = (sender as Button).Content;
-                if (objContent == null) return;
-                if (objContent is System.Windows.Shapes.Rectangle)
-                {
-                    System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-                    Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-                    System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-                    content.Fill = new SolidColorBrush(ConvertedColor);
-
-                }
-
-            }
-
-            if (sender is MenuItem)
-            {
-
-                var item = (sender as MenuItem);
-                if (item == null) return;
-                if (item.Header == null) return;
-                var objContent = (sender as MenuItem).Header;
-                if (objContent == null) return;
-                if (objContent is System.Windows.Shapes.Rectangle)
-                {
-                    System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-                    Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-                    System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-                    content.Fill = new SolidColorBrush(ConvertedColor);
-
-                }
-
-
-            }
-
-            if (sender is Xceed.Wpf.Toolkit.SplitButton)
-            {
-                var item = (sender as Xceed.Wpf.Toolkit.SplitButton);
-                if (item == null) return;
-                if (item.Content == null) return;
-                var objContent = (sender as Xceed.Wpf.Toolkit.SplitButton).Content;
-                if (objContent == null) return;
-                if (objContent is System.Windows.Shapes.Rectangle)
-                {
-                    System.Windows.Shapes.Rectangle content = objContent as System.Windows.Shapes.Rectangle;
-                    Color DisabledOpacity = Color.FromArgb(128, 0, 0, 0);
-                    System.Windows.Media.Color ConvertedColor = System.Windows.Media.Color.FromArgb((item.IsEnabled ? OverallColor.A : DisabledOpacity.A), OverallColor.R, OverallColor.G, OverallColor.B);
-                    content.Fill = new SolidColorBrush(ConvertedColor);
-
-                }
-
-            }
-        }
         public static void UpdateButtonColors()
         {
             var converter = new System.Windows.Media.BrushConverter();
-            if (UseNightColors)
+            if (UseExtendedColors)
             {
                 ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
             }
@@ -251,18 +246,6 @@ namespace ManiacEditor.Methods.Internal
             }
 
         }
-        public static Color MainThemeColor(Color? CDC = null, Color? CWC = null)
-        {
-            Color NightColor;
-            Color NormalColor;
-            if (CDC != null) NightColor = CDC.Value;
-            else NightColor = Color.White;
-
-            if (CWC != null) NormalColor = CWC.Value;
-            else NormalColor = Color.Black;
-
-            return (UseNightColors ? NightColor : NormalColor);
-        }
         #endregion
 
         #region Entities Related Color Fetching
@@ -270,22 +253,22 @@ namespace ManiacEditor.Methods.Internal
         {
             if (colorID == "Blue")
             {
-                if (UseNightColors) return System.Drawing.Color.LightBlue;
+                if (UseExtendedColors) return System.Drawing.Color.LightBlue;
                 else return System.Drawing.Color.Blue;
             }
             else if (colorID == "Green")
             {
-                if (UseNightColors) return System.Drawing.Color.LightGreen;
+                if (UseExtendedColors) return System.Drawing.Color.LightGreen;
                 else return System.Drawing.Color.Green;
             }
             else if (colorID == "Red")
             {
-                if (UseNightColors) return System.Drawing.Color.FromArgb(211, 76, 49);
+                if (UseExtendedColors) return System.Drawing.Color.FromArgb(211, 76, 49);
                 else return System.Drawing.Color.Red;
             }
             else
             {
-                if (UseNightColors) return System.Drawing.Color.White;
+                if (UseExtendedColors) return System.Drawing.Color.White;
                 else return System.Drawing.Color.Black;
             }
         }
@@ -415,7 +398,6 @@ namespace ManiacEditor.Methods.Internal
         public static void RefreshFormsModel()
         {
             ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.SetupScrollBars(true);
             FormsModelAwaitingRefresh = false;
         }
 

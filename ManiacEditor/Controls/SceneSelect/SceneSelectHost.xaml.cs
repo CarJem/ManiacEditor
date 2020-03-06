@@ -597,22 +597,11 @@ namespace ManiacEditor.Controls.SceneSelect
         #region UI Related Methods
         public void RefreshTheme()
         {
-            if (App.Skin == Enums.Skin.Dark)
-            {
-                ScenesTree.BackColor = Methods.Internal.Theming.darkTheme1;
-                ScenesTree.ForeColor = Methods.Internal.Theming.darkTheme3;
+            ScenesTree.BackColor = Methods.Internal.Theming.ThemeBrush2;
+            ScenesTree.ForeColor = Methods.Internal.Theming.ThemeBrush4;
 
-                RecentsTree.BackColor = Methods.Internal.Theming.darkTheme1;
-                RecentsTree.ForeColor = Methods.Internal.Theming.darkTheme3;
-            }
-            else
-            {
-                ScenesTree.BackColor = System.Drawing.Color.White;
-                ScenesTree.ForeColor = System.Drawing.Color.Black;
-
-                RecentsTree.BackColor = System.Drawing.Color.White;
-                RecentsTree.ForeColor = System.Drawing.Color.Black;
-            }
+            RecentsTree.BackColor = Methods.Internal.Theming.ThemeBrush2;
+            RecentsTree.ForeColor = Methods.Internal.Theming.ThemeBrush4;
         }
         public void RecentsTreeOpenContextMenu(TreeNodeMouseClickEventArgs e)
         {

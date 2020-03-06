@@ -745,40 +745,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 		public void UpdatePropertyGridTheme(bool ForceRefresh = false)
 		{
-			/*
-			if (App.Skin == Skin.Dark)
-			{
-				this.PropertiesGrid.BackColor = Methods.Internal.Theming.darkTheme0;
-				this.PropertiesGrid.CategoryForeColor = Methods.Internal.Theming.darkTheme3;
-				this.PropertiesGrid.CommandsBorderColor = System.Drawing.Color.DarkGray;
-				this.PropertiesGrid.CommandsForeColor = System.Drawing.Color.Black;
-				this.PropertiesGrid.HelpBackColor = System.Drawing.Color.White;
-				this.PropertiesGrid.HelpBorderColor = System.Drawing.Color.DarkGray;
-				this.PropertiesGrid.HelpForeColor = System.Drawing.Color.Black;
-				this.PropertiesGrid.LineColor = Methods.Internal.Theming.darkTheme5;
-				this.PropertiesGrid.SelectedItemWithFocusBackColor = System.Drawing.Color.Blue;
-				this.PropertiesGrid.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
-				this.PropertiesGrid.ViewBackColor = Methods.Internal.Theming.darkTheme0;
-				this.PropertiesGrid.ViewBorderColor = Methods.Internal.Theming.darkTheme1;
-				this.PropertiesGrid.ViewForeColor = Methods.Internal.Theming.darkTheme3;
-			}
-			else
-			{
-				this.PropertiesGrid.BackColor = System.Drawing.Color.White;
-				this.PropertiesGrid.CategoryForeColor = System.Drawing.Color.Black;
-				this.PropertiesGrid.CommandsBorderColor = System.Drawing.Color.DarkGray;
-				this.PropertiesGrid.CommandsForeColor = System.Drawing.Color.Black;
-				this.PropertiesGrid.HelpBackColor = System.Drawing.Color.White;
-				this.PropertiesGrid.HelpBorderColor = System.Drawing.Color.DarkGray;
-				this.PropertiesGrid.HelpForeColor = System.Drawing.Color.Black;
-				this.PropertiesGrid.LineColor = System.Drawing.Color.Silver;
-				this.PropertiesGrid.SelectedItemWithFocusBackColor = System.Drawing.Color.DodgerBlue;
-				this.PropertiesGrid.SelectedItemWithFocusForeColor = System.Drawing.Color.White;
-				this.PropertiesGrid.ViewBackColor = System.Drawing.Color.White;
-				this.PropertiesGrid.ViewBorderColor = System.Drawing.Color.DarkGray;
-				this.PropertiesGrid.ViewForeColor = System.Drawing.Color.Black;
-			}
-			*/
 			if (ForceRefresh) this.PropertiesGrid.Update();
 		}
 		public void UpdateFilterNames(bool startup = false)

@@ -41,7 +41,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
         public void SetupWindow()
         {
             if (Methods.Editor.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
-            if (Methods.Internal.Theming.UseNightColors) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
+            if (Methods.Internal.Theming.UseExtendedColors) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
             else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 

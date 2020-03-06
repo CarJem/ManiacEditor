@@ -3,8 +3,13 @@ using System.Windows;
 
 namespace ManiacEditor.Controls.Assets
 {
-    public class SkinResourceDictionary : ResourceDictionary
+    public class SkinResourceDictionary : GenerationsLib.WPF.Styles.ColorLibraryBase
     {
+        public SkinResourceDictionary() : base()
+        {
+
+        }
+
         #region Themes
         private Uri _DarkSource;
         private Uri _LightSource;

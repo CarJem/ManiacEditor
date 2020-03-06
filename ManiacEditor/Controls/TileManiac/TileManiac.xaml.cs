@@ -58,7 +58,13 @@ namespace ManiacEditor.Controls.TileManiac
 
 		Grid[,] CollisionViewerBackgrounds = new Grid[16,16];
 		TextBlock[,] CollisionViewerLabels = new TextBlock[16,16];
-		Color CollisionColor = Color.FromArgb(255, 0, 255, 0);
+		Color CollisionColor
+		{
+			get
+			{
+				return Methods.Internal.Theming.TileManiac_CollisionColor;
+			}
+		}
 
 		public int curColisionMask; //What Collision Mask are we editing?
 
@@ -714,15 +720,13 @@ namespace ManiacEditor.Controls.TileManiac
         {
             if (OldColViewer != null)
             {
-                if (App.Skin == Enums.Skin.Dark) OldColViewer.Opacity = 0.5;
+                if (App.Skin != Enums.Skin.Light) OldColViewer.Opacity = 0.5;
                 else OldColViewer.Opacity = 1.0;
             }
-            if (App.Skin == Enums.Skin.Dark) CollisionColor = Color.FromArgb(20, 148, 20);
-            else CollisionColor = Color.FromArgb(255, 0, 255, 0);
-            this.CollisionList.Refresh();
+			this.CollisionList.Refresh();
             this.CollisionList.vScrollBar1Host.Refresh();
             this.CollisionList.vScrollBar1Host.scroller.Refresh();
-            System.Drawing.Color ListBackColor = (App.Skin == Enums.Skin.Dark ? Methods.Internal.Theming.DarkTheme0 : System.Drawing.Color.White);
+			System.Drawing.Color ListBackColor = Methods.Internal.Theming.ThemeBrush1;
             this.CollisionList.BackColor = ListBackColor;
         }
 

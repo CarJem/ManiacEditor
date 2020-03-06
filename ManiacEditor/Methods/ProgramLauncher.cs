@@ -680,7 +680,7 @@ namespace ManiacEditor.Methods
             {
                 Color = Color.FromArgb(Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1.R, Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1.G, Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1.B)
             };
-            Methods.Internal.Theming.UseExternalDarkTheme(colorSelect);
+            Methods.Internal.Theming.UseExternaTheme(colorSelect);
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -704,7 +704,7 @@ namespace ManiacEditor.Methods
             {
                 Color = Color.FromArgb(Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2.R, Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2.G, Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2.B)
             };
-            Methods.Internal.Theming.UseExternalDarkTheme(colorSelect);
+            Methods.Internal.Theming.UseExternaTheme(colorSelect);
             System.Windows.Forms.DialogResult result = colorSelect.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {

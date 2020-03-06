@@ -36,6 +36,7 @@
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/XceedStyles.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/LabelStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/CheckboxStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/HyperlinkStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Controls/Global/Controls/SplitContainerResources.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
