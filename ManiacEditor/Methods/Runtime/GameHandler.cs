@@ -74,6 +74,9 @@ namespace ManiacEditor.Methods.Runtime
         const int SW_SHOW = 5;
         #endregion
 
+        public static Methods.Runtime.ProcessMemory GameMemory { get; set; } = new Methods.Runtime.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
+
+
         public static bool GameRunning = false; //Tells us if the game is running
         public static string GamePath = ""; //Tells us where the game is located
         public static int P1_X = 0;
@@ -121,28 +124,28 @@ namespace ManiacEditor.Methods.Runtime
         public static IList<byte> DisableBackgroundPausing_Values = new List<byte> { 0xEB, 0xEB, 0xEB, 0x00 };
 
         #region Addresses
-        public static short Player1_State { get { return Editor.GameMemory.ReadShort(Player1Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player1Base + 0xC0, value); } }
-        public static short Player1_X { get { return Editor.GameMemory.ReadShort(Player1Base + 0x02); } set { Editor.GameMemory.WriteShort(Player1Base + 0x02, value); } }
-        public static short Player1_Y { get { return Editor.GameMemory.ReadShort(Player1Base + 0x06); } set { Editor.GameMemory.WriteShort(Player1Base + 0x06, value); } }
+        public static short Player1_State { get { return GameMemory.ReadShort(Player1Base + 0xC0); } set { GameMemory.WriteShort(Player1Base + 0xC0, value); } }
+        public static short Player1_X { get { return GameMemory.ReadShort(Player1Base + 0x02); } set { GameMemory.WriteShort(Player1Base + 0x02, value); } }
+        public static short Player1_Y { get { return GameMemory.ReadShort(Player1Base + 0x06); } set { GameMemory.WriteShort(Player1Base + 0x06, value); } }
 
-        public static short Player4_State { get { return Editor.GameMemory.ReadShort(Player4Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player4Base + 0xC0, value); } }
-        public static short Player4_X { get { return Editor.GameMemory.ReadShort(Player4Base + 0x02); } set { Editor.GameMemory.WriteShort(Player4Base + 0x02, value); } }
-        public static short Player4_Y { get { return Editor.GameMemory.ReadShort(Player4Base + 0x06); } set { Editor.GameMemory.WriteShort(Player4Base + 0x06, value); } }
+        public static short Player4_State { get { return GameMemory.ReadShort(Player4Base + 0xC0); } set { GameMemory.WriteShort(Player4Base + 0xC0, value); } }
+        public static short Player4_X { get { return GameMemory.ReadShort(Player4Base + 0x02); } set { GameMemory.WriteShort(Player4Base + 0x02, value); } }
+        public static short Player4_Y { get { return GameMemory.ReadShort(Player4Base + 0x06); } set { GameMemory.WriteShort(Player4Base + 0x06, value); } }
 
-        public static short Player3_State { get { return Editor.GameMemory.ReadShort(Player3Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player3Base + 0xC0, value); } }
-        public static short Player3_X { get { return Editor.GameMemory.ReadShort(Player3Base + 0x02); } set { Editor.GameMemory.WriteShort(Player3Base + 0x02, value); } }
-        public static short Player3_Y { get { return Editor.GameMemory.ReadShort(Player3Base + 0x06); } set { Editor.GameMemory.WriteShort(Player3Base + 0x06, value); } }
+        public static short Player3_State { get { return GameMemory.ReadShort(Player3Base + 0xC0); } set { GameMemory.WriteShort(Player3Base + 0xC0, value); } }
+        public static short Player3_X { get { return GameMemory.ReadShort(Player3Base + 0x02); } set { GameMemory.WriteShort(Player3Base + 0x02, value); } }
+        public static short Player3_Y { get { return GameMemory.ReadShort(Player3Base + 0x06); } set { GameMemory.WriteShort(Player3Base + 0x06, value); } }
 
-        public static short Player2_State { get { return Editor.GameMemory.ReadShort(Player2Base + 0xC0); } set { Editor.GameMemory.WriteShort(Player2Base + 0xC0, value); } }
-        public static short Player2_X { get { return Editor.GameMemory.ReadShort(Player2Base + 0x02); } set { Editor.GameMemory.WriteShort(Player2Base + 0x02, value); } }
-        public static short Player2_Y { get { return Editor.GameMemory.ReadShort(Player2Base + 0x06); } set { Editor.GameMemory.WriteShort(Player2Base + 0x06, value); } }
+        public static short Player2_State { get { return GameMemory.ReadShort(Player2Base + 0xC0); } set { GameMemory.WriteShort(Player2Base + 0xC0, value); } }
+        public static short Player2_X { get { return GameMemory.ReadShort(Player2Base + 0x02); } set { GameMemory.WriteShort(Player2Base + 0x02, value); } }
+        public static short Player2_Y { get { return GameMemory.ReadShort(Player2Base + 0x06); } set { GameMemory.WriteShort(Player2Base + 0x06, value); } }
 
-        public static byte StarPostEnable { get { return Editor.GameMemory.ReadByte(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34); } set { Editor.GameMemory.WriteByte(Editor.GameMemory.ReadByte(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34, value); } }
-        public static int StarPostX { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12, value); } }
-        public static int StarPostY { get { return Editor.GameMemory.ReadInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16); } set { Editor.GameMemory.WriteInt32(Editor.GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16, value); } }
+        public static byte StarPostEnable { get { return GameMemory.ReadByte(GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34); } set { GameMemory.WriteByte(GameMemory.ReadByte(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x34, value); } }
+        public static int StarPostX { get { return GameMemory.ReadInt32(GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12); } set { GameMemory.WriteInt32(GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x12, value); } }
+        public static int StarPostY { get { return GameMemory.ReadInt32(GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16); } set { GameMemory.WriteInt32(GameMemory.ReadInt32(CheckpointBase[GameVersion.IndexOf(SelectedGameVersion)]) + 0x16, value); } }
 
-        public static byte CurrentScene { get { return Editor.GameMemory.ReadByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
-        public static byte GameState { get { return Editor.GameMemory.ReadByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { Editor.GameMemory.WriteByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
+        public static byte CurrentScene { get { return GameMemory.ReadByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { GameMemory.WriteByte(CurrentSceneAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
+        public static byte GameState { get { return GameMemory.ReadByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)]); } set { GameMemory.WriteByte(GameStateAddress[GameVersion.IndexOf(SelectedGameVersion)], value); } }
         #endregion
 
         private static Controls.Editor.MainEditor Editor;
@@ -544,14 +547,14 @@ namespace ManiacEditor.Methods.Runtime
                         GameReady = true;
 
                         // Wait until there is a Running Scene.
-                        while (Editor.GameMemory.ReadByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)]) == 0x00) Thread.Sleep(1);
+                        while (GameMemory.ReadByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)]) == 0x00) Thread.Sleep(1);
 
                         // Swap the Scene
                         if (Methods.Editor.SolutionState.LevelID != -1)
                         {
-                            Editor.GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Methods.Editor.SolutionState.LevelID);
+                            GameMemory.WriteByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)], (byte)Methods.Editor.SolutionState.LevelID);
                             // Restart the Scene
-                            Editor.GameMemory.WriteByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
+                            GameMemory.WriteByte(GameState_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                         }
 
 
@@ -567,7 +570,7 @@ namespace ManiacEditor.Methods.Runtime
                     while (!GameReady)
                         Thread.Sleep(10);
                     /* Level != Main Menu*/
-                    while (Editor.GameMemory.ReadByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x02 || ManiacEditor.Properties.Settings.MyGameOptions.GameQuitOnMenu == true)
+                    while (GameMemory.ReadByte(CurrentScene_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x02 || ManiacEditor.Properties.Settings.MyGameOptions.GameQuitOnMenu == true)
                     {
                         // Check if the user closed the game
                         if (GameProcess.HasExited || !GameRunning)
@@ -582,16 +585,16 @@ namespace ManiacEditor.Methods.Runtime
                         UseCheatCodes(GameProcess);
                         // Makes sure the process is attached and patches are applied
                         // Set Player 1 Controller Set to 1 (If we set it to AnyController (0x00) we can't use Debug Mode In-Game)
-                        if (Editor.GameMemory.ReadByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x01 && ManiacEditor.Properties.Settings.MyGameOptions.GameAutoInput == false)
+                        if (GameMemory.ReadByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)]) != 0x01 && ManiacEditor.Properties.Settings.MyGameOptions.GameAutoInput == false)
                         {
-                            Editor.GameMemory.WriteByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0x01); //setting this to 0x00 causes the inability to use debug mode
-                            Editor.GameMemory.WriteByte(Player2_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0xFF);
+                            GameMemory.WriteByte(Player1_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0x01); //setting this to 0x00 causes the inability to use debug mode
+                            GameMemory.WriteByte(Player2_ControllerID_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0xFF);
                         }
                         Thread.Sleep(300);
                     }
                     // User is on the Main Menu
                     // Close the game
-                    Editor.GameMemory.WriteByte(IsGameRunning_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
+                    GameMemory.WriteByte(IsGameRunning_ptr[GameVersion.IndexOf(SelectedGameVersion)], 0);
                     GameRunning = false;
                     Editor.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.UpdateControls()));
                 }).Start();
@@ -625,16 +628,16 @@ namespace ManiacEditor.Methods.Runtime
         }
         public static void UseCheatCodes(Process p)
         {
-            Editor.GameMemory.Attach(p);
+            GameMemory.Attach(p);
             if (IsOffset[GameVersion.IndexOf(SelectedGameVersion)])
-                Editor.GameMemory.Offset = (int)p.MainModule.BaseAddress;
+                GameMemory.Offset = (int)p.MainModule.BaseAddress;
             else
-                Editor.GameMemory.Offset = 0;
+                GameMemory.Offset = 0;
 
             // Mania Plus Patches
-            if (ManiacEditor.Properties.Settings.MyGameOptions.EnableDebugMode) Editor.GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug
-            if (ManiacEditor.Properties.Settings.MyGameOptions.EnableDevMode) Editor.GameMemory.WriteByte(EnableDevMenu[GameVersion.IndexOf(SelectedGameVersion)], EnableDevMenu_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Allow DevMenu
-            if (ManiacEditor.Properties.Settings.MyGameOptions.DisableBackgroundPausing) Editor.GameMemory.WriteByte(DisableBackgroundPausing[GameVersion.IndexOf(SelectedGameVersion)], DisableBackgroundPausing_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Disable Background Pausing
+            if (ManiacEditor.Properties.Settings.MyGameOptions.EnableDebugMode) GameMemory.WriteByte(EnableDebugMode[GameVersion.IndexOf(SelectedGameVersion)], EnableDebugMode_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Enable Debug
+            if (ManiacEditor.Properties.Settings.MyGameOptions.EnableDevMode) GameMemory.WriteByte(EnableDevMenu[GameVersion.IndexOf(SelectedGameVersion)], EnableDevMenu_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Allow DevMenu
+            if (ManiacEditor.Properties.Settings.MyGameOptions.DisableBackgroundPausing) GameMemory.WriteByte(DisableBackgroundPausing[GameVersion.IndexOf(SelectedGameVersion)], DisableBackgroundPausing_Values[GameVersion.IndexOf(SelectedGameVersion)]); // Disable Background Pausing
         }
 
 
@@ -647,8 +650,8 @@ namespace ManiacEditor.Methods.Runtime
             if (GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                Editor.GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom));
-                Editor.GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
             }
         }
 

@@ -171,21 +171,21 @@
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem Foreground="{DynamicResource DisabledText}" x:Name="gridAlignmentSizeToolStripMenuItem" Header="Grid Alignment Size:"></MenuItem>
-                            <MenuItem x:Name="x8ToolStripMenuItem" Header="8x8" Click="Magnet8x8Event"></MenuItem>
-                            <MenuItem x:Name="x16ToolStripMenuItem1" Header="16x16" Click="Magnet16x16Event" IsChecked="true"></MenuItem>
-                            <MenuItem x:Name="x32ToolStripMenuItem" Header="32x32" Click="Magnet32x32Event"></MenuItem>
-                            <MenuItem x:Name="x64ToolStripMenuItem" Header="64x64" Click="Magnet64x64Event"></MenuItem>
-                            <MenuItem x:Name="MagnetCustomSizeToolStripMenuItem" Click="MagnetCustomEvent" StaysOpenOnClick="True">
+                            <MenuItem x:Name="Magnet8x8ModeMenuItem" Header="8x8" Click="Magnet8x8Event"></MenuItem>
+                            <MenuItem x:Name="Magnet16x16ModeMenuItem" Header="16x16" Click="Magnet16x16Event" IsChecked="true"></MenuItem>
+                            <MenuItem x:Name="Magnet32x32ModeMenuItem" Header="32x32" Click="Magnet32x32Event"></MenuItem>
+                            <MenuItem x:Name="Magnet64x64ModeMenuItem" Header="64x64" Click="Magnet64x64Event"></MenuItem>
+                            <MenuItem x:Name="MagnetCustomModeMenuItem" Click="MagnetCustomEvent" StaysOpenOnClick="True">
                                 <MenuItem.Header>
                                     <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
-                                        <TextBlock Name="CustomMagnetLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                        <TextBlock Name="CustomMagnetSizeLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
                                         <wpfTool:IntegerUpDown Width="20" Name="CustomMagnetSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent" DefaultValue="16" ValueChanged="CustomMagnetSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
                                     </StackPanel>
                                 </MenuItem.Header>
                             </MenuItem>
                             <MenuItem Foreground="{DynamicResource DisabledText}" x:Name="optionsToolStripMenuItem1" Header="Options: "></MenuItem>
-                            <MenuItem IsCheckable="True" IsChecked="True" x:Name="enableXAxisToolStripMenuItem" Header="Enable X Axis" Click="EnableMagnetXAxisLockEvent"></MenuItem>
-                            <MenuItem IsCheckable="True" IsChecked="True" x:Name="enableYAxisToolStripMenuItem" Header="Enable Y Axis" Click="EnableMagnetYAxisLockEvent"></MenuItem>
+                            <MenuItem IsCheckable="True" IsChecked="True" x:Name="MagnetXAxisLockMenuItem" Header="Enable X Axis" Click="EnableMagnetXAxisLockEvent"></MenuItem>
+                            <MenuItem IsCheckable="True" IsChecked="True" x:Name="MagnetYAxisLockMenuItem" Header="Enable Y Axis" Click="EnableMagnetYAxisLockEvent"></MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
@@ -212,7 +212,7 @@
                             <MenuItem x:Name="GridCustomSizeMenuItem" Click="SetGridCustomSizeEvent" StaysOpenOnClick="True">
                                 <MenuItem.Header>
                                     <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
-                                        <TextBlock Name="CustomGridLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                        <TextBlock Name="CustomGridSizeLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
                                         <wpfTool:IntegerUpDown AllowDrop="False" Width="20" Minimum="16" Name="CustomGridSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent"  ValueChanged="CustomGridSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
                                     </StackPanel>
                                 </MenuItem.Header>
@@ -249,9 +249,9 @@
                     </Button.Content>
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ToolbarBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
-                            <MenuItem x:Name="defaultToolStripMenuItem" IsTabStop="False" Focusable="False" Header="Default (Mania)" Click="UseNormalCollisionEvent"/>
-                            <MenuItem x:Name="invertedToolStripMenuItem" IsTabStop="False" Focusable="False"  Header="Inverted" Click="UseInvertedCollisionEvent"/>
-                            <MenuItem x:Name="customToolStripMenuItem1" IsTabStop="False" Focusable="False"  Header="Custom" Click="UseCustomCollisionEvent"/>
+                            <MenuItem x:Name="CollisionDefaultMenuItem" IsTabStop="False" Focusable="False" Header="Default (Mania)" Click="UseNormalCollisionEvent"/>
+                            <MenuItem x:Name="CollisionInvertedMenuItem" IsTabStop="False" Focusable="False"  Header="Inverted" Click="UseInvertedCollisionEvent"/>
+                            <MenuItem x:Name="CollisionCustomMenuItem" IsTabStop="False" Focusable="False"  Header="Custom" Click="UseCustomCollisionEvent"/>
                             <MenuItem Header="Custom Values..." IsTabStop="False" IsEnabled="False" Focusable="False" Foreground="{DynamicResource DisabledText}"></MenuItem>
                             <MenuItem>
                                 <MenuItem.Header>

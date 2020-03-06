@@ -645,11 +645,11 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
             void DrawExtraLayers()
             {
-                foreach (var elb in Instance.ExtraLayerEditViewButtons)
+                foreach (var elb in Instance.EditorToolbar.ExtraLayerEditViewButtons)
                 {
                     if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll)
                     {
-                        int index = Instance.ExtraLayerEditViewButtons.IndexOf(elb);
+                        int index = Instance.EditorToolbar.ExtraLayerEditViewButtons.IndexOf(elb);
                         var _extraViewLayer = Methods.Editor.Solution.CurrentScene.OtherLayers.ElementAt(index);
                         _extraViewLayer.Draw(GraphicPanel);
                     }

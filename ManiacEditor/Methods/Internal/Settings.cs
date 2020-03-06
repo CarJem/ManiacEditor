@@ -211,9 +211,9 @@ namespace ManiacEditor.Methods.Internal
             else Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = false;
 
             //Collision Color Presets
-            Instance.EditorToolbar.defaultToolStripMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 0;
-            Instance.EditorToolbar.invertedToolStripMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 1;
-            Instance.EditorToolbar.customToolStripMenuItem1.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 2;
+            Instance.EditorToolbar.CollisionDefaultMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 0;
+            Instance.EditorToolbar.CollisionInvertedMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 1;
+            Instance.EditorToolbar.CollisionCustomMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 2;
             Methods.Editor.SolutionState.CollisionPreset = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors;
             Instance.RefreshCollisionColours();
 
@@ -239,8 +239,8 @@ namespace ManiacEditor.Methods.Internal
             Methods.Editor.SolutionState.ScrollLocked = ManiacEditor.Properties.Settings.MyDefaults.ScrollLockDefault;
             Methods.Editor.SolutionState.ScrollDirection = (ManiacEditor.Properties.Settings.MyDefaults.ScrollLockDirectionDefault == true ? Axis.Y : Axis.X);
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.xToolStripMenuItem.IsChecked = Methods.Editor.SolutionState.ScrollDirection == Axis.X;
-            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.yToolStripMenuItem.IsChecked = Methods.Editor.SolutionState.ScrollDirection == Axis.Y;
+            Instance.MenuBar.xToolStripMenuItem.IsChecked = Methods.Editor.SolutionState.ScrollDirection == Axis.X;
+            Instance.MenuBar.yToolStripMenuItem.IsChecked = Methods.Editor.SolutionState.ScrollDirection == Axis.Y;
 
             Methods.Editor.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Properties.Settings.MyDefaults.EnablePixelModeDefault;
 
@@ -278,13 +278,13 @@ namespace ManiacEditor.Methods.Internal
             Methods.Editor.SolutionState.GridColor = ManiacEditor.Properties.Settings.MyDefaults.DefaultGridColor;
             Methods.Editor.SolutionState.waterColor = ManiacEditor.Properties.Settings.MyDefaults.WaterEntityColorDefault;
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FasterNudgeValueNUD.Value = ManiacEditor.Properties.Settings.MyDefaults.FasterNudgeValue;
+            Instance.EditorToolbar.FasterNudgeValueNUD.Value = ManiacEditor.Properties.Settings.MyDefaults.FasterNudgeValue;
 
 
 
 
 
-            var allLangItems = ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allLangItems = Instance.MenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
                 if (item != null)
                 {
@@ -297,7 +297,7 @@ namespace ManiacEditor.Methods.Internal
 
 
             bool endSearch = false;
-            var allButtonItems = ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
+            var allButtonItems = Instance.MenuBar.menuButtonsToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allButtonItems)
             {
                 if (item.Tag != null)

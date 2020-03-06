@@ -17,6 +17,12 @@ namespace ManiacEditor.Controls.Global.Controls
     [DefaultEvent("SelectedIndexChanged")]
     public partial class RetroEDTileList : UserControl
     {
+        private static ManiacEditor.Controls.Editor.MainEditor Instance;
+        public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor _instance)
+        {
+            Instance = _instance;
+        }
+
         private int selectedIndex = -1;
 		private System.Windows.Forms.Integration.ElementHost elementHost1;
 		public Global.Controls.VScrollBar vScrollBar1Host;
@@ -422,44 +428,44 @@ namespace ManiacEditor.Controls.Global.Controls
 
 		private void removeChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.RemoveChunk(selectedIndex);
+            Instance.TilesToolbar.RemoveChunk(selectedIndex);
 		}
 
 		private void duplicateChunkToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (SelectedIndex != -1)
 			{
-                ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
+                Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
 			}
 		}
 
 		private void importChunkFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (ManiacEditor.Controls.Editor.MainEditor.Instance.TilesClipboard != null)
+			if (Instance.TilesClipboard != null)
 			{
-                ManiacEditor.Controls.Editor.MainEditor.Instance.Chunks.ConvertClipboardtoMultiLayerChunk(ManiacEditor.Controls.Editor.MainEditor.Instance.TilesClipboard.Item1, ManiacEditor.Controls.Editor.MainEditor.Instance.TilesClipboard.Item2);
+                Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Instance.TilesClipboard.Item1, Instance.TilesClipboard.Item2);
 
-                ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar?.ChunksReload();
+                Instance.TilesToolbar?.ChunksReload();
 			}
 		}
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance == null || ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.IsClosed) ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
-			if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
+			if (Instance.TileManiacInstance == null || Instance.TileManiacInstance.IsClosed) Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
+			if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
-                ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Show();
+                Instance.TileManiacInstance.Show();
 			}
 			if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
 			{
-				if (ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.tcf == null)
+				if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Instance.TileManiacInstance.tcf == null)
 				{
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedIndex);
+                    Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedIndex);
 				}
 				else
 				{
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.TileManiacInstance.Activate();
+                    Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
+                    Instance.TileManiacInstance.Activate();
 				}
 
 			}

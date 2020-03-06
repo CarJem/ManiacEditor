@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManiacEditor"
         xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:genLib="clr-namespace:GenerationsLib.WPF.Styles;assembly=GenerationsLib.WPF"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
         Height="Auto" Width="Auto" MinHeight="300" MinWidth="832" Background="{DynamicResource NormalBackground}" x:Name="SceneOpener"  Loaded="OnLoadedEvent">

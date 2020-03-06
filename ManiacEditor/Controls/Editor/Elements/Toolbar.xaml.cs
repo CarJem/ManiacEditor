@@ -34,7 +34,17 @@ namespace ManiacEditor.Controls.Editor.Elements
     /// </summary>
     public partial class Toolbar : UserControl
     {
+        #region Variables
         private bool HasFullyInitialized { get; set; } = false;
+
+        #region Extra Layer Buttons
+        public IDictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton> ExtraLayerEditViewButtons { get; set; }
+        public IList<Separator> ExtraLayerSeperators { get; set; }
+        #endregion
+
+        #endregion
+
+        #region Init
         public Toolbar()
         {
             InitializeComponent();
@@ -55,14 +65,20 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         }
 
-        #region Action Events (MenuItems, Clicks, etc.)
+        private static MainEditor Instance;
+        public static void UpdateInstance(MainEditor _instance)
+        {
+            Instance = _instance;
+        }
+        #endregion
+
         #region File Events
         private void NewSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.NewScene(); }
         public void OpenSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.OpenScene(); }
         public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.Save(); }
         #endregion
 
-        #region Animations DropDown (WIP)
+        #region Animation Events
         private void MovingPlatformsObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (Methods.Editor.SolutionState.AllowMovingPlatformAnimations == false)
@@ -77,7 +93,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             }
 
         }
-
         private void SpriteFramesToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (Methods.Editor.SolutionState.AllowSpriteAnimations == false)
@@ -91,7 +106,6 @@ namespace ManiacEditor.Controls.Editor.Elements
                 Methods.Editor.SolutionState.AllowSpriteAnimations = false;
             }
         }
-
         private void ParallaxAnimationMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (Methods.Editor.SolutionState.ParallaxAnimationChecked == false)
@@ -107,17 +121,61 @@ namespace ManiacEditor.Controls.Editor.Elements
         }
 
         #endregion
+
+        #region Apps Item Events
+        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacIntergration(); }
+        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKUnpacker(); }
+        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.SonicManiaHeadless(); }
+        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.CheatEngine(); }
+        private void ModManager(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaModManager(); }
+        private void TileManiacNormal(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacNormal(); }
+        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.InsanicManiac(); }
+        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKAnnimationEditor(); }
+        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RenderListManager(); }
+        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaPal(sender, e); }
+        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaPalSubmenuOpened(sender, e); }
+        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.DuplicateObjectIDHealer(); }
+        #endregion
+
+        #region Folder Item Events
+        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenSceneFolder(); }
+        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorFolder(); }
+        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorFixedSettingsFolder(); }
+        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorPortableSettingsFolder(); }
+        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenDataDirectory(); }
+        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenSonicManiaFolder(); }
+        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenASavedPlaceDropDownOpening(sender, e); }
+        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenASavedPlaceDropDownClosed(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenAResourcePackFolderDropDownOpening(sender, e); }
+        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenAResourcePackFolderDropDownClosed(sender, e); }
+        #endregion
+
+        #region Common Tool Events
+
+        #region General Events
+        private void UndoEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.EditorUndo(); }
+        private void RedoEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.EditorRedo(); }
+        private void ZoomInEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.ZoomIn(); }
+        private void ZoomOutEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.ZoomOut(); }
+        #endregion
+
+        #region Global Tools
+        private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.SelectionMode(); }
+        private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.PointerMode(); }
+        private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.DrawMode(); }
+        private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.SplineMode(); }
+        private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ChunksMode(true); }
+        #endregion
+
         #region Spline Tool Events
         private void SplineShowLineCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
             Methods.Editor.SolutionState.AdjustSplineGroupOptions(Methods.Editor.SolutionState.SplineOption.ShowLines, SplineShowLineCheckbox.IsChecked.Value);
         }
-
         private void SplineShowPointsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
             Methods.Editor.SolutionState.AdjustSplineGroupOptions(Methods.Editor.SolutionState.SplineOption.ShowPoints, SplineShowPointsCheckbox.IsChecked.Value);
         }
-
         private void SplineShowObjectsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
             Methods.Editor.SolutionState.AdjustSplineGroupOptions(Methods.Editor.SolutionState.SplineOption.ShowObjects, SplineShowObjectsCheckbox.IsChecked.Value);
@@ -194,7 +252,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     var obj = selectedItem.Tag as RSDKv5.SceneObject;
                     int splineID = Methods.Editor.SolutionState.SelectedSplineID;
                     Methods.Editor.SolutionState.AdjustSplineGroupOptions(Methods.Editor.SolutionState.SplineOption.SpawnObject, Methods.Editor.Solution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar?.UpdatePropertiesGrid(new List<RSDKv5.SceneEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
+                    Instance.EntitiesToolbar?.UpdatePropertiesGrid(new List<RSDKv5.SceneEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
 
                     if (Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
                         SplineRenderObjectName.Content = Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
@@ -222,16 +280,16 @@ namespace ManiacEditor.Controls.Editor.Elements
         }
 
         #endregion
-        #region Draw Tool Options Events
+
+        #region Draw Tool Size Events
         bool AllowDrawBrushSizeChange = true;
         private void DrawToolSizeChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             DrawToolSizeChanged();
         }
-
         private void DrawToolSizeChanged(bool wasSlider = false)
         {
-            if (ManiacEditor.Controls.Editor.MainEditor.Instance != null)
+            if (Instance != null)
             {
                 if (DrawTileSizeNUD != null && DrawTileSizeSlider != null && AllowDrawBrushSizeChange)
                 {
@@ -244,47 +302,33 @@ namespace ManiacEditor.Controls.Editor.Elements
                 }
             }
         }
-
         private void DrawToolSizeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             DrawToolSizeChanged(true);
         }
 
         #endregion
-        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.UseMagnetMode ^= true; }
-        private void UndoEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.EditorUndo(); }
-        private void RedoEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.EditorRedo(); }
-        private void ZoomInEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.ZoomIn(); }
-        private void ZoomOutEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.ZoomOut(); }
-        private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.SelectionMode(); }
-        private void TogglePointerToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.PointerMode(); }
-        private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.DrawMode(); }
-        private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.SplineMode(); }
-        private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ChunksMode(true); }
-        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(); }
-        public void ToggleShowTileIDEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowTileID ^= true; }
-        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Methods.Editor.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
+
+        #region Collision Events
         public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowCollisionA ^= true; }
         public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowCollisionB ^= true; }
-        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowFlippedTileHelper ^= true; }
-        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.UseEncoreColors ^= true; }
-        private void RunSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.RunScene(); }
         private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.CollisionPreset = 0; }
         private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.CollisionPreset = 1; }
         private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.CollisionPreset = 2; }
-
-
-        #region Collision Slider Events
         private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Methods.Editor.SolutionState.collisionOpacityChanged = true;
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ReloadSpecificTextures(sender, e);
-            ManiacEditor.Controls.Editor.MainEditor.Instance.RefreshCollisionColours(true);
+            if (Instance != null)
+            {
+                Methods.Editor.SolutionState.collisionOpacityChanged = true;
+                Instance.ReloadSpecificTextures(sender, e);
+                Instance.RefreshCollisionColours(true);
+            }
         }
         #endregion
 
         #region Magnet Events
 
+        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.UseMagnetMode ^= true; }
         private void Magnet8x8Event(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.MagnetSize = 8; }
         private void Magnet16x16Event(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.MagnetSize = 16; }
         private void Magnet32x32Event(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.MagnetSize = 32; }
@@ -318,32 +362,17 @@ namespace ManiacEditor.Controls.Editor.Elements
         }
         #endregion
 
-        #region Apps
-        private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacIntergration(); }
-        private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKUnpacker(); }
-        private void SonicManiaHeadless(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.SonicManiaHeadless(); }
-        private void MenuAppsCheatEngine_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.CheatEngine(); }
-        private void ModManager(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaModManager(); }
-        private void TileManiacNormal(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacNormal(); }
-        private void InsanicManiacToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.InsanicManiac(); }
-        private void RSDKAnnimationEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKAnnimationEditor(); }
-        private void RenderListManagerToolstripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RenderListManager(); }
-        private void ColorPaletteEditorToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaPal(sender, e); }
-        private void ManiaPalMenuItem_SubmenuOpened(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ManiaPalSubmenuOpened(sender, e); }
-        private void DuplicateObjectIDHealerToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.DuplicateObjectIDHealer(); }
+        #region Misc Events
+
+        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(); }
+        public void ToggleShowTileIDEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowTileID ^= true; }
+        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Methods.Editor.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
+        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ShowFlippedTileHelper ^= true; }
+        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.UseEncoreColors ^= true; }
+        private void RunSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.RunScene(); }
+
         #endregion
 
-        #region Folders
-        private void OpenSceneFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenSceneFolder(); }
-        private void OpenManiacEditorFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorFolder(); }
-        private void OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorFixedSettingsFolder(); }
-        private void OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenManiacEditorPortableSettingsFolder(); }
-        private void OpenDataDirectoryFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenDataDirectory(); }
-        private void OpenSonicManiaFolderToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenSonicManiaFolder(); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenASavedPlaceDropDownOpening(sender, e); }
-        private void OpenASavedPlaceToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenASavedPlaceDropDownClosed(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownOpening(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenAResourcePackFolderDropDownOpening(sender, e); }
-        private void OpenAResourcePackFolderToolStripMenuItem_DropDownClosed(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.OpenAResourcePackFolderDropDownClosed(sender, e); }
         #endregion
 
         #region Settings and Other Menu Events
@@ -372,8 +401,6 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void RestartScene(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.RestartScene(); }
         private void TrackThePlayer(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.TrackthePlayer(sender, e); }
         private void UpdateInGameMenuItems(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.UpdateRunSceneDropdown(); }
-        #endregion
-
         #endregion
 
         #region Layer Toolbar Events
@@ -480,7 +507,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     EditFGHigher.IsCheckedB = false;
                 }
 
-                foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in ExtraLayerEditViewButtons.Values)
                 {
                     elb.IsCheckedN = false;
                     elb.IsCheckedA = false;
@@ -506,7 +533,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     button.IsCheckedN = true;
                 }
 
-                foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in ExtraLayerEditViewButtons.Values)
                 {
                     if (elb != button) elb.IsCheckedN = false;
                 }
@@ -532,7 +559,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     button.IsCheckedA = true;
                 }
 
-                foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in ExtraLayerEditViewButtons.Values)
                 {
                     if (elb != button) elb.IsCheckedA = false;
                 }
@@ -554,7 +581,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     button.IsCheckedB = true;
                 }
 
-                foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons.Values)
+                foreach (var elb in ExtraLayerEditViewButtons.Values)
                 {
                     if (elb != button) elb.IsCheckedB = false;
                 }
@@ -633,7 +660,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             //EDIT BUTTONS SEPERATOR
             Separator tss = new Separator();
             LayerToolbar.Items.Add(tss);
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerSeperators.Add(tss);
+            ExtraLayerSeperators.Add(tss);
 
             //VIEW BUTTONS
             foreach (Classes.Scene.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
@@ -654,7 +681,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             //EDIT + VIEW BUTTONS LIST
             for (int i = 0; i < _extraLayerViewButtons.Count; i++)
             {
-                ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
+                ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
             }
 
             UpdateDualButtonsControlsForLayer(Methods.Editor.Solution.FGLow, ShowFGLow, EditFGLow);
@@ -664,21 +691,21 @@ namespace ManiacEditor.Controls.Editor.Elements
         }
         public void TearDownExtraLayerButtons()
         {
-            foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons)
+            foreach (var elb in ExtraLayerEditViewButtons)
             {
                 LayerToolbar.Items.Remove(elb.Key);
                 elb.Value.Click -= AdHocLayerEdit_Click;
                 elb.Value.RightClick -= AdHocLayerEdit_RightClick;
                 LayerToolbar.Items.Remove(elb.Value);
             }
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons.Clear();
+            ExtraLayerEditViewButtons.Clear();
 
 
-            foreach (var els in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerSeperators)
+            foreach (var els in ExtraLayerSeperators)
             {
                 LayerToolbar.Items.Remove(els);
             }
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerSeperators.Clear();
+            ExtraLayerSeperators.Clear();
 
         }
         /// <summary>
@@ -731,7 +758,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     EditFGHigher.ClearCheckedItems(3);
                     EditEntities.ClearCheckedItems(3);
 
-                    foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons)
+                    foreach (var elb in ExtraLayerEditViewButtons)
                     {
                         if (elb.Value != tsb)
                         {
@@ -759,7 +786,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     EditFGHigher.ClearCheckedItems(1);
                     EditEntities.ClearCheckedItems(1);
 
-                    foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons)
+                    foreach (var elb in ExtraLayerEditViewButtons)
                     {
                         if (elb.Value != tsb)
                         {
@@ -787,7 +814,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     EditFGHigher.ClearCheckedItems(2);
                     EditEntities.ClearCheckedItems(2);
 
-                    foreach (var elb in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons)
+                    foreach (var elb in ExtraLayerEditViewButtons)
                     {
                         if (elb.Value != tsb)
                         {
@@ -853,7 +880,6 @@ namespace ManiacEditor.Controls.Editor.Elements
                 Methods.Editor.SolutionState.GridColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
-
         private void comboBox7_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Water Color
@@ -862,47 +888,48 @@ namespace ManiacEditor.Controls.Editor.Elements
                 Methods.Editor.SolutionState.waterColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
-
         private void comboBox6_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Collision Solid(Top Only) Color
-            if (e.NewValue.Value != null)
+            if (e.NewValue.Value != null && Instance != null)
             {
                 Methods.Editor.SolutionState.CollisionTOColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                ManiacEditor.Controls.Editor.MainEditor.Instance.RefreshCollisionColours(true);
+                Instance.RefreshCollisionColours(true);
             }
         }
-
         private void comboBox5_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Collision Solid(LRD) Color
-            if (e.NewValue.Value != null)
+            if (e.NewValue.Value != null && Instance != null)
             {
                 Methods.Editor.SolutionState.CollisionLRDColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                ManiacEditor.Controls.Editor.MainEditor.Instance.RefreshCollisionColours(true);
+                Instance.RefreshCollisionColours(true);
             }
         }
-
         private void comboBox4_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
             //Collision Solid(All) Color
-            if (e.NewValue.Value != null)
+            if (e.NewValue.Value != null && Instance != null)
             {
                 Methods.Editor.SolutionState.CollisionSAColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                ManiacEditor.Controls.Editor.MainEditor.Instance.RefreshCollisionColours(true);
+                Instance.RefreshCollisionColours(true);
             }
         }
-
         private void CollisionColorPickerClosed(object sender, RoutedEventArgs e)
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ReloadSpecificTextures(sender, e);
-            ManiacEditor.Controls.Editor.MainEditor.Instance.RefreshCollisionColours(true);
+            Instance.ReloadSpecificTextures(sender, e);
+            Instance.RefreshCollisionColours(true);
         }
 
 
         #endregion
 
-        #region UI
+        #region Generated Items
+
+
+        #endregion
+
+        #region UI Refresh
 
         public void UpdateGameRunningButton(bool enabled = true)
         {
@@ -919,7 +946,6 @@ namespace ManiacEditor.Controls.Editor.Elements
                 RunSceneIcon.Fill = System.Windows.Media.Brushes.Gray;
             }
         }
-
         public void SetEditButtonsState(bool enabled)
         {
             EditFGLow.IsEnabled = enabled && Methods.Editor.Solution.FGLow != null;
@@ -938,7 +964,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             EditFGLower.IsCheckedB = enabled && EditFGLower.IsCheckedB.Value;
             EditFGHigher.IsCheckedB = enabled && EditFGHigher.IsCheckedB.Value;
 
-            foreach (var layerButtons in ManiacEditor.Controls.Editor.MainEditor.Instance.ExtraLayerEditViewButtons)
+            foreach (var layerButtons in ExtraLayerEditViewButtons)
             {
                 layerButtons.Value.IsCheckedA = layerButtons.Value.IsCheckedA.Value && enabled;
                 layerButtons.Value.IsCheckedB = layerButtons.Value.IsCheckedB.Value && enabled;
@@ -946,7 +972,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             EditEntities.IsCheckedN = enabled && EditEntities.IsCheckedN.Value;
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.MenuBar.SetEditButtonsState(enabled);
+            Instance.MenuBar.SetEditButtonsState(enabled);
 
             SetLayerEditButtonsState(enabled);
 
@@ -957,8 +983,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 
 
 
-            UndoButton.IsEnabled = enabled && ManiacEditor.Controls.Editor.MainEditor.Instance.UndoStack.Count > 0;
-            RedoButton.IsEnabled = enabled && ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Count > 0;
+            UndoButton.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
+            RedoButton.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
 
 
 
@@ -1009,15 +1035,15 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             PointerToolButton.IsChecked = isAnyOtherToolChecked();
             ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit();
-            if (ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar != null)
+            if (Instance.TilesToolbar != null)
             {
                 if (ChunksToolButton.IsChecked.Value)
                 {
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.TabControl.SelectedIndex = 1;
+                    Instance.TilesToolbar.TabControl.SelectedIndex = 1;
                 }
                 else
                 {
-                    ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.TabControl.SelectedIndex = 0;
+                    Instance.TilesToolbar.TabControl.SelectedIndex = 0;
                 }
             }
 
@@ -1028,7 +1054,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             EncorePaletteButton.IsEnabled = enabled && Methods.Editor.SolutionState.EncorePaletteExists;
             FlipAssistButton.IsEnabled = enabled;
         }
-
         private void SetLayerEditButtonsState(bool enabled)
         {
             if (!Methods.Editor.SolutionState.MultiLayerEditMode)
@@ -1037,9 +1062,9 @@ namespace ManiacEditor.Controls.Editor.Elements
                 else if (enabled && EditFGHigh.IsCheckedN.Value) Methods.Editor.Solution.EditLayerA = Methods.Editor.Solution.FGHigh;
                 else if (enabled && EditFGHigher.IsCheckedN.Value) Methods.Editor.Solution.EditLayerA = Methods.Editor.Solution.FGHigher;
                 else if (enabled && EditFGLower.IsCheckedN.Value) Methods.Editor.Solution.EditLayerA = Methods.Editor.Solution.FGLower;
-                else if (enabled && MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedN.Value))
+                else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedN.Value))
                 {
-                    var selectedExtraLayerButton = MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedN.Value);
+                    var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedN.Value);
                     var editorLayer = Methods.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
                     Methods.Editor.Solution.EditLayerA = editorLayer;
@@ -1058,11 +1083,11 @@ namespace ManiacEditor.Controls.Editor.Elements
                 else if (enabled && EditFGHigh.IsCheckedA.Value) Methods.Editor.Solution.EditLayerA = Methods.Editor.Solution.FGHigh;
                 else if (enabled && EditFGHigher.IsCheckedA.Value) Methods.Editor.Solution.EditLayerA = Methods.Editor.Solution.FGHigher;
                 else if (enabled && EditFGLower.IsCheckedA.Value) Methods.Editor.Solution.EditLayerA = Methods.Editor.Solution.FGLower;
-                else if (enabled && MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
+                else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
                 {
 
-                    var selectedExtraLayerButton = MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
-                    int index = MainEditor.Instance.ExtraLayerEditViewButtons.IndexOf(selectedExtraLayerButton);
+                    var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
+                    int index = ExtraLayerEditViewButtons.IndexOf(selectedExtraLayerButton);
                     var editorLayer = Methods.Editor.Solution.CurrentScene.OtherLayers.ElementAt(index);
 
                     Methods.Editor.Solution.EditLayerA = editorLayer;
@@ -1075,9 +1100,9 @@ namespace ManiacEditor.Controls.Editor.Elements
                 else if (enabled && EditFGHigh.IsCheckedB.Value) Methods.Editor.Solution.EditLayerB = Methods.Editor.Solution.FGHigh;
                 else if (enabled && EditFGHigher.IsCheckedB.Value) Methods.Editor.Solution.EditLayerB = Methods.Editor.Solution.FGHigher;
                 else if (enabled && EditFGLower.IsCheckedB.Value) Methods.Editor.Solution.EditLayerB = Methods.Editor.Solution.FGLower;
-                else if (enabled && MainEditor.Instance.ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
+                else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
                 {
-                    var selectedExtraLayerButton = MainEditor.Instance.ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
+                    var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
                     var editorLayer = Methods.Editor.Solution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
 
                     Methods.Editor.Solution.EditLayerB = editorLayer;
@@ -1086,7 +1111,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             }
 
         }
-
         public void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
         {
             ShowFGHigh.IsEnabled = enabled && Methods.Editor.Solution.FGHigh != null;
@@ -1114,9 +1138,6 @@ namespace ManiacEditor.Controls.Editor.Elements
                 ZoomOutButton.IsEnabled = enabled && Methods.Editor.SolutionState.ZoomLevel > -5;
             }
         }
-
-        #endregion
-
         public void UpdateTooltips()
         {
             New.ToolTip = "New Scene" + KeyBindPraser("New", true);
@@ -1139,7 +1160,6 @@ namespace ManiacEditor.Controls.Editor.Elements
             ShowTileIDButton.ToolTip = "Toggle Tile ID Visibility" + KeyBindPraser("ShowTileID", true, true);
             ShowGridButton.ToolTip = "Toggle Grid Visibility" + KeyBindPraser("ShowGrid", true, true);
         }
-
         public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
         {
             string nullString = (nonRequiredBinding ? "" : "N/A");
@@ -1189,6 +1209,9 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         }
 
+        #endregion
+
+        #region Context Menu Click
         private void ContextMenuButton_Click(object sender, RoutedEventArgs e)
         {
             var btn = (sender as Button);
@@ -1202,6 +1225,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
             }
         }
+        #endregion
 
 
     }

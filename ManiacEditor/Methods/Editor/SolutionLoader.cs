@@ -64,7 +64,7 @@ namespace ManiacEditor.Methods.Editor
 
                 Instance.UpdateDataFolderLabel(null, null);
 
-                Instance.SetupLayerButtons();
+                Instance.EditorToolbar.SetupLayerButtons();
 
 
                 Instance.EditBackground = new Classes.Scene.EditorBackground(Instance);
@@ -96,6 +96,16 @@ namespace ManiacEditor.Methods.Editor
             UnloadScene(true);
 
             OpenSceneUsingSceneSelect();
+        }
+        public static void OpenSceneForceFully()
+        {
+            var item = ManiacEditor.Classes.Prefrences.SceneHistoryStorage.Collection.List.FirstOrDefault();
+            if (item != null)
+            {
+                Methods.Editor.Solution.UnloadScene();
+                ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData = item.SceneState;
+                ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneFromSaveState(item);
+            }
         }
         public static void Save()
         {
@@ -145,7 +155,7 @@ namespace ManiacEditor.Methods.Editor
             else if (ManiacEditor.Methods.Editor.SolutionState.IsSceneLoaded() == true && ManiacEditor.Properties.Settings.MySettings.DisableSaveWarnings == false)
             {
 
-                if ((Instance.UndoStack.Count != 0 || Instance.RedoStack.Count != 0) || Methods.Editor.SolutionState.QuitWithoutSavingWarningRequired == true)
+                if ((Actions.UndoRedoModel.UndoStack.Count != 0 || Actions.UndoRedoModel.RedoStack.Count != 0) || Methods.Editor.SolutionState.QuitWithoutSavingWarningRequired == true)
                 {
                     var exitBox = new Controls.Dialog.UnloadingSceneWarning();
                     exitBox.Owner = Window.GetWindow(Instance);
@@ -615,7 +625,7 @@ namespace ManiacEditor.Methods.Editor
             SetupManiacINIPrefs();
             Instance.UpdateStartScreen(false);
             Instance.UpdateDataFolderLabel(null, null);
-            Instance.SetupLayerButtons();
+            Instance.EditorToolbar.SetupLayerButtons();
             Methods.Editor.SolutionState.UpdateMultiLayerSelectMode();
             Methods.Internal.UserInterface.UpdateControls(true);
             Classes.Prefrences.SceneHistoryStorage.AddRecentFile(Classes.Prefrences.SceneHistoryStorage.GenerateNewEntry());

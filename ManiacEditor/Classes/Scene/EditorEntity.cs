@@ -25,7 +25,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 if (value == true)
                 {
-                    if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SelectedSplineIDChangedEvent(_entity.attributesMap["SplineID"].ValueInt32);
+                    if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Methods.Internal.UserInterface.ChangeSplineSelectedID(_entity.attributesMap["SplineID"].ValueInt32);
                     IsSelected = value;
                     TimeWhenSelected = DateTimeOffset.Now;
                 }
@@ -124,8 +124,8 @@ namespace ManiacEditor.Classes.Scene
 
         public Action<ManiacEditor.Actions.IAction> ValueChanged = new Action<ManiacEditor.Actions.IAction>(x =>
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.UndoStack.Push(x);
-            ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Clear();
+            Actions.UndoRedoModel.UndoStack.Push(x);
+            Actions.UndoRedoModel.RedoStack.Clear();
         });
 
         #endregion
@@ -151,11 +151,6 @@ namespace ManiacEditor.Classes.Scene
                 var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
                 foreach (var type in types)
                     Methods.Entities.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
-
-                foreach (LinkedRenderer render in Methods.Entities.EntityDrawing.LinkedEntityRenderers)
-                {
-                    render.EditorInstance = ManiacEditor.Controls.Editor.MainEditor.Instance;
-                }
             }
 
 
@@ -231,7 +226,7 @@ namespace ManiacEditor.Classes.Scene
             }
 
 
-            if (Methods.Editor.SolutionState.entitiesTextFilter != "" && !_entity.Object.Name.Name.Contains(Methods.Editor.SolutionState.entitiesTextFilter))
+            if (Methods.Editor.SolutionState.ObjectFilter != "" && !_entity.Object.Name.Name.Contains(Methods.Editor.SolutionState.ObjectFilter))
             {
                 FilteredOut = true;
             }
@@ -324,8 +319,8 @@ namespace ManiacEditor.Classes.Scene
                 int ObjectSize = Methods.Runtime.GameHandler.ObjectSize[Methods.Runtime.GameHandler.GameVersion.IndexOf(Methods.Runtime.GameHandler.SelectedGameVersion)];
 
                 int ObjectAddress = ObjectStart + (ObjectSize * _entity.SlotID);
-                ManiacEditor.Controls.Editor.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
-                ManiacEditor.Controls.Editor.MainEditor.Instance.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
+                Methods.Runtime.GameHandler.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
+                Methods.Runtime.GameHandler.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
             }
 
 

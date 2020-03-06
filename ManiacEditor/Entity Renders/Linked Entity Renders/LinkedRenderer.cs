@@ -8,7 +8,6 @@ namespace ManiacEditor.Entity_Renders
 {
     public abstract class LinkedRenderer
     {
-        public Controls.Editor.MainEditor EditorInstance;
 
         public virtual void Draw(Structures.LinkedEntityRenderProp properties)
         {
@@ -156,12 +155,9 @@ namespace ManiacEditor.Entity_Renders
                 filteredOut = !Properties.Settings.MyDefaults.ShowFilterlessEntities;
             }
 
-            if (EditorInstance != null)
+            if (Methods.Editor.SolutionState.ObjectFilter != "" && !entity.Object.Name.Name.Contains(Methods.Editor.SolutionState.ObjectFilter))
             {
-                if (Methods.Editor.SolutionState.entitiesTextFilter != "" && !entity.Object.Name.Name.Contains(Methods.Editor.SolutionState.entitiesTextFilter))
-                {
-                    filteredOut = true;
-                }
+                filteredOut = true;
             }
             return filteredOut;
         }

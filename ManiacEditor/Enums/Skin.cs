@@ -6,12 +6,5 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor.Enums
 {
-    public enum Skin : int
-    {
-        Light,
-        Dark, 
-        Beta,
-        Shard,
-        CarJem
-    }
+
 }

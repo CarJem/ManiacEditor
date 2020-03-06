@@ -57,7 +57,7 @@ namespace ManiacEditor.Methods.Internal
                 Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                 SetEditButtonsState(false);
             }
-            foreach (var elb in Instance.ExtraLayerEditViewButtons)
+            foreach (var elb in Instance.EditorToolbar.ExtraLayerEditViewButtons)
             {
                 elb.Value.IsEnabled = !enabled;
             }
@@ -81,9 +81,9 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.TilesToolbar == null)
                 {
                     if (Methods.Editor.SolutionState.UseEncoreColors)
-                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Methods.Editor.Solution.CurrentTiles, ManiacEditor.Methods.Editor.SolutionPaths.StageTiles_Source.ToString(), ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0], MainEditor.Instance);
+                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Methods.Editor.Solution.CurrentTiles, ManiacEditor.Methods.Editor.SolutionPaths.StageTiles_Source.ToString(), ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0], Instance);
                     else
-                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Methods.Editor.Solution.CurrentTiles, ManiacEditor.Methods.Editor.SolutionPaths.StageTiles_Source.ToString(), null, MainEditor.Instance);
+                        Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(Methods.Editor.Solution.CurrentTiles, ManiacEditor.Methods.Editor.SolutionPaths.StageTiles_Source.ToString(), null, Instance);
 
 
                     Instance.TilesToolbar.TileDoubleClick = new Action<ushort>(x =>
@@ -122,7 +122,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.EntitiesToolbar == null)
                 {
-                    Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar(Methods.Editor.Solution.CurrentScene.Objects, MainEditor.Instance)
+                    Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar(Methods.Editor.Solution.CurrentScene.Objects, Instance)
                     {
                         SelectedEntity = new Action<int>(x =>
                         {
@@ -131,15 +131,15 @@ namespace ManiacEditor.Methods.Internal
                         }),
                         AddAction = new Action<ManiacEditor.Actions.IAction>(x =>
                         {
-                            Instance.UndoStack.Push(x);
-                            Instance.RedoStack.Clear();
+                            Actions.UndoRedoModel.UndoStack.Push(x);
+                            Actions.UndoRedoModel.RedoStack.Clear();
                             UpdateControls();
                         }),
                         Spawn = new Action<SceneObject>(x =>
                         {
                             Methods.Editor.Solution.Entities.Spawn(x, GetEntitySpawnPoint());
-                            Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
-                            Instance.RedoStack.Clear();
+                            Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
+                            Actions.UndoRedoModel.RedoStack.Clear();
                             UpdateControls();
                         })
                     };
@@ -216,7 +216,7 @@ namespace ManiacEditor.Methods.Internal
             if (isParallaxAnimation)
             {
                 Instance.EditorToolbar.LayerToolbar.IsEnabled = true;
-                foreach (var pair in Instance.ExtraLayerEditViewButtons)
+                foreach (var pair in Instance.EditorToolbar.ExtraLayerEditViewButtons)
                 {
                     pair.Key.IsEnabled = false;
                     pair.Value.IsEnabled = true;
@@ -274,46 +274,46 @@ namespace ManiacEditor.Methods.Internal
             if (Methods.Editor.Solution.EditLayerA != null)
             {
                 List<IAction> actions = Methods.Editor.Solution.EditLayerA?.Actions;
-                if (actions.Count > 0) Instance.RedoStack.Clear();
+                if (actions.Count > 0) Actions.UndoRedoModel.RedoStack.Clear();
                 while (actions.Count > 0)
                 {
                     bool create_new = false;
-                    if (Instance.UndoStack.Count == 0 || !(Instance.UndoStack.Peek() is ActionsGroup))
+                    if (Actions.UndoRedoModel.UndoStack.Count == 0 || !(Actions.UndoRedoModel.UndoStack.Peek() is ActionsGroup))
                     {
                         create_new = true;
                     }
                     else
                     {
-                        create_new = (Instance.UndoStack.Peek() as ActionsGroup).IsClosed;
+                        create_new = (Actions.UndoRedoModel.UndoStack.Peek() as ActionsGroup).IsClosed;
                     }
                     if (create_new)
                     {
-                        Instance.UndoStack.Push(new ActionsGroup());
+                        Actions.UndoRedoModel.UndoStack.Push(new ActionsGroup());
                     }
-                    (Instance.UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
+                    (Actions.UndoRedoModel.UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
                     actions.RemoveAt(0);
                 }
             }
             if (Methods.Editor.Solution.EditLayerB != null)
             {
                 List<IAction> actions = Methods.Editor.Solution.EditLayerB?.Actions;
-                if (actions.Count > 0) Instance.RedoStack.Clear();
+                if (actions.Count > 0) Actions.UndoRedoModel.RedoStack.Clear();
                 while (actions.Count > 0)
                 {
                     bool create_new = false;
-                    if (Instance.UndoStack.Count == 0 || !(Instance.UndoStack.Peek() is ActionsGroup))
+                    if (Actions.UndoRedoModel.UndoStack.Count == 0 || !(Actions.UndoRedoModel.UndoStack.Peek() is ActionsGroup))
                     {
                         create_new = true;
                     }
                     else
                     {
-                        create_new = (Instance.UndoStack.Peek() as ActionsGroup).IsClosed;
+                        create_new = (Actions.UndoRedoModel.UndoStack.Peek() as ActionsGroup).IsClosed;
                     }
                     if (create_new)
                     {
-                        Instance.UndoStack.Push(new ActionsGroup());
+                        Actions.UndoRedoModel.UndoStack.Push(new ActionsGroup());
                     }
-                    (Instance.UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
+                    (Actions.UndoRedoModel.UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
                     actions.RemoveAt(0);
                 }
             }
@@ -430,16 +430,16 @@ namespace ManiacEditor.Methods.Internal
                 SetSceneOnlyButtonsState(Methods.Editor.Solution.CurrentScene != null && !parallaxAnimationInProgress, stageLoad);
                 SetParallaxAnimationOnlyButtonsState(parallaxAnimationInProgress);
                 UpdateSplineToolbox();
-                Instance.EditorToolbar.CustomGridLabel.Text = string.Format(Instance.EditorToolbar.CustomGridLabel.Tag.ToString(), Properties.Settings.MyDefaults.CustomGridSizeValue);
+                Instance.EditorToolbar.CustomGridSizeLabel.Text = string.Format(Instance.EditorToolbar.CustomGridSizeLabel.Tag.ToString(), Properties.Settings.MyDefaults.CustomGridSizeValue);
                 Instance.ViewPanel.InfoHUD.UpdatePopupSize();
             }
         }
         public static void UpdateTooltips()
         {
-            UpdateTooltipForStacks(Instance.EditorToolbar.UndoButton, Instance.UndoStack);
-            UpdateTooltipForStacks(Instance.EditorToolbar.RedoButton, Instance.RedoStack);
-            UpdateTextBlockForStacks(Instance.MenuBar.UndoMenuItemInfo, Instance.UndoStack);
-            UpdateTextBlockForStacks(Instance.MenuBar.RedoMenuItemInfo, Instance.RedoStack);
+            UpdateTooltipForStacks(Instance.EditorToolbar.UndoButton, Actions.UndoRedoModel.UndoStack);
+            UpdateTooltipForStacks(Instance.EditorToolbar.RedoButton, Actions.UndoRedoModel.RedoStack);
+            UpdateTextBlockForStacks(Instance.MenuBar.UndoMenuItemInfo, Actions.UndoRedoModel.UndoStack);
+            UpdateTextBlockForStacks(Instance.MenuBar.RedoMenuItemInfo, Actions.UndoRedoModel.RedoStack);
             if (Instance.IsVisible)
             {
                 Instance.MenuBar.UpdateMenuItems();
@@ -564,6 +564,10 @@ namespace ManiacEditor.Methods.Internal
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
+        }
+        public static void ChangeSplineSelectedID(int value)
+        {
+            Instance.EditorToolbar.SelectedSplineIDChangedEvent(value);
         }
     }
 }

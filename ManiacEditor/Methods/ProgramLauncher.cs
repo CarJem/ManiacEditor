@@ -618,7 +618,7 @@ namespace ManiacEditor.Methods
             lm.ShowDialog();
 
 
-            Editor.SetupLayerButtons();
+            Editor.EditorToolbar.SetupLayerButtons();
             Editor.ViewPanel.SharpPanel.ResetZoomLevel();
             Methods.Internal.UserInterface.UpdateControls();
             Methods.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;

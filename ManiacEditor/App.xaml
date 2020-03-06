@@ -4,11 +4,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=Xceed.Wpf.Toolkit"     
-             xmlns:skin="clr-namespace:ManiacEditor.Controls.Assets"
-             xmlns:local="clr-namespace:ManiacEditor">
+             xmlns:skin="clr-namespace:GenerationsLib.WPF.Themes;assembly=GenerationsLib.WPF"
+             xmlns:local="clr-namespace:ManiacEditor"
+             ShutdownMode="OnLastWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <skin:SkinResourceDictionary
+                    CarJemSource="/GenerationsLib.WPF;Component/Themes/CarJemTheme.xaml" 
+                    BetaSource="/GenerationsLib.WPF;Component/Themes/BetaTheme.xaml" 
+                    ShardSource="/GenerationsLib.WPF;Component/Themes/ShardTheme.xaml" 
+                    DarkSource="/GenerationsLib.WPF;Component/Themes/DarkTheme.xaml" 
+                    LightSource="/GenerationsLib.WPF;Component/Themes/LightTheme.xaml" />
                 <skin:SkinResourceDictionary
                     CarJemSource="Controls/Assets/Themes/CarJemTheme.xaml" 
                     BetaSource="Controls/Assets/Themes/BetaTheme.xaml" 

@@ -45,42 +45,30 @@ namespace ManiacEditor.Controls.Editor
     {
         #region Definitions
 
-        public static ManiacEditor.Controls.Editor.MainEditor Instance;
+        public static ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
 
         #region Misc
         public System.Timers.Timer Timer = new System.Timers.Timer();
         #endregion
 
-        #region Extra Layer Buttons
-        public IDictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton> ExtraLayerEditViewButtons;
-        public IList<Separator> ExtraLayerSeperators; //Used for Adding Extra Seperators along side Extra Edit/View Layer Buttons
-        #endregion
-
         #region Editor Collections
         public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
-        public IList<Tuple<MenuItem, MenuItem>> RecentSceneItems;
-        public IList<Tuple<MenuItem, MenuItem>> RecentDataSourceItems;
         public List<string> userDefinedSpritePaths = new List<string>();
         public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
         public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
-        #endregion
-
-        #region Undo/Redo Stacks
-        public Stack<IAction> UndoStack { get; set; } = new Stack<IAction>(); //Undo Actions Stack
-        public Stack<IAction> RedoStack { get; set; } = new Stack<IAction>(); //Redo Actions Stack
         #endregion
 
         #region Clipboards
         public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
         public Dictionary<Point, ushort> FindReplaceClipboard;
         public Dictionary<Point, ushort> TilesClipboardEditable;
-        public List<Classes.Scene.EditorEntity> entitiesClipboard;
+        public List<Classes.Scene.EditorEntity> ObjectsClipboard;
         #endregion
 
         #region Collision Colours
-        public Color CollisionAllSolid = Color.White;
-        public Color CollisionTopOnlySolid = Color.Yellow;
-        public Color CollisionLRDSolid = Color.Red;
+        public Color CollisionAllSolid { get; set; } = Color.White;
+        public Color CollisionTopOnlySolid { get; set; } = Color.Yellow;
+        public Color CollisionLRDSolid { get; set; } = Color.Red;
         #endregion
 
         #region Internal/Public/Vital Classes
@@ -88,7 +76,6 @@ namespace ManiacEditor.Controls.Editor
         public Methods.Editor.SolutionState StateModel;
         public Classes.Scene.EditorChunks Chunks;
         public Methods.Layers.TileFindReplace FindAndReplace;
-        public Methods.Runtime.ProcessMemory GameMemory = new Methods.Runtime.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
         #endregion
 
@@ -97,8 +84,6 @@ namespace ManiacEditor.Controls.Editor
         public ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
         public ManiacEditor.Controls.Editor.Elements.StartScreen StartScreen;
         #endregion
-
-
 
         #endregion
 
@@ -109,7 +94,8 @@ namespace ManiacEditor.Controls.Editor
 
             Methods.Internal.Theming.UpdateInstance(this);
             Methods.Internal.Settings.UpdateInstance(this);
-
+            Methods.Editor.Solution.UpdateInstance(this);
+            Controls.Global.Controls.RetroEDTileList.UpdateInstance(this);
 
             Instance = this;
             InitializeComponent();
@@ -121,23 +107,11 @@ namespace ManiacEditor.Controls.Editor
             Timer.Elapsed += Timer_Elapsed;
             Timer.Start();
 
-
-
             System.Windows.Application.Current.MainWindow = this;
 
             InitilizeEditor();
-            /*
-            try
-            {
 
-            }
-            catch (Exception ex)
-            {
-                Debug.Print("Couldn't Initialize Editor!" + ex.ToString());
-                throw ex;
-            }*/
-
-            if (ManiacEditor.Properties.Settings.MyDevSettings.UseAutoForcefulStartup) OpenSceneForceFully();
+            if (ManiacEditor.Properties.Settings.MyDevSettings.UseAutoForcefulStartup) Methods.Editor.SolutionLoader.OpenSceneForceFully();
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -155,11 +129,10 @@ namespace ManiacEditor.Controls.Editor
         {
             this.Activated += new System.EventHandler(this.Editor_Activated);
 
-            ExtraLayerEditViewButtons = new Dictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton>();
-            ExtraLayerSeperators = new List<Separator>();
+            EditorToolbar.ExtraLayerEditViewButtons = new Dictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton>();
+            EditorToolbar.ExtraLayerSeperators = new List<Separator>();
 
-            RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
-            RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
+            Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
 
             //Old Classes
 
@@ -170,6 +143,7 @@ namespace ManiacEditor.Controls.Editor
             StartScreen = new ManiacEditor.Controls.Editor.Elements.StartScreen(this);
 
             //Classes
+            Controls.Editor.Elements.Toolbar.UpdateInstance(this);
             Methods.Entities.EntityDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
             Methods.Editor.SolutionPaths.UpdateInstance(this);
@@ -201,20 +175,6 @@ namespace ManiacEditor.Controls.Editor
             UpdateStartScreen(true, true);
 
             ViewPanel.SharpPanel.InitalizeGraphicsPanel();
-        }
-
-        #endregion
-
-        #region Open Scene Methods
-        public void OpenSceneForceFully()
-        {
-            var item = ManiacEditor.Classes.Prefrences.SceneHistoryStorage.Collection.List.FirstOrDefault();
-            if (item != null)
-            {
-                Methods.Editor.Solution.UnloadScene();
-                ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData = item.SceneState;
-                ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneFromSaveState(item);
-            }
         }
 
         #endregion
@@ -276,35 +236,7 @@ namespace ManiacEditor.Controls.Editor
         {
 
         }
-        #endregion
-
-        #region Misc Events
-        public void DrawLayers(int drawOrder = 0)
-        {
-
-            // Future Implementation
-
-            /*
-            List<int> layerDrawingOrder = new List<int> { };
-            var allLayers = Classes.Edit.Scene.EditorSolution.Scene.AllLayers;
-            foreach (var layer in allLayers)
-            {
-                layerDrawingOrder.Add(layer.Layer.UnknownByte2);
-            }
-            layerDrawingOrder.Sort();
-            for (int i = 0; i < layerDrawingOrder.Count; i++)
-            {
-                DrawLayers(layerDrawingOrder[i]);
-            }
-
-
-            DrawLayers();
-            */
-
-            var _extraViewLayer = Methods.Editor.Solution.CurrentScene.LayerByDrawingOrder.FirstOrDefault(el => el.Layer.DrawingOrder.Equals(drawOrder));
-            _extraViewLayer.Draw(ViewPanel.SharpPanel.GraphicPanel);
-        }
-        public void Run()
+        public void Editor_Run()
         {
             Show();
             Focus();
@@ -312,6 +244,10 @@ namespace ManiacEditor.Controls.Editor
             ViewPanel.SharpPanel.GraphicPanel.Run();
 
         }
+        #endregion
+
+        #region Misc Events
+
         public void UpdateStartScreen(bool visible, bool firstLoad = false)
         {
             if (firstLoad)
@@ -319,25 +255,25 @@ namespace ManiacEditor.Controls.Editor
                 ViewPanel.OverlayPanel.Children.Add(StartScreen);
                 if (StartScreen.SelectScreen != null) StartScreen.SelectScreen.UpdateRecentsTree();
                 ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
-                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
-                RefreshRecentScenes();
-                RefreshDataSources();
+                ViewPanel.SplitContainer.UpdateToolbars(false, false);
+                Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
+                Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
             }
             if (visible)
             {
                 StartScreen.Visibility = Visibility.Visible;
                 if (StartScreen.SelectScreen != null) StartScreen.SelectScreen.UpdateRecentsTree();
                 ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
-                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
-                RefreshRecentScenes();
-                RefreshDataSources();
+                ViewPanel.SplitContainer.UpdateToolbars(false, false);
+                Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
+                Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
             }
             else
             {
                 StartScreen.Visibility = Visibility.Hidden;
                 if (StartScreen.SelectScreen != null) StartScreen.SelectScreen.UpdateRecentsTree();
                 ViewPanel.SharpPanel.Visibility = Visibility.Visible;
-                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
+                ViewPanel.SplitContainer.UpdateToolbars(false, false);
             }
 
         }
@@ -424,204 +360,6 @@ namespace ManiacEditor.Controls.Editor
         }
         #endregion
 
-        #region Layer Toolbar Events
-        public void SetupLayerButtons()
-        {
-            TearDownExtraLayerButtons();
-            IList<Controls.Global.EditLayerToggleButton> _extraLayerEditButtons = new List<Controls.Global.EditLayerToggleButton>(); //Used for Extra Layer Edit Buttons
-            IList<Controls.Global.EditLayerToggleButton> _extraLayerViewButtons = new List<Controls.Global.EditLayerToggleButton>(); //Used for Extra Layer View Buttons
-
-            //EDIT BUTTONS
-            foreach (Classes.Scene.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
-            {
-                Controls.Global.EditLayerToggleButton tsb = new Controls.Global.EditLayerToggleButton()
-                {
-                    Text = el.Name,
-                    LayerName = "Edit" + el.Name
-                };
-                EditorToolbar.LayerToolbar.Items.Add(tsb);
-                tsb.DualSelect = true;
-                tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Color.LawnGreen.A, Color.LawnGreen.R, Color.LawnGreen.G, Color.LawnGreen.B));
-                tsb.RightClick += AdHocLayerEdit_RightClick;
-                tsb.IsLayerOptionsEnabled = true;
-
-                tsb.Click += AdHocLayerEdit_Click;
-
-                _extraLayerEditButtons.Add(tsb);
-            }
-
-            //EDIT BUTTONS SEPERATOR
-            Separator tss = new Separator();
-            EditorToolbar.LayerToolbar.Items.Add(tss);
-            ExtraLayerSeperators.Add(tss);
-
-            //VIEW BUTTONS
-            foreach (Classes.Scene.EditorLayer el in Methods.Editor.Solution.CurrentScene.OtherLayers)
-            {
-                Controls.Global.EditLayerToggleButton tsb = new Controls.Global.EditLayerToggleButton()
-                {
-                    Text = el.Name,
-                    LayerName = "Show" + el.Name.Replace(" ", "")
-                };
-                EditorToolbar.LayerToolbar.Items.Insert(EditorToolbar.LayerToolbar.Items.IndexOf(EditorToolbar.extraViewLayersSeperator), tsb);
-                tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, Color.FromArgb(0x33AD35).R, Color.FromArgb(0x33AD35).G, Color.FromArgb(0x33AD35).B));
-                tsb.IsLayerOptionsEnabled = false;
-                tsb.IsLayerControlsHidden = true;
-
-                _extraLayerViewButtons.Add(tsb);
-            }
-
-            //EDIT + VIEW BUTTONS LIST
-            for (int i = 0; i < _extraLayerViewButtons.Count; i++)
-            {
-                ExtraLayerEditViewButtons.Add(_extraLayerViewButtons[i], _extraLayerEditButtons[i]);
-            }
-
-            UpdateDualButtonsControlsForLayer(Methods.Editor.Solution.FGLow, EditorToolbar.ShowFGLow, EditorToolbar.EditFGLow);
-            UpdateDualButtonsControlsForLayer(Methods.Editor.Solution.FGHigh, EditorToolbar.ShowFGHigh, EditorToolbar.EditFGHigh);
-            UpdateDualButtonsControlsForLayer(Methods.Editor.Solution.FGLower, EditorToolbar.ShowFGLower, EditorToolbar.EditFGLower);
-            UpdateDualButtonsControlsForLayer(Methods.Editor.Solution.FGHigher, EditorToolbar.ShowFGHigher, EditorToolbar.EditFGHigher);
-        }
-        public void TearDownExtraLayerButtons()
-        {
-            foreach (var elb in ExtraLayerEditViewButtons)
-            {
-                EditorToolbar.LayerToolbar.Items.Remove(elb.Key);
-                elb.Value.Click -= AdHocLayerEdit_Click;
-                elb.Value.RightClick -= AdHocLayerEdit_RightClick;
-                EditorToolbar.LayerToolbar.Items.Remove(elb.Value);
-            }
-            ExtraLayerEditViewButtons.Clear();
-
-
-            foreach (var els in ExtraLayerSeperators)
-            {
-                EditorToolbar.LayerToolbar.Items.Remove(els);
-            }
-            ExtraLayerSeperators.Clear();
-
-        }
-        /// <summary>
-        /// Given a scene layer, configure the given visibiltiy and edit buttons which will control that layer.
-        /// </summary>
-        /// <param name="layer">The layer of the scene from which to extract a name.</param>
-        /// <param name="visibilityButton">The button which controls the visibility of the layer.</param>
-        /// <param name="editButton">The button which controls editing the layer.</param>
-        private void UpdateDualButtonsControlsForLayer(Classes.Scene.EditorLayer layer, ToggleButton visibilityButton, Controls.Global.EditLayerToggleButton editButton)
-        {
-            bool layerValid = layer != null;
-            visibilityButton.IsChecked = layerValid;
-            if (layerValid)
-            {
-                string name = layer.Name;
-                visibilityButton.Content = name;
-                editButton.Text = name.ToString();
-            }
-        }
-        private void AdHocLayerEdit_RightClick(object sender, RoutedEventArgs e)
-        {
-            AdHocLayerEdit(sender, MouseButton.Right);
-        }
-        private void AdHocLayerEdit_Click(object sender, RoutedEventArgs e)
-        {
-            AdHocLayerEdit(sender, MouseButton.Left);
-        }
-        private void AdHocLayerEdit(object sender, MouseButton ClickType)
-        {
-            if (ClickType == MouseButton.Left && !Methods.Editor.SolutionState.MultiLayerEditMode) Normal();
-            else if (ClickType == MouseButton.Left && Methods.Editor.SolutionState.MultiLayerEditMode) LayerA();
-            else if (ClickType == MouseButton.Right && Methods.Editor.SolutionState.MultiLayerEditMode) LayerB();
-
-            void Normal()
-            {
-                Controls.Global.EditLayerToggleButton tsb = sender as Controls.Global.EditLayerToggleButton;
-                Methods.Editor.EditorActions.Deselect(false);
-                Methods.Editor.EditorActions.Deselect(false);
-                if (tsb.IsCheckedN.Value)
-                {
-                    if (!ManiacEditor.Properties.Settings.MySettings.KeepLayersVisible)
-                    {
-                        EditorToolbar.ShowFGLow.IsChecked = false;
-                        EditorToolbar.ShowFGHigh.IsChecked = false;
-                        EditorToolbar.ShowFGLower.IsChecked = false;
-                        EditorToolbar.ShowFGHigher.IsChecked = false;
-                    }
-                    EditorToolbar.EditFGLow.ClearCheckedItems(3);
-                    EditorToolbar.EditFGHigh.ClearCheckedItems(3);
-                    EditorToolbar.EditFGLower.ClearCheckedItems(3);
-                    EditorToolbar.EditFGHigher.ClearCheckedItems(3);
-                    EditorToolbar.EditEntities.ClearCheckedItems(3);
-
-                    foreach (var elb in ExtraLayerEditViewButtons)
-                    {
-                        if (elb.Value != tsb)
-                        {
-                            elb.Value.IsCheckedN = false;
-                        }
-                    }
-                }
-            }
-            void LayerA()
-            {
-                Controls.Global.EditLayerToggleButton tsb = sender as Controls.Global.EditLayerToggleButton;
-                Methods.Editor.EditorActions.Deselect(false);
-                if (tsb.IsCheckedA.Value)
-                {
-                    if (!ManiacEditor.Properties.Settings.MySettings.KeepLayersVisible)
-                    {
-                        EditorToolbar.ShowFGLow.IsChecked = false;
-                        EditorToolbar.ShowFGHigh.IsChecked = false;
-                        EditorToolbar.ShowFGLower.IsChecked = false;
-                        EditorToolbar.ShowFGHigher.IsChecked = false;
-                    }
-                    EditorToolbar.EditFGLow.ClearCheckedItems(1);
-                    EditorToolbar.EditFGHigh.ClearCheckedItems(1);
-                    EditorToolbar.EditFGLower.ClearCheckedItems(1);
-                    EditorToolbar.EditFGHigher.ClearCheckedItems(1);
-                    EditorToolbar.EditEntities.ClearCheckedItems(1);
-
-                    foreach (var elb in ExtraLayerEditViewButtons)
-                    {
-                        if (elb.Value != tsb)
-                        {
-                            elb.Value.IsCheckedA = false;
-                        }
-                    }
-                }
-            }
-            void LayerB()
-            {
-                Controls.Global.EditLayerToggleButton tsb = sender as Controls.Global.EditLayerToggleButton;
-                Methods.Editor.EditorActions.Deselect(false);
-                if (tsb.IsCheckedB.Value)
-                {
-                    if (!ManiacEditor.Properties.Settings.MySettings.KeepLayersVisible)
-                    {
-                        EditorToolbar.ShowFGLow.IsChecked = false;
-                        EditorToolbar.ShowFGHigh.IsChecked = false;
-                        EditorToolbar.ShowFGLower.IsChecked = false;
-                        EditorToolbar.ShowFGHigher.IsChecked = false;
-                    }
-                    EditorToolbar.EditFGLow.ClearCheckedItems(2);
-                    EditorToolbar.EditFGHigh.ClearCheckedItems(2);
-                    EditorToolbar.EditFGLower.ClearCheckedItems(2);
-                    EditorToolbar.EditFGHigher.ClearCheckedItems(2);
-                    EditorToolbar.EditEntities.ClearCheckedItems(2);
-
-                    foreach (var elb in ExtraLayerEditViewButtons)
-                    {
-                        if (elb.Value != tsb)
-                        {
-                            elb.Value.IsCheckedB = false;
-                        }
-                    }
-                }
-            }
-
-            Methods.Internal.UserInterface.UpdateControls();
-        }
-        #endregion
-
         #region Mod Config List Stuff
         public MenuItem CreateModConfigMenuItem(int i)
         {
@@ -652,13 +390,12 @@ namespace ManiacEditor.Controls.Editor
         }
         #endregion
 
-        #region Recent Data Folder Methods
+        #region Data Folder Label
         public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
         {
             string dataFolderTag_Normal = "Data Directory: {0}";
             EditorStatusBar._baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
             UpdateDataFolderLabel();
-            Methods.Editor.SolutionState.ShowingDataDirectory = true;
         }
         public void UpdateDataFolderLabel(string dataDirectory = null)
         {
@@ -667,133 +404,6 @@ namespace ManiacEditor.Controls.Editor
         }
         #endregion
 
-        #region Recent Scenes Methods
 
-        public void RefreshRecentScenes()
-        {
-            if (Classes.Prefrences.SceneHistoryStorage.Collection.List.Count > 0)
-            {
-
-                MenuBar.NoRecentScenesItem.Visibility = Visibility.Collapsed;
-                StartScreen.NoRecentsLabel1.Visibility = Visibility.Collapsed;
-                CleanUpRecentScenesList();
-
-                foreach (var RecentItem in Classes.Prefrences.SceneHistoryStorage.Collection.List)
-                {
-                    RecentSceneItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentScenesMenuLink(RecentItem.EntryName), CreateRecentScenesMenuLink(RecentItem.EntryName, true)));
-                }
-
-                foreach (var menuItem in RecentSceneItems.Reverse())
-                {
-                    MenuBar.RecentScenes.Items.Insert(0, menuItem.Item1);
-                    StartScreen.RecentScenesList.Children.Insert(0, menuItem.Item2);
-                }
-            }
-            else
-            {
-                MenuBar.NoRecentScenesItem.Visibility = Visibility.Visible;
-                StartScreen.NoRecentsLabel1.Visibility = Visibility.Visible;
-            }
-        }
-        private MenuItem CreateRecentScenesMenuLink(string target, bool startScreenEntry = false)
-        {
-            MenuItem newItem = new MenuItem();
-            TextBlock label = new TextBlock();
-
-            label.Text = target.Replace("/n/n", Environment.NewLine);
-            newItem.Tag = target;
-            newItem.Header = label;
-            newItem.Click += RecentSceneEntryClicked;
-            return newItem;
-        }
-        public void RecentSceneEntryClicked(object sender, RoutedEventArgs e)
-        {
-            if (ManiacEditor.Methods.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
-            Methods.Editor.Solution.UnloadScene();
-            var menuItem = sender as MenuItem;
-            string entryName = menuItem.Tag.ToString();
-            var item = Classes.Prefrences.SceneHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
-            ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneFromSaveState(item);
-            Classes.Prefrences.SceneHistoryStorage.AddRecentFile(item);
-        }
-        private void CleanUpRecentScenesList()
-        {
-            foreach (var menuItem in RecentSceneItems)
-            {
-                menuItem.Item1.Click -= RecentSceneEntryClicked;
-                menuItem.Item2.Click -= RecentSceneEntryClicked;
-                MenuBar.RecentScenes.Items.Remove(menuItem.Item1);
-                StartScreen.RecentScenesList.Children.Remove(menuItem.Item2);
-            }
-            RecentSceneItems.Clear();
-        }
-
-        #endregion
-
-        #region Recent Data Sources Methods
-
-        public void RefreshDataSources()
-        {
-            if (ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.Collection.List.Count > 0)
-            {
-
-                MenuBar.NoRecentDataSources.Visibility = Visibility.Collapsed;
-                StartScreen.NoRecentsLabel2.Visibility = Visibility.Collapsed;
-
-                CleanUpDataSourcesList();
-
-                foreach (var RecentItem in ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.Collection.List)
-                {
-                    RecentDataSourceItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentDataSourceMenuLink(RecentItem.EntryName), CreateRecentDataSourceMenuLink(RecentItem.EntryName, true)));
-                }
-
-                foreach (var menuItem in RecentDataSourceItems.Reverse())
-                {
-                    MenuBar.RecentDataSources.Items.Insert(0, menuItem.Item1);
-                    StartScreen.RecentDataContextList.Children.Insert(0, menuItem.Item2);
-                }
-            }
-            else
-            {
-                MenuBar.NoRecentDataSources.Visibility = Visibility.Visible;
-                StartScreen.NoRecentsLabel2.Visibility = Visibility.Visible;
-            }
-        }
-        private MenuItem CreateRecentDataSourceMenuLink(string target, bool wrapText = false)
-        {
-            MenuItem newItem = new MenuItem();
-            TextBlock label = new TextBlock();
-            label.Text = target.Replace("/n/n", Environment.NewLine);
-            if (wrapText) label.TextWrapping = TextWrapping.Wrap;
-            newItem.Header = label;
-            newItem.Tag = target;
-            newItem.Click += RecentDataSourceEntryClicked;
-            return newItem;
-        }
-        public void RecentDataSourceEntryClicked(object sender, RoutedEventArgs e)
-        {
-            if (ManiacEditor.Methods.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
-            Methods.Editor.Solution.UnloadScene();
-            var menuItem = sender as MenuItem;
-            string entryName = menuItem.Tag.ToString();
-            var item = ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
-            ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneSelectSaveState(item);
-            ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.AddRecentFile(item);
-        }
-        private void CleanUpDataSourcesList()
-        {
-            foreach (var menuItem in RecentDataSourceItems)
-            {
-                menuItem.Item1.Click -= RecentDataSourceEntryClicked;
-                menuItem.Item2.Click -= RecentDataSourceEntryClicked;
-                MenuBar.RecentDataSources.Items.Remove(menuItem.Item1);
-                StartScreen.RecentDataContextList.Children.Remove(menuItem.Item2);
-            }
-            RecentDataSourceItems.Clear();
-
-        }
-
-
-        #endregion
     }
 }

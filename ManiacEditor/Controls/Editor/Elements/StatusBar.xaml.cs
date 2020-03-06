@@ -167,7 +167,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             selectionSizeLabel.ToolTip = "The Size of the Selection";
             selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
             selectionBoxSizeLabel.ToolTip = "The Size of the Selection Box";
-            pixelModeButton.ToolTip = "Change the Positional/Selection Values to Pixel or Tile Based Values";
+            EnablePixelModeButton.ToolTip = "Change the Positional/Selection Values to Pixel or Tile Based Values";
             nudgeFasterButton.ToolTip = "Move entities/tiles in a larger increment. (Configurable in Options)\r\nShortcut Key: " + KeyBindPraser("NudgeFaster");
             scrollLockButton.ToolTip = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key: " + KeyBindPraser("ScrollLock");
             QuickSwapScrollDirection.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
@@ -226,11 +226,11 @@ namespace ManiacEditor.Controls.Editor.Elements
         {
             if (startup)
             {
-                maniaFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(2);
-                encoreFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(4);
-                otherFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(0);
-                bothFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(1);
-                pinballFilterCheck.Foreground = Methods.Internal.Theming.GetColorBrush(255);
+                maniaFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(2);
+                encoreFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(4);
+                otherFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(0);
+                bothFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(1);
+                pinballFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(255);
             }
             if (Properties.Settings.MySettings.UseBitOperators)
             {

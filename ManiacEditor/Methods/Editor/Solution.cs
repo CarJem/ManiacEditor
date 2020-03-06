@@ -37,6 +37,16 @@ namespace ManiacEditor.Methods.Editor
         }
         #endregion
 
+        #region Init
+
+        private static Controls.Editor.MainEditor Instance { get; set; }
+        public static void UpdateInstance(Controls.Editor.MainEditor instance)
+        {
+            Instance = instance;
+        }
+
+        #endregion
+
         #region Layers
         public static Classes.Scene.EditorLayer FGHigher => CurrentScene?.HighDetails;
         public static Classes.Scene.EditorLayer FGHigh => CurrentScene?.ForegroundHigh;
@@ -58,55 +68,46 @@ namespace ManiacEditor.Methods.Editor
             Methods.Editor.Solution.CurrentScene?.Dispose();
             Methods.Editor.Solution.CurrentScene = null;
             Methods.Editor.Solution.StageConfig = null;
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
+            Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: NULL";
             Methods.Editor.SolutionState.LevelID = -1;
             Methods.Editor.SolutionState.EncorePaletteExists = false;
             Methods.Editor.SolutionState.EncoreSetupType = 0;
             Classes.Prefrences.SceneCurrentSettings.ClearSettings();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.userDefinedSpritePaths = new List<string>();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
+            Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
+            Instance.userDefinedSpritePaths = new List<string>();
+            Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
 			SolutionPaths.UnloadScene();
             Methods.Editor.SolutionState.QuitWithoutSavingWarningRequired = false;
 
             if (Methods.Editor.Solution.CurrentTiles != null) Methods.Editor.Solution.CurrentTiles.Dispose();
             Methods.Editor.Solution.CurrentTiles = null;
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TearDownExtraLayerButtons();
+            Instance.EditorToolbar.TearDownExtraLayerButtons();
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.Background = null;
+            Instance.Background = null;
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.Chunks = null;
+            Instance.Chunks = null;
 
             Methods.Entities.EntityAnimator.AnimationTiming.Clear();
 
-
-            /*if (entitiesClipboard != null)
-            {
-                foreach (Classes.Edit.Scene.Sets.EditorEntity entity in entitiesClipboard)
-                    entity.PrepareForExternalCopy();
-            }*/
-
-
-            // Clear local clipboards
-            //TilesClipboard = null;
-            ManiacEditor.Controls.Editor.MainEditor.Instance.entitiesClipboard = null;
+            Instance.TilesClipboard = null;
+            Instance.ObjectsClipboard = null;
 
             Methods.Editor.Solution.Entities = null;
 
             Methods.Editor.SolutionState.Zoom = 1;
             Methods.Editor.SolutionState.ZoomLevel = 0;
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.UndoStack.Clear();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Clear();
+            Actions.UndoRedoModel.UndoStack.Clear();
+            Actions.UndoRedoModel.RedoStack.Clear();
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.EditEntities.ClearCheckedItems();
+            Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
+            Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
+            Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
+            Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
+            Instance.EditorToolbar.EditEntities.ClearCheckedItems();
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
+            Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
 
             Methods.Internal.UserInterface.UpdateControls();
 
@@ -115,7 +116,7 @@ namespace ManiacEditor.Methods.Editor
             GC.Collect();
             Methods.Editor.Solution.TileConfig = null;
 
-            ManiacEditor.Controls.Editor.MainEditor.Instance.UpdateStartScreen(true);
+            Instance.UpdateStartScreen(true);
         }
         #endregion
     }

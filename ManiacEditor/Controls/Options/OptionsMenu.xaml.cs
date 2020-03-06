@@ -19,6 +19,8 @@ using ManiacEditor.Controls.Utility.Object_Manager;
 using ManiacEditor.Controls.Utility.Editors.Dev;
 using ManiacEditor.Controls.Utility.Editors.Configuration;
 
+using GenerationsLib.WPF.Themes;
+
 namespace ManiacEditor.Controls.Options
 {
     /// <summary>
@@ -470,8 +472,7 @@ namespace ManiacEditor.Controls.Options
 
 				Properties.Settings.MySettings.UserTheme = selected;
 				Classes.Options.GeneralSettings.Save();
-				App.ChangeSkin(selected);
-				App.SkinChanged = true;
+				GenerationsLib.WPF.Themes.SkinResourceDictionary.ChangeSkin(selected, ManiacEditor.App.Current.Resources.MergedDictionaries);
 				Methods.Internal.Theming.RefreshTheme();
 			}
 
@@ -479,22 +480,22 @@ namespace ManiacEditor.Controls.Options
 
         }
 
-		private Enums.Skin ApplySkinFromSelectedIndex()
+		private Skin ApplySkinFromSelectedIndex()
 		{
 			switch (UserThemeComboBox.SelectedIndex)
 			{
 				case 0:
-					return Enums.Skin.Light;
+					return Skin.Light;
 				case 1:
-					return Enums.Skin.Dark;
+					return Skin.Dark;
 				case 2:
-					return Enums.Skin.Beta;
+					return Skin.Beta;
 				case 3:
-					return Enums.Skin.Shard;
+					return Skin.Shard;
 				case 4:
-					return Enums.Skin.CarJem;
+					return Skin.CarJem;
 				default:
-					return Enums.Skin.Light;
+					return Skin.Light;
 			}
 		}
 

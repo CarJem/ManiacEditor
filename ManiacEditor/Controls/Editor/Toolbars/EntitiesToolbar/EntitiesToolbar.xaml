@@ -29,12 +29,12 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox Foreground="{DynamicResource NormalText}" KeyDown="cbSpawn_KeyDown" x:Name="cbSpawn" Height="20" Margin="0,0" Grid.Column="0"></ComboBox>
                 <Button Click="btnSpawn_Click" Margin="2,0,0,0" Content="Spawn" Width="40" Height="20" Grid.Column="1"></Button>
-                <ComboBox SelectionChanged="FilterBox_SelectionChanged" SelectedIndex="0" Foreground="{DynamicResource NormalText}" x:Name="defaultFilter" Margin="2,0" Width="110" Height="20" Grid.Column="2">
-                    <ComboBoxItem x:Name="maniaFilter" Content="Mania (2)" Tag="M" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
-                    <ComboBoxItem x:Name="encoreFilter" Content="Encore (4)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
-                    <ComboBoxItem x:Name="bothFilter" Content="Both (1 &amp; 5)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
-                    <ComboBoxItem x:Name="pinballFilter" Content="Pinball (255)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
-                    <ComboBoxItem x:Name="otherFilter" Content="Other (0)" Foreground="{DynamicResource NormalText}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                <ComboBox SelectionChanged="FilterBox_SelectionChanged" SelectedIndex="0" x:Name="defaultFilter" Margin="2,0" Width="110" Height="20" Grid.Column="2">
+                    <ComboBoxItem x:Name="maniaFilter" Content="Mania (2)" Tag="M" Foreground="{DynamicResource Maniac_ManiaFilter}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="encoreFilter" Content="Encore (4)" Foreground="{DynamicResource Maniac_EncoreFilter}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="bothFilter" Content="Both (1 &amp; 5)" Foreground="{DynamicResource Maniac_BothFilter}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="pinballFilter" Content="Pinball (255)" Foreground="{DynamicResource Maniac_PinballFilter}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
+                    <ComboBoxItem x:Name="otherFilter" Content="Other (0)" Foreground="{DynamicResource Maniac_OtherFilter}" Selected="ComboBoxItem_Selected"></ComboBoxItem>
                 </ComboBox>
             </Grid>
         </GroupBox>

@@ -141,13 +141,13 @@ namespace ManiacEditor.Controls.Global
 		bool DualSelectModeEnabled
 		{
 			get { return (bool)base.GetValue(DualSelectMode); }
-			set { base.SetValue(DualSelectMode, value); }
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) base.SetValue(DualSelectMode, value); }
 		}
 
 		public bool? IsCheckedA
 		{
 			get { return LayerAToggle.IsChecked; }
-			set { LayerAToggle.IsChecked = value; }
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) LayerAToggle.IsChecked = value; }
 		}
 
 		public bool IsCheckedAll
@@ -158,38 +158,43 @@ namespace ManiacEditor.Controls.Global
 		public bool DualSelect
 		{
 			get { return DualSelectModeEnabled; }
-			set { DualSelectModeEnabled = value;}
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) DualSelectModeEnabled = value;}
 		}
 
+		private bool _IsLayerControlsHidden = false;
 		public bool IsLayerControlsHidden
 		{
 			get 
 			{ 
-				return (bool)base.GetValue(HideLayerControls); 
+				return _IsLayerControlsHidden; 
 			}
 			set 
-			{ 
-				base.SetValue(HideLayerControls, value);
-				GetIsLayerControlsHidden();
+			{
+				if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+				{
+					_IsLayerControlsHidden = value;
+					GetIsLayerControlsHidden();
+				}
+
 			}
 		}
 
 		public bool? IsCheckedN
 		{
 			get { return LayerToggle.IsChecked; }
-			set { LayerToggle.IsChecked = value; }
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) LayerToggle.IsChecked = value; }
 		}
 
 		public Brush TextForeground
 		{
 			get { return (Brush)GetValue(TextForegroundColor);}
-			set { SetValue(TextForegroundColor, value); }
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) SetValue(TextForegroundColor, value); }
 		}
 
 		public bool? IsCheckedB
 		{
 			get { return LayerBToggle.IsChecked; }
-			set { LayerBToggle.IsChecked = value; }
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) LayerBToggle.IsChecked = value; }
 		}
 
 		public static readonly Brush DefaultForeText = Brushes.White;
@@ -214,9 +219,6 @@ DependencyProperty.Register("IsCheckedB", typeof(bool), typeof(EditLayerToggleBu
 
 		public static readonly DependencyProperty DualSelectMode =
 DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
-
-		public static readonly DependencyProperty HideLayerControls =
-DependencyProperty.Register("HideLayerControls", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
 
 		public EditLayerToggleButton()
 		{

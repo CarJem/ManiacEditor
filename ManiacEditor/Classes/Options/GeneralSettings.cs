@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ManiacEditor.Methods.Editor;
 using System.IO;
 using Newtonsoft.Json;
+using GenerationsLib.WPF.Themes;
 
 namespace ManiacEditor.Classes.Options
 {
@@ -27,7 +28,7 @@ namespace ManiacEditor.Classes.Options
         public System.Collections.Specialized.StringCollection ModLoaderConfigsNames { get; set; }
         public bool UseBitOperators { get; set; } = false;
         public bool ShowFirstTimeSetup { get; set; } = true;
-        public Enums.Skin UserTheme { get; set; } = Enums.Skin.Light;
+        public Skin UserTheme { get; set; } = Skin.Light;
         public string LastModConfig { get; set; }
         public bool ScrollerAutoCenters { get; set; } = false;
         public bool ShowUnhandledExceptions { get; set; } = false;

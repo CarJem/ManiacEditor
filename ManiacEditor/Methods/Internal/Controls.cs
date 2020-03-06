@@ -886,7 +886,8 @@ namespace ManiacEditor.Methods.Internal
                 }
                 else
                 {
-                    Methods.Editor.Solution.Entities.SpawnInternalSplineObject(new Position((short)clicked_point.X, (short)clicked_point.Y));
+                    
+                    Methods.Editor.Solution.Entities.SpawnInternalSplineObject(new Position((short)clicked_point.X, (short)clicked_point.Y), Instance.EditorToolbar.SplineSpawnID.Value.Value);
                     ManiacEditor.Methods.Editor.EditorActions.UpdateLastEntityAction();
                 }
             }

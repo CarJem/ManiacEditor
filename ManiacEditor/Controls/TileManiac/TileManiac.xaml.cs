@@ -720,7 +720,7 @@ namespace ManiacEditor.Controls.TileManiac
         {
             if (OldColViewer != null)
             {
-                if (App.Skin != Enums.Skin.Light) OldColViewer.Opacity = 0.5;
+                if (App.Skin != GenerationsLib.WPF.Themes.Skin.Light) OldColViewer.Opacity = 0.5;
                 else OldColViewer.Opacity = 1.0;
             }
 			this.CollisionList.Refresh();

@@ -751,11 +751,11 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		{
 			if (startup)
 			{
-				maniaFilter.Foreground = Methods.Internal.Theming.GetColorBrush(2);
-				encoreFilter.Foreground = Methods.Internal.Theming.GetColorBrush(4);
-				pinballFilter.Foreground = Methods.Internal.Theming.GetColorBrush(255);
-				bothFilter.Foreground = Methods.Internal.Theming.GetColorBrush(1);
-				otherFilter.Foreground = Methods.Internal.Theming.GetColorBrush(0);
+				maniaFilter.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(2);
+				encoreFilter.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(4);
+				pinballFilter.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(255);
+				bothFilter.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(1);
+				otherFilter.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(0);
 			}
 			if (Properties.Settings.MySettings.UseBitOperators)
 			{
@@ -882,7 +882,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 						ObjectList[i] = new System.Windows.Controls.Button()
                         {
                             Content = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
-                            Foreground = Methods.Internal.Theming.GetColorBrush(entity),
+                            Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
                             Tag = entity.SlotID.ToString(),
                             Visibility = VisibilityStatus
                         };
@@ -891,7 +891,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                     else
                     {
                         ObjectList[i].Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
-						ObjectList[i].Foreground = Methods.Internal.Theming.GetColorBrush(entity);
+						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
                         ObjectList[i].Tag = entity.SlotID.ToString();
                         ObjectList[i].Visibility = VisibilityStatus;
                     }
@@ -904,7 +904,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 						ObjectList[i] = new System.Windows.Controls.Button()
                         {
                             Content = string.Format("{0} - {1}", "UNUSED", i),
-                            Foreground = Methods.Internal.Theming.GetColorBrush(256),
+                            Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
                             Height = 0,
                             Visibility = Visibility.Collapsed,
                             Tag = "NULL"
@@ -915,7 +915,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                     else
                     {
                         ObjectList[i].Content = String.Format("{0} - {1}", "UNUSED", i);
-						ObjectList[i].Foreground = Methods.Internal.Theming.GetColorBrush(256);
+						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256);
                         ObjectList[i].Height = 0;
                         ObjectList[i].Visibility = Visibility.Collapsed;
                         ObjectList[i].Tag = "NULL";
@@ -1139,6 +1139,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		private void FilterBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			UpdateDefaultFilter(false);
+			defaultFilter.Foreground = Methods.Internal.Theming.GetSelectedObjectFilterColorBrush(defaultFilter.SelectedIndex);
 		}
 		private void EntitiesList_DropDownClosed(object sender, EventArgs e)
 		{

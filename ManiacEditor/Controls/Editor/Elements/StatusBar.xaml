@@ -39,7 +39,7 @@
             <StatusBarItem Margin="0" Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="pixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="EnablePixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
                     <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
                     <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="5"/>
                     <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
@@ -64,12 +64,12 @@
                 <Button Name="FilterButton" Margin="4,-2,0,-2" Width="30" Content="{StaticResource Invert}" Padding="2" Click="FilterButtonOpenContextMenuEvent">
                     <Button.ContextMenu>
                         <ContextMenu Style="{DynamicResource DefaultContextMenuStyle}">
-                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="maniaFilterCheck" Margin="5">Mania (000000)</CheckBox>
-                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="bothFilterCheck" Margin="5">Common (000000)</CheckBox>
-                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="pinballFilterCheck" Margin="5">Pinball (000000)</CheckBox>
-                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="encoreFilterCheck" Margin="5">Encore (000000)</CheckBox>
-                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="otherFilterCheck" Margin="5" Content="Other (000000)"></CheckBox>
-                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="prePlusFilterCheck" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Foreground="{DynamicResource Maniac_ManiaFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="maniaFilterCheck" Margin="5">Mania (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}" Foreground="{DynamicResource Maniac_BothFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="bothFilterCheck" Margin="5">Common (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}" Foreground="{DynamicResource Maniac_OtherFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="pinballFilterCheck" Margin="5">Pinball (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}" Foreground="{DynamicResource Maniac_PinballFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="encoreFilterCheck" Margin="5">Encore (000000)</CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}" Foreground="{DynamicResource Maniac_OtherFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="otherFilterCheck" Margin="5" Content="Other (000000)"></CheckBox>
+                            <CheckBox IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}" Foreground="{DynamicResource Maniac_NullFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="prePlusFilterCheck" Margin="5" Content="Filterless (Pre-Plus)"></CheckBox>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>

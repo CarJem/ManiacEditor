@@ -39,7 +39,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 
 		private void linkLabel3_LinkClicked(object sender, RoutedEventArgs e)
 		{
-			EditorInstance.OpenSceneForceFully();
+			Methods.Editor.SolutionLoader.OpenSceneForceFully();
 		}
 
 		private void linkLabel4_LinkClicked(object sender, RoutedEventArgs e)

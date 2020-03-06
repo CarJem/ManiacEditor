@@ -16,6 +16,10 @@ namespace ManiacEditor.Actions
 {
     public static class UndoRedoModel
     {
+        public static Stack<IAction> UndoStack { get; set; } = new Stack<IAction>(); //Undo Actions Stack
+        public static Stack<IAction> RedoStack { get; set; } = new Stack<IAction>(); //Redo Actions Stack
+
+
         public static void UpdateUndoRedo()
         {
             if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
@@ -33,8 +37,8 @@ namespace ManiacEditor.Actions
                         taction.Close();
                         action = taction;
                     }
-                    Controls.Editor.MainEditor.Instance.UndoStack.Push(action);
-                    Controls.Editor.MainEditor.Instance.RedoStack.Clear();
+                    UndoStack.Push(action);
+                    RedoStack.Clear();
                     Methods.Internal.UserInterface.UpdateControls();
                 }
                 if (Methods.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
@@ -50,8 +54,8 @@ namespace ManiacEditor.Actions
                         taction.Close();
                         action = taction;
                     }
-                    Controls.Editor.MainEditor.Instance.UndoStack.Push(action);
-                    Controls.Editor.MainEditor.Instance.RedoStack.Clear();
+                    UndoStack.Push(action);
+                    RedoStack.Clear();
                     Methods.Internal.UserInterface.UpdateControls();
                 }
 

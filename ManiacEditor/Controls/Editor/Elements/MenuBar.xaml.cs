@@ -132,8 +132,8 @@ namespace ManiacEditor.Controls.Editor.Elements
             layerManagerToolStripMenuItem.IsEnabled = enabled;
             editBackgroundColorsToolStripMenuItem.IsEnabled = enabled;
 
-            undoToolStripMenuItem.IsEnabled = enabled && ManiacEditor.Controls.Editor.MainEditor.Instance.UndoStack.Count > 0;
-            redoToolStripMenuItem.IsEnabled = enabled && ManiacEditor.Controls.Editor.MainEditor.Instance.RedoStack.Count > 0;
+            undoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
+            redoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
 
             findAndReplaceToolStripMenuItem.IsEnabled = enabled && Methods.Editor.Solution.EditLayerA != null;
         }
@@ -178,8 +178,8 @@ namespace ManiacEditor.Controls.Editor.Elements
                 pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit();
             }
 
-            bool HasCopyDataTiles() { return ManiacEditor.Controls.Editor.MainEditor.Instance.TilesClipboard != null || windowsClipboardState == true; }
-            bool HasCopyDataEntities() { return ManiacEditor.Controls.Editor.MainEditor.Instance.entitiesClipboard != null || windowsEntityClipboardState == true; }
+            bool HasCopyDataTiles() { return Instance.TilesClipboard != null || windowsClipboardState == true; }
+            bool HasCopyDataEntities() { return Instance.ObjectsClipboard != null || windowsEntityClipboardState == true; }
         }
 
         public void SetSelectOnlyButtonsState(bool enabled = true)
@@ -220,7 +220,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void OpenSceneSelectEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneSelect(); }
         public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.OpenDataDirectory(); }
         public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.Save(); }
-        private void ExitEditorEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.Close(); }
+        private void ExitEditorEvent(object sender, RoutedEventArgs e) { Instance.Close(); }
         private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.ExportAsPNG(); }
         private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.ExportLayersAsPNG(); }
         private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.ExportObjLayoutAsPNG(); }
@@ -266,7 +266,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.EnableFasterNudge ^= true; }
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true; }
         public void ToggleDebugHUDEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.DebugStatsVisibleOnPanel ^= true; }
-        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.UpdateZoomLevel(0, new System.Drawing.Point(0, 0)); }
+        private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) { Instance.ViewPanel.SharpPanel.UpdateZoomLevel(0, new System.Drawing.Point(0, 0)); }
         private void UseLargeDebugHUDText(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.UseLargeDebugStats ^= true; }
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SetManiaMenuInputType(sender, e); }
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.EntitiesVisibileAboveAllLayers ^= true; }
@@ -288,7 +288,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void ChangeLevelIDEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.ChangeLevelID(sender, e); }
         private void ToggleMultiLayerSelectEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.MultiLayerEditMode ^= true; }
         private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SoundLooperToolStripMenuItem_Click(sender, e); }
-        private void FindUnusedTiles(object sender, RoutedEventArgs e) { ManiacEditor.Controls.Editor.MainEditor.Instance.FindAndReplace.FindUnusedTiles(); }
+        private void FindUnusedTiles(object sender, RoutedEventArgs e) { Instance.FindAndReplace.FindUnusedTiles(); }
 
         #region Apps
         private void RSDKUnpackerEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.RSDKUnpacker(); }
@@ -336,12 +336,12 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         private void RecentScenes_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.RefreshRecentScenes();
+            Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
         }
 
         private void RecentDataSources_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.RefreshDataSources();
+            Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
         }
 
         #endregion

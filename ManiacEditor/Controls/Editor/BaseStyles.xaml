@@ -47,8 +47,8 @@
                             <Setter Property="Background" TargetName="border" Value="{DynamicResource ContextMenuSelectedColorBack}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" TargetName="border" Value="0.5"/>
-                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"/>
+                            <Setter Property="Opacity" TargetName="border" Value="0.7"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.7"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource ContextMenuSelectedColor}"/>
@@ -92,7 +92,7 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" Value="0.5"></Setter>
+                            <Setter Property="Opacity" Value="0.7"></Setter>
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource Button.Disabled.Foreground}"/>
@@ -131,7 +131,7 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" Value="0.5"></Setter>
+                            <Setter Property="Opacity" Value="0.7"></Setter>
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource Button.Disabled.Foreground}"/>
@@ -165,7 +165,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="BorderBrush" TargetName="OuterBorder" Value="Transparent"/>
                             <Setter Property="Background" TargetName="OuterBorder" Value="Transparent"/>
-                            <Setter Property="Opacity" Value="0.5"></Setter>
+                            <Setter Property="Opacity" Value="0.7"></Setter>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -212,7 +212,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="BorderBrush" TargetName="OuterBorder" Value="Transparent"/>
                             <Setter Property="Background" TargetName="OuterBorder" Value="Transparent"/>
-                            <Setter Property="Opacity" Value="0.5"></Setter>
+                            <Setter Property="Opacity" Value="0.7"></Setter>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -410,8 +410,8 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource ContextMenuSelectedColor}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" TargetName="border" Value="0.5"/>
-                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"/>
+                            <Setter Property="Opacity" TargetName="border" Value="0.7"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.7"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource ContextMenuSelectedColor}"/>
@@ -1319,7 +1319,7 @@
                                                                     </Border>
                                                                     <ControlTemplate.Triggers>
                                                                         <Trigger Property="IsEnabled" Value="False">
-                                                                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                                                                            <Setter Property="Opacity" TargetName="border" Value="0.7"/>
                                                                         </Trigger>
                                                                         <Trigger Property="IsMouseOver" Value="True">
                                                                             <Setter Property="BorderBrush" TargetName="border" Value="#FF7EB4EA"/>

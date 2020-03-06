@@ -51,8 +51,8 @@ namespace ManiacEditor.Methods.Entities
             }
 
             ManiacEditor.Methods.Editor.Solution.Entities.DeleteEntities(EntitiesToRemove, true, true);
-            Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastActionInternal);
-            Instance.RedoStack.Clear();
+            Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastActionInternal);
+            Actions.UndoRedoModel.RedoStack.Clear();
         }
 
         public static void RenderSplineByID(int splineID)
@@ -72,8 +72,8 @@ namespace ManiacEditor.Methods.Entities
                     EntitiesAddList.Add(new KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>(selectedOptions.SplineObjectRenderingTemplate.Entity.Object, new RSDKv5.Position((short)p.X, (short)p.Y)));
                 }
                 Methods.Editor.Solution.Entities.SpawnMultiple(EntitiesAddList);
-                Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
-                Instance.RedoStack.Clear();
+                Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
+                Actions.UndoRedoModel.RedoStack.Clear();
             }
 
             Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects = 0;

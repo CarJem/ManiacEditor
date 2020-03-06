@@ -540,7 +540,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Object Generation
 
-        public Classes.Scene.EditorEntity GenerateSplineObject()
+        public Classes.Scene.EditorEntity GenerateSplineObject(int value)
         {
             NameIdentifier Name = new NameIdentifier("Spline");
             List<AttributeInfo> Attributes = new List<AttributeInfo>();
@@ -548,13 +548,13 @@ namespace ManiacEditor.Classes.Scene
             Attributes.Add(SplineID);
             ushort Slot = 0;
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
-            Entity.attributesMap["SplineID"].ValueInt32 = ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SplineSpawnID.Value.Value;
+            Entity.attributesMap["SplineID"].ValueInt32 = value;
 
             return new Classes.Scene.EditorEntity(Entity, true);
         }
-        public void SpawnInternalSplineObject(RSDKv5.Position position)
+        public void SpawnInternalSplineObject(RSDKv5.Position position, int value)
         {
-            var editorEntity = GenerateSplineObject();
+            var editorEntity = GenerateSplineObject(value);
             editorEntity.SlotID = GetFreeSlot(null, true);
             editorEntity.Entity.Position = position;
             var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };

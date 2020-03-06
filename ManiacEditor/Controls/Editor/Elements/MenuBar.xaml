@@ -83,7 +83,7 @@
                 <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualEvent"/>
             </MenuItem>
             <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,0,0,0">
-                <MenuItem x:Name="pixelModeToolStripMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"/>
+                <MenuItem x:Name="EnablePixelModeMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"/>
                 <MenuItem x:Name="changeEncorePaleteToolStripMenuItem" Header="Change Encore Palette..">
                 <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="SetEncorePalleteEvent"/>
                 <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="SetEncorePalleteEvent"/>
@@ -133,7 +133,7 @@
                 <MenuItem x:Name="showEntitySelectionBoxesToolStripMenuItem" Click="ShowEntitySelectionBoxesEvent" Header="Show Entity Selection Boxes"></MenuItem>
                 <MenuItem x:Name="EditEntitiesTransparencyToggle" Click="ApplyEditEntitiesTransparencyEvent" Header="Transparent Layers for Editing Entities"></MenuItem>
                 <TextBlock x:Name="objectFilterToolStripMenuItem" Text="Entity Filter:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource NormalText}"></TextBlock>
-                <TextBox x:Name="toolStripTextBox1" Width="220" VerticalAlignment="Center" Height="24" HorizontalAlignment="Stretch" Margin="0,0,2,0" UseLayoutRounding="False" TextChanged="EntityFilterTextChangedEvent"/>
+                <TextBox x:Name="EntityFilterTextbox" Width="220" VerticalAlignment="Center" Height="24" HorizontalAlignment="Stretch" Margin="0,0,2,0" UseLayoutRounding="False" TextChanged="EntityFilterTextChangedEvent"/>
                 <Separator Visibility="Hidden"></Separator>
                 <TextBlock TextWrapping="Wrap" Text="Entity Specific Options:" IsEnabled="False" Margin="1,0,0,0" Foreground="{DynamicResource DisabledText}"></TextBlock>
                 <Separator></Separator>

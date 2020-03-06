@@ -28,8 +28,20 @@ namespace ManiacEditor.Methods.Internal
             {
                 return Color.Empty;
             }
+        }
 
-
+        private static SolidColorBrush GetSCBResource(string resourceName)
+        {
+            try
+            {
+                var c = (SolidColorBrush)Instance.FindResource(resourceName);
+                if (c != null) return c;
+                else return new SolidColorBrush();
+            }
+            catch
+            {
+                return new SolidColorBrush();
+            }
         }
 
         public static Color ThemeBrush1
@@ -171,22 +183,21 @@ namespace ManiacEditor.Methods.Internal
         {
             get
             {
-                if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Light) return false;
+                if (Properties.Settings.MySettings.UserTheme == GenerationsLib.WPF.Themes.Skin.Light) return false;
                 else return true;
             }
         }
 
         public static void SetTheme()
-        {
-            
-            if (Properties.Settings.MySettings.UserTheme == Enums.Skin.Light)
+        {       
+            if (Properties.Settings.MySettings.UserTheme == GenerationsLib.WPF.Themes.Skin.Light)
             {
-                App.ChangeSkin(Properties.Settings.MySettings.UserTheme);
+                GenerationsLib.WPF.Themes.SkinResourceDictionary.ChangeSkin(Properties.Settings.MySettings.UserTheme, ManiacEditor.App.Current.Resources.MergedDictionaries);
                 SetThemeColors(true);
             }
             else
             {
-                App.ChangeSkin(Properties.Settings.MySettings.UserTheme);
+                GenerationsLib.WPF.Themes.SkinResourceDictionary.ChangeSkin(Properties.Settings.MySettings.UserTheme, ManiacEditor.App.Current.Resources.MergedDictionaries);
                 SetThemeColors(false);
             }
         }
@@ -236,42 +247,12 @@ namespace ManiacEditor.Methods.Internal
         public static void UpdateButtonColors()
         {
             var converter = new System.Windows.Media.BrushConverter();
-            if (UseExtendedColors)
-            {
-                ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FFE793");
-            }
-            else
-            {
-                ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.FolderIcon.Fill = (System.Windows.Media.Brush)converter.ConvertFromString("#FAD962");
-            }
+            Instance.EditorToolbar.FolderIcon.Fill = GetSCBResource("Maniac_FolderIcon");
 
         }
         #endregion
 
         #region Entities Related Color Fetching
-        public static System.Drawing.Color GetSenstiveFilterColors(string colorID)
-        {
-            if (colorID == "Blue")
-            {
-                if (UseExtendedColors) return System.Drawing.Color.LightBlue;
-                else return System.Drawing.Color.Blue;
-            }
-            else if (colorID == "Green")
-            {
-                if (UseExtendedColors) return System.Drawing.Color.LightGreen;
-                else return System.Drawing.Color.Green;
-            }
-            else if (colorID == "Red")
-            {
-                if (UseExtendedColors) return System.Drawing.Color.FromArgb(211, 76, 49);
-                else return System.Drawing.Color.Red;
-            }
-            else
-            {
-                if (UseExtendedColors) return System.Drawing.Color.White;
-                else return System.Drawing.Color.Black;
-            }
-        }
 
         public static int GetFilter(RSDKv5.SceneEntity entity)
         {
@@ -286,56 +267,83 @@ namespace ManiacEditor.Methods.Internal
             }
         }
 
-        public static SolidColorBrush GetColorBrush(RSDKv5.SceneEntity entity)
+        public static SolidColorBrush GetObjectFilterColorBrush(RSDKv5.SceneEntity entity)
         {
             int filter = GetFilter(entity);
             SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
             switch (filter)
             {
                 case var _ when (filter == 0 || filter >= 5 && filter != 255):
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
+                    ForeColor = GetSCBResource("Maniac_OtherFilter"); // Other Filter
                     break;
                 case var _ when (filter == 1 || filter == 5):
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
+                    ForeColor = GetSCBResource("Maniac_BothFilter"); // Both Filter
                     break;
                 case 2:
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
+                    ForeColor = GetSCBResource("Maniac_ManiaFilter"); // Mania Filter
                     break;
                 case 4:
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
+                    ForeColor = GetSCBResource("Maniac_EncoreFilter"); //Encore Filter
                     break;
                 case 255:
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    ForeColor = GetSCBResource("Maniac_AllFilter"); // All Filter
                     break;
                 default:
-                    ForeColor = (SolidColorBrush)Instance.FindResource("NormalText"); // NULL Filter
+                    ForeColor = GetSCBResource("Maniac_NullFilter"); // NULL Filter
                     break;
             }
             return ForeColor;
         }
 
-        public static SolidColorBrush GetColorBrush(int filter)
+        public static SolidColorBrush GetSelectedObjectFilterColorBrush(int index)
+        {
+            SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
+            switch (index)
+            {
+                case 0:
+                    ForeColor = GetSCBResource("Maniac_ManiaFilter"); // Mania Filter
+                    break;
+                case 1:
+                    ForeColor = GetSCBResource("Maniac_EncoreFilter"); //Encore Filter
+                    break;
+                case 2:
+                    ForeColor = GetSCBResource("Maniac_BothFilter"); // Both Filter
+                    break;
+                case 3:
+                    ForeColor = GetSCBResource("Maniac_PinballFilter"); // Pinball Filter
+                    break;
+                case 4:
+                    ForeColor = GetSCBResource("Maniac_OtherFilter"); // Other Filter
+                    break;
+                default:
+                    ForeColor = GetSCBResource("Maniac_NullFilter"); // NULL Filter
+                    break;
+            }
+            return ForeColor;
+        }
+
+        public static SolidColorBrush GetObjectFilterColorBrush(int filter)
         {
             SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
             switch (filter)
             {
                 case var _ when (filter == 0 || filter >= 5 && filter != 255):
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Gold)); // Other Filter
+                    ForeColor = GetSCBResource("Maniac_OtherFilter"); // Other Filter
                     break;
                 case var _ when (filter == 1 || filter == 5):
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Blue"))); // Both Filter
+                    ForeColor = GetSCBResource("Maniac_BothFilter"); // Both Filter
                     break;
                 case 2:
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Red"))); // Mania Filter
+                    ForeColor = GetSCBResource("Maniac_ManiaFilter"); // Mania Filter
                     break;
                 case 4:
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(GetSenstiveFilterColors("Green"))); //Encore Filter
+                    ForeColor = GetSCBResource("Maniac_EncoreFilter"); //Encore Filter
                     break;
                 case 255:
-                    ForeColor = new SolidColorBrush(Extensions.Extensions.ColorConvertToMedia(System.Drawing.Color.Violet)); // All Filter
+                    ForeColor = GetSCBResource("Maniac_AllFilter"); // All Filter
                     break;
                 default:
-                    ForeColor = (SolidColorBrush)Instance.FindResource("NormalText"); // NULL Filter
+                    ForeColor = GetSCBResource("Maniac_NullFilter"); // NULL Filter
                     break;
             }
             return ForeColor;
@@ -352,52 +360,52 @@ namespace ManiacEditor.Methods.Internal
 
         public static void UpdateThemeForItemsWaiting()
         {
-            if (FormsModelAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel != null) RefreshFormsModel();
-            if (TilesToolbarAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
-            if (EntitiesToolbarAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
-            if (StartScreenAwaitingRefresh && ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
+            if (FormsModelAwaitingRefresh && Instance.ViewPanel.SharpPanel != null) RefreshFormsModel();
+            if (TilesToolbarAwaitingRefresh && Instance.TilesToolbar != null) RefreshTilesToolbar();
+            if (EntitiesToolbarAwaitingRefresh && Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            if (StartScreenAwaitingRefresh && Instance.StartScreen != null) RefreshStartScreen();
         }
 
         public static void RefreshTheme()
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.Refresh();
-            if (ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel != null) RefreshFormsModel();
+            Instance.Refresh();
+            if (Instance.ViewPanel.SharpPanel != null) RefreshFormsModel();
             else FormsModelAwaitingRefresh = true;
-            if (ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen != null) RefreshStartScreen();
+            if (Instance.StartScreen != null) RefreshStartScreen();
             else StartScreenAwaitingRefresh = true;
-            if (ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar != null) RefreshTilesToolbar();
+            if (Instance.TilesToolbar != null) RefreshTilesToolbar();
             else TilesToolbarAwaitingRefresh = true;
-            if (ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
+            if (Instance.EntitiesToolbar != null) RefreshEntitiesToolbar();
             else EntitiesToolbarAwaitingRefresh = true;
         }
 
         public static void RefreshStartScreen()
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.StartScreen.SelectScreen.RefreshTheme();
+            Instance.StartScreen.SelectScreen.RefreshTheme();
             StartScreenAwaitingRefresh = false;
         }
 
         public static void RefreshTilesToolbar()
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.ChunkList.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.TilesList.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.TilesToolbar.UpdateThemeColors();
+            Instance.TilesToolbar.Refresh();
+            Instance.TilesToolbar.ChunkList.Refresh();
+            Instance.TilesToolbar.TilesList.Refresh();
+            Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
+            Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
+            Instance.TilesToolbar.UpdateThemeColors();
             TilesToolbarAwaitingRefresh = false;
         }
 
         public static void RefreshEntitiesToolbar()
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar.Refresh();
-            ManiacEditor.Controls.Editor.MainEditor.Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
+            Instance.EntitiesToolbar.Refresh();
+            Instance.EntitiesToolbar.UpdatePropertyGridTheme(true);
             EntitiesToolbarAwaitingRefresh = false;
         }
 
         public static void RefreshFormsModel()
         {
-            ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.Refresh();
+            Instance.ViewPanel.SharpPanel.Refresh();
             FormsModelAwaitingRefresh = false;
         }
 

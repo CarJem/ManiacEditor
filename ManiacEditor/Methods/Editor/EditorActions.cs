@@ -261,15 +261,15 @@ namespace ManiacEditor.Methods.Editor
         }
         public static void UpdateLastEntityAction()
         {
-            if (Methods.Editor.Solution.Entities.LastAction != null || Methods.Editor.Solution.Entities.LastActionInternal != null) Instance.RedoStack.Clear();
+            if (Methods.Editor.Solution.Entities.LastAction != null || Methods.Editor.Solution.Entities.LastActionInternal != null) Actions.UndoRedoModel.RedoStack.Clear();
             if (Methods.Editor.Solution.Entities.LastAction != null)
             {
-                Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
+                Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
                 Methods.Editor.Solution.Entities.LastAction = null;
             }
             if (Methods.Editor.Solution.Entities.LastActionInternal != null)
             {
-                Instance.UndoStack.Push(Methods.Editor.Solution.Entities.LastActionInternal);
+                Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastActionInternal);
                 Methods.Editor.Solution.Entities.LastActionInternal = null;
             }
             if (Methods.Editor.Solution.Entities.LastAction != null || Methods.Editor.Solution.Entities.LastActionInternal != null) Methods.Internal.UserInterface.UpdateControls();
@@ -290,8 +290,8 @@ namespace ManiacEditor.Methods.Editor
                 postPos.Add(e, new Point(e.PositionX, e.PositionY));
             }
             IAction action = new ActionMultipleMoveEntities(initalPos, postPos);
-            Instance.UndoStack.Push(action);
-            Instance.RedoStack.Clear();
+            Actions.UndoRedoModel.UndoStack.Push(action);
+            Actions.UndoRedoModel.RedoStack.Clear();
 
         }
         public static void Deselect(bool updateControls = true)
@@ -309,7 +309,7 @@ namespace ManiacEditor.Methods.Editor
         }
         public static void EditorUndo()
         {
-            if (Instance.UndoStack.Count > 0)
+            if (Actions.UndoRedoModel.UndoStack.Count > 0)
             {
                 if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
                 {
@@ -318,17 +318,17 @@ namespace ManiacEditor.Methods.Editor
                 }
                 else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
                 {
-                    if (Instance.UndoStack.Peek() is ActionAddDeleteEntities)
+                    if (Actions.UndoRedoModel.UndoStack.Peek() is ActionAddDeleteEntities)
                     {
                         // deselect only if delete/create
                         Deselect();
                     }
                 }
-                IAction act = Instance.UndoStack.Pop();
+                IAction act = Actions.UndoRedoModel.UndoStack.Pop();
                 if (act != null)
                 {
                     act.Undo();
-                    Instance.RedoStack.Push(act.Redo());
+                    Actions.UndoRedoModel.RedoStack.Push(act.Redo());
                     if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() && ManiacEditor.Methods.Editor.SolutionState.IsSelected())
                     {
                         // We need to update the properties of the selected entity
@@ -341,11 +341,11 @@ namespace ManiacEditor.Methods.Editor
         }
         public static void EditorRedo()
         {
-            if (Instance.RedoStack.Count > 0)
+            if (Actions.UndoRedoModel.RedoStack.Count > 0)
             {
-                IAction act = Instance.RedoStack.Pop();
+                IAction act = Actions.UndoRedoModel.RedoStack.Pop();
                 act.Undo();
-                Instance.UndoStack.Push(act.Redo());
+                Actions.UndoRedoModel.UndoStack.Push(act.Redo());
                 if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() && ManiacEditor.Methods.Editor.SolutionState.IsSelected())
                 {
                     // We need to update the properties of the selected entity
@@ -402,7 +402,7 @@ namespace ManiacEditor.Methods.Editor
                 Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData));*/
 
                 // Send to Maniac's clipboard
-                Instance.entitiesClipboard = copyData;
+                Instance.ObjectsClipboard = copyData;
             }
         }
         public static void PasteEntitiesToClipboard()
@@ -420,9 +420,9 @@ namespace ManiacEditor.Methods.Editor
                     }
 
                     // if there's none, use the internal clipboard
-                    else if (Instance.entitiesClipboard != null)
+                    else if (Instance.ObjectsClipboard != null)
                     {
-                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), Instance.entitiesClipboard);
+                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), Instance.ObjectsClipboard);
                         UpdateLastEntityAction();
                     }
                 }
@@ -529,16 +529,16 @@ namespace ManiacEditor.Methods.Editor
                 // Try to merge with last move
                 List<Classes.Scene.EditorEntity> SelectedList = Methods.Editor.Solution.Entities.SelectedEntities.ToList();
                 List<Classes.Scene.EditorEntity> SelectedInternalList = Methods.Editor.Solution.Entities.SelectedInternalEntities.ToList();
-                bool selectedActionsState = Instance.UndoStack.Count > 0 && Instance.UndoStack.Peek() is ActionMoveEntities && (Instance.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedList, new Point(x, y));
-                bool selectedInternalActionsState = Instance.UndoStack.Count > 0 && Instance.UndoStack.Peek() is ActionMoveEntities && (Instance.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedInternalList, new Point(x, y));
+                bool selectedActionsState = Actions.UndoRedoModel.UndoStack.Count > 0 && Actions.UndoRedoModel.UndoStack.Peek() is ActionMoveEntities && (Actions.UndoRedoModel.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedList, new Point(x, y));
+                bool selectedInternalActionsState = Actions.UndoRedoModel.UndoStack.Count > 0 && Actions.UndoRedoModel.UndoStack.Peek() is ActionMoveEntities && (Actions.UndoRedoModel.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedInternalList, new Point(x, y));
 
                 if (selectedActionsState || selectedInternalActionsState) { }
                 else
                 {
-                    if (SelectedList.Count != 0) Instance.UndoStack.Push(new ActionMoveEntities(SelectedList, new Point(x, y), true));
-                    if (SelectedInternalList.Count != 0) Instance.UndoStack.Push(new ActionMoveEntities(SelectedInternalList, new Point(x, y), true));
+                    if (SelectedList.Count != 0) Actions.UndoRedoModel.UndoStack.Push(new ActionMoveEntities(SelectedList, new Point(x, y), true));
+                    if (SelectedInternalList.Count != 0) Actions.UndoRedoModel.UndoStack.Push(new ActionMoveEntities(SelectedInternalList, new Point(x, y), true));
 
-                    Instance.RedoStack.Clear();
+                    Actions.UndoRedoModel.RedoStack.Clear();
                     Methods.Internal.UserInterface.UpdateControls();
                 }
             }
@@ -616,7 +616,7 @@ namespace ManiacEditor.Methods.Editor
             string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Methods.Editor.SolutionState.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
             Methods.Editor.SolutionState.LevelID = output;
-            Controls.Editor.MainEditor.Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Methods.Editor.SolutionState.LevelID.ToString();
+            Instance.EditorStatusBar._levelIDLabel.Content = "Level ID: " + Methods.Editor.SolutionState.LevelID.ToString();
         }
         public static void MakeShortcutForDataFolderOnly(object sender, RoutedEventArgs e)
         {
@@ -678,11 +678,11 @@ namespace ManiacEditor.Methods.Editor
 
                 if (replaceMode)
                 {
-                    Controls.Editor.MainEditor.Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
+                    Instance.FindAndReplace.EditorTileFindReplace(find, replace, applyState, copyResults);//, perserveColllision
                 }
                 else
                 {
-                    Controls.Editor.MainEditor.Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
+                    Instance.FindAndReplace.EditorTileFind(find, applyState, copyResults);
                 }
 
             }
@@ -921,14 +921,20 @@ namespace ManiacEditor.Methods.Editor
         private static bool LockEntityFilterTextChanged { get; set; } = false;
         public static void UpdateEntityFilterFromTextBox(object sender, TextChangedEventArgs e)
         {
-            if (sender is System.Windows.Controls.TextBox && LockEntityFilterTextChanged == false)
+            if (sender is System.Windows.Controls.TextBox && LockEntityFilterTextChanged == false && Methods.Editor.Solution.Entities != null)
             {
                 LockEntityFilterTextChanged = true;
                 System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
-                Methods.Editor.SolutionState.entitiesTextFilter = theSender.Text;
-                Instance.MenuBar.toolStripTextBox1.Text = Methods.Editor.SolutionState.entitiesTextFilter;
-                //Editor.toolStripTextBox2.Text = Editor.entitiesTextFilter;
+                Methods.Editor.SolutionState.ObjectFilter = theSender.Text;
+                Instance.MenuBar.EntityFilterTextbox.Text = Methods.Editor.SolutionState.ObjectFilter;
                 Methods.Editor.Solution.Entities.FilterRefreshNeeded = true;
+                LockEntityFilterTextChanged = false;
+            }
+            else
+            {
+                LockEntityFilterTextChanged = true;
+                Methods.Editor.SolutionState.ObjectFilter = string.Empty;
+                Instance.MenuBar.EntityFilterTextbox.Text = string.Empty;
                 LockEntityFilterTextChanged = false;
             }
 
