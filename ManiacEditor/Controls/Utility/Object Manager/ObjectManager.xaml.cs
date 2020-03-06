@@ -23,7 +23,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 		private IList<SceneObject> _sourceSceneObjects;
 		private IList<SceneObject> _targetSceneObjects;
 		private IList<int> _sourceSceneObjectUID;
-		private StageConfig _stageConfig;
+		private Stageconfig _stageConfig;
 		public List<String> objectCheckMemory = new List<string>();
 
 		public ListViewItem SelectedAttributeItem;
@@ -34,7 +34,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		bool fullRefreshNeeded = false;
 
-		public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
+		public ObjectManager(IList<SceneObject> targetSceneObjects, Stageconfig stageConfig, Controls.Editor.MainEditor instance)
 		{
 			EditorInstance = instance;
             InitializeComponent();

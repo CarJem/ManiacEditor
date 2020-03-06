@@ -227,7 +227,7 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
                                             <Label VerticalAlignment="Center" Content="Grid Color"></Label>
-                                            <wpfTool:ColorPicker Style="{DynamicResource ColorPickerStyle1}" VerticalAlignment="Center"  ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
+                                            <wpfTool:ColorPicker  VerticalAlignment="Center"  ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
                                         </Grid>
                                         <Separator/>
                                         <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
@@ -261,7 +261,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Label Content="All" Grid.Column="1"></Label>
-                                        <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="False"  Focusable="False" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
                                     </Grid>
                                 </MenuItem.Header>
                             </MenuItem>
@@ -272,7 +272,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker IsTabStop="False" Style="{DynamicResource ColorPickerStyle1}" Focusable="False"  ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="False"  Focusable="False"  ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
                                         <Label Content="Top Only" Grid.Column="1"></Label>
                                     </Grid>
                                 </MenuItem.Header>
@@ -284,7 +284,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False" Style="{DynamicResource ColorPickerStyle1}"  ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
                                         <Label Content="LRD" Grid.Column="1"></Label>
                                     </Grid>
                                 </MenuItem.Header>
@@ -311,7 +311,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker Style="{DynamicResource ColorPickerStyle1}" ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" Name="WLC" SelectedColorChanged="comboBox7_DropDown" ></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Blue" Name="WLC" SelectedColorChanged="comboBox7_DropDown" ></wpfTool:ColorPicker>
                                         <Label Content="Water Color" Grid.ColumnSpan="1"></Label>
                                     </Grid>
                                 </MenuItem.Header>
@@ -369,11 +369,11 @@
 
                 <Separator Margin="0,2"/>
                 <Separator x:Name="extraViewLayersSeperator" Margin="0,2" Visibility="Collapsed"/>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLower" Text="FG Lower" TextForeground="Red" Click="EditFGLower_Click" RightClick="EditFGLower_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLow" Text="FG Low" TextForeground="Red" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigh" Text="FG High" TextForeground="Red" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigher" Text="FG Higher" TextForeground="Red" Click="EditFGHigher_Click" RightClick="EditFGHigher_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton IsLayerControlsHidden="True" IsLayerOptionsEnabled="False" x:Name="EditEntities" Text="Entities" TextForeground="Red" Click="EditEntities_Click"/>
+                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLower" Text="FG Lower" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLower_Click" RightClick="EditFGLower_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLow" Text="FG Low" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigh" Text="FG High" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigher" Text="FG Higher" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGHigher_Click" RightClick="EditFGHigher_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton IsLayerControlsHidden="True" IsLayerOptionsEnabled="False" x:Name="EditEntities" Text="Entities" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditEntities_Click"/>
 
 
                 <ToolBar.Resources>

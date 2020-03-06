@@ -10,6 +10,10 @@
     <SolidColorBrush x:Key="AnimationEditor_IconBlue3" Color="#FF1863A6"/>
     <SolidColorBrush x:Key="AnimationEditor_IconRed" Color="#FFD92E0C"/>
 
+    <SolidColorBrush x:Key="Maniac_ExtraEditLayer_LabelText" Color="LawnGreen"/>
+    <SolidColorBrush x:Key="Maniac_ExtraViewLayer_LabelText" Color="Green"/>
+    <SolidColorBrush x:Key="Maniac_EditLayer_LabelText" Color="Red"/>
+
     <SolidColorBrush x:Key="EditLayerSelectedColor" Color="Blue"/>
     <SolidColorBrush x:Key="EditLayerSelectedColorBack" Color="#900000FF"/>
     <SolidColorBrush x:Key="EditLayerASelectedColor" Color="#05FF00"/>

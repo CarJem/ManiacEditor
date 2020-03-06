@@ -47,7 +47,7 @@
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Label Background="{DynamicResource StatusBarBackground}" FontWeight="Bold"  Grid.Row="2" Content="Recent Data Folders / Packs"></Label>
-                                <ScrollViewer Grid.Row="3" IsDeferredScrollingEnabled="False">
+                                <ScrollViewer Grid.Row="3" Background="{DynamicResource NormalBackground}" IsDeferredScrollingEnabled="False">
                                     <StackPanel>
                                         <Label Content="No Recent Data Folders / Packs" Name="NoRecentsLabel2" IsEnabled="False"></Label>
                                         <StackPanel x:Name="RecentDataContextList">
@@ -56,7 +56,7 @@
                                     </StackPanel>
                                 </ScrollViewer>
                                 <Label Background="{DynamicResource StatusBarBackground}" FontWeight="Bold"  Grid.Row="0" Content="Recent Scenes"></Label>
-                                <ScrollViewer Grid.Row="1" IsDeferredScrollingEnabled="False">
+                                <ScrollViewer Background="{DynamicResource NormalBackground}" Grid.Row="1" IsDeferredScrollingEnabled="False">
                                     <StackPanel>
                                         <Label Content="No Recent Scenes" Name="NoRecentsLabel1" IsEnabled="False"></Label>
                                         <StackPanel x:Name="RecentScenesList">

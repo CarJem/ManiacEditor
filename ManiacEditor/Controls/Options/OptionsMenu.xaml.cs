@@ -494,6 +494,8 @@ namespace ManiacEditor.Controls.Options
 					return Skin.Shard;
 				case 4:
 					return Skin.CarJem;
+				case 5:
+					return Skin.Gamma;
 				default:
 					return Skin.Light;
 			}

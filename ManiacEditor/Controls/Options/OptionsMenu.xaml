@@ -84,6 +84,7 @@
                                     <ComboBoxItem Content="Beta Angel Theme" Width="256"></ComboBoxItem>
                                     <ComboBoxItem Content="Shard Theme" Width="256"></ComboBoxItem>
                                     <ComboBoxItem Content="CarJem Theme" Width="256"></ComboBoxItem>
+                                    <ComboBoxItem Content="CodenameGamma Theme" Width="256"></ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
                            

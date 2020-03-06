@@ -25,11 +25,11 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
     {
         private IList<SceneObject> _sourceSceneObjects;
         private IList<SceneObject> _targetSceneObjects;
-        private StageConfig _stageConfig;
+        private Stageconfig _stageConfig;
         public Controls.Editor.MainEditor EditorInstance;
         public IList<CheckBox> lvObjects = new List<CheckBox>();
 
-        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
+        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, Stageconfig stageConfig, Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -45,7 +45,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 
-        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
+        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, Stageconfig stageConfig, Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -182,7 +182,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
         }
 
-        public void GenerateNormalList(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
+        public void GenerateNormalList(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, Stageconfig stageConfig)
         {
             _sourceSceneObjects = sourceSceneObjects;
             _targetSceneObjects = targetSceneObjects;

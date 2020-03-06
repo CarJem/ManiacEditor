@@ -113,7 +113,7 @@ namespace ManiacEditor.Classes.Prefrences
             section.MasterDataDirectory = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory;
             section.ExtraDataDirectories = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.ExtraDataDirectories;
 
-            Title = string.Format("Data Dir: {0}", section.DataDirectory);
+            Title = string.Format("Data Dir: {0}", (section.DataDirectory == string.Empty ? "N/A" : section.DataDirectory));
             Name = string.Format("Master Dat Dir: {0}", section.MasterDataDirectory);
 
             section.EntryName = Title + Environment.NewLine + Name;

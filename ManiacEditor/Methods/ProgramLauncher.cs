@@ -561,7 +561,7 @@ namespace ManiacEditor.Methods
         {
             try
             {
-                StageConfig sourceStageConfig = null;
+                Stageconfig sourceStageConfig = null;
                 using (var fd = new OpenFileDialog())
                 {
                     fd.Filter = "Stage Config File|*.bin";
@@ -572,7 +572,7 @@ namespace ManiacEditor.Methods
                     {
                         try
                         {
-                            sourceStageConfig = new StageConfig(fd.FileName);
+                            sourceStageConfig = new Stageconfig(fd.FileName);
                         }
                         catch
                         {

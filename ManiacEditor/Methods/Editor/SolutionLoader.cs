@@ -46,7 +46,7 @@ namespace ManiacEditor.Methods.Editor
                 Methods.Editor.Solution.CurrentScene = new Classes.Scene.EditorScene(Instance.ViewPanel.SharpPanel.GraphicPanel, makerDialog.Scene_Width, makerDialog.Scene_Height, makerDialog.BG_Width, makerDialog.BG_Height, Instance);
                 Methods.Editor.Solution.TileConfig = new Tileconfig();
                 Methods.Editor.Solution.CurrentTiles = new Classes.Scene.EditorTiles();
-                Methods.Editor.Solution.StageConfig = new StageConfig();
+                Methods.Editor.Solution.StageConfig = new Stageconfig();
 
                 string ImagePath = directoryPath + "//16x16Tiles.gif";
                 string TilesPath = directoryPath + "//TilesConfig.bin";

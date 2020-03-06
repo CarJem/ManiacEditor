@@ -493,7 +493,7 @@ namespace ManiacEditor.Methods.Editor
 		{
 			try
 			{
-				Methods.Editor.Solution.StageConfig = new StageConfig(Path.Combine(configPath, "Stages", CurrentSceneData.Zone, "StageConfig.bin"));
+				Methods.Editor.Solution.StageConfig = new Stageconfig(Path.Combine(configPath, "Stages", CurrentSceneData.Zone, "StageConfig.bin"));
 				StageConfig_Source = new FileSource(sourceId, Path.Combine(configPath, "Stages", CurrentSceneData.Zone, "StageConfig.bin"));
 				return true;
 			}
@@ -508,7 +508,7 @@ namespace ManiacEditor.Methods.Editor
 		{
 			try
 			{
-				Methods.Editor.Solution.StageConfig = new StageConfig(Path.Combine(filepath, "StageConfig.bin"));
+				Methods.Editor.Solution.StageConfig = new Stageconfig(Path.Combine(filepath, "StageConfig.bin"));
 				StageConfig_Source = new FileSource(-3, Path.Combine(filepath, "StageConfig.bin"));
 				return true;
 			}

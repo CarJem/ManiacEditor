@@ -15,13 +15,15 @@
                     BetaSource="/GenerationsLib.WPF;Component/Themes/BetaTheme.xaml" 
                     ShardSource="/GenerationsLib.WPF;Component/Themes/ShardTheme.xaml" 
                     DarkSource="/GenerationsLib.WPF;Component/Themes/DarkTheme.xaml" 
-                    LightSource="/GenerationsLib.WPF;Component/Themes/LightTheme.xaml" />
+                    LightSource="/GenerationsLib.WPF;Component/Themes/LightTheme.xaml"
+                    GammaSource="/GenerationsLib.WPF;Component/Themes/GammaTheme.xaml"/>
                 <skin:SkinResourceDictionary
                     CarJemSource="Controls/Assets/Themes/CarJemTheme.xaml" 
                     BetaSource="Controls/Assets/Themes/BetaTheme.xaml" 
                     ShardSource="Controls/Assets/Themes/ShardTheme.xaml" 
                     DarkSource="Controls/Assets/Themes/DarkTheme.xaml" 
-                    LightSource="Controls/Assets/Themes/LightTheme.xaml" />
+                    LightSource="Controls/Assets/Themes/LightTheme.xaml"
+                    GammaSource="Controls/Assets/Themes/GammaTheme.xaml"/>
                 <ResourceDictionary Source="Controls/Assets/Icons.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/IconLibrary.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ButtonStyle.xaml"></ResourceDictionary>

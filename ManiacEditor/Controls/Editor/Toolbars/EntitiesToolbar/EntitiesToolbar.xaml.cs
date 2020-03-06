@@ -8,7 +8,6 @@ using System.Windows.Media;
 using RSDKv5;
 using System.ComponentModel;
 using System.Data;
-using ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.PropertyGrid;
 using ManiacEditor.Extensions;
 using ManiacEditor.Controls.Global.Controls.PropertyGrid;
 using GenerationsLib.Core;

@@ -30,7 +30,7 @@ namespace ManiacEditor.Methods.Internal
             }
         }
 
-        private static SolidColorBrush GetSCBResource(string resourceName)
+        public static SolidColorBrush GetSCBResource(string resourceName)
         {
             try
             {

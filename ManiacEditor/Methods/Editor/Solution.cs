@@ -21,7 +21,7 @@ namespace ManiacEditor.Methods.Editor
         public static Classes.Scene.EditorTiles CurrentTiles { get; set; }
         public static Classes.Scene.EditorScene CurrentScene { get; set; }
         public static Classes.Scene.EditorEntities Entities { get; set; }
-        public static StageConfig StageConfig { get; set; }
+        public static Stageconfig StageConfig { get; set; }
         public static Gameconfig GameConfig { get; set; }
         public static Tileconfig TileConfig
         {

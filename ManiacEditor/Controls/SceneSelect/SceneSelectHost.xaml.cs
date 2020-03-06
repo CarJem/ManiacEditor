@@ -1295,7 +1295,11 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             bool AllowedToProceed = true;
             LoadMasterDataDirectory(SaveState.MasterDataDirectory);
-            LoadDataDirectory((SaveState.ExtraDataDirectories != null && SaveState.ExtraDataDirectories.Count >= 1 ? SaveState.ExtraDataDirectories[0] : string.Empty));
+
+            if (SaveState.DataDirectory != string.Empty && SaveState.DataDirectory != "")
+            {
+                LoadDataDirectory((SaveState.ExtraDataDirectories != null && SaveState.ExtraDataDirectories.Count >= 1 ? SaveState.ExtraDataDirectories[0] : string.Empty));
+            }
 
             UpdateDataDirectoryLabel();
             UpdateMasterDataDirectoryComboBox();

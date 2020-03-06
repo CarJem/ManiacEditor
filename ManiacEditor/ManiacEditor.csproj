@@ -485,8 +485,6 @@
     <Compile Include="Extensions\KeyEventExt.cs" />
     <Compile Include="Controls\Utility\Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Interfaces\IDrawArea.cs" />
-    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalProperty.cs" />
-    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\PropertyGrid\LocalPropertyGrid.cs" />
     <Compile Include="Classes\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Scene\EditorEntity.cs" />
     <Compile Include="Methods\Runtime\ProcessMemory.cs" />
@@ -1229,6 +1227,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Assets\Themes\GammaTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

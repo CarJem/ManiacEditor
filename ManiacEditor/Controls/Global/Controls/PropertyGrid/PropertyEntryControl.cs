@@ -39,6 +39,7 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
         private System.Windows.Controls.TextBox StringTextboxControl { get; set; }
         private string TextBoxLastString { get; set; }
         private Xceed.Wpf.Toolkit.ColorPicker ColorPickerControl { get; set; }
+        private System.Windows.Media.Color? ColorPickerLastColor { get; set; }
         #endregion
 
         private Type HostType { get; set; }
@@ -141,7 +142,8 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             {
                 ColorPickerControl = new Xceed.Wpf.Toolkit.ColorPicker();
                 System.Drawing.Color initalColor = (System.Drawing.Color)DefaultValue;
-                ColorPickerControl.SelectedColor = new System.Windows.Media.Color() { A = initalColor.A, R = initalColor.R, G = initalColor.G, B = initalColor.B };
+                ColorPickerLastColor = new System.Windows.Media.Color() { A = initalColor.A, R = initalColor.R, G = initalColor.G, B = initalColor.B };
+                ColorPickerControl.SelectedColor = ColorPickerLastColor;
                 ValueControl.Value1Host.Children.Add(ColorPickerControl);
             }
 
@@ -241,7 +243,7 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             }
             else if (HostType == typeof(System.Drawing.Color))
             {
-                ColorPickerControl.SelectedColorChanged -= Host_SelectedColorChanged;
+                ColorPickerControl.Closed -= ColorPickerControl_Closed;
             }
         }
 
@@ -289,9 +291,11 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             }
             else if (HostType == typeof(System.Drawing.Color))
             {
-                ColorPickerControl.SelectedColorChanged += Host_SelectedColorChanged;
+                ColorPickerControl.Closed += ColorPickerControl_Closed;
             }
         }
+
+
 
         public override void Dispose()
         {
@@ -351,11 +355,11 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             ValueControl = null;
         }
 
-        private void Host_SelectedColorChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
+        private void ColorPickerControl_Closed(object sender, System.Windows.RoutedEventArgs e)
         {
-
-            System.Drawing.Color OldColor = (e.OldValue.HasValue ? System.Drawing.Color.FromArgb(e.OldValue.Value.A, e.OldValue.Value.R, e.OldValue.Value.G, e.OldValue.Value.B) : System.Drawing.Color.Black);
-            System.Drawing.Color NewColor = (e.NewValue.HasValue ? System.Drawing.Color.FromArgb(e.NewValue.Value.A, e.NewValue.Value.R, e.NewValue.Value.G, e.NewValue.Value.B) : System.Drawing.Color.Black);
+            System.Windows.Media.Color? ColorPickerNewColor = ColorPickerControl.SelectedColor;
+            System.Drawing.Color OldColor = (ColorPickerLastColor.HasValue ? System.Drawing.Color.FromArgb(ColorPickerLastColor.Value.A, ColorPickerLastColor.Value.R, ColorPickerLastColor.Value.G, ColorPickerLastColor.Value.B) : System.Drawing.Color.Black);
+            System.Drawing.Color NewColor = (ColorPickerNewColor.HasValue ? System.Drawing.Color.FromArgb(ColorPickerNewColor.Value.A, ColorPickerNewColor.Value.R, ColorPickerNewColor.Value.G, ColorPickerNewColor.Value.B) : System.Drawing.Color.Black);
 
             base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, OldColor, NewColor));
         }

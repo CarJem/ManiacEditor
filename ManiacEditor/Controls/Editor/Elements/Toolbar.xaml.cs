@@ -648,7 +648,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                 };
                 LayerToolbar.Items.Add(tsb);
                 tsb.DualSelect = true;
-                tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(System.Drawing.Color.LawnGreen.A, System.Drawing.Color.LawnGreen.R, System.Drawing.Color.LawnGreen.G, System.Drawing.Color.LawnGreen.B));
+                tsb.TextForeground = Methods.Internal.Theming.GetSCBResource("Maniac_ExtraEditLayer_LabelText");
                 tsb.RightClick += AdHocLayerEdit_RightClick;
                 tsb.IsLayerOptionsEnabled = true;
 
@@ -671,8 +671,9 @@ namespace ManiacEditor.Controls.Editor.Elements
                     LayerName = "Show" + el.Name.Replace(" ", "")
                 };
                 LayerToolbar.Items.Insert(LayerToolbar.Items.IndexOf(extraViewLayersSeperator), tsb);
-                tsb.TextForeground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, System.Drawing.Color.FromArgb(0x33AD35).R, System.Drawing.Color.FromArgb(0x33AD35).G, System.Drawing.Color.FromArgb(0x33AD35).B));
+                tsb.TextForeground = Methods.Internal.Theming.GetSCBResource("Maniac_ExtraViewLayer_LabelText");
                 tsb.IsLayerOptionsEnabled = true;
+                tsb.IsLayerControlsHidden = true;
 
 
                 _extraLayerViewButtons.Add(tsb);
@@ -1119,6 +1120,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             ShowFGLower.IsEnabled = enabled && Methods.Editor.Solution.FGLower != null;
             ShowEntities.IsEnabled = enabled;
 
+            ShowGridToggleButton.IsEnabled = enabled;
             ShowGridButton.IsEnabled = enabled;
             CollisionSettingsDropdown.IsEnabled = enabled;
             OtherDropdown.IsEnabled = enabled;

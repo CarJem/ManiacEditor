@@ -188,7 +188,8 @@ namespace ManiacEditor.Methods.Editor
             get { return _ShowGrid; }
             set
             {
-                Instance.EditorToolbar.ShowGridToggleButton.IsChecked = value;
+                if (Solution.CurrentScene == null) value = false;
+                 Instance.EditorToolbar.ShowGridToggleButton.IsChecked = value;
                 _ShowGrid = value;
             }
         }
