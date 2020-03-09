@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 using ManiacEditor.Enums;
 using ManiacEditor.Extensions;
+using SFML.System;
+using SFML.Graphics;
 
 namespace ManiacEditor.Classes.Scene
 {
@@ -341,6 +343,12 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
+        #region Rendering
+
+        public SFML.Utils.MapRenderer MapRender { get; set; }
+
+        #endregion
+
         #endregion
 
         #region Init
@@ -357,6 +365,14 @@ namespace ManiacEditor.Classes.Scene
             _horizontalLayerRules = ReadHorizontalLineRules();
             InitiallizeChunkMap();
         }
+
+
+        private void Provider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            color = new SFML.Graphics.Color((byte)(x * 5), (byte)(y * 5), 50);
+            rec = new IntRect(0, 0, 16, 16);
+        }
+
         private void InitiallizeChunkMap()
         {
             ChunksWidth = DivideRoundUp(Width, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
@@ -1239,7 +1255,7 @@ namespace ManiacEditor.Classes.Scene
                 }
             }
         }
-        public void Draw(DevicePanel d)
+        public void OldDraw(DevicePanel d)
         {
             if (!CanDrawForSFML) return;
 
@@ -1280,6 +1296,15 @@ namespace ManiacEditor.Classes.Scene
                     }
                 }
                 DisposeUnusedChunks();
+            }
+        }
+        public void Draw(DevicePanel d)
+        {
+            if (MapRender == null) MapRender = new SFML.Utils.MapRenderer(Methods.Editor.Solution.CurrentTiles.Image.GetTexture(), Provider, 16, 1);
+            else
+            {
+                MapRender.Refresh();
+                d.RenderWindow.Draw(MapRender);
             }
         }
         public SFML.Graphics.Texture GetChunk(DevicePanel d, int x, int y)

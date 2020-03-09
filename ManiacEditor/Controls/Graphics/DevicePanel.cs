@@ -163,6 +163,7 @@ namespace ManiacEditor
             RenderWindow.DispatchEvents();
             RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
             RenderWindow.GetView().Zoom((float)_parent.GetZoom());
+            //RenderWindow.GetView().Center = new SFML.System.Vector2f(Methods.Editor.SolutionState.ViewPositionX, Methods.Editor.SolutionState.ViewPositionY);
 
             // Render of Scene Here
             if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
