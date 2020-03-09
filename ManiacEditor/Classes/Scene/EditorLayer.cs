@@ -1248,7 +1248,7 @@ namespace ManiacEditor.Classes.Scene
             if (ShowLayerScrollLines) DrawScrollLines(d);
         }
 
-        private bool canDrawForSFML = false;
+        private bool canDrawForSFML = true;
 
         public void DrawLayer(DevicePanel d)
         {

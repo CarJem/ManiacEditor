@@ -16,9 +16,9 @@ namespace ManiacEditor.Methods.Draw
         Bitmap _bitmap_selected;
         string _bitmapFilename;
 
-        Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmapCache = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
-        Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmap_selected_Cache = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
-        Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture> _texturesCache = new Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture>();
+        Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmapCache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
+        Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmap_selected_Cache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
+        Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture> _texturesCache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture>();
 
         public GIF(string filename, string encoreColors = null)
         {
