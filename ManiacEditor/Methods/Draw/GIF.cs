@@ -47,6 +47,8 @@ namespace ManiacEditor.Methods.Draw
 
             // stash the filename too, so we can reload later
             _bitmapFilename = filename;
+
+            this._bitmap_texture = TextureHelper.FromBitmap(_bitmap);
         }
 
         public GIF(Bitmap bitmap)

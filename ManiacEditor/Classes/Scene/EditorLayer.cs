@@ -346,6 +346,7 @@ namespace ManiacEditor.Classes.Scene
         #region Rendering
 
         public SFML.Utils.MapRenderer MapRender { get; set; }
+        public SFML.Graphics.Texture SpriteSheet { get; set; }
 
         #endregion
 
@@ -369,8 +370,36 @@ namespace ManiacEditor.Classes.Scene
 
         private void Provider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
-            color = new SFML.Graphics.Color((byte)(x * 5), (byte)(y * 5), 50);
-            rec = new IntRect(0, 0, 16, 16);
+            int tile_x = x * Methods.Editor.EditorConstants.TILE_SIZE;
+            int tile_y = y * Methods.Editor.EditorConstants.TILE_SIZE;
+
+            if (Height > tile_y && 0 < tile_y && Width > tile_x && 0 < tile_x)
+            {
+                
+                ushort tile = Tiles[tile_y][tile_x];
+                if (tile != 0xffff && SpriteSheet != null)
+                {
+                    int index = (tile & 0x3ff);
+                    int tile_width = Methods.Editor.EditorConstants.TILE_SIZE;
+                    int tile_height = Methods.Editor.EditorConstants.TILE_SIZE;
+                    int rect_x = 0;
+                    int rect_y = index * Methods.Editor.EditorConstants.TILE_SIZE;
+                    color = new SFML.Graphics.Color(255, 255, 255, 128);
+                    rec = new IntRect(tile_x, tile_y, 16, 16);
+                }
+                else
+                {
+                    color = new SFML.Graphics.Color(255, 255, 255, 0);
+                    rec = new IntRect(0, 0, 1, 1);
+                }
+
+            }
+            else
+            {
+                color = new SFML.Graphics.Color(0, 0, 0, 0);
+                rec = new IntRect(0, 0, 1, 1);
+            }
+
         }
 
         private void InitiallizeChunkMap()
@@ -1300,7 +1329,11 @@ namespace ManiacEditor.Classes.Scene
         }
         public void Draw(DevicePanel d)
         {
-            if (MapRender == null) MapRender = new SFML.Utils.MapRenderer(Methods.Editor.Solution.CurrentTiles.Image.GetTexture(), Provider, 16, 1);
+            if (MapRender == null)
+            {
+                SpriteSheet = Methods.Editor.Solution.CurrentTiles.Image.GetTexture();
+                MapRender = new SFML.Utils.MapRenderer(SpriteSheet, Provider, 16, 1);
+            }
             else
             {
                 MapRender.Refresh();
