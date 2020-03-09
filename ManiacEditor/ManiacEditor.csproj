@@ -327,10 +327,10 @@
     <Compile Include="Controls\Editor\Elements\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Render\DevicePanel.cs">
+    <Compile Include="Controls\Graphics\DevicePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Editor\Render\DevicePanel.designer.cs" />
+    <Compile Include="Controls\Graphics\DevicePanel.designer.cs" />
     <Compile Include="Controls\Updater\DownloadWindow.xaml.cs" />
     <Compile Include="Controls\Updater\ManiacUpdater.xaml.cs">
       <DependentUpon>ManiacUpdater.xaml</DependentUpon>
@@ -345,7 +345,6 @@
     <Compile Include="Extensions\Spline\TriDiagonalMatrix.cs" />
     <Compile Include="Extensions\WindowHelper.cs" />
     <Compile Include="Methods\Draw\GIF.cs" />
-    <Compile Include="Methods\Draw\GraphicsHandler.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Classes\Scene\EditorTiles.cs" />
     <Compile Include="Controls\Utility\ExportAsImageGUI.xaml.cs">
@@ -1053,7 +1052,7 @@
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Controls\Editor\Render\DevicePanel.resx" />
+    <EmbeddedResource Include="Controls\Graphics\DevicePanel.resx" />
     <EmbeddedResource Include="Resources\entity_definitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

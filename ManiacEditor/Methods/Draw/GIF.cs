@@ -15,6 +15,7 @@ namespace ManiacEditor.Methods.Draw
         Bitmap _bitmap;
         Bitmap _bitmap_selected;
         string _bitmapFilename;
+        SFML.Graphics.Texture _bitmap_texture;
 
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmapCache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmap_selected_Cache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
@@ -53,6 +54,7 @@ namespace ManiacEditor.Methods.Draw
             this._bitmap = new Bitmap(bitmap);
             this._bitmap_selected = this._bitmap.Clone(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), PixelFormat.Format32bppArgb);
             ColorImage(ref this._bitmap_selected);
+            this._bitmap_texture = TextureHelper.FromBitmap(_bitmap);
         }
 
         public GIF(Image image)
@@ -138,6 +140,11 @@ namespace ManiacEditor.Methods.Draw
             }
 
             return bmp;
+        }
+
+        public SFML.Graphics.Texture GetTexture()
+        {
+            return _bitmap_texture;
         }
 
         public Bitmap GetBitmap(Rectangle section, bool flipX = false, bool flipY = false, bool isSelected = false)

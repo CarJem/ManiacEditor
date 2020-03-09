@@ -84,7 +84,20 @@ namespace ManiacEditor.Methods.Editor
         #region Zooming Variables
 
         public static bool Zooming { get; set; } = false;  //Detects if we are zooming
-        public static double Zoom { get; set; } = 1; //Double Value for Zoom Levels
+
+        private static double _Zoom = 1;
+        public static double Zoom
+        {
+            get
+            {
+                return _Zoom;
+            }
+            set
+            {
+                //TODO : Fix Zooming with New Rendering System
+                //_Zoom = value;
+            }
+        }
         public static int ZoomLevel { get; set; } = 0; //Interger Value for Zoom Levels
 
         #endregion

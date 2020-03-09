@@ -91,7 +91,7 @@ namespace ManiacEditor
             var context = new ContextSettings {  };
             this.RenderWindow = new RenderWindow(this.Handle, context);
 
-            RenderWindow.SetFramerateLimit(60);
+            RenderWindow.SetFramerateLimit(120);
 
             this.RenderWindow.SetActive(true);
         }
@@ -162,6 +162,7 @@ namespace ManiacEditor
         {
             RenderWindow.DispatchEvents();
             RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
+            RenderWindow.GetView().Zoom((float)_parent.GetZoom());
 
             // Render of Scene Here
             if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
@@ -329,33 +330,20 @@ namespace ManiacEditor
         }
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
         {
-            /*
             Rectangle screen = GetParentScreen();
             double zoom = _parent.GetZoom();
-            int width = Math.Abs(X2 - X1);
-            int height = Math.Abs(Y2 - Y1);
-            int x = Math.Min(X1, X2);
-            int y = Math.Min(Y1, Y2);
-            int pixel_width = Math.Max((int)zoom, 1);
 
-            if (!IsObjectOnScreen(x, y, width, height)) return;
+            int real_x1 = X1 - (int)(screen.X / zoom);
+            int real_x2 = X2 - (int)(screen.X / zoom);
+            int real_y1 = Y1 - (int)(screen.Y / zoom);
+            int real_y2 = Y2 - (int)(screen.Y / zoom);
 
 
-            if (width == 0 || height == 0)
-            {
-                int zoomOffset = (zoom % 1 == 0 ? 0 : 1);
-                if (!useZoomOffseting) zoomOffset = 0;
-                if (width == 0) width = pixel_width + zoomOffset;
-                else width = (int)(width * zoom) + zoomOffset;
-                if (height == 0) height = pixel_width + zoomOffset;
-                else height = (int)(height * zoom) + zoomOffset;
-                DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x - (int)(screen.X / zoom)) * zoom), (int)((y - (int)(screen.Y / zoom)) * zoom), 0), color);
-            }
-            else
-            {
-                DrawLinePBP(X1, Y1, X2, Y2, color);
-            }
-            */
+            SFML.Graphics.VertexArray line = new SFML.Graphics.VertexArray();
+            line.PrimitiveType = SFML.Graphics.PrimitiveType.Lines;
+            line.Append(new Vertex(new SFML.System.Vector2f(real_x1, real_y1), new SFML.Graphics.Color(color.R, color.G, color.B, color.A)));
+            line.Append(new Vertex(new SFML.System.Vector2f(real_x2, real_y2), new SFML.Graphics.Color(color.R, color.G, color.B, color.A)));
+            RenderWindow.Draw(line);
         }
         public void DrawLinePaperRoller(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4)
         {

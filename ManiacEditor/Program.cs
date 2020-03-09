@@ -17,7 +17,7 @@ namespace ManiacEditor
         [STAThread] 
         static void Main(string[] args)
         {
-            Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + "DLLs");
+            //Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + "DLLs");
 
             Classes.Options.InternalSwitches.Init();
             ManiacEditor.Methods.ProgramBase.StartLogging();
