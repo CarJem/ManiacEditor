@@ -51,8 +51,8 @@ namespace ManiacEditor.Controls.Editor.Elements
                 else e = new System.Drawing.Point(0, 0);
 
                 string text;
-                if (!Methods.Editor.SolutionState.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Methods.Editor.SolutionState.Zoom) + " Y: " + (int)(e.Y / Methods.Editor.SolutionState.Zoom);
-                else text = "X: " + (int)((e.X / Methods.Editor.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Methods.Editor.SolutionState.Zoom) / 16);
+                if (!Methods.Editor.SolutionState.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Methods.Editor.SolutionState.OldZoom) + " Y: " + (int)(e.Y / Methods.Editor.SolutionState.OldZoom);
+                else text = "X: " + (int)((e.X / Methods.Editor.SolutionState.OldZoom) / 16) + " Y: " + (int)((e.Y / Methods.Editor.SolutionState.OldZoom) / 16);
                 positionLabel.Content = text;
             });
 
@@ -110,7 +110,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             scrollLockDirLabel.Content = "Scroll Direction: " + (Methods.Editor.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Methods.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
 
 
-            hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Editor.SolutionState.Zoom.ToString();
+            hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Editor.SolutionState.OldZoom.ToString();
 
             //
             // End of Tooltip Bar Info Section

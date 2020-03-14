@@ -334,7 +334,7 @@ namespace ManiacEditor.Methods.Runtime
                     d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Methods.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    if (Methods.Editor.SolutionState.OldZoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -407,7 +407,7 @@ namespace ManiacEditor.Methods.Runtime
                     d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Methods.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    if (Methods.Editor.SolutionState.OldZoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -650,14 +650,14 @@ namespace ManiacEditor.Methods.Runtime
             if (GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom));
-                GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom));
+                GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom));
             }
         }
 
         public static void SetPlayerRespawnToHere()
         {
-            Point clicked_point = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
+            Point clicked_point = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom));
             if (GameRunning)
             {
                 UpdateCheckpoint(clicked_point);

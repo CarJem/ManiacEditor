@@ -200,12 +200,12 @@ namespace ManiacEditor.Methods.Editor
                 if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit())
                 {
 
-                    Point p = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
+                    Point p = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom));
                     return Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {
-                    return new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1, (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1);
+                    return new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1, (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1);
 
                 }
             }
@@ -415,14 +415,14 @@ namespace ManiacEditor.Methods.Editor
                     // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
                     if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
                     {
-                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), (List<Classes.Scene.EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom)), (List<Classes.Scene.EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
                         UpdateLastEntityAction();
                     }
 
                     // if there's none, use the internal clipboard
                     else if (Instance.ObjectsClipboard != null)
                     {
-                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), Instance.ObjectsClipboard);
+                        Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom)), Instance.ObjectsClipboard);
                         UpdateLastEntityAction();
                     }
                 }
@@ -581,11 +581,11 @@ namespace ManiacEditor.Methods.Editor
             if (CenterCoords)
             {
                 Rectangle r = Instance.ViewPanel.SharpPanel.GraphicPanel.GetScreen();
-                int x2 = (int)(r.Width * Methods.Editor.SolutionState.Zoom);
-                int y2 = (int)(r.Height * Methods.Editor.SolutionState.Zoom);
+                int x2 = (int)(r.Width * Methods.Editor.SolutionState.OldZoom);
+                int y2 = (int)(r.Height * Methods.Editor.SolutionState.OldZoom);
 
-                int ResultX = (int)(x * Methods.Editor.SolutionState.Zoom) - x2 / 2;
-                int ResultY = (int)(y * Methods.Editor.SolutionState.Zoom) - y2 / 2;
+                int ResultX = (int)(x * Methods.Editor.SolutionState.OldZoom) - x2 / 2;
+                int ResultY = (int)(y * Methods.Editor.SolutionState.OldZoom) - y2 / 2;
 
                 if ((ResultX <= 0 && !Methods.Editor.SolutionState.UnlockCamera)) ResultX = 0;
                 if ((ResultY <= 0 && !Methods.Editor.SolutionState.UnlockCamera)) ResultY = 0;
@@ -596,8 +596,8 @@ namespace ManiacEditor.Methods.Editor
             }
             else
             {
-                int ResultX = (int)(x * Methods.Editor.SolutionState.Zoom);
-                int ResultY = (int)(y * Methods.Editor.SolutionState.Zoom);
+                int ResultX = (int)(x * Methods.Editor.SolutionState.OldZoom);
+                int ResultY = (int)(y * Methods.Editor.SolutionState.OldZoom);
 
                 if ((ResultX <= 0)) ResultX = 0;
                 if ((ResultY <= 0)) ResultY = 0;
@@ -705,8 +705,8 @@ namespace ManiacEditor.Methods.Editor
         {
             Properties.Settings.MyDevSettings.DevForceRestartData = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory;
             Properties.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.FilePath;
-            Properties.Settings.MyDevSettings.DevForceRestartX = (short)(Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.Zoom);
-            Properties.Settings.MyDevSettings.DevForceRestartY = (short)(Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.Zoom);
+            Properties.Settings.MyDevSettings.DevForceRestartX = (short)(Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.OldZoom);
+            Properties.Settings.MyDevSettings.DevForceRestartY = (short)(Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.OldZoom);
             Properties.Settings.MyDevSettings.DevForceRestartZoomLevel = Methods.Editor.SolutionState.ZoomLevel;
             Properties.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode;
             Properties.Settings.MyDevSettings.DevForceRestartID = Methods.Editor.SolutionState.LevelID;

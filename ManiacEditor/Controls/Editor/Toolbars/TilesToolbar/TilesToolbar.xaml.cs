@@ -328,9 +328,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 			EditorInstance.Chunks.DisposeTextures();
 			if (index != 0) ChunkList.SelectedIndex = index--;
 			else ChunkList.SelectedIndex = -1;
-
-
-
 			ChunksReload();
 		}
 
