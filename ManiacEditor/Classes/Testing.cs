@@ -3,7 +3,7 @@ using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 
-namespace ManiacEditor.Classes
+namespace SFML.Utils
 {
     /// <summary>
     /// Functions that provides color/texture rectangle data from tile map (or other source)
@@ -13,7 +13,7 @@ namespace ManiacEditor.Classes
     /// <summary>
     /// Fast and universal renderer of tilemaps
     /// </summary>
-    public class LayerRenderer : Drawable
+    public class MapRenderer : Drawable
     {
         private readonly float TileSize;
         public readonly int Layers;
@@ -41,7 +41,7 @@ namespace ManiacEditor.Classes
         /// <param name="provider">Accesor to tilemap data</param>
         /// <param name="tileSize">Size of one tile</param>
         /// <param name="layers">Numbers of layers</param>
-        public LayerRenderer(Texture texture, TileProvider provider, float tileSize = 16, int layers = 1)
+        public MapRenderer(Texture texture, TileProvider provider, float tileSize = 16, int layers = 1)
         {
             if (provider == null || layers <= 0) throw new ArgumentException();
             this.provider = provider;
@@ -203,12 +203,11 @@ namespace ManiacEditor.Classes
         public void Draw(RenderTarget rt, RenderStates states)
         {
             var view = rt.GetView();
-
+            states.Texture = texture;
             SetSize(view.Size);
             SetCorner(rt.MapPixelToCoords(new Vector2i()));
-            states.Texture = texture;
-            rt.Draw(vertices, PrimitiveType.Quads, states);
 
+            rt.Draw(vertices, PrimitiveType.Quads, states);
         }
     }
 }

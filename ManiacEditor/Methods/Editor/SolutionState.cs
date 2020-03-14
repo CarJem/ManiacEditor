@@ -85,34 +85,20 @@ namespace ManiacEditor.Methods.Editor
 
         public static bool Zooming { get; set; } = false;  //Detects if we are zooming
 
-        private static double _OldZoom = 1;
-        public static double OldZoom
+        private static double _Zoom = 1;
+        public static double Zoom
         {
             get
             {
-                return _OldZoom;
+                return _Zoom;
             }
             set
             {
                 //TODO : Fix Zooming with New Rendering System
-                //_OldZoom = value;
+                //_Zoom = value;
             }
         }
-        public static double NewZoom { get; set; }
-
-        private static int _ZoomLevel = 1;
-        public static int ZoomLevel
-        {
-            get
-            {
-                return _ZoomLevel;
-            }
-            set
-            {
-                //TODO : Fix Zooming with New Rendering System
-                _ZoomLevel = value;
-            }
-        }
+        public static int ZoomLevel { get; set; } = 0; //Interger Value for Zoom Levels
 
         #endregion
 

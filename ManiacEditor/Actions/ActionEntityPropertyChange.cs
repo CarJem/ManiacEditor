@@ -25,7 +25,7 @@ namespace ManiacEditor.Actions
 
         public void Undo()
         {
-            setValue.Invoke(entity, tag, oldValue, newValue);
+            setValue(entity, tag, oldValue, newValue);
         }
 
         public IAction Redo()
@@ -58,10 +58,11 @@ namespace ManiacEditor.Actions
 
         public void Undo()
         {
-            for (int i = 0; i < MultipleActions.Count; i++)
+            foreach (var entry in MultipleActions)
             {
-                MultipleActions[i].Undo();
+                entry.Undo();
             }
+
         }
 
         public IAction Redo()
@@ -69,6 +70,7 @@ namespace ManiacEditor.Actions
             return new ActionEntityMultiplePropertyChange(entities, tag, MultipleActions, true);
         }
     }
+
 
     class ActionEntityAttributeChange : IAction
     {

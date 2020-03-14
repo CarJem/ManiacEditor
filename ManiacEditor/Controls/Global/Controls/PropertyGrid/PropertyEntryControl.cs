@@ -7,7 +7,24 @@ using System.Windows.Forms.Integration;
 
 namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
 {
+    public class PropertyEntryControlBase : System.Windows.Controls.Grid
+    {
+        public event EventHandler<ManiacEditor.Controls.Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs> PropertyValueChanged;
+        public PropertyEntryControlBase() : base()
+        {
+            base.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+        }
 
+        public void PropertyValueChanged_Invoke(object sender, ManiacEditor.Controls.Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
+        {
+            PropertyValueChanged?.Invoke(sender, e);
+        }
+
+        public virtual void Dispose()
+        {
+
+        }
+    }
     public class PropertyEntryControlAttribute : PropertyEntryControlBase
     {
         #region Attribute Controls
@@ -25,8 +42,6 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
         private System.Windows.Media.Color? ColorPickerLastColor { get; set; }
         #endregion
 
-        #region Definitions
-
         private Type HostType { get; set; }
 
         public PropertyEntryValue ValueControl { get; set; }
@@ -41,10 +56,6 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
         }
         private ManiacEditor.Controls.Global.Controls.PropertyGrid.PropertyControl.PropertyGridObject.PropertyObject PropertyObject { get; set; }
 
-        #endregion
-
-        #region Init
-
         public PropertyEntryControlAttribute(ManiacEditor.Controls.Global.Controls.PropertyGrid.PropertyControl.PropertyGridObject.PropertyObject Property) : base()
         {
             PropertyObject = Property;
@@ -55,9 +66,14 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             base.Children.Add(ValueControl);
         }
 
-        #endregion
+        private void PropertyEntryControlAttribute_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (HostType == typeof(string))
+            {
+                //StringTextboxControl.Focus();
+            }
+        }
 
-        #region Event Generation
         private void GenerateHostControl(object DefaultValue, Type CurrentType)
         {
             if (DefaultValue != null) HostType = DefaultValue.GetType();
@@ -122,7 +138,7 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
                 FloatNumericControl.Value = (float)DefaultValue;
                 ValueControl.Value1Host.Children.Add(FloatNumericControl);
             }
-            else if (HostType == typeof(System.Drawing.Color))
+            else if (HostType == typeof(System.Drawing.Color)) 
             {
                 ColorPickerControl = new Xceed.Wpf.Toolkit.ColorPicker();
                 System.Drawing.Color initalColor = (System.Drawing.Color)DefaultValue;
@@ -133,159 +149,6 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
 
             EnableEvents();
         }
-        public void EnableEvents()
-        {
-            if (HostType == typeof(byte))
-            {
-                ByteNumericControl.ValueChanged += Host_ValueChanged;
-            }
-            else if (HostType == typeof(ushort))
-            {
-                UShortNumericControl.ValueChanged += Host_ValueChanged;
-            }
-            else if (HostType == typeof(uint))
-            {
-                UIntNumericControl.ValueChanged += Host_ValueChanged;
-            }
-            else if (HostType == typeof(sbyte))
-            {
-                SByteNumericControl.ValueChanged += Host_ValueChanged;
-            }
-            else if (HostType == typeof(short))
-            {
-                ShortNumericControl.ValueChanged += Host_ValueChanged;
-            }
-            else if (HostType == typeof(int))
-            {
-                IntNumericControl.ValueChanged += Host_ValueChanged;
-            }
-            else if (HostType == typeof(bool))
-            {
-                BoolCheckboxControl.Checked += Host_Checked;
-                BoolCheckboxControl.Unchecked += Host_Unchecked;
-            }
-            else if (HostType == typeof(string))
-            {
-                StringTextboxControl.PreviewKeyDown += StringTextboxControl_KeyDown;
-                StringTextboxControl.TextChanged += StringTextboxControl_TextChanged;
-                StringTextboxControl.GotFocus += StringTextboxControl_GotFocus;
-                StringTextboxControl.LostFocus += StringTextboxControl_LostFocus;
-            }
-            else if (HostType == typeof(float))
-            {
-                FloatNumericControl.ValueChanged += Host_ValueChanged;
-            }
-            else if (HostType == typeof(System.Drawing.Color))
-            {
-                ColorPickerControl.Closed += ColorPickerControl_Closed;
-            }
-        }
-        public void DisableEvents()
-        {
-            if (HostType == typeof(byte))
-            {
-                ByteNumericControl.ValueChanged -= Host_ValueChanged;
-            }
-            else if (HostType == typeof(ushort))
-            {
-                UShortNumericControl.ValueChanged -= Host_ValueChanged;
-            }
-            else if (HostType == typeof(uint))
-            {
-                UIntNumericControl.ValueChanged -= Host_ValueChanged;
-            }
-            else if (HostType == typeof(sbyte))
-            {
-                SByteNumericControl.ValueChanged -= Host_ValueChanged;
-            }
-            else if (HostType == typeof(short))
-            {
-                ShortNumericControl.ValueChanged -= Host_ValueChanged;
-            }
-            else if (HostType == typeof(int))
-            {
-                IntNumericControl.ValueChanged -= Host_ValueChanged;
-            }
-            else if (HostType == typeof(bool))
-            {
-                BoolCheckboxControl.Checked -= Host_Checked;
-                BoolCheckboxControl.Unchecked -= Host_Unchecked;
-            }
-            else if (HostType == typeof(string))
-            {
-                StringTextboxControl.PreviewKeyDown -= StringTextboxControl_KeyDown;
-                StringTextboxControl.TextChanged -= StringTextboxControl_TextChanged;
-                StringTextboxControl.GotFocus -= StringTextboxControl_GotFocus;
-                StringTextboxControl.LostFocus -= StringTextboxControl_LostFocus;
-            }
-            else if (HostType == typeof(float))
-            {
-                FloatNumericControl.ValueChanged -= Host_ValueChanged;
-            }
-            else if (HostType == typeof(System.Drawing.Color))
-            {
-                ColorPickerControl.Closed -= ColorPickerControl_Closed;
-            }
-        }
-
-        #endregion
-
-        #region Events
-        private void PropertyEntryControlAttribute_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (HostType == typeof(string))
-            {
-                //StringTextboxControl.Focus();
-            }
-        }
-        private void ColorPickerControl_Closed(object sender, System.Windows.RoutedEventArgs e)
-        {
-            System.Windows.Media.Color? ColorPickerNewColor = ColorPickerControl.SelectedColor;
-            System.Drawing.Color OldColor = (ColorPickerLastColor.HasValue ? System.Drawing.Color.FromArgb(ColorPickerLastColor.Value.A, ColorPickerLastColor.Value.R, ColorPickerLastColor.Value.G, ColorPickerLastColor.Value.B) : System.Drawing.Color.Black);
-            System.Drawing.Color NewColor = (ColorPickerNewColor.HasValue ? System.Drawing.Color.FromArgb(ColorPickerNewColor.Value.A, ColorPickerNewColor.Value.R, ColorPickerNewColor.Value.G, ColorPickerNewColor.Value.B) : System.Drawing.Color.Black);
-
-            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, OldColor, NewColor));
-        }
-        private void StringTextboxControl_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, TextBoxLastString, StringTextboxControl.Text));
-                TextBoxLastString = StringTextboxControl.Text;
-            }
-            else e.Handled = false;
-        }
-        private void StringTextboxControl_LostFocus(object sender, EventArgs e)
-        {
-            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, TextBoxLastString, StringTextboxControl.Text));
-            TextBoxLastString = StringTextboxControl.Text;
-        }
-        private void StringTextboxControl_GotFocus(object sender, EventArgs e)
-        {
-
-        }
-        private void StringTextboxControl_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void Host_Checked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, false, true));
-
-        }
-        private void Host_Unchecked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, true, false));
-
-        }
-        private void Host_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
-        {
-            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, e.OldValue, e.NewValue));
-
-        }
-        #endregion
-
-        #region Other 
 
         public void UpdateValue(object CurrentValue)
         {
@@ -335,6 +198,105 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
 
             EnableEvents();
         }
+
+        public void DisableEvents()
+        {
+            if (HostType == typeof(byte))
+            {
+                ByteNumericControl.ValueChanged -= Host_ValueChanged;
+            }
+            else if (HostType == typeof(ushort))
+            {
+                UShortNumericControl.ValueChanged -= Host_ValueChanged;
+            }
+            else if (HostType == typeof(uint))
+            {
+                UIntNumericControl.ValueChanged -= Host_ValueChanged;
+            }
+            else if (HostType == typeof(sbyte))
+            {
+                SByteNumericControl.ValueChanged -= Host_ValueChanged;
+            }
+            else if (HostType == typeof(short))
+            {
+                ShortNumericControl.ValueChanged -= Host_ValueChanged;
+            }
+            else if (HostType == typeof(int))
+            {
+                IntNumericControl.ValueChanged -= Host_ValueChanged;
+            }
+            else if (HostType == typeof(bool))
+            {
+                BoolCheckboxControl.Checked -= Host_Checked;
+                BoolCheckboxControl.Unchecked -= Host_Unchecked;
+            }
+            else if (HostType == typeof(string))
+            {
+                StringTextboxControl.PreviewKeyDown -= StringTextboxControl_KeyDown;
+                StringTextboxControl.TextChanged -= StringTextboxControl_TextChanged;
+                StringTextboxControl.GotFocus -= StringTextboxControl_GotFocus;
+                StringTextboxControl.LostFocus -= StringTextboxControl_LostFocus;
+            }
+            else if (HostType == typeof(float))
+            {
+                FloatNumericControl.ValueChanged -= Host_ValueChanged;
+            }
+            else if (HostType == typeof(System.Drawing.Color))
+            {
+                ColorPickerControl.Closed -= ColorPickerControl_Closed;
+            }
+        }
+
+        public void EnableEvents()
+        {
+            if (HostType == typeof(byte))
+            {
+                ByteNumericControl.ValueChanged += Host_ValueChanged;
+            }
+            else if (HostType == typeof(ushort))
+            {
+                UShortNumericControl.ValueChanged += Host_ValueChanged;
+            }
+            else if (HostType == typeof(uint))
+            {
+                UIntNumericControl.ValueChanged += Host_ValueChanged;
+            }
+            else if (HostType == typeof(sbyte))
+            {
+                SByteNumericControl.ValueChanged += Host_ValueChanged;
+            }
+            else if (HostType == typeof(short))
+            {
+                ShortNumericControl.ValueChanged += Host_ValueChanged;
+            }
+            else if (HostType == typeof(int))
+            {
+                IntNumericControl.ValueChanged += Host_ValueChanged;
+            }
+            else if (HostType == typeof(bool))
+            {
+                BoolCheckboxControl.Checked += Host_Checked;
+                BoolCheckboxControl.Unchecked += Host_Unchecked;
+            }
+            else if (HostType == typeof(string))
+            {
+                StringTextboxControl.PreviewKeyDown += StringTextboxControl_KeyDown;
+                StringTextboxControl.TextChanged += StringTextboxControl_TextChanged;
+                StringTextboxControl.GotFocus += StringTextboxControl_GotFocus;
+                StringTextboxControl.LostFocus += StringTextboxControl_LostFocus;
+            }
+            else if (HostType == typeof(float))
+            {
+                FloatNumericControl.ValueChanged += Host_ValueChanged;
+            }
+            else if (HostType == typeof(System.Drawing.Color))
+            {
+                ColorPickerControl.Closed += ColorPickerControl_Closed;
+            }
+        }
+
+
+
         public override void Dispose()
         {
             DisableEvents();
@@ -393,7 +355,57 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             ValueControl = null;
         }
 
-        #endregion
+        private void ColorPickerControl_Closed(object sender, System.Windows.RoutedEventArgs e)
+        {
+            System.Windows.Media.Color? ColorPickerNewColor = ColorPickerControl.SelectedColor;
+            System.Drawing.Color OldColor = (ColorPickerLastColor.HasValue ? System.Drawing.Color.FromArgb(ColorPickerLastColor.Value.A, ColorPickerLastColor.Value.R, ColorPickerLastColor.Value.G, ColorPickerLastColor.Value.B) : System.Drawing.Color.Black);
+            System.Drawing.Color NewColor = (ColorPickerNewColor.HasValue ? System.Drawing.Color.FromArgb(ColorPickerNewColor.Value.A, ColorPickerNewColor.Value.R, ColorPickerNewColor.Value.G, ColorPickerNewColor.Value.B) : System.Drawing.Color.Black);
+
+            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, OldColor, NewColor));
+        }
+
+        private void StringTextboxControl_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, TextBoxLastString, StringTextboxControl.Text));
+                TextBoxLastString = StringTextboxControl.Text;
+            }
+            else e.Handled = false;
+        }
+
+        private void StringTextboxControl_LostFocus(object sender, EventArgs e)
+        {
+            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, TextBoxLastString, StringTextboxControl.Text));
+            TextBoxLastString = StringTextboxControl.Text;
+        }
+
+        private void StringTextboxControl_GotFocus(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StringTextboxControl_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Host_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, false, true));
+
+        }
+        private void Host_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, true, false));
+
+        }
+
+        private void Host_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        {
+            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, e.OldValue, e.NewValue));
+
+        }
     }
     public class PropertyEntryControlHeader : PropertyEntryControlBase
     {
@@ -411,23 +423,5 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             CategoryControl = null;
         }
 
-    }
-    public class PropertyEntryControlBase : System.Windows.Controls.Grid
-    {
-        public event EventHandler<ManiacEditor.Controls.Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs> PropertyValueChanged;
-        public PropertyEntryControlBase() : base()
-        {
-            base.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-        }
-
-        public void PropertyValueChanged_Invoke(object sender, ManiacEditor.Controls.Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
-        {
-            PropertyValueChanged?.Invoke(sender, e);
-        }
-
-        public virtual void Dispose()
-        {
-
-        }
     }
 }

@@ -295,19 +295,19 @@ namespace ManiacEditor.Methods.Internal
                     if (Methods.Editor.SolutionState.RegionX2 != e.X && Methods.Editor.SolutionState.RegionY2 != e.Y)
                     {
 
-                        Methods.Editor.SolutionState.TempSelectX1 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.OldZoom);
-                        Methods.Editor.SolutionState.TempSelectX2 = (int)(e.X / Methods.Editor.SolutionState.OldZoom);
-                        Methods.Editor.SolutionState.TempSelectY1 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.OldZoom);
-                        Methods.Editor.SolutionState.TempSelectY2 = (int)(e.Y / Methods.Editor.SolutionState.OldZoom);
+                        Methods.Editor.SolutionState.TempSelectX1 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.Zoom);
+                        Methods.Editor.SolutionState.TempSelectX2 = (int)(e.X / Methods.Editor.SolutionState.Zoom);
+                        Methods.Editor.SolutionState.TempSelectY1 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.Zoom);
+                        Methods.Editor.SolutionState.TempSelectY2 = (int)(e.Y / Methods.Editor.SolutionState.Zoom);
                         if (Methods.Editor.SolutionState.TempSelectX1 > Methods.Editor.SolutionState.TempSelectX2)
                         {
-                            Methods.Editor.SolutionState.TempSelectX1 = (int)(e.X / Methods.Editor.SolutionState.OldZoom);
-                            Methods.Editor.SolutionState.TempSelectX2 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.OldZoom);
+                            Methods.Editor.SolutionState.TempSelectX1 = (int)(e.X / Methods.Editor.SolutionState.Zoom);
+                            Methods.Editor.SolutionState.TempSelectX2 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.Zoom);
                         }
                         if (Methods.Editor.SolutionState.TempSelectY1 > Methods.Editor.SolutionState.TempSelectY2)
                         {
-                            Methods.Editor.SolutionState.TempSelectY1 = (int)(e.Y / Methods.Editor.SolutionState.OldZoom);
-                            Methods.Editor.SolutionState.TempSelectY2 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.OldZoom);
+                            Methods.Editor.SolutionState.TempSelectY1 = (int)(e.Y / Methods.Editor.SolutionState.Zoom);
+                            Methods.Editor.SolutionState.TempSelectY2 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.Zoom);
                         }
 
                         Point selectStart = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY1);
@@ -323,19 +323,19 @@ namespace ManiacEditor.Methods.Internal
                 {
                     if (Methods.Editor.SolutionState.RegionX2 != e.X && Methods.Editor.SolutionState.RegionY2 != e.Y)
                     {
-                        Methods.Editor.SolutionState.TempSelectX1 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.OldZoom);
-                        Methods.Editor.SolutionState.TempSelectX2 = (int)(e.X / Methods.Editor.SolutionState.OldZoom);
-                        Methods.Editor.SolutionState.TempSelectY1 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.OldZoom);
-                        Methods.Editor.SolutionState.TempSelectY2 = (int)(e.Y / Methods.Editor.SolutionState.OldZoom);
+                        Methods.Editor.SolutionState.TempSelectX1 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.Zoom);
+                        Methods.Editor.SolutionState.TempSelectX2 = (int)(e.X / Methods.Editor.SolutionState.Zoom);
+                        Methods.Editor.SolutionState.TempSelectY1 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.Zoom);
+                        Methods.Editor.SolutionState.TempSelectY2 = (int)(e.Y / Methods.Editor.SolutionState.Zoom);
                         if (Methods.Editor.SolutionState.TempSelectX1 > Methods.Editor.SolutionState.TempSelectX2)
                         {
-                            Methods.Editor.SolutionState.TempSelectX1 = (int)(e.X / Methods.Editor.SolutionState.OldZoom);
-                            Methods.Editor.SolutionState.TempSelectX2 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.OldZoom);
+                            Methods.Editor.SolutionState.TempSelectX1 = (int)(e.X / Methods.Editor.SolutionState.Zoom);
+                            Methods.Editor.SolutionState.TempSelectX2 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.Zoom);
                         }
                         if (Methods.Editor.SolutionState.TempSelectY1 > Methods.Editor.SolutionState.TempSelectY2)
                         {
-                            Methods.Editor.SolutionState.TempSelectY1 = (int)(e.Y / Methods.Editor.SolutionState.OldZoom);
-                            Methods.Editor.SolutionState.TempSelectY2 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.OldZoom);
+                            Methods.Editor.SolutionState.TempSelectY1 = (int)(e.Y / Methods.Editor.SolutionState.Zoom);
+                            Methods.Editor.SolutionState.TempSelectY2 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.Zoom);
                         }
                         Methods.Editor.Solution.EditLayerA?.TempSelection(new Rectangle(Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY1, Methods.Editor.SolutionState.TempSelectX2 - Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY2 - Methods.Editor.SolutionState.TempSelectY1), CtrlPressed());
                         Methods.Editor.Solution.EditLayerB?.TempSelection(new Rectangle(Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY1, Methods.Editor.SolutionState.TempSelectX2 - Methods.Editor.SolutionState.TempSelectX1, Methods.Editor.SolutionState.TempSelectY2 - Methods.Editor.SolutionState.TempSelectY1), CtrlPressed());
@@ -348,10 +348,10 @@ namespace ManiacEditor.Methods.Internal
             }
             void DragMoveItems()
             {
-                int oldGridX = (int)((Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
-                int oldGridY = (int)((Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
-                int newGridX = (int)((e.X / Methods.Editor.SolutionState.OldZoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
-                int newGridY = (int)((e.Y / Methods.Editor.SolutionState.OldZoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
+                int oldGridX = (int)((Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
+                int oldGridY = (int)((Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
+                int newGridX = (int)((e.X / Methods.Editor.SolutionState.Zoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
+                int newGridY = (int)((e.Y / Methods.Editor.SolutionState.Zoom) / Methods.Editor.SolutionState.MagnetSize) * Methods.Editor.SolutionState.MagnetSize;
                 Point oldPointGrid = new Point(0, 0);
                 Point newPointGrid = new Point(0, 0);
                 if (Methods.Editor.SolutionState.UseMagnetMode && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
@@ -363,22 +363,22 @@ namespace ManiacEditor.Methods.Internal
                     }
                     if (Methods.Editor.SolutionState.UseMagnetXAxis && !Methods.Editor.SolutionState.UseMagnetYAxis)
                     {
-                        oldPointGrid = new Point(oldGridX, (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom));
-                        newPointGrid = new Point(newGridX, (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                        oldPointGrid = new Point(oldGridX, (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
+                        newPointGrid = new Point(newGridX, (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                     }
                     if (!Methods.Editor.SolutionState.UseMagnetXAxis && Methods.Editor.SolutionState.UseMagnetYAxis)
                     {
-                        oldPointGrid = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom), oldGridY);
-                        newPointGrid = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), newGridY);
+                        oldPointGrid = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), oldGridY);
+                        newPointGrid = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), newGridY);
                     }
                     if (!Methods.Editor.SolutionState.UseMagnetXAxis && !Methods.Editor.SolutionState.UseMagnetYAxis)
                     {
-                        oldPointGrid = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom));
-                        newPointGrid = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                        oldPointGrid = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
+                        newPointGrid = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                     }
                 }
-                Point oldPoint = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom));
-                Point newPoint = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point oldPoint = new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom));
+                Point newPoint = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
 
 
                 if (!ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit())
@@ -470,7 +470,7 @@ namespace ManiacEditor.Methods.Internal
         public static void TilesEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
         {
             // There was just a click now we can determine that this click is dragging
-            Point clicked_point = new Point((int)(Methods.Editor.SolutionState.RegionX1 / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.RegionY1 / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point = new Point((int)(Methods.Editor.SolutionState.RegionX1 / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.RegionY1 / Methods.Editor.SolutionState.Zoom));
             bool PointASelected = Methods.Editor.Solution.EditLayerA?.IsPointSelected(clicked_point) ?? false;
             bool PointBSelected = Methods.Editor.Solution.EditLayerB?.IsPointSelected(clicked_point) ?? false;
             if (PointASelected || PointBSelected)
@@ -513,7 +513,7 @@ namespace ManiacEditor.Methods.Internal
         public static void EntitiesEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
         {
             // There was just a click now we can determine that this click is dragging
-            Point clicked_point = new Point((int)(Methods.Editor.SolutionState.RegionX1 / Methods.Editor.SolutionState.OldZoom), (int)(Methods.Editor.SolutionState.RegionY1 / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point = new Point((int)(Methods.Editor.SolutionState.RegionX1 / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.RegionY1 / Methods.Editor.SolutionState.Zoom));
             if (Methods.Editor.Solution.Entities.GetEntityAt(clicked_point)?.Selected ?? false)
             {
                 SetClickedXY(e);
@@ -537,7 +537,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void ChunksEditMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
-            Point p = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point p = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             Point pC = Classes.Scene.EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
             if (e.Button == MouseButtons.Left)
@@ -574,7 +574,7 @@ namespace ManiacEditor.Methods.Internal
         public static void ChunksEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
         {
             // There was just a click now we can determine that this click is dragging
-            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
 
             bool PointASelected = Methods.Editor.Solution.EditLayerA?.DoesChunkContainASelectedTile(chunk_point) ?? false;
@@ -605,7 +605,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 Task.Run(() =>
                 {
-                    Methods.Runtime.GameHandler.MovePlayer(new Point(e.X, e.Y), Methods.Editor.SolutionState.OldZoom, Methods.Runtime.GameHandler.SelectedPlayer);
+                    Methods.Runtime.GameHandler.MovePlayer(new Point(e.X, e.Y), Methods.Editor.SolutionState.Zoom, Methods.Runtime.GameHandler.SelectedPlayer);
                 });
             }
 
@@ -613,7 +613,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 Task.Run(() =>
                 {
-                    Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                    Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                     Methods.Runtime.GameHandler.UpdateCheckpoint(clicked_point, true);
                 });
             }
@@ -655,17 +655,17 @@ namespace ManiacEditor.Methods.Internal
         {
             if (Methods.Editor.SolutionState.RegionX2 != e.X && Methods.Editor.SolutionState.RegionY2 != e.Y)
             {
-                int x1 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.OldZoom), x2 = (int)(e.X / Methods.Editor.SolutionState.OldZoom);
-                int y1 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.OldZoom), y2 = (int)(e.Y / Methods.Editor.SolutionState.OldZoom);
+                int x1 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.Zoom), x2 = (int)(e.X / Methods.Editor.SolutionState.Zoom);
+                int y1 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.Zoom), y2 = (int)(e.Y / Methods.Editor.SolutionState.Zoom);
                 if (x1 > x2)
                 {
-                    x1 = (int)(e.X / Methods.Editor.SolutionState.OldZoom);
-                    x2 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.OldZoom);
+                    x1 = (int)(e.X / Methods.Editor.SolutionState.Zoom);
+                    x2 = (int)(Methods.Editor.SolutionState.RegionX2 / Methods.Editor.SolutionState.Zoom);
                 }
                 if (y1 > y2)
                 {
-                    y1 = (int)(e.Y / Methods.Editor.SolutionState.OldZoom);
-                    y2 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.OldZoom);
+                    y1 = (int)(e.Y / Methods.Editor.SolutionState.Zoom);
+                    y2 = (int)(Methods.Editor.SolutionState.RegionY2 / Methods.Editor.SolutionState.Zoom);
                 }
 
                 if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit())
@@ -698,13 +698,13 @@ namespace ManiacEditor.Methods.Internal
         #region Mouse Up Methods
         public static void TilesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             Methods.Editor.Solution.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
             Methods.Editor.Solution.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
         }
         public static void EntitiesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             if (e.Button == MouseButtons.Left)
             {
                 Methods.Editor.Solution.Entities.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
@@ -716,7 +716,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void ChunksEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
             Rectangle clicked_chunk = new Rectangle(chunk_point.X, chunk_point.Y, 128, 128);
 
@@ -770,7 +770,7 @@ namespace ManiacEditor.Methods.Internal
         {
             if (e.Button == MouseButtons.Left)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
                     TilesEditDrawTool(e, true);
@@ -791,7 +791,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (!Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
-                    Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                    Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                     if (Methods.Editor.Solution.Entities.GetEntityAt(clicked_point)?.Selected ?? false)
                     {
                         // We will have to check if this dragging or clicking
@@ -837,7 +837,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
-                    Point p = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                    Point p = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                     Point pC = Classes.Scene.EditorLayer.GetChunkCoordinates(p.X, p.Y);
 
                     if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
@@ -863,7 +863,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
-                    Point p = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                    Point p = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                     Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                     Rectangle clicked_chunk = new Rectangle(chunk_point.X, chunk_point.Y, 128, 128);
 
@@ -878,7 +878,7 @@ namespace ManiacEditor.Methods.Internal
         {
             if (e.Button == MouseButtons.Left)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 if (Methods.Editor.Solution.Entities.IsEntityAt(clicked_point) == true)
                 {
                     ManiacEditor.Methods.Editor.EditorActions.Deselect();
@@ -893,7 +893,7 @@ namespace ManiacEditor.Methods.Internal
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 Classes.Scene.EditorEntity atPoint = Methods.Editor.Solution.Entities.GetEntityAt(clicked_point);
                 if (atPoint != null && atPoint.Entity.Object.Name.Name == "Spline")
                 {
@@ -1007,7 +1007,7 @@ namespace ManiacEditor.Methods.Internal
         public static void TilesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
             string newLine = Environment.NewLine;
-            Point chunkPos = Classes.Scene.EditorLayer.GetChunkCoordinates(e.X / Methods.Editor.SolutionState.OldZoom, e.Y / Methods.Editor.SolutionState.OldZoom);
+            Point chunkPos = Classes.Scene.EditorLayer.GetChunkCoordinates(e.X / Methods.Editor.SolutionState.Zoom, e.Y / Methods.Editor.SolutionState.Zoom);
             Point tilePos;
             if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
             else tilePos = new Point(e.X / 16, e.Y / 16);
@@ -1017,7 +1017,7 @@ namespace ManiacEditor.Methods.Internal
             Instance.EditorStatusBar.TilePositionMenuItem.Header = "Tile Position:" + newLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
 
 
-            Point clicked_point_tile = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point_tile = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             int tile;
             int tileA = (ushort)(Methods.Editor.Solution.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
             int tileB = 0;
@@ -1044,7 +1044,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void EntitiesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
-            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             string newLine = Environment.NewLine;
             if (Methods.Editor.Solution.Entities.GetEntityAt(clicked_point) != null)
             {
@@ -1073,7 +1073,7 @@ namespace ManiacEditor.Methods.Internal
         {
             if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
             {
-                Point clicked_point_tile = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point clicked_point_tile = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 int tile;
                 int tileA = (ushort)(Methods.Editor.Solution.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
                 int tileB = 0;
@@ -1102,7 +1102,7 @@ namespace ManiacEditor.Methods.Internal
             }
             else
             {
-                Point clicked_point_tile = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point clicked_point_tile = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 string tile = "N/A";
                 Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
                 Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
@@ -1126,7 +1126,7 @@ namespace ManiacEditor.Methods.Internal
         #region Draw Tool Events/Methods
         public static void TilesEditDrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
         {
-            Point p = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+            Point p = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
             if (click)
             {
                 if (e.Button == MouseButtons.Left)
@@ -1206,7 +1206,7 @@ namespace ManiacEditor.Methods.Internal
             }
             if (e.Button == MouseButtons.Left)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 if (Methods.Editor.Solution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
                     ManiacEditor.Methods.Editor.EditorActions.Deselect();
@@ -1219,7 +1219,7 @@ namespace ManiacEditor.Methods.Internal
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.OldZoom), (int)(e.Y / Methods.Editor.SolutionState.OldZoom));
+                Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 if (Methods.Editor.Solution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
                     ManiacEditor.Methods.Editor.EditorActions.Deselect();

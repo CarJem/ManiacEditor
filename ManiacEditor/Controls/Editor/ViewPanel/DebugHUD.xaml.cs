@@ -165,7 +165,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
         public string GetZoom()
         {
-            return Math.Round(Methods.Editor.SolutionState.OldZoom, 2).ToString();
+            return Math.Round(Methods.Editor.SolutionState.Zoom, 2).ToString();
         }
 
         public string GetSelectedZone()
@@ -218,8 +218,8 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
         public string GetPosition()
         {
-            int x = (int)((Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.OldZoom) / 16);
-            int y = (int)((Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.OldZoom) / 16);
+            int x = (int)((Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.Zoom) / 16);
+            int y = (int)((Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.Zoom) / 16);
             return string.Format("Position: {0}, {1}", x, y);
         }
 
