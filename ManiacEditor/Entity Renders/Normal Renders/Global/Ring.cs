@@ -87,6 +87,10 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        {
+            return d.IsObjectOnScreen(x, y, 20, 20);
+        }
         public override string GetObjectName()
         {
             return "Ring";

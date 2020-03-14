@@ -88,7 +88,7 @@ namespace ManiacEditor.Methods.Internal
 
                     Instance.TilesToolbar.TileDoubleClick = new Action<ushort>(x =>
                     {
-                        Methods.Editor.EditorActions.EditorPlaceTile(new System.Drawing.Point((int)(Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.Zoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1, (int)(Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.Zoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1), x, Methods.Editor.Solution.EditLayerA);
+                        Methods.Editor.EditorActions.EditorPlaceTile(new System.Drawing.Point((int)(Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.OldZoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1, (int)(Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.OldZoom) + Methods.Editor.EditorConstants.TILE_SIZE - 1), x, Methods.Editor.Solution.EditLayerA);
                     });
                     Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) =>
                     {
@@ -181,8 +181,8 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.EditorToolbar.DrawToolButton.IsChecked.Value)
                 {
-                    short x = (short)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom);
-                    short y = (short)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom);
+                    short x = (short)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.OldZoom);
+                    short y = (short)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.OldZoom);
                     if (Methods.Editor.SolutionState.UseMagnetMode)
                     {
                         short alignedX = (short)(Methods.Editor.SolutionState.MagnetSize * (x / Methods.Editor.SolutionState.MagnetSize));
@@ -197,7 +197,7 @@ namespace ManiacEditor.Methods.Internal
                 }
                 else
                 {
-                    return new Position((short)(Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.Zoom), (short)(Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.Zoom));
+                    return new Position((short)(Methods.Editor.SolutionState.ViewPositionX / Methods.Editor.SolutionState.OldZoom), (short)(Methods.Editor.SolutionState.ViewPositionY / Methods.Editor.SolutionState.OldZoom));
                 }
 
             }
@@ -556,7 +556,7 @@ namespace ManiacEditor.Methods.Internal
                 }
 
                 if (Methods.Editor.Solution.TileConfig != null) Methods.Editor.Solution.TileConfig = new Tileconfig(ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString());
-
+                Classes.Scene.EditorLayer.RequireRefresh = true;
 
 
             }

@@ -108,7 +108,7 @@ namespace ManiacEditor.Classes.Scene
         public ushort Width { get => _layer.Width; }
         public int HeightPixels { get => _layer.Height * Methods.Editor.EditorConstants.TILE_SIZE; }
         public int WidthPixels { get => _layer.Width * Methods.Editor.EditorConstants.TILE_SIZE; }
-        public ushort[][] Tiles { get { return _layer.Tiles; } }
+        public ushort[][] Tiles { get => Layer.Tiles; }
 
         #endregion
 
@@ -343,10 +343,21 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-        #region Rendering
+        #region Rendering Values
 
-        public SFML.Utils.MapRenderer MapRender { get; set; }
-        public SFML.Graphics.Texture SpriteSheet { get; set; }
+        private bool isMapRenderInitalized { get; set; } = false;
+        public int RenderingTransparency { get; set; }
+        public static bool RequireRefresh { get; set; } = false;
+
+        #endregion
+
+        #region Layer Renders
+
+        public LayerRenderer MapRender { get; set; }
+        public LayerRenderer MapRenderEditor { get; set; }
+        public LayerRenderer MapRenderTileID { get; set; }
+        public LayerRenderer MapRenderCollisionMapA { get; set; }
+        public LayerRenderer MapRenderCollisionMapB { get; set; }
 
         #endregion
 
@@ -368,39 +379,7 @@ namespace ManiacEditor.Classes.Scene
         }
 
 
-        private void Provider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
-        {
-            int tile_x = x * Methods.Editor.EditorConstants.TILE_SIZE;
-            int tile_y = y * Methods.Editor.EditorConstants.TILE_SIZE;
 
-            if (Height > tile_y && 0 < tile_y && Width > tile_x && 0 < tile_x)
-            {
-                
-                ushort tile = Tiles[tile_y][tile_x];
-                if (tile != 0xffff && SpriteSheet != null)
-                {
-                    int index = (tile & 0x3ff);
-                    int tile_width = Methods.Editor.EditorConstants.TILE_SIZE;
-                    int tile_height = Methods.Editor.EditorConstants.TILE_SIZE;
-                    int rect_x = 0;
-                    int rect_y = index * Methods.Editor.EditorConstants.TILE_SIZE;
-                    color = new SFML.Graphics.Color(255, 255, 255, 128);
-                    rec = new IntRect(tile_x, tile_y, 16, 16);
-                }
-                else
-                {
-                    color = new SFML.Graphics.Color(255, 255, 255, 0);
-                    rec = new IntRect(0, 0, 1, 1);
-                }
-
-            }
-            else
-            {
-                color = new SFML.Graphics.Color(0, 0, 0, 0);
-                rec = new IntRect(0, 0, 1, 1);
-            }
-
-        }
 
         private void InitiallizeChunkMap()
         {
@@ -1144,10 +1123,6 @@ namespace ManiacEditor.Classes.Scene
             }
             return copiedTiles.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
         }
-
-
-
-
         public void PasteFromClipboard(Point newPos, Dictionary<Point, ushort> points, bool updateActions = true)
         {
             try
@@ -1251,391 +1226,405 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-        #region Drawing (SFML.Graphics)
-
-        public void BadDraw(DevicePanel d)
-        {
-            if (!CanDrawForSFML) return;
-
-            int Transperncy;
-
-
-            if (Methods.Editor.Solution.EditLayerA != null && (Methods.Editor.Solution.EditLayerA != this && Methods.Editor.Solution.EditLayerB != this))
-                Transperncy = 0x32;
-            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Editor.Solution.EditLayerA == null && Methods.Editor.SolutionState.ApplyEditEntitiesTransparency)
-                Transperncy = 0x32;
-            else
-                Transperncy = 0xFF;
-
-            Rectangle screen = d.GetScreen();
-            int pos_x = (Methods.Editor.SolutionState.UnlockCamera ? 0 : screen.X);
-            int pos_y = (Methods.Editor.SolutionState.UnlockCamera ? 0 : screen.Y);
-            int width = (Methods.Editor.SolutionState.UnlockCamera ? this.WidthPixels : screen.Width);
-            int height = (Methods.Editor.SolutionState.UnlockCamera ? this.HeightPixels : screen.Height);
-
-            for (int y = 0; y < _layer.Height; ++y)
-            {
-                for (int x = 0; x < _layer.Width; ++x)
-                {
-                    if (this._layer.Tiles[y][x] != 0xffff)
-                    {
-                        DrawTileAlt(d, _layer.Tiles[y][x], x, y);
-                    }
-                }
-            }
-        }
-        public void OldDraw(DevicePanel d)
-        {
-            if (!CanDrawForSFML) return;
-
-            int Transperncy;
-
-
-            if (Methods.Editor.Solution.EditLayerA != null && (Methods.Editor.Solution.EditLayerA != this && Methods.Editor.Solution.EditLayerB != this))
-                Transperncy = 0x32;
-            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Editor.Solution.EditLayerA == null && Methods.Editor.SolutionState.ApplyEditEntitiesTransparency)
-                Transperncy = 0x32;
-            else
-                Transperncy = 0xFF;
-
-            Rectangle screen = d.GetScreen();
-            int pos_x = (Methods.Editor.SolutionState.UnlockCamera ? 0 : screen.X);
-            int pos_y = (Methods.Editor.SolutionState.UnlockCamera ? 0 : screen.Y);
-            int width = (Methods.Editor.SolutionState.UnlockCamera ? this.WidthPixels : screen.Width);
-            int height = (Methods.Editor.SolutionState.UnlockCamera ? this.HeightPixels : screen.Height);
-
-            if (pos_x >= 0 && pos_y >= 0 && width >= 0 && height >= 0)
-            {
-                int start_x = pos_x / (Methods.Editor.EditorConstants.TILES_CHUNK_SIZE * Methods.Editor.EditorConstants.TILE_SIZE);
-                int end_x = Math.Min(DivideRoundUp(pos_x + width, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE * Methods.Editor.EditorConstants.TILE_SIZE), ChunkMap[0].Length);
-                int start_y = pos_y / (Methods.Editor.EditorConstants.TILES_CHUNK_SIZE * Methods.Editor.EditorConstants.TILE_SIZE);
-                int end_y = Math.Min(DivideRoundUp(pos_y + height, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE * Methods.Editor.EditorConstants.TILE_SIZE), ChunkMap.Length);
-
-                for (int y = start_y; y < end_y; ++y)
-                {
-                    for (int x = start_x; x < end_x; ++x)
-                    {
-                        if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
-                        {
-                            Rectangle rect = GetTilesChunkArea(x, y);
-                            var texture = GetChunk(d, x, y);
-                            if (texture != null) d.DrawTexture(texture, rect.X * Methods.Editor.EditorConstants.TILE_SIZE, rect.Y * Methods.Editor.EditorConstants.TILE_SIZE, rect.Width * Methods.Editor.EditorConstants.TILE_SIZE, rect.Height * Methods.Editor.EditorConstants.TILE_SIZE, false, Transperncy);
-                        }
-                        else InvalidateChunk(x, y);
-                    }
-                }
-                DisposeUnusedChunks();
-            }
-        }
+        #region Rendering (SFML.Graphics)
         public void Draw(DevicePanel d)
         {
-            if (MapRender == null)
+            if (!isMapRenderInitalized || RequireRefresh)
             {
-                SpriteSheet = Methods.Editor.Solution.CurrentTiles.Image.GetTexture();
-                MapRender = new SFML.Utils.MapRenderer(SpriteSheet, Provider, 16, 1);
+                InitalizeRender();
+                return;
             }
+
+            if (Methods.Editor.Solution.EditLayerA != null && (Methods.Editor.Solution.EditLayerA != this && Methods.Editor.Solution.EditLayerB != this))
+                RenderingTransparency = 0x32;
+            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Editor.Solution.EditLayerA == null && Methods.Editor.SolutionState.ApplyEditEntitiesTransparency)
+                RenderingTransparency = 0x32;
             else
+                RenderingTransparency = 0xFF;
+
+            RenderSection(MapRender);
+            if (Methods.Editor.SolutionState.ShowTileID) RenderSection(MapRenderTileID);
+            if (Methods.Editor.SolutionState.ShowFlippedTileHelper) RenderSection(MapRenderEditor);
+            if (Methods.Editor.SolutionState.ShowCollisionA) RenderSection(MapRenderCollisionMapA);
+            if (Methods.Editor.SolutionState.ShowCollisionB) RenderSection(MapRenderCollisionMapB);
+
+
+            void RenderSection(LayerRenderer vbo)
             {
-                MapRender.Refresh();
-                d.RenderWindow.Draw(MapRender);
+                vbo.Refresh();
+                d.RenderWindow.Draw(vbo);
             }
+
         }
-        public SFML.Graphics.Texture GetChunk(DevicePanel d, int x, int y)
+
+        private void InitalizeRender()
         {
-            bool isSelected = isChunkSelected(x, y);
-            if (ChunkMap[y][x] != null && ChunkMap[y][x].IsReady && !ChunkMap[y][x].HasBeenSelectedPrior && !isSelected)
-            {
-                ChunkMap[y][x].HasBeenRendered = true;
-                return ChunkMap[y][x].Texture;
-            }
-            else
-            {
-                if (ChunkMap[y][x] != null && ChunkMap[y][x].HasBeenSelectedPrior) InvalidateChunk(x, y);
-                else if (ChunkMap[y][x] != null) InvalidateChunk(x, y);
-                Rectangle rect = GetTilesChunkArea(x, y);
+            MapRender = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.Image.GetTexture(), TileProvider, 16, 1);
+            MapRenderTileID = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.IDImage.GetTexture(), TileIDProvider, 16, 1);
+            MapRenderEditor = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.EditorImage.GetTexture(), FlippedTileProvider, 16, 1);
+            MapRenderCollisionMapA = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.CollisionMaskA.GetTexture(), TileCollisionProviderA, 16, 1);
+            MapRenderCollisionMapB = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.CollisionMaskB.GetTexture(), TileCollisionProviderB, 16, 1);
 
-                if (rect.Width <= 0 || rect.Height <= 0) return null;
-
-                Bitmap bmp2 = new Bitmap(rect.Width * Methods.Editor.EditorConstants.TILE_SIZE, rect.Height * Methods.Editor.EditorConstants.TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
-                int factor = 32;
-                int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
-                if (newSize == 0) newSize = factor;
-                while (newSize < squareSize) newSize += factor;
-
-                Bitmap bmp = new Bitmap(newSize, newSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                bool hasBeenSelected = false;
-
-                using (bmp)
-                {
-                    using (Graphics g = Graphics.FromImage(bmp))
-                    {
-                        for (int ty = rect.Y; ty < rect.Y + rect.Height; ++ty)
-                        {
-                            for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
-                            {
-                                Point point = new Point(tx, ty);
-                                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
-                                DrawTile(g, GetTileToDraw(point), tx - rect.X, ty - rect.Y, tileSelected);
-                                if (tileSelected) hasBeenSelected = true;
-
-                            }
-                        }
-                    }
-                    ChunkMap[y][x] = new ChunkVBO();
-                    ChunkMap[y][x].Texture = Methods.Draw.TextureHelper.FromBitmap(bmp);
-                    ChunkMap[y][x].IsReady = true;
-                    ChunkMap[y][x].HasBeenRendered = true;
-                    ChunkMap[y][x].HasBeenSelectedPrior = hasBeenSelected;
-                }
-
-                bmp.Dispose();
-                bmp2.Dispose();
-                bmp = null;
-                bmp2 = null;
-
-                return ChunkMap[y][x].Texture;
-            }
-
-
-
-
+            RequireRefresh = false;
+            isMapRenderInitalized = true;
         }
-        public void DrawTile(Graphics g, ushort tile, int x, int y, bool isSelected = false)
-        {
-            if (tile != 0xffff)
-            {
-                ushort TileIndex = (ushort)(tile & 0x3ff);
-                int TileIndexInt = (int)TileIndex;
-                bool flipX = ((tile >> 10) & 1) == 1;
-                bool flipY = ((tile >> 11) & 1) == 1;
-                bool SolidTopA = ((tile >> 12) & 1) == 1;
-                bool SolidLrbA = ((tile >> 13) & 1) == 1;
-                bool SolidTopB = ((tile >> 14) & 1) == 1;
-                bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
-                System.Drawing.Color AllSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionAllSolid;
-                System.Drawing.Color LRDSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionLRDSolid;
-                System.Drawing.Color TopOnlySolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionTopOnlySolid;
+        #endregion
 
-                g.DrawImage(Methods.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE));
+        #region Tile Providers (SFML.Graphics)
 
-                if (Methods.Editor.SolutionState.ShowCollisionA)
-                {
-                    if (SolidLrbA || SolidTopA)
-                    {
-                        if (SolidTopA && SolidLrbA) DrawCollision(true, AllSolid, flipX, flipY);
-                        if (SolidTopA && !SolidLrbA) DrawCollision(true, TopOnlySolid, flipX, flipY);
-                        if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid, flipX, flipY);
-                    }
-                }
-                if (Methods.Editor.SolutionState.ShowCollisionB)
-                {
-                    if (SolidLrbB || SolidTopB)
-                    {
-                        if (SolidTopB && SolidLrbB) DrawCollision(false, AllSolid, flipX, flipY);
-                        if (SolidTopB && !SolidLrbB) DrawCollision(false, TopOnlySolid, flipX, flipY);
-                        if (SolidLrbB && !SolidTopB) DrawCollision(false, LRDSolid, flipX, flipY);
-                    }
-                }
-
-                if (Methods.Editor.SolutionState.ShowFlippedTileHelper == true)
-                {
-                    g.DrawImage(Methods.Editor.Solution.CurrentTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), false, false),
-                                new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE));
-                }
-                if (Methods.Editor.SolutionState.ShowTileID == true)
-                {
-                    g.DrawImage(Methods.Editor.Solution.CurrentTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), false, false),
-                                new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE));
-                }
-            }
-
-
-
-            if (isSelected)
-            {
-                g.DrawRectangle(Pens.Red, new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE - 1, Methods.Editor.EditorConstants.TILE_SIZE - 1));
-            }
-
-            void DrawCollision(bool drawA, System.Drawing.Color colour, bool flipX, bool flipY)
-            {
-                //create some image attributes
-                ImageAttributes attributes = new ImageAttributes();
-
-                //TODO : Collision Opacity
-                int opacity = (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.collisionOpacitySlider.Value;
-
-                float[][] colourMatrixElements =
-                {
-                    new float[] { colour.R / 255.0f, 0, 0, 0, 0 },
-                    new float[] { 0, colour.G / 255.0f, 0, 0, 0 },
-                    new float[] { 0, 0, colour.B / 255.0f, 0, 0 },
-                    new float[] { 0, 0, 0, 1, 0 },
-                    new float[] { 0, 0, 0, 0, 1 }
-                };
-
-                var matrix = new ColorMatrix(colourMatrixElements);
-                matrix.Matrix33 = opacity;
-                //set the color matrix attribute
-                attributes.SetColorMatrix(matrix);
-
-
-                int _x = 0;
-                int _y = 0;
-                int _width = Methods.Editor.EditorConstants.TILE_SIZE;
-                int _height = Methods.Editor.EditorConstants.TILE_SIZE;
-
-                Rectangle dest = new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE);
-
-                Bitmap collisionMap;
-
-                if (drawA) collisionMap = Methods.Editor.Solution.CurrentTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), flipX, flipY);
-                else collisionMap = Methods.Editor.Solution.CurrentTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), flipX, flipY);
-
-
-                g.DrawImage(collisionMap, dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
-
-                attributes.Dispose();
-                attributes = null;
-
-                colourMatrixElements = null;
-            }
-
-
-        }
-        public void DrawTileAlt(DevicePanel d, ushort tile, int x, int y, bool isSelected = false)
-        {
-            if (tile != 0xffff)
-            {
-                ushort TileIndex = (ushort)(tile & 0x3ff);
-                int TileIndexInt = (int)TileIndex;
-                bool flipX = ((tile >> 10) & 1) == 1;
-                bool flipY = ((tile >> 11) & 1) == 1;
-                bool SolidTopA = ((tile >> 12) & 1) == 1;
-                bool SolidLrbA = ((tile >> 13) & 1) == 1;
-                bool SolidTopB = ((tile >> 14) & 1) == 1;
-                bool SolidLrbB = ((tile >> 15) & 1) == 1;
-
-                System.Drawing.Color AllSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionAllSolid;
-                System.Drawing.Color LRDSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionLRDSolid;
-                System.Drawing.Color TopOnlySolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionTopOnlySolid;
-
-                DrawTile(Methods.Editor.Solution.CurrentTiles.Image.GetTexture(), TileIndex);
-
-                if (Methods.Editor.SolutionState.ShowCollisionA)
-                {
-                    if (SolidLrbA || SolidTopA)
-                    {
-                        if (SolidTopA && SolidLrbA) DrawCollision(true, AllSolid, flipX, flipY);
-                        if (SolidTopA && !SolidLrbA) DrawCollision(true, TopOnlySolid, flipX, flipY);
-                        if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid, flipX, flipY);
-                    }
-                }
-                if (Methods.Editor.SolutionState.ShowCollisionB)
-                {
-                    if (SolidLrbB || SolidTopB)
-                    {
-                        if (SolidTopB && SolidLrbB) DrawCollision(false, AllSolid, flipX, flipY);
-                        if (SolidTopB && !SolidLrbB) DrawCollision(false, TopOnlySolid, flipX, flipY);
-                        if (SolidLrbB && !SolidTopB) DrawCollision(false, LRDSolid, flipX, flipY);
-                    }
-                }
-
-                if (Methods.Editor.SolutionState.ShowFlippedTileHelper == true) DrawTile(Methods.Editor.Solution.CurrentTiles.EditorImage.GetTexture(), 3);
-                if (Methods.Editor.SolutionState.ShowTileID == true) DrawTile(Methods.Editor.Solution.CurrentTiles.IDImage.GetTexture(), TileIndex);
-            }
-
-
-
-
-            if (isSelected)
-            {
-                d.DrawRectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE - 1, Methods.Editor.EditorConstants.TILE_SIZE - 1, System.Drawing.Color.Red);
-            }
-
-            void DrawTile(SFML.Graphics.Texture texture, int TileIndex)
-            {
-                int tile_x = x * Methods.Editor.EditorConstants.TILE_SIZE;
-                int tile_y = y * Methods.Editor.EditorConstants.TILE_SIZE;
-                int tile_width = Methods.Editor.EditorConstants.TILE_SIZE;
-                int tile_height = Methods.Editor.EditorConstants.TILE_SIZE;
-                int rect_x = 0;
-                int rect_y = TileIndex * Methods.Editor.EditorConstants.TILE_SIZE;
-                d.DrawTexture(texture, tile_x, tile_y, rect_x, rect_y, tile_width, tile_height, isSelected, 0xFF);
-            }
-
-            void DrawCollision(bool drawA, System.Drawing.Color colour, bool flipX, bool flipY)
-            {
-                //create some image attributes
-                ImageAttributes attributes = new ImageAttributes();
-
-                //TODO : Collision Opacity
-                int opacity = (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.collisionOpacitySlider.Value;
-
-                float[][] colourMatrixElements =
-                {
-                    new float[] { colour.R / 255.0f, 0, 0, 0, 0 },
-                    new float[] { 0, colour.G / 255.0f, 0, 0, 0 },
-                    new float[] { 0, 0, colour.B / 255.0f, 0, 0 },
-                    new float[] { 0, 0, 0, 1, 0 },
-                    new float[] { 0, 0, 0, 0, 1 }
-                };
-
-                var matrix = new ColorMatrix(colourMatrixElements);
-                matrix.Matrix33 = opacity;
-                //set the color matrix attribute
-                attributes.SetColorMatrix(matrix);
-
-
-                int _x = 0;
-                int _y = 0;
-                int _width = Methods.Editor.EditorConstants.TILE_SIZE;
-                int _height = Methods.Editor.EditorConstants.TILE_SIZE;
-
-                Rectangle dest = new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE);
-
-                SFML.Graphics.Texture collisionMap;
-
-                if (drawA) collisionMap = Methods.Editor.Solution.CurrentTiles.CollisionMaskA.GetTexture();
-                else collisionMap = Methods.Editor.Solution.CurrentTiles.CollisionMaskB.GetTexture();
-
-
-                DrawTile(collisionMap, (tile & 0x3ff));
-
-                attributes.Dispose();
-                attributes = null;
-
-                colourMatrixElements = null;
-            }
-
-
-        }
-        private bool isChunkSelected(int _x, int _y)
-        {
-            Rectangle rect = GetTilesChunkArea(_x, _y);
-
-            int x = rect.X * Methods.Editor.EditorConstants.TILE_SIZE;
-            int y = rect.Y * Methods.Editor.EditorConstants.TILE_SIZE;
-            int x2 = rect.Right * Methods.Editor.EditorConstants.TILE_SIZE;
-            int y2 = rect.Bottom * Methods.Editor.EditorConstants.TILE_SIZE;
-
-            int mouse_x = (int)Methods.Editor.SolutionState.LastX;
-            int mouse_y = (int)Methods.Editor.SolutionState.LastY;
-
-            if (mouse_x >= x && mouse_x <= x2 && mouse_y >= y && mouse_y <= y2)
-            {
-                //System.Diagnostics.Debug.Print(string.Format("Chunk {0},{1} Selected", _x, _y));
-                return true;
-            }
-            else return false;
-
-        }
         private ushort GetTileToDraw(Point source)
         {
             if (SelectedTiles.Values.ContainsKey(source)) return SelectedTiles.Values[source];
             else return Layer.Tiles[source.Y][source.X];
+        }
+        private void TileIDProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if ((Height > y && 0 <= y && Width > x && 0 <= x))
+            {
+                Point point = new Point(x, y);
+                var tile = GetTileToDraw(point);
+                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
+
+                bool goodTile = (tile != 0xffff);
+
+                if (goodTile)
+                {
+                    int index = (tile & 0x3ff);
+
+                    int tile_size = Methods.Editor.EditorConstants.TILE_SIZE;
+                    int tile_texture_y = 3 * tile_size;
+                    int rect_x;
+                    int rect_y;
+                    int rect_width;
+                    int rect_height;
+
+                    rect_x = 0;
+                    rect_y = tile_texture_y;
+                    rect_width = tile_size;
+                    rect_height = tile_size;
+
+                    rec = new IntRect(rect_x, rect_y, rect_width, rect_height);
+
+                    if (SelectedTiles.Contains(new Point(x, y)) || TempSelectionTiles.Contains(new Point(x, y))) color = new SFML.Graphics.Color(255, 0, 0, (byte)RenderingTransparency);
+                    else color = new SFML.Graphics.Color(255, 255, 255, (byte)RenderingTransparency);
+
+                    return;
+                }
+            }
+
+
+            color = new SFML.Graphics.Color(0, 0, 0, 0);
+            rec = new IntRect(0, 0, 16, 16);
+
+        }
+        private void FlippedTileProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if ((Height > y && 0 <= y && Width > x && 0 <= x))
+            {
+                Point point = new Point(x, y);
+                var tile = GetTileToDraw(point);
+                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
+
+                bool goodTile = (tile != 0xffff);
+
+                if (goodTile)
+                {
+                    int index = (tile & 0x3ff);
+
+                    bool flipX = ((tile >> 10) & 1) == 1;
+                    bool flipY = ((tile >> 11) & 1) == 1;
+                    bool SolidTopA = ((tile >> 12) & 1) == 1;
+                    bool SolidLrbA = ((tile >> 13) & 1) == 1;
+                    bool SolidTopB = ((tile >> 14) & 1) == 1;
+                    bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
+                    int tile_size = Methods.Editor.EditorConstants.TILE_SIZE;
+                    int tile_texture_y = 3 * tile_size;
+                    int rect_x;
+                    int rect_y;
+                    int rect_width;
+                    int rect_height;
+
+
+                    if (flipX && flipY)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = -tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipY)
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipX)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y;
+                        rect_width = -tile_size;
+                        rect_height = tile_size;
+                    }
+                    else
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y;
+                        rect_width = tile_size;
+                        rect_height = tile_size;
+                    }
+
+                    rec = new IntRect(rect_x, rect_y, rect_width, rect_height);
+
+                    if (SelectedTiles.Contains(new Point(x, y)) || TempSelectionTiles.Contains(new Point(x, y))) color = new SFML.Graphics.Color(255, 0, 0, (byte)RenderingTransparency);
+                    else color = new SFML.Graphics.Color(255, 255, 255, (byte)RenderingTransparency);
+
+                    return;
+                }
+            }
+
+
+            color = new SFML.Graphics.Color(0, 0, 0, 0);
+            rec = new IntRect(0, 0, 16, 16);
+
+        }
+        private void TileProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if ((Height > y && 0 <= y && Width > x && 0 <= x))
+            {
+                Point point = new Point(x, y);
+                var tile = GetTileToDraw(point);
+                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
+
+                bool goodTile = (tile != 0xffff);
+
+                if (goodTile)
+                {
+                    int index = (tile & 0x3ff);
+
+                    bool flipX = ((tile >> 10) & 1) == 1;
+                    bool flipY = ((tile >> 11) & 1) == 1;
+                    bool SolidTopA = ((tile >> 12) & 1) == 1;
+                    bool SolidLrbA = ((tile >> 13) & 1) == 1;
+                    bool SolidTopB = ((tile >> 14) & 1) == 1;
+                    bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
+                    int tile_size = Methods.Editor.EditorConstants.TILE_SIZE;
+                    int tile_texture_y = index * tile_size;
+                    int rect_x;
+                    int rect_y;
+                    int rect_width;
+                    int rect_height;
+
+
+                    if (flipX && flipY)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = -tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipY)
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipX)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y;
+                        rect_width = -tile_size;
+                        rect_height = tile_size;
+                    }
+                    else
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y;
+                        rect_width = tile_size;
+                        rect_height = tile_size;
+                    }
+
+                    rec = new IntRect(rect_x, rect_y, rect_width, rect_height);
+
+                    if (SelectedTiles.Contains(new Point(x, y)) || TempSelectionTiles.Contains(new Point(x, y))) color = new SFML.Graphics.Color(255, 0, 0, (byte)RenderingTransparency);
+                    else color = new SFML.Graphics.Color(255, 255, 255, (byte)RenderingTransparency);
+
+                    return;
+                }
+            }
+
+
+            color = new SFML.Graphics.Color(0, 0, 0, 0);
+            rec = new IntRect(0, 0, 16, 16);
+
+        }
+        private void TileCollisionProviderA(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if ((Height > y && 0 <= y && Width > x && 0 <= x))
+            {
+                Point point = new Point(x, y);
+                var tile = GetTileToDraw(point);
+                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
+
+                bool goodTile = (tile != 0xffff);
+
+                if (goodTile)
+                {
+                    int index = (tile & 0x3ff);
+
+                    bool flipX = ((tile >> 10) & 1) == 1;
+                    bool flipY = ((tile >> 11) & 1) == 1;
+                    bool SolidTopA = ((tile >> 12) & 1) == 1;
+                    bool SolidLrbA = ((tile >> 13) & 1) == 1;
+
+                    int tile_size = Methods.Editor.EditorConstants.TILE_SIZE;
+                    int tile_texture_y = index * tile_size;
+                    int rect_x;
+                    int rect_y;
+                    int rect_width;
+                    int rect_height;
+
+
+                    if (flipX && flipY)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = -tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipY)
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipX)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y;
+                        rect_width = -tile_size;
+                        rect_height = tile_size;
+                    }
+                    else
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y;
+                        rect_width = tile_size;
+                        rect_height = tile_size;
+                    }
+
+                    System.Drawing.Color AllSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionAllSolid;
+                    System.Drawing.Color LRDSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionLRDSolid;
+                    System.Drawing.Color TopOnlySolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionTopOnlySolid;
+
+                    if (SelectedTiles.Contains(new Point(x, y)) || TempSelectionTiles.Contains(new Point(x, y)))
+                    {
+                        AllSolid = AllSolid.Blend(System.Drawing.Color.Red, 128);
+                        LRDSolid = LRDSolid.Blend(System.Drawing.Color.Red, 128);
+                        TopOnlySolid = TopOnlySolid.Blend(System.Drawing.Color.Red, 128);
+                    }
+
+                    if (SolidTopA && SolidLrbA) color = new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, AllSolid.A);
+                    else if (SolidTopA && !SolidLrbA) color = new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, TopOnlySolid.A);
+                    else if (!SolidTopA && SolidTopA) color = new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, LRDSolid.A);
+                    else color = new SFML.Graphics.Color(255, 255, 255, 0);
+
+                    rec = new IntRect(rect_x, rect_y, rect_width, rect_height);
+                    return;
+                }
+            }
+
+
+            color = new SFML.Graphics.Color(0, 0, 0, 0);
+            rec = new IntRect(0, 0, 16, 16);
+
+        }
+        private void TileCollisionProviderB(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if ((Height > y && 0 <= y && Width > x && 0 <= x))
+            {
+                Point point = new Point(x, y);
+                var tile = GetTileToDraw(point);
+                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
+
+                bool goodTile = (tile != 0xffff);
+
+                if (goodTile)
+                {
+                    int index = (tile & 0x3ff);
+
+                    bool flipX = ((tile >> 10) & 1) == 1;
+                    bool flipY = ((tile >> 11) & 1) == 1;
+                    bool SolidTopB = ((tile >> 14) & 1) == 1;
+                    bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
+                    int tile_size = Methods.Editor.EditorConstants.TILE_SIZE;
+                    int tile_texture_y = index * tile_size;
+                    int rect_x;
+                    int rect_y;
+                    int rect_width;
+                    int rect_height;
+
+
+                    if (flipX && flipY)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = -tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipY)
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y + tile_size;
+                        rect_width = tile_size;
+                        rect_height = -tile_size;
+                    }
+                    else if (flipX)
+                    {
+                        rect_x = tile_size;
+                        rect_y = tile_texture_y;
+                        rect_width = -tile_size;
+                        rect_height = tile_size;
+                    }
+                    else
+                    {
+                        rect_x = 0;
+                        rect_y = tile_texture_y;
+                        rect_width = tile_size;
+                        rect_height = tile_size;
+                    }
+
+                    System.Drawing.Color AllSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionAllSolid;
+                    System.Drawing.Color LRDSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionLRDSolid;
+                    System.Drawing.Color TopOnlySolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionTopOnlySolid;
+
+                    if (SelectedTiles.Contains(new Point(x, y)) || TempSelectionTiles.Contains(new Point(x, y)))
+                    {
+                        AllSolid = AllSolid.Blend(System.Drawing.Color.Red, 128);
+                        LRDSolid = LRDSolid.Blend(System.Drawing.Color.Red, 128);
+                        TopOnlySolid = TopOnlySolid.Blend(System.Drawing.Color.Red, 128);
+                    }
+
+                    if (SolidTopB && SolidLrbB) color = new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, AllSolid.A);
+                    else if (SolidTopB && !SolidLrbB) color = new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, TopOnlySolid.A);
+                    else if (!SolidTopB && SolidLrbB) color = new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, LRDSolid.A);
+                    else color = new SFML.Graphics.Color(255, 255, 255, 0);
+
+                    rec = new IntRect(rect_x, rect_y, rect_width, rect_height);
+                    return;
+                }
+            }
+
+
+            color = new SFML.Graphics.Color(0, 0, 0, 0);
+            rec = new IntRect(0, 0, 16, 16);
+
         }
 
         #endregion

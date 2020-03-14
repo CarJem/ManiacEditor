@@ -552,7 +552,7 @@ namespace ManiacEditor.Methods.Entities
                 d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
                 if (ManiacEditor.Properties.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
                 {
-                    if (Methods.Editor.SolutionState.Zoom >= 1)
+                    if (Methods.Editor.SolutionState.OldZoom >= 1)
                     {
                         d.DrawTextSmall(string.Format("{0} (ID: {1})", e.Entity.Object.Name, e.SlotID), x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }

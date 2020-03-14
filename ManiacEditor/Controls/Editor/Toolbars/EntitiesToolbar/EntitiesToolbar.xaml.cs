@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,9 +15,6 @@ using GenerationsLib.Core;
 
 namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 {
-    /// <summary>
-    /// Interaction logic for TilesToolbar.xaml
-    /// </summary>
     public partial class EntitiesToolbar : UserControl
 	{
         #region Definitions
@@ -89,11 +87,12 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		}
 		public void SetupWinFormsPropertyGrid()
 		{
+			PropertiesGrid.PropertyValueChanged += PropertiesGrid_PropertyValueChanged;
 			UpdatePropertyGridTheme();
 		}
 		#endregion
 
-		#region Property Grid 
+		#region Property Grid (General)
 		public void UpdatePropertiesGrid(List<RSDKv5.SceneEntity> selectedEntities)
 		{
 			// Reset the List Item if the Current Entity is nothing or if it's a multi-selection
@@ -171,9 +170,10 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 				if (entity.Object.Name.Name != "Spline")
 				{
-					var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
-					if (entry != null)
+
+					if (ObjectList != null && ObjectList.ToList().Exists(x => x.Tag.ToString() == entity.SlotID.ToString()))
 					{
+						var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
 						entitiesList.Content = entry.Content;
 						entitiesList.Foreground = entry.Foreground;
 						entitiesList.Tag = entry.Tag;
@@ -196,9 +196,291 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			}
 
 		}
+		private void PropertiesGrid_PropertyValueChanged(object sender, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
+		{
+			if (MultipleObjectsSelected)
+			{
+				SetMultiSelectedProperties(SelectedEntities, e);
+			}
+			else
+			{
+				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, e.Property, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
+				SetSelectedProperties(CurrentEntity, e);
+			}
 
-        #region Single Select
-        private void SetSelectedProperties(RSDKv5.SceneEntity entity, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
+		}
+		public void UpdateSelectedProperties()
+		{
+			if (MultipleObjectsSelected) UpdateMultiSelectedProperties();
+			else if (CurrentEntity != null) UpdateSingleSelectedProperties();
+		}
+
+		#endregion
+
+		#region Property Grid (Create) 
+		public void CreateSelectedProperties(SceneEntity entity)
+		{
+			PropertyControl.PropertyGridObject objProperties = new PropertyControl.PropertyGridObject();
+
+			objProperties.AddProperty("object", "name", "string", typeof(string), entity.Object.Name.ToString());
+			objProperties.AddProperty("object", "entitySlot", "ushort", typeof(ushort), entity.SlotID);
+
+			objProperties.AddProperty("position", "x", "float", typeof(float), entity.Position.X.High + ((float)entity.Position.X.Low / 0x10000));
+			objProperties.AddProperty("position", "y", "float", typeof(float), entity.Position.Y.High + ((float)entity.Position.Y.Low / 0x10000));
+
+
+			foreach (var attribute in entity.Object.Attributes)
+			{
+				string attribute_name = attribute.Name.ToString();
+				var attribute_value = CurrentEntity.GetAttribute(attribute_name);
+				switch (attribute.Type)
+				{
+					case RSDKv5.AttributeTypes.UINT8:
+						objProperties.AddProperty(attribute_name, "uint8", "byte", typeof(byte), attribute_value.ValueUInt8);
+						break;
+					case RSDKv5.AttributeTypes.UINT16:
+						objProperties.AddProperty(attribute_name, "uint16", "ushort", typeof(ushort), attribute_value.ValueUInt16);
+						break;
+					case RSDKv5.AttributeTypes.UINT32:
+						objProperties.AddProperty(attribute_name, "uint32", "uint", typeof(uint), attribute_value.ValueUInt32);
+						break;
+					case RSDKv5.AttributeTypes.INT8:
+						objProperties.AddProperty(attribute_name, "int8", "sbyte", typeof(sbyte), attribute_value.ValueInt8);
+						break;
+					case RSDKv5.AttributeTypes.INT16:
+						objProperties.AddProperty(attribute_name, "int16", "short", typeof(short), attribute_value.ValueInt16);
+						break;
+					case RSDKv5.AttributeTypes.INT32:
+						objProperties.AddProperty(attribute_name, "int32", "int", typeof(int), attribute_value.ValueInt32);
+						break;
+					case RSDKv5.AttributeTypes.ENUM:
+						objProperties.AddProperty(attribute_name, "enum (var)", "uint", typeof(uint), attribute_value.ValueEnum);
+						break;
+					case RSDKv5.AttributeTypes.BOOL:
+						objProperties.AddProperty(attribute_name, "bool", "bool", typeof(bool), attribute_value.ValueBool);
+						break;
+					case RSDKv5.AttributeTypes.STRING:
+						objProperties.AddProperty(attribute_name, "string", "string", typeof(string), attribute_value.ValueString);
+						break;
+					case RSDKv5.AttributeTypes.VECTOR2:
+						objProperties.AddProperty(attribute_name, "x", "float", typeof(float), attribute_value.ValueVector2.X.High + ((float)attribute_value.ValueVector2.X.Low / 0x10000));
+						objProperties.AddProperty(attribute_name, "y", "float", typeof(float), attribute_value.ValueVector2.Y.High + ((float)attribute_value.ValueVector2.Y.Low / 0x10000));
+						break;
+					case RSDKv5.AttributeTypes.COLOR:
+						var color = attribute_value.ValueColor;
+						objProperties.AddProperty(attribute_name, "color", "color", typeof(System.Drawing.Color), System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+						break;
+				}
+			}
+
+			PropertiesGrid.SelectedObject = objProperties;
+		}
+		public void CreateMultiSelectedProperties(List<RSDKv5.SceneEntity> entities)
+		{
+			PropertyControl.PropertyGridObject objProperties = new PropertyControl.PropertyGridObject();
+			foreach (var attribute in GetMultiAttributes(entities))
+			{
+				string attribute_name = attribute.Key.ToString();
+				var attribute_values = attribute.Value;
+				foreach (var attribute_value in attribute_values)
+				{
+					switch (attribute_value.Key)
+					{
+						case RSDKv5.AttributeTypes.UINT8:
+							objProperties.AddProperty(attribute_name, "uint8", "byte", typeof(byte), attribute_value.Value.ValueUInt8);
+							break;
+						case RSDKv5.AttributeTypes.UINT16:
+							objProperties.AddProperty(attribute_name, "uint16", "ushort", typeof(ushort), attribute_value.Value.ValueUInt16);
+							break;
+						case RSDKv5.AttributeTypes.UINT32:
+							objProperties.AddProperty(attribute_name, "uint32", "uint", typeof(uint), attribute_value.Value.ValueUInt32);
+							break;
+						case RSDKv5.AttributeTypes.INT8:
+							objProperties.AddProperty(attribute_name, "int8", "sbyte", typeof(sbyte), attribute_value.Value.ValueInt8);
+							break;
+						case RSDKv5.AttributeTypes.INT16:
+							objProperties.AddProperty(attribute_name, "int16", "short", typeof(short), attribute_value.Value.ValueInt16);
+							break;
+						case RSDKv5.AttributeTypes.INT32:
+							objProperties.AddProperty(attribute_name, "int32", "int", typeof(int), attribute_value.Value.ValueInt32);
+							break;
+						case RSDKv5.AttributeTypes.ENUM:
+							objProperties.AddProperty(attribute_name, "enum (var)", "uint", typeof(uint), attribute_value.Value.ValueEnum);
+							break;
+						case RSDKv5.AttributeTypes.BOOL:
+							objProperties.AddProperty(attribute_name, "bool", "bool", typeof(bool), attribute_value.Value.ValueBool);
+							break;
+						case RSDKv5.AttributeTypes.STRING:
+							objProperties.AddProperty(attribute_name, "string", "string", typeof(string), attribute_value.Value.ValueString);
+							break;
+						case RSDKv5.AttributeTypes.VECTOR2:
+							objProperties.AddProperty(attribute_name, "x", "float", typeof(float), attribute_value.Value.ValueVector2.X.High + ((float)attribute_value.Value.ValueVector2.X.Low / 0x10000));
+							objProperties.AddProperty(attribute_name, "y", "float", typeof(float), attribute_value.Value.ValueVector2.Y.High + ((float)attribute_value.Value.ValueVector2.Y.Low / 0x10000));
+							break;
+						case RSDKv5.AttributeTypes.COLOR:
+							var color = attribute_value.Value.ValueColor;
+							objProperties.AddProperty(attribute_name, "color", "color", typeof(System.Drawing.Color), System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+							break;
+					}
+				}
+			}
+
+			PropertiesGrid.SelectedObject = objProperties;
+		}
+		public Dictionary<string, Dictionary<AttributeTypes, AttributeValue>> GetMultiAttributes(List<RSDKv5.SceneEntity> entities)
+		{
+			Dictionary<string, Dictionary<AttributeTypes, AttributeValue>> MultiAttributes = new Dictionary<string, Dictionary<AttributeTypes, AttributeValue>>();
+			foreach (var entity in entities)
+			{
+				foreach (var attribute in entity.Object.Attributes)
+				{
+					string currentName = attribute.Name.ToString();
+					AttributeTypes currentType = attribute.Type;
+					AttributeValue currentValue = entity.GetAttribute(attribute.Name);
+					if (MultiAttributes.ContainsKey(currentName))
+					{
+						if (!MultiAttributes[currentName].ContainsKey(currentType))
+						{
+							MultiAttributes[currentName].Add(currentType, currentValue);
+						}
+						else
+						{
+							if (!MultiAttributes[currentName][currentType].Equals(currentValue))
+							{
+								MultiAttributes[currentName][currentType] = new AttributeValue(currentType);
+							}
+						}
+					}
+					else 
+					{
+						Dictionary<AttributeTypes, AttributeValue> Dict = new Dictionary<AttributeTypes, AttributeValue>();
+						Dict.Add(currentType, currentValue);
+						MultiAttributes.Add(currentName, Dict);
+					}
+				}
+
+			}
+			return MultiAttributes;
+		}
+		#endregion
+
+		#region Property Grid (Update) 
+
+		public void UpdateSingleSelectedProperties()
+		{
+			object selectedObject = PropertiesGrid.SelectedObject;
+			if (selectedObject is PropertyControl.PropertyGridObject obj)
+			{
+				obj.UpdateProperty("position", "x", CurrentEntity.Position.X.High + ((float)CurrentEntity.Position.X.Low / 0x10000));
+				obj.UpdateProperty("position", "y", CurrentEntity.Position.Y.High + ((float)CurrentEntity.Position.Y.Low / 0x10000));
+				foreach (var attribute in CurrentEntity.Object.Attributes)
+				{
+					string attribute_name = attribute.Name.ToString();
+					var attribute_value = CurrentEntity.GetAttribute(attribute_name);
+					switch (attribute.Type)
+					{
+						case RSDKv5.AttributeTypes.UINT8:
+							obj.UpdateProperty(attribute_name, "uint8", attribute_value.ValueUInt8);
+							break;
+						case RSDKv5.AttributeTypes.UINT16:
+							obj.UpdateProperty(attribute_name, "uint16", attribute_value.ValueUInt16);
+							break;
+						case RSDKv5.AttributeTypes.UINT32:
+							obj.UpdateProperty(attribute_name, "uint32", attribute_value.ValueUInt32);
+							break;
+						case RSDKv5.AttributeTypes.INT8:
+							obj.UpdateProperty(attribute_name, "int8", attribute_value.ValueInt8);
+							break;
+						case RSDKv5.AttributeTypes.INT16:
+							obj.UpdateProperty(attribute_name, "int16", attribute_value.ValueInt16);
+							break;
+						case RSDKv5.AttributeTypes.INT32:
+							obj.UpdateProperty(attribute_name, "int32", attribute_value.ValueInt32);
+							break;
+						case RSDKv5.AttributeTypes.ENUM:
+							obj.UpdateProperty(attribute_name, "enum (var)", attribute_value.ValueEnum);
+							break;
+						case RSDKv5.AttributeTypes.BOOL:
+							obj.UpdateProperty(attribute_name, "bool", attribute_value.ValueBool);
+							break;
+						case RSDKv5.AttributeTypes.STRING:
+							obj.UpdateProperty(attribute_name, "string", attribute_value.ValueString);
+							break;
+						case RSDKv5.AttributeTypes.VECTOR2:
+							obj.UpdateProperty(attribute_name, "x", attribute_value.ValueVector2.X.High + ((float)attribute_value.ValueVector2.X.Low / 0x10000));
+							obj.UpdateProperty(attribute_name, "y", attribute_value.ValueVector2.Y.High + ((float)attribute_value.ValueVector2.Y.Low / 0x10000));
+							break;
+						case RSDKv5.AttributeTypes.COLOR:
+							var color = attribute_value.ValueColor;
+							obj.UpdateProperty(attribute_name, "color", System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+							break;
+					}
+				}
+				NeedRefresh = true;
+
+			}
+		}
+		public void UpdateMultiSelectedProperties()
+		{
+			object selectedObject = PropertiesGrid.SelectedObject;
+			if (selectedObject is PropertyControl.PropertyGridObject obj)
+			{
+				foreach (var attribute in GetMultiAttributes(SelectedEntities))
+				{
+					string attribute_name = attribute.Key.ToString();
+					var attribute_values = attribute.Value;
+					foreach (var attribute_value in attribute_values)
+					{
+						switch (attribute_value.Key)
+						{
+							case RSDKv5.AttributeTypes.UINT8:
+								obj.UpdateProperty(attribute_name, "uint8", attribute_value.Value.ValueUInt8);
+								break;
+							case RSDKv5.AttributeTypes.UINT16:
+								obj.UpdateProperty(attribute_name, "uint16", attribute_value.Value.ValueUInt16);
+								break;
+							case RSDKv5.AttributeTypes.UINT32:
+								obj.UpdateProperty(attribute_name, "uint32", attribute_value.Value.ValueUInt32);
+								break;
+							case RSDKv5.AttributeTypes.INT8:
+								obj.UpdateProperty(attribute_name, "int8", attribute_value.Value.ValueInt8);
+								break;
+							case RSDKv5.AttributeTypes.INT16:
+								obj.UpdateProperty(attribute_name, "int16", attribute_value.Value.ValueInt16);
+								break;
+							case RSDKv5.AttributeTypes.INT32:
+								obj.UpdateProperty(attribute_name, "int32", attribute_value.Value.ValueInt32);
+								break;
+							case RSDKv5.AttributeTypes.ENUM:
+								obj.UpdateProperty(attribute_name, "enum (var)", attribute_value.Value.ValueEnum);
+								break;
+							case RSDKv5.AttributeTypes.BOOL:
+								obj.UpdateProperty(attribute_name, "bool", attribute_value.Value.ValueBool);
+								break;
+							case RSDKv5.AttributeTypes.STRING:
+								obj.UpdateProperty(attribute_name, "string", attribute_value.Value.ValueString);
+								break;
+							case RSDKv5.AttributeTypes.VECTOR2:
+								obj.UpdateProperty(attribute_name, "x", attribute_value.Value.ValueVector2.X.High + ((float)attribute_value.Value.ValueVector2.X.Low / 0x10000));
+								obj.UpdateProperty(attribute_name, "y", attribute_value.Value.ValueVector2.Y.High + ((float)attribute_value.Value.ValueVector2.Y.Low / 0x10000));
+								break;
+							case RSDKv5.AttributeTypes.COLOR:
+								var color = attribute_value.Value.ValueColor;
+								obj.UpdateProperty(attribute_name, "color", System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
+								break;
+						}
+					}
+				}
+				NeedRefresh = true;
+
+			}
+		}
+
+
+		#endregion
+
+		#region Property Grid (Set) 
+		private void SetSelectedProperties(RSDKv5.SceneEntity entity, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
 		{
 			SetSelectedProperties(entity, e.Property, e.NewValue, e.OldValue);
 		}
@@ -391,357 +673,163 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				UpdateEntitiesList();
 			}
 		}
-		public void CreateSelectedProperties(SceneEntity entity)
+		private void SetMultiSelectedProperties(List<RSDKv5.SceneEntity> entities, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)		
 		{
-			PropertyControl.PropertyGridObject objProperties = new PropertyControl.PropertyGridObject();
+			string Property = e.Property;
+			object NewValue = e.NewValue;
+			object OldValue = e.OldValue;
 
-			objProperties.AddProperty("object", "name", "string", typeof(string), entity.Object.Name.ToString());
-			objProperties.AddProperty("object", "entitySlot", "ushort", typeof(ushort), entity.SlotID);
-
-			objProperties.AddProperty("position", "x", "float", typeof(float), entity.Position.X.High + ((float)entity.Position.X.Low / 0x10000));
-			objProperties.AddProperty("position", "y", "float", typeof(float), entity.Position.Y.High + ((float)entity.Position.Y.Low / 0x10000));
-
-
-			foreach (var attribute in entity.Object.Attributes)
-			{
-				string attribute_name = attribute.Name.ToString();
-				var attribute_value = CurrentEntity.GetAttribute(attribute_name);
-				switch (attribute.Type)
-				{
-					case RSDKv5.AttributeTypes.UINT8:
-						objProperties.AddProperty(attribute_name, "uint8", "byte", typeof(byte), attribute_value.ValueUInt8);
-						break;
-					case RSDKv5.AttributeTypes.UINT16:
-						objProperties.AddProperty(attribute_name, "uint16", "ushort", typeof(ushort), attribute_value.ValueUInt16);
-						break;
-					case RSDKv5.AttributeTypes.UINT32:
-						objProperties.AddProperty(attribute_name, "uint32", "uint", typeof(uint), attribute_value.ValueUInt32);
-						break;
-					case RSDKv5.AttributeTypes.INT8:
-						objProperties.AddProperty(attribute_name, "int8", "sbyte", typeof(sbyte), attribute_value.ValueInt8);
-						break;
-					case RSDKv5.AttributeTypes.INT16:
-						objProperties.AddProperty(attribute_name, "int16", "short", typeof(short), attribute_value.ValueInt16);
-						break;
-					case RSDKv5.AttributeTypes.INT32:
-						objProperties.AddProperty(attribute_name, "int32", "int", typeof(int), attribute_value.ValueInt32);
-						break;
-					case RSDKv5.AttributeTypes.ENUM:
-						objProperties.AddProperty(attribute_name, "enum (var)", "uint", typeof(uint), attribute_value.ValueEnum);
-						break;
-					case RSDKv5.AttributeTypes.BOOL:
-						objProperties.AddProperty(attribute_name, "bool", "bool", typeof(bool), attribute_value.ValueBool);
-						break;
-					case RSDKv5.AttributeTypes.STRING:
-						objProperties.AddProperty(attribute_name, "string", "string", typeof(string), attribute_value.ValueString);
-						break;
-					case RSDKv5.AttributeTypes.VECTOR2:
-						objProperties.AddProperty(attribute_name, "x", "float", typeof(float), attribute_value.ValueVector2.X.High + ((float)attribute_value.ValueVector2.X.Low / 0x10000));
-						objProperties.AddProperty(attribute_name, "y", "float", typeof(float), attribute_value.ValueVector2.Y.High + ((float)attribute_value.ValueVector2.Y.Low / 0x10000));
-						break;
-					case RSDKv5.AttributeTypes.COLOR:
-						var color = attribute_value.ValueColor;
-						objProperties.AddProperty(attribute_name, "color", "color", typeof(System.Drawing.Color), System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
-						break;
-				}
-			}
-
-			PropertiesGrid.SelectedObject = objProperties;
-		}
-		public void UpdateSingleSelectedProperties()
-		{
-			object selectedObject = PropertiesGrid.SelectedObject;
-			if (selectedObject is PropertyControl.PropertyGridObject obj)
-			{
-				obj.UpdateProperty("position", "x", CurrentEntity.Position.X.High + ((float)CurrentEntity.Position.X.Low / 0x10000));
-				obj.UpdateProperty("position", "y", CurrentEntity.Position.Y.High + ((float)CurrentEntity.Position.Y.Low / 0x10000));
-				foreach (var attribute in CurrentEntity.Object.Attributes)
-				{
-					string attribute_name = attribute.Name.ToString();
-					var attribute_value = CurrentEntity.GetAttribute(attribute_name);
-					switch (attribute.Type)
-					{
-						case RSDKv5.AttributeTypes.UINT8:
-							obj.UpdateProperty(attribute_name, "uint8", attribute_value.ValueUInt8);
-							break;
-						case RSDKv5.AttributeTypes.UINT16:
-							obj.UpdateProperty(attribute_name, "uint16", attribute_value.ValueUInt16);
-							break;
-						case RSDKv5.AttributeTypes.UINT32:
-							obj.UpdateProperty(attribute_name, "uint32", attribute_value.ValueUInt32);
-							break;
-						case RSDKv5.AttributeTypes.INT8:
-							obj.UpdateProperty(attribute_name, "int8", attribute_value.ValueInt8);
-							break;
-						case RSDKv5.AttributeTypes.INT16:
-							obj.UpdateProperty(attribute_name, "int16", attribute_value.ValueInt16);
-							break;
-						case RSDKv5.AttributeTypes.INT32:
-							obj.UpdateProperty(attribute_name, "int32", attribute_value.ValueInt32);
-							break;
-						case RSDKv5.AttributeTypes.ENUM:
-							obj.UpdateProperty(attribute_name, "enum (var)", attribute_value.ValueEnum);
-							break;
-						case RSDKv5.AttributeTypes.BOOL:
-							obj.UpdateProperty(attribute_name, "bool", attribute_value.ValueBool);
-							break;
-						case RSDKv5.AttributeTypes.STRING:
-							obj.UpdateProperty(attribute_name, "string", attribute_value.ValueString);
-							break;
-						case RSDKv5.AttributeTypes.VECTOR2:
-							obj.UpdateProperty(attribute_name, "x", attribute_value.ValueVector2.X.High + ((float)attribute_value.ValueVector2.X.Low / 0x10000));
-							obj.UpdateProperty(attribute_name, "y", attribute_value.ValueVector2.Y.High + ((float)attribute_value.ValueVector2.Y.Low / 0x10000));
-							break;
-						case RSDKv5.AttributeTypes.COLOR:
-							var color = attribute_value.ValueColor;
-							obj.UpdateProperty(attribute_name, "color", System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
-							break;
-					}
-				}
-				NeedRefresh = true;
-
-			}
-		}
-		#endregion
-
-		#region Multi Select
-		public void UpdateMultiSelectedProperties()
-		{
-			object selectedObject = PropertiesGrid.SelectedObject;
-			if (selectedObject is PropertyControl.PropertyGridObject obj)
-			{
-				foreach (var attribute in GetMultiAttributes(SelectedEntities))
-				{
-					string attribute_name = attribute.Key.Name.ToString();
-					var attribute_value = attribute.Value;
-					switch (attribute.Key.Type)
-					{
-						case RSDKv5.AttributeTypes.UINT8:
-							obj.UpdateProperty(attribute_name, "uint8", attribute_value.ValueUInt8);
-							break;
-						case RSDKv5.AttributeTypes.UINT16:
-							obj.UpdateProperty(attribute_name, "uint16", attribute_value.ValueUInt16);
-							break;
-						case RSDKv5.AttributeTypes.UINT32:
-							obj.UpdateProperty(attribute_name, "uint32", attribute_value.ValueUInt32);
-							break;
-						case RSDKv5.AttributeTypes.INT8:
-							obj.UpdateProperty(attribute_name, "int8", attribute_value.ValueInt8);
-							break;
-						case RSDKv5.AttributeTypes.INT16:
-							obj.UpdateProperty(attribute_name, "int16", attribute_value.ValueInt16);
-							break;
-						case RSDKv5.AttributeTypes.INT32:
-							obj.UpdateProperty(attribute_name, "int32", attribute_value.ValueInt32);
-							break;
-						case RSDKv5.AttributeTypes.ENUM:
-							obj.UpdateProperty(attribute_name, "enum (var)", attribute_value.ValueEnum);
-							break;
-						case RSDKv5.AttributeTypes.BOOL:
-							obj.UpdateProperty(attribute_name, "bool", attribute_value.ValueBool);
-							break;
-						case RSDKv5.AttributeTypes.STRING:
-							obj.UpdateProperty(attribute_name, "string", attribute_value.ValueString);
-							break;
-						case RSDKv5.AttributeTypes.VECTOR2:
-							obj.UpdateProperty(attribute_name, "x", attribute_value.ValueVector2.X.High + ((float)attribute_value.ValueVector2.X.Low / 0x10000));
-							obj.UpdateProperty(attribute_name, "y", attribute_value.ValueVector2.Y.High + ((float)attribute_value.ValueVector2.Y.Low / 0x10000));
-							break;
-						case RSDKv5.AttributeTypes.COLOR:
-							var color = attribute_value.ValueColor;
-							obj.UpdateProperty(attribute_name, "color", System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
-							break;
-					}
-				}
-				NeedRefresh = true;
-
-			}
-		}
-		private void SetMultiSelectedProperties(List<RSDKv5.SceneEntity> entities, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
-		{
-			var ActionList = SetMultiSelectedProperties(entities, e.Property, e.NewValue, e.OldValue);
-			AddAction?.Invoke(new Actions.ActionEntityMultiplePropertyChange(SelectedEntities, e.Property, ActionList));
-		}
-		private List<Actions.ActionEntityPropertyChange> SetMultiSelectedProperties(List<RSDKv5.SceneEntity> entities, string Property, object NewValue, object OldValue)
-		{
 			string Category = Property.Split(',')[0];
 			string Name = Property.Split(',')[1];
 
 			List<Actions.ActionEntityPropertyChange> ActionList = new List<Actions.ActionEntityPropertyChange>();
 
-			UpdateAttribute();
-
-			return ActionList;
-
-			void UpdateAttribute()
-			{
-				foreach (var entity in entities)
-				{
-					if (entity.AttributeExists(Category, GetAttributeTypeFromName(Name)))
-					{
-						var attribute = entity.GetAttribute(Category);
-						switch (attribute.Type)
-						{
-							case RSDKv5.AttributeTypes.UINT8:
-								OldValue = attribute.ValueUInt8;
-								attribute.ValueUInt8 = (byte)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.UINT16:
-								OldValue = attribute.ValueUInt16;
-								attribute.ValueUInt16 = (ushort)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.UINT32:
-								OldValue = attribute.ValueUInt32;
-								attribute.ValueUInt32 = (uint)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.INT8:
-								OldValue = attribute.ValueInt8;
-								attribute.ValueInt8 = (sbyte)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.INT16:
-								OldValue = attribute.ValueInt16;
-								attribute.ValueInt16 = (short)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.INT32:
-								OldValue = attribute.ValueInt32;
-								attribute.ValueInt32 = (int)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.ENUM:
-								OldValue = attribute.ValueEnum;
-								attribute.ValueEnum = (int)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.BOOL:
-								OldValue = attribute.ValueBool;
-								attribute.ValueBool = (bool)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.STRING:
-								OldValue = attribute.ValueString;
-								attribute.ValueString = (string)NewValue;
-								break;
-							case RSDKv5.AttributeTypes.VECTOR2:
-								float fvalue = (float)NewValue;
-								if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
-								var pos = attribute.ValueVector2;
-								OldValue = pos;
-								if (Name == "x")
-								{
-									pos.X.High = (short)fvalue;
-									pos.X.Low = (ushort)(fvalue * 0x10000);
-								}
-								else if (Name == "y")
-								{
-									pos.Y.High = (short)fvalue;
-									pos.Y.Low = (ushort)(fvalue * 0x10000);
-								}
-								attribute.ValueVector2 = pos;
-								break;
-							case RSDKv5.AttributeTypes.COLOR:
-								System.Drawing.Color c = (System.Drawing.Color)NewValue;
-								attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
-								break;
-						}
-						ActionList.Add(new Actions.ActionEntityPropertyChange(entity, Property, OldValue, NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
-					}
-				}
-				UpdatePropertiesGrid(entities);
-
-			}
-		}
-		public void CreateMultiSelectedProperties(List<RSDKv5.SceneEntity> entities)
-		{
-			PropertyControl.PropertyGridObject objProperties = new PropertyControl.PropertyGridObject();
-			foreach (var attribute in GetMultiAttributes(entities))
-			{
-				string attribute_name = attribute.Key.Name.ToString();
-				var attribute_value = attribute.Value;
-				switch (attribute.Key.Type)
-				{
-					case RSDKv5.AttributeTypes.UINT8:
-						objProperties.AddProperty(attribute_name, "uint8", "byte", typeof(byte), attribute_value.ValueUInt8);
-						break;
-					case RSDKv5.AttributeTypes.UINT16:
-						objProperties.AddProperty(attribute_name, "uint16", "ushort", typeof(ushort), attribute_value.ValueUInt16);
-						break;
-					case RSDKv5.AttributeTypes.UINT32:
-						objProperties.AddProperty(attribute_name, "uint32", "uint", typeof(uint), attribute_value.ValueUInt32);
-						break;
-					case RSDKv5.AttributeTypes.INT8:
-						objProperties.AddProperty(attribute_name, "int8", "sbyte", typeof(sbyte), attribute_value.ValueInt8);
-						break;
-					case RSDKv5.AttributeTypes.INT16:
-						objProperties.AddProperty(attribute_name, "int16", "short", typeof(short), attribute_value.ValueInt16);
-						break;
-					case RSDKv5.AttributeTypes.INT32:
-						objProperties.AddProperty(attribute_name, "int32", "int", typeof(int), attribute_value.ValueInt32);
-						break;
-					case RSDKv5.AttributeTypes.ENUM:
-						objProperties.AddProperty(attribute_name, "enum (var)", "uint", typeof(uint), attribute_value.ValueEnum);
-						break;
-					case RSDKv5.AttributeTypes.BOOL:
-						objProperties.AddProperty(attribute_name, "bool", "bool", typeof(bool), attribute_value.ValueBool);
-						break;
-					case RSDKv5.AttributeTypes.STRING:
-						objProperties.AddProperty(attribute_name, "string", "string", typeof(string), attribute_value.ValueString);
-						break;
-					case RSDKv5.AttributeTypes.VECTOR2:
-						objProperties.AddProperty(attribute_name, "x", "float", typeof(float), attribute_value.ValueVector2.X.High + ((float)attribute_value.ValueVector2.X.Low / 0x10000));
-						objProperties.AddProperty(attribute_name, "y", "float", typeof(float), attribute_value.ValueVector2.Y.High + ((float)attribute_value.ValueVector2.Y.Low / 0x10000));
-						break;
-					case RSDKv5.AttributeTypes.COLOR:
-						var color = attribute_value.ValueColor;
-						objProperties.AddProperty(attribute_name, "color", "color", typeof(System.Drawing.Color), System.Drawing.Color.FromArgb(255 /* color.A */, color.R, color.G, color.B));
-						break;
-				}
-			}
-
-			PropertiesGrid.SelectedObject = objProperties;
-		}
-		public Dictionary<RSDKv5.AttributeInfo, RSDKv5.AttributeValue> GetMultiAttributes(List<RSDKv5.SceneEntity> entities)
-		{
-			Dictionary<RSDKv5.AttributeInfo, RSDKv5.AttributeValue> MultiAttributes = new Dictionary<RSDKv5.AttributeInfo, RSDKv5.AttributeValue>();
 			foreach (var entity in entities)
 			{
-				foreach (var attribute in entity.Object.Attributes)
+				if (entity.AttributeExists(Category, GetAttributeTypeFromName(Name)))
 				{
-					if (MultiAttributes.ToList().Exists(x => x.Key.Name == attribute.Name && x.Key.Type == attribute.Type))
+					var attribute = entity.GetAttribute(Category);
+					switch (attribute.Type)
 					{
-						AttributeValue child = entity.GetAttribute(attribute.Name);
-						AttributeValue parent = MultiAttributes[attribute];
-
-						if (!CompareValueRaw(child, parent)) MultiAttributes[attribute] = new AttributeValue(attribute.Type);
+						case RSDKv5.AttributeTypes.UINT8:
+							OldValue = attribute.ValueUInt8;
+							attribute.ValueUInt8 = (byte)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.UINT16:
+							OldValue = attribute.ValueUInt16;
+							attribute.ValueUInt16 = (ushort)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.UINT32:
+							OldValue = attribute.ValueUInt32;
+							attribute.ValueUInt32 = (uint)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.INT8:
+							OldValue = attribute.ValueInt8;
+							attribute.ValueInt8 = (sbyte)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.INT16:
+							OldValue = attribute.ValueInt16;
+							attribute.ValueInt16 = (short)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.INT32:
+							OldValue = attribute.ValueInt32;
+							attribute.ValueInt32 = (int)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.ENUM:
+							OldValue = attribute.ValueEnum;
+							attribute.ValueEnum = (int)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.BOOL:
+							OldValue = attribute.ValueBool;
+							attribute.ValueBool = (bool)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.STRING:
+							OldValue = attribute.ValueString;
+							attribute.ValueString = (string)NewValue;
+							break;
+						case RSDKv5.AttributeTypes.VECTOR2:
+							float fvalue = (float)NewValue;
+							if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
+							var pos = attribute.ValueVector2;
+							OldValue = pos;
+							if (Name == "x")
+							{
+								pos.X.High = (short)fvalue;
+								pos.X.Low = (ushort)(fvalue * 0x10000);
+							}
+							else if (Name == "y")
+							{
+								pos.Y.High = (short)fvalue;
+								pos.Y.Low = (ushort)(fvalue * 0x10000);
+							}
+							attribute.ValueVector2 = pos;
+							break;
+						case RSDKv5.AttributeTypes.COLOR:
+							System.Drawing.Color c = (System.Drawing.Color)NewValue;
+							attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
+							break;
 					}
-					else MultiAttributes.Add(attribute, entity.GetAttribute(attribute.Name));
+					ActionList.Add(new Actions.ActionEntityPropertyChange(entity, Property, OldValue, NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
+
 				}
-
-			}
-			return MultiAttributes;
-		}
-
-		#endregion
-
-		private void PropertiesGrid_PropertyValueChanged(object sender, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
-		{
-			if (MultipleObjectsSelected)
-			{
-				SetMultiSelectedProperties(SelectedEntities, e);
-			}
-			else
-			{
-				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, e.Property, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
-				SetSelectedProperties(CurrentEntity, e);
 			}
 
+
+			AddAction?.Invoke(new Actions.ActionEntityMultiplePropertyChange(SelectedEntities, e.Property, ActionList));
+
+			UpdatePropertiesGrid(entities);
 		}
-		public void UpdateSelectedProperties()
-		{
-			if (MultipleObjectsSelected) UpdateMultiSelectedProperties();
-			else if (CurrentEntity != null) UpdateSingleSelectedProperties();
-		}
+
 
 		#endregion
 
 		#region UI Refresh
+		public void UpdateEntitiesList(bool FirstLoad = false)
+		{
 
+			//This if statement Triggers when the toolbar opens for the first time
+			if (FirstLoad) _Entities = Methods.Editor.Solution.Entities.Entities.Select(x => x.Entity).ToList();
+			SceneEntitiesList.Items.Clear();
+
+			int count = (2301 > _Entities.Count() ? _Entities.Count() : 2031);
+
+			for (int i = 0; i < count; i++)
+			{
+				var entity = _Entities[i];
+				if (entity != null)
+				{
+					Visibility VisibilityStatus = GetObjectListItemVisiblity(entity.Object.Name.Name, entity.SlotID);
+					if (ObjectList[i] == null)
+					{
+						ObjectList[i] = new System.Windows.Controls.Button()
+						{
+							Content = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
+							Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
+							Tag = entity.SlotID.ToString(),
+							Visibility = VisibilityStatus
+						};
+						ObjectList[i].Click += EntitiesListEntryClicked;
+					}
+					else
+					{
+						ObjectList[i].Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
+						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
+						ObjectList[i].Tag = entity.SlotID.ToString();
+						ObjectList[i].Visibility = VisibilityStatus;
+					}
+
+				}
+				else
+				{
+					if (ObjectList[i] == null)
+					{
+						ObjectList[i] = new System.Windows.Controls.Button()
+						{
+							Content = string.Format("{0} - {1}", "UNUSED", i),
+							Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
+							Height = 0,
+							Visibility = Visibility.Collapsed,
+							Tag = "NULL"
+
+						};
+						ObjectList[i].Click += EntitiesListEntryClicked;
+					}
+					else
+					{
+						ObjectList[i].Content = String.Format("{0} - {1}", "UNUSED", i);
+						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256);
+						ObjectList[i].Height = 0;
+						ObjectList[i].Visibility = Visibility.Collapsed;
+						ObjectList[i].Tag = "NULL";
+					}
+
+				}
+				if (ObjectList[i].Visibility != Visibility.Collapsed) SceneEntitiesList.Items.Add(ObjectList[i]);
+			}
+
+			if (CurrentEntity != null) GoToObjectButton.IsEnabled = true;
+			else GoToObjectButton.IsEnabled = false;
+		}
 		public void UpdatePropertyGridTheme(bool ForceRefresh = false)
 		{
 			if (ForceRefresh) this.PropertiesGrid.Update();
@@ -824,109 +912,136 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					return AttributeTypes.ENUM;
 			}
 		}
-		public bool CompareValueRaw(AttributeValue itemA, AttributeValue itemB)
+
+		#endregion
+
+		#region Events
+
+		public void EntitiesList_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
 		{
-			switch (itemA.Type)
+
+		}
+		private void cbSpawn_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
 			{
-				case AttributeTypes.UINT8:
-					return itemA.ValueUInt8 == itemB.ValueUInt8;
-				case AttributeTypes.UINT16:
-					return itemA.ValueUInt16 == itemB.ValueUInt16;
-				case AttributeTypes.UINT32:
-					return itemA.ValueUInt32 == itemB.ValueUInt32;
-				case AttributeTypes.INT8:
-					return itemA.ValueInt8 == itemB.ValueInt8;
-				case AttributeTypes.INT16:
-					return itemA.ValueInt16 == itemB.ValueInt16;
-				case AttributeTypes.INT32:
-					return itemA.ValueInt32 == itemB.ValueInt32;
-				case AttributeTypes.ENUM:
-					return itemA.ValueEnum == itemB.ValueEnum;
-				case AttributeTypes.BOOL:
-					return itemA.ValueBool == itemB.ValueBool;
-				case AttributeTypes.STRING:
-					return itemA.ValueString == itemB.ValueString;
-				case AttributeTypes.VECTOR2:
-					return itemA.ValueVector2.Equals(itemB.ValueVector2);
-				case AttributeTypes.VECTOR3:
-					return itemA.ValueVector3.Equals(itemB.ValueVector3);
-				case AttributeTypes.COLOR:
-					return itemA.ValueColor.Equals(itemB.ValueColor);
-				default:
-					return false;
+				btnSpawn_Click(sender, e);
+			}
+		}
+		private void button2_Click(object sender, RoutedEventArgs e)
+		{
+			GoToObjectButton.ContextMenu.IsOpen = true;
+		}
+		private void goToThisEntityToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (CurrentEntity != null)
+			{
+				int x = CurrentEntity.Position.X.High;
+				int y = CurrentEntity.Position.Y.High;
+				Methods.Editor.EditorActions.GoToPosition(x, y);
+			}
+		}
+		private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
+		{
+
+		}
+		private void FilterBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			UpdateDefaultFilter(false);
+			defaultFilter.Foreground = Methods.Internal.Theming.GetSelectedObjectFilterColorBrush(defaultFilter.SelectedIndex);
+		}
+		private void EntitiesList_DropDownClosed(object sender, EventArgs e)
+		{
+			if (CurrentEntity != null)
+			{
+				//entitiesList.SelectedItem = ObjectList[(int)currentEntity.SlotID];
+			}
+		}
+		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			UpdateEntitiesList();
+		}
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+
+		}
+		private void EntitiesList_Click(object sender, RoutedEventArgs e)
+		{
+			if (TabControl.SelectedIndex != 2)
+			{
+				TabControl.SelectedIndex = 2;
+				if (CurrentEntity != null && ObjectList.ToList().Exists(x => x != null && x.Tag.ToString() == CurrentEntity.SlotID.ToString()))
+				{
+					var currObject = ObjectList.Where(x => x.Tag.ToString() == CurrentEntity.SlotID.ToString()).FirstOrDefault();
+					if (currObject != null)
+					{
+						SceneEntitiesList.ScrollIntoView(currObject);
+					}
+				}
+
+			}
+			else
+			{
+				TabControl.SelectedIndex = 0;
+			}
+		}
+		private void EntitiesListEntryClicked(object sender, RoutedEventArgs e)
+		{
+			System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
+			Methods.Editor.Solution.Entities.Deselect();
+			Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
+			TabControl.SelectedIndex = 0;
+			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+		}
+		private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+		private void ButtonSpinner_Spin(object sender, Xceed.Wpf.Toolkit.SpinEventArgs e)
+		{
+			if (CurrentEntity != null)
+			{
+				int index = ObjectList.IndexOf(ObjectList.Where(x => x.Tag.ToString() == CurrentEntity.SlotID.ToString()).FirstOrDefault());
+
+				if (e.Direction == Xceed.Wpf.Toolkit.SpinDirection.Decrease) index--;
+				else index++;
+
+				if (ObjectList.Length <= index || index < 0) return;
+
+				if (ObjectList[index] != null)
+				{
+					Methods.Editor.Solution.Entities.Deselect();
+					Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
+					TabControl.SelectedIndex = 0;
+					SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+				}
 			}
 
+		}
+		private void EntitiesList_MouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (e.Delta > 1)
+			{
+				ButtonSpinner_Spin(null, new Xceed.Wpf.Toolkit.SpinEventArgs(Xceed.Wpf.Toolkit.SpinDirection.Increase));
+			}
+			else
+			{
+				ButtonSpinner_Spin(null, new Xceed.Wpf.Toolkit.SpinEventArgs(Xceed.Wpf.Toolkit.SpinDirection.Decrease));
+			}
+		}
+		private void CbSpawn_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+		private void btnSpawn_Click(object sender, RoutedEventArgs e)
+		{
+			SpawnObject();
 		}
 
 		#endregion
 
-		#region Old
-		public void UpdateEntitiesList(bool FirstLoad = false)
-		{
+		#region Other
 
-			//This if statement Triggers when the toolbar opens for the first time
-			if (FirstLoad) _Entities = Methods.Editor.Solution.Entities.Entities.Select(x => x.Entity).ToList();
-            SceneEntitiesList.Items.Clear();
-
-            int count = (2301 > _Entities.Count() ? _Entities.Count() : 2031);
-
-            for (int i = 0; i < count; i++)
-            {
-                var entity = _Entities[i];
-                if (entity != null)
-                {
-                    Visibility VisibilityStatus = GetObjectListItemVisiblity(entity.Object.Name.Name, entity.SlotID);
-                    if (ObjectList[i] == null)
-                    {
-						ObjectList[i] = new System.Windows.Controls.Button()
-                        {
-                            Content = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
-                            Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
-                            Tag = entity.SlotID.ToString(),
-                            Visibility = VisibilityStatus
-                        };
-                        ObjectList[i].Click += EntitiesListEntryClicked;
-                    }
-                    else
-                    {
-                        ObjectList[i].Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
-						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
-                        ObjectList[i].Tag = entity.SlotID.ToString();
-                        ObjectList[i].Visibility = VisibilityStatus;
-                    }
-
-                }
-                else
-                {
-                    if (ObjectList[i] == null)
-                    {
-						ObjectList[i] = new System.Windows.Controls.Button()
-                        {
-                            Content = string.Format("{0} - {1}", "UNUSED", i),
-                            Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
-                            Height = 0,
-                            Visibility = Visibility.Collapsed,
-                            Tag = "NULL"
-
-                        };
-                        ObjectList[i].Click += EntitiesListEntryClicked;
-                    }
-                    else
-                    {
-                        ObjectList[i].Content = String.Format("{0} - {1}", "UNUSED", i);
-						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256);
-                        ObjectList[i].Height = 0;
-                        ObjectList[i].Visibility = Visibility.Collapsed;
-                        ObjectList[i].Tag = "NULL";
-                    }
-
-                }
-                if (ObjectList[i].Visibility != Visibility.Collapsed) SceneEntitiesList.Items.Add(ObjectList[i]);
-            }
-
-            if (CurrentEntity != null) GoToObjectButton.IsEnabled = true;
-			else GoToObjectButton.IsEnabled = false;
-        }
 		public Visibility GetObjectListItemVisiblity(string name, ushort slotID)
 		{
 			if (MultipleObjectsSelected == true)
@@ -1046,10 +1161,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			}
 
 		}
-		public void EntitiesList_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
-		{
-
-        }
 		public int GetIndexOfSlotID(int slotID)
 		{
 			int index = 0;
@@ -1075,10 +1186,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 }
             }
 
-        }
-		private void btnSpawn_Click(object sender, RoutedEventArgs e)
-		{
-            SpawnObject();
         }
         public void SpawnObject()
         {
@@ -1111,118 +1218,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 }
             }
         }
-		private void cbSpawn_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Enter)
-			{
-				btnSpawn_Click(sender, e);
-			}
-		}
-		private void button2_Click(object sender, RoutedEventArgs e)
-		{
-			GoToObjectButton.ContextMenu.IsOpen = true;
-		}
-		private void goToThisEntityToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-            if (CurrentEntity != null)
-			{
-				int x = CurrentEntity.Position.X.High;
-				int y = CurrentEntity.Position.Y.High;
-				Methods.Editor.EditorActions.GoToPosition(x, y);
-			}
-		}
-		private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
-		{
 
-		}
-		private void FilterBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			UpdateDefaultFilter(false);
-			defaultFilter.Foreground = Methods.Internal.Theming.GetSelectedObjectFilterColorBrush(defaultFilter.SelectedIndex);
-		}
-		private void EntitiesList_DropDownClosed(object sender, EventArgs e)
-		{
-			if (CurrentEntity != null)
-			{
-				//entitiesList.SelectedItem = ObjectList[(int)currentEntity.SlotID];
-			}
-		}
-		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			UpdateEntitiesList();
-		}
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
-		{
-
-		}
-        private void EntitiesList_Click(object sender, RoutedEventArgs e)
-        {
-            if (TabControl.SelectedIndex != 2)
-            {
-                TabControl.SelectedIndex = 2;
-                if (CurrentEntity != null && ObjectList.ToList().Exists(x => x != null && x.Tag.ToString() == CurrentEntity.SlotID.ToString()))
-                {
-                    var currObject = ObjectList.Where(x => x.Tag.ToString() == CurrentEntity.SlotID.ToString()).FirstOrDefault();
-                    if (currObject != null)
-                    {
-                        SceneEntitiesList.ScrollIntoView(currObject);
-                    }
-                }
-
-            }
-            else
-            {
-                TabControl.SelectedIndex = 0;
-            }
-        }
-        private void EntitiesListEntryClicked(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
-            Methods.Editor.Solution.Entities.Deselect();
-            Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
-            TabControl.SelectedIndex = 0;
-            SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
-        }
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-        private void ButtonSpinner_Spin(object sender, Xceed.Wpf.Toolkit.SpinEventArgs e)
-        {
-            if (CurrentEntity != null)
-            {
-                int index = ObjectList.IndexOf(ObjectList.Where(x => x.Tag.ToString() == CurrentEntity.SlotID.ToString()).FirstOrDefault());
-
-                if (e.Direction == Xceed.Wpf.Toolkit.SpinDirection.Decrease) index--;
-                else index++;
-
-                if (ObjectList.Length <= index || index < 0) return;
-
-                if (ObjectList[index] != null)
-                {
-                    Methods.Editor.Solution.Entities.Deselect();
-                    Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
-                    TabControl.SelectedIndex = 0;
-                    SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
-                }
-            }
-
-        }
-        private void EntitiesList_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (e.Delta > 1)
-            {
-                ButtonSpinner_Spin(null, new Xceed.Wpf.Toolkit.SpinEventArgs(Xceed.Wpf.Toolkit.SpinDirection.Increase));
-            }
-            else
-            {
-                ButtonSpinner_Spin(null, new Xceed.Wpf.Toolkit.SpinEventArgs(Xceed.Wpf.Toolkit.SpinDirection.Decrease));
-            }
-        }
-        private void CbSpawn_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
         #endregion
     }
 }

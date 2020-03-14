@@ -237,7 +237,7 @@
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
     <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
     <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
-    <Compile Include="Classes\Testing.cs" />
+    <Compile Include="Classes\LayerRenderer.cs" />
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
