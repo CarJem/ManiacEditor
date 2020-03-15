@@ -95,7 +95,7 @@ namespace ManiacEditor.Methods.Editor
 
             Methods.Editor.Solution.Entities = null;
 
-            Methods.Editor.SolutionState.OldZoom = 1;
+            Methods.Editor.SolutionState.Zoom = 1;
             Methods.Editor.SolutionState.ZoomLevel = 0;
 
             Actions.UndoRedoModel.UndoStack.Clear();

@@ -34,6 +34,8 @@ namespace ManiacEditor
 
         public SFML.Graphics.RenderWindow RenderWindow { get; set; }
 
+        public float[] Zoom = { 4.0f, 3.0f, 2.5f, 2.0f, 1.5f, 1.0f, 0.8f, 0.6f, 0.4f, 0.2f, 0.1f };
+
         public IDrawArea _parent = null;
         #endregion
 
@@ -163,7 +165,7 @@ namespace ManiacEditor
             AllowLoopToRender = false;
             RenderWindow.DispatchEvents();
             RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
-            RenderWindow.Size = GetSize();
+            RenderWindow.Size = GetWindowSize();
             RenderWindow.SetView(GetCurrentView());
 
 
@@ -175,53 +177,7 @@ namespace ManiacEditor
             AllowLoopToRender = true;
         }
 
-        private FloatRect GetRectScreen()
-        {
-            var position = GetPosition();
-            var size = GetSize();
-            return new FloatRect(position.X, position.Y, size.X, size.Y);
-        }
 
-        private SFML.Graphics.View GetCurrentView()
-        {
-            var view = new SFML.Graphics.View(GetRectScreen());
-            double zoom = (_parent.GetZoom());
-            view.Zoom((float)zoom);
-            return view;
-        }
-
-        private SFML.System.Vector2i GetPosition()
-        {
-            int x = Methods.Editor.SolutionState.ViewPositionX;
-            int y = Methods.Editor.SolutionState.ViewPositionY;
-
-            return new SFML.System.Vector2i(x, y);
-        }
-
-        private SFML.System.Vector2u GetSize()
-        {
-            uint width = (uint)(this.Width);
-            uint height = (uint)(this.Height);
-
-            return new SFML.System.Vector2u(width, height);
-        }
-
-        public bool IsObjectOnScreen(int x, int y, int width, int height)
-        {
-            if (_parent == null) return false;
-            var screen = GetRectScreen();
-            double zoom = _parent.GetZoom();
-            if (zoom == 1.0)
-                return !(x > screen.Left + screen.Width
-                || x + width < screen.Left
-                || y > screen.Top + screen.Height
-                || y + height < screen.Top);
-            else
-                return !(x * zoom > screen.Left + screen.Width
-                || (x + width) * zoom < screen.Left
-                || y * zoom > screen.Top + screen.Height
-                || (y + height) * zoom < screen.Top);
-        }
 
         private void UpdateFPS()
         {
@@ -276,7 +232,7 @@ namespace ManiacEditor
             {
                 LastEvent = e;
                 var screen = _parent.GetScreen();
-                base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X, e.Y, e.Delta));
+                base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
             }
         }
         protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
@@ -306,7 +262,7 @@ namespace ManiacEditor
 
         #endregion
 
-        #region Get Screen
+        #region Get Screen / Zoom
         public Rectangle GetParentScreen()
         {
             if (_parent == null) return new Rectangle(0, 0, 10, 10);
@@ -316,7 +272,7 @@ namespace ManiacEditor
         {
             if (_parent == null) return new Rectangle(0, 0, 10, 10);
             Rectangle screen = GetParentScreen();
-            double zoom = _parent.GetZoom();
+            double zoom = GetZoom();
             if (zoom == 1.0)
                 return screen;
             else
@@ -326,26 +282,88 @@ namespace ManiacEditor
                     (int)Math.Ceiling(screen.Height / zoom));
         }
 
+        private FloatRect GetRectScreen()
+        {
+            var position = GetPosition();
+            var size = GetSize();
+            return new FloatRect(position.X, position.Y, size.X, size.Y);
+        }
+
+        private SFML.Graphics.View GetCurrentView()
+        {
+            var view = new SFML.Graphics.View(GetRectScreen());
+            return view;
+        }
+
+        private SFML.System.Vector2i GetPosition()
+        {
+            int x = (int)(Methods.Editor.SolutionState.ViewPositionX);
+            int y = (int)(Methods.Editor.SolutionState.ViewPositionY);
+
+            return new SFML.System.Vector2i(x, y);
+        }
+
+        private float GetZoom()
+        {
+            return (float)Methods.Editor.SolutionState.Zoom;
+        }
+
+        private SFML.System.Vector2u GetSize()
+        {
+            uint width = (uint)(this.Width);
+            uint height = (uint)(this.Height);
+
+            return new SFML.System.Vector2u(width, height);
+        }
+
+        private SFML.System.Vector2u GetWindowSize()
+        {
+            uint width = (uint)(this.Width);
+            uint height = (uint)(this.Height);
+
+            return new SFML.System.Vector2u(width, height);
+        }
+
+        public bool IsObjectOnScreen(int x, int y, int width, int height)
+        {          
+            var screen = GetRectScreen();
+            float zoom = GetZoom();
+            if (zoom == 1.0)
+                return !(x > screen.Left + screen.Width
+                || x + width < screen.Left
+                || y > screen.Top + screen.Height
+                || y + height < screen.Top);
+            else
+                return !(x * zoom > screen.Left + screen.Width
+                || (x + width) * zoom < screen.Left
+                || y * zoom > screen.Top + screen.Height
+                || (y + height) * zoom < screen.Top);
+                
+        }
+
 
         #endregion
 
         #region Draw Methods
+
+        #region Basic
         public void DrawTexture(SFML.Graphics.Texture image, int x, int y, int width, int height, bool selected, int transparency)
         {
             DrawTexture(image, x, y, 0, 0, width, height, selected, transparency);
         }
         public void DrawTexture(SFML.Graphics.Texture image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0)
         {
-
             if (!IsObjectOnScreen(x, y, width, height)) return;
 
             Rectangle boundBox = new Rectangle(rect_x, rect_y, width, height);
 
-            int real_x = x;
-            int real_y = y;
+            var zoom = GetZoom();
+
+            int real_x = (int)(x * zoom);
+            int real_y = (int)(y * zoom);
 
             SFML.System.Vector2f position = new SFML.System.Vector2f(real_x, real_y);
-            SFML.System.Vector2f size = new SFML.System.Vector2f(width, height);
+            SFML.System.Vector2f size = new SFML.System.Vector2f(width * zoom, height * zoom);
 
             Vector3 center = new Vector3(new float[] { 0, 0, 0 });
             if (fliph || flipv)
@@ -365,14 +383,37 @@ namespace ManiacEditor
             rect.TextureRect = new IntRect(rect_x, rect_y, width, height);
             RenderWindow.Draw(rect);
         }
-        public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), bool useZoomOffseting = false)
+        public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
         {
-            if (!IsObjectOnScreen(X1, Y1, X2 - X1, Y2 - Y1)) return;
+            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
 
-            int real_x1 = X1;
-            int real_x2 = X2;
-            int real_y1 = Y1;
-            int real_y2 = Y2;
+            var zoom = GetZoom();
+
+            int real_x1 = (int)(x1 * zoom);
+            int real_x2 = (int)(x2 * zoom);
+            int real_y1 = (int)(y1 * zoom);
+            int real_y2 = (int)(y2 * zoom);
+
+            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x1, real_y1);
+            SFML.System.Vector2f size = new SFML.System.Vector2f(real_x2 - real_x1, real_y2 - real_y1);
+
+            SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
+            rect.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
+            rect.Position = position;
+            rect.Size = size;
+            RenderWindow.Draw(rect);
+
+        }
+        public void DrawLine(int x1, int y1, int x2, int y2, Color color = new Color(), bool useZoomOffseting = false)
+        {
+            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
+
+            var zoom = GetZoom();
+
+            int real_x1 = (int)(x1 * zoom);
+            int real_x2 = (int)(x2 * zoom);
+            int real_y1 = (int)(y1 * zoom);
+            int real_y2 = (int)(y2 * zoom);
 
 
             SFML.Graphics.VertexArray line = new SFML.Graphics.VertexArray();
@@ -382,10 +423,13 @@ namespace ManiacEditor
             RenderWindow.Draw(line);
             
         }
+        #endregion
+
+        #region Extra
         public void DrawLinePaperRoller(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4)
         {
             Rectangle screen = GetParentScreen();
-            double zoom = _parent.GetZoom();
+            double zoom = GetZoom();
             int width = Math.Abs(X2 - X1);
             int height = Math.Abs(Y2 - Y1);
             int x = Math.Min(X1, X2);
@@ -485,7 +529,7 @@ namespace ManiacEditor
         {
             /*
             Rectangle screen = GetParentScreen();
-            double zoom = _parent.GetZoom();
+            double zoom = GetZoom();
             int dx, dy, inx, iny, e;
             int pixel_width = (int)Math.Ceiling(zoom);
 
@@ -536,7 +580,7 @@ namespace ManiacEditor
         {
             /*
             Rectangle screen = GetParentScreen();
-            double zoom = _parent.GetZoom();
+            double zoom = GetZoom();
             int dx, dy, inx, iny, e;
             int pixel_width = (int)(Math.Ceiling(zoom + 0.3));
 
@@ -608,31 +652,13 @@ namespace ManiacEditor
             DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
             */
         }
-        public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
-        {
-            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
 
-            int real_x1 = x1;
-            int real_x2 = x2;
-            int real_y1 = y1;
-            int real_y2 = y2;
-
-            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x1, real_y1);
-            SFML.System.Vector2f size = new SFML.System.Vector2f(real_x2 - real_x1, real_y2 - real_y1);
-
-            SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
-            rect.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
-            rect.Position = position;
-            rect.Size = size;
-            RenderWindow.Draw(rect);
-            
-        }
         public void DrawQuad(int x1, int y1, int x2, int y2, Color color)
         {
             /*
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
             Rectangle screen = GetParentScreen();
-            double zoom = _parent.GetZoom();
+            double zoom = GetZoom();
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
             */
@@ -649,7 +675,7 @@ namespace ManiacEditor
         {
             /*
             Rectangle screen = GetParentScreen();
-            double zoom = _parent.GetZoom();
+            double zoom = GetZoom();
 
             sprite.Transform = Matrix.Scaling((float)zoom / 4, (float)zoom / 4, 1f);
             if (width >= 10)
@@ -676,6 +702,8 @@ namespace ManiacEditor
         {
 
         }
+
+        #endregion
 
         #endregion
 

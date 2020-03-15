@@ -3,12 +3,12 @@ using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 
-namespace ManiacEditor.Classes
+namespace ManiacEditor.Classes.Rendering
 {
     /// <summary>
     /// Functions that provides color/texture rectangle data from tile map (or other source)
     /// </summary>
-    public delegate void TileProvider(int x, int y, int layer, out Color color, out IntRect rec);
+    public delegate void TileProvider(int x, int y, int layer, double zoom, out Color color, out IntRect rec);
 
     /// <summary>
     /// Fast and universal renderer of tilemaps
@@ -17,6 +17,8 @@ namespace ManiacEditor.Classes
     {
         private readonly float TileSize;
         public readonly int Layers;
+
+        public double Zoom;
 
         private int height;
         private int width;
@@ -67,7 +69,7 @@ namespace ManiacEditor.Classes
             for (var y = top; y < bottom; y++)
                 for (var x = left; x < right; x++)
                 {
-                    Refresh(x + offset.X, y + offset.Y);
+                    Refresh(x + (int)(offset.X / Zoom), y + (int)(offset.Y / Zoom));
                 }
         }
 
@@ -77,8 +79,8 @@ namespace ManiacEditor.Classes
         /// <param name="v">Size of the visible area</param>
         private void SetSize(Vector2f v)
         {
-            var w = (int)(v.X / TileSize) + 2;
-            var h = (int)(v.Y / TileSize) + 2;
+            var w = (int)((v.X / Zoom) / TileSize) + 2;
+            var h = (int)((v.Y / Zoom) / TileSize) + 2;
             if (w == width && h == height) return;
 
             width = w;
@@ -134,7 +136,7 @@ namespace ManiacEditor.Classes
         /// <param name="y">Y coord of the tile</param>
         public void Refresh(int x, int y)
         {
-            if (x < offset.X || x >= offset.X + width || y < offset.Y || y >= offset.Y + height)
+            if (x < (int)(offset.X / Zoom) || x >= (int)(offset.X / Zoom) + (int)(width) || y < (int)(offset.Y / Zoom) || y >= (int)(offset.Y / Zoom) + (int)(height))
                 return; //check if tile is visible
 
             //vertices works like 2d ring buffer
@@ -150,7 +152,7 @@ namespace ManiacEditor.Classes
             {
                 Color color;
                 IntRect src;
-                provider(x, y, i, out color, out src);
+                provider(x, y, i, Zoom, out color, out src);
 
                 Draw(index, rec, src, color);
                 index += 4;
@@ -162,37 +164,50 @@ namespace ManiacEditor.Classes
         /// </summary>
         private unsafe void Draw(int index, FloatRect rec, IntRect src, Color color)
         {
+            float rec_left = (float)(rec.Left);
+            float rec_top = (float)(rec.Top);
+            float rec_width = (float)(rec.Width);
+            float rec_height = (float)(rec.Height);
+
+            float zoom = (float)Zoom;
+
+            int src_left = src.Left;
+            int src_top = src.Top;
+            int src_width = src.Width;
+            int src_height = src.Height;
+
             fixed (Vertex* fptr = vertices)
             {
                 //use pointers to avoid array bound checks (optimization)
 
+
                 var ptr = fptr + index;
 
-                ptr->Position.X = rec.Left;
-                ptr->Position.Y = rec.Top;
-                ptr->TexCoords.X = src.Left;
-                ptr->TexCoords.Y = src.Top;
+                ptr->Position.X = rec_left * zoom;
+                ptr->Position.Y = rec_top * zoom;
+                ptr->TexCoords.X = src_left;
+                ptr->TexCoords.Y = src_top;
                 ptr->Color = color;
                 ptr++;
 
-                ptr->Position.X = rec.Left + rec.Width;
-                ptr->Position.Y = rec.Top;
-                ptr->TexCoords.X = src.Left + src.Width;
-                ptr->TexCoords.Y = src.Top;
+                ptr->Position.X = (rec_left + rec_width) * zoom;
+                ptr->Position.Y = (rec_top) * zoom;
+                ptr->TexCoords.X = (src_left + src_width);
+                ptr->TexCoords.Y = (src_top);
                 ptr->Color = color;
                 ptr++;
 
-                ptr->Position.X = rec.Left + rec.Width;
-                ptr->Position.Y = rec.Top + rec.Height;
-                ptr->TexCoords.X = src.Left + src.Width;
-                ptr->TexCoords.Y = src.Top + src.Height;
+                ptr->Position.X = (rec_left + rec_width) * zoom;
+                ptr->Position.Y = (rec_top + rec_height) * zoom;
+                ptr->TexCoords.X = (src_left + src_width);
+                ptr->TexCoords.Y = (src_top + src_height);
                 ptr->Color = color;
                 ptr++;
 
-                ptr->Position.X = rec.Left;
-                ptr->Position.Y = rec.Top + rec.Height;
-                ptr->TexCoords.X = src.Left;
-                ptr->TexCoords.Y = src.Top + src.Height;
+                ptr->Position.X = (rec_left) * zoom;
+                ptr->Position.Y = (rec_top + rec_height) * zoom;
+                ptr->TexCoords.X = (src_left);
+                ptr->TexCoords.Y = (src_top + src_height);
                 ptr->Color = color;
             }
         }
