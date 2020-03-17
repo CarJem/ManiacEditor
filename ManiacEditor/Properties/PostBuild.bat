@@ -7,7 +7,7 @@ set ProjectDir=%~4
 rmdir "%TargetDir%Lib\ " /s /q
 
 :: Move all assemblies and related files to lib folder
-ROBOCOPY "%TargetDir% " "%TargetDir%Lib\ " /XF *.exe *.config *.manifest /XD Lib Settings Resources /E /IS /MOVE
+ROBOCOPY "%TargetDir% " "%TargetDir%Lib\ " /XF *.exe *.config *.manifest /XD Lib Settings Resources "Entity Renders" /E /IS /MOVE
 if %errorlevel% leq 4 exit 0 else exit %errorlevel%
 
 :: Common Paths for Extra Post Builds

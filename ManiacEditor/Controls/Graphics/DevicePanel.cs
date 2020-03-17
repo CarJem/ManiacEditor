@@ -366,21 +366,34 @@ namespace ManiacEditor
             SFML.System.Vector2f size = new SFML.System.Vector2f(width * zoom, height * zoom);
 
             Vector3 center = new Vector3(new float[] { 0, 0, 0 });
+
+            var textureRect = new IntRect(rect_x, rect_y, width, height);
+
+
+            
             if (fliph || flipv)
             {
-                if (fliph) position.X = -position.X;
-                if (flipv) position.Y = -position.Y;
-
-                if (fliph) center.X = -boundBox.Width;
-                if (flipv) center.Y = -boundBox.Height;
+                if (fliph)
+                {
+                    var temp = textureRect.Left;
+                    textureRect.Left = temp + textureRect.Width;
+                    textureRect.Width = -textureRect.Width;
+                }
+                if (flipv)
+                {
+                    var temp = textureRect.Top;
+                    textureRect.Top = temp + textureRect.Height;
+                    textureRect.Height = -textureRect.Height;
+                }
             }
+            
 
 
             SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
             rect.Position = position;
             rect.Size = size;
             rect.Texture = image;
-            rect.TextureRect = new IntRect(rect_x, rect_y, width, height);
+            rect.TextureRect = textureRect;
             RenderWindow.Draw(rect);
         }
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
@@ -415,11 +428,12 @@ namespace ManiacEditor
             int real_y1 = (int)(y1 * zoom);
             int real_y2 = (int)(y2 * zoom);
 
+            var point1 = new SFML.System.Vector2f(real_x1, real_y1);
+            var point2 = new SFML.System.Vector2f(real_x2, real_y2);
+            var sfmlColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
+            float thickness = (int)(1);
 
-            SFML.Graphics.VertexArray line = new SFML.Graphics.VertexArray();
-            line.PrimitiveType = SFML.Graphics.PrimitiveType.Lines;
-            line.Append(new Vertex(new SFML.System.Vector2f(real_x1, real_y1), new SFML.Graphics.Color(color.R, color.G, color.B, color.A)));
-            line.Append(new Vertex(new SFML.System.Vector2f(real_x2, real_y2), new SFML.Graphics.Color(color.R, color.G, color.B, color.A)));
+            Classes.Rendering.SfLine line = new Classes.Rendering.SfLine(point1, point2, sfmlColor, thickness);
             RenderWindow.Draw(line);
             
         }

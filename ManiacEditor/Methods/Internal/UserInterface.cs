@@ -541,7 +541,7 @@ namespace ManiacEditor.Methods.Internal
                 // Entities should take care of themselves
                 Instance.DisposeTextures();
                 Methods.Entities.EntityDrawing.ReleaseResources();
-                //EditorEntity_ini.rendersWithErrors.Clear();
+                Methods.Entities.EntityDrawing.RefreshRenderLists();
 
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (Methods.Editor.SolutionState.UseEncoreColors == true)

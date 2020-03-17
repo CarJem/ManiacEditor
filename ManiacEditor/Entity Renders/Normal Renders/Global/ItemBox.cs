@@ -5,49 +5,39 @@ namespace ManiacEditor.Entity_Renders
     public class ItemBox : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-                var value = entity.attributesMap["type"];
-                int direction = (int)entity.attributesMap["direction"].ValueUInt8;
-                bool fliph = false;
-                bool flipv = false;
-                switch (direction)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        flipv = true;
-                        break;
-                    default:
-                        break;
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            SceneEntity entity = e.Entity;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
 
-                }
-                var editorAnimBox = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 0, 0, fliph, flipv, false);
-                var editorAnimEffect = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ItemBox", d.DevicePanel, 2, (int)value.ValueEnum, fliph, flipv, false);
-                if (editorAnimBox != null && editorAnimEffect != null && editorAnimEffect.Frames.Count != 0)
-                {
-                    var frameBox = editorAnimBox.Frames[0];
-                    var frameEffect = editorAnimEffect.Frames[0];
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBox), x + frameBox.Frame.PivotX, y + frameBox.Frame.PivotY,
-                        frameBox.Frame.Width, frameBox.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameEffect), x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3),
-                        frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
-                }
+            var value = entity.attributesMap["type"];
+            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            bool fliph = false;
+            bool flipv = false;
+            switch (direction)
+            {
+                case 0:
+                    break;
+                case 1:
+                    flipv = true;
+                    break;
+                default:
+                    break;
+
+            }
+
+            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "ItemBox");
+            DrawTexturePivotPlus(d, Animation, 0, 0, x, y, 0, 0, Transparency, fliph, flipv);
+            DrawTexturePivotPlus(d, Animation, 2, value.ValueEnum, x, y, 0, -(flipv ? (-3) : 3), Transparency, fliph, flipv);
         }
 
-        public void IceDraw(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int forceType = 0)
-        {
+        //public void IceDraw(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency, int forceType = 0)
+        //{
+            /*
             var value = (forceType == -1 ? 0 : forceType);
             bool fliph = false;
             bool flipv = false;
@@ -65,8 +55,8 @@ namespace ManiacEditor.Entity_Renders
             {
                 var frameEffect = editorAnimEffect.Frames[0];
                 d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameEffect), x + frameEffect.Frame.PivotX, y + frameEffect.Frame.PivotY - (flipv ? (-3) : 3), frameEffect.Frame.Width, frameEffect.Frame.Height, false, Transparency);
-            }
-        }
+            }*/
+       //}
 
         public override string GetObjectName()
         {

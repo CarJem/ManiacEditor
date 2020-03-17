@@ -5,19 +5,16 @@ namespace ManiacEditor.Entity_Renders
     public class Decoration : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            SceneEntity entity = e.Entity;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool flipv = false;
             bool fliph = false;
             var type = entity.attributesMap["type"].ValueUInt8;
@@ -46,29 +43,19 @@ namespace ManiacEditor.Entity_Renders
                     fliph = true;
                     break;
             }
-            
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
-            if (type == 2)
-            {
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Decoration", d.DevicePanel, type, -1, fliph, flipv, false);
-            }
 
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-            {
-                if (index >= editorAnim.Frames.Count)
-                    index = 0;
-                var frame = editorAnim.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                for (int yy = 0; yy <= repeatY; yy++)
+
+            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "Decoration", type, 0);
+
+            for (int yy = 0; yy <= repeatY; yy++)
+            {
+                for (int xx = 0; xx <= repeatX; xx++)
                 {
-                    for (int xx = 0; xx <= repeatX; xx++)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), (x + frame.Frame.RelCenterX(fliph) + offsetX * xx) - (offsetX * repeatX / 2), (y + frame.Frame.RelCenterY(flipv) + offsetY * yy) - (offsetY * repeatY / 2),
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
+                    int current_x = (x + Animation.RequestedFrame.RelCenterX(fliph) + offsetX * xx) - (offsetX * repeatX / 2);
+                    int current_y = (y + Animation.RequestedFrame.RelCenterY(flipv) + offsetY * yy) - (offsetY * repeatY / 2);
+                    DrawTexture(d, Animation, type, 0, current_x, current_y, Transparency, fliph, flipv);
                 }
-
             }
         }
 

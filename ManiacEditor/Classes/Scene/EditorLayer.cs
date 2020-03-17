@@ -1267,8 +1267,6 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-
-
         #region Disposing/Invalidating (SFML.Graphics)
 
         public void Dispose()

@@ -239,6 +239,7 @@
     <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Classes\Rendering\LayerTileProvider.cs" />
+    <Compile Include="Classes\Rendering\SFLine.cs" />
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
@@ -249,9 +250,45 @@
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyEntryValue.xaml.cs">
       <DependentUpon>PropertyEntryValue.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entity Renders\Linked Entity Renders\LinkedRenderer.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\Ring.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\Spring.cs" />
+    <Compile Include="Entity Renders\LinkedRenderer.cs" />
+    <Compile Include="Entity Renders\Normal Renders\GHZ\Newtron.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Animals.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\BGSwitch.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\BlankObject.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\BoundsMarker.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\BreakableWall.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\Bridge.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\CollapsingPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Current.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Decoration.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\InvisibleBlock.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\ItemBox.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\Music.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\PlaneSwitch.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\Platform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Global\Player.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\Ring.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\Spikes.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\Spring.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Global\TimeAttackGate.cs" />
     <Compile Include="Enums\Skin.cs" />
     <Compile Include="EventHandlers\TileConfigException.cs" />
     <Compile Include="Methods\Editor\EditorConstants.cs" />
@@ -279,6 +316,7 @@
       <DependentUpon>RenderedTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\SplitContainer.cs" />
+    <Compile Include="Methods\Entities\ScriptLoader.cs" />
     <Compile Include="Methods\Entities\SplineSpawning.cs" />
     <Compile Include="Classes\Options\DevelopmentStates.cs" />
     <Compile Include="Classes\Options\DefaultPrefrences.cs" />
@@ -300,7 +338,7 @@
     <Compile Include="Classes\General\VersionCheck.cs" />
     <Compile Include="Converters\RemoveTabConverter.cs" />
     <Compile Include="Converters\TilePixelConverter.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\EntityRenderer.cs" />
+    <Compile Include="Entity Renders\EntityRenderer.cs" />
     <Compile Include="Actions\ActionOptimizeSlotIDs.cs" />
     <Compile Include="Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Actions\ActionSwapSlotIDs.cs" />
@@ -1476,7 +1514,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entity Renders\Linked Entity Renders\" />
+    <Folder Include="Entity Renders\Normal Renders\Tubes\" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker">
       <Version>1.7.2</Version>

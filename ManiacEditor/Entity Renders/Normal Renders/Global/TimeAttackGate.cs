@@ -5,37 +5,26 @@ namespace ManiacEditor.Entity_Renders
     public class TimeAttackGate : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            SceneEntity entity = e.Entity;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool finish = entity.attributesMap["finishLine"].ValueBool;
-            var editorAnimBase = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimTop = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, 1, 0, false, false, false);
-            var editorAnimFins = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpeedGate", d.DevicePanel, finish ? 4 : 3, -1, false, false, false);
-            if (editorAnimBase != null && editorAnimTop != null && editorAnimFins != null && editorAnimFins.Frames.Count != 0 && editorAnimTop.Frames.Count != 0 && editorAnimTop.Frames.Count != 0)
+
+            var Animation1 = LoadAnimation("SpeedGate", d, 0, 0);
+            DrawTexturePivotNormal(Properties.Graphics, Animation1, Animation1.RequestedAnimID, Animation1.RequestedFrameID, x, y, Transparency);
+            var Animation2 = LoadAnimation("SpeedGate", d, 1, 0);
+            DrawTexturePivotNormal(Properties.Graphics, Animation2, Animation2.RequestedAnimID, Animation2.RequestedFrameID, x, y, Transparency);
+
+            var Animation3 = LoadAnimation("SpeedGate", d, (finish ? 4 : 3), 0);
+            for (int FrameID = 0; FrameID < Animation3.RequestedAnimation.Frames.Count; FrameID++)
             {
-                var frameBase = editorAnimBase.Frames[0];
-                var frameTop = editorAnimTop.Frames[0];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBase), x + frameBase.Frame.PivotX, y + frameBase.Frame.PivotY,
-                    frameBase.Frame.Width, frameBase.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameTop), x + frameTop.Frame.PivotX, y + frameTop.Frame.PivotY,
-                    frameTop.Frame.Width, frameTop.Frame.Height, false, Transparency);
-                for (int i = 0; i < editorAnimFins.Frames.Count; ++i)
-                {
-                    var frame = editorAnimFins.Frames[i];
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
+                DrawTexturePivotNormal(Properties.Graphics, Animation3, Animation3.RequestedAnimID, FrameID, x, y, Transparency);
             }
         }
 

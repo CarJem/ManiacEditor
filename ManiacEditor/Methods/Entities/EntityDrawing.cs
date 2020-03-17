@@ -13,6 +13,8 @@ using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using ImageMagick;
 using SFML.Graphics;
+using System.CodeDom;
+
 
 namespace ManiacEditor.Methods.Entities
 {
@@ -41,21 +43,24 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Loading/Calling
-        public static EditorAnimation LoadAnimation(DevicePanel d, string name)
+        public static EditorAnimation LoadAnimation(DevicePanel d, string name, int AnimID = 0, int FrameID = 0)
         {
             if (AnimationCache.ContainsKey(name))
             {
                 if (AnimationCache[name].Spritesheets != null)
                 {
-                    return AnimationCache[name];
+                    var animation = AnimationCache[name];
+                    animation.RequestedAnimID = AnimID;
+                    animation.RequestedFrameID = FrameID;
+                    return animation;
                 }
-                else return null;
+                else return new EditorAnimation(true);
 
             }
             else
             {
                 LoadNextAnimation(d, name);
-                return null;
+                return new EditorAnimation(true);
             }
         }
         public static void LoadNextAnimation(DevicePanel d, string name)
@@ -72,7 +77,7 @@ namespace ManiacEditor.Methods.Entities
                     Animation RSDKAnim;
                     using (var stream = File.OpenRead(AssetInfo.Item1)) { RSDKAnim = new Animation(new RSDKv5.Reader(stream)); }
                     Animation.Animation = RSDKAnim;
-                    Animation.Spritesheets = GetAnimationSpriteSheetTextures(d, RSDKAnim, Animation.SourcePath, Animation.SourceDirectory, false);
+                    Animation.Spritesheets = GetAnimationSpriteSheetTextures(d, name, RSDKAnim, Animation.SourcePath, Animation.SourceDirectory, false);
                 }
                 else
                 {
@@ -85,7 +90,7 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Texture Collection
-        public static Dictionary<string, Texture> GetAnimationSpriteSheetTextures(DevicePanel d, Animation Animation, string SourcePath, string SourceDirectory, bool NoEncoreColors)
+        public static Dictionary<string, Texture> GetAnimationSpriteSheetTextures(DevicePanel d, string Name, Animation Animation, string SourcePath, string SourceDirectory, bool NoEncoreColors)
         {
             Dictionary<string, Texture> SpriteSheetTextures = new Dictionary<string, Texture>();
 
@@ -94,7 +99,7 @@ namespace ManiacEditor.Methods.Entities
                 Bitmap SpriteSheetBMP;
                 string TargetFile;
 
-                if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(SourcePath)) TargetFile = GetEditorStaticBitmapPath(SourcePath);
+                if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(Name)) TargetFile = GetEditorStaticBitmapPath(Name);
                 else TargetFile = Path.Combine(SourceDirectory, "Sprites", spriteSheetName.Replace('/', '\\'));
 
 
@@ -233,6 +238,7 @@ namespace ManiacEditor.Methods.Entities
             if (name == "EditorAssets" || name == "HUDEditorText" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
             {
                 path = GetEditorStaticAssetPath(name);
+                dataDirectory = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects");
                 if (!File.Exists(path)) return null;
             }
             else
@@ -385,7 +391,6 @@ namespace ManiacEditor.Methods.Entities
         #region Disposal
         public static void ReleaseResources()
         {
-
             foreach (var pair in AnimationCache)
             {
                 if (pair.Value.Spritesheets != null)
@@ -400,7 +405,6 @@ namespace ManiacEditor.Methods.Entities
             }
 
             AnimationCache.Clear();
-
         }
 
         #endregion
@@ -525,13 +529,8 @@ namespace ManiacEditor.Methods.Entities
             int FrameID = 0;
             int AnimID = 0;
 
-            var animation = LoadAnimation(d, Name);
-            if (animation != null && animation.Animation != null && animation.Animation.Animations.Count() > AnimID && animation.Animation.Animations[AnimID].Frames.Count() > FrameID)
-            {
-                var frame = animation.Animation.Animations[AnimID].Frames[FrameID];
-                int spritesheet_index = (int)frame.SpriteSheet;
-                d.DrawTexture(animation.Spritesheets.ElementAt(spritesheet_index).Value, X + frame.PivotX, Y + frame.PivotX, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
-            }
+            var animation = LoadAnimation(d, Name, AnimID, FrameID);
+            Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, animation, animation.RequestedAnimID, animation.RequestedFrameID, X, Y, Transparency);
 
         }
         public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
@@ -605,14 +604,92 @@ namespace ManiacEditor.Methods.Entities
         }
         #endregion
 
+        public static void RefreshRenderLists()
+        {
+            Methods.Entities.EntityDrawing.EntityRenderers.Clear();
+            Methods.Entities.EntityDrawing.LinkedEntityRenderers.Clear();
+
+            if (Methods.Entities.EntityDrawing.EntityRenderers.Count == 0)
+            {
+                
+                var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
+                foreach (var type in types)
+                    Methods.Entities.EntityDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
+
+                /*
+                var list = Directory.EnumerateFiles(Methods.ProgramPaths.EntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
+                if (list.Count != 0)
+                {
+                    var render = ScriptLoader.LoadRenderers(list);
+                    Methods.Entities.EntityDrawing.EntityRenderers.AddRange(render);
+                }
+                */
+            }
+
+            if (Methods.Entities.EntityDrawing.LinkedEntityRenderers.Count == 0)
+            {
+                
+                var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
+                foreach (var type in types)
+                    Methods.Entities.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
+
+                /*
+
+                var list = Directory.EnumerateFiles(Methods.ProgramPaths.LinkedEntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
+                if (list.Count != 0)
+                {
+                    var render = ScriptLoader.LoadLinkedRenderers(list);
+                    Methods.Entities.EntityDrawing.LinkedEntityRenderers.AddRange(render);
+                }
+                */
+            }
+        }
+
         [Serializable]
         public class EditorAnimation
         {
+            public EditorAnimation()
+            {
+
+            }
+            public EditorAnimation(bool _isNull)
+            {
+                if (_isNull) isNull = _isNull;
+            }
+
+            public bool isNull { get; set; } = false;
             public string Name { get; set; }
             public string SourcePath { get; set; }
             public string SourceDirectory { get; set; }
             public Dictionary<string, Texture> Spritesheets { get; set; }
             public Animation Animation { get; set; }
+            public int RequestedAnimID { get; set; }
+            public int RequestedFrameID { get; set; }
+            public Animation.AnimationEntry RequestedAnimation
+            {
+                get
+                {
+                    if (Animation != null && Animation.Animations.Count - 1 >= RequestedAnimID)
+                    {
+                        return Animation.Animations[RequestedAnimID];
+                    }
+                    return new Animation.AnimationEntry();
+                }
+            }
+            public Animation.AnimationEntry.Frame RequestedFrame
+            {
+                get
+                {
+                    if (Animation != null && Animation.Animations.Count - 1 >= RequestedAnimID)
+                    {
+                        if (Animation.Animations[RequestedAnimID].Frames.Count - 1 >= RequestedFrameID)
+                        {
+                            return Animation.Animations[RequestedAnimID].Frames[RequestedFrameID];
+                        }
+                    }
+                    return new Animation.AnimationEntry.Frame();
+                }
+            }
         }
 
 

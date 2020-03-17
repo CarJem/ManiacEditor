@@ -9,6 +9,25 @@ namespace ManiacEditor.Methods
     public static class ProgramPaths
     {
         #region Setting Paths
+        public static string EntityRendersDirectory
+        {
+            get
+            {
+                string path = System.IO.Path.Combine(GetExecutingDirectoryName(), "Entity Renders", "Normal Renders");
+                if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+                return path;
+            }
+        }
+
+        public static string LinkedEntityRendersDirectory
+        {
+            get
+            {
+                string path = System.IO.Path.Combine(GetExecutingDirectoryName(), "Entity Renders", "Linked Entity Renders");
+                if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+                return path;
+            }
+        }
         public static string GetSettingsDirectory()
         {
             return (Properties.Settings.MyInternalSettings.PortableMode ? SettingsPortableDirectory : SettingsStaticDirectory);

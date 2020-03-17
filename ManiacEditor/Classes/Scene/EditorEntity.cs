@@ -138,22 +138,6 @@ namespace ManiacEditor.Classes.Scene
         {
             this._entity = entity;
             LastFrametime = DateTime.Now;
-
-            if (Methods.Entities.EntityDrawing.EntityRenderers.Count == 0)
-            {
-                var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
-                foreach (var type in types)
-                    Methods.Entities.EntityDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
-            }
-
-            if (Methods.Entities.EntityDrawing.LinkedEntityRenderers.Count == 0)
-            {
-                var types = GetType().Assembly.GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
-                foreach (var type in types)
-                    Methods.Entities.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
-            }
-
-
         }
         public EditorEntity(SceneEntity entity, bool IsInternal)
         {

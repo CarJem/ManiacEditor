@@ -6,25 +6,21 @@ namespace ManiacEditor.Entity_Renders
     public class CollapsingPlatform : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            SceneEntity entity = e.Entity;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High);
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, false, false);
+            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "EditorAssets", 0, 1);
 
             if (width != 0 && height != 0)
             {
@@ -45,21 +41,15 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                            (x + widthPixels / (right ? 2 : -2)) - (right ? frame.Frame.Width : 0),
-                            (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    int realX = (x + widthPixels / (right ? 2 : -2)) - (right ? Animation.RequestedFrame.Width : 0);
+                    int realY = (y + heightPixels / (bottom ? 2 : -2) - (bottom ? Animation.RequestedFrame.Height : 0));
+                    DrawTexture(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, realX, realY, Transparency, right, bottom);
 
-                    }
+
                 }
             }
         }
-        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High);

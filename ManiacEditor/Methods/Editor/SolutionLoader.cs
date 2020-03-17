@@ -613,6 +613,7 @@ namespace ManiacEditor.Methods.Editor
                 return;
             }*/
 
+            Methods.Entities.EntityDrawing.RefreshRenderLists();
             SetupObjectsList();
             SetupDiscordRP(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.FilePath);
             Stamps StageStamps = ManiacEditor.Methods.Editor.SolutionPaths.GetEditorStamps(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone);

@@ -28,14 +28,10 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
 
             var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "Springs");
-            if (Animation != null && Animation.Animation != null)
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(animID, 0)))
             {
-                if (Animation.Animation.Animations.Count != 0 && Animation.Animation.Animations.Count >= 1 && Animation.Animation.Animations[0].Frames != null && Animation.Animation.Animations[0].Frames.Count >= 1)
-                {
-                    var frame = Animation.Animation.Animations[animID].Frames[0];
-
-                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x + frame.PivotX, y + frame.PivotY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, fliph, flipv);
-                }
+                var frame = Animation.Animation.Animations[animID].Frames[0];
+                d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x + frame.PivotX, y + frame.PivotY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, fliph, flipv);
             }
         }
         public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)

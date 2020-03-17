@@ -1,30 +1,27 @@
 ﻿using RSDKv5;
 using SystemColors = System.Drawing.Color;
+using System.Linq;
 
 namespace ManiacEditor.Entity_Renders
 {
     public class BreakableWall : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            SceneEntity entity = e.Entity;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             var type = entity.attributesMap["type"].ValueUInt8;
             var width = (int)(entity.attributesMap["size"].ValueVector2.X.High) - 1;
 			var height = (int)(entity.attributesMap["size"].ValueVector2.Y.High) - 1;
 
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, false, false);
+            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "EditorAssets");
 
             if (width != -1 && height != -1)
             {
@@ -42,21 +39,21 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawLine(x2, y2, x1, y2, SystemColors.White);
                 d.DrawLine(x2, y2, x2, y1, SystemColors.White);
 
+                
                 // draw corners
                 for (int i = 0; i < 4; i++)
                 {
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
+                    Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "EditorAssets");
+                    if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(0, 1)))
                     {
-                        var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                            (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Frame.Width),
-                            (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Frame.Height),
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                        var frame = Animation.Animation.Animations[0].Frames[1];
+                        d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value,
+                            (x + (wEven ? frame.PivotX : -frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Width),
+                            (y + (hEven ? frame.PivotY : -frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Height),
+                            frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, right, bottom);
 
                     }
                 }
@@ -68,29 +65,27 @@ namespace ManiacEditor.Entity_Renders
             // draw Knuckles icon
             if (knux)
             {
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 2, false, false, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "HUD");
+                if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 2)))
                 {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x - frame.Frame.Width / (mighty ? 1 : 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    var frame = Animation.Animation.Animations[2].Frames[2];
+                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - frame.Width / (mighty ? 1 : 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
 
             // draw Mighty icon
             if (mighty)
             {
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 3, false, false, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "HUD");
+                if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 3)))
                 {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x - (knux ? 0 : frame.Frame.Width / 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    var frame = Animation.Animation.Animations[2].Frames[3];
+                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - (knux ? 0 : frame.Width / 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
         }
 
-        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High * 2 - 1) * 16;
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High * 2 - 1) * 16;

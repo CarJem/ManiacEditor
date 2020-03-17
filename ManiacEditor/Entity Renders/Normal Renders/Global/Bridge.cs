@@ -4,37 +4,27 @@ namespace ManiacEditor.Entity_Renders
 {
     public class Bridge : EntityRenderer
     {
-
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            SceneEntity entity = e.Entity;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             var value = entity.attributesMap["length"].ValueUInt8;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Bridge", d.DevicePanel, 0, 0, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            var Animation = LoadAnimation(d, "Bridge");
+            bool wEven = value % 2 == 0;
+            for (int xx = 0; xx <= value; ++xx)
             {
-                var frame = editorAnim.Frames[0];
-                bool wEven = value % 2 == 0;
-                for (int xx = 0; xx <= value; ++xx)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-value / 2 + xx) * frame.Frame.Width,
-                        y + frame.Frame.PivotY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
+                int rx = x + (wEven ? Animation.RequestedFrame.PivotX : -Animation.RequestedFrame.Width) + (-value / 2 + xx) * Animation.RequestedFrame.Width;
+                int ry = y + Animation.RequestedFrame.PivotY;
+                DrawTexture(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, rx, ry, Transparency);
             }
         }
 
-        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
             var length = entity.attributesMap["length"].ValueUInt8;
             int widthPixels = length * 16;
