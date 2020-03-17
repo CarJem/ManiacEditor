@@ -61,29 +61,49 @@ namespace ManiacEditor.Entity_Renders
             return false;
         }
 
-        public static void DrawTexturePivotPlus(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false)
+        public static void DrawTexturePivotPlus(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX + x2, y + Frame.PivotY + y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV);
+                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX + x2, y + Frame.PivotY + y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
-        public static void DrawTexturePivotNormal(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false)
+        public static void DrawTexturePivotNormal(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV);
+                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
-        public static void DrawTexture(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false)
+
+        public static void DrawHitbox(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, string HitboxName, System.Drawing.Color color, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV);
+
+                if (Animation.Animation.CollisionBoxes.Contains(HitboxName))
+                {
+                    int hitboxIndex = Animation.Animation.CollisionBoxes.IndexOf(HitboxName);
+                    int x1 = x + (int)Frame.HitBoxes[hitboxIndex].Left;
+                    int y1 = y + (int)Frame.HitBoxes[hitboxIndex].Bottom;
+                    int x2 = x + (int)Frame.HitBoxes[hitboxIndex].Right;
+                    int y2 = y + (int)Frame.HitBoxes[hitboxIndex].Top;
+
+                    Graphics.DrawRectangle(x1, y1, x2, y2, color);
+                }
+            }
+        }
+
+        public static void DrawTexture(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 

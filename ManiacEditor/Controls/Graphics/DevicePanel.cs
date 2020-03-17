@@ -351,9 +351,9 @@ namespace ManiacEditor
         {
             DrawTexture(image, x, y, 0, 0, width, height, selected, transparency);
         }
-        public void DrawTexture(SFML.Graphics.Texture image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0)
+        public void DrawTexture(SFML.Graphics.Texture image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0, Color? color = null)
         {
-            if (!IsObjectOnScreen(x, y, width, height)) return;
+            if (!IsObjectOnScreen(x, y, width, height) || image == null) return;
 
             Rectangle boundBox = new Rectangle(rect_x, rect_y, width, height);
 
@@ -393,10 +393,16 @@ namespace ManiacEditor
             rect.Position = position;
             rect.Size = size;
             rect.Texture = image;
+            if (color.HasValue) rect.FillColor = new SFML.Graphics.Color(color.Value.R, color.Value.G, color.Value.B, color.Value.A);
             rect.TextureRect = textureRect;
             RenderWindow.Draw(rect);
         }
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
+        {
+            DrawRectangle(x1, y1, x2, y2, color, System.Drawing.Color.Transparent, 0);
+
+        }
+        public void DrawRectangle(int x1, int y1, int x2, int y2, Color color, Color color2, int thickness)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
 
@@ -411,13 +417,38 @@ namespace ManiacEditor
             SFML.System.Vector2f size = new SFML.System.Vector2f(real_x2 - real_x1, real_y2 - real_y1);
 
             SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
+            rect.OutlineThickness = thickness;
+            rect.OutlineColor = new SFML.Graphics.Color(color2.R, color2.G, color2.B, color2.A);
             rect.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
             rect.Position = position;
             rect.Size = size;
             RenderWindow.Draw(rect);
 
         }
-        public void DrawLine(int x1, int y1, int x2, int y2, Color color = new Color(), bool useZoomOffseting = false)
+
+        public void DrawEllipse(int x1, int y1, int radiusX, int radiusY, Color color, float thickness = 1)
+        {
+            var zoom = GetZoom();
+
+            int real_x = (int)(x1 * zoom);
+            int real_y = (int)(y1 * zoom);
+            float real_radiusX = (int)(radiusX * zoom);
+            float real_radiusY = (int)(radiusY * zoom);
+
+            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x - real_radiusX, real_y - real_radiusY);
+            SFML.System.Vector2f radius = new SFML.System.Vector2f(real_radiusX, real_radiusY);
+
+            Classes.Rendering.EllipseShape rect = new Classes.Rendering.EllipseShape();
+            rect.OutlineThickness = thickness;
+            rect.OutlineColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
+            rect.FillColor = SFML.Graphics.Color.Transparent;
+            rect.Position = position;
+            rect.SetRadius(radius);
+            RenderWindow.Draw(rect);
+
+        }
+
+        public void DrawLine(int x1, int y1, int x2, int y2, Color color = new Color(), float thickness = 1)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
 
@@ -431,7 +462,6 @@ namespace ManiacEditor
             var point1 = new SFML.System.Vector2f(real_x1, real_y1);
             var point2 = new SFML.System.Vector2f(real_x2, real_y2);
             var sfmlColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
-            float thickness = (int)(1);
 
             Classes.Rendering.SfLine line = new Classes.Rendering.SfLine(point1, point2, sfmlColor, thickness);
             RenderWindow.Draw(line);

@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)(entity.attributesMap["width"].ValueUInt8);
             var height = (int)(entity.attributesMap["height"].ValueUInt8);
 
-            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "EditorAssets", 2, 10);
+            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "ItemBox", 2, 10);
 
             bool wEven = width % 2 == 0;
             bool hEven = height % 2 == 0;

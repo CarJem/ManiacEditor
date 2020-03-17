@@ -77,7 +77,7 @@ namespace ManiacEditor.Methods.Entities
                     Animation RSDKAnim;
                     using (var stream = File.OpenRead(AssetInfo.Item1)) { RSDKAnim = new Animation(new RSDKv5.Reader(stream)); }
                     Animation.Animation = RSDKAnim;
-                    Animation.Spritesheets = GetAnimationSpriteSheetTextures(d, name, RSDKAnim, Animation.SourcePath, Animation.SourceDirectory, false);
+                    Animation.Spritesheets = GetAnimationSpriteSheetTextures(d, name, RSDKAnim, Animation.SourcePath, Animation.SourceDirectory, true);
                 }
                 else
                 {
@@ -128,11 +128,14 @@ namespace ManiacEditor.Methods.Entities
                 {
                     SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), Methods.Draw.TextureHelper.FromBitmap(SpriteSheetBMP));
                 }
+                else
+                {
+                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), null);
+                }
             }
 
             return SpriteSheetTextures;
         }
-
         public static Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour)
         {
             source.MakeTransparent(colour);
@@ -410,6 +413,28 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Drawing
+
+        public static void DrawNormal(DevicePanel d, Classes.Scene.EditorEntity _entity, bool CanDrawSelectionBox = true)
+        {
+            if (!IsObjectOnScreen(d, _entity)) return;
+
+            LoadNextAnimation(d, _entity.Name);
+
+            int X = _entity.Entity.Position.X.High;
+            int Y = _entity.Entity.Position.Y.High;
+            string Name = _entity.Entity.Object.Name.Name;
+            int Transparency = GetTransparencyLevel();
+            System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
+            System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
+
+            if (!ManiacEditor.Properties.Settings.MyPerformance.NeverLoadEntityTextures)
+            {
+                if (CanDraw(Name)) DrawDedicatedRender(d, _entity);
+                else FallbackDraw(d, _entity.Name, X, Y, Transparency);
+            }
+
+            if (CanDrawSelectionBox) DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity);
+        }
         public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.EditorEntity e)
         {
             int x = e.Entity.Position.X.High;
@@ -421,9 +446,114 @@ namespace ManiacEditor.Methods.Entities
             if (!RendersWithErrors.Contains(e.Entity.Object.Name.Name))
             {
                 var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Entity.Object.Name.Name).FirstOrDefault();
-                if (RenderDrawing != null)
-                    RenderDrawing.Draw(properties);
+                if (e.CurrentRender == null) e.CurrentRender = RenderDrawing;
+                if (e.CurrentRender != null) e.CurrentRender.Draw(properties);
             }
+
+
+        }
+        public static void FallbackDraw(DevicePanel d, string Name, int x, int y, int Transparency)
+        {
+            int FrameID = 0;
+            int AnimID = 0;
+
+            var animation = LoadAnimation(d, Name, AnimID, FrameID);
+            Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, animation, animation.RequestedAnimID, animation.RequestedFrameID, x, y, Transparency);
+
+        }
+        public static void DrawLinked(DevicePanel d, Classes.Scene.EditorEntity _entity)
+        {
+            try
+            {
+                var structure = new Structures.LinkedEntityRenderProp(d, _entity.Entity, _entity);
+                LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name.ToString()).FirstOrDefault();
+                if (renderer != null) renderer.Draw(structure);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Unable to load the linked render for " + _entity.Entity.Object.Name.Name + "! " + ex.ToString());
+                LinkedRendersWithErrors.Add(_entity.Entity.Object.Name.Name);
+
+            }
+        }
+        public static void DrawInternal(DevicePanel d, Classes.Scene.EditorEntity _entity)
+        {
+            int Transparency = GetTransparencyLevel();
+
+            int x = _entity.Entity.Position.X.High;
+            int y = _entity.Entity.Position.Y.High;
+            DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red, _entity);
+        }
+        public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
+        {
+            if (Methods.Editor.SolutionState.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
+            {
+                if (e.RenderNotFound)
+                {
+                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BackgroundBoxColor));
+                }
+                else
+                {
+                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(BorderBoxColor, e));
+                }
+                d.DrawLine(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                if (ManiacEditor.Properties.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
+                {
+                    if (Methods.Editor.SolutionState.Zoom >= 1)
+                    {
+                        d.DrawTextSmall(string.Format("{0} (ID: {1})", e.Entity.Object.Name, e.SlotID), x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    }
+                }
+
+                if (e.SelectedIndex != -1)
+                {
+                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 1, y + 1, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
+                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x, y, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Drawing Helpers
+        public static System.Drawing.Color GetSelectedColor(System.Drawing.Color color, Classes.Scene.EditorEntity e)
+        {
+            if (e.InTempSelection)
+            {
+                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+            }
+            else
+            {
+                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+            }
+        }
+        public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
+        {
+            int x = _entity.Entity.Position.X.High;
+            int y = _entity.Entity.Position.Y.High;
+            int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
+
+            bool isObjectVisibile = false;
+
+
+            if (!_entity.FilteredOut)
+            {
+                var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name).FirstOrDefault();
+                if (RenderDrawing != null)
+                {
+                    isObjectVisibile = RenderDrawing.isObjectOnScreen(d, _entity.Entity, null, x, y, 0);
+                }
+                else
+                {
+                    isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
+                }
+            }
+
+            isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
+            return isObjectVisibile;
 
 
         }
@@ -480,132 +610,20 @@ namespace ManiacEditor.Methods.Entities
         {
             return Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name) && Methods.Editor.SolutionState.ShowEntityPathArrows;
         }
-        public static void DrawLinked(DevicePanel d, Classes.Scene.EditorEntity _entity)
-        {
-            try
-            {
-                var structure = new Structures.LinkedEntityRenderProp(d, _entity.Entity, _entity);
-                LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name.ToString()).FirstOrDefault();
-                if (renderer != null) renderer.Draw(structure);
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show("Unable to load the linked render for " + _entity.Entity.Object.Name.Name + "! " + ex.ToString());
-                LinkedRendersWithErrors.Add(_entity.Entity.Object.Name.Name);
-
-            }
-        }
-        public static void DrawInternal(DevicePanel d, Classes.Scene.EditorEntity _entity)
-        {
-            int Transparency = GetTransparencyLevel();
-
-            int x = _entity.Entity.Position.X.High;
-            int y = _entity.Entity.Position.Y.High;
-            DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red, _entity);
-        }
-        public static void DrawNormal(DevicePanel d, Classes.Scene.EditorEntity _entity, bool CanDrawSelectionBox = true)
-        {
-            if (!IsObjectOnScreen(d, _entity)) return;
-
-            LoadNextAnimation(d, _entity.Name);
-
-            int X = _entity.Entity.Position.X.High;
-            int Y = _entity.Entity.Position.Y.High;
-            string Name = _entity.Entity.Object.Name.Name;
-            int Transparency = GetTransparencyLevel();
-            System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
-            System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
-
-            if (!ManiacEditor.Properties.Settings.MyPerformance.NeverLoadEntityTextures)
-            {
-                if (CanDraw(Name)) DrawDedicatedRender(d, _entity);
-                else FallbackDraw(d, _entity.Name, X, Y, Transparency);
-            }
-
-            if (CanDrawSelectionBox) DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity);
-        }
-        public static void FallbackDraw(DevicePanel d, string Name, int X, int Y, int Transparency)
-        {
-            int FrameID = 0;
-            int AnimID = 0;
-
-            var animation = LoadAnimation(d, Name, AnimID, FrameID);
-            Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, animation, animation.RequestedAnimID, animation.RequestedFrameID, X, Y, Transparency);
-
-        }
-        public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
-        {
-            if (Methods.Editor.SolutionState.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
-            {
-                if (e.RenderNotFound)
-                {
-                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BackgroundBoxColor));
-                }
-                else
-                {
-                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(BorderBoxColor, e));
-                }
-                d.DrawLine(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                if (ManiacEditor.Properties.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
-                {
-                    if (Methods.Editor.SolutionState.Zoom >= 1)
-                    {
-                        d.DrawTextSmall(string.Format("{0} (ID: {1})", e.Entity.Object.Name, e.SlotID), x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
-                    }
-                }
-
-                if (e.SelectedIndex != -1)
-                {
-                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 1, y + 1, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
-                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x, y, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
-                }
-            }
-        }
-        public static System.Drawing.Color GetSelectedColor(System.Drawing.Color color, Classes.Scene.EditorEntity e)
-        {
-            if (e.InTempSelection)
-            {
-                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
-            }
-            else
-            {
-                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
-            }
-        }
-        public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
-        {
-            int x = _entity.Entity.Position.X.High;
-            int y = _entity.Entity.Position.Y.High;
-            int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
-
-            bool isObjectVisibile = false;
-
-
-            if (!_entity.FilteredOut)
-            {
-                var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name).FirstOrDefault();
-                if (RenderDrawing != null)
-                {
-                    isObjectVisibile = RenderDrawing.isObjectOnScreen(d, _entity.Entity, null, x, y, 0);
-                }
-                else
-                {
-                    isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
-                }
-            }
-
-            isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
-            return isObjectVisibile;
-
-
-        }
         #endregion
 
+        #region Object Render Templates
         public static void RefreshRenderLists()
         {
+
+            if (Methods.Editor.Solution.Entities != null)
+            {
+                foreach (var entry in Methods.Editor.Solution.Entities.Entities)
+                {
+                    entry.CurrentRender = null;
+                }
+            }
+
             Methods.Entities.EntityDrawing.EntityRenderers.Clear();
             Methods.Entities.EntityDrawing.LinkedEntityRenderers.Clear();
 
@@ -644,7 +662,9 @@ namespace ManiacEditor.Methods.Entities
                 */
             }
         }
+        #endregion
 
+        #region Classes
         [Serializable]
         public class EditorAnimation
         {
@@ -693,7 +713,7 @@ namespace ManiacEditor.Methods.Entities
         }
 
 
-
+        #endregion
 
     }
 }

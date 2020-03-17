@@ -239,6 +239,7 @@
     <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Classes\Rendering\LayerTileProvider.cs" />
+    <Compile Include="Classes\Rendering\EllipseShape.cs" />
     <Compile Include="Classes\Rendering\SFLine.cs" />
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>

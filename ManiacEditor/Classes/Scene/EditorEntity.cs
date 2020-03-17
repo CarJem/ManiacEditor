@@ -10,8 +10,14 @@ namespace ManiacEditor.Classes.Scene
 {
     [Serializable]
     public class EditorEntity : IDrawable
-	{
+    {
         #region Definitions
+
+        #region Render Data
+
+        public EntityRenderer CurrentRender { get; set; }
+
+        #endregion
 
         #region Selection Data
         private bool IsSelected { get; set; } = false;

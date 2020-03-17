@@ -1,67 +1,153 @@
-﻿using System;
-using System.Linq;
-using RSDKv5;
+﻿using RSDKv5;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace ManiacEditor.Entity_Renders
 {
     public class Platform : EntityRenderer
     {
+        #region Definition
+        private int LastFrameIDAttribute { get; set; } = 0;
+        private int RealAnimID { get; set; } = -1;
+        private int RealFrameID { get; set; } = -1;
+        #endregion
 
-        //EditorAnimations platformMove = new EditorAnimations();
-        public static int PlatformWidth = 0;
-        public static int PlatformHight = 0;
-        public static int PlatformOffsetX = 0;
-        public static int PlatformOffsetY = 0;
-
-
-
-        public override void Draw(Structures.EntityRenderProp Properties)
+        #region Variants
+        private void DrawNormalTensionPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
         {
-            DevicePanel d = Properties.Graphics;
-            Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
-            int x = Properties.DrawX;
-            int y = Properties.DrawY;
-            int Transparency = Properties.Transparency;
-
-            int angle = (int)entity.attributesMap["angle"].ValueInt32;
-            int angleRotate = (int)entity.attributesMap["angle"].ValueInt32;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
-            int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
-            int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
-            int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
-            bool hasTension = entity.attributesMap["hasTension"].ValueBool;
-            int speed = Methods.Entities.AttributeHandler.AttributesMapVar("speed", entity);
-            int angleStateX = 0;
-            int angleStateY = 0;
-
-            int FrameIDAttribute = 0;
-
-            int AnimID = 0;
-            int FrameID = 0;
-
-            switch (entity.attributesMap["frameID"].Type)
+            if ((amplitudeX != 0 || amplitudeY != 0))
             {
-                case AttributeTypes.UINT8:
-                    FrameIDAttribute = entity.attributesMap["frameID"].ValueUInt8;
-                    break;
-                case AttributeTypes.INT8:
-                    FrameIDAttribute = entity.attributesMap["frameID"].ValueInt8;
-                    break;
-                case AttributeTypes.ENUM:
-                    FrameIDAttribute = (int)entity.attributesMap["frameID"].ValueEnum;
-                    break;
+                double xd = x;
+                double yd = y;
+                double x2 = x + amplitudeX - amplitudeX / 3.7;
+                double y2 = y + amplitudeY - amplitudeY / 3.7;
+                double radius = Math.Pow(x2 - xd, 2) + Math.Pow(y2 - yd, 2);
+                int radiusInt = (int)Math.Sqrt(radius);
+                int newX = (int)(radiusInt * Math.Cos(Math.PI * angle / 128));
+                int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
+                int tensionCount = radiusInt / 16;
+
+                d.DrawLine(x, y, x + newX, y - newY, System.Drawing.Color.Yellow, 2);
+                d.DrawEllipse(x, y, amplitudeX, amplitudeY, System.Drawing.Color.White, 2);
+
+                if (hasTension)
+                {
+                    for (int i = 0; i < tensionCount; i++)
+                    {
+                        int[] linePoints = RotatePoints(x + (16) * i, y, x, y, angle);
+                        int currentX = linePoints[0];
+                        int currentY = linePoints[1];
+                        if (i == 0)
+                        {
+                            //Tension Center
+                            var AnimationCenter = LoadAnimation("Platform", d, 1, 2);
+                            DrawTexturePivotNormal(d, AnimationCenter, AnimationCenter.RequestedAnimID, AnimationCenter.RequestedFrameID, currentX, currentY, Transparency);
+                        }
+                        else
+                        {
+                            //Tension Bar Segment
+                            var AnimationRow = LoadAnimation("Platform", d, 1, 1);
+                            DrawTexturePivotNormal(d, AnimationRow, AnimationRow.RequestedAnimID, AnimationRow.RequestedFrameID, currentX, currentY, Transparency);
+                        }
+                    }
+                }
+
+                var Animation = LoadAnimation("Platform", d, 0, 0);
+                if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
+                DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x + newX, y - newY, Transparency);
+                DrawHitbox(d, Animation, "Platform", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x + newX, y - newY, Transparency, false, false, 0);
             }
-
-            DrawStandardPlatform(d, x, y, Transparency, FrameIDAttribute);
         }
+        private void DrawTensionBallPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        {
+            if ((amplitudeX != 0 || amplitudeY != 0))
+            {
+                int tensionCount = amplitudeY;
+                int i = 0;
+                int[] linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
+                for (i = 0; i <= tensionCount; i++)
+                {
+                    linePoints = RotatePoints(x, y + (16) * i, x, y, angle);
+                    int currentX = linePoints[0];
+                    int currentY = linePoints[1];
+                    if (i == 0)
+                    {
+                        //Tension Center
+                        var AnimationCenter = LoadAnimation("Platform", d, 1, 2);
+                        DrawTexturePivotNormal(d, AnimationCenter, AnimationCenter.RequestedAnimID, AnimationCenter.RequestedFrameID, currentX, currentY, Transparency);
+                    }
+                    else if (i == tensionCount)
+                    {
+                        //Tension Bar Segment
+                        var AnimationRow = LoadAnimation("Platform", d, 1, 1);
+                        DrawTexturePivotNormal(d, AnimationRow, AnimationRow.RequestedAnimID, AnimationRow.RequestedFrameID, currentX, currentY, Transparency);
+                    }
+                    else
+                    {
+                        //Tension Ball
+                        var Animation = LoadAnimation("Platform", d, 1, 0);
+                        DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, currentX, currentY, Transparency);
+                    }
+                }
+            }
+        }
+        private void DrawStandardMovingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        {
+            var Animation = LoadAnimation("Platform", d, 0, 0);
+            if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
+            d.DrawLine(x - amplitudeX, y - amplitudeY, x + amplitudeX, y + amplitudeY, System.Drawing.Color.Yellow, 2);
+            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
+            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+        }
+        private void DrawMovingPlatformSeven(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        {
+            var Animation = LoadAnimation("Platform", d, 0, 0);
+            if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
 
+            int x1 = x - (amplitudeX / 2);
+            int x2 = x + (amplitudeX / 2);
+            int y1 = y - (amplitudeY / 2);
+            int y2 = y + (amplitudeY / 2);
 
+            d.DrawLine(x1, x2, y1, y2, System.Drawing.Color.Yellow, 2);
+            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
+            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+        }
         private void DrawStandardPlatform(DevicePanel d, int x, int y, int Transparency, int AttributeFrameID)
         {
-            var Animation1 = LoadAnimation("Platform", d, 0, AttributeFrameID);
-            DrawTexturePivotNormal(d, Animation1, Animation1.RequestedAnimID, Animation1.RequestedFrameID, x, y, Transparency);
+            var Animation = LoadAnimation("Platform", d, 0, 0);
+            if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
+            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
+            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+        }
+        private void DrawFallingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        {
+            var Animation = LoadAnimation("Platform", d, 0, 0);
+            if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
+            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency, false, false, 0, System.Drawing.Color.FromArgb(255,255,0,0));
+            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+        }
+        #endregion
+
+        #region Other
+
+        private void UpdateRealAttributeFrameID(Methods.Entities.EntityDrawing.EditorAnimation Animation, int AttributeFrameID)
+        {
+            var frames = Animation.Animation.Animations.Take<Animation.AnimationEntry>(Animation.Animation.Animations.Count).SelectMany(x => x.Frames).ToList();
+            if (frames.Count - 1 > AttributeFrameID && AttributeFrameID >= 0)
+            {
+                var element = frames.ElementAt(AttributeFrameID);
+                RealAnimID = Animation.Animation.Animations.IndexOf(Animation.Animation.Animations.Where(x => x.Frames.Contains(element)).FirstOrDefault());
+                RealFrameID = Animation.Animation.Animations[RealAnimID].Frames.IndexOf(element);
+            }
+            else
+            {
+                RealAnimID = 0;
+                RealFrameID = 0;
+            }
+            LastFrameIDAttribute = AttributeFrameID;
         }
 
         private static int[] RotatePoints(double initX, double initY, double centerX, double centerY, double angle)
@@ -87,7 +173,47 @@ namespace ManiacEditor.Entity_Renders
             int[] results = { (int)Math.Round(finalX), (int)Math.Round(finalY) };
             return results;
         }
+        #endregion
 
+        public override void Draw(Structures.EntityRenderProp Properties)
+        {
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            SceneEntity entity = e.Entity;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            int angle = (int)entity.attributesMap["angle"].ValueInt32;
+            int type = (int)entity.attributesMap["type"].ValueEnum;
+            int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
+            int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
+            int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
+            bool hasTension = entity.attributesMap["hasTension"].ValueBool;
+            int speed = Methods.Entities.AttributeHandler.AttributesMapVar("speed", entity);
+
+            int FrameIDAttribute = 0;
+
+            switch (entity.attributesMap["frameID"].Type)
+            {
+                case AttributeTypes.UINT8:
+                    FrameIDAttribute = entity.attributesMap["frameID"].ValueUInt8;
+                    break;
+                case AttributeTypes.INT8:
+                    FrameIDAttribute = entity.attributesMap["frameID"].ValueInt8;
+                    break;
+                case AttributeTypes.ENUM:
+                    FrameIDAttribute = (int)entity.attributesMap["frameID"].ValueEnum;
+                    break;
+            }
+
+            if (type == 1) DrawFallingPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
+            else if (type == 2) DrawStandardMovingPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
+            else if (type == 3) DrawNormalTensionPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
+            else if (type == 4) DrawTensionBallPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
+            else if (type == 7) DrawMovingPlatformSeven(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
+            else DrawStandardPlatform(d, x, y, Transparency, FrameIDAttribute);
+        }
         public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
             var attribute = entity.attributesMap["frameID"];
@@ -98,6 +224,11 @@ namespace ManiacEditor.Entity_Renders
             int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
             int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
             bool hasTension = entity.attributesMap["hasTension"].ValueBool;
+
+            int PlatformOffsetX = 0;
+            int PlatformOffsetY = 0;
+            int PlatformWidth = 0;
+            int PlatformHight = 0;
 
             if (type == 0 || type == 1)
             {
