@@ -104,8 +104,9 @@ namespace ManiacEditor.Classes.Prefrences
             }
             else
             {
-                if (!ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.IsFullPath) Title = string.Format("{1}:{2}{4}{3}{0}", ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.SceneID, "/n/n", (ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));
-                else Title = string.Format("{1}{2}{0}", ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.FilePath, "/n/n");
+                string dataFolder = (ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.DataDirectory == string.Empty ? ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory : ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.DataDirectory);
+                if (!ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.IsFullPath) Title = string.Format("{1}:{2}{4}{3}{0}", dataFolder, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.SceneID, "/n/n", (ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));
+                else Title = string.Format("{1}{2}{0}", dataFolder, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.FilePath, "/n/n");
             }
 
             Name += ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory;

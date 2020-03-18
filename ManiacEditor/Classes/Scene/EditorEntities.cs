@@ -550,7 +550,9 @@ namespace ManiacEditor.Classes.Scene
             SceneEntity Entity = new SceneEntity(new SceneObject(Name, Attributes), Slot);
             Entity.attributesMap["SplineID"].ValueInt32 = value;
 
-            return new Classes.Scene.EditorEntity(Entity, true);
+            var entity = new Classes.Scene.EditorEntity(Entity, true);
+            entity.UpdateInstance(this);
+            return entity;
         }
         public void SpawnInternalSplineObject(RSDKv5.Position position, int value)
         {
@@ -568,6 +570,7 @@ namespace ManiacEditor.Classes.Scene
         {
             sceneEntity.SlotID = (ushort)Entities.Count;
             Classes.Scene.EditorEntity entity = new Classes.Scene.EditorEntity(sceneEntity);
+            entity.UpdateInstance(this);
 
             if (entity.HasFilter() && CurrentDefaultFilter > -1)
             {

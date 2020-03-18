@@ -19,8 +19,8 @@ namespace ManiacEditor.Entity_Renders
             int minimumSlot = (int)targetSlotID;
             int maximumSlot = (int)targetSlotID + (int)NodeCount;
 
-            List<Tuple<Classes.Scene.Sets.EditorEntity, Classes.Scene.Sets.EditorEntity>> NodePoints = new List<Tuple<Classes.Scene.Sets.EditorEntity, Classes.Scene.Sets.EditorEntity>>();
-            List<Classes.Scene.Sets.EditorEntity> ChildPoints = new List<Classes.Scene.Sets.EditorEntity>();
+            List<Tuple<Classes.Scene.EditorEntity, Classes.Scene.EditorEntity>> NodePoints = new List<Tuple<Classes.Scene.EditorEntity, Classes.Scene.EditorEntity>>();
+            List<Classes.Scene.EditorEntity> ChildPoints = new List<Classes.Scene.EditorEntity>();
 
             int currentTargetSlotID = targetSlotID;
             int remainder = (NodeCount % 2 == 1 ? 1 : 0);
@@ -35,7 +35,7 @@ namespace ManiacEditor.Entity_Renders
                     var target1 = Methods.Editor.Solution.Entities.Entities.ToList().Where(e => e.SlotID == targetID1).First();
                     var target2 = Methods.Editor.Solution.Entities.Entities.ToList().Where(e => e.SlotID == targetID2).First();
 
-                    NodePoints.Add(new Tuple<Classes.Scene.Sets.EditorEntity, Classes.Scene.Sets.EditorEntity>(target1, target2));
+                    NodePoints.Add(new Tuple<Classes.Scene.EditorEntity, Classes.Scene.EditorEntity>(target1, target2));
                 }
                 currentTargetSlotID = currentTargetSlotID + 1;
             }

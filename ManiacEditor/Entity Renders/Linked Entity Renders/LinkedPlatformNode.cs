@@ -12,7 +12,7 @@ namespace ManiacEditor.Entity_Renders
             //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
 
             // this is the start of a WarpDoor, find its partner(s)
-            var nodePaths = properties.Object.Object.Entities.Where(e => e.SlotID == targetSlotID);
+            var nodePaths = properties.EditorObject.Entities.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (nodePaths != null
                 && nodePaths.Any())
@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
                 // some destinations seem to be duplicated, so we must loop
                 foreach (var tp in nodePaths)
                 {
-                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, tp);
+                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, tp.Entity);
                 }
             }
             else

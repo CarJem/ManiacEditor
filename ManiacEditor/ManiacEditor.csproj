@@ -251,45 +251,51 @@
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyEntryValue.xaml.cs">
       <DependentUpon>PropertyEntryValue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatformControl.cs" />
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatformNode.cs" />
     <Compile Include="Entity Renders\LinkedRenderer.cs" />
-    <Compile Include="Entity Renders\Normal Renders\GHZ\Newtron.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\Animals.cs">
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Newtron.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\PlatformControl.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\PlatformNode.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Springs\CircleBumper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Z -Unordered\Animals.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\BGSwitch.cs">
+    <Compile Include="Entity Renders\Normal Renders\Bounded\BGSwitch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\BlankObject.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\BoundsMarker.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\BreakableWall.cs">
+    <Compile Include="Entity Renders\Normal Renders\Internal\BlankObject.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\BoundsMarker.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\BreakableWall.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\Bridge.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\CollapsingPlatform.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\Current.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\Decoration.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\InvisibleBlock.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\ItemBox.cs">
+    <Compile Include="Entity Renders\Normal Renders\Platforms\Bridge.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\CollapsingPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\Current.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Decor\Decoration.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\InvisibleBlock.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Collectables\ItemBox.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\Music.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\PlaneSwitch.cs">
+    <Compile Include="Entity Renders\Normal Renders\Internal\Music.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Doors + Tubes\PlaneSwitch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\Platform.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Global\Player.cs">
+    <Compile Include="Entity Renders\Normal Renders\Platforms\Platform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Internal\Player.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\Ring.cs">
+    <Compile Include="Entity Renders\Normal Renders\Collectables\Ring.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\Spikes.cs">
+    <Compile Include="Entity Renders\Normal Renders\Hazards\Spikes.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\Spring.cs">
+    <Compile Include="Entity Renders\Normal Renders\Springs\Spring.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Global\TimeAttackGate.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Checkpoints\TimeAttackGate.cs" />
     <Compile Include="Enums\Skin.cs" />
     <Compile Include="EventHandlers\TileConfigException.cs" />
     <Compile Include="Methods\Editor\EditorConstants.cs" />
@@ -1516,8 +1522,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entity Renders\Linked Entity Renders\" />
-    <Folder Include="Entity Renders\Normal Renders\Tubes\" />
+    <Folder Include="Entity Renders\Normal Renders\Bosses\" />
+    <Folder Include="Entity Renders\Normal Renders\Buttons\" />
+    <Folder Include="Entity Renders\Normal Renders\Conveyors + Lifts\" />
+    <Folder Include="Entity Renders\Normal Renders\Cutscenes\" />
+    <Folder Include="Entity Renders\Normal Renders\Flight\" />
+    <Folder Include="Entity Renders\Normal Renders\Gimmicks\" />
+    <Folder Include="Entity Renders\Normal Renders\Launchers\" />
+    <Folder Include="Entity Renders\Normal Renders\Looping\" />
+    <Folder Include="Entity Renders\Normal Renders\Pullies + Hanging\" />
+    <Folder Include="Entity Renders\Normal Renders\Special Stages\" />
+    <Folder Include="Entity Renders\Normal Renders\Structures\" />
+    <Folder Include="Entity Renders\Normal Renders\UI\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker">

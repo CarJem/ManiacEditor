@@ -171,15 +171,24 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				if (entity.Object.Name.Name != "Spline")
 				{
 
-					if (ObjectList != null && ObjectList.ToList().Exists(x => x.Tag.ToString() == entity.SlotID.ToString()))
+					if (ObjectList != null)
 					{
-						var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
-						entitiesList.Content = entry.Content;
-						entitiesList.Foreground = entry.Foreground;
-						entitiesList.Tag = entry.Tag;
+						if (ObjectList.ToList().Exists(x => x.Tag.ToString() == entity.SlotID.ToString()))
+						{
+							var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
+							entitiesList.Content = entry.Content;
+							entitiesList.Foreground = entry.Foreground;
+							entitiesList.Tag = entry.Tag;
+						}
+						else
+						{
+							entitiesList.Content = null;
+							entitiesList.Tag = null;
+						}
 					}
 					else
 					{
+						UpdateEntitiesList();
 						entitiesList.Content = null;
 						entitiesList.Tag = null;
 					}

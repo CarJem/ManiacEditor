@@ -23,7 +23,7 @@ namespace ManiacEditor.Methods.Entities
         #region Definitions
         // Object Render List
         public static List<EntityRenderer> EntityRenderers { get; set; } = new List<EntityRenderer>();
-        public static List<LinkedRenderer> LinkedEntityRenderers = new List<LinkedRenderer>();
+        public static List<LinkedRenderer> LinkedEntityRenderers { get; set; } = new List<LinkedRenderer>();
 
         // Object List for initilizing the if statement
         public static Classes.General.EntityRenderingOptions RenderingSettings;
@@ -445,8 +445,11 @@ namespace ManiacEditor.Methods.Entities
 
             if (!RendersWithErrors.Contains(e.Entity.Object.Name.Name))
             {
-                var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Entity.Object.Name.Name).FirstOrDefault();
-                if (e.CurrentRender == null) e.CurrentRender = RenderDrawing;
+                if (e.CurrentRender == null)
+                {
+                    var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Entity.Object.Name.Name).FirstOrDefault();
+                    e.CurrentRender = RenderDrawing;
+                }
                 if (e.CurrentRender != null) e.CurrentRender.Draw(properties);
             }
 
@@ -463,18 +466,13 @@ namespace ManiacEditor.Methods.Entities
         }
         public static void DrawLinked(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
-            try
+            var structure = new Structures.LinkedEntityRenderProp(d, _entity);
+            if (_entity.CurrentLinkedRender == null)
             {
-                var structure = new Structures.LinkedEntityRenderProp(d, _entity.Entity, _entity);
                 LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name.ToString()).FirstOrDefault();
-                if (renderer != null) renderer.Draw(structure);
+                _entity.CurrentLinkedRender = renderer;
             }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show("Unable to load the linked render for " + _entity.Entity.Object.Name.Name + "! " + ex.ToString());
-                LinkedRendersWithErrors.Add(_entity.Entity.Object.Name.Name);
-
-            }
+            if (_entity.CurrentLinkedRender != null) _entity.CurrentLinkedRender.Draw(structure);
         }
         public static void DrawInternal(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
@@ -608,7 +606,7 @@ namespace ManiacEditor.Methods.Entities
         }
         public static bool CanDrawLinked(string Name)
         {
-            return Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name) && Methods.Editor.SolutionState.ShowEntityPathArrows;
+            return Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name);
         }
         #endregion
 
@@ -621,6 +619,7 @@ namespace ManiacEditor.Methods.Entities
                 foreach (var entry in Methods.Editor.Solution.Entities.Entities)
                 {
                     entry.CurrentRender = null;
+                    entry.CurrentLinkedRender = null;
                 }
             }
 

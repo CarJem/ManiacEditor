@@ -29,7 +29,7 @@ namespace ManiacEditor.Entity_Renders
                 int newY = (int)(radiusInt * Math.Sin(Math.PI * angle / 128));
                 int tensionCount = radiusInt / 16;
 
-                d.DrawLine(x, y, x + newX, y - newY, System.Drawing.Color.Yellow, 2);
+                d.DrawLine(x, y, x + newX, y - newY, System.Drawing.Color.Yellow, 3);
                 d.DrawEllipse(x, y, amplitudeX, amplitudeY, System.Drawing.Color.White, 2);
 
                 if (hasTension)
@@ -57,7 +57,7 @@ namespace ManiacEditor.Entity_Renders
                 var Animation = LoadAnimation("Platform", d, 0, 0);
                 if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
                 DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x + newX, y - newY, Transparency);
-                DrawHitbox(d, Animation, "Platform", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x + newX, y - newY, Transparency, false, false, 0);
+                //DrawHitbox(d, Animation, "Platform", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x + newX, y - newY, Transparency, false, false, 0);
             }
         }
         private void DrawTensionBallPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
@@ -97,9 +97,9 @@ namespace ManiacEditor.Entity_Renders
         {
             var Animation = LoadAnimation("Platform", d, 0, 0);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
-            d.DrawLine(x - amplitudeX, y - amplitudeY, x + amplitudeX, y + amplitudeY, System.Drawing.Color.Yellow, 2);
+            d.DrawLine(x - amplitudeX, y - amplitudeY, x + amplitudeX, y + amplitudeY, System.Drawing.Color.Yellow, 3);
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
-            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }
         private void DrawMovingPlatformSeven(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
         {
@@ -111,23 +111,23 @@ namespace ManiacEditor.Entity_Renders
             int y1 = y - (amplitudeY / 2);
             int y2 = y + (amplitudeY / 2);
 
-            d.DrawLine(x1, x2, y1, y2, System.Drawing.Color.Yellow, 2);
+            d.DrawLine(x1, x2, y1, y2, System.Drawing.Color.Yellow, 3);
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
-            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }
         private void DrawStandardPlatform(DevicePanel d, int x, int y, int Transparency, int AttributeFrameID)
         {
             var Animation = LoadAnimation("Platform", d, 0, 0);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
-            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }
         private void DrawFallingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
         {
             var Animation = LoadAnimation("Platform", d, 0, 0);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency, false, false, 0, System.Drawing.Color.FromArgb(255,255,0,0));
-            DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }
         #endregion
 

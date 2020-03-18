@@ -13,9 +13,16 @@ namespace ManiacEditor.Classes.Scene
     {
         #region Definitions
 
+        #region Objects
+
+        public EditorEntities Entities { get; private set; }
+
+        #endregion
+
         #region Render Data
 
         public EntityRenderer CurrentRender { get; set; }
+        public LinkedRenderer CurrentLinkedRender { get; set; }
 
         #endregion
 
@@ -151,6 +158,11 @@ namespace ManiacEditor.Classes.Scene
             this._entity = entity;
         }
 
+        public void UpdateInstance(EditorEntities editorEntities)
+        {
+            Entities = editorEntities;
+        }
+
         #endregion
 
         #region Methods
@@ -281,6 +293,10 @@ namespace ManiacEditor.Classes.Scene
             if (FilteredOut) return;
             if (Methods.Entities.EntityDrawing.CanDrawLinked(_entity.Object.Name.Name)) Methods.Entities.EntityDrawing.DrawLinked(d, this);
             else Methods.Entities.EntityDrawing.DrawNormal(d, this);
+        }
+        public virtual void DrawBase(DevicePanel d)
+        {
+            Methods.Entities.EntityDrawing.DrawNormal(d, this);
         }
         public void Dispose()
         {

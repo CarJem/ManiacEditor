@@ -10,14 +10,19 @@ namespace ManiacEditor.Structures
     {
         public DevicePanel Graphics { get; set; }
 
-        public RSDKv5.SceneEntity Object { get; set; }
+        public RSDKv5.SceneEntity Object
+        {
+            get
+            {
+                return EditorObject.Entity;
+            }
+        }
 
         public Classes.Scene.EditorEntity EditorObject { get; set; }
 
-        public LinkedEntityRenderProp(DevicePanel d, RSDKv5.SceneEntity currentEntity, Classes.Scene.EditorEntity ObjectInstance)
+        public LinkedEntityRenderProp(DevicePanel d, Classes.Scene.EditorEntity ObjectInstance)
         {
             Graphics = d;
-            Object = currentEntity;
             EditorObject = ObjectInstance;
         }
     }

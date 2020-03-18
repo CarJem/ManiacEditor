@@ -41,7 +41,7 @@ namespace ManiacEditor.Classes.Rendering
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(vertices, PrimitiveType.TriangleStrip, states);
+            target.Draw(vertices, PrimitiveType.Lines, states);
         }
     }
 }
