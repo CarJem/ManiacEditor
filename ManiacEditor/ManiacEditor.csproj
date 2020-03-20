@@ -251,14 +251,28 @@
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyEntryValue.xaml.cs">
       <DependentUpon>PropertyEntryValue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Global\EntitiesListItem.xaml.cs">
+      <DependentUpon>EntitiesListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatformControl.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatformNode.cs" />
     <Compile Include="Entity Renders\LinkedRenderer.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Newtron.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Buttons\Button.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Buttons\PullSwitch.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Checkpoints\SignPost.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Checkpoints\SpinSign.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Checkpoints\TimePost.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Collectables\SpecialRing.cs" />
     <Compile Include="Entity Renders\Normal Renders\Platforms\PlatformControl.cs" />
     <Compile Include="Entity Renders\Normal Renders\Platforms\PlatformNode.cs" />
     <Compile Include="Entity Renders\Normal Renders\Springs\CircleBumper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Springs\Flipper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Templates\Template.cs" />
+    <Compile Include="Entity Renders\Normal Renders\UI\UIControl.cs" />
+    <Compile Include="Entity Renders\Normal Renders\UI\UIPicture.cs" />
+    <Compile Include="Entity Renders\Normal Renders\UI\UIText.cs" />
     <Compile Include="Entity Renders\Normal Renders\Z -Unordered\Animals.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -296,6 +310,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Checkpoints\TimeAttackGate.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Z -Unordered\LightBulb.cs" />
     <Compile Include="Enums\Skin.cs" />
     <Compile Include="EventHandlers\TileConfigException.cs" />
     <Compile Include="Methods\Editor\EditorConstants.cs" />
@@ -338,6 +353,7 @@
     <Compile Include="Extensions\SystemColorsUtility.cs" />
     <Compile Include="Methods\Internal\Common.cs" />
     <Compile Include="Methods\Internal\Controls.cs" />
+    <Compile Include="Methods\Internal\RefreshModel.cs" />
     <Compile Include="Methods\Internal\UserInterface.cs" />
     <Compile Include="Classes\Prefrences\DataStateHistoryStorage.cs" />
     <Compile Include="Methods\ProgramPaths.cs" />
@@ -529,7 +545,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Extensions\KeyEventExt.cs" />
-    <Compile Include="Controls\Utility\Object ID Repair Tool\ObjectIDHealer.cs" />
     <Compile Include="Interfaces\IDrawArea.cs" />
     <Compile Include="Classes\Scene\EditorEntities.cs" />
     <Compile Include="Classes\Scene\EditorEntity.cs" />
@@ -1352,6 +1367,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Global\EntitiesListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Global\Styles\ContextMenuPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1523,7 +1542,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity Renders\Normal Renders\Bosses\" />
-    <Folder Include="Entity Renders\Normal Renders\Buttons\" />
     <Folder Include="Entity Renders\Normal Renders\Conveyors + Lifts\" />
     <Folder Include="Entity Renders\Normal Renders\Cutscenes\" />
     <Folder Include="Entity Renders\Normal Renders\Flight\" />
@@ -1533,7 +1551,6 @@
     <Folder Include="Entity Renders\Normal Renders\Pullies + Hanging\" />
     <Folder Include="Entity Renders\Normal Renders\Special Stages\" />
     <Folder Include="Entity Renders\Normal Renders\Structures\" />
-    <Folder Include="Entity Renders\Normal Renders\UI\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker">

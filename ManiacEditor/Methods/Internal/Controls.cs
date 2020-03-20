@@ -401,8 +401,8 @@ namespace ManiacEditor.Methods.Internal
                 {
                     if (Methods.Editor.SolutionState.UseMagnetMode)
                     {
-                        int x = Methods.Editor.Solution.Entities.GetSelectedEntity().Entity.Position.X.High;
-                        int y = Methods.Editor.Solution.Entities.GetSelectedEntity().Entity.Position.Y.High;
+                        int x = Methods.Editor.Solution.Entities.GetSelectedEntity().Position.X.High;
+                        int y = Methods.Editor.Solution.Entities.GetSelectedEntity().Position.Y.High;
 
                         if (x % Methods.Editor.SolutionState.MagnetSize != 0 && Methods.Editor.SolutionState.UseMagnetXAxis)
                         {
@@ -548,7 +548,7 @@ namespace ManiacEditor.Methods.Internal
                     // Place Stamp
                     if (selectedIndex != -1)
                     {
-                        if (!Instance.Chunks.DoesChunkMatch(pC, Instance.Chunks.StageStamps.StampList[selectedIndex], Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB))
+                        if (!Instance.Chunks.DoesChunkMatch(pC, Instance.Chunks.GetStamp(selectedIndex), Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB))
                         {
                             Instance.Chunks.PasteStamp(pC, selectedIndex, Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB);
                         }
@@ -846,7 +846,7 @@ namespace ManiacEditor.Methods.Internal
                         // Place Stamp
                         if (selectedIndex != -1)
                         {
-                            if (!Instance.Chunks.DoesChunkMatch(pC, Instance.Chunks.StageStamps.StampList[selectedIndex], Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB))
+                            if (!Instance.Chunks.DoesChunkMatch(pC, Instance.Chunks.GetStamp(selectedIndex), Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB))
                             {
                                 Instance.Chunks.PasteStamp(pC, selectedIndex, Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB);
                             }
@@ -895,7 +895,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 Point clicked_point = new Point((int)(e.X / Methods.Editor.SolutionState.Zoom), (int)(e.Y / Methods.Editor.SolutionState.Zoom));
                 Classes.Scene.EditorEntity atPoint = Methods.Editor.Solution.Entities.GetEntityAt(clicked_point);
-                if (atPoint != null && atPoint.Entity.Object.Name.Name == "Spline")
+                if (atPoint != null && atPoint.Object.Name.Name == "Spline")
                 {
                     ManiacEditor.Methods.Editor.EditorActions.Deselect();
                     Methods.Editor.Solution.Entities.GetEntityAt(clicked_point).Selected = true;
@@ -1052,7 +1052,7 @@ namespace ManiacEditor.Methods.Internal
 
                 Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
                 Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0}", currentEntity.SlotID);
-                Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Entity.Position.X.High, currentEntity.Entity.Position.Y.High);
+                Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Position.X.High, currentEntity.Position.Y.High);
             }
             else
             {

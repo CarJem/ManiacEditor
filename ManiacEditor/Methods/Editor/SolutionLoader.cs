@@ -219,7 +219,7 @@ namespace ManiacEditor.Methods.Editor
         {
             try
             {
-                if (Methods.Editor.Solution.CurrentScene?._editorLayers == null || !Methods.Editor.Solution.CurrentScene._editorLayers.Any()) return;
+                if (Methods.Editor.Solution.CurrentScene?.EditorLayers == null || !Methods.Editor.Solution.CurrentScene.EditorLayers.Any()) return;
 
                 var dialog = new GenerationsLib.Core.FolderSelectDialog()
                 {
@@ -262,7 +262,7 @@ namespace ManiacEditor.Methods.Editor
             int i = 0;
             try
             {
-                if (Methods.Editor.Solution.CurrentScene?._editorLayers == null || !Methods.Editor.Solution.CurrentScene._editorLayers.Any()) return;
+                if (Methods.Editor.Solution.CurrentScene?.EditorLayers == null || !Methods.Editor.Solution.CurrentScene.EditorLayers.Any()) return;
 
                 var dialog = new FolderSelectDialog()
                 {
@@ -616,8 +616,8 @@ namespace ManiacEditor.Methods.Editor
             Methods.Entities.EntityDrawing.RefreshRenderLists();
             SetupObjectsList();
             SetupDiscordRP(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.FilePath);
-            Stamps StageStamps = ManiacEditor.Methods.Editor.SolutionPaths.GetEditorStamps(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone);
-            Instance.Chunks = new Classes.Scene.EditorChunks(Instance, Methods.Editor.Solution.CurrentTiles, StageStamps);
+            var StageStamps = ManiacEditor.Methods.Editor.SolutionPaths.GetEditorStamps(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone);
+            Instance.Chunks = new Classes.Scene.EditorChunks(Instance, StageStamps);
             Instance.EditBackground = new Classes.Scene.EditorBackground(Instance);
             Methods.Editor.Solution.Entities = new Classes.Scene.EditorEntities(Methods.Editor.Solution.CurrentScene);
 
@@ -765,33 +765,9 @@ namespace ManiacEditor.Methods.Editor
 				Methods.Internal.Common.ShowError($@"Failed to save the StageConfig to file '{ManiacEditor.Methods.Editor.SolutionPaths.StageConfig_Source.SourcePath}' Error: {ex.Message}");
 			}
 		}
-        public static void SaveChunks(bool saveAsMode = false, string SaveAsFilePath = "")
+        public static void SaveChunks(bool SaveAsMode = false, string SaveAsFilePath = "")
         {
-            try
-            {
-                if (Instance.Chunks.StageStamps != null)
-                {
-                    if (Instance.Chunks.StageStamps?.loadstate == RSDKv5.Stamps.LoadState.Upgrade)
-                    {
-                        MessageBoxResult result = MessageBox.Show("This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)", "Chunk File Format Upgrade Required", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        if (result != MessageBoxResult.Yes) return;
-                    }
-                    if (saveAsMode)
-                    {
-                        Instance.Chunks.StageStamps?.Write(SaveAsFilePath);
-                        ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source = new SolutionPaths.FileSource(-3, SaveAsFilePath);
-                    }
-                    else
-                    {
-                        if (Methods.Editor.SolutionState.DataDirectoryReadOnlyMode && ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.SourceID == -1) return;
-                        else Instance.Chunks.StageStamps?.Write(ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.SourcePath);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.SourcePath}' Error: {ex.Message}");
-            }
+            Instance.Chunks?.Save(SaveAsMode, SaveAsFilePath);
         }
         public static void SaveTilesConfig(bool saveAsMode = false, string SaveAsFilePath = "")
         {

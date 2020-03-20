@@ -5,34 +5,22 @@ namespace ManiacEditor.Entity_Renders
     public class TimePost : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TimePost", d.DevicePanel, 0, -1, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count >= 2)
-            {
-                var frame = editorAnim.Frames[0];
-                var frame2 = editorAnim.Frames[2];
+            DevicePanel d = Properties.Graphics;
+            
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    x + frame2.Frame.PivotX,
-                    y + frame2.Frame.PivotY,
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-            }
+            bool fliph = false;
+            bool flipv = false;
+
+            var Animation = LoadAnimation("TimePost", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
+            Animation = LoadAnimation("TimePost", d, 0, 2);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 
         public override string GetObjectName()

@@ -252,10 +252,10 @@ namespace ManiacEditor.Controls.Editor.Elements
                     var obj = selectedItem.Tag as RSDKv5.SceneObject;
                     int splineID = Methods.Editor.SolutionState.SelectedSplineID;
                     Methods.Editor.SolutionState.AdjustSplineGroupOptions(Methods.Editor.SolutionState.SplineOption.SpawnObject, Methods.Editor.Solution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
-                    Instance.EntitiesToolbar?.UpdatePropertiesGrid(new List<RSDKv5.SceneEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
+                    Instance.EntitiesToolbar?.UpdatePropertiesGrid(new List<Classes.Scene.EditorEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
 
                     if (Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
-                        SplineRenderObjectName.Content = Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
+                        SplineRenderObjectName.Content = Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Object.Name.Name;
                     else
                         SplineRenderObjectName.Content = "None";
 

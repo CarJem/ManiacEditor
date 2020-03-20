@@ -475,7 +475,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }
-
+            ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh();
         }
         public void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
@@ -483,7 +483,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }
-
+            ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh();
         }
         public void HScrollBar1_Entered(object sender, EventArgs e)
         {

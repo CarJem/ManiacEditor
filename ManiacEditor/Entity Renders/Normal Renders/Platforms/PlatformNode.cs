@@ -8,7 +8,7 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(Structures.EntityRenderProp Properties)
         {
             DevicePanel d = Properties.Graphics;
-            SceneEntity entity = Properties.EditorObject.Entity;
+            
             Classes.Scene.EditorEntity e = Properties.EditorObject;
             int x = Properties.DrawX;
             int y = Properties.DrawY;

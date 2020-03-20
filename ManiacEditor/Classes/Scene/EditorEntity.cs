@@ -21,6 +21,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Render Data
 
+        public bool IsVisible { get; set; }
         public EntityRenderer CurrentRender { get; set; }
         public LinkedRenderer CurrentLinkedRender { get; set; }
 
@@ -58,7 +59,39 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Original Object
-
+        public SceneEntity.DictionaryWithDefault<string, AttributeValue> attributesMap
+        {
+            get
+            {
+                return _entity.attributesMap;
+            }
+            set
+            {
+                _entity.attributesMap = value;
+            }
+        }
+        public List<AttributeValue> Attributes
+        {
+            get
+            {
+                return _entity.Attributes;
+            }
+            set
+            {
+                _entity.Attributes = value;
+            }
+        }
+        public SceneObject Object
+        {
+            get
+            {
+                return new SceneObject(_entity.Object.Name, _entity.Object.Attributes);
+            }
+            set
+            {
+                _entity.Object = new SceneObject(value.Name, value.Attributes);
+            }
+        }
         public SceneEntity Entity
         {
             get
@@ -80,7 +113,18 @@ namespace ManiacEditor.Classes.Scene
             }
             set
             {
-                _entity.SlotID = SlotID;
+                _entity.SlotID = value;
+            }
+        }
+        public Position Position
+        {
+            get
+            {
+                return _entity.Position;
+            }
+            set
+            {
+                _entity.Position = value;
             }
         }
         public int PositionX
@@ -109,7 +153,7 @@ namespace ManiacEditor.Classes.Scene
         {
             get
             {
-                return _entity.Object.Name.Name;
+                return _entity.Object.Name.ToString();
             }
         }
 
@@ -165,6 +209,24 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
+        #region Original Methods
+
+
+        public bool AttributeExists(string name, AttributeTypes type)
+        {
+            return _entity.AttributeExists(name, type);
+        }
+        public AttributeValue GetAttribute(string name)
+        {
+            return _entity.GetAttribute(name);
+        }
+        public AttributeValue GetAttribute(NameIdentifier name)
+        {
+            return _entity.GetAttribute(name);
+        }
+
+        #endregion
+
         #region Methods
         public bool ContainsPoint(Point point)
         {
@@ -185,17 +247,17 @@ namespace ManiacEditor.Classes.Scene
             {
                 if (Methods.Editor.SolutionState.UseMagnetMode)
                 {
-                    int x = Methods.Editor.SolutionState.MagnetSize * (_entity.Position.X.High / Methods.Editor.SolutionState.MagnetSize);
-                    int y = Methods.Editor.SolutionState.MagnetSize * (_entity.Position.Y.High / Methods.Editor.SolutionState.MagnetSize);
+                    int x = Methods.Editor.SolutionState.MagnetSize * (PositionX / Methods.Editor.SolutionState.MagnetSize);
+                    int y = Methods.Editor.SolutionState.MagnetSize * (PositionY / Methods.Editor.SolutionState.MagnetSize);
                     return new Rectangle(x, y, Methods.Editor.SolutionState.MagnetSize, Methods.Editor.SolutionState.MagnetSize);
                 }
                 else
                 {
-                    return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+                    return new Rectangle(PositionX, PositionY, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT);
                 }
 
             }
-            else return new Rectangle(_entity.Position.X.High, _entity.Position.Y.High, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+            else return new Rectangle(PositionX, PositionY, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT);
         }
 
         #endregion
@@ -298,6 +360,9 @@ namespace ManiacEditor.Classes.Scene
         {
             Methods.Entities.EntityDrawing.DrawNormal(d, this);
         }
+
+
+
         public void Dispose()
         {
 
@@ -309,13 +374,13 @@ namespace ManiacEditor.Classes.Scene
         {
             if (relative)
             {
-                _entity.Position.X.High += (short)diff.X;
-                _entity.Position.Y.High += (short)diff.Y;
+                PositionX += (short)diff.X;
+                PositionY += (short)diff.Y;
             }
             else
             {
-                _entity.Position.X.High = (short)diff.X;
-                _entity.Position.Y.High = (short)diff.Y;
+                PositionX = (short)diff.X;
+                PositionY = (short)diff.Y;
             }
 
             if (Methods.Runtime.GameHandler.GameRunning && ManiacEditor.Properties.Settings.MyGameOptions.RealTimeObjectMovementMode && !IsInternalObject)
@@ -325,8 +390,8 @@ namespace ManiacEditor.Classes.Scene
                 int ObjectSize = Methods.Runtime.GameHandler.ObjectSize[Methods.Runtime.GameHandler.GameVersion.IndexOf(Methods.Runtime.GameHandler.SelectedGameVersion)];
 
                 int ObjectAddress = ObjectStart + (ObjectSize * _entity.SlotID);
-                Methods.Runtime.GameHandler.GameMemory.WriteInt16(ObjectAddress + 2, _entity.Position.X.High);
-                Methods.Runtime.GameHandler.GameMemory.WriteInt16(ObjectAddress + 6, _entity.Position.Y.High);
+                Methods.Runtime.GameHandler.GameMemory.WriteInt16(ObjectAddress + 2, (short)PositionX);
+                Methods.Runtime.GameHandler.GameMemory.WriteInt16(ObjectAddress + 6, (short)PositionY);
             }
 
 

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Column="1" x:Name="SelectedTileLabel" Content="Selected Tile: N/A" HorizontalAlignment="Right"></Label>
-        <TabControl SelectionChanged="tabControl1_SelectedIndexChanged" x:Name="TabControl" Grid.ColumnSpan="4" Grid.RowSpan="2" Margin="5,5,5,5" Background="{DynamicResource NormalBackground}">
+        <TabControl SelectionChanged="TabControl_SelectedIndexChanged" x:Name="TabControl" Grid.ColumnSpan="4" Grid.RowSpan="2" Margin="5,5,5,5" Background="{DynamicResource NormalBackground}">
             <TabItem MouseUp="TabItem_MouseUp" Header="Tiles" Foreground="{DynamicResource NormalText}">
                 <Grid x:Name="TilesPage">
                     <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid x:Name="TileSlider" Grid.Row="0">
-                        <Slider ValueChanged="trackBar1_ValueChanged" x:Name="trackBar1" VerticalAlignment="Center" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
+                        <Slider ValueChanged="TileZoomTrackbar_ValueChanged" x:Name="TileZoomTrackbar" VerticalAlignment="Center" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
                     </Grid>
                     <Grid x:Name="TileViewer" Grid.Row="1">
                     </Grid>
@@ -44,7 +44,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid x:Name="ChunksSlider" Grid.Row="0">
-                        <Slider ValueChanged="TrackBar2_ValueChanged" x:Name="trackBar2" VerticalAlignment="Center" Value="2" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
+                        <Slider ValueChanged="ChunkZoomTrackbar_ValueChanged" x:Name="ChunkZoomTrackbar" VerticalAlignment="Center" Value="2" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
                     </Grid>
                     <Grid Grid.Row="1" x:Name="ChunksPage"></Grid>
                 </Grid>
@@ -65,13 +65,13 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
             <StackPanel>
                 <CheckBox x:Name="option1CheckBox" Margin="5" Content="Flip Horizontal &#xD;&#xA;(Ctrl)" Checked="option1CheckBox_CheckedChanged" Unchecked="option1CheckBox_CheckedChanged"></CheckBox>
-                <CheckBox x:Name="option3CheckBox" Margin="5">Solid (Top)</CheckBox>
-                <CheckBox x:Name="option5CheckBox" Margin="5" Content="Solid (Top) &#xD;&#xA;(Plane 2)"></CheckBox>
+                <CheckBox x:Name="SolidTopACheckBox" Margin="5">Solid (Top)</CheckBox>
+                <CheckBox x:Name="SolidTopBCheckBox" Margin="5" Content="Solid (Top) &#xD;&#xA;(Plane 2)"></CheckBox>
             </StackPanel>
             <StackPanel>
                 <CheckBox x:Name="option2CheckBox" Margin="5" Content="Flip Vertical &#xD;&#xA;(Shift)" Checked="option2CheckBox_CheckedChanged" Unchecked="option2CheckBox_CheckedChanged"></CheckBox>
-                <CheckBox x:Name="option4CheckBox"  Margin="5">Solid (All excl. top)</CheckBox>
-                <CheckBox x:Name="option6CheckBox" Margin="5" Content="Solid (All excl. top) &#xD;&#xA;(Plane 2)"></CheckBox>
+                <CheckBox x:Name="SolidAllButTopACheckBox"  Margin="5">Solid (All excl. top)</CheckBox>
+                <CheckBox x:Name="SolidAllButTopBCheckBox" Margin="5" Content="Solid (All excl. top) &#xD;&#xA;(Plane 2)"></CheckBox>
             </StackPanel>
 
         </StackPanel>

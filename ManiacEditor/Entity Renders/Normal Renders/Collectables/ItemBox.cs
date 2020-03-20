@@ -9,13 +9,13 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var value = entity.attributesMap["type"];
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            var value = e.attributesMap["type"];
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
             switch (direction)

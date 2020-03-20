@@ -40,7 +40,7 @@
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.importChunkFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Tiles16ToolStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.editCollisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.EditCollisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.Chunks128ToolStrip.SuspendLayout();
 			this.Tiles16ToolStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -130,17 +130,17 @@
 			// Tiles16ToolStrip
 			// 
 			this.Tiles16ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editCollisionToolStripMenuItem});
+            this.EditCollisionMenuItem});
 			this.Tiles16ToolStrip.Name = "contextMenuStrip1";
 			this.Tiles16ToolStrip.Size = new System.Drawing.Size(295, 48);
 			// 
 			// editCollisionToolStripMenuItem
 			// 
-			this.editCollisionToolStripMenuItem.Enabled = false;
-			this.editCollisionToolStripMenuItem.Name = "editCollisionToolStripMenuItem";
-			this.editCollisionToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
-			this.editCollisionToolStripMenuItem.Text = "Edit Collision of Tile N/A with Tile Maniac";
-			this.editCollisionToolStripMenuItem.Click += new System.EventHandler(this.editCollisionToolStripMenuItem_Click);
+			this.EditCollisionMenuItem.Enabled = false;
+			this.EditCollisionMenuItem.Name = "editCollisionToolStripMenuItem";
+			this.EditCollisionMenuItem.Size = new System.Drawing.Size(294, 22);
+			this.EditCollisionMenuItem.Text = "Edit Collision of Tile N/A with Tile Maniac";
+			this.EditCollisionMenuItem.Click += new System.EventHandler(this.editCollisionToolStripMenuItem_Click);
 			// 
 			// RetroEDTileList
 			// 
@@ -178,6 +178,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem importChunkFromClipboardToolStripMenuItem;
 		public System.Windows.Forms.ContextMenuStrip Tiles16ToolStrip;
-		public System.Windows.Forms.ToolStripMenuItem editCollisionToolStripMenuItem;
+		public System.Windows.Forms.ToolStripMenuItem EditCollisionMenuItem;
 	}
 }

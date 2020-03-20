@@ -6,13 +6,15 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
+            properties.EditorObject.DrawBase(properties.Graphics);
+            /*
             ushort slotID = properties.Object.SlotID;
             ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
 
             //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
 
             // this is the start of a WarpDoor, find its partner(s)
-            var nodePaths = properties.EditorObject.Entities.Entities.Where(e => e.SlotID == targetSlotID);
+            var nodePaths = properties.EditorObject.Entity.Object.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (nodePaths != null
                 && nodePaths.Any())
@@ -21,13 +23,14 @@ namespace ManiacEditor.Entity_Renders
                 // some destinations seem to be duplicated, so we must loop
                 foreach (var tp in nodePaths)
                 {
-                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, tp.Entity);
+                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, tp);
                 }
             }
             else
             {
                 properties.EditorObject.DrawBase(properties.Graphics);
             }
+            */
         }
 
         public override string GetObjectName()

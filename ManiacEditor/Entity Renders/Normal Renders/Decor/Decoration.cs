@@ -10,18 +10,18 @@ namespace ManiacEditor.Entity_Renders
 
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
             bool flipv = false;
             bool fliph = false;
-            var type = entity.attributesMap["type"].ValueUInt8;
-            var direction = entity.attributesMap["direction"].ValueUInt8;
-            var repeatSpacing = entity.attributesMap["repeatSpacing"].ValueVector2;
-            var repeatTimes = entity.attributesMap["repeatTimes"].ValueVector2;
-            var rotSpeed = entity.attributesMap["rotSpeed"].ValueEnum;
+            var type = e.attributesMap["type"].ValueUInt8;
+            var direction = e.attributesMap["direction"].ValueUInt8;
+            var repeatSpacing = e.attributesMap["repeatSpacing"].ValueVector2;
+            var repeatTimes = e.attributesMap["repeatTimes"].ValueVector2;
+            var rotSpeed = e.attributesMap["rotSpeed"].ValueEnum;
 
             int offsetX = (int)repeatSpacing.X.High;
             int repeatX = (int)repeatTimes.X.High;

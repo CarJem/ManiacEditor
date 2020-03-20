@@ -20,7 +20,6 @@ namespace ManiacEditor.Methods.Editor
 
         public static Classes.Scene.EditorTiles CurrentTiles { get; set; }
         public static Classes.Scene.EditorScene CurrentScene { get; set; }
-        public static Classes.Scene.EditorEntities Entities { get; set; }
         public static Stageconfig StageConfig { get; set; }
         public static Gameconfig GameConfig { get; set; }
         public static Tileconfig TileConfig
@@ -33,6 +32,18 @@ namespace ManiacEditor.Methods.Editor
             set
             {
                 if (CurrentTiles != null) CurrentTiles.TileConfig = value;
+            }
+        }
+        public static Classes.Scene.EditorEntities Entities
+        {
+            get
+            {
+                if (CurrentScene == null) return null;
+                return CurrentScene.Entities;
+            }
+            set
+            {
+                if (CurrentScene != null) CurrentScene.Entities = value;
             }
         }
         #endregion
@@ -92,8 +103,6 @@ namespace ManiacEditor.Methods.Editor
 
             Instance.TilesClipboard = null;
             Instance.ObjectsClipboard = null;
-
-            Methods.Editor.Solution.Entities = null;
 
             Methods.Editor.SolutionState.Zoom = 1;
             Methods.Editor.SolutionState.ZoomLevel = 0;

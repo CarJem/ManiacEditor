@@ -9,12 +9,12 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            bool finish = entity.attributesMap["finishLine"].ValueBool;
+            bool finish = e.attributesMap["finishLine"].ValueBool;
 
             var Animation1 = LoadAnimation("SpeedGate", d, 0, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation1, Animation1.RequestedAnimID, Animation1.RequestedFrameID, x, y, Transparency);

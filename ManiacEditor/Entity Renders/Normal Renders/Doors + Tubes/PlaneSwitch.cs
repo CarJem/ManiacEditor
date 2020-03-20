@@ -10,7 +10,7 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
@@ -21,9 +21,9 @@ namespace ManiacEditor.Entity_Renders
                       RightDist = 4,
                       RightPlane = 8;
 
-            var flags = (int)entity.attributesMap["flags"].ValueEnum;
-            var size = (int)(entity.attributesMap["size"].ValueEnum) - 1;
-            var angle = entity.attributesMap["angle"].ValueInt32;
+            var flags = (int)e.attributesMap["flags"].ValueEnum;
+            var size = (int)(e.attributesMap["size"].ValueEnum) - 1;
+            var angle = e.attributesMap["angle"].ValueInt32;
 
             int frameDist = (flags & LeftDist) > 0 ? 1 : 0;
             int framePlane = (flags & LeftPlane) > 0 ? 2 : 0;
@@ -90,7 +90,7 @@ namespace ManiacEditor.Entity_Renders
             int[] results = { (int)Math.Round(finalX), (int)Math.Round(finalY) };
             return results;
         }
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var size = (int)(entity.attributesMap["size"].ValueEnum);
             int bounds = (16 * size);

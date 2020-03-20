@@ -351,7 +351,7 @@ namespace ManiacEditor
         {
             DrawTexture(image, x, y, 0, 0, width, height, selected, transparency);
         }
-        public void DrawTexture(SFML.Graphics.Texture image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int transparency, bool fliph = false, bool flipv = false, int rotation = 0, Color? color = null)
+        public void DrawTexture(SFML.Graphics.Texture image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int Transparency, bool fliph = false, bool flipv = false, int rotation = 0, Color? color = null)
         {
             if (!IsObjectOnScreen(x, y, width, height) || image == null) return;
 
@@ -393,10 +393,21 @@ namespace ManiacEditor
             rect.Position = position;
             rect.Size = size;
             rect.Texture = image;
-            if (color.HasValue) rect.FillColor = new SFML.Graphics.Color(color.Value.R, color.Value.G, color.Value.B, color.Value.A);
+            rect.FillColor = GetTransparency(color, Transparency);
             rect.TextureRect = textureRect;
             RenderWindow.Draw(rect);
         }
+
+        private SFML.Graphics.Color GetTransparency(Color? Color, int Transparency)
+        {
+            SFML.Graphics.Color OriginalColor;
+            if (Color.HasValue) OriginalColor = new SFML.Graphics.Color(Color.Value.R, Color.Value.G, Color.Value.B, Color.Value.A);
+            else OriginalColor = SFML.Graphics.Color.White;
+
+            byte alpha = (byte)(Transparency & 0x000000FF);
+            return new SFML.Graphics.Color(OriginalColor.R, OriginalColor.G, OriginalColor.B, alpha);
+        }
+
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
         {
             DrawRectangle(x1, y1, x2, y2, color, System.Drawing.Color.Transparent, 0);
@@ -448,6 +459,25 @@ namespace ManiacEditor
 
         }
 
+        public void DrawSimpleLine(int x1, int y1, int x2, int y2, Color color = new Color())
+        {
+            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
+
+            var zoom = GetZoom();
+
+            int real_x1 = (int)(x1 * zoom);
+            int real_x2 = (int)(x2 * zoom);
+            int real_y1 = (int)(y1 * zoom);
+            int real_y2 = (int)(y2 * zoom);
+
+
+            SFML.Graphics.VertexArray line = new SFML.Graphics.VertexArray();
+            line.PrimitiveType = SFML.Graphics.PrimitiveType.Lines;
+            line.Append(new Vertex(new SFML.System.Vector2f(real_x1, real_y1), new SFML.Graphics.Color(color.R, color.G, color.B, color.A)));
+            line.Append(new Vertex(new SFML.System.Vector2f(real_x2, real_y2), new SFML.Graphics.Color(color.R, color.G, color.B, color.A)));
+            RenderWindow.Draw(line);
+
+        }
         public void DrawLine(int x1, int y1, int x2, int y2, Color color = new Color(), float thickness = 1)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;

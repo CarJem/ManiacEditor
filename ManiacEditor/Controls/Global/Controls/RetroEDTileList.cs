@@ -97,7 +97,7 @@ namespace ManiacEditor.Controls.Global.Controls
             }
         }
 
-        public List<Bitmap> Images = new List<Bitmap>();
+        public List<Bitmap> Images { get; set; } = new List<Bitmap>();
 
         public RetroEDTileList()
         {

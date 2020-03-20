@@ -507,8 +507,8 @@ namespace ManiacEditor.Methods.Editor
             {
                 if (Methods.Editor.SolutionState.UseMagnetMode)
                 {
-                    int xE = Methods.Editor.Solution.Entities.SelectedEntities[0].Entity.Position.X.High;
-                    int yE = Methods.Editor.Solution.Entities.SelectedEntities[0].Entity.Position.Y.High;
+                    int xE = Methods.Editor.Solution.Entities.SelectedEntities[0].Position.X.High;
+                    int yE = Methods.Editor.Solution.Entities.SelectedEntities[0].Position.Y.High;
 
                     if (xE % Methods.Editor.SolutionState.MagnetSize != 0 && Methods.Editor.SolutionState.UseMagnetXAxis)
                     {
@@ -578,6 +578,7 @@ namespace ManiacEditor.Methods.Editor
         {
             if (Methods.Editor.SolutionState.UnlockCamera) CenterCoords = true;
 
+            /*
             if (CenterCoords)
             {
                 Rectangle r = Instance.ViewPanel.SharpPanel.GraphicPanel.GetScreen();
@@ -595,7 +596,7 @@ namespace ManiacEditor.Methods.Editor
                 Methods.Editor.SolutionState.SetViewPositionY(ResultY);
             }
             else
-            {
+            {*/
                 int ResultX = (int)(x * Methods.Editor.SolutionState.Zoom);
                 int ResultY = (int)(y * Methods.Editor.SolutionState.Zoom);
 
@@ -604,7 +605,7 @@ namespace ManiacEditor.Methods.Editor
 
                 Methods.Editor.SolutionState.SetViewPositionX(ResultX);
                 Methods.Editor.SolutionState.SetViewPositionY(ResultY);
-            }
+            //}
         }
 
         #endregion
@@ -927,7 +928,7 @@ namespace ManiacEditor.Methods.Editor
                 System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
                 Methods.Editor.SolutionState.ObjectFilter = theSender.Text;
                 Instance.MenuBar.EntityFilterTextbox.Text = Methods.Editor.SolutionState.ObjectFilter;
-                Methods.Editor.Solution.Entities.FilterRefreshNeeded = true;
+                Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
                 LockEntityFilterTextChanged = false;
             }
             else

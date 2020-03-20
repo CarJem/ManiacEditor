@@ -8,12 +8,12 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var value = entity.attributesMap["length"].ValueUInt8;
+            var value = e.attributesMap["length"].ValueUInt8;
             var Animation = LoadAnimation(d, "Bridge");
             bool wEven = value % 2 == 0;
             for (int xx = 0; xx <= value; ++xx)
@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var length = entity.attributesMap["length"].ValueUInt8;
             int widthPixels = length * 16;

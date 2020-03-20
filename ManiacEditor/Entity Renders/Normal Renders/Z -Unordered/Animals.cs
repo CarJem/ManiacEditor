@@ -9,14 +9,14 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(Structures.EntityRenderProp Properties)
         {
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
             bool fliph = false;
             bool flipv = false;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
+            int type = (int)e.attributesMap["type"].ValueEnum;
             var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "Animals", type, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }

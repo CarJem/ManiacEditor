@@ -11,14 +11,14 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var type = entity.attributesMap["type"].ValueUInt8;
-            var width = (int)(entity.attributesMap["size"].ValueVector2.X.High) - 1;
-			var height = (int)(entity.attributesMap["size"].ValueVector2.Y.High) - 1;
+            var type = e.attributesMap["type"].ValueUInt8;
+            var width = (int)(e.attributesMap["size"].ValueVector2.X.High) - 1;
+			var height = (int)(e.attributesMap["size"].ValueVector2.Y.High) - 1;
 
 
             var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "EditorAssets");
@@ -56,8 +56,8 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            bool knux = entity.attributesMap["onlyKnux"].ValueBool;
-            bool mighty = entity.attributesMap.ContainsKey("onlyMighty") && entity.attributesMap["onlyMighty"].ValueBool;
+            bool knux = e.attributesMap["onlyKnux"].ValueBool;
+            bool mighty = e.attributesMap.ContainsKey("onlyMighty") && e.attributesMap["onlyMighty"].ValueBool;
 
             // draw Knuckles icon
             if (knux)
@@ -82,7 +82,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High * 2 - 1) * 16;
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High * 2 - 1) * 16;

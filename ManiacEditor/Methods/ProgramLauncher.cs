@@ -287,6 +287,7 @@ namespace ManiacEditor.Methods
         }
         public static void DuplicateObjectIDHealer()
         {
+            /*
             MessageBoxResult result = System.Windows.MessageBox.Show("WARNING: Once you do this the editor will restart immediately, make sure your progress is closed and saved!", "WARNING", MessageBoxButton.OKCancel, MessageBoxImage.Information);
             if (result == MessageBoxResult.OK)
             {
@@ -308,7 +309,7 @@ namespace ManiacEditor.Methods
                 Extensions.ExternalExtensions.ShowConsoleWindow();
                 healer.startHealing(open.FileName);
                 Extensions.ExternalExtensions.HideConsoleWindow();
-            }
+            }*/
         }
 
         #endregion

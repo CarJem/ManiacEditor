@@ -179,31 +179,31 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            int angle = (int)entity.attributesMap["angle"].ValueInt32;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
-            int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
-            int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High;
-            int childCount = (int)entity.attributesMap["childCount"].ValueEnum;
-            bool hasTension = entity.attributesMap["hasTension"].ValueBool;
-            int speed = Methods.Entities.AttributeHandler.AttributesMapVar("speed", entity);
+            int angle = (int)e.attributesMap["angle"].ValueInt32;
+            int type = (int)e.attributesMap["type"].ValueEnum;
+            int amplitudeX = (int)e.attributesMap["amplitude"].ValueVector2.X.High;
+            int amplitudeY = (int)e.attributesMap["amplitude"].ValueVector2.Y.High;
+            int childCount = (int)e.attributesMap["childCount"].ValueEnum;
+            bool hasTension = e.attributesMap["hasTension"].ValueBool;
+            int speed = Methods.Entities.AttributeHandler.AttributesMapVar("speed", e);
 
             int FrameIDAttribute = 0;
 
-            switch (entity.attributesMap["frameID"].Type)
+            switch (e.attributesMap["frameID"].Type)
             {
                 case AttributeTypes.UINT8:
-                    FrameIDAttribute = entity.attributesMap["frameID"].ValueUInt8;
+                    FrameIDAttribute = e.attributesMap["frameID"].ValueUInt8;
                     break;
                 case AttributeTypes.INT8:
-                    FrameIDAttribute = entity.attributesMap["frameID"].ValueInt8;
+                    FrameIDAttribute = e.attributesMap["frameID"].ValueInt8;
                     break;
                 case AttributeTypes.ENUM:
-                    FrameIDAttribute = (int)entity.attributesMap["frameID"].ValueEnum;
+                    FrameIDAttribute = (int)e.attributesMap["frameID"].ValueEnum;
                     break;
             }
 
@@ -214,7 +214,7 @@ namespace ManiacEditor.Entity_Renders
             else if (type == 7) DrawMovingPlatformSeven(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
             else DrawStandardPlatform(d, x, y, Transparency, FrameIDAttribute);
         }
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var attribute = entity.attributesMap["frameID"];
             int angle = (int)entity.attributesMap["angle"].ValueInt32;

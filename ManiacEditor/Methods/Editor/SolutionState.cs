@@ -8,11 +8,13 @@ namespace ManiacEditor.Methods.Editor
 {
     public class SolutionState
     {
+        #region Init
         private static ManiacEditor.Controls.Editor.MainEditor Instance;
         public SolutionState(ManiacEditor.Controls.Editor.MainEditor instance)
         {
             Instance = instance;
         }
+        #endregion
 
         #region Editor Status Variables
 
@@ -23,6 +25,10 @@ namespace ManiacEditor.Methods.Editor
         public static bool IsSceneLoaded()
         {
             return Methods.Editor.Solution.CurrentScene == null ? false : true;
+        }
+        public static bool IsNormalTilesEdit()
+        {
+            return Methods.Editor.Solution.EditLayerA != null && !Instance.EditorToolbar.ChunksToolButton.IsChecked.Value;
         }
         public static bool IsTilesEdit()
         {
@@ -170,6 +176,7 @@ namespace ManiacEditor.Methods.Editor
             if (Instance.ViewPanel.SharpPanel.hScrollBar1 != null)
             {
                 Instance.ViewPanel.SharpPanel.hScrollBar1.Value = value;
+                ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh(true);
             }
         }
 
@@ -178,6 +185,7 @@ namespace ManiacEditor.Methods.Editor
             if (Instance.ViewPanel.SharpPanel.vScrollBar1 != null)
             {
                 Instance.ViewPanel.SharpPanel.vScrollBar1.Value = value;
+                ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh(true);
             }
         }
 
@@ -873,7 +881,7 @@ namespace ManiacEditor.Methods.Editor
 
             private string GetSplineRenderingObjectName()
             {
-                return SplineObjectRenderingTemplate.Entity.Object.Name.Name;
+                return SplineObjectRenderingTemplate.Object.Name.Name;
             }
 
 

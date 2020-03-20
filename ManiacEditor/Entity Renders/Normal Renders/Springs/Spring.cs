@@ -9,13 +9,13 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(Structures.EntityRenderProp Properties)
         {
             DevicePanel d = Properties.Graphics;
-            SceneEntity entity = Properties.EditorObject.Entity; 
+             
             Classes.Scene.EditorEntity e = Properties.EditorObject;
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
-            int animID = (int)entity.attributesMap["type"].ValueEnum;
-            var flipFlag = entity.attributesMap["flipFlag"].ValueEnum;
+            int animID = (int)e.attributesMap["type"].ValueEnum;
+            var flipFlag = e.attributesMap["flipFlag"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
 
@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x + frame.PivotX, y + frame.PivotY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, fliph, flipv);
             }
         }
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
             return d.IsObjectOnScreen(x, y, 20, 20);
         }

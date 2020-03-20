@@ -10,6 +10,8 @@ using RSDKv5;
 using System.ComponentModel;
 using System.Data;
 using ManiacEditor.Extensions;
+using ManiacEditor.Classes.Scene;
+using ManiacEditor.Controls.Global;
 using ManiacEditor.Controls.Global.Controls.PropertyGrid;
 using GenerationsLib.Core;
 
@@ -25,21 +27,18 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		public bool MultipleObjectsSelected { get; set; } = false;
 		List<int> SelectedObjectListIndexes { get; set; } = new List<int>();
 		private ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
-		private List<RSDKv5.SceneEntity> _Entities { get; set; }
-		private Button[] ObjectList { get; set; } = new Button[2301];
-		private List<int> _SelectedEntitySlots { get; set; } = new List<int>();
-		private BindingList<TextBlock> _BindingSceneObjectsSource { get; set; } = new BindingList<TextBlock>();
-		private RSDKv5.SceneEntity CurrentEntity { get; set; }
-		public List<RSDKv5.SceneEntity> Entities
+		private List<EditorEntity> _Entities
 		{
-			set
+			get
 			{
-				_Entities = value.ToList();
-				_Entities.Sort((x, y) => x.SlotID.CompareTo(y.SlotID));
-				UpdateEntitiesList();
+				return Methods.Editor.Solution.Entities.Entities;
 			}
 		}
-		public List<RSDKv5.SceneEntity> SelectedEntities
+		private EntitiesListItem[] ObjectList { get; set; } = new EntitiesListItem[2301];
+		private List<int> _SelectedEntitySlots { get; set; } = new List<int>();
+		private BindingList<TextBlock> _BindingSceneObjectsSource { get; set; } = new BindingList<TextBlock>();
+		private EditorEntity CurrentEntity { get; set; }
+		public List<EditorEntity> SelectedEntities
 		{
 			get
 			{
@@ -50,7 +49,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 int splineID = Methods.Editor.SolutionState.SelectedSplineID;
                 if (ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Methods.Editor.SolutionState.SplineOptionsGroup.ContainsKey(splineID) && Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
                 {
-					UpdatePropertiesGrid(new List<SceneEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity });
+					UpdatePropertiesGrid(new List<EditorEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
                 }
                 else
                 {
@@ -60,7 +59,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 		}
 
-		private List<RSDKv5.SceneEntity> _SelectedEntities { get; set; }
+		private List<EditorEntity> _SelectedEntities { get; set; }
 
 		public bool NeedRefresh { get; set; }
 		#endregion
@@ -78,12 +77,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 			UpdateDefaultFilter(true);
 
-			UpdateEntitiesList(true);
+			UpdateEntitiesList();
 
 			UpdateFilterNames(true);
-
-
-
 		}
 		public void SetupWinFormsPropertyGrid()
 		{
@@ -93,7 +89,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		#endregion
 
 		#region Property Grid (General)
-		public void UpdatePropertiesGrid(List<RSDKv5.SceneEntity> selectedEntities)
+		public void UpdatePropertiesGrid(List<EditorEntity> selectedEntities)
 		{
 			// Reset the List Item if the Current Entity is nothing or if it's a multi-selection
 			if (CurrentEntity == null)
@@ -122,7 +118,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					EntityEditor.Header = "Entity Editor | " + String.Format("{0} entities selected", selectedEntities.Count);
 					MultipleObjectsSelected = true;
 					string commonObject = selectedEntities[0].Object.Name.Name;
-					foreach (RSDKv5.SceneEntity selectedEntity in selectedEntities)
+					foreach (EditorEntity selectedEntity in selectedEntities)
 					{
 						SelectedObjectListIndexes.Add(selectedEntity.SlotID);
 						if (selectedEntity.Object.Name.Name != commonObject)
@@ -157,7 +153,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			{
 				_SelectedEntities = selectedEntities;
 				if (selectedEntities.Count == 0) return;
-				RSDKv5.SceneEntity entity = selectedEntities[0];
+				EditorEntity entity = selectedEntities[0];
 
 				if (entity == CurrentEntity)
 				{
@@ -213,7 +209,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			}
 			else
 			{
-				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, e.Property, e.OldValue, e.NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
+				AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, e.Property, e.OldValue, e.NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
 				SetSelectedProperties(CurrentEntity, e);
 			}
 
@@ -227,7 +223,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		#endregion
 
 		#region Property Grid (Create) 
-		public void CreateSelectedProperties(SceneEntity entity)
+		public void CreateSelectedProperties(EditorEntity entity)
 		{
 			PropertyControl.PropertyGridObject objProperties = new PropertyControl.PropertyGridObject();
 
@@ -282,9 +278,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				}
 			}
 
-			PropertiesGrid.SelectedObject = objProperties;
+			if (PropertiesGrid != null) PropertiesGrid.SelectedObject = objProperties;
 		}
-		public void CreateMultiSelectedProperties(List<RSDKv5.SceneEntity> entities)
+		public void CreateMultiSelectedProperties(List<EditorEntity> entities)
 		{
 			PropertyControl.PropertyGridObject objProperties = new PropertyControl.PropertyGridObject();
 			foreach (var attribute in GetMultiAttributes(entities))
@@ -336,7 +332,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 			PropertiesGrid.SelectedObject = objProperties;
 		}
-		public Dictionary<string, Dictionary<AttributeTypes, AttributeValue>> GetMultiAttributes(List<RSDKv5.SceneEntity> entities)
+		public Dictionary<string, Dictionary<AttributeTypes, AttributeValue>> GetMultiAttributes(List<EditorEntity> entities)
 		{
 			Dictionary<string, Dictionary<AttributeTypes, AttributeValue>> MultiAttributes = new Dictionary<string, Dictionary<AttributeTypes, AttributeValue>>();
 			foreach (var entity in entities)
@@ -489,11 +485,11 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		#endregion
 
 		#region Property Grid (Set) 
-		private void SetSelectedProperties(RSDKv5.SceneEntity entity, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
+		private void SetSelectedProperties(EditorEntity entity, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
 		{
 			SetSelectedProperties(entity, e.Property, e.NewValue, e.OldValue);
 		}
-		private void SetSelectedProperties(RSDKv5.SceneEntity entity, string Property, object NewValue, object OldValue)
+		private void SetSelectedProperties(EditorEntity entity, string Property, object NewValue, object OldValue)
 		{
 			string Category = Property.Split(',')[0];
 			string Name = Property.Split(',')[1];
@@ -555,9 +551,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 						entity.Attributes.Add(attributeValue);
 						entity.attributesMap.Add(attb.Name.Name, attributeValue);
 					}
-					entity.Object.Entities.Remove(entity);
 					entity.Object = obj;
-					obj.Entities.Add(entity);
 				}
 				else
 				{
@@ -572,9 +566,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 						entity.Attributes.Add(attributeValue);
 						entity.attributesMap.Add(attb.Name.Name, attributeValue);
 					}
-					entity.Object.Entities.Remove(entity);
 					entity.Object = sobj;
-					sobj.Entities.Add(entity);
 					TextBlock newItem = new TextBlock()
 					{
 						Tag = sobj,
@@ -665,7 +657,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 						attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
 						break;
 				}
-				UpdatePropertiesGrid(new List<RSDKv5.SceneEntity>() { entity });
+				UpdatePropertiesGrid(new List<EditorEntity>() { entity });
 			}
 
 			void UpdateEntityProperties()
@@ -677,12 +669,12 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				else
 				{
 					CurrentEntity = null;
-					UpdatePropertiesGrid(new List<RSDKv5.SceneEntity>() { entity });
+					UpdatePropertiesGrid(new List<EditorEntity>() { entity });
 				}
 				UpdateEntitiesList();
 			}
 		}
-		private void SetMultiSelectedProperties(List<RSDKv5.SceneEntity> entities, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)		
+		private void SetMultiSelectedProperties(List<EditorEntity> entities, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)		
 		{
 			string Property = e.Property;
 			object NewValue = e.NewValue;
@@ -758,7 +750,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 							attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
 							break;
 					}
-					ActionList.Add(new Actions.ActionEntityPropertyChange(entity, Property, OldValue, NewValue, new Action<RSDKv5.SceneEntity, string, object, object>(SetSelectedProperties)));
+					ActionList.Add(new Actions.ActionEntityPropertyChange(entity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
 
 				}
 			}
@@ -777,7 +769,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		{
 
 			//This if statement Triggers when the toolbar opens for the first time
-			if (FirstLoad) _Entities = Methods.Editor.Solution.Entities.Entities.Select(x => x.Entity).ToList();
 			SceneEntitiesList.Items.Clear();
 
 			int count = (2301 > _Entities.Count() ? _Entities.Count() : 2031);
@@ -790,7 +781,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					Visibility VisibilityStatus = GetObjectListItemVisiblity(entity.Object.Name.Name, entity.SlotID);
 					if (ObjectList[i] == null)
 					{
-						ObjectList[i] = new System.Windows.Controls.Button()
+						ObjectList[i] = new EntitiesListItem()
 						{
 							Content = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
 							Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
@@ -798,6 +789,8 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 							Visibility = VisibilityStatus
 						};
 						ObjectList[i].Click += EntitiesListEntryClicked;
+						ObjectList[i].ClickDown += EntitiesListEntryClickedDown;
+						ObjectList[i].ClickUp += EntitiesListEntryClickedUp;
 					}
 					else
 					{
@@ -812,7 +805,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				{
 					if (ObjectList[i] == null)
 					{
-						ObjectList[i] = new System.Windows.Controls.Button()
+						ObjectList[i] = new EntitiesListItem()
 						{
 							Content = string.Format("{0} - {1}", "UNUSED", i),
 							Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
@@ -822,6 +815,8 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 						};
 						ObjectList[i].Click += EntitiesListEntryClicked;
+						ObjectList[i].ClickDown += EntitiesListEntryClickedDown;
+						ObjectList[i].ClickUp += EntitiesListEntryClickedUp;
 					}
 					else
 					{
@@ -924,6 +919,38 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 		#endregion
 
+		#region List Item Events
+
+		private void EntitiesListEntryClicked(object sender, RoutedEventArgs e)
+		{
+			var button = sender as EntitiesListItem;
+			Methods.Editor.Solution.Entities.Deselect();
+			Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
+			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
+		}
+		private void EntitiesListEntryClickedUp(object sender, RoutedEventArgs e)
+		{
+			var button = sender as EntitiesListItem;
+			Methods.Editor.Solution.Entities.Deselect();
+			var SelectedObject = Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault();
+			Methods.Editor.Solution.Entities.MoveEntitySlotIDUp(SelectedObject);
+			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
+			UpdateEntitiesList();
+			TabControl.SelectedIndex = 2;
+		}
+		private void EntitiesListEntryClickedDown(object sender, RoutedEventArgs e)
+		{
+			var button = sender as EntitiesListItem;
+			Methods.Editor.Solution.Entities.Deselect();
+			var SelectedObject = Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault();
+			Methods.Editor.Solution.Entities.MoveEntitySlotIDDown(SelectedObject);
+			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
+			UpdateEntitiesList();
+			TabControl.SelectedIndex = 2;
+		}
+
+		#endregion
+
 		#region Events
 
 		public void EntitiesList_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
@@ -994,14 +1021,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				TabControl.SelectedIndex = 0;
 			}
 		}
-		private void EntitiesListEntryClicked(object sender, RoutedEventArgs e)
-		{
-			System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
-			Methods.Editor.Solution.Entities.Deselect();
-			Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
-			TabControl.SelectedIndex = 0;
-			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
-		}
+
 		private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 
@@ -1022,7 +1042,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					Methods.Editor.Solution.Entities.Deselect();
 					Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
 					TabControl.SelectedIndex = 0;
-					SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+					SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
 				}
 			}
 
@@ -1190,7 +1210,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 foreach (var entity in Methods.Editor.Solution.Entities.SelectedEntities.OrderBy(x => x.TimeWhenSelected))
                 {
                     TextBlock entry = new TextBlock();
-                    entry.Text = string.Format("{0} | {1} | ID:{2} | X:{3},Y:{4}", string.Format("{0}", entity.SelectedIndex + 1), entity.Name, entity.SlotID, entity.Entity.Position.X.High, entity.Entity.Position.Y.High);
+                    entry.Text = string.Format("{0} | {1} | ID:{2} | X:{3},Y:{4}", string.Format("{0}", entity.SelectedIndex + 1), entity.Name, entity.SlotID, entity.Position.X.High, entity.Position.Y.High);
                     SelectionViewer.Children.Add(entry);
                 }
             }

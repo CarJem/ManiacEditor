@@ -6,8 +6,8 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = properties.Object.SlotID;
-            int childCount = properties.Object.GetAttribute("childCount").ValueEnum;
+            ushort slotID = properties.EditorObject.SlotID;
+            int childCount = properties.EditorObject.GetAttribute("childCount").ValueEnum;
             ushort[] targetSlotIDs = new ushort[childCount];
             for (int i = 0; i < childCount; i++)
             {
@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 foreach (var t in tagged)
                 {
-                    DrawCenteredLinkArrow(properties.Graphics, properties.Object, t.Entity);
+                    DrawCenteredLinkArrow(properties.Graphics, properties.EditorObject, t);
                 }
             }
             properties.EditorObject.DrawBase(properties.Graphics);

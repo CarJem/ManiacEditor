@@ -25,11 +25,11 @@ namespace ManiacEditor.Methods.Entities
             {
                 if (entity.Name == "Spline")
                 {
-                    int id = entity.Entity.attributesMap["SplineID"].ValueInt32;
+                    int id = entity.attributesMap["SplineID"].ValueInt32;
                     if (id == splineID)
                     {
-                        SplineXPos.Add(entity.Entity.Position.X.High);
-                        SplineYPos.Add(entity.Entity.Position.Y.High);
+                        SplineXPos.Add(entity.Position.X.High);
+                        SplineYPos.Add(entity.Position.Y.High);
                     }
                 }
             }
@@ -42,7 +42,7 @@ namespace ManiacEditor.Methods.Entities
             {
                 if (entity.Name == "Spline")
                 {
-                    int id = entity.Entity.attributesMap["SplineID"].ValueInt32;
+                    int id = entity.attributesMap["SplineID"].ValueInt32;
                     if (id == splineID)
                     {
                         EntitiesToRemove.Add(entity);
@@ -69,7 +69,7 @@ namespace ManiacEditor.Methods.Entities
                 List<KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>> EntitiesAddList = new List<KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>>();
                 foreach (var p in points)
                 {
-                    EntitiesAddList.Add(new KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>(selectedOptions.SplineObjectRenderingTemplate.Entity.Object, new RSDKv5.Position((short)p.X, (short)p.Y)));
+                    EntitiesAddList.Add(new KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>(selectedOptions.SplineObjectRenderingTemplate.Object, new RSDKv5.Position((short)p.X, (short)p.Y)));
                 }
                 Methods.Editor.Solution.Entities.SpawnMultiple(EntitiesAddList);
                 Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);

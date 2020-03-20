@@ -9,17 +9,17 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(Structures.EntityRenderProp Properties)
         {
             DevicePanel d = Properties.Graphics;
-            SceneEntity entity = Properties.EditorObject.Entity;
+            
             Classes.Scene.EditorEntity e = Properties.EditorObject;
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            int type = (int)entity.attributesMap["type"].ValueEnum;
-            int speed = (int)entity.attributesMap["speed"].ValueEnum;
-            int angle = (int)entity.attributesMap["angle"].ValueInt32;
-            int amplitudeX = (int)entity.attributesMap["amplitude"].ValueVector2.X.High;
-            int amplitudeY = (int)entity.attributesMap["amplitude"].ValueVector2.Y.High; 
+            int type = (int)e.attributesMap["type"].ValueEnum;
+            int speed = (int)e.attributesMap["speed"].ValueEnum;
+            int angle = (int)e.attributesMap["angle"].ValueInt32;
+            int amplitudeX = (int)e.attributesMap["amplitude"].ValueVector2.X.High;
+            int amplitudeY = (int)e.attributesMap["amplitude"].ValueVector2.Y.High; 
             bool fliph = false;
             bool flipv = false;
 

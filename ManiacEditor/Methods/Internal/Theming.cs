@@ -254,7 +254,7 @@ namespace ManiacEditor.Methods.Internal
 
         #region Entities Related Color Fetching
 
-        public static int GetFilter(RSDKv5.SceneEntity entity)
+        public static int GetFilter(Classes.Scene.EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == RSDKv5.AttributeTypes.UINT8)
             {
@@ -267,7 +267,7 @@ namespace ManiacEditor.Methods.Internal
             }
         }
 
-        public static SolidColorBrush GetObjectFilterColorBrush(RSDKv5.SceneEntity entity)
+        public static SolidColorBrush GetObjectFilterColorBrush(Classes.Scene.EditorEntity entity)
         {
             int filter = GetFilter(entity);
             SolidColorBrush ForeColor = (SolidColorBrush)Instance.FindResource("NormalText");
@@ -392,7 +392,7 @@ namespace ManiacEditor.Methods.Internal
             Instance.TilesToolbar.TilesList.Refresh();
             Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
             Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
-            Instance.TilesToolbar.UpdateThemeColors();
+            Instance.TilesToolbar.RefreshThemeColors();
             TilesToolbarAwaitingRefresh = false;
         }
 

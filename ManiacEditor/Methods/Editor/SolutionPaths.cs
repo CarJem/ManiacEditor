@@ -526,7 +526,7 @@ namespace ManiacEditor.Methods.Editor
 		#endregion
 
 		#region Editor Stamps
-		public static Stamps GetEditorStamps(string Zone)
+		public static Classes.Scene.EditorChunks.TexturedStamps GetEditorStamps(string Zone)
 		{
 			int sourceId = SceneFile_Source.SourceID;
 			string sourceFile = Methods.Editor.Solution.CurrentScene.EditorMetadata.StampName.Replace("\0", "");
@@ -536,7 +536,7 @@ namespace ManiacEditor.Methods.Editor
 			Stamps_Source = new FileSource(sourceId, sourcePath);
 			if (IsEditorStampsValid())
 			{
-				return new Stamps(sourcePath);
+				return new Classes.Scene.EditorChunks.TexturedStamps(sourcePath);
 			}
 			else
 			{
@@ -544,11 +544,11 @@ namespace ManiacEditor.Methods.Editor
 				if (File.Exists(Path.Combine(SceneFile_Source.SourceDirectory, "ManiacStamps.bin")))
 				{
 					SetEditorStampsName("ManiacStamps.bin");
-					return new Stamps(Path.Combine(SceneFile_Source.SourceDirectory, "ManiacStamps.bin"));
+					return new Classes.Scene.EditorChunks.TexturedStamps(Path.Combine(SceneFile_Source.SourceDirectory, "ManiacStamps.bin"));
 				}
 				else
 				{
-					return new Stamps();
+					return new Classes.Scene.EditorChunks.TexturedStamps();
 				}
 			}
 		}

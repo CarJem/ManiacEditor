@@ -1,20 +1,21 @@
 ﻿using RSDKv5;
 using System;
 using System.Collections.Generic;
+using ManiacEditor.Classes.Scene;
 
 namespace ManiacEditor.Actions
 {
     class ActionEntityPropertyChange : IAction
     {
-        SceneEntity entity;
+        EditorEntity entity;
         string tag;
         object oldValue;
         object newValue;
-        Action<SceneEntity, string, object, object> setValue;
+        Action<EditorEntity, string, object, object> setValue;
 
         public string Description => $"Changing {tag} on {entity.Object.Name} from {oldValue} to {newValue}";
 
-        public ActionEntityPropertyChange(SceneEntity entity, string tag, object oldValue, object newValue, Action<SceneEntity, string, object, object> setValue)
+        public ActionEntityPropertyChange(EditorEntity entity, string tag, object oldValue, object newValue, Action<EditorEntity, string, object, object> setValue)
         {
             this.entity = entity;
             this.tag = tag;
@@ -38,10 +39,10 @@ namespace ManiacEditor.Actions
     {
         string tag;
         List<ActionEntityPropertyChange> MultipleActions;
-        List<SceneEntity> entities;
+        List<EditorEntity> entities;
         public string Description => $"Changing {tag} on {entities.Count} Entities";
 
-        public ActionEntityMultiplePropertyChange(List<SceneEntity> entities, string tag, List<ActionEntityPropertyChange> multipleActions, bool redo = false)
+        public ActionEntityMultiplePropertyChange(List<EditorEntity> entities, string tag, List<ActionEntityPropertyChange> multipleActions, bool redo = false)
         {
             this.entities = entities;
             this.tag = tag;

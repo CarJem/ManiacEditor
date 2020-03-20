@@ -1,5 +1,6 @@
 ﻿using System;
 using RSDKv5;
+using ManiacEditor.Classes.Scene;
 
 namespace ManiacEditor.Methods.Entities
 {
@@ -8,7 +9,7 @@ namespace ManiacEditor.Methods.Entities
     {
         static Position no_position = new Position(0, 0);
 
-        public static byte AttributesMapUint8(string name, SceneEntity entity)
+        public static byte AttributesMapUint8(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -21,7 +22,7 @@ namespace ManiacEditor.Methods.Entities
             }
 
         }
-        public static ushort AttributesMapUint16(string name, SceneEntity entity)
+        public static ushort AttributesMapUint16(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -33,7 +34,7 @@ namespace ManiacEditor.Methods.Entities
                 return 0;
             }
         }
-        public static uint AttributesMapUint32(string name, SceneEntity entity)
+        public static uint AttributesMapUint32(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -45,7 +46,7 @@ namespace ManiacEditor.Methods.Entities
                 return 0;
             }
         }
-        public static sbyte AttributesMapInt8(string name, SceneEntity entity)
+        public static sbyte AttributesMapInt8(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -57,7 +58,7 @@ namespace ManiacEditor.Methods.Entities
                 return 0;
             }
         }
-        public static short AttributesMapInt16(string name, SceneEntity entity)
+        public static short AttributesMapInt16(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -69,7 +70,7 @@ namespace ManiacEditor.Methods.Entities
                 return 0;
             }
         }
-        public static int AttributesMapInt32(string name, SceneEntity entity)
+        public static int AttributesMapInt32(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -81,7 +82,7 @@ namespace ManiacEditor.Methods.Entities
                 return 0;
             }
         }
-        public static int AttributesMapVar(string name, SceneEntity entity)
+        public static int AttributesMapVar(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -93,7 +94,7 @@ namespace ManiacEditor.Methods.Entities
                 return 0;
             }
         }
-        public static bool AttributesMapBool(string name, SceneEntity entity, bool failReturnValue = false)
+        public static bool AttributesMapBool(string name, EditorEntity entity, bool failReturnValue = false)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -107,7 +108,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static string AttributesMapString(string name, SceneEntity entity)
+        public static string AttributesMapString(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -120,7 +121,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static RSDKv5.Color AttributesMapColor(string name, SceneEntity entity)
+        public static RSDKv5.Color AttributesMapColor(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -133,7 +134,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static Position AttributesMapPosition(string name, SceneEntity entity)
+        public static Position AttributesMapPosition(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -146,7 +147,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static int AttributesMapPositionHighX(string name, SceneEntity entity)
+        public static int AttributesMapPositionHighX(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -158,7 +159,7 @@ namespace ManiacEditor.Methods.Entities
                 return 0;
             }
         }
-        public static int AttributesMapPositionLowX(string name, SceneEntity entity)
+        public static int AttributesMapPositionLowX(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -171,7 +172,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static int AttributesMapPositionHighY(string name, SceneEntity entity)
+        public static int AttributesMapPositionHighY(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -184,7 +185,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static int AttributesMapPositionLowY(string name, SceneEntity entity)
+        public static int AttributesMapPositionLowY(string name, EditorEntity entity)
         {
             if (entity.attributesMap.ContainsKey(name))
             {
@@ -197,7 +198,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static bool PlaneFilterCheck(SceneEntity entity, int prority)
+        public static bool PlaneFilterCheck(EditorEntity entity, int prority)
         {
             if (entity.attributesMap.ContainsKey("priority"))
             {
@@ -282,7 +283,7 @@ namespace ManiacEditor.Methods.Entities
             }
         }
 
-        public static int GetObjectPriority(SceneEntity e)
+        public static int GetObjectPriority(EditorEntity e)
         {
             
             if (e.Object.Name.Name == "UIOptionPanel") return -1;

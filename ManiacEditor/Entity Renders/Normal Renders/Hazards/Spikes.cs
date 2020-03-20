@@ -9,12 +9,12 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(Structures.EntityRenderProp Properties)
         {
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var value = entity.attributesMap["type"];
+            var value = e.attributesMap["type"];
             bool fliph = false;
             bool flipv = false;
 			bool isFBZ = (Methods.Editor.Solution.Entities.SetupObject == "FBZSetup" ? true : false);
@@ -38,7 +38,7 @@ namespace ManiacEditor.Entity_Renders
                 animID = 1;
             }
 
-            int count = (entity.attributesMap.ContainsKey("count") ? (int)entity.attributesMap["count"].ValueUInt8 : 2);
+            int count = (e.attributesMap.ContainsKey("count") ? (int)e.attributesMap["count"].ValueUInt8 : 2);
 
             // Is it a value that defaults to 2?
             if (count < 2)
@@ -129,7 +129,7 @@ namespace ManiacEditor.Entity_Renders
             */           
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var value = entity.attributesMap["type"];
             int count = (entity.attributesMap.ContainsKey("count") ? (int)entity.attributesMap["count"].ValueUInt8 : 0);

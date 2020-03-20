@@ -5,117 +5,38 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIText : EntityRenderer
     {
-        string HUDLevelSelectCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"_^]\\[)(";
-        public char[] HUDLevelSelectChar;
+        private static string HUDLevelSelectCharS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"_^]\\[)(";
+        private static char[] HUDLevelSelectChar;
 
-        public UIText()
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            HUDLevelSelectChar = HUDLevelSelectCharS.ToCharArray();
-        }
+            if (HUDLevelSelectChar == null) HUDLevelSelectChar = HUDLevelSelectCharS.ToCharArray();
 
-        public override void Draw(Structures.EntityRenderProp properties)
-        {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
             
-            string text = entity.attributesMap["text"].ValueString;
-            bool selectable = entity.attributesMap["selectable"].ValueBool;
-            bool highlighted = entity.attributesMap["highlighted"].ValueBool;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            bool fliph = false;
+            bool flipv = false;
+
+            string text = e.attributesMap["text"].ValueString;
+            bool selectable = e.attributesMap["selectable"].ValueBool;
+            bool highlighted = e.attributesMap["highlighted"].ValueBool;
             int spacingAmount = 0;
             foreach(char symb in text)
             {
                 int frameID = GetFrameID(symb, Methods.Editor.SolutionState.LevelSelectChar);
-                int listID = (highlighted ? 1 : 0);
-                var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("Text", d.DevicePanel, listID, frameID, false, false, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[Animation.index];
-                    //Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + spacingAmount, y + frame.Frame.PivotY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    spacingAmount = spacingAmount + frame.Frame.Width;
-                }
+                int animID = (highlighted ? 1 : 0);
+
+                var Animation = LoadAnimation("Text", d, animID, frameID);
+                DrawTexturePivotPlus(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, spacingAmount, 0, Transparency, fliph, flipv);
+                spacingAmount = spacingAmount + Animation.RequestedFrame.Width;
             }
 
             
-        }
-
-        public void DrawEditorHUDText(Controls.Editor.MainEditor instance, DevicePanel d, int x, int y, string text, bool highlighted, int Transparency = 0xff, int highlightDistance = -1, int highlightStart = 0)
-        {
-            /*
-			d.DrawHUDRectangle(x - 4, y - 4, x + text.Length * 8, y + 4, System.Drawing.Color.FromArgb(128, 0, 0, 0));
-			int spacingAmount = 0;
-			int loopCount = 0;
-            foreach (char symb in text)
-            {
-                bool fliph = false;
-                bool flipv = false;
-                int frameID = GetFrameIDHUD(symb, HUDLevelSelectChar);
-				bool highlighted_temp = highlighted;
-				if (highlightStart == 0)
-				{
-					if (highlightDistance != -1)
-					{
-						if (highlightDistance > 0) highlightDistance--;
-						else highlighted_temp = false;
-					}
-				}
-				else
-				{
-					if (loopCount >= highlightStart)
-					{
-						highlighted_temp = true;
-						if (highlightDistance != -1)
-						{
-							if (highlightDistance > 0) highlightDistance--;
-							else highlighted_temp = false;
-						}
-					}
-					else
-					{
-						highlighted_temp = false;
-					}
-				}
-				int listID = (highlighted_temp ? 1 : 0);
-
-				var editorAnim = instance.Methods.Entities.EntityDrawing.LoadAnimation("HUDEditorText", d, listID, frameID, fliph, flipv, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[0];
-					d.DrawHUDBitmap(frame.Texture, x + frame.Frame.PivotX + spacingAmount, y + frame.Frame.PivotY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    spacingAmount = spacingAmount + frame.Frame.Width;
-					loopCount++;
-
-				}
-				
-            }*/
-
-        }
-
-        public int GetFrameIDHUD(char letter, char[] arry)
-        {
-            char[] symArray = arry;
-            int position = 0;
-            foreach (char sym in symArray)
-            {
-                //MessageBox.Show(String.Format("Sym: {0} Letter: {1} Pos: {2}", sym, letter, position));
-                if (sym.ToString().Equals(letter.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return position;
-                }
-                position++;
-            }
-            return position;
         }
 
         public int GetFrameID(char letter, char[] arry)

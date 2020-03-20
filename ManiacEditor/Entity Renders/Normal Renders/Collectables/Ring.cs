@@ -9,21 +9,21 @@ namespace ManiacEditor.Entity_Renders
         public override void Draw(Structures.EntityRenderProp Properties)
         {
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
+            
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            int type = (int)Methods.Entities.AttributeHandler.AttributesMapVar("type", entity);
-            int moveType = (int)Methods.Entities.AttributeHandler.AttributesMapVar("moveType", entity);
-            int angle = (int)Methods.Entities.AttributeHandler.AttributesMapInt32("angle", entity);
-            UInt32 speed = Methods.Entities.AttributeHandler.AttributesMapUint32("speed", entity);
+            int type = (int)Methods.Entities.AttributeHandler.AttributesMapVar("type", e);
+            int moveType = (int)Methods.Entities.AttributeHandler.AttributesMapVar("moveType", e);
+            int angle = (int)Methods.Entities.AttributeHandler.AttributesMapInt32("angle", e);
+            UInt32 speed = Methods.Entities.AttributeHandler.AttributesMapUint32("speed", e);
 
             bool fliph = false;
             bool flipv = false;
 
-            int amplitudeX = (int)Methods.Entities.AttributeHandler.AttributesMapPositionHighX("amplitude", entity);
-            int amplitudeY = (int)Methods.Entities.AttributeHandler.AttributesMapPositionHighY("amplitude", entity);
+            int amplitudeX = (int)Methods.Entities.AttributeHandler.AttributesMapPositionHighX("amplitude", e);
+            int amplitudeY = (int)Methods.Entities.AttributeHandler.AttributesMapPositionHighY("amplitude", e);
 
             int animID;
             switch (type)
@@ -75,7 +75,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             return d.IsObjectOnScreen(x, y, 20, 20);
         }

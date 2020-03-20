@@ -1,6 +1,7 @@
 ﻿using System;
 using RSDKv5;
 using Color = System.Drawing.Color;
+using ManiacEditor.Classes.Scene;
 
 
 
@@ -15,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
         }
 
         public abstract string GetObjectName();
-        public void DrawLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end)
+        public void DrawLinkArrow(DevicePanel d, EditorEntity start, EditorEntity end)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;
@@ -68,9 +69,9 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         Color.GreenYellow);
         }
-        public void DrawCenteredLinkArrow(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Color? colur = null)
+        public void DrawCenteredLinkArrow(DevicePanel d, EditorEntity start, EditorEntity end, Color? colur = null)
         {
-            if (SetFilter(end) == true) return;
+            //if (SetFilter(end) == true) return;
             Color color = (colur != null ? colur.Value : Color.GreenYellow);
             int startX = start.Position.X.High;
             int startY = start.Position.Y.High;
@@ -91,7 +92,7 @@ namespace ManiacEditor.Entity_Renders
                         end.Position.Y.High + offsetDestinationY,
                         color);
         }
-        public void DrawCenteredSpline(DevicePanel d, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
+        public void DrawCenteredSpline(DevicePanel d, EditorEntity start, EditorEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
         {
             if (SetFilter(end) == true) return;
             int startX = start.Position.X.High;
@@ -129,7 +130,7 @@ namespace ManiacEditor.Entity_Renders
 
 
         }
-        public bool SetFilter(RSDKv5.SceneEntity entity)
+        public bool SetFilter(EditorEntity entity)
         {
             bool filteredOut = false;
             if (HasFilter(entity))
@@ -161,7 +162,7 @@ namespace ManiacEditor.Entity_Renders
             }
             return filteredOut;
         }
-        public bool HasFilter(RSDKv5.SceneEntity entity)
+        public bool HasFilter(EditorEntity entity)
         {
             return entity.attributesMap.ContainsKey("filter") && entity.attributesMap["filter"].Type == AttributeTypes.UINT8;
         }

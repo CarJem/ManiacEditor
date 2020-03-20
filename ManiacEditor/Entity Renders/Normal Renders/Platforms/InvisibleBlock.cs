@@ -9,13 +9,12 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var width = (int)(entity.attributesMap["width"].ValueUInt8);
-            var height = (int)(entity.attributesMap["height"].ValueUInt8);
+            var width = (int)(e.attributesMap["width"].ValueUInt8);
+            var height = (int)(e.attributesMap["height"].ValueUInt8);
 
             var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "ItemBox", 2, 10);
 
@@ -32,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var width = (int)(entity.attributesMap["width"].ValueUInt8);
             var height = (int)(entity.attributesMap["height"].ValueUInt8);

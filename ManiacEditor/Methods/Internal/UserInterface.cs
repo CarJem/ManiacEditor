@@ -70,12 +70,17 @@ namespace ManiacEditor.Methods.Internal
 
             if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() && Instance.EntitiesToolbar != null)
             {
-                Instance.EntitiesToolbar.SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+                Instance.EntitiesToolbar.SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
             }
         }
         private static void SetEditButtonsState(bool enabled)
         {
             Instance.EditorToolbar.SetEditButtonsState(enabled);
+            UpdateEditorToolbars(enabled);
+            SetSelectOnlyButtonsState(enabled);
+        }
+        private static void UpdateEditorToolbars(bool enabled)
+        {
             if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
             {
                 if (Instance.TilesToolbar == null)
@@ -102,8 +107,8 @@ namespace ManiacEditor.Methods.Internal
                     Instance.Editor_Resize(null, null);
                     Instance.Focus();
                 }
-                if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) Instance.TilesToolbar.TabControl.TabIndex = 1;
-                else Instance.TilesToolbar.TabControl.TabIndex = 0;
+                Instance.TilesToolbar.UpdateChunksListIfNeeded();
+                Instance.TilesToolbar.UpdateModeSpecifics();
                 UpdateTilesOptions();
                 Instance.TilesToolbar.ShowShortcuts = Instance.EditorToolbar.DrawToolButton.IsChecked.Value;
             }
@@ -114,7 +119,7 @@ namespace ManiacEditor.Methods.Internal
                     Instance.TilesToolbar.Dispose();
                     Instance.TilesToolbar = null;
                     Instance.Editor_Resize(null, null);
-                    
+
                     Instance.Focus();
                 }
             }
@@ -149,7 +154,7 @@ namespace ManiacEditor.Methods.Internal
                     Instance.Editor_Resize(null, null);
                 }
                 UpdateEntitiesToolbarList();
-                Instance.EntitiesToolbar.SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities.Select(x => x.Entity).ToList();
+                Instance.EntitiesToolbar.SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
             }
             else
             {
@@ -174,8 +179,6 @@ namespace ManiacEditor.Methods.Internal
                 Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
                 Instance.ViewPanel.SplitContainer.UpdateToolbars(true, false);
             }
-
-            SetSelectOnlyButtonsState(enabled);
 
             Position GetEntitySpawnPoint()
             {
@@ -267,7 +270,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void UpdateEntitiesToolbarList()
         {
-            if (Instance.EntitiesToolbar != null) Instance.EntitiesToolbar.Entities = Methods.Editor.Solution.Entities.Entities.Select(x => x.Entity).ToList();
+            if (Instance.EntitiesToolbar != null) Instance.EntitiesToolbar.UpdateEntitiesList();
         }
         public static void UpdateEditLayerActions()
         {
@@ -373,7 +376,7 @@ namespace ManiacEditor.Methods.Internal
             Instance.EditorToolbar.SplinePointSeperationSlider.Value = Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineSize;
 
             if (Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
-                Instance.EditorToolbar.SplineRenderObjectName.Content = Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Entity.Object.Name.Name;
+                Instance.EditorToolbar.SplineRenderObjectName.Content = Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Object.Name.Name;
             else
                 Instance.EditorToolbar.SplineRenderObjectName.Content = "None";
 

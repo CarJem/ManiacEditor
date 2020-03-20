@@ -413,16 +413,26 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Drawing
+        public static void DrawSelectionBox(DevicePanel d, Classes.Scene.EditorEntity _entity)
+        {
+            int X = _entity.Position.X.High;
+            int Y = _entity.Position.Y.High;
+            string Name = _entity.Object.Name.Name;
+            int Transparency = GetTransparencyLevel();
+            System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
+            System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
 
-        public static void DrawNormal(DevicePanel d, Classes.Scene.EditorEntity _entity, bool CanDrawSelectionBox = true)
+            DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity);
+        }
+        public static void DrawNormal(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
             if (!IsObjectOnScreen(d, _entity)) return;
 
             LoadNextAnimation(d, _entity.Name);
 
-            int X = _entity.Entity.Position.X.High;
-            int Y = _entity.Entity.Position.Y.High;
-            string Name = _entity.Entity.Object.Name.Name;
+            int X = _entity.Position.X.High;
+            int Y = _entity.Position.Y.High;
+            string Name = _entity.Object.Name.Name;
             int Transparency = GetTransparencyLevel();
             System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
             System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
@@ -432,22 +442,20 @@ namespace ManiacEditor.Methods.Entities
                 if (CanDraw(Name)) DrawDedicatedRender(d, _entity);
                 else FallbackDraw(d, _entity.Name, X, Y, Transparency);
             }
-
-            if (CanDrawSelectionBox) DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity);
         }
         public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.EditorEntity e)
         {
-            int x = e.Entity.Position.X.High;
-            int y = e.Entity.Position.Y.High;
+            int x = e.Position.X.High;
+            int y = e.Position.Y.High;
             int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
 
             Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, e, x, y, Transparency);
 
-            if (!RendersWithErrors.Contains(e.Entity.Object.Name.Name))
+            if (!RendersWithErrors.Contains(e.Object.Name.Name))
             {
                 if (e.CurrentRender == null)
                 {
-                    var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Entity.Object.Name.Name).FirstOrDefault();
+                    var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Object.Name.Name).FirstOrDefault();
                     e.CurrentRender = RenderDrawing;
                 }
                 if (e.CurrentRender != null) e.CurrentRender.Draw(properties);
@@ -469,7 +477,7 @@ namespace ManiacEditor.Methods.Entities
             var structure = new Structures.LinkedEntityRenderProp(d, _entity);
             if (_entity.CurrentLinkedRender == null)
             {
-                LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name.ToString()).FirstOrDefault();
+                LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name.ToString()).FirstOrDefault();
                 _entity.CurrentLinkedRender = renderer;
             }
             if (_entity.CurrentLinkedRender != null) _entity.CurrentLinkedRender.Draw(structure);
@@ -478,8 +486,8 @@ namespace ManiacEditor.Methods.Entities
         {
             int Transparency = GetTransparencyLevel();
 
-            int x = _entity.Entity.Position.X.High;
-            int y = _entity.Entity.Position.Y.High;
+            int x = _entity.Position.X.High;
+            int y = _entity.Position.Y.High;
             DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red, _entity);
         }
         public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
@@ -502,7 +510,7 @@ namespace ManiacEditor.Methods.Entities
                 {
                     if (Methods.Editor.SolutionState.Zoom >= 1)
                     {
-                        d.DrawTextSmall(string.Format("{0} (ID: {1})", e.Entity.Object.Name, e.SlotID), x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                        d.DrawTextSmall(string.Format("{0} (ID: {1})", e.Object.Name, e.SlotID), x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                     }
                 }
 
@@ -517,6 +525,7 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Drawing Helpers
+
         public static System.Drawing.Color GetSelectedColor(System.Drawing.Color color, Classes.Scene.EditorEntity e)
         {
             if (e.InTempSelection)
@@ -530,30 +539,21 @@ namespace ManiacEditor.Methods.Entities
         }
         public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
-            int x = _entity.Entity.Position.X.High;
-            int y = _entity.Entity.Position.Y.High;
+            int x = _entity.Position.X.High;
+            int y = _entity.Position.Y.High;
             int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
-
-            bool isObjectVisibile = false;
-
 
             if (!_entity.FilteredOut)
             {
-                var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == _entity.Entity.Object.Name.Name).FirstOrDefault();
-                if (RenderDrawing != null)
+                if (_entity.CurrentRender == null)
                 {
-                    isObjectVisibile = RenderDrawing.isObjectOnScreen(d, _entity.Entity, null, x, y, 0);
+                    var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name).FirstOrDefault();
+                    _entity.CurrentRender = RenderDrawing;
                 }
-                else
-                {
-                    isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
-                }
+                if (_entity.CurrentRender != null) return _entity.CurrentRender.isObjectOnScreen(d, _entity, x, y, Transparency);
+                else return d.IsObjectOnScreen(x, y, 20, 20);
             }
-
-            isObjectVisibile = d.IsObjectOnScreen(x, y, 20, 20);
-            return isObjectVisibile;
-
-
+            else return false;
         }
         public static System.Drawing.Color GetBoxBorderColor(Classes.Scene.EditorEntity e)
         {
@@ -661,6 +661,18 @@ namespace ManiacEditor.Methods.Entities
                 */
             }
         }
+        #endregion
+
+        #region Update Visibility
+
+        public static void UpdateVisibleEntities(DevicePanel d, List<Classes.Scene.EditorEntity> Entities)
+        {
+            foreach (var entity in Entities)
+            {
+                entity.IsVisible = IsObjectOnScreen(d, entity);
+            }
+        }
+
         #endregion
 
         #region Classes

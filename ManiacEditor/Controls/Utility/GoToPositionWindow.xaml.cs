@@ -35,7 +35,7 @@ namespace ManiacEditor.Controls.Utility
             PlayerSpawnPositionsList = new List<Position>();
             foreach (var player in GetPlayers())
             {
-                Position pos = player.Entity.Position;
+                Position pos = player.Position;
                 String id = player.SlotID.ToString();
                 String posText = "X: " + pos.X.High + " Y: " + pos.Y.High;
                 ComboBox1.Items.Add("[" + id + "] " + posText);
@@ -48,7 +48,7 @@ namespace ManiacEditor.Controls.Utility
             List<Classes.Scene.EditorEntity> players = new List<Classes.Scene.EditorEntity>();
             foreach (var _entity in Methods.Editor.Solution.Entities.Entities)
             {
-                if (_entity.Entity.Object.Name.Name == "Player")
+                if (_entity.Object.Name.Name == "Player")
                 {
                     players.Add(_entity);
                 }

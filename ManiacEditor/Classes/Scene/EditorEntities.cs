@@ -12,6 +12,7 @@ using ManiacEditor.Actions;
 using ManiacEditor.Enums;
 using ManiacEditor.Extensions;
 using System.Collections;
+using ManiacEditor.Methods.Internal;
 
 namespace ManiacEditor.Classes.Scene
 {
@@ -19,15 +20,16 @@ namespace ManiacEditor.Classes.Scene
     {
         #region Definitions
 
-        #region Filters
+        #region Object Properties Update / Filters
 
-        public bool FilterRefreshNeeded { get; set; } = false;
+        public static bool ObjectRefreshNeeded { get; set; } = false;
         public int CurrentDefaultFilter { get; set; } = -1;
 
         #endregion
 
         #region Entity Collections
 
+        private List<RSDKv5.SceneObject> SceneObjects { get; set; } = new List<SceneObject>();
         public List<Classes.Scene.EditorEntity> Entities { get; set; } = new List<EditorEntity>();
         public List<Classes.Scene.EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
         public List<Classes.Scene.EditorEntity> TemporarySelection { get; set; } = new List<Classes.Scene.EditorEntity>();
@@ -116,14 +118,8 @@ namespace ManiacEditor.Classes.Scene
 
         public EditorEntities(RSDKv5.Scene scene)
         {
-            foreach (var obj in scene.Objects)
-            {
-                foreach (var entity in obj.Entities.Select(x => GenerateEditorEntity(x)))
-                {
-                    Entities.Add(entity);
-                }
-            }
             SourceScene = scene;
+            Load(scene);
         }
 
         #endregion
@@ -289,6 +285,7 @@ namespace ManiacEditor.Classes.Scene
                 SelectedEntities.Add(Entities[(ushort)slot]);
                 Entities[(ushort)slot].Selected = true;
             }
+            ObjectRefreshNeeded = true;
         }
         public void Deselect()
         {
@@ -359,34 +356,16 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Add Entities
-
-        /// <summary>
-        /// Adds an entity to the Scene, and consumes the specified ID Slot.
-        /// </summary>
-        /// <param name="entity">Entity to add to the scene.</param>
         private void AddEntity(Classes.Scene.EditorEntity entity, bool isInternal = false)
         {
-            if (isInternal)
-            {
-                entity.Entity.Object.Entities.Add(entity.Entity);
-                this.InternalEntities.Insert(entity.SlotID, entity);
-            }
-            else
-            {
-                entity.Entity.Object.Entities.Add(entity.Entity);
-                this.Entities.Insert(entity.SlotID, entity);
-            }
+            if (isInternal) this.InternalEntities.Add(entity);
+            else this.Entities.Add(entity);
+
+            EvaluteSlotIDOrder();
+
+            ObjectRefreshNeeded = true;
 
         }
-
-        /// <summary>
-        /// Adds an entity to the editor's own memory.
-        /// </summary>
-        /// <param name="entity">Entity to add to the editor's memory.</param>
-        /// <summary>
-        /// Adds a set of entities to the Scene, and consumes the ID Slot specified for each.
-        /// </summary>
-        /// <param name="entities">Set of entities.</param>
         private void AddEntities(IEnumerable<Classes.Scene.EditorEntity> entities, bool isInternal = false)
         {
             if (entities == null)
@@ -399,18 +378,12 @@ namespace ManiacEditor.Classes.Scene
                 AddEntity(entity, isInternal);
             }
 
-            ReavaluteSlotIDOrder();
+            EvaluteSlotIDOrder();
         }
-
-        /// <summary>
-        /// Creates a new instance of the given SceneObject at the indicated position.
-        /// </summary>
-        /// <param name="sceneObject">Type of SceneObject to create an instance of.</param>
-        /// <param name="position">Location to insert into the scene.</param>
         public void Spawn(RSDKv5.SceneObject sceneObject, RSDKv5.Position position)
         {
-            var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(null)));
-            editorEntity.Entity.Position = position;
+            var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(0)));
+            editorEntity.Position = position;
             var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
             LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
             AddEntities(newEntities);
@@ -418,11 +391,6 @@ namespace ManiacEditor.Classes.Scene
             editorEntity.Selected = true;
             SelectedEntities.Add(editorEntity);
         }
-
-        /// <summary>
-        /// Creates new instances of the given SceneObject at the indicated positions.
-        /// </summary>
-        /// <param name="sceneObjects">A Dictonary containing the type of SceneObjects to create instances of & their locations to insert them into the scene.</param>
         public void SpawnMultiple(List<KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>> sceneObjects)
         {
             var newEntities = new List<Classes.Scene.EditorEntity> { };
@@ -430,8 +398,8 @@ namespace ManiacEditor.Classes.Scene
             {
                 var sceneObject = keyPair.Key;
                 var position = keyPair.Value;
-                var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(null)));
-                editorEntity.Entity.Position = position;
+                var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(0)));
+                editorEntity.Position = position;
                 newEntities.Add(editorEntity);
             }
 
@@ -450,34 +418,22 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Remove Entities
+        private void DeleteEntity(Classes.Scene.EditorEntity entity, bool isInternal = false)
+        {
+            if (isInternal) this.InternalEntities.Remove(entity);
+            else this.Entities.Remove(entity);
+
+            EvaluteSlotIDOrder();
+
+            ObjectRefreshNeeded = true;
+        }
         public void DeleteEntities(List<Classes.Scene.EditorEntity> entities, bool updateActions = false, bool isInternal = false)
         {
-            if (isInternal) Internal();
-            else Normal(); 
+            if (updateActions) LastActionInternal = new Actions.ActionAddDeleteEntities(entities.ToList(), false, x => AddEntities(x, true), x => DeleteEntities(x, false, isInternal));
+            foreach (var entity in entities) DeleteEntity(entity, isInternal);
 
-            ReavaluteSlotIDOrder();
-
-            void Normal()
-            {
-                if (updateActions) LastAction = new Actions.ActionAddDeleteEntities(entities.ToList(), false, x => AddEntities(x), x => DeleteEntities(x));
-                foreach (var entity in entities)
-                {
-                    entity.Entity.Object.Entities.Remove(entity.Entity);
-                    this.Entities.Remove(entity);
-                }
-            }
-
-            void Internal()
-            {
-                if (updateActions) LastActionInternal = new Actions.ActionAddDeleteEntities(entities.ToList(), false, x => AddEntities(x, true), x => DeleteEntities(x, false, true));
-                foreach (var entity in entities)
-                {
-                    entity.Entity.Object.Entities.Remove(entity.Entity);
-                    this.InternalEntities.Remove(entity);
-                }
-            }
-
-
+            EvaluteSlotIDOrder();
+            RefreshModel.RequestObjectPropertyRefresh(true);
         }
         public void DeleteSelected(bool isInternal = false)
         {
@@ -557,8 +513,8 @@ namespace ManiacEditor.Classes.Scene
         public void SpawnInternalSplineObject(RSDKv5.Position position, int value)
         {
             var editorEntity = GenerateSplineObject(value);
-            editorEntity.SlotID = GetFreeSlot(null, true);
-            editorEntity.Entity.Position = position;
+            editorEntity.SlotID = GetFreeSlot(0, true);
+            editorEntity.Position = position;
             var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
             LastActionInternal = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x, true), x => DeleteEntities(x, false, true));
             AddEntities(newEntities, true);
@@ -568,13 +524,12 @@ namespace ManiacEditor.Classes.Scene
         }
         public Classes.Scene.EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
         {
-            sceneEntity.SlotID = (ushort)Entities.Count;
             Classes.Scene.EditorEntity entity = new Classes.Scene.EditorEntity(sceneEntity);
             entity.UpdateInstance(this);
 
             if (entity.HasFilter() && CurrentDefaultFilter > -1)
             {
-                entity.Entity.GetAttribute("filter").ValueUInt8 = (byte)CurrentDefaultFilter;
+                entity.GetAttribute("filter").ValueUInt8 = (byte)CurrentDefaultFilter;
                 CurrentDefaultFilter = -1;
             }
 
@@ -592,31 +547,29 @@ namespace ManiacEditor.Classes.Scene
             if (SelectedEntities.Count > 0 && SelectedEntities[0] != null) return SelectedEntities[0];
             else return SelectedInternalEntities[0];
         }
-
         public List<string> GetObjects(List<RSDKv5.SceneObject> sceneObjects)
         {
             sceneObjects.Sort((x, y) => x.Name.ToString().CompareTo(y.Name.ToString()));
             List<string> strings = sceneObjects.Select(s => s.Name.Name).ToList();
             return strings;
         }
-
-        private ushort GetFreeSlot(RSDKv5.SceneEntity preferred, bool isInternal = false)
+        private ushort GetFreeSlot(ushort SlotID, bool isInternal = false)
         {
             if (isInternal)
             {
-                if (InternalEntities.Count < 2048)
+                if (InternalEntities.Count > 2048)
                 {
                     throw new TooManyEntitiesException();
                 }
-                return (ushort)InternalEntities.Count;
+                return (ushort)(InternalEntities.Count + 1);
             }
             else
             {
-                if (Entities.Count < 2048)
+                if (Entities.Count > 2048)
                 {
                     throw new TooManyEntitiesException();
                 }
-                return (ushort)Entities.Count;
+                return (ushort)(Entities.Count + 1);
             }
 
         }
@@ -634,7 +587,7 @@ namespace ManiacEditor.Classes.Scene
             var new_entities = new List<Classes.Scene.EditorEntity>();
             foreach (var entity in entities)
             {
-                ushort slot = GetFreeSlot(entity.Entity, isInternal);
+                ushort slot = GetFreeSlot(entity.SlotID, isInternal);
 
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
@@ -687,8 +640,8 @@ namespace ManiacEditor.Classes.Scene
             List<Classes.Scene.EditorEntity> copiedEntities = SelectedEntities.Select(x => GenerateEditorEntity(new RSDKv5.SceneEntity(x.Entity, x.SlotID))).ToList();
             if (!keepPosition)
             {
-                minX = copiedEntities.Min(x => x.Entity.Position.X.High);
-                minY = copiedEntities.Min(x => x.Entity.Position.Y.High);
+                minX = copiedEntities.Min(x => x.Position.X.High);
+                minY = copiedEntities.Min(x => x.Position.Y.High);
                 copiedEntities.ForEach(x => x.Move(new Point(-minX, -minY)));
             }
 
@@ -702,6 +655,7 @@ namespace ManiacEditor.Classes.Scene
                 // Move them
                 entity.Move(newPos);
             }
+            ObjectRefreshNeeded = true;
         }
         #endregion
 
@@ -732,13 +686,13 @@ namespace ManiacEditor.Classes.Scene
                 }
             }
 
-
+            ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh(true);
 
 
         }
         internal void Flip(FlipDirection direction)
         {
-            var positions = SelectedEntities.Select(se => se.Entity.Position);
+            var positions = SelectedEntities.Select(se => se.Position);
             IEnumerable<Position.Value> monoCoordinatePositions;
             if (direction == FlipDirection.Horizontal)
             {
@@ -757,21 +711,21 @@ namespace ManiacEditor.Classes.Scene
             {
                 if (direction == FlipDirection.Horizontal)
                 {
-                    short xPos = entity.Entity.Position.X.High;
+                    int xPos = entity.PositionX;
                     int fromLeft = xPos - min;
                     int fromRight = max - xPos;
 
                     int newX = fromLeft < fromRight ? max - fromLeft : min + fromRight;
-                    entity.Entity.Position.X.High = (short)newX;
+                    entity.PositionX = newX;
                 }
                 else
                 {
-                    short yPos = entity.Entity.Position.Y.High;
+                    int yPos = entity.PositionY;
                     int fromBottom = yPos - min;
                     int fromTop = max - yPos;
 
                     int newY = fromBottom < fromTop ? max - fromBottom : min + fromTop;
-                    entity.Entity.Position.Y.High = (short)newY;
+                    entity.PositionY = newY;
                 }
 
                 entity.Flip(direction);
@@ -780,10 +734,33 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-        #region Revaluate Slot ID Values
+        #region Slot ID Manipulation
 
-        private void ReavaluteSlotIDOrder()
+        public void MoveEntitySlotIDDown(EditorEntity entity)
         {
+            int CurrentSlotID = entity.SlotID;
+            int DestinationSlotID = CurrentSlotID + 1;
+            if (0 <= DestinationSlotID && Entities.Count() - 1 >= DestinationSlotID)
+            {
+                Entities.MoveSlotIDs(CurrentSlotID, DestinationSlotID);
+                EvaluteSlotIDOrder();
+            }
+        }
+        public void MoveEntitySlotIDUp(EditorEntity entity)
+        {
+            int CurrentSlotID = entity.SlotID;
+            int DestinationSlotID = CurrentSlotID - 1;
+            if (0 <= DestinationSlotID && Entities.Count() - 1 >= DestinationSlotID)
+            {
+                Entities.MoveSlotIDs(CurrentSlotID, DestinationSlotID);
+                EvaluteSlotIDOrder();
+            }
+
+
+        }
+
+        private void EvaluteSlotIDOrder()
+        {           
             for (int i = 0; i < Entities.Count; i++)
             {
                 Entities[i].SlotID = (ushort)i;
@@ -793,17 +770,31 @@ namespace ManiacEditor.Classes.Scene
             {
                 InternalEntities[i].SlotID = (ushort)i;
             }
+            
         }
 
         #endregion
 
-        #region Filters
-        public void UpdateViewFilters()
+        #region Object Properties
+
+        public void UpdateObjectProperties(DevicePanel d = null)
         {
-            FilterRefreshNeeded = false;
-            foreach (var obj in Entities)
+            ObjectRefreshNeeded = false;
+            foreach (var Entity in Entities)
             {
-                obj.SetFilter();
+                Entity.UpdateInstance(this);
+                Entity.SetFilter();
+            }
+
+            foreach (var Entity in InternalEntities)
+            {
+                Entity.UpdateInstance(this);
+            }
+
+            if (d != null)
+            {
+                Methods.Entities.EntityDrawing.UpdateVisibleEntities(d, Entities);
+                Methods.Entities.EntityDrawing.UpdateVisibleEntities(d, InternalEntities);
             }
         }
         #endregion
@@ -815,35 +806,39 @@ namespace ManiacEditor.Classes.Scene
         }
         public void Draw(DevicePanel d)
         {
-            if (FilterRefreshNeeded)
-                UpdateViewFilters();
-            foreach (var entity in Entities)
+            if (ObjectRefreshNeeded)
+                UpdateObjectProperties(d);
+            foreach (var entity in Entities.Where(x => x.IsVisible == true))
             {
-                if (Methods.Entities.EntityDrawing.IsObjectOnScreen(d, entity)) entity.Draw(d);
+                entity.Draw(d);
+            }
+            foreach (var entity in Entities.Where(x => x.IsVisible == true))
+            {
+                Methods.Entities.EntityDrawing.DrawSelectionBox(d, entity);
             }
         }
         public void DrawInternal(DevicePanel d)
         {
-            if (FilterRefreshNeeded)
-                UpdateViewFilters();
+            if (ObjectRefreshNeeded)
+                UpdateObjectProperties(d);
 
 
-            foreach (var entity in InternalEntities)
+            foreach (var entity in InternalEntities.Where(x => x.IsVisible == true))
             {
-                if (Methods.Entities.EntityDrawing.IsObjectOnScreen(d, entity)) Methods.Entities.EntityDrawing.DrawInternal(d, entity);
+                Methods.Entities.EntityDrawing.DrawInternal(d, entity);
                 if (entity.Name == "Spline")
                 {
-                    int id = entity.Entity.attributesMap["SplineID"].ValueInt32;
+                    int id = entity.attributesMap["SplineID"].ValueInt32;
                     if (!Methods.Editor.SolutionState.SplineOptionsGroup.ContainsKey(id)) Methods.Editor.SolutionState.AddSplineOptionsGroup(id);
                     if (SplineXPos.ContainsKey(id))
                     {
-                        SplineXPos[id].Add(entity.Entity.Position.X.High);
-                        SplineYPos[id].Add(entity.Entity.Position.Y.High);
+                        SplineXPos[id].Add(entity.PositionX);
+                        SplineYPos[id].Add(entity.PositionY);
                     }
                     else
                     {
-                        SplineXPos.Add(id, new List<float>() { entity.Entity.Position.X.High });
-                        SplineYPos.Add(id, new List<float>() { entity.Entity.Position.Y.High });
+                        SplineXPos.Add(id, new List<float>() { entity.PositionX });
+                        SplineYPos.Add(id, new List<float>() { entity.PositionY });
                     }
                 }
             }
@@ -871,7 +866,7 @@ namespace ManiacEditor.Classes.Scene
                         if (selectedOptions.SplineToolShowPoints) d.DrawRectangle(p.X, p.Y, p.X + 2, p.Y + 2, System.Drawing.Color.Red);
                         if (selectedOptions.SplineToolShowObject && selectedOptions.SplineObjectRenderingTemplate != null)
                         {
-                            if (Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Entity.Object.Name.Name))
+                            if (Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Object.Name.Name))
                             {
                                 Methods.Entities.EntityDrawing.DrawDedicatedRender(d, selectedOptions.SplineObjectRenderingTemplate);
                             }
@@ -892,5 +887,43 @@ namespace ManiacEditor.Classes.Scene
 
         }
         #endregion
+
+        #region Read/Write
+
+        public void Load(RSDKv5.Scene Scene)
+        {
+            foreach (var SceneObject in Scene.Objects)
+            {
+                SceneObjects.Add(new SceneObject(SceneObject.Name, SceneObject.Attributes));
+                Entities.AddRange(SceneObject.Entities.ConvertAll(x => GenerateEditorEntity(x)));
+            }
+            Entities = Entities.OrderBy(x => x.SlotID).ToList();
+        }
+        public List<SceneObject> Save()
+        {
+            List<SceneObject> Objects = SceneObjects;
+            foreach (var entry in Entities)
+            {
+                SceneObject currentObject = entry.Object;
+                if (!Objects.Exists(x => x.Name == currentObject.Name)) Objects.Add(currentObject);
+                Objects[Objects.IndexOf(Objects.Where(x => x.Name == currentObject.Name).FirstOrDefault())].Entities.Add(entry.Entity);
+            }
+            return Objects;
+        } 
+
+        #endregion
+    }
+
+    public static class EditorEntityExtensions
+    {
+        public static void MoveSlotIDs(this List<EditorEntity> list, int oldIndex, int newIndex)
+        {
+            EditorEntity aux = list[newIndex];
+            list[newIndex] = list[oldIndex];
+            list[oldIndex] = aux;
+
+            list[newIndex].SlotID = (ushort)oldIndex;
+            list[oldIndex].SlotID = (ushort)newIndex;
+        }
     }
 }

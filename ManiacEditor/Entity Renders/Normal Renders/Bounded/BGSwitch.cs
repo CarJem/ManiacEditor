@@ -11,7 +11,6 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            SceneEntity entity = e.Entity;
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
@@ -20,8 +19,8 @@ namespace ManiacEditor.Entity_Renders
             DrawTexturePivotNormal(d, Animation, 0, 5, x, y, Transparency);
 
 
-            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High) * 2;
-            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High) * 2;
+            var widthPixels = (int)(e.attributesMap["size"].ValueVector2.X.High) * 2;
+            var heightPixels = (int)(e.attributesMap["size"].ValueVector2.Y.High) * 2;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
@@ -52,7 +51,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public override bool isObjectOnScreen(DevicePanel d, SceneEntity entity, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High) * 2;
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High) * 2;
