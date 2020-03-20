@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ManiacEditor.Controls.Global.EntitiesListItem"
+﻿<UserControl x:Class="ManiacEditor.Controls.Global.Controls.EntitiesListItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,7 +13,10 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition x:Name="UpDownButtonsCol" Width="0"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button x:Name="MainButton" Height="Auto" Grid.RowSpan="2" Click="MainButton_Click"></Button>
+        <Button x:Name="MainButton" 
+                Foreground="{Binding Path=SelfForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                Content="{Binding Path=SelfContent, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                Height="Auto" Grid.RowSpan="2" Click="MainButton_Click"></Button>
         <Grid Grid.Column="1" Height="Auto">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>

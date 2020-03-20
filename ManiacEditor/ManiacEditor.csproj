@@ -251,7 +251,7 @@
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyEntryValue.xaml.cs">
       <DependentUpon>PropertyEntryValue.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Global\EntitiesListItem.xaml.cs">
+    <Compile Include="Controls\Global\Controls\EntitiesListItem.xaml.cs">
       <DependentUpon>EntitiesListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs" />
@@ -1367,7 +1367,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Global\EntitiesListItem.xaml">
+    <Page Include="Controls\Global\Controls\EntitiesListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

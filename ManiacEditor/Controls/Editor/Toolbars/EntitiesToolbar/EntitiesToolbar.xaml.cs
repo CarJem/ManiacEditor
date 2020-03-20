@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Data;
 using ManiacEditor.Extensions;
 using ManiacEditor.Classes.Scene;
-using ManiacEditor.Controls.Global;
+using ManiacEditor.Controls.Global.Controls;
 using ManiacEditor.Controls.Global.Controls.PropertyGrid;
 using GenerationsLib.Core;
 
@@ -34,7 +34,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				return Methods.Editor.Solution.Entities.Entities;
 			}
 		}
-		private EntitiesListItem[] ObjectList { get; set; } = new EntitiesListItem[2301];
+		private EntitiesListEntry[] ObjectList { get; set; } = new EntitiesListEntry[2301];
 		private List<int> _SelectedEntitySlots { get; set; } = new List<int>();
 		private BindingList<TextBlock> _BindingSceneObjectsSource { get; set; } = new BindingList<TextBlock>();
 		private EditorEntity CurrentEntity { get; set; }
@@ -97,7 +97,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				entitiesList.Content = null;
 				TabControl.SelectedIndex = 0;
 			}
-			UpdateSelectedEntitiesList();
 
 			MultipleObjectsSelected = false;
 			bool isCommonObjects = false;
@@ -172,8 +171,8 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 						if (ObjectList.ToList().Exists(x => x.Tag.ToString() == entity.SlotID.ToString()))
 						{
 							var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
-							entitiesList.Content = entry.Content;
-							entitiesList.Foreground = entry.Foreground;
+							entitiesList.Content = entry.ItemContent;
+							entitiesList.Foreground = entry.ItemForeground;
 							entitiesList.Tag = entry.Tag;
 						}
 						else
@@ -767,7 +766,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		#region UI Refresh
 		public void UpdateEntitiesList(bool FirstLoad = false)
 		{
-
 			//This if statement Triggers when the toolbar opens for the first time
 			SceneEntitiesList.Items.Clear();
 
@@ -781,21 +779,19 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					Visibility VisibilityStatus = GetObjectListItemVisiblity(entity.Object.Name.Name, entity.SlotID);
 					if (ObjectList[i] == null)
 					{
-						ObjectList[i] = new EntitiesListItem()
+						ObjectList[i] = new EntitiesListEntry()
 						{
-							Content = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
-							Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
+							ItemContent = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
+							ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
 							Tag = entity.SlotID.ToString(),
 							Visibility = VisibilityStatus
 						};
-						ObjectList[i].Click += EntitiesListEntryClicked;
-						ObjectList[i].ClickDown += EntitiesListEntryClickedDown;
-						ObjectList[i].ClickUp += EntitiesListEntryClickedUp;
+
 					}
 					else
 					{
-						ObjectList[i].Content = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
-						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
+						ObjectList[i].ItemContent = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
+						ObjectList[i].ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
 						ObjectList[i].Tag = entity.SlotID.ToString();
 						ObjectList[i].Visibility = VisibilityStatus;
 					}
@@ -805,29 +801,26 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				{
 					if (ObjectList[i] == null)
 					{
-						ObjectList[i] = new EntitiesListItem()
+						ObjectList[i] = new EntitiesListEntry()
 						{
-							Content = string.Format("{0} - {1}", "UNUSED", i),
-							Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
-							Height = 0,
+							ItemContent = string.Format("{0} - {1}", "UNUSED", i),
+							ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
 							Visibility = Visibility.Collapsed,
 							Tag = "NULL"
 
 						};
-						ObjectList[i].Click += EntitiesListEntryClicked;
-						ObjectList[i].ClickDown += EntitiesListEntryClickedDown;
-						ObjectList[i].ClickUp += EntitiesListEntryClickedUp;
+
 					}
 					else
 					{
-						ObjectList[i].Content = String.Format("{0} - {1}", "UNUSED", i);
-						ObjectList[i].Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(256);
-						ObjectList[i].Height = 0;
+						ObjectList[i].ItemContent = String.Format("{0} - {1}", "UNUSED", i);
+						ObjectList[i].ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(256);
 						ObjectList[i].Visibility = Visibility.Collapsed;
 						ObjectList[i].Tag = "NULL";
 					}
 
 				}
+
 				if (ObjectList[i].Visibility != Visibility.Collapsed) SceneEntitiesList.Items.Add(ObjectList[i]);
 			}
 
@@ -927,6 +920,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			Methods.Editor.Solution.Entities.Deselect();
 			Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
 			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
+			TabControl.SelectedIndex = 0;
 		}
 		private void EntitiesListEntryClickedUp(object sender, RoutedEventArgs e)
 		{
@@ -936,7 +930,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			Methods.Editor.Solution.Entities.MoveEntitySlotIDUp(SelectedObject);
 			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
 			UpdateEntitiesList();
-			TabControl.SelectedIndex = 2;
 		}
 		private void EntitiesListEntryClickedDown(object sender, RoutedEventArgs e)
 		{
@@ -946,7 +939,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			Methods.Editor.Solution.Entities.MoveEntitySlotIDDown(SelectedObject);
 			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
 			UpdateEntitiesList();
-			TabControl.SelectedIndex = 2;
 		}
 
 		#endregion
@@ -1248,6 +1240,14 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
             }
         }
 
-        #endregion
-    }
+		#endregion
+
+		public class EntitiesListEntry
+		{
+			public object ItemContent { get; set; }
+			public object Tag { get; set; }
+			public Brush ItemForeground { get; set; }
+			public Visibility Visibility { get; set; }
+		}
+	}
 }

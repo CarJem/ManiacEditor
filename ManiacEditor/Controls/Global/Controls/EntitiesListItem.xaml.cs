@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ManiacEditor.Controls.Global
+namespace ManiacEditor.Controls.Global.Controls
 {
     /// <summary>
     /// Interaction logic for EntitiesListItem.xaml
@@ -24,31 +24,37 @@ namespace ManiacEditor.Controls.Global
         public event RoutedEventHandler ClickUp;
         public event RoutedEventHandler ClickDown;
 
+        public static readonly Brush DefaultForeText = Brushes.White;
+
         public EntitiesListItem()
         {
             InitializeComponent();
         }
 
-        public new object Content
+        public static readonly DependencyProperty ButtonContent =
+DependencyProperty.Register("SelfContent", typeof(string), typeof(EntitiesListItem), new UIPropertyMetadata(string.Empty));
+        public static readonly DependencyProperty ButtonForeground =
+DependencyProperty.Register("SelfForeground", typeof(Brush), typeof(EntitiesListItem), new UIPropertyMetadata(DefaultForeText));
+        public string SelfContent
         {
-            get
-            {
-                return MainButton.Content;
+            get 
+            { 
+                return (string)GetValue(ButtonContent); 
             }
-            set
-            {
-                MainButton.Content = value;
+            set 
+            { 
+                SetValue(ButtonContent, value); 
             }
         }
-        public new Brush Foreground
+        public Brush SelfForeground
         {
             get
             {
-                return MainButton.Foreground;
+                return (Brush)GetValue(ButtonForeground);
             }
             set
             {
-                MainButton.Foreground = value;
+                SetValue(ButtonForeground, value);
             }
         }
 

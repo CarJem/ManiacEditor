@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ManiacEditor"
-             xmlns:maniac="clr-namespace:ManiacEditor"
+             xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
              xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:maniac="clr-namespace:ManiacEditor.Controls.Global.Controls"
              xmlns:propGrid="clr-namespace:ManiacEditor.Controls.Global.Controls.PropertyGrid"
              mc:Ignorable="d"
              d:DesignHeight="525" d:DesignWidth="300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
@@ -89,6 +90,18 @@
                                     <RowDefinition Height="60"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <ListBox x:Name="SceneEntitiesList">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <maniac:EntitiesListItem
+                                                    SelfContent="{Binding Path=ItemContent}"
+                                                    Tag="{Binding Path=Tag}"
+                                                    SelfForeground="{Binding Path=ItemForeground}"
+                                                    Visibility="{Binding Path=Visibility}"
+                                                    Click="EntitiesListEntryClicked"
+                                                    ClickDown="EntitiesListEntryClickedDown"
+                                                    ClickUp="EntitiesListEntryClickedUp"></maniac:EntitiesListItem>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
                                     <ListBox.ItemsPanel>
                                         <ItemsPanelTemplate >
                                             <VirtualizingStackPanel IsItemsHost="True" Orientation="Vertical"/>
