@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using ManiacEditor.Classes.Scene;
+using System.Linq;
 
 namespace ManiacEditor.Actions
 {
@@ -35,39 +36,56 @@ namespace ManiacEditor.Actions
         }
     }
 
+
+    class EntityMultiplePropertyChanges
+    {
+        public EditorEntity Entity { get; set; }
+        public object NewValue { get; set; }
+        public object OldValue { get; set; }
+
+        public EntityMultiplePropertyChanges GetUndoChange()
+        {
+            return new EntityMultiplePropertyChanges(Entity, OldValue, NewValue);
+        }
+
+        public EntityMultiplePropertyChanges()
+        {
+
+        }
+        public EntityMultiplePropertyChanges(EditorEntity Entity)
+        {
+            this.Entity = Entity;
+        }
+        public EntityMultiplePropertyChanges(EditorEntity Entity, object NewValue, object OldValue)
+        {
+            this.Entity = Entity;
+            this.NewValue = NewValue;
+            this.OldValue = OldValue;
+        }
+    }
+
     class ActionEntityMultiplePropertyChange : IAction
     {
         string tag;
-        List<ActionEntityPropertyChange> MultipleActions;
-        List<EditorEntity> entities;
-        public string Description => $"Changing {tag} on {entities.Count} Entities";
+        List<EntityMultiplePropertyChanges> values;
+        Action<string, List<EntityMultiplePropertyChanges>> setValue;
+        public string Description => $"Changing {tag} on {values.Count} Entities";
 
-        public ActionEntityMultiplePropertyChange(List<EditorEntity> entities, string tag, List<ActionEntityPropertyChange> multipleActions, bool redo = false)
+        public ActionEntityMultiplePropertyChange(string tag, List<EntityMultiplePropertyChanges> values, Action<string, List<EntityMultiplePropertyChanges>> setValue)
         {
-            this.entities = entities;
+            this.values = values;
             this.tag = tag;
-            this.MultipleActions = multipleActions;
-
-            if (redo)
-            {
-                for (int i = 0; i < MultipleActions.Count; i++)
-                {
-                    MultipleActions[i] = (MultipleActions[i].Redo() as ActionEntityPropertyChange);
-                }
-            }
+            this.setValue = setValue;
         }
 
         public void Undo()
         {
-            for (int i = 0; i < MultipleActions.Count; i++)
-            {
-                MultipleActions[i].Undo();
-            }
+            setValue.Invoke(tag, values.ConvertAll(x => x.GetUndoChange()));
         }
 
         public IAction Redo()
         {
-            return new ActionEntityMultiplePropertyChange(entities, tag, MultipleActions, true);
+            return new ActionEntityMultiplePropertyChange(tag, values.ConvertAll(x => x.GetUndoChange()), setValue);
         }
     }
 

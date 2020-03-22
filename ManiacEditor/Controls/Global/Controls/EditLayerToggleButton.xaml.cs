@@ -14,43 +14,6 @@ namespace ManiacEditor.Controls.Global
         public string LayerName { get; set; }
 
         #region Layer Options
-        public bool ShowLayerScrollLines { get => GetShowLayerScrollLines(); set => SetShowLayerScrollLines(value); }
-        private bool _ShowLayerScrollLines = false;
-
-        private bool GetShowLayerScrollLines()
-        {
-            try
-            {
-                if (Methods.Editor.Solution.CurrentScene.AllLayers.Any(x => x.Name == Text))
-                {
-                    var sourceLayer = Methods.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
-                    _ShowLayerScrollLines = Methods.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).ShowLayerScrollLines;
-                    ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
-                    return _ShowLayerScrollLines;
-                }
-                else
-                {
-                    _ShowLayerScrollLines = false;
-                    ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
-                    return _ShowLayerScrollLines;
-                }
-
-            }
-            catch
-            {
-                _ShowLayerScrollLines = false;
-                ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
-                return _ShowLayerScrollLines;
-            }
-        }
-
-
-        private void SetShowLayerScrollLines(bool value)
-        {
-            Methods.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines = value;
-            _ShowLayerScrollLines = Methods.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).ShowLayerScrollLines;
-            ShowLayerScrollDetails.IsChecked = _ShowLayerScrollLines;
-        }
 
 		private void GetIsLayerControlsHidden()
 		{
@@ -65,44 +28,6 @@ namespace ManiacEditor.Controls.Global
 		}
 
 
-		public bool AllowParallaxAnimation { get => GetAllowParallaxAnimation(); set => SetAllowParallaxAnimation(value); }
-        private bool _AllowParallaxAnimation = false;
-
-        private bool GetAllowParallaxAnimation()
-        {
-            try
-            {
-                if (Methods.Editor.Solution.CurrentScene.AllLayers.Any(x => x.Name == Text))
-                {
-                    var sourceLayer = Methods.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text));
-                    _AllowParallaxAnimation = Methods.Editor.Solution.CurrentScene.AllLayers.Single(el => el.Name.Equals(Text)).AllowLayerToAnimateParallax;
-                    AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
-                    return _AllowParallaxAnimation;
-                }
-                else
-                {
-                    _AllowParallaxAnimation = false;
-                    AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
-                    return _AllowParallaxAnimation;
-                }
-
-            }
-            catch
-            {
-                _AllowParallaxAnimation = false;
-                AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
-                return _AllowParallaxAnimation;
-            }
-        }
-
-
-        private void SetAllowParallaxAnimation(bool value)
-        {
-            Methods.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax = value;
-            _AllowParallaxAnimation = Methods.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).AllowLayerToAnimateParallax;
-            if (value == true) Methods.Editor.Solution.CurrentScene.AllLayers.FirstOrDefault(x => x.Name == Text).HasHorizontalLayerScrollInitilized = false;
-            AllowLayerToAnimateParallax.IsChecked = _AllowParallaxAnimation;
-        }
         #endregion
 
 
@@ -419,12 +344,6 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 
 		}
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (ShowLayerScrollDetails.IsChecked) ShowLayerScrollLines = true;
-            else ShowLayerScrollLines = false;
-        }
-
         private void ToggleButton_MouseMove(object sender, MouseEventArgs e)
         {
             UpdateMouseOver();
@@ -436,16 +355,9 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
             //else LayerOptionsDropdownButton.Visibility = Visibility.Collapsed;
         }
 
-        private void AllowLayerToAnimateParallax_Click(object sender, RoutedEventArgs e)
-        {
-            if (AllowLayerToAnimateParallax.IsChecked) AllowParallaxAnimation = true;
-            else AllowParallaxAnimation = false;
-        }
-
         private void LayerOptionsDropdownButton_Opened_1(object sender, RoutedEventArgs e)
         {
-            GetShowLayerScrollLines();
-            GetAllowParallaxAnimation();
+
         }
 
 

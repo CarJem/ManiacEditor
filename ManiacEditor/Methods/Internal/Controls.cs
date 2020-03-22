@@ -33,26 +33,34 @@ namespace ManiacEditor.Methods.Internal
         
         #region Mouse Auto-Scrolling Methods
         private static bool ForceAutoScrollMousePosition { get; set; } = false;
+        private static AutoScrollDirection LastAutoScrollDirection { get; set; } = AutoScrollDirection.NONE;
         public static void SetAutoScrollerApperance(AutoScrollDirection direction = AutoScrollDirection.NONE)
         {
             var converter = new System.Windows.Media.BrushConverter();
             var Active = (System.Windows.Media.Brush)converter.ConvertFromString("Red");
             var NotActive = (System.Windows.Media.Brush)converter.ConvertFromString("Transparent");
 
-            switch (direction)
+            if (LastAutoScrollDirection != direction)
             {
-                case AutoScrollDirection.N: Instance.Cursor = System.Windows.Input.Cursors.ScrollN; break;
-                case AutoScrollDirection.S: Instance.Cursor = System.Windows.Input.Cursors.ScrollS; break;
-                case AutoScrollDirection.E: Instance.Cursor = System.Windows.Input.Cursors.ScrollE; break;
-                case AutoScrollDirection.W: Instance.Cursor = System.Windows.Input.Cursors.ScrollW; break;
-                case AutoScrollDirection.NW: Instance.Cursor = System.Windows.Input.Cursors.ScrollNW; break;
-                case AutoScrollDirection.SW: Instance.Cursor = System.Windows.Input.Cursors.ScrollSW; break;
-                case AutoScrollDirection.SE: Instance.Cursor = System.Windows.Input.Cursors.ScrollSE; break;
-                case AutoScrollDirection.NE: Instance.Cursor = System.Windows.Input.Cursors.ScrollNE; break;
-                case AutoScrollDirection.ALL: Instance.Cursor = System.Windows.Input.Cursors.ScrollAll; break;
-                case AutoScrollDirection.NONE: Instance.Cursor = System.Windows.Input.Cursors.Arrow; break;
-                default: Instance.Cursor = System.Windows.Input.Cursors.Arrow; break;
+                switch (direction)
+                {
+                    case AutoScrollDirection.N: Instance.Cursor = System.Windows.Input.Cursors.ScrollN; break;
+                    case AutoScrollDirection.S: Instance.Cursor = System.Windows.Input.Cursors.ScrollS; break;
+                    case AutoScrollDirection.E: Instance.Cursor = System.Windows.Input.Cursors.ScrollE; break;
+                    case AutoScrollDirection.W: Instance.Cursor = System.Windows.Input.Cursors.ScrollW; break;
+                    case AutoScrollDirection.NW: Instance.Cursor = System.Windows.Input.Cursors.ScrollNW; break;
+                    case AutoScrollDirection.SW: Instance.Cursor = System.Windows.Input.Cursors.ScrollSW; break;
+                    case AutoScrollDirection.SE: Instance.Cursor = System.Windows.Input.Cursors.ScrollSE; break;
+                    case AutoScrollDirection.NE: Instance.Cursor = System.Windows.Input.Cursors.ScrollNE; break;
+                    case AutoScrollDirection.ALL: Instance.Cursor = System.Windows.Input.Cursors.ScrollAll; break;
+                    case AutoScrollDirection.NONE: Instance.Cursor = System.Windows.Input.Cursors.Arrow; break;
+                    default: Instance.Cursor = System.Windows.Input.Cursors.Arrow; break;
+                }
+
+                LastAutoScrollDirection = direction;
             }
+
+
 
             if (direction == AutoScrollDirection.N || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
             else Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = NotActive;
@@ -234,8 +242,8 @@ namespace ManiacEditor.Methods.Internal
             void EdgeMove()
             {
                 System.Windows.Point position = new System.Windows.Point(Methods.Editor.SolutionState.ViewPositionX, Methods.Editor.SolutionState.ViewPositionY); ;
-                double ScreenMaxX = position.X + (int)Instance.ViewPanel.SharpPanel.RenderingWidth - (int)Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth;
-                double ScreenMaxY = position.Y + (int)Instance.ViewPanel.SharpPanel.RenderingHeight - (int)Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight;
+                double ScreenMaxX = position.X + (int)Instance.ViewPanel.SharpPanel.ActualWidth;
+                double ScreenMaxY = position.Y + (int)Instance.ViewPanel.SharpPanel.ActualHeight;
                 double ScreenMinX = position.X;
                 double ScreenMinY = position.Y;
 
@@ -1000,7 +1008,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() && !Instance.EditorToolbar.DrawToolButton.IsChecked.Value && !Instance.EditorToolbar.SplineToolButton.IsChecked.Value) EntitiesEditContextMenu(e);
                 else if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !Instance.EditorToolbar.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
-                else InteractiveContextMenu(e);
+                else if (!ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) InteractiveContextMenu(e);
             }
 
         }

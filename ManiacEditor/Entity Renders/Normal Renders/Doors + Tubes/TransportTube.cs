@@ -5,44 +5,130 @@ namespace ManiacEditor.Entity_Renders
     public class TransportTube : EntityRenderer
     {
 
-		public override void Draw(Structures.EntityRenderProp properties)
+		public override void Draw(Structures.EntityRenderProp Properties)
 		{
-			Methods.Draw.GraphicsHandler d = properties.Graphics;
-			SceneEntity entity = properties.Object;
-			Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-			int x = properties.X;
-			int y = properties.Y;
-			int Transparency = properties.Transparency;
-			int index = properties.Index;
-			int previousChildCount = properties.PreviousChildCount;
-			int platformAngle = properties.PlatformAngle;
-			Methods.Entities.EntityAnimator Animation = properties.Animations;
-			bool selected = properties.isSelected;
+			DevicePanel d = Properties.Graphics;
+			Classes.Scene.EditorEntity entity = Properties.EditorObject;
+
+			int x = Properties.DrawX;
+			int y = Properties.DrawY;
+			int Transparency = Properties.Transparency;
 
 			bool hideFrame = false;
 			int type = (int)entity.attributesMap["type"].ValueUInt8;
 			int dirMask = (int)entity.attributesMap["dirMask"].ValueUInt8;
-			var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTube", d.DevicePanel, 0, 0, false, false, false);
-			var upAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 0, false, false, false);
-			var downAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 1, false, false, false);
-			var rightAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 2, false, false, false);
-			var leftAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 3, false, false, false);
-			var upleftAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 4, false, false, false);
-			var downleftAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 5, false, false, false);
-			var uprightAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 6, false, false, false);
-			var downrightAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 0, 7, false, false, false);
-			var centerAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 1, false, false, false);
-			var A_Anim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 2, false, false, false);
-			var B_Anim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 3, false, false, false);
-			var C_Anim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 4, false, false, false);
-			var inOutAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 5, false, false, false);
-			var junctionAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 7, false, false, false);
-			var runAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 6, false, false, false);
-			var unknownAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 8, false, false, false);
-			var unsafeAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 0, false, false, false);
-			var notValidAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TransportTubes", d.DevicePanel, 1, 9, false, false, false);
 
-			bool showUp = false, showDown = false, showLeft = false, showRight = false, showUpLeft = false, showDownLeft = false, showUpRight = false, showDownRight = false, showCenter = false, showA = false, showB = false, showC = false, showInOut = false, showJunction = false, showRun = false, showUnkown = false, showInvalid = false;
+			TubeCombo combo = GetCombos(type, dirMask);
+
+			bool isUnsafe = isDangerousCombonation(dirMask, type);
+			if (type > 6) combo.showInvalid = true;
+
+			var editorAnim = LoadAnimation("TransportTube", d, 0, 0);
+			if (!hideFrame) DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
+
+			var upAnim = LoadAnimation("TransportTubes", d, 0, 0);
+			if (combo.showUp == true) DrawTexturePivotNormal(d, upAnim, upAnim.RequestedAnimID, upAnim.RequestedFrameID, x, y, Transparency);
+
+			var downAnim = LoadAnimation("TransportTubes", d, 0, 1);
+			if (combo.showDown == true) DrawTexturePivotNormal(d, downAnim, downAnim.RequestedAnimID, downAnim.RequestedFrameID, x, y, Transparency);
+
+			var rightAnim = LoadAnimation("TransportTubes", d, 0, 2);
+			if (combo.showRight == true) DrawTexturePivotNormal(d, rightAnim, rightAnim.RequestedAnimID, rightAnim.RequestedFrameID, x, y, Transparency);
+
+			var leftAnim = LoadAnimation("TransportTubes", d, 0, 3);
+			if (combo.showLeft == true) DrawTexturePivotNormal(d, leftAnim, leftAnim.RequestedAnimID, leftAnim.RequestedFrameID, x, y, Transparency);
+
+			var uprightAnim = LoadAnimation("TransportTubes", d, 0, 6);
+			if (combo.showUpRight == true) DrawTexturePivotNormal(d, uprightAnim, uprightAnim.RequestedAnimID, uprightAnim.RequestedFrameID, x, y, Transparency);
+
+			var downrightAnim = LoadAnimation("TransportTubes", d, 0, 7);
+			if (combo.showDownRight == true) DrawTexturePivotNormal(d, downrightAnim, downrightAnim.RequestedAnimID, downrightAnim.RequestedFrameID, x, y, Transparency);
+
+			var upleftAnim = LoadAnimation("TransportTubes", d, 0, 4);
+			if (combo.showUpLeft == true) DrawTexturePivotNormal(d, upleftAnim, upleftAnim.RequestedAnimID, upleftAnim.RequestedFrameID, x, y, Transparency);
+
+			var downleftAnim = LoadAnimation("TransportTubes", d, 0, 5);
+			if (combo.showDownLeft == true) DrawTexturePivotNormal(d, downleftAnim, downleftAnim.RequestedAnimID, downleftAnim.RequestedFrameID, x, y, Transparency);
+
+			var centerAnim = LoadAnimation("TransportTubes", d, 1, 1);
+			if (combo.showCenter == true) DrawTexturePivotNormal(d, centerAnim, centerAnim.RequestedAnimID, centerAnim.RequestedFrameID, x, y, Transparency);
+
+			var A_Anim = LoadAnimation("TransportTubes", d, 1, 2);
+			if (combo.showA == true) DrawTexturePivotNormal(d, A_Anim, A_Anim.RequestedAnimID, A_Anim.RequestedFrameID, x, y, Transparency);
+
+			var B_Anim = LoadAnimation("TransportTubes", d, 1, 3);
+			if (combo.showB == true) DrawTexturePivotNormal(d, B_Anim, B_Anim.RequestedAnimID, B_Anim.RequestedFrameID, x, y, Transparency);
+
+			var C_Anim = LoadAnimation("TransportTubes", d, 1, 4);
+			if (combo.showC == true) DrawTexturePivotNormal(d, C_Anim, C_Anim.RequestedAnimID, C_Anim.RequestedFrameID, x, y, Transparency);
+
+			var inOutAnim = LoadAnimation("TransportTubes", d, 1, 5);
+			if (combo.showInOut == true) DrawTexturePivotNormal(d, inOutAnim, inOutAnim.RequestedAnimID, inOutAnim.RequestedFrameID, x, y, Transparency);
+
+			var runAnim = LoadAnimation("TransportTubes", d, 1, 6);
+			if (combo.showRun == true) DrawTexturePivotNormal(d, runAnim, runAnim.RequestedAnimID, runAnim.RequestedFrameID, x, y, Transparency);
+
+			var junctionAnim = LoadAnimation("TransportTubes", d, 1, 7);
+			if (combo.showJunction == true) DrawTexturePivotNormal(d, junctionAnim, junctionAnim.RequestedAnimID, junctionAnim.RequestedFrameID, x, y, Transparency);
+
+			var unsafeAnim = LoadAnimation("TransportTubes", d, 1, 0);
+			if (isUnsafe == true) DrawTexturePivotNormal(d, unsafeAnim, unsafeAnim.RequestedAnimID, unsafeAnim.RequestedFrameID, x, y, Transparency);
+
+			var unknownAnim = LoadAnimation("TransportTubes", d, 1, 8);
+			if (combo.showUnkown == true) DrawTexturePivotNormal(d, unknownAnim, unknownAnim.RequestedAnimID, unknownAnim.RequestedFrameID, x, y, Transparency);
+
+			var notValidAnim = LoadAnimation("TransportTubes", d, 1, 9);
+			if (combo.showInvalid == true) DrawTexturePivotNormal(d, notValidAnim, notValidAnim.RequestedAnimID, notValidAnim.RequestedFrameID, x, y, Transparency);
+
+		}
+
+		public struct TubeCombo
+		{
+			public bool showUp;
+			public bool showDown;
+			public bool showLeft;
+			public bool showRight;
+			public bool showUpLeft;
+			public bool showDownLeft;
+			public bool showUpRight;
+			public bool showDownRight;
+			public bool showCenter;
+			public bool showA;
+			public bool showB;
+			public bool showC;
+			public bool showInOut;
+			public bool showJunction;
+			public bool showRun;
+			public bool showUnkown;
+			public bool showInvalid;
+			public bool hideFrame;
+
+			public TubeCombo(bool defaultValue)
+			{
+				showUp = defaultValue;
+				showDown = defaultValue;
+				showLeft = defaultValue;
+				showRight = defaultValue;
+				showUpLeft = defaultValue;
+				showDownLeft = defaultValue;
+				showUpRight = defaultValue;
+				showDownRight = defaultValue;
+				showCenter = defaultValue;
+				showA = defaultValue;
+				showB = defaultValue;
+				showC = defaultValue;
+				showInOut = defaultValue;
+				showJunction = defaultValue;
+				showRun = defaultValue;
+				showUnkown = defaultValue;
+				showInvalid = defaultValue;
+				hideFrame = defaultValue;
+			}
+
+		}
+		public TubeCombo GetCombos(int type, int dirMask)
+		{
+			TubeCombo comboSet = new TubeCombo(false);
 			/* Types:
 			 * 0 - Normal 
 			 * 1 - Entry Tubes
@@ -54,339 +140,163 @@ namespace ManiacEditor.Entity_Renders
 			{
 				if (type == 5)
 				{
-					showCenter = true;
-					showJunction = true;
+					comboSet.showCenter = true;
+					comboSet.showJunction = true;
 				}
 				else if (type == 1)
 				{
-					showInOut = true;
+					comboSet.showInOut = true;
 				}
 				else if (type == 6)
 				{
-					showRun = true;
+					comboSet.showRun = true;
 				}
 				switch (dirMask)
 				{
 					case 136:
-						showRight = true;
-						showDownLeft = true;
+						comboSet.showRight = true;
+						comboSet.showDownLeft = true;
 						break;
 					case 129:
-						showUp = true;
-						showDownLeft = true;
+						comboSet.showUp = true;
+						comboSet.showDownLeft = true;
 						break;
 					case 68:
-						showLeft = true;
-						showDownRight = true;
+						comboSet.showLeft = true;
+						comboSet.showDownRight = true;
 						break;
 					case 65:
-						showUp = true;
-						showDownRight = true;
+						comboSet.showUp = true;
+						comboSet.showDownRight = true;
 						break;
 					case 40:
-						showUpLeft = true;
-						showRight = true;
+						comboSet.showUpLeft = true;
+						comboSet.showRight = true;
 						break;
 					case 20:
-						showLeft = true;
-						showUpRight = true;
+						comboSet.showLeft = true;
+						comboSet.showUpRight = true;
 						break;
 					case 18:
-						showDown = true;
-						showUpRight = true;
+						comboSet.showDown = true;
+						comboSet.showUpRight = true;
 						break;
 					case 15:
-						showDown = true;
-						showLeft = true;
-						showRight = true;
-						showUp = true;
+						comboSet.showDown = true;
+						comboSet.showLeft = true;
+						comboSet.showRight = true;
+						comboSet.showUp = true;
 						break;
 					case 14:
-						showDown = true;
-						showLeft = true;
-						showRight = true;
+						comboSet.showDown = true;
+						comboSet.showLeft = true;
+						comboSet.showRight = true;
 						break;
 					case 13:
-						showUp = true;
-						showDown = false;
-						showLeft = true;
-						showRight = true;
+						comboSet.showUp = true;
+						comboSet.showDown = false;
+						comboSet.showLeft = true;
+						comboSet.showRight = true;
 						break;
 					case 12:
-						showUp = false;
-						showDown = false;
-						showLeft = true;
-						showRight = true;
+						comboSet.showUp = false;
+						comboSet.showDown = false;
+						comboSet.showLeft = true;
+						comboSet.showRight = true;
 						break;
 					case 11:
-						showUp = true;
-						showDown = true;
-						showLeft = false;
-						showRight = true;
+						comboSet.showUp = true;
+						comboSet.showDown = true;
+						comboSet.showLeft = false;
+						comboSet.showRight = true;
 						break;
 					case 10:
-						showUp = false;
-						showDown = true;
-						showLeft = false;
-						showRight = true;
+						comboSet.showUp = false;
+						comboSet.showDown = true;
+						comboSet.showLeft = false;
+						comboSet.showRight = true;
 						break;
 					case 9:
-						showUp = true;
-						showDown = false;
-						showLeft = false;
-						showRight = true;
+						comboSet.showUp = true;
+						comboSet.showDown = false;
+						comboSet.showLeft = false;
+						comboSet.showRight = true;
 						break;
 					case 8:
-						showUp = false;
-						showDown = false;
-						showLeft = false;
-						showRight = true;
+						comboSet.showUp = false;
+						comboSet.showDown = false;
+						comboSet.showLeft = false;
+						comboSet.showRight = true;
 						break;
 					case 7:
-						showUp = true;
-						showDown = true;
-						showLeft = true;
-						showRight = false;
+						comboSet.showUp = true;
+						comboSet.showDown = true;
+						comboSet.showLeft = true;
+						comboSet.showRight = false;
 						break;
 					case 6:
-						showUp = false;
-						showDown = true;
-						showLeft = true;
-						showRight = false;
+						comboSet.showUp = false;
+						comboSet.showDown = true;
+						comboSet.showLeft = true;
+						comboSet.showRight = false;
 						break;
 					case 5:
-						showUp = true;
-						showDown = false;
-						showLeft = true;
-						showRight = false;
+						comboSet.showUp = true;
+						comboSet.showDown = false;
+						comboSet.showLeft = true;
+						comboSet.showRight = false;
 						break;
 					case 4:
-						showUp = false;
-						showDown = false;
-						showLeft = true;
-						showRight = false;
+						comboSet.showUp = false;
+						comboSet.showDown = false;
+						comboSet.showLeft = true;
+						comboSet.showRight = false;
 						break;
 					case 3:
-						showUp = true;
-						showDown = true;
-						showLeft = false;
-						showRight = false;
+						comboSet.showUp = true;
+						comboSet.showDown = true;
+						comboSet.showLeft = false;
+						comboSet.showRight = false;
 						break;
 					case 2:
-						showUp = false;
-						showDown = true;
-						showLeft = false;
-						showRight = false;
+						comboSet.showUp = false;
+						comboSet.showDown = true;
+						comboSet.showLeft = false;
+						comboSet.showRight = false;
 						break;
 					case 1:
-						showUp = true;
-						showDown = false;
-						showLeft = false;
-						showRight = false;
+						comboSet.showUp = true;
+						comboSet.showDown = false;
+						comboSet.showLeft = false;
+						comboSet.showRight = false;
 						break;
 					case 0:
-						showInvalid = true;
+						comboSet.showInvalid = true;
 						break;
 					default:
-						showUnkown = true;
+						comboSet.showUnkown = true;
 						break;
 				}
 			}
 			if (type == 2 || type == 3 || type == 4)
 			{
-				e.drawSelectionBoxInFront = false;
 				switch (type)
 				{
 					case 2:
-						showA = true;
+						comboSet.showA = true;
 						break;
 					case 3:
-						showB = true;
+						comboSet.showB = true;
 						break;
 					case 4:
-						showC = true;
+						comboSet.showC = true;
 						break;
 				}
-				hideFrame = true;
-			}
-			else
-			{
-				e.drawSelectionBoxInFront = true;
+				comboSet.hideFrame = true;
 			}
 
-			bool isUnsafe = isDangerousCombonation(dirMask, type);
-			if (type > 6)
-			{
-				showInvalid = true;
-			}
-
-			if (editorAnim != null && editorAnim.Frames.Count != 0 && upAnim != null && upAnim.Frames.Count != 0 && downAnim != null && downAnim.Frames.Count != 0 && rightAnim != null && rightAnim.Frames.Count != 0 && leftAnim != null && leftAnim.Frames.Count != 0 && uprightAnim != null && uprightAnim.Frames.Count != 0 && downrightAnim != null && downrightAnim.Frames.Count != 0 && upleftAnim != null && upleftAnim.Frames.Count != 0 && downleftAnim != null && downleftAnim.Frames.Count != 0)
-				{
-					var frame = editorAnim.Frames[Animation.index];
-					var frame2 = upAnim.Frames[Animation.index];
-					var frame3 = downAnim.Frames[Animation.index];
-					var frame4 = rightAnim.Frames[Animation.index];
-					var frame5 = leftAnim.Frames[Animation.index];
-					var frame6 = uprightAnim.Frames[Animation.index];
-					var frame7 = downrightAnim.Frames[Animation.index];
-					var frame8 = upleftAnim.Frames[Animation.index];
-					var frame9 = downleftAnim.Frames[Animation.index];
-
-					if (!hideFrame)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-							x + frame.Frame.PivotX,
-							y + frame.Frame.PivotY,
-							frame.Frame.Width, frame.Frame.Height, false, Transparency);
-					}
-
-					if (showUp == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-							x + frame2.Frame.PivotX,
-							y + frame2.Frame.PivotY,
-							frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-					}
-					if (showDown == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-							x + frame3.Frame.PivotX,
-							y + frame3.Frame.PivotY,
-							frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-					}
-					if (showRight == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame4),
-							x + frame4.Frame.PivotX,
-							y + frame4.Frame.PivotY,
-							frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-					}
-					if (showLeft == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame5),
-							x + frame5.Frame.PivotX,
-							y + frame5.Frame.PivotY,
-							frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
-					}
-					if (showUpRight == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame6),
-							x + frame6.Frame.PivotX,
-							y + frame6.Frame.PivotY,
-							frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
-					}
-					if (showDownRight == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame7),
-							x + frame7.Frame.PivotX,
-							y + frame7.Frame.PivotY,
-							frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
-					}
-					if (showUpLeft == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame8),
-							x + frame8.Frame.PivotX,
-							y + frame8.Frame.PivotY,
-							frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
-					}
-					if (showDownLeft == true)
-					{
-						d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame9),
-							x + frame9.Frame.PivotX,
-							y + frame9.Frame.PivotY,
-							frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
-					}
-				}
-
-			if (centerAnim != null && centerAnim.Frames.Count != 0 && A_Anim != null && A_Anim.Frames.Count != 0 && B_Anim != null && B_Anim.Frames.Count != 0 && C_Anim != null && C_Anim.Frames.Count != 0 && inOutAnim != null && inOutAnim.Frames.Count != 0 && junctionAnim != null && junctionAnim.Frames.Count != 0 && runAnim != null && runAnim.Frames.Count != 0 && unknownAnim != null && unknownAnim.Frames.Count != 0 && unsafeAnim != null && unsafeAnim.Frames.Count != 0 && notValidAnim != null && notValidAnim.Frames.Count != 0)
-			{
-				var frame = centerAnim.Frames[Animation.index];
-				var frame2 = A_Anim.Frames[Animation.index];
-				var frame3 = B_Anim.Frames[Animation.index];
-				var frame4 = C_Anim.Frames[Animation.index];
-				var frame5 = inOutAnim.Frames[Animation.index];
-				var frame6 = junctionAnim.Frames[Animation.index];
-				var frame7 = runAnim.Frames[Animation.index];
-				var frame8 = unknownAnim.Frames[Animation.index];
-				var frame9 = unsafeAnim.Frames[Animation.index];
-				var frame10 = notValidAnim.Frames[Animation.index];
-
-				if (showCenter == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-						x + frame.Frame.PivotX,
-						y + frame.Frame.PivotY,
-						frame.Frame.Width, frame.Frame.Height, false, Transparency);
-				}
-				if (showA == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-						x + frame2.Frame.PivotX,
-						y + frame2.Frame.PivotY,
-						frame2.Frame.Width, frame2.Frame.Height, e.Selected, Transparency);
-				}
-				if (showB == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-						x + frame3.Frame.PivotX,
-						y + frame3.Frame.PivotY,
-						frame3.Frame.Width, frame3.Frame.Height, e.Selected, Transparency);
-				}
-				if (showC == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame4),
-						x + frame4.Frame.PivotX,
-						y + frame4.Frame.PivotY,
-						frame4.Frame.Width, frame4.Frame.Height, e.Selected, Transparency);
-				}
-				if (showInOut == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame5),
-						x + frame5.Frame.PivotX,
-						y + frame5.Frame.PivotY,
-						frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
-				}
-				if (showJunction == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame6),
-						x + frame6.Frame.PivotX,
-						y + frame6.Frame.PivotY,
-						frame6.Frame.Width, frame6.Frame.Height, false, Transparency);
-				}
-				if (showRun == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame7),
-						x + frame7.Frame.PivotX,
-						y + frame7.Frame.PivotY,
-						frame7.Frame.Width, frame7.Frame.Height, false, Transparency);
-				}
-
-				if (isUnsafe == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame9),
-						x + frame9.Frame.PivotX,
-						y + frame9.Frame.PivotY,
-						frame9.Frame.Width, frame9.Frame.Height, false, Transparency);
-				}
-
-				if (showUnkown == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame8),
-						x + frame8.Frame.PivotX,
-						y + frame8.Frame.PivotY,
-						frame8.Frame.Width, frame8.Frame.Height, false, Transparency);
-				}
-				if (showInvalid == true)
-				{
-					d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame10),
-						x + frame10.Frame.PivotX,
-						y + frame10.Frame.PivotY,
-						frame10.Frame.Width, frame10.Frame.Height, false, Transparency);
-				}
-			}
-
+			return comboSet;
 		}
-
 		public bool isDangerousCombonation(int dirMask, int type)
 		{
 			/* Types:
@@ -396,7 +306,7 @@ namespace ManiacEditor.Entity_Renders
 			* 5 - Directional Tubes
 			* 6 - "Run" Tubes (Keep Momentum)
 			*/
-			if (type == 0 || type == 1 || type == 6)
+			if (type == 0 || type == 1)
 			{
 				switch (dirMask)
 				{

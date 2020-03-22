@@ -678,8 +678,8 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (dataLabelToolStripItem != null)
             {
-                if (DataDirectory != null && DataDirectory != string.Empty) dataLabelToolStripItem.Content = "Data Directory: " + DataDirectory;
-                else dataLabelToolStripItem.Content = "Data Directory: N/A";
+                if (DataDirectory != null && DataDirectory != string.Empty) dataLabelToolStripItem.Text = "Data Directory: " + DataDirectory;
+                else dataLabelToolStripItem.Text = "Data Directory: N/A";
             }
         }
 
@@ -1231,7 +1231,15 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 SceneState.FilePath = open.FileName;
                 SceneState.SceneDirectory = System.IO.Path.GetDirectoryName(open.FileName);
+                SceneState.DataDirectory = DataDirectory;
+                SceneState.FilePath = open.FileName;
+                SceneState.LevelID = -1;
+                SceneState.IsEncoreMode = false;
+                SceneState.SceneID = "N/A";
+                SceneState.Zone = "N/A";
                 SceneState.LoadType = Classes.General.SceneState.LoadMethod.FullPath;
+                SceneState.Name = "N/A";
+                SceneState.MasterDataDirectory = Methods.Editor.SolutionPaths.DefaultMasterDataDirectory;
                 CloseHostEvent();
             }
         }
@@ -1311,5 +1319,11 @@ namespace ManiacEditor.Controls.SceneSelect
             else this.isFilesView.IsChecked = false;
         }
         #endregion
+
+        private void UnloadDataPackButton_Click(object sender, RoutedEventArgs e)
+        {
+            UnloadDataDirectory();
+            MasterDataDirectorySelectorComboBox_SelectionChanged(null, null);
+        }
     }
 }

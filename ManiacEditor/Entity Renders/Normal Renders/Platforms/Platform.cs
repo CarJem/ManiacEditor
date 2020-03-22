@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
     public class Platform : EntityRenderer
     {
         #region Definition
-        private int LastFrameIDAttribute { get; set; } = 0;
+        private int LastFrameIDAttribute { get; set; } = -1;
         private int RealAnimID { get; set; } = -1;
         private int RealFrameID { get; set; } = -1;
         #endregion

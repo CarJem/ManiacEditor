@@ -49,19 +49,18 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
                 int splineID = Methods.Editor.SolutionState.SelectedSplineID;
                 if (ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Methods.Editor.SolutionState.SplineOptionsGroup.ContainsKey(splineID) && Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
                 {
-					UpdatePropertiesGrid(new List<EditorEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
+					UpdateToolbar(new List<EditorEntity>() { Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
                 }
                 else
                 {
-					UpdatePropertiesGrid(value);
+					UpdateToolbar(value);
                 }
             }
 
 		}
-
 		private List<EditorEntity> _SelectedEntities { get; set; }
-
 		public bool NeedRefresh { get; set; }
+		private bool DisableMultiAttributeEditing { get; set; } = true;
 		#endregion
 
 		#region Init
@@ -89,122 +88,33 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		#endregion
 
 		#region Property Grid (General)
-		public void UpdatePropertiesGrid(List<EditorEntity> selectedEntities)
-		{
-			// Reset the List Item if the Current Entity is nothing or if it's a multi-selection
-			if (CurrentEntity == null)
-			{
-				entitiesList.Content = null;
-				TabControl.SelectedIndex = 0;
-			}
 
-			MultipleObjectsSelected = false;
-			bool isCommonObjects = false;
-			SelectedObjectListIndexes.Clear();
-
-			EntityEditor.Header = "Entity Editor";
-
-			if (selectedEntities.Count != 1)
-			{
-				PropertiesGrid.SelectedObject = null;
-				CurrentEntity = null;
-				_SelectedEntitySlots.Clear();
-				if (selectedEntities.Count > 1)
-				{
-
-					// Then we are selecting multiple objects				
-					isCommonObjects = true;
-					EntityEditor.Header = "Entity Editor | " + String.Format("{0} entities selected", selectedEntities.Count);
-					MultipleObjectsSelected = true;
-					string commonObject = selectedEntities[0].Object.Name.Name;
-					foreach (EditorEntity selectedEntity in selectedEntities)
-					{
-						SelectedObjectListIndexes.Add(selectedEntity.SlotID);
-						if (selectedEntity.Object.Name.Name != commonObject)
-						{
-							isCommonObjects = false;
-						}
-					}
-
-				}
-				else
-				{
-					SetSingleSelect();
-				}
-
-
-				if (selectedEntities == SelectedEntities)
-				{
-					UpdateSelectedProperties();
-				}
-				else
-				{
-					_SelectedEntities = selectedEntities;
-					CreateMultiSelectedProperties(_SelectedEntities);
-				}
-
-			}
-
-			if (!MultipleObjectsSelected) SetSingleSelect();
-
-
-			void SetSingleSelect()
-			{
-				_SelectedEntities = selectedEntities;
-				if (selectedEntities.Count == 0) return;
-				EditorEntity entity = selectedEntities[0];
-
-				if (entity == CurrentEntity)
-				{
-					UpdateSelectedProperties();
-					return;
-				}
-				CurrentEntity = entity;
-
-				UpdateEntitiesList();
-
-				if (entity.Object.Name.Name != "Spline")
-				{
-
-					if (ObjectList != null)
-					{
-						if (ObjectList.ToList().Exists(x => x.Tag.ToString() == entity.SlotID.ToString()))
-						{
-							var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
-							entitiesList.Content = entry.ItemContent;
-							entitiesList.Foreground = entry.ItemForeground;
-							entitiesList.Tag = entry.Tag;
-						}
-						else
-						{
-							entitiesList.Content = null;
-							entitiesList.Tag = null;
-						}
-					}
-					else
-					{
-						UpdateEntitiesList();
-						entitiesList.Content = null;
-						entitiesList.Tag = null;
-					}
-				}
-				else
-				{
-					entitiesList.Content = null;
-					entitiesList.Tag = null;
-				}
-
-
-
-				CreateSelectedProperties(entity);
-			}
-
-		}
 		private void PropertiesGrid_PropertyValueChanged(object sender, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
 		{
 			if (MultipleObjectsSelected)
 			{
-				SetMultiSelectedProperties(SelectedEntities, e);
+				List<Actions.EntityMultiplePropertyChanges> Values = new List<Actions.EntityMultiplePropertyChanges>();
+
+				string Category = e.Property.Split(',')[0];
+				string Name = e.Property.Split(',')[1];
+
+				foreach (var entity in SelectedEntities)
+				{
+					if (entity.attributesMap.ContainsKey(Category) && entity.attributesMap[Category].Type == GetAttributeTypeFromName(Name))
+					{
+						var value = new Actions.EntityMultiplePropertyChanges(entity, e.NewValue, GetOldValue(entity.GetAttribute(Category)));
+						Values.Add(value);
+					}
+					else
+					{
+						var value = new Actions.EntityMultiplePropertyChanges(entity);
+						Values.Add(value);
+					}
+
+				}
+
+				AddAction?.Invoke(new Actions.ActionEntityMultiplePropertyChange(e.Property, Values, new Action<string, List<Actions.EntityMultiplePropertyChanges>>(SetMultiSelectedProperties)));
+				SetMultiSelectedProperties(e.Property, Values);
 			}
 			else
 			{
@@ -212,11 +122,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 				SetSelectedProperties(CurrentEntity, e);
 			}
 
-		}
-		public void UpdateSelectedProperties()
-		{
-			if (MultipleObjectsSelected) UpdateMultiSelectedProperties();
-			else if (CurrentEntity != null) UpdateSingleSelectedProperties();
 		}
 
 		#endregion
@@ -369,9 +274,14 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		#endregion
 
 		#region Property Grid (Update) 
-
+		public void UpdateSelectedProperties()
+		{
+			if (MultipleObjectsSelected) UpdateMultiSelectedProperties();
+			else if (CurrentEntity != null) UpdateSingleSelectedProperties();
+		}
 		public void UpdateSingleSelectedProperties()
 		{
+			if (PropertiesGrid == null) return;
 			object selectedObject = PropertiesGrid.SelectedObject;
 			if (selectedObject is PropertyControl.PropertyGridObject obj)
 			{
@@ -479,291 +389,384 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 
 			}
 		}
-
-
 		#endregion
 
 		#region Property Grid (Set) 
 		private void SetSelectedProperties(EditorEntity entity, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
 		{
-			SetSelectedProperties(entity, e.Property, e.NewValue, e.OldValue);
+			SetSelectedProperties(entity, e.Property, e.NewValue, e.OldValue, true);
 		}
 		private void SetSelectedProperties(EditorEntity entity, string Property, object NewValue, object OldValue)
 		{
+			SetSelectedProperties(entity, Property, NewValue, OldValue, true);
+		}
+		private void SetSelectedProperties(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		{
 			string Category = Property.Split(',')[0];
 			string Name = Property.Split(',')[1];
 
 
-			if (Category == "position") UpdatePosition();
+			if (Category == "position") UpdatePositionProperty(entity, Property, NewValue, OldValue, UpdateUI);
 			else if (Category == "object")
 			{
-				if (Name == "name" && OldValue != NewValue) UpdateName();
-				else if (Name == "entitySlot" && OldValue != NewValue) UpdateEntitySlot();
-				UpdateEntityProperties();
-			}
-			else UpdateAttribute();
+				if (Name == "name" && OldValue != NewValue) UpdateNameProperty(entity, Property, NewValue, OldValue, UpdateUI);
+				else if (Name == "entitySlot" && OldValue != NewValue) UpdateEntitySlotProperty(entity, Property, NewValue, OldValue, UpdateUI);
 
-			void UpdatePosition()
-			{
-				float fvalue = (float)NewValue;
-				if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
-				{
-					// Invalid
-
-					return;
-				}
-				var pos = entity.Position;
-				if (Name == "x")
-				{
-					pos.X.High = (short)fvalue;
-					pos.X.Low = (ushort)(fvalue * 0x10000);
-				}
-				else if (Name == "y")
-				{
-					pos.Y.High = (short)fvalue;
-					pos.Y.Low = (ushort)(fvalue * 0x10000);
-				}
-				entity.Position = pos;
-				if (entity == CurrentEntity)
-					UpdateSelectedProperties();
-			}
-
-			void UpdateName()
-			{
-				var info = RSDKv5.Objects.GetObjectName(new RSDKv5.NameIdentifier(NewValue as string));
-				if (info == null)
-				{
-					MessageBox.Show("Unknown Object", "", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
-				}
-				var objectsList = ((BindingList<TextBlock>)_BindingSceneObjectsSource).ToList();
-				var objects = objectsList.Select(x => x.Tag as RSDKv5.SceneObject).ToList();
-				var obj = objects.FirstOrDefault(t => t.Name.Name == NewValue as string);
-				if (obj != null)
-				{
-					var attribs = entity.Object.Attributes;
-					entity.Attributes.Clear();
-					entity.attributesMap.Clear();
-					foreach (var attb in attribs)
-					{
-						var attributeValue = new RSDKv5.AttributeValue(attb.Type);
-						entity.Attributes.Add(attributeValue);
-						entity.attributesMap.Add(attb.Name.Name, attributeValue);
-					}
-					entity.Object = obj;
-				}
-				else
-				{
-					// The new object
-					var sobj = new RSDKv5.SceneObject(entity.Object.Name, entity.Object.Attributes);
-
-					entity.Attributes.Clear();
-					entity.attributesMap.Clear();
-					foreach (var attb in entity.Object.Attributes)
-					{
-						var attributeValue = new RSDKv5.AttributeValue(attb.Type);
-						entity.Attributes.Add(attributeValue);
-						entity.attributesMap.Add(attb.Name.Name, attributeValue);
-					}
-					entity.Object = sobj;
-					TextBlock newItem = new TextBlock()
-					{
-						Tag = sobj,
-						Foreground = (SolidColorBrush)this.FindResource("NormalText"),
-						Text = sobj.Name.Name
-					};
-					_BindingSceneObjectsSource.Add(newItem);
-				}
-			}
-
-			void UpdateEntitySlot()
-			{
-				ushort newSlot = (ushort)NewValue;
-				// Check if slot has been used
-				var objectsList = ((BindingList<TextBlock>)_BindingSceneObjectsSource).ToList();
-				var objects = objectsList.Select(x => x.Tag as RSDKv5.SceneObject).ToList();
-				foreach (var obj in objects)
-				{
-					if (obj.Entities.Any(t => t.SlotID == newSlot))
-					{
-						MessageBox.Show("Slot " + newSlot + " is currently being used by a " + obj.Name.ToString(),
-							"Slot in use!", MessageBoxButton.OK, MessageBoxImage.Error);
-						return;
-					}
-					if (newSlot > 2048)
-					{
-						MessageBox.Show("Slot " + newSlot + " is bigger than the maximum amount of objects allowed!",
-							"Slot is too big!", MessageBoxButton.OK, MessageBoxImage.Error);
-						return;
-					}
-				}
-				// Passed
-				entity.SlotID = newSlot;
-			}
-
-			void UpdateAttribute()
-			{
-				var attribute = entity.GetAttribute(Category);
-				switch (attribute.Type)
-				{
-					case RSDKv5.AttributeTypes.UINT8:
-						attribute.ValueUInt8 = (byte)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.UINT16:
-						attribute.ValueUInt16 = (ushort)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.UINT32:
-						attribute.ValueUInt32 = (uint)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.INT8:
-						attribute.ValueInt8 = (sbyte)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.INT16:
-						attribute.ValueInt16 = (short)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.INT32:
-						attribute.ValueInt32 = (int)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.ENUM:
-						attribute.ValueEnum = (int)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.BOOL:
-						attribute.ValueBool = (bool)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.STRING:
-						attribute.ValueString = (string)NewValue;
-						break;
-					case RSDKv5.AttributeTypes.VECTOR2:
-						float fvalue = (float)NewValue;
-						if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
-						var pos = attribute.ValueVector2;
-						if (Name == "x")
-						{
-							pos.X.High = (short)fvalue;
-							pos.X.Low = (ushort)(fvalue * 0x10000);
-						}
-						else if (Name == "y")
-						{
-							pos.Y.High = (short)fvalue;
-							pos.Y.Low = (ushort)(fvalue * 0x10000);
-						}
-						attribute.ValueVector2 = pos;
-						if (entity == CurrentEntity)
-							UpdateSelectedProperties();
-						break;
-					case RSDKv5.AttributeTypes.COLOR:
-						System.Drawing.Color c = (System.Drawing.Color)NewValue;
-						attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
-						break;
-				}
-				UpdatePropertiesGrid(new List<EditorEntity>() { entity });
-			}
-
-			void UpdateEntityProperties()
-			{
-				if (entity == CurrentEntity)
-				{
-					UpdateSelectedProperties();
-				}
+				if (entity == CurrentEntity) UpdateSelectedProperties();
 				else
 				{
 					CurrentEntity = null;
-					UpdatePropertiesGrid(new List<EditorEntity>() { entity });
+					if (UpdateUI) UpdateToolbar(new List<EditorEntity>() { entity });
 				}
 				UpdateEntitiesList();
 			}
+			else UpdateAttributeProperty(entity, Property, NewValue, OldValue, UpdateUI);
 		}
-		private void SetMultiSelectedProperties(List<EditorEntity> entities, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)		
-		{
-			string Property = e.Property;
-			object NewValue = e.NewValue;
-			object OldValue = e.OldValue;
-
+		private void SetMultiSelectedProperties(string Property, List<Actions.EntityMultiplePropertyChanges> values)		
+		{			
 			string Category = Property.Split(',')[0];
 			string Name = Property.Split(',')[1];
 
-			List<Actions.ActionEntityPropertyChange> ActionList = new List<Actions.ActionEntityPropertyChange>();
-
-			foreach (var entity in entities)
+			for (int i = 0; i < values.Count; i++)
 			{
-				if (entity.AttributeExists(Category, GetAttributeTypeFromName(Name)))
-				{
-					var attribute = entity.GetAttribute(Category);
-					switch (attribute.Type)
-					{
-						case RSDKv5.AttributeTypes.UINT8:
-							OldValue = attribute.ValueUInt8;
-							attribute.ValueUInt8 = (byte)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.UINT16:
-							OldValue = attribute.ValueUInt16;
-							attribute.ValueUInt16 = (ushort)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.UINT32:
-							OldValue = attribute.ValueUInt32;
-							attribute.ValueUInt32 = (uint)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.INT8:
-							OldValue = attribute.ValueInt8;
-							attribute.ValueInt8 = (sbyte)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.INT16:
-							OldValue = attribute.ValueInt16;
-							attribute.ValueInt16 = (short)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.INT32:
-							OldValue = attribute.ValueInt32;
-							attribute.ValueInt32 = (int)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.ENUM:
-							OldValue = attribute.ValueEnum;
-							attribute.ValueEnum = (int)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.BOOL:
-							OldValue = attribute.ValueBool;
-							attribute.ValueBool = (bool)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.STRING:
-							OldValue = attribute.ValueString;
-							attribute.ValueString = (string)NewValue;
-							break;
-						case RSDKv5.AttributeTypes.VECTOR2:
-							float fvalue = (float)NewValue;
-							if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
-							var pos = attribute.ValueVector2;
-							OldValue = pos;
-							if (Name == "x")
-							{
-								pos.X.High = (short)fvalue;
-								pos.X.Low = (ushort)(fvalue * 0x10000);
-							}
-							else if (Name == "y")
-							{
-								pos.Y.High = (short)fvalue;
-								pos.Y.Low = (ushort)(fvalue * 0x10000);
-							}
-							attribute.ValueVector2 = pos;
-							break;
-						case RSDKv5.AttributeTypes.COLOR:
-							System.Drawing.Color c = (System.Drawing.Color)NewValue;
-							attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
-							break;
-					}
-					ActionList.Add(new Actions.ActionEntityPropertyChange(entity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
-
-				}
+				if (values[i].NewValue != null && values[i].OldValue != null) UpdateAttributeProperty(values[i].Entity, Property, values[i].NewValue, values[i].OldValue, false);
 			}
 
+			UpdateToolbar(values.ConvertAll(x => x.Entity).ToList());
+		}
+		private void UpdatePositionProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		{
+			float fvalue = (float)NewValue;
+			if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
+			{
+				// Invalid
 
-			AddAction?.Invoke(new Actions.ActionEntityMultiplePropertyChange(SelectedEntities, e.Property, ActionList));
+				return;
+			}
+			var pos = entity.Position;
+			if (Name == "x")
+			{
+				pos.X.High = (short)fvalue;
+				pos.X.Low = (ushort)(fvalue * 0x10000);
+			}
+			else if (Name == "y")
+			{
+				pos.Y.High = (short)fvalue;
+				pos.Y.Low = (ushort)(fvalue * 0x10000);
+			}
+			entity.Position = pos;
+			if (entity == CurrentEntity)
+				UpdateSelectedProperties();
+		}
+		private void UpdateNameProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		{
+			var info = RSDKv5.Objects.GetObjectName(new RSDKv5.NameIdentifier(NewValue as string));
+			if (info == null)
+			{
+				MessageBox.Show("Unknown Object", "", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+			var objectsList = ((BindingList<TextBlock>)_BindingSceneObjectsSource).ToList();
+			var objects = objectsList.Select(x => x.Tag as RSDKv5.SceneObject).ToList();
+			var obj = objects.FirstOrDefault(t => t.Name.Name == NewValue as string);
+			if (obj != null)
+			{
+				var attribs = entity.Object.Attributes;
+				entity.Attributes.Clear();
+				entity.attributesMap.Clear();
+				foreach (var attb in attribs)
+				{
+					var attributeValue = new RSDKv5.AttributeValue(attb.Type);
+					entity.Attributes.Add(attributeValue);
+					entity.attributesMap.Add(attb.Name.Name, attributeValue);
+				}
+				entity.Object = obj;
+			}
+			else
+			{
+				// The new object
+				var sobj = new RSDKv5.SceneObject(entity.Object.Name, entity.Object.Attributes);
 
-			UpdatePropertiesGrid(entities);
+				entity.Attributes.Clear();
+				entity.attributesMap.Clear();
+				foreach (var attb in entity.Object.Attributes)
+				{
+					var attributeValue = new RSDKv5.AttributeValue(attb.Type);
+					entity.Attributes.Add(attributeValue);
+					entity.attributesMap.Add(attb.Name.Name, attributeValue);
+				}
+				entity.Object = sobj;
+				TextBlock newItem = new TextBlock()
+				{
+					Tag = sobj,
+					Foreground = (SolidColorBrush)this.FindResource("NormalText"),
+					Text = sobj.Name.Name
+				};
+				_BindingSceneObjectsSource.Add(newItem);
+			}
+		}
+		private void UpdateEntitySlotProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		{
+			ushort newSlot = (ushort)NewValue;
+			// Check if slot has been used
+			var objectsList = ((BindingList<TextBlock>)_BindingSceneObjectsSource).ToList();
+			var objects = objectsList.Select(x => x.Tag as RSDKv5.SceneObject).ToList();
+			foreach (var obj in objects)
+			{
+				if (obj.Entities.Any(t => t.SlotID == newSlot))
+				{
+					MessageBox.Show("Slot " + newSlot + " is currently being used by a " + obj.Name.ToString(),
+						"Slot in use!", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+				if (newSlot > 2048)
+				{
+					MessageBox.Show("Slot " + newSlot + " is bigger than the maximum amount of objects allowed!",
+						"Slot is too big!", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+			}
+			// Passed
+			entity.SlotID = newSlot;
+		}
+		private void UpdateAttributeProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		{
+			string Category = Property.Split(',')[0];
+			string Name = Property.Split(',')[1];
+
+			var attribute = entity.GetAttribute(Category);
+			switch (attribute.Type)
+			{
+				case RSDKv5.AttributeTypes.UINT8:
+					attribute.ValueUInt8 = (byte)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.UINT16:
+					attribute.ValueUInt16 = (ushort)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.UINT32:
+					attribute.ValueUInt32 = (uint)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.INT8:
+					attribute.ValueInt8 = (sbyte)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.INT16:
+					attribute.ValueInt16 = (short)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.INT32:
+					attribute.ValueInt32 = (int)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.ENUM:
+					attribute.ValueEnum = (int)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.BOOL:
+					attribute.ValueBool = (bool)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.STRING:
+					attribute.ValueString = (string)NewValue;
+					break;
+				case RSDKv5.AttributeTypes.VECTOR2:
+					float fvalue = (float)NewValue;
+					if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
+					var pos = attribute.ValueVector2;
+					if (Name == "x")
+					{
+						pos.X.High = (short)fvalue;
+						pos.X.Low = (ushort)(fvalue * 0x10000);
+					}
+					else if (Name == "y")
+					{
+						pos.Y.High = (short)fvalue;
+						pos.Y.Low = (ushort)(fvalue * 0x10000);
+					}
+					attribute.ValueVector2 = pos;
+					if (entity == CurrentEntity)
+						UpdateSelectedProperties();
+					break;
+				case RSDKv5.AttributeTypes.COLOR:
+					System.Drawing.Color c = (System.Drawing.Color)NewValue;
+					attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
+					break;
+			}
+			if (UpdateUI) UpdateToolbar(new List<EditorEntity>() { entity });
 		}
 
+		#endregion
+
+		#region Property Grid (Get)
+
+		public object GetOldValue(AttributeValue attribute)
+		{
+			object OldValue = null;
+			switch (attribute.Type)
+			{
+				case RSDKv5.AttributeTypes.UINT8:
+					OldValue = attribute.ValueUInt8;
+					break;
+				case RSDKv5.AttributeTypes.UINT16:
+					OldValue = attribute.ValueUInt16;
+					break;
+				case RSDKv5.AttributeTypes.UINT32:
+					OldValue = attribute.ValueUInt32;
+					break;
+				case RSDKv5.AttributeTypes.INT8:
+					OldValue = attribute.ValueInt8;
+					break;
+				case RSDKv5.AttributeTypes.INT16:
+					OldValue = attribute.ValueInt16;
+					break;
+				case RSDKv5.AttributeTypes.INT32:
+					OldValue = attribute.ValueInt32;
+					break;
+				case RSDKv5.AttributeTypes.ENUM:
+					OldValue = attribute.ValueEnum;
+					break;
+				case RSDKv5.AttributeTypes.BOOL:
+					OldValue = attribute.ValueBool;
+					break;
+				case RSDKv5.AttributeTypes.STRING:
+					OldValue = attribute.ValueString;
+					break;
+				case RSDKv5.AttributeTypes.VECTOR2:
+					var pos = attribute.ValueVector2;
+					OldValue = pos;
+					break;
+				case RSDKv5.AttributeTypes.COLOR:
+					OldValue = attribute.ValueColor;
+					break;
+			}
+			return OldValue;
+		}
 
 		#endregion
 
 		#region UI Refresh
+		public void UpdateToolbar(List<EditorEntity> SelectedEntities)
+		{
+			// Reset the List Item if the Current Entity is nothing or if it's a multi-selection
+			if (CurrentEntity == null)
+			{
+				entitiesList.Content = null;
+				TabControl.SelectedIndex = 0;
+			}
+
+			MultipleObjectsSelected = false;
+			bool isCommonObjects = false;
+			SelectedObjectListIndexes.Clear();
+
+			EntityEditor.Header = "Entity Editor";
+
+			if (SelectedEntities.Count != 1)
+			{
+				PropertiesGrid.SelectedObject = null;
+				CurrentEntity = null;
+				_SelectedEntitySlots.Clear();
+				if (SelectedEntities.Count > 1)
+				{
+
+					// Then we are selecting multiple objects				
+					isCommonObjects = true;
+					MultipleObjectsSelected = true;
+					string CommonObjectName = SelectedEntities[0].Object.Name.Name;
+					foreach (EditorEntity selectedEntity in SelectedEntities)
+					{
+						SelectedObjectListIndexes.Add(selectedEntity.SlotID);
+						if (selectedEntity.Object.Name.Name != CommonObjectName)
+						{
+							isCommonObjects = false;
+						}
+					}
+
+					if (isCommonObjects)
+					{
+						entitiesList.Content = String.Format("{0} - {1} Entities Selected", CommonObjectName, SelectedEntities.Count) ;
+						entitiesList.Foreground = Methods.Internal.Theming.NormalText;
+					}
+					else
+					{
+						entitiesList.Content = String.Format("{0} Entities Selected", SelectedEntities.Count);
+						entitiesList.Foreground = Methods.Internal.Theming.NormalText;
+					}
+				}
+				else
+				{
+					SetSingleSelect();
+					return;
+				}
+
+
+				if (SelectedEntities == this.SelectedEntities)
+				{
+					UpdateSelectedProperties();
+					return;
+				}
+				else
+				{
+					_SelectedEntities = SelectedEntities;
+					CreateMultiSelectedProperties(_SelectedEntities);
+					return;
+				}
+
+			}
+
+			if (!MultipleObjectsSelected)
+			{
+				SetSingleSelect();
+				return;
+			}
+
+
+			void SetSingleSelect()
+			{
+				_SelectedEntities = SelectedEntities;
+				if (SelectedEntities.Count == 0) return;
+				EditorEntity entity = SelectedEntities[0];
+
+				if (entity == CurrentEntity)
+				{
+					UpdateSelectedProperties();
+					return;
+				}
+				CurrentEntity = entity;
+
+				UpdateEntitiesList();
+
+				if (entity.Object.Name.Name != "Spline")
+				{
+
+					if (ObjectList != null)
+					{
+						if (ObjectList.ToList().Exists(x => x.Tag.ToString() == entity.SlotID.ToString()))
+						{
+							var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
+							entitiesList.Content = entry.ItemContent;
+							entitiesList.Foreground = entry.ItemForeground;
+							entitiesList.Tag = entry.Tag;
+						}
+						else
+						{
+							entitiesList.Content = null;
+							entitiesList.Tag = null;
+						}
+					}
+					else
+					{
+						UpdateEntitiesList();
+						entitiesList.Content = null;
+						entitiesList.Tag = null;
+					}
+				}
+				else
+				{
+					entitiesList.Content = null;
+					entitiesList.Tag = null;
+				}
+
+
+
+				CreateSelectedProperties(entity);
+			}
+
+		}
 		public void UpdateEntitiesList(bool FirstLoad = false)
 		{
 			//This if statement Triggers when the toolbar opens for the first time

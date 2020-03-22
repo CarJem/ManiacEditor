@@ -111,6 +111,14 @@ namespace ManiacEditor.Methods.Internal
             }
         }
 
+        public static SolidColorBrush NormalText
+        {
+            get
+            {
+                return GetSCBResource("NormalText");
+            }
+        }
+
         public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor _instance)
         {
             Instance = _instance;

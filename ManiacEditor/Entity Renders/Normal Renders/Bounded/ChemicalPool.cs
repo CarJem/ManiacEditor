@@ -5,19 +5,15 @@ namespace ManiacEditor.Entity_Renders
     public class ChemicalPool : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity entity = Properties.EditorObject;
+
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             Transparency = 95;
             var type = entity.attributesMap["type"].ValueEnum;
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
@@ -25,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)widthPixels / 16 - 1;
             var height = (int)heightPixels / 16 - 1;
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 1, 1 + (int)type * 2, false, false, false);
+            var Animation = LoadAnimation("EditorAssets", d, 1, 1 + (int)type * 2);
 
             if (width != -1 && height != -1)
             {
@@ -33,19 +29,12 @@ namespace ManiacEditor.Entity_Renders
                 // TODO this is really heavy on resources, so maybe switch to just drawing a rectangle??
                 for (int i = 0; i <= height; i++)
                 {
-                    editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 1, 1 + (int)type * 2, false, false, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                        bool wEven = width % 2 == 0;
-                        bool hEven = height % 2 == 0;
-                        for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                                (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
-                                y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + i) * frame.Frame.Height,
-                                frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
+                    bool wEven = width % 2 == 0;
+                    bool hEven = height % 2 == 0;
+                    for (int j = 0; j <= width; j++)
+                        DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID,
+                            (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? Animation.RequestedFrame.PivotX : -Animation.RequestedFrame.Width) + (-width / 2 + j) * Animation.RequestedFrame.Width),
+                            y + (hEven ? Animation.RequestedFrame.PivotY : -Animation.RequestedFrame.Height) + (-height / 2 + i) * Animation.RequestedFrame.Height, Transparency);
                 }
 
                 // draw top and botton
@@ -53,24 +42,18 @@ namespace ManiacEditor.Entity_Renders
                 {
                     bool bottom = !((i & 1) > 0);
 
-                    editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 1, (bottom ? 1 : 0) + (int)type * 2, false, false, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        var frame = editorAnim.Frames[Animation.index];
-                        Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                        bool wEven = width % 2 == 0;
-                        bool hEven = height % 2 == 0;
-                        for (int j = 0; j <= width; j++)
-                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                                (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + j) * frame.Frame.Width),
-                                (y + heightPixels / (bottom ? 2 : -2) - (bottom ? frame.Frame.Height : 0)),
-                                frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
+                    Animation = LoadAnimation("EditorAssets", d, 1, (bottom ? 1 : 0) + (int)type * 2);
+                    bool wEven = width % 2 == 0;
+                    bool hEven = height % 2 == 0;
+                    for (int j = 0; j <= width; j++)
+                        DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID,
+                                (((width + 1) * 16) - widthPixels) / 2 + (x + (wEven ? Animation.RequestedFrame.PivotX : -Animation.RequestedFrame.Width) + (-width / 2 + j) * Animation.RequestedFrame.Width),
+                            (y + heightPixels / (bottom ? 2 : -2) - (bottom ? Animation.RequestedFrame.Height : 0)), Transparency);
                 }
             }
         }
 
-        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
             var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High);

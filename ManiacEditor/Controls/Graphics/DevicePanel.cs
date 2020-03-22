@@ -90,7 +90,7 @@ namespace ManiacEditor
                 this.RenderWindow.Dispose();
             }
 
-            var context = new ContextSettings {  };
+            var context = new ContextSettings { };
             this.RenderWindow = new RenderWindow(this.Handle, context);
 
             RenderWindow.SetFramerateLimit(60);
@@ -325,20 +325,48 @@ namespace ManiacEditor
         }
 
         public bool IsObjectOnScreen(int x, int y, int width, int height)
-        {          
+        {
             var screen = GetRectScreen();
             float zoom = GetZoom();
-            if (zoom == 1.0)
-                return !(x > screen.Left + screen.Width
-                || x + width < screen.Left
-                || y > screen.Top + screen.Height
-                || y + height < screen.Top);
+
+
+            bool x1 = x * zoom > screen.Left + screen.Width;
+            bool x2 = (x + width) * zoom < screen.Left;
+            bool y1 = y * zoom > screen.Top + screen.Height;
+            bool y2 = (y + height) * zoom < screen.Top;
+
+            return !(x1 || y1 || x2 || y2);
+
+
+        }
+
+        public bool ArePointsOnScreen(int x1, int y1, int x2, int y2)
+        {
+            int width, height;
+            int top, left;
+            if (x1 > x2)
+            {
+                width = x1 - x2;
+                left = x2;
+            }
             else
-                return !(x * zoom > screen.Left + screen.Width
-                || (x + width) * zoom < screen.Left
-                || y * zoom > screen.Top + screen.Height
-                || (y + height) * zoom < screen.Top);
-                
+            {
+                width = x2 - x1;
+                left = x1;
+            }
+
+            if (y1 > y2)
+            {
+                height = y1 - y2;
+                top = y2;
+            }
+            else
+            {
+                height = y2 - y1;
+                top = y1;
+            }
+
+            return IsObjectOnScreen(left, top, width, height);
         }
 
 
@@ -461,7 +489,7 @@ namespace ManiacEditor
 
         public void DrawSimpleLine(int x1, int y1, int x2, int y2, Color color = new Color())
         {
-            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
+            if (!ArePointsOnScreen(x1, y1, x2, y2)) return;
 
             var zoom = GetZoom();
 
@@ -480,7 +508,7 @@ namespace ManiacEditor
         }
         public void DrawLine(int x1, int y1, int x2, int y2, Color color = new Color(), float thickness = 1)
         {
-            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
+            if (!ArePointsOnScreen(x1, y1, x2, y2)) return;
 
             var zoom = GetZoom();
 

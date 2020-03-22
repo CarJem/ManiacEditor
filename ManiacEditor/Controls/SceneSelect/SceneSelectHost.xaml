@@ -15,10 +15,10 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="41"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid x:Name="TopPanel" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Background="{DynamicResource StatusBarBackground}" Grid.Column="0" Grid.ColumnSpan="2">
@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" Grid.Row="0" BorderThickness="1" BorderBrush="{DynamicResource ButtonBorder}">
-                <TextBlock HorizontalAlignment="Left" Background="{DynamicResource ButtonBackground}" Foreground="{DynamicResource NormalText}" VerticalAlignment="Center" x:Name="MasterDataLabelToolStripItem" Text="Master Data Directory: "  Padding="6" Margin="0,0,0,0"></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Background="{DynamicResource ButtonBackground}" Foreground="{DynamicResource NormalText}" VerticalAlignment="Center"  Padding="6" Margin="0,0,0,0" x:Name="MasterDataLabelToolStripItem" Text="Master Data Directory: "  ></TextBlock>
             </Border>
             <ComboBox VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Grid.Column="1" x:Name="MasterDataDirectorySelectorComboBox">
                 <ComboBox.ItemContainerStyle>
@@ -45,16 +45,26 @@
                 </MenuItem>
             </Menu>
         </Grid>
+        <Grid x:Name="BottomPanel" Background="{DynamicResource StatusBarBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="30" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="0"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Grid.Row="0" BorderThickness="1" BorderBrush="{DynamicResource ButtonBorder}">
+                <TextBlock HorizontalAlignment="Stretch"  Background="{DynamicResource ButtonBackground}" Foreground="{DynamicResource NormalText}" VerticalAlignment="Center"  Padding="6" Margin="0,0,0,0" x:Name="dataLabelToolStripItem" Text="Data Directory: NULL" Grid.Column="0" Grid.Row="0"/>
+            </Border>
+            <Button Grid.Column="2" x:Name="UnloadDataPackButton" Height="30" Padding="15,0" Width="72" Content="Unload" Background="{DynamicResource StatusBarBackground}" Foreground="{DynamicResource NormalText}" Margin="0,0,0,0" Click="UnloadDataPackButton_Click"></Button>
+        </Grid>
+
+        <Label Grid.Row="2" Grid.ColumnSpan="1" Content="Filter:" VerticalAlignment="Center" Margin="5,0,0,0"></Label>
+        <TextBox x:Name="FilterText" Grid.Row="2" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="20" Margin="45,0,10,0" TextChanged="FilterTextTextChangedEvent"></TextBox>
 
 
-        <Label Grid.Row="1" Grid.ColumnSpan="1" Content="Filter:" VerticalAlignment="Center" Margin="5,0,0,0"></Label>
-        <TextBox x:Name="FilterText" Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="20" Margin="45,0,10,0" TextChanged="FilterTextTextChangedEvent"></TextBox>
-
-
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Height="25" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Height="25" VerticalAlignment="Center" HorizontalAlignment="Stretch">
             <Label Content="Quick Panel:"></Label>
         </StackPanel>
-        <Grid Grid.Column="0" Grid.Row="2" Margin="10,10,10,10">
+        <Grid Grid.Column="0" Grid.Row="3" Margin="10,10,10,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="30"></RowDefinition>
@@ -64,7 +74,7 @@
         </Grid>
 
 
-        <Grid Grid.Column="1" Grid.Row="2" Margin="10,10,10,10">
+        <Grid Grid.Column="1" Grid.Row="3" Margin="10,10,10,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="30"></RowDefinition>
@@ -74,16 +84,16 @@
             <Label Grid.Row="2" x:Name="UnusedLabel"></Label>
         </Grid>
 
-        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Height="30" VerticalAlignment="Center">
+        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Height="30" VerticalAlignment="Center">
             <CheckBox x:Name="isFilesView" Grid.Row="3" Grid.Column="0" Content="Files View" Margin="10,0,0,0" VerticalAlignment="Center" Checked="SceneTreeUpdateRequiredEvent" Unchecked="SceneTreeUpdateRequiredEvent"></CheckBox>
             <CheckBox Visibility="Hidden" x:Name="preRenderCheckbox" Grid.Row="3" Grid.Column="0" Content="Pre-Render on Load" Margin="10,0,0,0" VerticalAlignment="Center"></CheckBox>
         </StackPanel>
 
-        <Button IsEnabled="False" x:Name="browse" Grid.Row="3" Grid.Column="0" Height="25" Content="Browse..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="BrowseButtonEvent"></Button>
-        <Button IsEnabled="False" x:Name="selectButton" Click="SelectButtonEvent" Height="25" Grid.Row="3" Grid.Column="0" Content="Select" Margin="0,5,10,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
+        <Button IsEnabled="False" x:Name="browse" Grid.Row="4" Grid.Column="0" Height="25" Content="Browse..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="BrowseButtonEvent"></Button>
+        <Button IsEnabled="False" x:Name="selectButton" Click="SelectButtonEvent" Height="25" Grid.Row="4" Grid.Column="0" Content="Select" Margin="0,5,10,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right"></Button>
 
-        <Button Grid.Row="3" Grid.Column="1" Height="25" Content="Load Selected" Margin="0,5,190,5" Width="100" VerticalAlignment="Center" HorizontalAlignment="Right" Click="LoadEvent"></Button>
-        <wpfTool:SplitButton x:Name="addButton" Grid.Row="3" Height="25" Grid.Column="1" Content="Add..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="AddDataDirectoryEvent">
+        <Button Grid.Row="4" Grid.Column="1" Height="25" Content="Load Selected" Margin="0,5,190,5" Width="100" VerticalAlignment="Center" HorizontalAlignment="Right" Click="LoadEvent"></Button>
+        <wpfTool:SplitButton x:Name="addButton" Grid.Row="4" Height="25" Grid.Column="1" Content="Add..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="AddDataDirectoryEvent">
             <wpfTool:SplitButton.DropDownContent>
                 <StackPanel Background="{DynamicResource ContextMenuBackground}">
                     <MenuItem Header="Saved Data Directory" Click="AddDataDirectoryEvent"></MenuItem>
@@ -91,16 +101,6 @@
                 </StackPanel>
             </wpfTool:SplitButton.DropDownContent>
         </wpfTool:SplitButton>
-        <Button x:Name="CancelButton" Grid.Row="3" Grid.Column="1" Height="25"  Content="Cancel" Margin="0,5,10,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="CancelButtonEvent"></Button>
-
-
-
-
-
-        <Grid x:Name="BottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="41" Background="{DynamicResource StatusBarBackground}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-            <Label HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="dataLabelToolStripItem" Content="Data Directory: NULL" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"></Label>
-        </Grid>
-
-
+        <Button x:Name="CancelButton" Grid.Row="4" Grid.Column="1" Height="25"  Content="Cancel" Margin="0,5,10,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="CancelButtonEvent"></Button>
     </Grid>
 </UserControl>

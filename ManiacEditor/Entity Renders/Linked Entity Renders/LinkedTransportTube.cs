@@ -7,13 +7,13 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            byte TransportTubeType = properties.Object.GetAttribute("type").ValueUInt8;
-            ushort slotID = properties.Object.SlotID;
-            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
+            byte TransportTubeType = properties.EditorObject.GetAttribute("type").ValueUInt8;
+            ushort slotID = properties.EditorObject.SlotID;
+            ushort targetSlotID = (ushort)(properties.EditorObject.SlotID + 1);
 
             if ((TransportTubeType == 2 || TransportTubeType == 4))
             {
-                var transportTubePaths = properties.Object.Object.Entities.Where(e => e.SlotID == targetSlotID);
+                var transportTubePaths = properties.EditorObject.Entities.Entities.Where(e => e.SlotID == targetSlotID && e.Name == "TransportTube");
 
                 if (transportTubePaths != null && transportTubePaths.Any())
                 {
@@ -22,19 +22,19 @@ namespace ManiacEditor.Entity_Renders
                         int destinationType = ttp.GetAttribute("type").ValueUInt8;
                         if (destinationType == 3)
                         {
-                            DrawLinkArrowTransportTubes(properties.Graphics, properties.Object, ttp, 3, TransportTubeType);
+                            DrawLinkArrowTransportTubes(properties.Graphics, properties.EditorObject, ttp, 3, TransportTubeType);
                         }
                         else if (destinationType == 4)
                         {
-                            DrawLinkArrowTransportTubes(properties.Graphics, properties.Object, ttp, 4, TransportTubeType);
+                            DrawLinkArrowTransportTubes(properties.Graphics, properties.EditorObject, ttp, 4, TransportTubeType);
                         }
                         else if (destinationType == 2)
                         {
-                            DrawLinkArrowTransportTubes(properties.Graphics, properties.Object, ttp, 2, TransportTubeType);
+                            DrawLinkArrowTransportTubes(properties.Graphics, properties.EditorObject, ttp, 2, TransportTubeType);
                         }
                         else
                         {
-                            DrawLinkArrowTransportTubes(properties.Graphics, properties.Object, ttp, 1, TransportTubeType);
+                            DrawLinkArrowTransportTubes(properties.Graphics, properties.EditorObject, ttp, 1, TransportTubeType);
                         }
 
                     }
@@ -44,7 +44,7 @@ namespace ManiacEditor.Entity_Renders
             properties.EditorObject.DrawBase(properties.Graphics);
         }
 
-        public void DrawLinkArrowTransportTubes(Methods.Draw.GraphicsHandler Graphics, RSDKv5.SceneEntity start, RSDKv5.SceneEntity end, int destType, int sourceType)
+        public void DrawLinkArrowTransportTubes(DevicePanel Graphics, ManiacEditor.Classes.Scene.EditorEntity start, ManiacEditor.Classes.Scene.EditorEntity end, int destType, int sourceType)
         {
             Color color = Color.Transparent;
             switch (destType)
