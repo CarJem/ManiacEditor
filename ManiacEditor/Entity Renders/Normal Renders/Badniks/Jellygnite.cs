@@ -5,23 +5,19 @@ namespace ManiacEditor.Entity_Renders
     public class Jellygnite : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+
             bool fliph = false;
             bool flipv = false;
-
 
             if (direction == 1)
             {
@@ -37,36 +33,21 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimFront = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d.DevicePanel, 3, 0, fliph, flipv, false);
-            var editorAnimBack = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Jellygnite", d.DevicePanel, 5, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimFront != null && editorAnimFront.Frames.Count != 0 && editorAnimBack != null && editorAnimBack.Frames.Count != 0)
+
+            var Animation = LoadAnimation("Jellygnite", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+
+            for (int i = 0; i < 4; i++)
             {
-                var frame = editorAnim.Frames[0];
-                var frameFront = editorAnimFront.Frames[0];
-                var frameBack = editorAnimBack.Frames[0];
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                Animation = LoadAnimation("Jellygnite", d, 3, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 12, y + 6 + 6 * i, Transparency, fliph, flipv);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 12, y + 6 + 6 * i, Transparency, fliph, flipv);
 
-                for (int i = 0; i < 4; i++)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameFront),
-                        x + frameFront.Frame.PivotX + 12,
-                        y + frameFront.Frame.PivotY + 6 + 6 * i,
-                        frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameFront),
-                        x + frameFront.Frame.PivotX - 12,
-                        y + frameFront.Frame.PivotY + 6 + 6 * i,
-                        frameFront.Frame.Width, frameFront.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBack),
-                        x + frameBack.Frame.PivotX,
-                        y + frameBack.Frame.PivotY + 6 + 6 * i,
-                        frameBack.Frame.Width, frameBack.Frame.Height, false, Transparency);
-                }
-             }
+
+                Animation = LoadAnimation("Jellygnite", d, 5, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + 6 + 6 * i, Transparency, fliph, flipv);
+            }
         }
 
         public override string GetObjectName()

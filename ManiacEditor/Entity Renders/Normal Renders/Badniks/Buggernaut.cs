@@ -5,45 +5,26 @@ namespace ManiacEditor.Entity_Renders
     public class Buggernaut : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            if (direction == 1)
-            {
-                fliph = true;
-            }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Buggernaut", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimWings = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Buggernaut", d.DevicePanel, 2, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimWings != null && editorAnimWings.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[0];
-                var frameWings = editorAnimWings.Frames[Animation.index];
 
-                Animation.ProcessAnimation(frameWings.Entry.SpeedMultiplyer, frameWings.Entry.Frames.Count, frameWings.Frame.Delay);
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            if (direction == 1) fliph = true;
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameWings),
-                    x + frameWings.Frame.PivotX - (fliph ? (frameWings.Frame.Width - editorAnimWings.Frames[0].Frame.Width) : 0),
-                    y + frameWings.Frame.PivotY + (flipv ? (frameWings.Frame.Height - editorAnimWings.Frames[0].Frame.Height) : 0),
-                    frameWings.Frame.Width, frameWings.Frame.Height, false, Transparency - 150);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+            var Animation = LoadAnimation("Buggernaut", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            }
+            Animation = LoadAnimation("Buggernaut", d, 2, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

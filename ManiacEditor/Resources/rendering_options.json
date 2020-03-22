@@ -1,6 +1,7 @@
 {
   "ObjectToRender": [
     "Spring",
+    "StarPost",
     "Player",
     "Platform",
     "TimeAttackGate",

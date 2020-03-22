@@ -14,40 +14,81 @@ namespace ManiacEditor.Methods.Entities
 {
     public static class ScriptLoader
     {
+        #region Compilation
         public static List<EntityRenderer> LoadRenderers(List<string> filepaths)
         {
             CompilerResults compilationResults = null;
+            List<EntityRenderer> validRenders = new List<EntityRenderer>();
+            CSharpCodeProvider codeProvider = GetCSharpCodeProvider();
+
             try
             {
-                CSharpCodeProvider codeProvider = new CSharpCodeProvider();
-                CompilerParameters parms = new CompilerParameters();
-                parms.IncludeDebugInformation = true;
-                parms.ReferencedAssemblies.AddRange(GetAssemblyFiles(Assembly.GetExecutingAssembly()).ToArray());
-                parms.ReferencedAssemblies.Add("netstandard.dll");
-                parms.ReferencedAssemblies.Add(Assembly.GetExecutingAssembly().Location);
+                CompilerParameters parms = GetParameters("Renders.dll");
                 compilationResults = codeProvider.CompileAssemblyFromFile(parms, filepaths.ToArray());
                 Assembly assembly = compilationResults.CompiledAssembly;
-                List<EntityRenderer> validRenders = new List<EntityRenderer>();
                 foreach (var type in assembly.ExportedTypes)
                 {
-                    EntityRenderer result = (EntityRenderer)assembly.CreateInstance(type.ToString());
-                    if (result != null) validRenders.Add(result);
+                    var rawResult = assembly.CreateInstance(type.ToString());
+                    if (rawResult is EntityRenderer)
+                    {
+                        EntityRenderer result = (EntityRenderer)rawResult;
+                        if (result != null) validRenders.Add(result);
+                    }
+
                 }
+                codeProvider.Dispose();
                 return validRenders;
             }
-            catch
+            catch (Exception ex)
             {
-                if (compilationResults != null && compilationResults.Errors.HasErrors)
-                {
-                    string errors = string.Join(Environment.NewLine, compilationResults.Errors.Cast<string>());
-                    System.Windows.Forms.MessageBox.Show(errors);
-                }
-                return new List<EntityRenderer>();
+                InterpretException(ex, compilationResults, codeProvider);
+                return validRenders;
             }
 
 
         }
+        public static List<LinkedRenderer> LoadLinkedRenderers(List<string> filepaths)
+        {
+            CompilerResults compilationResults = null;
+            List<LinkedRenderer> validRenders = new List<LinkedRenderer>();
+            CSharpCodeProvider codeProvider = GetCSharpCodeProvider();
 
+            try
+            {
+                CompilerParameters parms = GetParameters("LinkedRenders.dll");
+                compilationResults = codeProvider.CompileAssemblyFromFile(parms, filepaths.ToArray());
+                Assembly assembly = compilationResults.CompiledAssembly;
+                foreach (var type in assembly.ExportedTypes)
+                {
+                    var rawResult = assembly.CreateInstance(type.ToString());
+                    if (rawResult is LinkedRenderer)
+                    {
+                        LinkedRenderer result = (LinkedRenderer)rawResult;
+                        if (result != null) validRenders.Add(result);
+                    }
+                }
+                codeProvider.Dispose();
+                return validRenders;
+            }
+            catch (Exception ex)
+            {
+                InterpretException(ex, compilationResults, codeProvider);
+                return validRenders;
+            }
+
+
+        }
+        #endregion
+
+        #region Helpers
+
+        private static CSharpCodeProvider GetCSharpCodeProvider()
+        {
+            Dictionary<string, string> provOptions = new Dictionary<string, string>();
+            provOptions.Add("CompilerVersion", "v4.0");
+            CSharpCodeProvider codeProvider = new CSharpCodeProvider(provOptions);
+            return codeProvider;
+        }
         public static IEnumerable<string> GetAssemblyFiles(Assembly assembly)
         {
             var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -55,38 +96,34 @@ namespace ManiacEditor.Methods.Entities
                 .Select(name => loadedAssemblies.SingleOrDefault(a => a.FullName == name.FullName)?.Location)
                 .Where(l => l != null);
         }
-
-        public static List<LinkedRenderer> LoadLinkedRenderers(List<string> filepaths)
+        private static CompilerParameters GetParameters(string assemblyName)
         {
-            CompilerResults compilationResults = null;
-            try
-            {
-                CSharpCodeProvider codeProvider = new CSharpCodeProvider();
-                CompilerParameters parms = new CompilerParameters();
-                parms.ReferencedAssemblies.AddRange(GetAssemblyFiles(Assembly.GetExecutingAssembly()).ToArray());
-                parms.ReferencedAssemblies.Add("netstandard.dll");
-                parms.ReferencedAssemblies.Add(Assembly.GetExecutingAssembly().Location);
-                compilationResults = codeProvider.CompileAssemblyFromFile(parms, filepaths.ToArray());
-                Assembly assembly = compilationResults.CompiledAssembly;
-                List<LinkedRenderer> validRenders = new List<LinkedRenderer>();
-                foreach (var type in assembly.ExportedTypes)
-                {
-                    LinkedRenderer result = (LinkedRenderer)assembly.CreateInstance(type.ToString());
-                    if (result != null) validRenders.Add(result);
-                }
-                return validRenders;
-            }
-            catch
-            {
-                if (compilationResults != null && compilationResults.Errors.HasErrors)
-                {
-                    string errors = string.Join(Environment.NewLine, compilationResults.Errors.Cast<string>());
-                    System.Windows.Forms.MessageBox.Show(errors);
-                }
-                return new List<LinkedRenderer>();
-            }
-
-
+            string path = System.IO.Path.Combine(ProgramPaths.GetExecutingDirectoryName(), "Lib", assemblyName);
+            CompilerParameters parms = new CompilerParameters();
+            parms.TreatWarningsAsErrors = false;
+            parms.OutputAssembly = path;
+            parms.GenerateInMemory = true;
+            parms.ReferencedAssemblies.AddRange(GetAssemblyFiles(Assembly.GetExecutingAssembly()).ToArray());
+            parms.ReferencedAssemblies.Add("netstandard.dll");
+            parms.ReferencedAssemblies.Add(Assembly.GetExecutingAssembly().Location);
+            return parms;
         }
+        private static void InterpretException(Exception ex, CompilerResults compilationResults, CSharpCodeProvider codeProvider)
+        {
+            if (compilationResults != null && compilationResults.Errors.HasErrors)
+            {
+                string errors = string.Join(Environment.NewLine, compilationResults.Errors.Cast<CompilerError>().ToList().Where(x => x.IsWarning == false).ToList().ConvertAll(z => z.ToString()));
+                System.Windows.Forms.MessageBox.Show(errors);
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+            codeProvider.Dispose();
+        }
+
+        #endregion
+
+
     }
 }

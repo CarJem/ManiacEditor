@@ -611,6 +611,9 @@ namespace ManiacEditor.Methods.Entities
         #endregion
 
         #region Object Render Templates
+
+        private static bool UseBuiltIn { get; set; } = true;
+        private static bool CanCompile { get; set; } = false;
         public static void RefreshRenderLists()
         {
 
@@ -628,37 +631,41 @@ namespace ManiacEditor.Methods.Entities
 
             if (Methods.Entities.EntityDrawing.EntityRenderers.Count == 0)
             {
-                
-                var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
-                foreach (var type in types)
-                    Methods.Entities.EntityDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
-
-                /*
-                var list = Directory.EnumerateFiles(Methods.ProgramPaths.EntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
-                if (list.Count != 0)
+                if (UseBuiltIn)
                 {
-                    var render = ScriptLoader.LoadRenderers(list);
-                    Methods.Entities.EntityDrawing.EntityRenderers.AddRange(render);
+                    var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
+                    foreach (var type in types)
+                        Methods.Entities.EntityDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
                 }
-                */
+
+                if (CanCompile)
+                {
+                    var list = Directory.EnumerateFiles(Methods.ProgramPaths.EntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
+                    if (list.Count != 0)
+                    {
+                        var render = ScriptLoader.LoadRenderers(list);
+                        Methods.Entities.EntityDrawing.EntityRenderers.AddRange(render);
+                    }
+                }
             }
 
             if (Methods.Entities.EntityDrawing.LinkedEntityRenderers.Count == 0)
             {
-                
-                var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
-                foreach (var type in types)
-                    Methods.Entities.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
-
-                /*
-
-                var list = Directory.EnumerateFiles(Methods.ProgramPaths.LinkedEntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
-                if (list.Count != 0)
+                if (UseBuiltIn)
                 {
-                    var render = ScriptLoader.LoadLinkedRenderers(list);
-                    Methods.Entities.EntityDrawing.LinkedEntityRenderers.AddRange(render);
+                    var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
+                    foreach (var type in types)
+                        Methods.Entities.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
                 }
-                */
+                if (CanCompile)
+                {
+                    var list = Directory.EnumerateFiles(Methods.ProgramPaths.LinkedEntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
+                    if (list.Count != 0)
+                    {
+                        var render = ScriptLoader.LoadLinkedRenderers(list);
+                        Methods.Entities.EntityDrawing.LinkedEntityRenderers.AddRange(render);
+                    }
+                }
             }
         }
         #endregion

@@ -38,8 +38,8 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    int realX = (x + widthPixels / (right ? 2 : -2)) - (right ? Animation.RequestedFrame.Width : 0);
-                    int realY = (y + heightPixels / (bottom ? 2 : -2) - (bottom ? Animation.RequestedFrame.Height : 0));
+                    int realX = (x + widthPixels / (right ? 2 : -2)) - (right ? Animation.RequestedFrame.Width : 1);
+                    int realY = (y + heightPixels / (bottom ? 2 : -2) - (bottom ? Animation.RequestedFrame.Height : 1));
                     DrawTexture(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, realX, realY, Transparency, right, bottom);
 
 

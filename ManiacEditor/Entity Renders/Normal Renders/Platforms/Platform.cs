@@ -9,10 +9,18 @@ namespace ManiacEditor.Entity_Renders
     public class Platform : EntityRenderer
     {
         #region Definition
-        private int LastFrameIDAttribute { get; set; } = -1;
-        private int RealAnimID { get; set; } = -1;
-        private int RealFrameID { get; set; } = -1;
+        private int LastFrameIDAttribute { get; set; }
+        private int RealAnimID { get; set; }
+        private int RealFrameID { get; set; }
         #endregion
+
+        public Platform() : base()
+        {
+            RealAnimID = -1;
+            RealFrameID = -1;
+            LastFrameIDAttribute = -1;
+        }
+
 
         #region Variants
         private void DrawNormalTensionPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
