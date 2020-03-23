@@ -7,46 +7,40 @@
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements"
              xmlns:maniac="clr-namespace:ManiacEditor"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="20" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu x:Name="MenuBar" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="20" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}" Grid.RowSpan="2">
-            <MenuItem x:Name="fileToolStripMenuItem" Header="File" VerticalContentAlignment="Center" Margin="4,0,0,0" >
-                <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"/>
-                <MenuItem x:Name="openToolStripMenuItem" Header="Open Scene..." Click="OpenSceneEvent"/>
-                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory..." Click="OpenDataDirectoryEvent"/>
-                <MenuItem x:Name="openSceneSelectToolStripMenuItem" Header="Open Scene Select..." Click="OpenSceneSelectEvent"/>
+            <MenuItem x:Name="fileToolStripMenuItem" Header="File" Margin="4,0,0,0">
+                <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"></MenuItem>
+                <MenuItem x:Name="openToolStripMenuItem" Header="Open Scene..." Click="OpenSceneEvent"></MenuItem>
+                <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory..." Click="OpenDataDirectoryEvent"></MenuItem>
+                <MenuItem x:Name="openSceneSelectToolStripMenuItem" Header="Open Scene Select..." Click="OpenSceneSelectEvent"></MenuItem>
                 <Separator/>
-                <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="SaveSceneEvent"/>
-                <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As..." Click="SaveSceneAsEvent"/>
-                <Separator/>
-                <MenuItem x:Name="unloadSceneToolStripMenuItem" Header="Unload Scene" Click="UnloadSceneEvent"/>
-                <Separator/>
-                <MenuItem x:Name="backupToolStripMenuItem" Header="Backup">
-                    <MenuItem x:Name="normalToolStripMenuItem" Header="Normal" Click="BackupSceneEvent"/>
-                    <MenuItem x:Name="stageConfigToolStripMenuItem" Header="Stage Config" Click="BackupStageConfigEvent"/>
-                </MenuItem>
-                <MenuItem x:Name="backupRecoverButton" Header="Restore" Click="RecoverEvent"/>
-                <Separator/>
+                <MenuItem x:Name="saveToolStripMenuItem" Header="Save" Click="SaveSceneEvent"></MenuItem>
+                <MenuItem x:Name="saveAsToolStripMenuItem" Header="Save As..." Click="SaveSceneAsEvent"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="unloadSceneToolStripMenuItem" Header="Unload Scene" Click="UnloadSceneEvent"></MenuItem>
+                <Separator></Separator>
                 <MenuItem x:Name="exportToolStripMenuItem" Header="Export...">
                     <MenuItem Header="Export as PNG..." Click="ExportAsPNGEvent"></MenuItem>
                     <MenuItem Header="Export Layers as PNG..." Click="ExportLayersAsPNGEvent"></MenuItem>
                     <MenuItem Header="Export Object Layout as PNG" Click="ExportObjLayoutAsPNGEvent"></MenuItem>
                     <MenuItem Header="Options..." Click="ExportToolStripMenuItem_Click"></MenuItem>
                 </MenuItem>
-                <Separator/>
+                <Separator></Separator>
                 <MenuItem x:Name="RecentScenes" Header="Open Recently Opened Scenes" SubmenuOpened="RecentScenes_SubmenuOpened">
-                    <MenuItem x:Name="NoRecentScenesItem" Header="No Recently Opened Scenes" IsEnabled="False"/>
+                    <MenuItem x:Name="NoRecentScenesItem" Header="No Recently Opened Scenes" IsEnabled="False"></MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="RecentDataSources" Header="Open Recently Opened Data Folders" SubmenuOpened="RecentDataSources_SubmenuOpened">
-                    <MenuItem x:Name="NoRecentDataSources" Header="No Recently Opened Data Folders" IsEnabled="False"/>
+                    <MenuItem x:Name="NoRecentDataSources" Header="No Recently Opened Data Folders" IsEnabled="False"></MenuItem>
                 </MenuItem>
                 <Separator />
-                <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitEditorEvent"/>
+                <MenuItem x:Name="exitToolStripMenuItem" Header="Exit" Click="ExitEditorEvent"></MenuItem>
             </MenuItem>
-            <MenuItem x:Name="editToolStripMenuItem" Header="Edit" VerticalContentAlignment="Center">
+            <MenuItem x:Name="editToolStripMenuItem" Header="Edit">
                 <MenuItem x:Name="undoToolStripMenuItem" Click="UndoEvent">
                     <MenuItem.Header>
                         <StackPanel Background="Transparent">
@@ -63,38 +57,38 @@
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="cutToolStripMenuItem" Header="Cut" Click="CutEvent"></MenuItem>
+                <MenuItem x:Name="copyToolStripMenuItem" Header="Copy" Click="CopyEvent"></MenuItem>
+                <MenuItem x:Name="pasteToolStripMenuItem" Header="Paste" Click="PasteEvent"></MenuItem>
+                <MenuItem x:Name="pasteTochunkToolStripMenuItem" Header="Paste to Chunk" Click="PasteToChunksEvent"></MenuItem>
+                <MenuItem x:Name="duplicateToolStripMenuItem" Header="Duplicate" Click="DuplicateEvent"></MenuItem>
+                <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllEvent"></MenuItem>
+                <MenuItem x:Name="deleteToolStripMenuItem" Header="Delete" Click="DeleteEvent"></MenuItem>
+                <Separator Visibility="Hidden"></Separator>
+                <MenuItem x:Name="labelItem" IsEnabled="False" Header="Flip Actions:"></MenuItem>
                 <Separator/>
-                <MenuItem x:Name="cutToolStripMenuItem" Header="Cut" Click="CutEvent"/>
-                <MenuItem x:Name="copyToolStripMenuItem" Header="Copy" Click="CopyEvent"/>
-                <MenuItem x:Name="pasteToolStripMenuItem" Header="Paste" Click="PasteEvent"/>
-                <MenuItem x:Name="pasteTochunkToolStripMenuItem" Header="Paste to Chunk" Click="PasteToChunksEvent"/>
-                <MenuItem x:Name="duplicateToolStripMenuItem" Header="Duplicate" Click="DuplicateEvent"/>
-                <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllEvent"/>
-                <MenuItem x:Name="deleteToolStripMenuItem" Header="Delete" Click="DeleteEvent"/>
-                <Separator Visibility="Hidden"/>
-                <MenuItem x:Name="labelItem" IsEnabled="False" Header="Flip Actions:"/>
-                <Separator/>
-                <MenuItem x:Name="flipHorizontalToolStripMenuItem" Header="Flip Horizontal" Click="FlipHorizontalEvent"/>
-                <MenuItem x:Name="flipVerticalToolStripMenuItem" Header="Flip Vertical" Click="FlipVerticalEvent"/>
-                <Separator Visibility="Hidden"/>
-                <MenuItem x:Name="labelItem2" IsEnabled="False" Header="Tile Only Flip Actions:"/>
+                <MenuItem x:Name="flipHorizontalToolStripMenuItem" Header="Flip Horizontal" Click="FlipHorizontalEvent"></MenuItem>
+                <MenuItem x:Name="flipVerticalToolStripMenuItem" Header="Flip Vertical" Click="FlipVerticalEvent"></MenuItem>
+                <Separator Visibility="Hidden"></Separator>
+                <MenuItem x:Name="labelItem2" IsEnabled="False" Header="Tile Only Flip Actions:"></MenuItem>
                 <Separator/>
                 <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horizontal Individual" Click="FlipHorizontalIndividualEvent"/>
                 <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualEvent"/>
             </MenuItem>
             <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,0,0,0">
-                <MenuItem x:Name="EnablePixelModeMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"/>
+                <MenuItem x:Name="EnablePixelModeMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"></MenuItem>
                 <MenuItem x:Name="changeEncorePaleteToolStripMenuItem" Header="Change Encore Palette..">
-                <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="SetEncorePalleteEvent"/>
-                <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="SetEncorePalleteEvent"/>
+                    <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="SetEncorePalleteEvent"></MenuItem>
+                    <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="SetEncorePalleteEvent"></MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="UnlockCameraToolStripMenuItem" Header="Unlock Camera Boundaries" IsCheckable="True" Click="UnlockCameraToolStripMenuItem_Click"/>
                 <MenuItem x:Name="statsViewerToolStripMenuItem" Header="Editor HUD...">
-                    <MenuItem x:Name="showStatsToolStripMenuItem" Header="Enable HUD" Click="ToggleDebugHUDEvent"/>
+                    <MenuItem x:Name="showStatsToolStripMenuItem" Header="Enable HUD" Click="ToggleDebugHUDEvent"></MenuItem>
                     <Separator Visibility="Hidden"/>
-                    <MenuItem x:Name="optionsToolStripMenuItem3" Header="Visibility Options:" IsEnabled="False"/>
+                    <MenuItem x:Name="optionsToolStripMenuItem3" Header="Visibility Options:" IsEnabled="False"></MenuItem>
                     <Separator/>
-                    <MenuItem x:Name="useLargeTextToolStripMenuItem" Header="Use Increased Size" Click="UseLargeDebugHUDText"/>
+                    <MenuItem x:Name="useLargeTextToolStripMenuItem" Header="Use Increased Size" Click="UseLargeDebugHUDText"></MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="resetZoomLevelToolstripMenuItem" Header="Reset Zoom Level" Click="ResetZoomLevelEvent"/>
                 <MenuItem x:Name="scrollLockToolStripMenuItem" Header="Scroll Lock...">
@@ -127,8 +121,7 @@
             </MenuItem>
             <MenuItem x:Name="entitiesToolStripMenuItem" Header="Entities">
                 <MenuItem x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Click="SwapEncoreManiaEntityVisibilityEvent" Header="Toggle Encore/Mania Object Visibility"></MenuItem>
-                <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" IsCheckable="True" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"/>
-                <MenuItem x:Name="prioritizedViewingToolStripMenuItem" Header="Prioritized Viewing" Click="PrioritizedEntityViewingEvent"/>
+                <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" IsCheckable="True" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"></MenuItem>
                 <MenuItem x:Name="SelectionBoxesAlwaysPrioritized" Click="EntitySelectionBoxesAlwaysPrioritizedEvent" IsChecked="True" Header="Selection Boxes Always Prioritized"></MenuItem>
                 <MenuItem x:Name="showEntitySelectionBoxesToolStripMenuItem" Click="ShowEntitySelectionBoxesEvent" Header="Show Entity Selection Boxes"></MenuItem>
                 <MenuItem x:Name="EditEntitiesTransparencyToggle" Click="ApplyEditEntitiesTransparencyEvent" Header="Transparent Layers for Editing Entities"></MenuItem>

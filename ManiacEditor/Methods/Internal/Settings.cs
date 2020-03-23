@@ -251,7 +251,6 @@ namespace ManiacEditor.Methods.Internal
             Methods.Editor.SolutionState.SizeWaterLevelwithBounds = ManiacEditor.Properties.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
 
             Methods.Editor.SolutionState.ShowParallaxSprites = ManiacEditor.Properties.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
-            Methods.Editor.SolutionState.PrioritizedEntityViewing = ManiacEditor.Properties.Settings.MyDefaults.PrioritizedObjectRenderingDefault;
 
             Methods.Editor.SolutionState.ShowEntitySelectionBoxes = ManiacEditor.Properties.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
 

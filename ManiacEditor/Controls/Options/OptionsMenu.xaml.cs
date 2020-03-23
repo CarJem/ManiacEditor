@@ -12,6 +12,7 @@ using Cyotek.Windows.Forms;
 using KeysConverter = System.Windows.Forms.KeysConverter;
 using ManiacEditor.Extensions;
 
+using ManiacEditor.Controls.Global.Controls;
 using ManiacEditor.Controls.Utility;
 using ManiacEditor.Controls.Utility.Editors;
 using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
@@ -37,9 +38,6 @@ namespace ManiacEditor.Controls.Options
 			InitializeComponent();
 
             SetScrollerToggleTypeRadioButtonState(Properties.Settings.MySettings.ScrollerPressReleaseMode);
-            CheckGraphicalSettingTimer = new System.Windows.Forms.Timer();
-			CheckGraphicalSettingTimer.Interval = 10;
-			CheckGraphicalSettingTimer.Tick += CheckGraphicalPresetModeState;
 
 			if (Properties.Settings.MyDefaults.ScrollLockDirectionDefault == false) radioButtonX.IsChecked = true;
 			else radioButtonY.IsChecked = true;
@@ -60,60 +58,10 @@ namespace ManiacEditor.Controls.Options
             if (Properties.Settings.MyInternalSettings.PortableMode) PortableCheckbox.IsChecked = true;
             else NonPortableCheckbox.IsChecked = true;
 
-			foreach (RadioButton rdo in Extensions.Extensions.FindVisualChildren<RadioButton>(MenuLangGroup))
-			{
-				if (rdo.Tag.ToString() == Properties.Settings.MyDefaults.MenuLanguageDefault)
-				{
-					rdo.IsChecked = true;
-				}
-			}
-
-			foreach (RadioButton rdo in Extensions.Extensions.FindVisualChildren<RadioButton>(ButtonLayoutGroup))
-			{
-				if (rdo.Tag.ToString() == Properties.Settings.MyDefaults.MenuButtonLayoutDefault)
-				{
-					rdo.IsChecked = true;
-				}
-			}
-
 			UserThemeComboBox.SelectedIndex = (int)Properties.Settings.MySettings.UserTheme;
-
-			CheckGraphicalPresetModeState(null, null);
 
 			SetAllKeybindTextboxes();
 			UpdateCustomColors();
-
-            switch (Properties.Settings.MyDefaults.TileManiacListSetting)
-            {
-                case 0:
-                    collisionListRadioButton.IsChecked = true;
-                    break;
-                case 1:
-                    tileListRadioButton.IsChecked = true;
-                    break;
-            }
-            switch (Properties.Settings.MyDefaults.TileManiacViewAppearanceMode)
-            {
-                case 0:
-                    overlayEditorViewRadioButton.IsChecked = true;
-                    break;
-                case 1:
-                    collisionEditorViewRadioButton.IsChecked = true;
-                    break;
-            }
-            switch (Properties.Settings.MyDefaults.TileManiacRenderViewerSetting)
-            {
-                case 0:
-                    tileRenderViewRadioButton.IsChecked = true;
-                    break;
-                case 1:
-                    collisionRenderViewRadioButton.IsChecked = true;
-                    break;
-                case 2:
-                    overlayRenderViewRadioButton.IsChecked = true;
-                    break;
-            }
-
         }
 
 		private void UpdateCustomColors()
@@ -123,37 +71,6 @@ namespace ManiacEditor.Controls.Options
 			CSLRDC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.CollisionLRDColour.A, Properties.Settings.MyDefaults.CollisionLRDColour.R, Properties.Settings.MyDefaults.CollisionLRDColour.G, Properties.Settings.MyDefaults.CollisionLRDColour.B));
 			WLC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.WaterEntityColorDefault.A, Properties.Settings.MyDefaults.WaterEntityColorDefault.R, Properties.Settings.MyDefaults.WaterEntityColorDefault.G, Properties.Settings.MyDefaults.WaterEntityColorDefault.B));
 			GDC.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(Properties.Settings.MyDefaults.DefaultGridColor.A, Properties.Settings.MyDefaults.DefaultGridColor.R, Properties.Settings.MyDefaults.DefaultGridColor.G, Properties.Settings.MyDefaults.DefaultGridColor.B));
-		}
-
-		private void CheckGraphicalPresetModeState(object sender, EventArgs e)
-		{
-			minimalRadioButton2.IsChecked = false;
-			basicRadioButton2.IsChecked = false;
-			superRadioButton2.IsChecked = false;
-			hyperRadioButton2.IsChecked = false;
-			customRadioButton2.IsChecked = false;
-
-
-			if (Methods.Internal.Settings.isMinimalPreset())
-			{
-				minimalRadioButton2.IsChecked = true;
-			}
-			else if (Methods.Internal.Settings.isBasicPreset())
-			{
-				basicRadioButton2.IsChecked = true;
-			}
-			else if (Methods.Internal.Settings.isSuperPreset())
-			{
-				superRadioButton2.IsChecked = true;
-			}
-			else if (Methods.Internal.Settings.isHyperPreset())
-			{
-				hyperRadioButton2.IsChecked = true;
-			}
-			else
-			{
-				customRadioButton2.IsChecked = true;
-			}
 		}
 
 		private void radioButton1_CheckedChanged(object sender, RoutedEventArgs e)
@@ -521,15 +438,9 @@ namespace ManiacEditor.Controls.Options
 			if (sender != null) Properties.Settings.MyDefaults.MenuButtonLayoutDefault = button.Tag.ToString();
 		}
 
+        #region Keybinding
 
-		private void SetGraphicalPresetSetting(object sender, RoutedEventArgs e)
-		{
-			RadioButton button = sender as RadioButton;
-			if (sender != null) Methods.Internal.Settings.ApplyPreset(button.Tag.ToString());
-			CheckGraphicalPresetModeState(null, null);
-		}
-
-		private void EditKeyCombo(object sender, RoutedEventArgs e)
+        private void EditKeyCombo(object sender, RoutedEventArgs e)
 		{
 			if (!(sender is Button)) return;
 			Button KeyBind = sender as Button;
@@ -588,8 +499,22 @@ namespace ManiacEditor.Controls.Options
         private void SetAllKeybindTextboxes()
         {
             RefreshKeybindList();
-            SetKeybindTextboxes(ControlsPage);
-            SetKeybindTextboxes(TileManiacOptions1);
+
+			SetKeybindTextboxes(ManiacFileControls);
+			SetKeybindTextboxes(ManiacEditControls);
+			SetKeybindTextboxes(ManiacViewControls);
+			SetKeybindTextboxes(ManiacToolControls);
+			SetKeybindTextboxes(ManiacSceneControls);
+			SetKeybindTextboxes(ManiacFolderControls);
+			SetKeybindTextboxes(ManiacAppControls);
+			SetKeybindTextboxes(ManiacOtherControls);
+			SetKeybindTextboxes(ManiacLayerControls);
+			SetKeybindTextboxes(ManiacMenuItemControls);
+			SetKeybindTextboxes(ManiacToolboxControls);
+
+
+
+			SetKeybindTextboxes(TileManiacOptions1);
             SetKeybindTextboxes(TileManiacOptions2);
             SetKeybindTextboxes(TileManiacOptions3);
             SetKeybindTextboxes(TileManiacOptions4);
@@ -600,34 +525,31 @@ namespace ManiacEditor.Controls.Options
 
         private void SetKeybindTextboxes(StackPanel panel)
         {
-            foreach (StackPanel stack in Extensions.Extensions.FindVisualChildren<StackPanel>(panel))
-            {
-                foreach (Button t in Extensions.Extensions.FindVisualChildren<Button>(stack))
-                {
-                    ProcessKeybindingButtons(t);
-                }
-            }
+			foreach (RemapEntry entry in Extensions.Extensions.FindVisualChildren<RemapEntry>(panel))
+			{
+				ProcessKeybindingButtons(entry);
+			}
         }
 
-		private void ProcessKeybindingButtons(Button t)
+		private void ProcessKeybindingButtons(RemapEntry t)
 		{
-            if (t.Tag != null && t.Tag.ToString() == "LOCK") return;
-			t.Foreground = (SolidColorBrush)FindResource("NormalText");
-			if (t.Tag != null)
+            if (t.KeybindTag != null && t.KeybindTag.ToString() == "LOCK") return;
+			t.BindingButton.Foreground = (SolidColorBrush)FindResource("NormalText");
+			if (t.KeybindTag != null)
 			{
-				System.Tuple<string,string> tuple = KeyBindPraser(t.Tag.ToString());
-				t.Content = tuple.Item1;
+				System.Tuple<string,string> tuple = KeyBindPraser(t.KeybindTag.ToString());
+				t.BindingButton.Content = tuple.Item1;
 				if (tuple.Item2 != null)
 				{
-					if (HasSingleMultipleOccurances(t.Tag.ToString())) t.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
-					else t.Foreground = (SolidColorBrush)FindResource("NormalText");
-					ToolTipService.SetShowOnDisabled(t, true);
-					t.ToolTip = tuple.Item2;
+					if (HasSingleMultipleOccurances(t.KeybindTag.ToString())) t.BindingButton.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
+					else t.BindingButton.Foreground = (SolidColorBrush)FindResource("NormalText");
+					ToolTipService.SetShowOnDisabled(t.BindingButton, true);
+					t.BindingButton.ToolTip = tuple.Item2;
 				}
 				else
 				{
-					if (HasMultipleOccurances(tuple.Item1)) t.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
-					else t.Foreground = (SolidColorBrush)FindResource("NormalText");
+					if (HasMultipleOccurances(tuple.Item1)) t.BindingButton.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
+					else t.BindingButton.Foreground = (SolidColorBrush)FindResource("NormalText");
 				}
 			}
 		}
@@ -707,8 +629,9 @@ namespace ManiacEditor.Controls.Options
 			}
 
 		}
+        #endregion
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
 		{
             Properties.Settings.ReloadAllSettings();
 			this.DialogResult = true;
@@ -906,67 +829,6 @@ namespace ManiacEditor.Controls.Options
             ScrollerToggleModeClickButton.IsChecked = !enabled;
             ScrollerToggleModePressReleaseButton.IsChecked = enabled;
         }
-
-        #region Tile Maniac Settings
-
-        private void ListViewModeChanged(object sender, RoutedEventArgs e)
-        {
-            tileListRadioButton.IsChecked = false;
-            collisionListRadioButton.IsChecked = false;
-
-            if (e.Source == tileListRadioButton)
-            {
-                Properties.Settings.MyDefaults.TileManiacListSetting = 1;
-                tileListRadioButton.IsChecked = true;
-            }
-            else if (e.Source == collisionListRadioButton)
-            {
-                Properties.Settings.MyDefaults.TileManiacListSetting = 0;
-                collisionListRadioButton.IsChecked = true;
-            }
-        }
-
-        private void EditorViewModeChanged(object sender, RoutedEventArgs e)
-        {
-            collisionEditorViewRadioButton.IsChecked = false;
-            overlayEditorViewRadioButton.IsChecked = false;
-
-            if (e.Source == collisionEditorViewRadioButton)
-            {
-                Properties.Settings.MyDefaults.TileManiacViewAppearanceMode = 1;
-                collisionEditorViewRadioButton.IsChecked = true;
-            }
-            else if (e.Source == overlayEditorViewRadioButton)
-            {
-                Properties.Settings.MyDefaults.TileManiacViewAppearanceMode = 0;
-                overlayEditorViewRadioButton.IsChecked = true;
-            }
-        }
-
-        private void RenderViewModeChanged(object sender, RoutedEventArgs e)
-        {
-            tileRenderViewRadioButton.IsChecked = false;
-            collisionRenderViewRadioButton.IsChecked = false;
-            overlayRenderViewRadioButton.IsChecked = false;
-
-            if (e.Source == tileRenderViewRadioButton)
-            {
-                Properties.Settings.MyDefaults.TileManiacRenderViewerSetting = 0;
-                tileRenderViewRadioButton.IsChecked = true;
-            }
-            else if (e.Source == collisionRenderViewRadioButton)
-            {
-                Properties.Settings.MyDefaults.TileManiacRenderViewerSetting = 1;
-                collisionRenderViewRadioButton.IsChecked = true;
-            }
-            else if (e.Source == overlayRenderViewRadioButton)
-            {
-                Properties.Settings.MyDefaults.TileManiacRenderViewerSetting = 2;
-                overlayRenderViewRadioButton.IsChecked = true;
-            }
-        }
-
-		#endregion
 
 
 	}

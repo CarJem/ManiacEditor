@@ -254,6 +254,9 @@
     <Compile Include="Controls\Global\Controls\EntitiesListItem.xaml.cs">
       <DependentUpon>EntitiesListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Global\Controls\RemapEntry.xaml.cs">
+      <DependentUpon>RemapEntry.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -1212,7 +1215,7 @@
     </Content>
     <None Include="App.config" />
     <None Include="log4net.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Controls\Graphics\DevicePanel.resx" />
     <EmbeddedResource Include="Resources\entity_definitions.json">
@@ -1391,6 +1394,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Assets\Themes\SparksTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Assets\Themes\GammaTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1456,6 +1463,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Global\Controls\PropertyGrid\PropertyEntryValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Global\Controls\RemapEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

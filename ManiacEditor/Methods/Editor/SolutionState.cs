@@ -648,19 +648,6 @@ namespace ManiacEditor.Methods.Editor
             }
         }
         private static bool _EntitiesVisibileAboveAllLayers = false;
-        public static bool PrioritizedEntityViewing
-        {
-            get
-            {
-                return _PrioritizedEntityViewing;
-            }
-            set
-            {
-                _PrioritizedEntityViewing = value;
-                Instance.MenuBar.prioritizedViewingToolStripMenuItem.IsChecked = value;
-            }
-        }
-        private static bool _PrioritizedEntityViewing = false;
         public static bool EntitySelectionBoxesAlwaysPrioritized
         {
             get

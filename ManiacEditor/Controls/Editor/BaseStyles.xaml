@@ -37,7 +37,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid x:Name="arrowGlyph" Grid.ColumnSpan="2" Grid.Column="0" IsHitTestVisible="False" Margin="4,0">
-                                <Path x:Name="Arrow" Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource DisabledText}" Height="5" Margin="0,1,0,0" Width="9"/>
+                                <Path x:Name="Arrow" Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource DisabledText}" Opacity="0" Height="5" Margin="0,1,0,0" Width="9"/>
                             </Grid>
                         </Grid>
                     </Grid>

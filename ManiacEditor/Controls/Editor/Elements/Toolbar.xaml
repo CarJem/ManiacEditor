@@ -351,8 +351,8 @@
                 <ToggleButton x:Name="ShowFGHigh" Content="FG High" Click="ShowFGHigh_Click" Style="{DynamicResource EditLayerToggleButton}"/>
                 <ToggleButton x:Name="ShowFGHigher" Content="FG Higher" Click="ShowFGHigher_Click" Style="{DynamicResource EditLayerToggleButton}"/>
                 <ToggleButton x:Name="ShowEntities" Content="Entities" Click="ShowEntities_Click" Style="{DynamicResource EditLayerToggleButton}"/>
-                <ToggleButton x:Name="ShowAnimations" Click="ShowAnimations_Click" Checked="ShowAnimations_Checked" Unchecked="ShowAnimations_Unchecked"  Content="Animations" Style="{DynamicResource EditLayerToggleButton}" IsEnabled="False"/>
-                <Button BorderThickness="0" VerticalAlignment="Stretch" Margin="0,0,6,0" Padding="0,0,0,0" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="animationsSplitButton_Dropdown" Foreground="{DynamicResource NormalText}">
+                <ToggleButton Visibility="Collapsed" x:Name="ShowAnimations" Click="ShowAnimations_Click" Checked="ShowAnimations_Checked" Unchecked="ShowAnimations_Unchecked"  Content="Animations" Style="{DynamicResource EditLayerToggleButton}" IsEnabled="False"/>
+                <Button Visibility="Collapsed" BorderThickness="0" VerticalAlignment="Stretch" Margin="0,0,6,0" Padding="0,0,0,0" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="animationsSplitButton_Dropdown" Foreground="{DynamicResource NormalText}">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -367,8 +367,8 @@
                     </Button.ContextMenu>
                 </Button>
 
-                <Separator Margin="0,2"/>
-                <Separator x:Name="extraViewLayersSeperator" Margin="0,2" Visibility="Collapsed"/>
+                <Separator Margin="0,2" Visibility="Collapsed"/>
+                <Separator x:Name="extraViewLayersSeperator" Margin="0,2" Visibility="Visible"/>
                 <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLower" Text="FG Lower" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLower_Click" RightClick="EditFGLower_RightClick"></maniac:EditLayerToggleButton>
                 <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLow" Text="FG Low" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></maniac:EditLayerToggleButton>
                 <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigh" Text="FG High" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></maniac:EditLayerToggleButton>

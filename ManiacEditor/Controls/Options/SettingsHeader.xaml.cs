@@ -24,8 +24,15 @@ namespace ManiacEditor.Controls.Options
 
         public string HeaderName
         {
-            get { return (string)GetValue(TextBlockTextProperty); }
-            set { SetValue(TextBlockTextProperty, value); }
+            get 
+            {
+                return (string)GetValue(TextBlockTextProperty); 
+            }
+            set 
+            { 
+                SetValue(TextBlockTextProperty, value);
+                this.InvalidateVisual();
+            }
         }
 
         public static readonly DependencyProperty TextBlockTextProperty =

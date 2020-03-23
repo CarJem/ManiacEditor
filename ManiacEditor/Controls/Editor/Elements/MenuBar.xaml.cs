@@ -37,7 +37,6 @@ namespace ManiacEditor.Controls.Editor.Elements
         {
             saveToolStripMenuItem.IsEnabled = enabled;
             saveAsToolStripMenuItem.IsEnabled = enabled;
-            backupToolStripMenuItem.IsEnabled = enabled;
             unloadSceneToolStripMenuItem.IsEnabled = enabled;
             goToToolStripMenuItem.IsEnabled = enabled;
             findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
@@ -271,7 +270,6 @@ namespace ManiacEditor.Controls.Editor.Elements
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SetManiaMenuInputType(sender, e); }
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.EntitiesVisibileAboveAllLayers ^= true; }
         private void EntitySelectionBoxesAlwaysPrioritizedEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.EntitySelectionBoxesAlwaysPrioritized ^= true; }
-        private void PrioritizedEntityViewingEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.PrioritizedEntityViewing ^= true; }
         private void SetEncorePalleteEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.SetEncorePallete(sender); }
         private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ExtraLayersMoveToFront ^= true; }
         private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e) { ManiacEditor.Methods.Editor.EditorActions.UpdateEntityFilterFromTextBox(sender, e); }
