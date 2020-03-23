@@ -317,12 +317,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.CollisionPreset = 2; }
         private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (Instance != null)
-            {
-                Methods.Editor.SolutionState.collisionOpacityChanged = true;
-                Instance.ReloadSpecificTextures(sender, e);
-                Instance.RefreshCollisionColours(true);
-            }
+            if (Instance != null) Instance.RefreshCollisionColours(true);
         }
         #endregion
 

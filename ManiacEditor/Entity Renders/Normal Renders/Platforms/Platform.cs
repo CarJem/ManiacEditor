@@ -89,13 +89,13 @@ namespace ManiacEditor.Entity_Renders
                     else if (i == tensionCount)
                     {
                         //Tension Bar Segment
-                        var AnimationRow = LoadAnimation("Platform", d, 1, 1);
+                        var AnimationRow = LoadAnimation("Platform", d, 1, 0);
                         DrawTexturePivotNormal(d, AnimationRow, AnimationRow.RequestedAnimID, AnimationRow.RequestedFrameID, currentX, currentY, Transparency);
                     }
                     else
                     {
                         //Tension Ball
-                        var Animation = LoadAnimation("Platform", d, 1, 0);
+                        var Animation = LoadAnimation("Platform", d, 1, 1);
                         DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, currentX, currentY, Transparency);
                     }
                 }

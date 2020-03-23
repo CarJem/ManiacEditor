@@ -413,6 +413,8 @@ namespace ManiacEditor.Controls.Options
 					return Skin.CarJem;
 				case 5:
 					return Skin.Gamma;
+				case 6:
+					return Skin.Sparks;
 				default:
 					return Skin.Light;
 			}

@@ -118,6 +118,7 @@
                                     <ComboBoxItem Content="Shard Theme" Width="{Binding ElementName=UserThemeComboBox, Path=ActualWidth}"></ComboBoxItem>
                                     <ComboBoxItem Content="CarJem Theme" Width="{Binding ElementName=UserThemeComboBox, Path=ActualWidth}"></ComboBoxItem>
                                     <ComboBoxItem Content="CodenameGamma Theme" Width="{Binding ElementName=UserThemeComboBox, Path=ActualWidth}"></ComboBoxItem>
+                                    <ComboBoxItem Content="Sparks the Echidna Theme" Width="{Binding ElementName=UserThemeComboBox, Path=ActualWidth}"></ComboBoxItem>
                                 </ComboBox>
                             </Grid>
                         </StackPanel>

@@ -257,6 +257,8 @@ namespace ManiacEditor.Classes.Rendering
         {
             RSDKv5.Tile tile = new Tile(value);
 
+            byte Opacity = BitConverter.GetBytes((int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.collisionOpacitySlider.Value).FirstOrDefault();
+
             System.Drawing.Color AllSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionAllSolid;
             System.Drawing.Color LRDSolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionLRDSolid;
             System.Drawing.Color TopOnlySolid = ManiacEditor.Controls.Editor.MainEditor.Instance.CollisionTopOnlySolid;
@@ -270,16 +272,16 @@ namespace ManiacEditor.Classes.Rendering
 
             if (isPathA)
             {
-                if (tile.SolidTopA && tile.SolidLrbA) return new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, AllSolid.A);
-                else if (tile.SolidTopA && !tile.SolidLrbA) return new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, TopOnlySolid.A);
-                else if (!tile.SolidTopA && tile.SolidLrbA) return new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, LRDSolid.A);
+                if (tile.SolidTopA && tile.SolidLrbA) return new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, Opacity);
+                else if (tile.SolidTopA && !tile.SolidLrbA) return new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, Opacity);
+                else if (!tile.SolidTopA && tile.SolidLrbA) return new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, Opacity);
                 else return new SFML.Graphics.Color(255, 255, 255, 0);
             }
             else
             {
-                if (tile.SolidTopB && tile.SolidLrbB) return new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, AllSolid.A);
-                else if (tile.SolidTopB && !tile.SolidLrbB) return new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, TopOnlySolid.A);
-                else if (!tile.SolidTopB && tile.SolidLrbB) return new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, LRDSolid.A);
+                if (tile.SolidTopB && tile.SolidLrbB) return new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, Opacity);
+                else if (tile.SolidTopB && !tile.SolidLrbB) return new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, Opacity);
+                else if (!tile.SolidTopB && tile.SolidLrbB) return new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, Opacity);
                 else return new SFML.Graphics.Color(255, 255, 255, 0);
             }
 

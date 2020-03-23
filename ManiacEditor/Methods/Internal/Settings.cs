@@ -201,14 +201,32 @@ namespace ManiacEditor.Methods.Internal
 
 
             //Default Grid Preferences
-            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 0) Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 0)
+            {
+                Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = true;
+                Methods.Editor.SolutionState.GridSize = 16;
+            }
             else Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = false;
-            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 1) Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 1)
+            {
+                Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = true;
+                Methods.Editor.SolutionState.GridSize = 128;
+            }
             else Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = false;
-            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 2) Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 2)
+            {
+                Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = true;
+                Methods.Editor.SolutionState.GridSize = 256;
+            }
             else Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = false;
-            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 3) Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = true;
+            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 3)
+            {
+                Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = true;
+                Methods.Editor.SolutionState.GridSize = -1;
+            }
             else Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = false;
+
+
 
             //Collision Color Presets
             Instance.EditorToolbar.CollisionDefaultMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 0;
