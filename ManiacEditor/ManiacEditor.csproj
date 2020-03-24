@@ -53,7 +53,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
@@ -703,21 +703,21 @@
     <Resource Include="Resources\Images\AboutImage.png" />
     <Resource Include="Resources\App Icons\Neo\128x128.ico" />
     <Resource Include="Resources\App Icons\Neo\64x64.ico" />
-    <None Include="Libs\csfml-Audio.dll">
+    <Content Include="Lib\csfml-Audio.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Libs\csfml-Graphics.dll">
+    </Content>
+    <Content Include="Lib\csfml-Graphics.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Libs\csfml-System.dll">
+    </Content>
+    <Content Include="Lib\csfml-System.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Libs\csfml-Window.dll">
+    </Content>
+    <Content Include="Lib\csfml-Window.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Libs\openal32.dll">
+    </Content>
+    <Content Include="Lib\openal32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="ManiacEditor.VisualElementsManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -1244,9 +1244,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Libs\discord-rpc.dll">
+    <Content Include="Lib\discord-rpc.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Resources\Objects\EditorAssets.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

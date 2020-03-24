@@ -28,9 +28,10 @@ namespace ManiacEditor.Methods.Internal
 
         private static bool CtrlPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Control); }
         private static bool ShiftPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Shift); }
+        private static bool AltPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Alt); }
 
         #region Mouse Controls
-        
+
         #region Mouse Auto-Scrolling Methods
         private static bool ForceAutoScrollMousePosition { get; set; } = false;
         private static AutoScrollDirection LastAutoScrollDirection { get; set; } = AutoScrollDirection.NONE;
@@ -430,11 +431,11 @@ namespace ManiacEditor.Methods.Internal
 
                         if (Methods.Editor.SolutionState.UseMagnetMode)
                         {
-                            Methods.Editor.Solution.Entities.MoveSelected(oldPointGrid, newPointGrid, CtrlPressed() && Methods.Editor.SolutionState.StartDragged);
+                            Methods.Editor.Solution.Entities.MoveSelected(oldPointGrid, newPointGrid, AltPressed() && Methods.Editor.SolutionState.StartDragged);
                         }
                         else
                         {
-                            Methods.Editor.Solution.Entities.MoveSelected(oldPoint, newPoint, CtrlPressed() && Methods.Editor.SolutionState.StartDragged);
+                            Methods.Editor.Solution.Entities.MoveSelected(oldPoint, newPoint, AltPressed() && Methods.Editor.SolutionState.StartDragged);
                         }
 
                     }
@@ -633,27 +634,19 @@ namespace ManiacEditor.Methods.Internal
         public static void MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Methods.Editor.SolutionState.isTileDrawing = false;
+
             if (Methods.Editor.SolutionState.DraggingSelection) MouseUpDraggingSelection(e);
             else
             {
                 if (Methods.Editor.SolutionState.RegionX1 != -1)
                 {
                     // So it was just click
-                    if (e.Button == MouseButtons.Left)
-                    {
-                        if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) TilesEditMouseUp(e);
-                        else if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) ChunksEditMouseUp(e);
-                        else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) EntitiesEditMouseUp(e);
-                    }
-                    Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
-                    Methods.Editor.SolutionState.RegionX1 = -1;
-                    Methods.Editor.SolutionState.RegionY1 = -1;
+                    MouseClick(sender, e);
                 }
-                if (Methods.Editor.SolutionState.Dragged && (Methods.Editor.SolutionState.DraggedX != 0 || Methods.Editor.SolutionState.DraggedY != 0)) Actions.UndoRedoModel.UpdateUndoRedo();
+                if (Methods.Editor.SolutionState.Dragged && (Methods.Editor.SolutionState.DraggedX != 0 || Methods.Editor.SolutionState.DraggedY != 0)) Methods.Internal.UserInterface.UpdateEditEntitiesActions();
                 Methods.Editor.SolutionState.Dragged = false;
             }
             ScrollerMouseUp(e);
-
             Methods.Internal.UserInterface.UpdateEditLayerActions();
             Methods.Internal.UserInterface.UpdateControls();
 
@@ -1004,12 +997,24 @@ namespace ManiacEditor.Methods.Internal
         public static void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Instance.ViewPanel.SharpPanel.GraphicPanel.Focus();
+            if (e.Button == MouseButtons.Left && !Methods.Editor.SolutionState.Dragged)
+            {
+                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) TilesEditMouseUp(e);
+                else if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) ChunksEditMouseUp(e);
+                else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) EntitiesEditMouseUp(e);
+            }
             if (e.Button == MouseButtons.Right)
             {
                 if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() && !Instance.EditorToolbar.DrawToolButton.IsChecked.Value && !Instance.EditorToolbar.SplineToolButton.IsChecked.Value) EntitiesEditContextMenu(e);
                 else if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !Instance.EditorToolbar.DrawToolButton.IsChecked.Value) TilesEditContextMenu(e);
                 else if (!ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) InteractiveContextMenu(e);
             }
+            Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
+            Methods.Editor.SolutionState.RegionX1 = -1;
+            Methods.Editor.SolutionState.RegionY1 = -1;
+
+
+
 
         }
         public static void TilesEditContextMenu(System.Windows.Forms.MouseEventArgs e)

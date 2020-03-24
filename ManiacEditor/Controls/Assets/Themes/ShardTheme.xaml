@@ -42,4 +42,12 @@
 
     <SolidColorBrush x:Key="LegacyThemeBrushText" Color="White"/>
     <SolidColorBrush x:Key="LegacyThemeBrushBG" Color="Black"/>
+
+    <SolidColorBrush x:Key="Maniac_WarningTextColor" Color="Red"/>
+
+    <SolidColorBrush x:Key="Maniac_ObjectManager_RedTextColor" Color="Red"/>
+    <SolidColorBrush x:Key="Maniac_ObjectManager_GreenTextColor" Color="YellowGreen"/>
+
+    <SolidColorBrush x:Key="Maniac_LayerManager_RedButtonColor" Color="LightCoral"/>
+    <SolidColorBrush x:Key="Maniac_LayerManager_GreenButtonColor" Color="LightGreen"/>
 </ResourceDictionary>

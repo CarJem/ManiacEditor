@@ -157,6 +157,10 @@ namespace ManiacEditor.Classes.Scene
             }
         }
 
+        public void PrepareForExternalCopy()
+        {
+            _entity.PrepareForExternalCopy();
+        }
 
         public bool IsExternal
         {

@@ -56,9 +56,9 @@
                 <Grid Background="{DynamicResource TextBoxBackground}" Grid.Column="1" Grid.Row="1" Margin="10">
                     <ListView Background="{DynamicResource TextBoxBackground}" FocusVisualStyle="{DynamicResource ListViewItemFocusVisual}" Foreground="{DynamicResource NormalText}" Style="{DynamicResource BaseListViewStyle}" ItemContainerStyle="{DynamicResource BaseListViewItemStyle}" BorderBrush="{DynamicResource ComboBoxBorder}" SelectionMode="Single" KeyUp="attributesTable_KeyUp" x:Name="attributesTable">
                         <ListView.View>
-                            <local:AutoSizedGridView>
-                                <GridViewColumn Header="Name"></GridViewColumn>
-                                <GridViewColumn Header="Type"></GridViewColumn>
+                            <local:AutoSizedGridView AllowsColumnReorder="False">
+                                <GridViewColumn Header="Name" Width="40"></GridViewColumn>
+                                <GridViewColumn Header="Type" Width="50"></GridViewColumn>
                             </local:AutoSizedGridView>
                         </ListView.View>
                     </ListView>
@@ -72,8 +72,8 @@
                 <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" x:Name="label1" Visibility="Collapsed"></Label>
                 <Button Click="btnRemoveEntries_Click" Content="Remove Checked Objects from Scene" Margin="10,3,10,3" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch"></Button>
                 <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="10,0">
-                    <TextBlock Foreground="Red" Text="RED means that the object is not listed in ethier the StageConfig or GameConfig"></TextBlock>
-                    <TextBlock Foreground="YellowGreen" Text="GREEN means that the object is in the GameConfig"></TextBlock>
+                    <TextBlock Foreground="{DynamicResource Maniac_ObjectManager_RedTextColor}" Text="RED means that the object is not listed in ethier the StageConfig or GameConfig"></TextBlock>
+                    <TextBlock Foreground="{DynamicResource Maniac_ObjectManager_GreenTextColor}" Text="GREEN means that the object is in the GameConfig"></TextBlock>
                 </StackPanel>
                 <CheckBox Checked="Checkbox_CheckChanged" Unchecked="Checkbox_CheckChanged" x:Name="rmvStgCfgCheckbox" Content="Remove Stage Config Entries for Selected Objects" Margin="10,3,10,3" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"></CheckBox>
                 <Button Click="btnCancel_Click" Content="Exit" Width="72" HorizontalAlignment="Right" Height="25" Grid.Column="1" Grid.Row="4" Margin="10,3,10,3"></Button>
@@ -84,6 +84,7 @@
     <Window.Resources>
         <Style TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Margin" Value="-2,0,-3,0"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="GridViewColumnHeader">

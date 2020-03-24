@@ -176,7 +176,7 @@ namespace ManiacEditor.Methods.Editor
             if (Instance.ViewPanel.SharpPanel.hScrollBar1 != null)
             {
                 Instance.ViewPanel.SharpPanel.hScrollBar1.Value = value;
-                ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh(true);
+                ManiacEditor.Methods.Internal.RefreshModel.RequestEntityVisiblityRefresh(true);
             }
         }
 
@@ -185,7 +185,7 @@ namespace ManiacEditor.Methods.Editor
             if (Instance.ViewPanel.SharpPanel.vScrollBar1 != null)
             {
                 Instance.ViewPanel.SharpPanel.vScrollBar1.Value = value;
-                ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh(true);
+                ManiacEditor.Methods.Internal.RefreshModel.RequestEntityVisiblityRefresh(true);
             }
         }
 

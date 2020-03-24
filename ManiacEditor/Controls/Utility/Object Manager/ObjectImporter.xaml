@@ -13,13 +13,13 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <RichTextBox IsEnabled="False" x:Name="rtbWarning" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True"/>
+        <RichTextBox Visibility="Collapsed" IsEnabled="False" x:Name="rtbWarning" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True"/>
         <ScrollViewer x:Name="lvObjectsScroll" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Background="{DynamicResource TextBoxBackground}">
             <StackPanel x:Name="lvObjectsView" Background="{DynamicResource TextBoxBackground}" HorizontalAlignment="Stretch"></StackPanel>
         </ScrollViewer>

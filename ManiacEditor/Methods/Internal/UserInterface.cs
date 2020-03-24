@@ -127,7 +127,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.EntitiesToolbar == null)
                 {
-                    Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar(Methods.Editor.Solution.CurrentScene.Objects, Instance)
+                    Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects, Instance)
                     {
                         SelectedEntity = new Action<int>(x =>
                         {
@@ -268,9 +268,50 @@ namespace ManiacEditor.Methods.Internal
 
             }
         }
+
         public static void UpdateEntitiesToolbarList()
         {
             if (Instance.EntitiesToolbar != null) Instance.EntitiesToolbar.UpdateEntitiesList();
+        }
+        public static void UpdateEditEntitiesActions()
+        {
+            if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
+            {
+                if (Methods.Editor.Solution.Entities.SelectedEntities.Count > 0)
+                {
+                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedEntities.ToList(), new System.Drawing.Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
+                    if (Methods.Editor.Solution.Entities.LastAction != null)
+                    {
+                        // If it is move & duplicate, merge them together
+                        var taction = new ActionsGroup();
+                        taction.AddAction(Methods.Editor.Solution.Entities.LastAction);
+                        Methods.Editor.Solution.Entities.LastAction = null;
+                        taction.AddAction(action);
+                        taction.Close();
+                        action = taction;
+                    }
+                    Actions.UndoRedoModel.UndoStack.Push(action);
+                    Actions.UndoRedoModel.RedoStack.Clear();
+                    Methods.Internal.UserInterface.UpdateControls();
+                }
+                if (Methods.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
+                {
+                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedInternalEntities.ToList(), new System.Drawing.Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
+                    if (Methods.Editor.Solution.Entities.LastActionInternal != null)
+                    {
+                        // If it is move & duplicate, merge them together
+                        var taction = new ActionsGroup();
+                        taction.AddAction(Methods.Editor.Solution.Entities.LastActionInternal);
+                        Methods.Editor.Solution.Entities.LastActionInternal = null;
+                        taction.AddAction(action);
+                        taction.Close();
+                        action = taction;
+                    }
+                    Actions.UndoRedoModel.UndoStack.Push(action);
+                    Actions.UndoRedoModel.RedoStack.Clear();
+                    Methods.Internal.UserInterface.UpdateControls();
+                }
+            }
         }
         public static void UpdateEditLayerActions()
         {
@@ -435,6 +476,7 @@ namespace ManiacEditor.Methods.Internal
                 UpdateSplineToolbox();
                 Instance.EditorToolbar.CustomGridSizeLabel.Text = string.Format(Instance.EditorToolbar.CustomGridSizeLabel.Tag.ToString(), Properties.Settings.MyDefaults.CustomGridSizeValue);
                 Instance.ViewPanel.InfoHUD.UpdatePopupSize();
+                ManiacEditor.Methods.Internal.RefreshModel.RequestEntityVisiblityRefresh(true);
             }
         }
         public static void UpdateTooltips()

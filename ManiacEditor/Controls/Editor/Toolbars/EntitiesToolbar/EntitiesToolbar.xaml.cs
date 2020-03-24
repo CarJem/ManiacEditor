@@ -565,6 +565,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					attribute.ValueString = (string)NewValue;
 					break;
 				case RSDKv5.AttributeTypes.VECTOR2:
+					if (NewValue == null) return;
 					float fvalue = (float)NewValue;
 					if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
 					var pos = attribute.ValueVector2;
@@ -646,7 +647,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			if (CurrentEntity == null)
 			{
 				entitiesList.Content = null;
-				TabControl.SelectedIndex = 0;
 			}
 
 			MultipleObjectsSelected = false;
@@ -718,7 +718,11 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 			void SetSingleSelect()
 			{
 				_SelectedEntities = SelectedEntities;
-				if (SelectedEntities.Count == 0) return;
+				if (SelectedEntities.Count == 0)
+				{
+					TabControl.SelectedIndex = 0;
+					return;
+				}
 				EditorEntity entity = SelectedEntities[0];
 
 				if (entity == CurrentEntity)
@@ -784,7 +788,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					{
 						ObjectList[i] = new EntitiesListEntry()
 						{
-							ItemContent = string.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID),
+							ItemContent = string.Format("{0} - {1} (XY: {2},{3})", entity.Object.Name.Name, entity.SlotID, entity.PositionX, entity.PositionY),
 							ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
 							Tag = entity.SlotID.ToString(),
 							Visibility = VisibilityStatus
@@ -793,7 +797,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					}
 					else
 					{
-						ObjectList[i].ItemContent = String.Format("{0} - {1}", entity.Object.Name.Name, entity.SlotID);
+						ObjectList[i].ItemContent = string.Format("{0} - {1} (XY: {2},{3})", entity.Object.Name.Name, entity.SlotID, entity.PositionX, entity.PositionY);
 						ObjectList[i].ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
 						ObjectList[i].Tag = entity.SlotID.ToString();
 						ObjectList[i].Visibility = VisibilityStatus;
@@ -806,7 +810,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 					{
 						ObjectList[i] = new EntitiesListEntry()
 						{
-							ItemContent = string.Format("{0} - {1}", "UNUSED", i),
+							ItemContent = string.Format("{0} - {1} (X: 0 Y: 0)", "UNUSED", i),
 							ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
 							Visibility = Visibility.Collapsed,
 							Tag = "NULL"
@@ -928,7 +932,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		private void EntitiesListEntryClickedUp(object sender, RoutedEventArgs e)
 		{
 			var button = sender as EntitiesListItem;
-			Methods.Editor.Solution.Entities.Deselect();
 			var SelectedObject = Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault();
 			Methods.Editor.Solution.Entities.MoveEntitySlotIDUp(SelectedObject);
 			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;
@@ -937,7 +940,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar
 		private void EntitiesListEntryClickedDown(object sender, RoutedEventArgs e)
 		{
 			var button = sender as EntitiesListItem;
-			Methods.Editor.Solution.Entities.Deselect();
 			var SelectedObject = Methods.Editor.Solution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault();
 			Methods.Editor.Solution.Entities.MoveEntitySlotIDDown(SelectedObject);
 			SelectedEntities = Methods.Editor.Solution.Entities.SelectedEntities;

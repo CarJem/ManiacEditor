@@ -475,7 +475,7 @@ namespace ManiacEditor.Methods
             {
                 RSDKv5.Scene sourceScene = GetSceneForObjectImporting(window);
                 if (sourceScene == null) return;
-                var objectImporter = new ObjectImporter(sourceScene.Objects, Methods.Editor.Solution.CurrentScene.Objects, Methods.Editor.Solution.StageConfig, Editor);
+                var objectImporter = new ObjectImporter(sourceScene.Objects, Methods.Editor.Solution.CurrentScene.Entities.SceneObjects, Methods.Editor.Solution.StageConfig, Editor);
                 if (window != null) objectImporter.Owner = window;
                 objectImporter.ShowDialog();
 
@@ -484,8 +484,8 @@ namespace ManiacEditor.Methods
 
                 // user clicked Import, get to it!
                 Methods.Internal.UserInterface.UpdateControls();
-                Editor.EntitiesToolbar?.RefreshSpawningObjects(Methods.Editor.Solution.CurrentScene.Objects);
-                Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Objects);
+                Editor.EntitiesToolbar?.RefreshSpawningObjects(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
+                Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
 
             }
             catch (Exception ex)
@@ -531,7 +531,7 @@ namespace ManiacEditor.Methods
                     if (File.Exists(gameConfigPath))
                     {
                         Gameconfig SourceConfig = new Gameconfig(gameConfigPath);
-                        var objectImporter = new ObjectImporter(ofd.FileName, SourceConfig, Methods.Editor.Solution.CurrentScene.Objects, Methods.Editor.Solution.StageConfig, Editor);
+                        var objectImporter = new ObjectImporter(ofd.FileName, SourceConfig, Methods.Editor.Solution.CurrentScene.Entities.SceneObjects, Methods.Editor.Solution.StageConfig, Editor);
                         if (window != null) objectImporter.Owner = window;
                         objectImporter.ShowDialog();
 
@@ -540,8 +540,8 @@ namespace ManiacEditor.Methods
 
                         // user clicked Import, get to it!
                         Methods.Internal.UserInterface.UpdateControls();
-                        Editor.EntitiesToolbar?.RefreshSpawningObjects(Methods.Editor.Solution.CurrentScene.Objects);
-                        Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Objects);
+                        Editor.EntitiesToolbar?.RefreshSpawningObjects(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
+                        Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
                     }
                 }
 
@@ -635,7 +635,7 @@ namespace ManiacEditor.Methods
 
         public static void ObjectManager()
         {
-            var objectManager = new ObjectManager(Methods.Editor.Solution.CurrentScene.Objects, Methods.Editor.Solution.StageConfig, Editor);
+            var objectManager = new ObjectManager(Methods.Editor.Solution.Entities.SceneObjects, Methods.Editor.Solution.StageConfig, Editor);
             objectManager.Owner = Window.GetWindow(Editor);
             objectManager.ShowDialog();
             Methods.Editor.SolutionState.QuitWithoutSavingWarningRequired = true;

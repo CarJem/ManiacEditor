@@ -18,52 +18,5 @@ namespace ManiacEditor.Actions
     {
         public static Stack<IAction> UndoStack { get; set; } = new Stack<IAction>(); //Undo Actions Stack
         public static Stack<IAction> RedoStack { get; set; } = new Stack<IAction>(); //Redo Actions Stack
-
-
-        public static void UpdateUndoRedo()
-        {
-            if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
-            {
-                if (Methods.Editor.Solution.Entities.SelectedEntities.Count > 0)
-                {
-                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedEntities.ToList(), new Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
-                    if (Methods.Editor.Solution.Entities.LastAction != null)
-                    {
-                        // If it is move & duplicate, merge them together
-                        var taction = new ActionsGroup();
-                        taction.AddAction(Methods.Editor.Solution.Entities.LastAction);
-                        Methods.Editor.Solution.Entities.LastAction = null;
-                        taction.AddAction(action);
-                        taction.Close();
-                        action = taction;
-                    }
-                    UndoStack.Push(action);
-                    RedoStack.Clear();
-                    Methods.Internal.UserInterface.UpdateControls();
-                }
-                if (Methods.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
-                {
-                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedInternalEntities.ToList(), new Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
-                    if (Methods.Editor.Solution.Entities.LastActionInternal != null)
-                    {
-                        // If it is move & duplicate, merge them together
-                        var taction = new ActionsGroup();
-                        taction.AddAction(Methods.Editor.Solution.Entities.LastActionInternal);
-                        Methods.Editor.Solution.Entities.LastActionInternal = null;
-                        taction.AddAction(action);
-                        taction.Close();
-                        action = taction;
-                    }
-                    UndoStack.Push(action);
-                    RedoStack.Clear();
-                    Methods.Internal.UserInterface.UpdateControls();
-                }
-
-
-
-
-
-            }
-        }
     }
 }

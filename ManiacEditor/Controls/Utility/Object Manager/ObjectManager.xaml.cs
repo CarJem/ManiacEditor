@@ -72,16 +72,16 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 					{
 						if (!Methods.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
 						{
-							lvc.Foreground = Brushes.Red;
+							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_RedTextColor");
 						}
 						else
 						{
-							lvc.Foreground = Brushes.GreenYellow;
+							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
 						}
 					}
 					else
 					{
-						lvc.Foreground = Brushes.GreenYellow;
+						lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
 					}
 
                 }
@@ -191,16 +191,16 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 					{
 						if (!Methods.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
 						{
-							lvc.Foreground = Brushes.Red;
+							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_RedTextColor");
 						}
 						else
 						{
-							lvc.Foreground = Brushes.GreenYellow;
+							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
 						}
 					}
 					else
 					{
-						lvc.Foreground = Brushes.GreenYellow;
+						lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
 					}
 				}
                 InstanceID++;

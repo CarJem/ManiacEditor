@@ -20,7 +20,7 @@ namespace ManiacEditor.Controls.Utility
                 ExtraLayersSection.Children.Add(layerCheckbox);
             }
 
-            foreach (var obj in editorScene.Objects)
+            foreach (var obj in editorScene.Entities.SceneObjects)
             {
                 CheckBox entityCheckbox = new CheckBox()
                 {

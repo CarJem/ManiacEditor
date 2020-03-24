@@ -409,6 +409,7 @@ namespace ManiacEditor.Classes.Scene
                 el.WriteHorizontalLineRules();
             }
             Layers = EditorLayers.Select(el => el.Layer).ToList();
+            Objects.Clear();
             Objects = Entities.Save();
             Write(filename);
         }

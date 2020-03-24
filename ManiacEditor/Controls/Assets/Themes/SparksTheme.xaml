@@ -10,9 +10,9 @@
     <SolidColorBrush x:Key="AnimationEditor_IconBlue3" Color="#FF1863A6"/>
     <SolidColorBrush x:Key="AnimationEditor_IconRed" Color="#FFD92E0C"/>
 
-    <SolidColorBrush x:Key="Maniac_ExtraEditLayer_LabelText" Color="Lime"/>
-    <SolidColorBrush x:Key="Maniac_ExtraViewLayer_LabelText" Color="Green"/>
-    <SolidColorBrush x:Key="Maniac_EditLayer_LabelText" Color="Red"/>
+    <SolidColorBrush x:Key="Maniac_ExtraEditLayer_LabelText" Color="#2BBBFF"/>
+    <SolidColorBrush x:Key="Maniac_ExtraViewLayer_LabelText" Color="#000BFF"/>
+    <SolidColorBrush x:Key="Maniac_EditLayer_LabelText" Color="#E9FF00"/>
 
     <SolidColorBrush x:Key="EditLayerSelectedColor" Color="Blue"/>
     <SolidColorBrush x:Key="EditLayerSelectedColorBack" Color="#900000FF"/>
@@ -42,4 +42,12 @@
 
     <SolidColorBrush x:Key="LegacyThemeBrushText" Color="White"/>
     <SolidColorBrush x:Key="LegacyThemeBrushBG" Color="Black"/>
+
+    <SolidColorBrush x:Key="Maniac_WarningTextColor" Color="Red"/>
+
+    <SolidColorBrush x:Key="Maniac_ObjectManager_RedTextColor" Color="Red"/>
+    <SolidColorBrush x:Key="Maniac_ObjectManager_GreenTextColor" Color="YellowGreen"/>
+
+    <SolidColorBrush x:Key="Maniac_LayerManager_RedButtonColor" Color="LightCoral"/>
+    <SolidColorBrush x:Key="Maniac_LayerManager_GreenButtonColor" Color="LightGreen"/>
 </ResourceDictionary>

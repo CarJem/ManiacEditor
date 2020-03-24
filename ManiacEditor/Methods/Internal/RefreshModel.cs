@@ -12,7 +12,7 @@ namespace ManiacEditor.Methods.Internal
         private static int LastViewPositionX { get; set; } = -1;
         private static int LastViewPositionY { get; set; } = -1;
 
-        public static void RequestObjectPropertyRefresh(bool force = false)
+        public static void RequestEntityVisiblityRefresh(bool force = false)
         {
             if (Methods.Editor.Solution.Entities != null)
             {

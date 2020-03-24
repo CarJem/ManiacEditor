@@ -29,7 +29,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Entity Collections
 
-        private List<RSDKv5.SceneObject> SceneObjects { get; set; } = new List<SceneObject>();
+        public List<RSDKv5.SceneObject> SceneObjects { get; set; } = new List<SceneObject>();
         public List<Classes.Scene.EditorEntity> Entities { get; set; } = new List<EditorEntity>();
         public List<Classes.Scene.EditorEntity> SelectedEntities { get => GetSelectedEntities(); set => SetSelectedEntities(value); }
         public List<Classes.Scene.EditorEntity> TemporarySelection { get; set; } = new List<Classes.Scene.EditorEntity>();
@@ -433,7 +433,7 @@ namespace ManiacEditor.Classes.Scene
             foreach (var entity in entities) DeleteEntity(entity, isInternal);
 
             EvaluteSlotIDOrder();
-            RefreshModel.RequestObjectPropertyRefresh(true);
+            RefreshModel.RequestEntityVisiblityRefresh(true);
         }
         public void DeleteSelected(bool isInternal = false)
         {
@@ -592,7 +592,7 @@ namespace ManiacEditor.Classes.Scene
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal)
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Methods.Editor.Solution.CurrentScene.Objects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Methods.Editor.Solution.CurrentScene.Entities.SceneObjects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);
@@ -661,7 +661,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Movement + Interactions
 
-        public void MoveSelected(Point oldPos, Point newPos, bool duplicate)
+        public void MoveSelected(Point oldPos, Point newPos, bool duplicate, bool addAction = false)
         {
             Point diff = new Point(newPos.X - oldPos.X, newPos.Y - oldPos.Y);
 
@@ -673,23 +673,30 @@ namespace ManiacEditor.Classes.Scene
 
             if (SelectedEntities.Count > 0)
             {
-                foreach (var entity in SelectedEntities)
-                {
-                    entity.Move(diff);
-                }
+                foreach (var entity in SelectedEntities) entity.Move(diff);
             }
             if (SelectedInternalEntities.Count > 0)
             {
-                foreach (var entity in SelectedInternalEntities)
-                {
-                    entity.Move(diff);
-                }
+                foreach (var entity in SelectedInternalEntities) entity.Move(diff);
             }
 
-            ManiacEditor.Methods.Internal.RefreshModel.RequestObjectPropertyRefresh(true);
-
-
+            ManiacEditor.Methods.Internal.RefreshModel.RequestEntityVisiblityRefresh(true);
         }
+
+        private Dictionary<Classes.Scene.EditorEntity, Point> GetSelectedMovePositions()
+        {
+            Dictionary<Classes.Scene.EditorEntity, Point> positions = new Dictionary<Classes.Scene.EditorEntity, Point>();
+            foreach (Classes.Scene.EditorEntity e in SelectedEntities) positions.Add(e, new Point(e.PositionX, e.PositionY));
+            return positions;
+        }
+
+        private void AddMoveAction(Dictionary<Classes.Scene.EditorEntity, Point> initalPos, Dictionary<Classes.Scene.EditorEntity, Point> postPos)
+        {
+            IAction action = new ActionMultipleMoveEntities(initalPos, postPos);
+            Actions.UndoRedoModel.UndoStack.Push(action);
+            Actions.UndoRedoModel.RedoStack.Clear();
+        }
+
         internal void Flip(FlipDirection direction)
         {
             var positions = SelectedEntities.Select(se => se.Position);
@@ -901,12 +908,15 @@ namespace ManiacEditor.Classes.Scene
         }
         public List<SceneObject> Save()
         {
-            List<SceneObject> Objects = SceneObjects;
+            List<SceneObject> Objects = new List<SceneObject>(SceneObjects);
+            Objects.ForEach(x => x.Entities = new List<SceneEntity>());
             foreach (var entry in Entities)
             {
                 SceneObject currentObject = entry.Object;
-                if (!Objects.Exists(x => x.Name == currentObject.Name)) Objects.Add(currentObject);
-                Objects[Objects.IndexOf(Objects.Where(x => x.Name == currentObject.Name).FirstOrDefault())].Entities.Add(entry.Entity);
+                if (!Objects.Exists(x => x.Name.ToString() == currentObject.Name.ToString())) Objects.Add(currentObject);
+                int index = Objects.IndexOf(Objects.Where(x => x.Name.ToString() == currentObject.Name.ToString()).FirstOrDefault());
+                /*if (!Objects[index].Entities.Exists(x => x.SlotID == entry.SlotID))*/ 
+                Objects[index].Entities.Add(entry.Entity);
             }
             return Objects;
         } 

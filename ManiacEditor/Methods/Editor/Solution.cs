@@ -101,8 +101,10 @@ namespace ManiacEditor.Methods.Editor
 
             Methods.Entities.EntityAnimator.AnimationTiming.Clear();
 
-            Instance.TilesClipboard = null;
-            Instance.ObjectsClipboard = null;
+            //Instance.TilesClipboard = null;
+            //Instance.ObjectsClipboard = null;
+
+            if (Instance.ObjectsClipboard != null) Instance.ObjectsClipboard.ForEach(x => x.PrepareForExternalCopy());
 
             Methods.Editor.SolutionState.Zoom = 1;
             Methods.Editor.SolutionState.ZoomLevel = 0;

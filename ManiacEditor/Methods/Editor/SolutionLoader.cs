@@ -621,7 +621,7 @@ namespace ManiacEditor.Methods.Editor
             Instance.EditBackground = new Classes.Scene.EditorBackground(Instance);
             Methods.Editor.Solution.Entities = new Classes.Scene.EditorEntities(Methods.Editor.Solution.CurrentScene);
 
-            Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Objects);
+            Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
 
             SetupManiacINIPrefs();
             Instance.UpdateStartScreen(false);
