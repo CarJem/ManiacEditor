@@ -28,7 +28,10 @@ namespace ManiacEditor.Methods.Editor
         }
         public static bool IsNormalTilesEdit()
         {
-            return Methods.Editor.Solution.EditLayerA != null && !Instance.EditorToolbar.ChunksToolButton.IsChecked.Value;
+            return Instance.Dispatcher.Invoke<bool>(new Func<bool>(() =>
+            {
+                return !Instance.EditorToolbar.ChunksToolButton.IsChecked.Value && Methods.Editor.Solution.EditLayerA != null;
+            }));
         }
         public static bool IsTilesEdit()
         {
@@ -36,7 +39,10 @@ namespace ManiacEditor.Methods.Editor
         }
         public static bool IsChunksEdit()
         {
-            return Instance.EditorToolbar.ChunksToolButton.IsChecked.Value && Methods.Editor.Solution.EditLayerA != null;
+            return Instance.Dispatcher.Invoke<bool>(new Func<bool>(() =>
+            {
+                return Instance.EditorToolbar.ChunksToolButton.IsChecked.Value && Methods.Editor.Solution.EditLayerA != null;
+            }));
         }
         public static bool IsEntitiesEdit()
         {
@@ -136,7 +142,7 @@ namespace ManiacEditor.Methods.Editor
                 Instance.MenuBar.UnlockCameraToolStripMenuItem.IsChecked = _UnlockCamera;
                 SetViewPositionX(0);
                 SetViewPositionY(0);
-                Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
+                Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
             }
         }
 
@@ -237,6 +243,9 @@ namespace ManiacEditor.Methods.Editor
         {
             _GridCustomSize = value;
             Instance.EditorToolbar.CustomGridSizeLabel.Text = string.Format(Instance.EditorToolbar.CustomGridSizeLabel.Tag.ToString(), _GridCustomSize);
+            Instance.EditorToolbar.AllowNUDUpdate = false;
+            Instance.EditorToolbar.CustomGridSizeAdjuster.Value = _GridCustomSize;
+            Instance.EditorToolbar.AllowNUDUpdate = true;
         }
 
         private static int GetCustomSize()
@@ -326,6 +335,9 @@ namespace ManiacEditor.Methods.Editor
                 {
                     _CustomMagnetSize = value;
                     MagnetSize = -1;
+                    Instance.EditorToolbar.AllowNUDUpdate = false;
+                    Instance.EditorToolbar.CustomMagnetSizeAdjuster.Value = _CustomMagnetSize;
+                    Instance.EditorToolbar.AllowNUDUpdate = true;
                 }
             }
         }

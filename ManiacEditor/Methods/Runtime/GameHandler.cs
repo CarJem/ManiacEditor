@@ -334,7 +334,7 @@ namespace ManiacEditor.Methods.Runtime
                     d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Methods.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawText(name, x + 2, y + 2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {
@@ -407,7 +407,7 @@ namespace ManiacEditor.Methods.Runtime
                     d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
                     d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, color2));
-                    if (Methods.Editor.SolutionState.Zoom >= 1) d.DrawTextSmall(name, x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                    d.DrawText(name, x + 2, y + 2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
                 }
                 else
                 {

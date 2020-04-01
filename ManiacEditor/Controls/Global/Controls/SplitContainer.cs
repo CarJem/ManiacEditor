@@ -89,7 +89,7 @@ namespace ManiacEditor.Controls.Global.Controls
         {
             if (Instance != null)
             {
-                Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
+                Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
             }
         }
         private void Spliter_SizeChanged(object sender, ExecutedRoutedEventArgs e)

@@ -506,18 +506,16 @@ namespace ManiacEditor.Methods.Entities
                 d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
                 d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
                 d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                if (ManiacEditor.Properties.Settings.MyPerformance.DisableEntitySelectionBoxText == false)
+
+                if (Methods.Editor.SolutionState.Zoom >= 2)
                 {
-                    if (Methods.Editor.SolutionState.Zoom >= 1)
-                    {
-                        d.DrawTextSmall(string.Format("{0} (ID: {1})", e.Object.Name, e.SlotID), x + 2, y + 2, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH - 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
-                    }
+                    d.DrawText(string.Format("{0}", e.Object.Name), x + 2, y + 2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
+                    d.DrawText(string.Format("(ID: {0})", e.SlotID), x + 2, y + 10, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
                 }
 
                 if (e.SelectedIndex != -1)
                 {
-                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 1, y + 1, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
-                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x, y, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Red, true);
+                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 1, y + 1, System.Drawing.Color.Black, true, 6, System.Drawing.Color.Red);
                 }
             }
         }

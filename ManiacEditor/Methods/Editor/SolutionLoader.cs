@@ -62,7 +62,7 @@ namespace ManiacEditor.Methods.Editor
                 Methods.Editor.Solution.CurrentTiles.Write(ImagePath);
 
 
-                Instance.UpdateDataFolderLabel(null, null);
+                Methods.Internal.UserInterface.Status.UpdateDataFolderLabel();
 
                 Instance.EditorToolbar.SetupLayerButtons();
 
@@ -71,9 +71,9 @@ namespace ManiacEditor.Methods.Editor
 
                 Methods.Editor.Solution.Entities = new Classes.Scene.EditorEntities(Methods.Editor.Solution.CurrentScene);
 
-                Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
+                Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
 
-                Methods.Internal.UserInterface.UpdateControls(true);
+                Methods.Internal.UserInterface.UpdateControls();
             }
         }
         public static void OpenScene()
@@ -601,18 +601,6 @@ namespace ManiacEditor.Methods.Editor
         }
         public static void PostLoad()
         {
-            /*
-            try
-            {
-
-
-            }
-            catch (Exception ex)
-            {
-                LoadingFailed(ex);
-                return;
-            }*/
-
             Methods.Entities.EntityDrawing.RefreshRenderLists();
             SetupObjectsList();
             SetupDiscordRP(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.FilePath);
@@ -621,14 +609,14 @@ namespace ManiacEditor.Methods.Editor
             Instance.EditBackground = new Classes.Scene.EditorBackground(Instance);
             Methods.Editor.Solution.Entities = new Classes.Scene.EditorEntities(Methods.Editor.Solution.CurrentScene);
 
-            Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
+            Methods.Internal.UserInterface.SplineControls.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
 
             SetupManiacINIPrefs();
-            Instance.UpdateStartScreen(false);
-            Instance.UpdateDataFolderLabel(null, null);
+            Methods.Internal.UserInterface.Misc.UpdateStartScreen(false);
+            Methods.Internal.UserInterface.Status.UpdateDataFolderLabel();
             Instance.EditorToolbar.SetupLayerButtons();
             Methods.Editor.SolutionState.UpdateMultiLayerSelectMode();
-            Methods.Internal.UserInterface.UpdateControls(true);
+            Methods.Internal.UserInterface.UpdateControls();
             Classes.Prefrences.SceneHistoryStorage.AddRecentFile(Classes.Prefrences.SceneHistoryStorage.GenerateNewEntry());
             ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.AddRecentFile(ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.GenerateNewEntry());
             Instance.ViewPanel.SharpPanel.ResetZoomLevel();

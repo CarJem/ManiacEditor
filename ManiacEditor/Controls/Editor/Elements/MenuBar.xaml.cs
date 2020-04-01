@@ -33,46 +33,54 @@ namespace ManiacEditor.Controls.Editor.Elements
             Instance = instance;
         }
 
-        public void SetSceneOnlyButtonsState(bool enabled, bool stageLoad = false)
+        public void SetSceneOnlyButtonsState(bool enabled)
         {
-            saveToolStripMenuItem.IsEnabled = enabled;
-            saveAsToolStripMenuItem.IsEnabled = enabled;
-            unloadSceneToolStripMenuItem.IsEnabled = enabled;
-            goToToolStripMenuItem.IsEnabled = enabled;
-            findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
-            maniacinieditorToolStripMenuItem.IsEnabled = enabled;
-            exportToolStripMenuItem.IsEnabled = enabled;
-            changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                saveToolStripMenuItem.IsEnabled = enabled;
+                saveAsToolStripMenuItem.IsEnabled = enabled;
+                unloadSceneToolStripMenuItem.IsEnabled = enabled;
+                goToToolStripMenuItem.IsEnabled = enabled;
+                findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
+                maniacinieditorToolStripMenuItem.IsEnabled = enabled;
+                exportToolStripMenuItem.IsEnabled = enabled;
+                changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
+            }));
+
         }
 
         public void UpdateMenuItems()
         {
-            newToolStripMenuItem.InputGestureText = KeyBindPraser("New");
-            openToolStripMenuItem.InputGestureText = KeyBindPraser("Open");
-            openDataDirectoryToolStripMenuItem.InputGestureText = KeyBindPraser("OpenDataDir");
-            saveToolStripMenuItem.InputGestureText = KeyBindPraser("_Save");
-            saveAsToolStripMenuItem.InputGestureText = KeyBindPraser("SaveAs");
-            undoToolStripMenuItem.InputGestureText = KeyBindPraser("Undo");
-            redoToolStripMenuItem.InputGestureText = KeyBindPraser("Redo");
-            cutToolStripMenuItem.InputGestureText = KeyBindPraser("Cut");
-            copyToolStripMenuItem.InputGestureText = KeyBindPraser("Copy");
-            pasteToolStripMenuItem.InputGestureText = KeyBindPraser("Paste");
-            duplicateToolStripMenuItem.InputGestureText = KeyBindPraser("Duplicate");
-            selectAllToolStripMenuItem.InputGestureText = KeyBindPraser("SelectAll");
-            deleteToolStripMenuItem.InputGestureText = KeyBindPraser("Delete");
-            statusNAToolStripMenuItem.InputGestureText = KeyBindPraser("ScrollLock");
-            nudgeSelectionFasterToolStripMenuItem.InputGestureText = KeyBindPraser("NudgeFaster", false, true);
-            swapScrollLockDirMenuToolstripButton.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
-            resetZoomLevelToolstripMenuItem.InputGestureText = KeyBindPraser("ResetZoomLevel");
-            unloadSceneToolStripMenuItem.InputGestureText = KeyBindPraser("UnloadScene", false, true);
-            flipVerticalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipVIndv");
-            flipHorizontalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipHIndv");
-            flipHorizontalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipH");
-            flipVerticalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipV");
-            pasteTochunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
-            developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
-            saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
-            CopyAirLabel.Text = string.Format("Copy Air Tiles {1} ({0})", KeyBindPraser("CopyAirTiles", false, true), Environment.NewLine);
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                newToolStripMenuItem.InputGestureText = KeyBindPraser("New");
+                openToolStripMenuItem.InputGestureText = KeyBindPraser("Open");
+                openDataDirectoryToolStripMenuItem.InputGestureText = KeyBindPraser("OpenDataDir");
+                saveToolStripMenuItem.InputGestureText = KeyBindPraser("_Save");
+                saveAsToolStripMenuItem.InputGestureText = KeyBindPraser("SaveAs");
+                undoToolStripMenuItem.InputGestureText = KeyBindPraser("Undo");
+                redoToolStripMenuItem.InputGestureText = KeyBindPraser("Redo");
+                cutToolStripMenuItem.InputGestureText = KeyBindPraser("Cut");
+                copyToolStripMenuItem.InputGestureText = KeyBindPraser("Copy");
+                pasteToolStripMenuItem.InputGestureText = KeyBindPraser("Paste");
+                duplicateToolStripMenuItem.InputGestureText = KeyBindPraser("Duplicate");
+                selectAllToolStripMenuItem.InputGestureText = KeyBindPraser("SelectAll");
+                deleteToolStripMenuItem.InputGestureText = KeyBindPraser("Delete");
+                statusNAToolStripMenuItem.InputGestureText = KeyBindPraser("ScrollLock");
+                nudgeSelectionFasterToolStripMenuItem.InputGestureText = KeyBindPraser("NudgeFaster", false, true);
+                swapScrollLockDirMenuToolstripButton.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
+                resetZoomLevelToolstripMenuItem.InputGestureText = KeyBindPraser("ResetZoomLevel");
+                unloadSceneToolStripMenuItem.InputGestureText = KeyBindPraser("UnloadScene", false, true);
+                flipVerticalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipVIndv");
+                flipHorizontalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipHIndv");
+                flipHorizontalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipH");
+                flipVerticalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipV");
+                pasteTochunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
+                developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
+                saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
+                CopyAirLabel.Text = string.Format("Copy Air Tiles {1} ({0})", KeyBindPraser("CopyAirTiles", false, true), Environment.NewLine);
+            }));
+
         }
 
         public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
@@ -183,7 +191,6 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         public void SetSelectOnlyButtonsState(bool enabled = true)
         {
-            enabled &= ManiacEditor.Methods.Editor.SolutionState.IsSelected();
             deleteToolStripMenuItem.IsEnabled = enabled;
             copyToolStripMenuItem.IsEnabled = enabled;
             cutToolStripMenuItem.IsEnabled = enabled;

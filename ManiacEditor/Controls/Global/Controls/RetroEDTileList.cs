@@ -135,14 +135,14 @@ namespace ManiacEditor.Controls.Global.Controls
                     switch (Direction)
                     {
                         case Direction.Horizontal:
-                            int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / (imageHeight + 4), 1);
-                            hScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerCol) * (imageWidth + 4)) - Width, 0);
-                            hScrollBar1.SmallChange = hScrollBar1.LargeChange = imageHeight + 4;
+                                int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / (imageHeight + 4), 1);
+                                hScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerCol) * (imageWidth + 4)) - Width, 0);
+                                hScrollBar1.SmallChange = hScrollBar1.LargeChange = imageHeight + 4;
                             break;
                         case Direction.Vertical:
-                            int tilesPerRow = (int)Math.Max((Width - vScrollBar1.Width) / (imageWidth + 4), 1);
-                            vScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerRow) * (imageHeight + 4)) - Height, 0);
-                            vScrollBar1.SmallChange = vScrollBar1.LargeChange = imageWidth + 4;
+                                int tilesPerRow = (int)Math.Max((Width - vScrollBar1.Width) / (imageWidth + 4), 1);
+                                vScrollBar1.Maximum = Math.Max(((int)Math.Ceiling(Images.Count / (double)tilesPerRow) * (imageHeight + 4)) - Height, 0);
+                                vScrollBar1.SmallChange = vScrollBar1.LargeChange = imageWidth + 4;
                             break;
                     }
                 }
@@ -400,20 +400,20 @@ namespace ManiacEditor.Controls.Global.Controls
                 switch (Direction)
                 {
                     case Direction.Horizontal:
-                        int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / actualImageHeight, 1);
-                        int x = ((SelectedIndex / tilesPerCol) * actualImageWidth) - hScrollBar1.Value;
-                        if (x < 0)
-                            hScrollBar1.Value += x;
-                        if (x + actualImageWidth > Width)
-                            hScrollBar1.Value += (x + actualImageWidth) - Width;
+                            int tilesPerCol = Math.Max((Height - hScrollBar1.Height) / actualImageHeight, 1);
+                            int x = ((SelectedIndex / tilesPerCol) * actualImageWidth) - hScrollBar1.Value;
+                            if (x < 0)
+                                hScrollBar1.Value += x;
+                            if (x + actualImageWidth > Width)
+                                hScrollBar1.Value += (x + actualImageWidth) - Width;
                         break;
                     case Direction.Vertical:
-                        int tilesPerRow = Math.Max((Width - (int)vScrollBar1.Width) / actualImageWidth, 1);
-                        int y = ((SelectedIndex / tilesPerRow) * actualImageHeight) - (int)vScrollBar1.Value;
-                        if (y < 0)
-                            vScrollBar1.Value += y;
-                        if (y + actualImageHeight > Height)
-                            vScrollBar1.Value += (y + actualImageHeight) - Height;
+                            int tilesPerRow = Math.Max((Width - (int)vScrollBar1.Width) / actualImageWidth, 1);
+                            int y = ((SelectedIndex / tilesPerRow) * actualImageHeight) - (int)vScrollBar1.Value;
+                            if (y < 0)
+                                vScrollBar1.Value += y;
+                            if (y + actualImageHeight > Height)
+                                vScrollBar1.Value += (y + actualImageHeight) - Height;
                         break;
                 }
             }

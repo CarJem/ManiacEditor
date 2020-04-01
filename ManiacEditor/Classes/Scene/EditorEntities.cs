@@ -561,6 +561,10 @@ namespace ManiacEditor.Classes.Scene
                 {
                     throw new TooManyEntitiesException();
                 }
+                for (ushort i = 0; i < InternalEntities.Count; i++)
+                {
+                    if (!InternalEntities.Exists(x => x.SlotID == (ushort)i)) return i;
+                }
                 return (ushort)(InternalEntities.Count + 1);
             }
             else
@@ -568,6 +572,10 @@ namespace ManiacEditor.Classes.Scene
                 if (Entities.Count > 2048)
                 {
                     throw new TooManyEntitiesException();
+                }
+                for (ushort i = 0; i < Entities.Count; i++)
+                {
+                    if (!Entities.Exists(x => x.SlotID == (ushort)i)) return i;
                 }
                 return (ushort)(Entities.Count + 1);
             }
@@ -743,31 +751,9 @@ namespace ManiacEditor.Classes.Scene
 
         #region Slot ID Manipulation
 
-        public void MoveEntitySlotIDDown(EditorEntity entity)
-        {
-            int CurrentSlotID = entity.SlotID;
-            int DestinationSlotID = CurrentSlotID + 1;
-            if (0 <= DestinationSlotID && Entities.Count() - 1 >= DestinationSlotID)
-            {
-                Entities.MoveSlotIDs(CurrentSlotID, DestinationSlotID);
-                EvaluteSlotIDOrder();
-            }
-        }
-        public void MoveEntitySlotIDUp(EditorEntity entity)
-        {
-            int CurrentSlotID = entity.SlotID;
-            int DestinationSlotID = CurrentSlotID - 1;
-            if (0 <= DestinationSlotID && Entities.Count() - 1 >= DestinationSlotID)
-            {
-                Entities.MoveSlotIDs(CurrentSlotID, DestinationSlotID);
-                EvaluteSlotIDOrder();
-            }
-
-
-        }
-
         private void EvaluteSlotIDOrder()
-        {           
+        {   
+            /*
             for (int i = 0; i < Entities.Count; i++)
             {
                 Entities[i].SlotID = (ushort)i;
@@ -777,7 +763,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 InternalEntities[i].SlotID = (ushort)i;
             }
-            
+            */
         }
 
         #endregion
@@ -888,7 +874,7 @@ namespace ManiacEditor.Classes.Scene
                 Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered = CurrentNumberOfObjectsRendered;
             }
 
-            Methods.Internal.UserInterface.UpdateSplineToolbox();
+            Methods.Internal.UserInterface.SplineControls.UpdateSplineToolbox();
 
 
 

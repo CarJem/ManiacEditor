@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ManiacEditor.Controls"
         xmlns:base="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Title="Edit Category Name" Background="{DynamicResource NormalBackground}" Loaded="EditSceneSelectInfo_Loaded" Height="100" Width="480" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Title="Edit Category Name" Background="{DynamicResource NormalBackground}" Loaded="EditSceneSelectInfo_Loaded" Height="100" Width="480" ShowInTaskbar="True" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid Height="26" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="10,16,10,16">
             <Grid.ColumnDefinitions>

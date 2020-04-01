@@ -39,7 +39,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 if (value == true)
                 {
-                    if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Methods.Internal.UserInterface.ChangeSplineSelectedID(_entity.attributesMap["SplineID"].ValueInt32);
+                    if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Methods.Internal.UserInterface.EditorToolbars.ChangeSplineSelectedID(_entity.attributesMap["SplineID"].ValueInt32);
                     IsSelected = value;
                     TimeWhenSelected = DateTimeOffset.Now;
                 }

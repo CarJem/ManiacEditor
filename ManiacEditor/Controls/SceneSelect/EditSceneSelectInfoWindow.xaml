@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ManiacEditor.Controls"
         xmlns:base="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Title="Edit Scene Info" Height="213" Width="543.5" Loaded="EditSceneSelectInfoForm_Load" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+        Title="Edit Scene Info" Height="213" Width="543.5" Loaded="EditSceneSelectInfoForm_Load" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="True">
     <Grid Margin="7">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

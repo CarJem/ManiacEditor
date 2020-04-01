@@ -613,6 +613,21 @@ namespace ManiacEditor.Controls.TileManiac
 			bmp.Save(Path.Combine(Path.GetDirectoryName(filepath), path));
 		}
 
+		public Bitmap MergeImages(Bitmap[] images)
+		{
+			Bitmap mergedImg = new Bitmap(16, 16384, images[0].PixelFormat);
+			using (Graphics g = Graphics.FromImage(mergedImg))
+			{
+				for (int i = 0; i < images.Length; i++)
+				{
+					g.DrawImage(images[i], new Rectangle(0, 16 * i, images[i].Width, images[i].Height));
+				}
+
+			}
+
+			return mergedImg;
+		}
+
 		public Bitmap mergeImages(Bitmap[] images)
 		{
 			Bitmap mergedImg = new Bitmap(16, 16384, System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
@@ -2746,5 +2761,14 @@ namespace ManiacEditor.Controls.TileManiac
 				this.Topmost = false;
 			}
 		}
-    }
+
+		private void exportImages_Click(object sender, RoutedEventArgs e)
+		{
+			Bitmap PathA = MergeImages(CollisionListImgA.ToArray());
+			PathA.Save(Path.Combine(Methods.ProgramPaths.GetExecutingDirectoryName(), "PathA.gif"));
+
+			Bitmap PathB = MergeImages(CollisionListImgB.ToArray());
+			PathB.Save(Path.Combine(Methods.ProgramPaths.GetExecutingDirectoryName(), "PathB.gif"));
+		}
+	}
 }

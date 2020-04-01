@@ -1242,6 +1242,7 @@ namespace ManiacEditor.Classes.Scene
             if (Methods.Editor.SolutionState.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
             if (Methods.Editor.SolutionState.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
             if (Methods.Editor.SolutionState.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
+            RenderSection(RenderingProvider.MapRenderSelected);
 
 
             void RenderSection(LayerRenderer vbo)
@@ -1259,6 +1260,7 @@ namespace ManiacEditor.Classes.Scene
             RenderingProvider.MapRender = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.Image.GetTexture(), RenderingProvider.TileProvider, 16, 1);
             RenderingProvider.MapRenderTileID = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.IDImage.GetTexture(), RenderingProvider.TileIDProvider, 16, 1);
             RenderingProvider.MapRenderEditor = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.EditorImage.GetTexture(), RenderingProvider.FlippedTileProvider, 16, 1);
+            RenderingProvider.MapRenderSelected = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.EditorImage.GetTexture(), RenderingProvider.TileSelectedProvider, 16, 1);
             if (Methods.Editor.Solution.CurrentTiles.CollisionMaskA != null) RenderingProvider.MapRenderCollisionMapA = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.CollisionMaskA.GetTexture(), RenderingProvider.TileCollisionProviderA, 16, 1);
             if (Methods.Editor.Solution.CurrentTiles.CollisionMaskB != null) RenderingProvider.MapRenderCollisionMapB = new LayerRenderer(Methods.Editor.Solution.CurrentTiles.CollisionMaskB.GetTexture(), RenderingProvider.TileCollisionProviderB, 16, 1);
 
@@ -1355,195 +1357,6 @@ namespace ManiacEditor.Classes.Scene
                 return ChunkCoordinate;
             }
 
-        }
-
-        #endregion
-
-        #region Horizontal Layer Scroll Rendering
-
-        public class EditorFrame
-        {
-            public SFML.Graphics.Texture Texture;
-            public Animation.AnimationEntry.Frame Frame;
-            public Animation.AnimationEntry Entry;
-            public Bitmap _Bitmap;
-            public int ImageWidth;
-            public int ImageHeight;
-        }
-
-        Dictionary<string, EditorFrame> HorizontalLayerScrollAnimationList = new Dictionary<string, EditorFrame>();
-
-        private static Bitmap cropImage(Bitmap img, Rectangle cropArea)
-        {
-            Bitmap bmpImage = new Bitmap(img);
-            return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
-        }
-
-        public void DrawLayerForScrollRender(int startIndex, int lineCount, int HRI, int HRMI, string name, DevicePanel d = null)
-        {
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(WidthPixels, HeightPixels);
-            System.Drawing.Bitmap section = new System.Drawing.Bitmap(WidthPixels, lineCount);
-            string filePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ManiacEditor Config", "Test", string.Format("{0}{1}{2}.png", name, HRI, HRMI));
-
-            using (bitmap)
-            {
-                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap))
-                {
-                    Draw(g);
-                }
-                section = cropImage(bitmap, new Rectangle(0, startIndex, WidthPixels, lineCount));
-            }
-
-            List<EditorFrame> LayerFrames = new List<EditorFrame>();
-            System.Drawing.Bitmap parallax = new System.Drawing.Bitmap(WidthPixels, lineCount);
-            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(parallax))
-            {
-                int section1CropWidth = WidthPixels;
-                Bitmap section1 = cropImage(section, new Rectangle(0, 0, section1CropWidth, lineCount));
-                g.DrawImage(section1, 0, 0);
-            }
-
-            SFML.Graphics.Texture texture = null;
-            texture = Methods.Draw.TextureHelper.FromBitmap(parallax);
-            var animFrame = new Animation.AnimationEntry.Frame()
-            {
-                X = 0,
-                Y = (short)startIndex,
-                Width = (short)parallax.Size.Width,
-                Height = (short)lineCount
-            };
-            var frame = new EditorFrame()
-            {
-                Texture = texture,
-                Frame = animFrame,
-                Entry = new Animation.AnimationEntry(),
-                ImageWidth = parallax.Size.Width,
-                ImageHeight = parallax.Size.Height
-            };
-
-            string key = string.Format("{0}{1}.png", HRI, HRMI);
-            HorizontalLayerScrollAnimationList.Add(key, frame);
-        }
-
-        public void RenderParallaxToFramesForAnimation()
-        {
-            foreach (var frame in HorizontalLayerScrollAnimationList.Values)
-            {
-                frame.Texture?.Dispose();
-            }
-            HorizontalLayerScrollAnimationList.Clear();
-
-            int HorizontalRuleIndex = 0;
-            int HorizontalRuleMapIndex = 0;
-
-            foreach (var layer in HorizontalLayerRules)
-            {
-                foreach (var lines in layer.LinesMapList)
-                {
-                    DrawLayerForScrollRender(lines.StartIndex, lines.LineCount, HorizontalRuleIndex, HorizontalRuleMapIndex, "BGLayer", ManiacEditor.Controls.Editor.MainEditor.Instance.ViewPanel.SharpPanel.GraphicPanel);
-                    HorizontalRuleMapIndex++;
-                }
-                HorizontalRuleMapIndex = 0;
-                HorizontalRuleIndex++;
-            }
-
-            HasHorizontalLayerScrollInitilized = true;
-        }
-
-
-        //Parallax Animating
-
-        public int ProcessParallax(HorizontalLayerScroll layer, int maxWidth, int speed = 1, int duration = 0)
-        {
-            if (speed <= 0) speed = 1;
-            string group = string.Format("{0},{1}", speed, maxWidth);
-            if (!ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming.ContainsKey(group)) ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming.Add(group, new ManiacEditor.Methods.Entities.EntityAnimator.Timing());
-            // Playback
-            if (Methods.Editor.SolutionState.ParallaxAnimationChecked && Methods.Editor.SolutionState.AllowAnimations)
-            {
-                if ((DateTime.Now - ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].LastParallaxTime).TotalMilliseconds > 1024 / speed)
-                {
-                    ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].LastParallaxTime = DateTime.Now;
-                    ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex++;
-                }
-            }
-            else ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex = 0;
-            if (ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex >= maxWidth)
-                ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex = 0;
-
-
-            return ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[group].FrameIndex;
-
-
-        }
-
-        public void DrawLayerScroll(DevicePanel d)
-        {
-
-            if (!HasHorizontalLayerScrollInitilized) RenderParallaxToFramesForAnimation();
-
-            if (HasHorizontalLayerScrollInitilized && AllowLayerToAnimateParallax)
-            {
-                foreach (var layer in HorizontalLayerRules)
-                {
-                    foreach (var lines in layer.LinesMapList)
-                    {
-                        int speed = (layer.RelativeSpeed == 0 ? 1 : layer.RelativeSpeed);
-                        string groupKey = string.Format("{0},{1}", speed, WidthPixels);
-                        int index = HorizontalLayerRules.IndexOf(layer);
-                        string key = string.Format("{0}{1}.png", index, HorizontalLayerRules[index].LinesMapList.IndexOf(lines));
-                        int scrollPoint = ManiacEditor.Methods.Entities.EntityAnimator.AnimationTiming[groupKey].FrameIndex;
-                        int section1CropWidth = WidthPixels - scrollPoint;
-                        int section2CropWidth = scrollPoint;
-
-                        var frame = HorizontalLayerScrollAnimationList[key];
-
-                        if (frame != null)
-                        {
-                            d.DrawTexture(frame.Texture, frame.Frame.X + WidthPixels - scrollPoint, frame.Frame.Y, scrollPoint, frame.Frame.Height, false, 0xFF);
-                            d.DrawTexture(frame.Texture, frame.Frame.X - scrollPoint, frame.Frame.Y, frame.Frame.Width, frame.Frame.Height, false, 0xFF);
-                        }
-                    }
-                }
-
-            }
-        }
-
-        public void DrawScrollLines(DevicePanel d)
-        {
-            if (ShowLayerScrollLines)
-            {
-                int Transperncy = 0xFF;
-
-                if (Methods.Editor.Solution.EditLayerA != null && (Methods.Editor.Solution.EditLayerA != this && Methods.Editor.Solution.EditLayerB != this))
-                    Transperncy = 0x32;
-                else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Editor.Solution.EditLayerA == null && Methods.Editor.SolutionState.ApplyEditEntitiesTransparency)
-                    Transperncy = 0x32;
-                else
-                    Transperncy = 0xFF;
-
-                foreach (var layer in HorizontalLayerRules)
-                {
-                    foreach (var lines in layer.LinesMapList)
-                    {
-
-                        d.DrawLine(0, lines.StartIndex, _layer.Width * Methods.Editor.EditorConstants.TILE_SIZE, lines.StartIndex, System.Drawing.Color.FromArgb(Transperncy, System.Drawing.Color.Red));
-                        d.DrawLine(0, lines.StartIndex + lines.LineCount, _layer.Width * Methods.Editor.EditorConstants.TILE_SIZE, lines.StartIndex + lines.LineCount, System.Drawing.Color.FromArgb(Transperncy, System.Drawing.Color.Red));
-                    }
-                }
-            }
-
-        }
-
-        public void UpdateLayerScrollIndex()
-        {
-            foreach (var layer in HorizontalLayerRules)
-            {
-                foreach (var lines in layer.LinesMapList)
-                {
-                    ProcessParallax(layer, WidthPixels, layer.RelativeSpeed);
-                }
-            }
         }
 
         #endregion

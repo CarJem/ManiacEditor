@@ -21,6 +21,8 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
         private System.Windows.Controls.CheckBox BoolCheckboxControl { get; set; }
         private System.Windows.Controls.TextBox StringTextboxControl { get; set; }
         private string TextBoxLastString { get; set; }
+        private object LastValue { get; set; }
+        private object LastValueChanged { get; set; }
         private Xceed.Wpf.Toolkit.ColorPicker ColorPickerControl { get; set; }
         private System.Windows.Media.Color? ColorPickerLastColor { get; set; }
         #endregion
@@ -63,39 +65,47 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             if (DefaultValue != null) HostType = DefaultValue.GetType();
             else HostType = CurrentType;
 
+            LastValue = DefaultValue;
+
             if (HostType == typeof(byte))
             {
                 ByteNumericControl = new Xceed.Wpf.Toolkit.ByteUpDown();
+                ByteNumericControl.UpdateValueOnEnterKey = true;
                 ByteNumericControl.Value = (byte)DefaultValue;
                 ValueControl.Value1Host.Children.Add(ByteNumericControl);
             }
             else if (HostType == typeof(ushort))
             {
                 UShortNumericControl = new Xceed.Wpf.Toolkit.UShortUpDown();
+                UShortNumericControl.UpdateValueOnEnterKey = true;
                 UShortNumericControl.Value = (ushort)DefaultValue;
                 ValueControl.Value1Host.Children.Add(UShortNumericControl);
             }
             else if (HostType == typeof(uint))
             {
                 UIntNumericControl = new Xceed.Wpf.Toolkit.UIntegerUpDown();
+                UIntNumericControl.UpdateValueOnEnterKey = true;
                 UIntNumericControl.Value = (uint)DefaultValue;
                 ValueControl.Value1Host.Children.Add(UIntNumericControl);
             }
             else if (HostType == typeof(sbyte))
             {
                 SByteNumericControl = new Xceed.Wpf.Toolkit.SByteUpDown();
+                SByteNumericControl.UpdateValueOnEnterKey = true;
                 SByteNumericControl.Value = (sbyte)DefaultValue;
                 ValueControl.Value1Host.Children.Add(SByteNumericControl);
             }
             else if (HostType == typeof(short))
             {
                 ShortNumericControl = new Xceed.Wpf.Toolkit.ShortUpDown();
+                ShortNumericControl.UpdateValueOnEnterKey = true;
                 ShortNumericControl.Value = (short)DefaultValue;
                 ValueControl.Value1Host.Children.Add(ShortNumericControl);
             }
             else if (HostType == typeof(int))
             {
                 IntNumericControl = new Xceed.Wpf.Toolkit.IntegerUpDown();
+                IntNumericControl.UpdateValueOnEnterKey = true;
                 IntNumericControl.Value = (int)DefaultValue;
                 ValueControl.Value1Host.Children.Add(IntNumericControl);
             }
@@ -119,6 +129,7 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             else if (HostType == typeof(float))
             {
                 FloatNumericControl = new Xceed.Wpf.Toolkit.SingleUpDown();
+                FloatNumericControl.UpdateValueOnEnterKey = true;
                 FloatNumericControl.Value = (float)DefaultValue;
                 ValueControl.Value1Host.Children.Add(FloatNumericControl);
             }
@@ -138,26 +149,38 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             if (HostType == typeof(byte))
             {
                 ByteNumericControl.ValueChanged += Host_ValueChanged;
+                ByteNumericControl.KeyDown += Numeric_KeyDown;
+                ByteNumericControl.LostFocus += Numeric_LostFocus;
             }
             else if (HostType == typeof(ushort))
             {
                 UShortNumericControl.ValueChanged += Host_ValueChanged;
+                UShortNumericControl.KeyDown += Numeric_KeyDown;
+                UShortNumericControl.LostFocus += Numeric_LostFocus;
             }
             else if (HostType == typeof(uint))
             {
                 UIntNumericControl.ValueChanged += Host_ValueChanged;
+                UIntNumericControl.KeyDown += Numeric_KeyDown;
+                UIntNumericControl.LostFocus += Numeric_LostFocus;
             }
             else if (HostType == typeof(sbyte))
             {
                 SByteNumericControl.ValueChanged += Host_ValueChanged;
+                SByteNumericControl.KeyDown += Numeric_KeyDown;
+                SByteNumericControl.LostFocus += Numeric_LostFocus;
             }
             else if (HostType == typeof(short))
             {
                 ShortNumericControl.ValueChanged += Host_ValueChanged;
+                ShortNumericControl.KeyDown += Numeric_KeyDown;
+                ShortNumericControl.LostFocus += Numeric_LostFocus;
             }
             else if (HostType == typeof(int))
             {
                 IntNumericControl.ValueChanged += Host_ValueChanged;
+                IntNumericControl.KeyDown += Numeric_KeyDown;
+                IntNumericControl.LostFocus += Numeric_LostFocus;
             }
             else if (HostType == typeof(bool))
             {
@@ -174,37 +197,52 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             else if (HostType == typeof(float))
             {
                 FloatNumericControl.ValueChanged += Host_ValueChanged;
+                FloatNumericControl.KeyDown += Numeric_KeyDown;
+                FloatNumericControl.LostFocus += Numeric_LostFocus;
             }
             else if (HostType == typeof(System.Drawing.Color))
             {
                 ColorPickerControl.Closed += ColorPickerControl_Closed;
             }
         }
+
         public void DisableEvents()
         {
             if (HostType == typeof(byte))
             {
                 ByteNumericControl.ValueChanged -= Host_ValueChanged;
+                ByteNumericControl.KeyDown -= Numeric_KeyDown;
+                ByteNumericControl.LostFocus -= Numeric_LostFocus;
             }
             else if (HostType == typeof(ushort))
             {
                 UShortNumericControl.ValueChanged -= Host_ValueChanged;
+                UShortNumericControl.KeyDown -= Numeric_KeyDown;
+                UShortNumericControl.LostFocus -= Numeric_LostFocus;
             }
             else if (HostType == typeof(uint))
             {
                 UIntNumericControl.ValueChanged -= Host_ValueChanged;
+                UIntNumericControl.KeyDown -= Numeric_KeyDown;
+                UIntNumericControl.LostFocus -= Numeric_LostFocus;
             }
             else if (HostType == typeof(sbyte))
             {
                 SByteNumericControl.ValueChanged -= Host_ValueChanged;
+                SByteNumericControl.KeyDown -= Numeric_KeyDown;
+                SByteNumericControl.LostFocus -= Numeric_LostFocus;
             }
             else if (HostType == typeof(short))
             {
                 ShortNumericControl.ValueChanged -= Host_ValueChanged;
+                ShortNumericControl.KeyDown -= Numeric_KeyDown;
+                ShortNumericControl.LostFocus -= Numeric_LostFocus;
             }
             else if (HostType == typeof(int))
             {
                 IntNumericControl.ValueChanged -= Host_ValueChanged;
+                IntNumericControl.KeyDown -= Numeric_KeyDown;
+                IntNumericControl.LostFocus -= Numeric_LostFocus;
             }
             else if (HostType == typeof(bool))
             {
@@ -221,6 +259,8 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
             else if (HostType == typeof(float))
             {
                 FloatNumericControl.ValueChanged -= Host_ValueChanged;
+                FloatNumericControl.KeyDown -= Numeric_KeyDown;
+                FloatNumericControl.LostFocus -= Numeric_LostFocus;
             }
             else if (HostType == typeof(System.Drawing.Color))
             {
@@ -281,8 +321,28 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
         private void Host_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
         {
             base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, e.OldValue, e.NewValue));
-
         }
+
+        private void Numeric_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            /*
+            base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, LastValue, LastValueChanged));
+            LastValue = LastValueChanged;
+            */
+        }
+
+        private void Numeric_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            /*
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                base.PropertyValueChanged_Invoke(sender, new PropertyControl.PropertyChangedEventArgs(PropertyObject.Category, PropertyObject.ValueName, LastValue, LastValueChanged));
+                LastValue = LastValueChanged;
+            }
+            else e.Handled = false;
+            */
+        }
+
         #endregion
 
         #region Other 

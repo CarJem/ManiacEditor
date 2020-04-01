@@ -69,52 +69,55 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         public void UpdateStatusPanel()
         {
-            //
-            // Tooltip Bar Info 
-            //
-
-            _levelIDLabel.Content = "Level ID: " + Methods.Editor.SolutionState.LevelID.ToString();
-            seperator1.Visibility = Visibility.Visible;
-            seperator2.Visibility = Visibility.Visible;
-            seperator3.Visibility = Visibility.Visible;
-            seperator4.Visibility = Visibility.Visible;
-            seperator5.Visibility = Visibility.Visible;
-            seperator6.Visibility = Visibility.Visible;
-            seperator7.Visibility = Visibility.Visible;
-            //seperator8.Visibility = Visibility.Visible;
-            //seperator9.Visibility = Visibility.Visible;
-
-            if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
+            this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Methods.Editor.SolutionState.SelectedTileX + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY;
-                selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
-            }
-            else
-            {
-                selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Methods.Editor.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY * 16;
-                selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
-            }
-            if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
-            {
-                selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount);
-                selectionSizeLabel.ToolTip = "The Size of the Selection";
-            }
-            else
-            {
-                selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount) * 16;
-                selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
-            }
+                //
+                // Tooltip Bar Info 
+                //
 
-            selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Methods.Editor.SolutionState.TempSelectX2 - Methods.Editor.SolutionState.TempSelectX1) + ", Y: " + (Methods.Editor.SolutionState.TempSelectY2 - Methods.Editor.SolutionState.TempSelectY1);
+                _levelIDLabel.Content = "Level ID: " + Methods.Editor.SolutionState.LevelID.ToString();
+                seperator1.Visibility = Visibility.Visible;
+                seperator2.Visibility = Visibility.Visible;
+                seperator3.Visibility = Visibility.Visible;
+                seperator4.Visibility = Visibility.Visible;
+                seperator5.Visibility = Visibility.Visible;
+                seperator6.Visibility = Visibility.Visible;
+                seperator7.Visibility = Visibility.Visible;
+                //seperator8.Visibility = Visibility.Visible;
+                //seperator9.Visibility = Visibility.Visible;
 
-            scrollLockDirLabel.Content = "Scroll Direction: " + (Methods.Editor.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Methods.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
+                if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
+                {
+                    selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Methods.Editor.SolutionState.SelectedTileX + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY;
+                    selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
+                }
+                else
+                {
+                    selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Methods.Editor.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY * 16;
+                    selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
+                }
+                if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
+                {
+                    selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount);
+                    selectionSizeLabel.ToolTip = "The Size of the Selection";
+                }
+                else
+                {
+                    selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount) * 16;
+                    selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
+                }
+
+                selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Methods.Editor.SolutionState.TempSelectX2 - Methods.Editor.SolutionState.TempSelectX1) + ", Y: " + (Methods.Editor.SolutionState.TempSelectY2 - Methods.Editor.SolutionState.TempSelectY1);
+
+                scrollLockDirLabel.Content = "Scroll Direction: " + (Methods.Editor.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Methods.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
 
 
-            hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Editor.SolutionState.Zoom.ToString();
+                hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Editor.SolutionState.Zoom.ToString();
 
-            //
-            // End of Tooltip Bar Info Section
-            //
+                //
+                // End of Tooltip Bar Info Section
+                //
+            }));
         }
 
         public void QuickButtonClickEvent(object sender, RoutedEventArgs e)
@@ -163,14 +166,18 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         public void UpdateTooltips()
         {
-            positionLabel.ToolTip = "The position relative to your mouse (Pixels Only for Now)";
-            selectionSizeLabel.ToolTip = "The Size of the Selection";
-            selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
-            selectionBoxSizeLabel.ToolTip = "The Size of the Selection Box";
-            EnablePixelModeButton.ToolTip = "Change the Positional/Selection Values to Pixel or Tile Based Values";
-            nudgeFasterButton.ToolTip = "Move entities/tiles in a larger increment. (Configurable in Options)\r\nShortcut Key: " + KeyBindPraser("NudgeFaster");
-            scrollLockButton.ToolTip = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key: " + KeyBindPraser("ScrollLock");
-            QuickSwapScrollDirection.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                positionLabel.ToolTip = "The position relative to your mouse (Pixels Only for Now)";
+                selectionSizeLabel.ToolTip = "The Size of the Selection";
+                selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
+                selectionBoxSizeLabel.ToolTip = "The Size of the Selection Box";
+                EnablePixelModeButton.ToolTip = "Change the Positional/Selection Values to Pixel or Tile Based Values";
+                nudgeFasterButton.ToolTip = "Move entities/tiles in a larger increment. (Configurable in Options)\r\nShortcut Key: " + KeyBindPraser("NudgeFaster");
+                scrollLockButton.ToolTip = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key: " + KeyBindPraser("ScrollLock");
+                QuickSwapScrollDirection.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
+            }));
+
         }
 
         public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
@@ -222,32 +229,34 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         }
 
-        public void UpdateFilterButtonApperance(bool startup)
+        public void UpdateFilterButtonApperance()
         {
-            if (startup)
+            this.Dispatcher.BeginInvoke(new Action(() =>
             {
                 maniaFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(2);
                 encoreFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(4);
                 otherFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(0);
                 bothFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(1);
                 pinballFilterCheck.Foreground = Methods.Internal.Theming.GetObjectFilterColorBrush(255);
-            }
-            if (Properties.Settings.MySettings.UseBitOperators)
-            {
-                maniaFilterCheck.Content = "Mania (0b0010)";
-                encoreFilterCheck.Content = "Encore (0b0100)";
-                otherFilterCheck.Content = "Other (0b0000)";
-                bothFilterCheck.Content = "Both (0b0001)";
-                pinballFilterCheck.Content = "All (0b11111111)";
-            }
-            else
-            {
-                maniaFilterCheck.Content = "Mania (2)";
-                encoreFilterCheck.Content = "Encore (4)";
-                otherFilterCheck.Content = "Other (0)";
-                bothFilterCheck.Content = "Both (1 & 5)";
-                pinballFilterCheck.Content = "All (255)";
-            }
+
+                if (Properties.Settings.MySettings.UseBitOperators)
+                {
+                    maniaFilterCheck.Content = "Mania (0b0010)";
+                    encoreFilterCheck.Content = "Encore (0b0100)";
+                    otherFilterCheck.Content = "Other (0b0000)";
+                    bothFilterCheck.Content = "Both (0b0001)";
+                    pinballFilterCheck.Content = "All (0b11111111)";
+                }
+                else
+                {
+                    maniaFilterCheck.Content = "Mania (2)";
+                    encoreFilterCheck.Content = "Encore (4)";
+                    otherFilterCheck.Content = "Other (0)";
+                    bothFilterCheck.Content = "Both (1 & 5)";
+                    pinballFilterCheck.Content = "All (255)";
+                }
+            }));
+
         }
 
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacIntergration(); }

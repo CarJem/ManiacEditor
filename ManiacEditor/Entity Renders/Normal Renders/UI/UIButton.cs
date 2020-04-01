@@ -4,44 +4,35 @@ namespace ManiacEditor.Entity_Renders
 {
     public class UIButton : EntityRenderer
     {
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
-            int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
-            int listID = (int)entity.attributesMap["listID"].ValueEnum;
-            int align = (int)entity.attributesMap["align"].ValueEnum;
-            int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
-            int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
-            bool invisible = entity.attributesMap["invisible"].ValueBool;
+            int frameID = (int)e.attributesMap["frameID"].ValueEnum;
+            int listID = (int)e.attributesMap["listID"].ValueEnum;
+            int align = (int)e.attributesMap["align"].ValueEnum;
+            int width = (int)e.attributesMap["size"].ValueVector2.X.High;
+            int height = (int)e.attributesMap["size"].ValueVector2.Y.High;
+            bool invisible = e.attributesMap["invisible"].ValueBool;
             double alignmentVal = 0;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && !invisible)
+            var editorAnim = Methods.Entities.EntityDrawing.LoadAnimation(d, text, listID, frameID);
+            switch (align)
             {
-                var frame = editorAnim.Frames[0];
-                switch (align)
-                {
-                    case 0:
-                        alignmentVal = -((width / 2)) - frame.Frame.PivotY;
-                        break;
-                    default:
-                        alignmentVal = frame.Frame.PivotX + (22 / 2);
-                        break;
-                }
-                e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + (int)alignmentVal, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                case 0:
+                    alignmentVal = -((width / 2)) - editorAnim.RequestedFrame.PivotY;
+                    break;
+                default:
+                    alignmentVal = editorAnim.RequestedFrame.PivotX + (22 / 2);
+                    break;
             }
+            d.DrawRectangle(x - width / 2, y - height / 2, x + width / 2, y + height / 2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black));
+            DrawTexture(d, editorAnim, listID, frameID, x + (int)alignmentVal, y + editorAnim.RequestedFrame.PivotY, Transparency);
 
 
         }

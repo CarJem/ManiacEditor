@@ -14,7 +14,7 @@ namespace ManiacEditor.Actions
         object newValue;
         Action<EditorEntity, string, object, object> setValue;
 
-        public string Description => $"Changing {tag} on {entity.Object.Name} from {oldValue} to {newValue}";
+        public string Description => $"Changing {tag} on {entity.Object.Name} from {(oldValue == null ? "UNKNOWN" : oldValue)} to {newValue}";
 
         public ActionEntityPropertyChange(EditorEntity entity, string tag, object oldValue, object newValue, Action<EditorEntity, string, object, object> setValue)
         {

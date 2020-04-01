@@ -215,22 +215,25 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 
 		public void UpdateModeSpecifics(SelectionChangedEventArgs sender = null)
 		{
-			if (sender != null && sender.Source is TabControl)
+			this.Dispatcher.BeginInvoke(new Action(() =>
 			{
-				if (TabControl.SelectedIndex == 0) Instance.EditorToolbar.ChunksToolButton.IsChecked = false;
-				else Instance.EditorToolbar.ChunksToolButton.IsChecked = true;
-			}
+				if (sender != null && sender.Source is TabControl)
+				{
+					if (TabControl.SelectedIndex == 0) Instance.EditorToolbar.ChunksToolButton.IsChecked = false;
+					else Instance.EditorToolbar.ChunksToolButton.IsChecked = true;
+				}
 
-			if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit())
-			{
-				SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
-				if (TabControl.SelectedIndex != 1) TabControl.SelectedIndex = 1;
-			}
-			else
-			{ 
-				SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
-				if (TabControl.SelectedIndex != 0) TabControl.SelectedIndex = 0;
-			}
+				if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit() && this.ChunkList != null)
+				{
+					SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
+					if (TabControl.SelectedIndex != 1) TabControl.SelectedIndex = 1;
+				}
+				else if (this.TilesList != null)
+				{
+					SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
+					if (TabControl.SelectedIndex != 0) TabControl.SelectedIndex = 0;
+				}
+			}));
 		}
 		private void RefreshLists()
 		{
@@ -264,50 +267,40 @@ namespace ManiacEditor.Controls.Editor.Toolbars.TilesToolbar
 				ChunksReload();
 			}
 		}
-		public async void ChunksReload()
+		public void ChunksReload()
 		{
-			await System.Threading.Tasks.Task.Run(new Action(() => AwaitableMethod()));
-
-			void AwaitableMethod()
+			if (isDisposing) return;
+			ChunkList.Images.Clear();
+			if (Instance.Chunks != null)
 			{
-				if (isDisposing) return;
-				ChunkList.Images.Clear();
-				if (Instance.Chunks != null)
-				{
-					int LastIndex = ChunkList.SelectedIndex;
-					ChunkList.SelectedIndex = -1;
-					ChunkList.Images = Instance.Chunks.GetChunkCurrentImages();
+				int LastIndex = ChunkList.SelectedIndex;
+				ChunkList.SelectedIndex = -1;
+				ChunkList.Images = Instance.Chunks.GetChunkCurrentImages();
 
 
-					ChunkRefreshNeeded = true;
-					ChunkList.SelectedIndex = LastIndex;
-				}
+				ChunkRefreshNeeded = true;
+				ChunkList.SelectedIndex = LastIndex;
 			}
 
 		}
-		public async void TilesReload(string colors = "")
+		public void TilesReload(string colors = "")
 		{
-			await System.Threading.Tasks.Task.Run(new Action(() => AwaitableMethod()));
+			if (colors != "") CurrentColorPalette = colors;
+			else if (CurrentColorPalette != null) colors = CurrentColorPalette;
 
-			void AwaitableMethod()
+			if (isDisposing) return;
+			TilesList.Images.Clear();
+			TileGridImage = new Methods.Draw.GIF((TilesImagePath), colors);
+
+			for (int i = 0; i < 1024; i++)
 			{
-				if (colors != "") CurrentColorPalette = colors;
-				else if (CurrentColorPalette != null) colors = CurrentColorPalette;
-
-				if (isDisposing) return;
-				TilesList.Images.Clear();
-				TileGridImage = new Methods.Draw.GIF((TilesImagePath), colors);
-
-				for (int i = 0; i < 1024; i++)
-				{
-					TilesList.Images.Add(TileGridImage.GetBitmap(new System.Drawing.Rectangle(0, 16 * i, 16, 16), TilesFlipHorizontal, TilesFlipVertical));
-				}
-				int indexStorage = TilesList.SelectedIndex;
-				TilesList.SelectedIndex = -1;
-
-				TileRefreshNeeded = true;
-				TilesList.SelectedIndex = indexStorage;
+				TilesList.Images.Add(TileGridImage.GetBitmap(new System.Drawing.Rectangle(0, 16 * i, 16, 16), TilesFlipHorizontal, TilesFlipVertical));
 			}
+			int indexStorage = TilesList.SelectedIndex;
+			TilesList.SelectedIndex = -1;
+
+			TileRefreshNeeded = true;
+			TilesList.SelectedIndex = indexStorage;
 
 		}
 		public void ReloadLists(String Colors = "")

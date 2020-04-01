@@ -28,6 +28,17 @@ namespace ManiacEditor.Methods
                 return path;
             }
         }
+
+        public static string FontsDirectory
+        {
+            get
+            {
+                string path = System.IO.Path.Combine(GetExecutingDirectoryName(), "Resources", "Fonts");
+                if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+                return path;
+            }
+        }
+
         public static string GetSettingsDirectory()
         {
             return (Properties.Settings.MyInternalSettings.PortableMode ? SettingsPortableDirectory : SettingsStaticDirectory);

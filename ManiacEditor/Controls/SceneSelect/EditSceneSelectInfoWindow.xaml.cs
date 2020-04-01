@@ -46,13 +46,13 @@ namespace ManiacEditor.Controls.SceneSelect
 			Scene.ModeFilter |= (byte)((checkBox2.IsChecked.Value ? 1 : 0) << 1);
 			Scene.ModeFilter |= (byte)((checkBox3.IsChecked.Value ? 1 : 0) << 2);
 			DialogResult = true;
-			Close();
+			//Close();
 		}
 
 		private void button2_Click(object sender, RoutedEventArgs e)
 		{
 			DialogResult = false;
-			Close();
+			//Close();
 		}
 
 		private void TextBox1_TextChanged(object sender, TextChangedEventArgs e)

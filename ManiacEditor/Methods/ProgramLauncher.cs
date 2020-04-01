@@ -485,7 +485,7 @@ namespace ManiacEditor.Methods
                 // user clicked Import, get to it!
                 Methods.Internal.UserInterface.UpdateControls();
                 Editor.EntitiesToolbar?.RefreshSpawningObjects(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
-                Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
+                Methods.Internal.UserInterface.SplineControls.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
 
             }
             catch (Exception ex)
@@ -541,7 +541,7 @@ namespace ManiacEditor.Methods
                         // user clicked Import, get to it!
                         Methods.Internal.UserInterface.UpdateControls();
                         Editor.EntitiesToolbar?.RefreshSpawningObjects(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
-                        Methods.Internal.UserInterface.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
+                        Methods.Internal.UserInterface.SplineControls.UpdateSplineSpawnObjectsList(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects);
                     }
                 }
 

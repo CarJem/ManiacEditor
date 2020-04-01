@@ -18,8 +18,9 @@ namespace ManiacEditor.Methods.Layers
         #region Find Unused Tiles
         public void FindUnusedTiles()
         {
-            Methods.Internal.UserInterface.UpdateWaitingScreen(true);
-            Methods.Internal.UserInterface.ToggleEditorButtons(false);
+            Methods.Internal.UserInterface.LockUserInterface = true;
+            Methods.Internal.UserInterface.ShowWaitScreen = true;
+            Methods.Internal.UserInterface.UpdateControls();
             List<int> UnusedTiles = new List<int> { };
 
 
@@ -98,8 +99,9 @@ namespace ManiacEditor.Methods.Layers
             {
                 System.Windows.MessageBox.Show("Found Nothing", "Results", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
-            Methods.Internal.UserInterface.UpdateWaitingScreen(false);
-            Methods.Internal.UserInterface.ToggleEditorButtons(true);
+            Methods.Internal.UserInterface.LockUserInterface = false;
+            Methods.Internal.UserInterface.ShowWaitScreen = false;
+            Methods.Internal.UserInterface.UpdateControls();
         }
         #endregion
 
@@ -109,7 +111,7 @@ namespace ManiacEditor.Methods.Layers
             if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
             {
                 Methods.Editor.Solution.EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-                Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayerActions();
                 Dictionary<Point, ushort> copyData = Methods.Editor.Solution.EditLayerA.CopyToClipboard(true);
                 Editor.FindReplaceClipboard = copyData;
 
@@ -182,9 +184,9 @@ namespace ManiacEditor.Methods.Layers
                 if (Editor.FindReplaceClipboard != null)
                 {
                     Methods.Editor.Solution.EditLayerA.PasteFromClipboard(new Point(0, 0), Editor.FindReplaceClipboard);
-                    Methods.Internal.UserInterface.UpdateEditLayerActions();
+                    Actions.UndoRedoModel.UpdateEditLayerActions();
                 }
-                Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayerActions();
                 Editor.FindReplaceClipboard.Clear();
                 Methods.Editor.EditorActions.Deselect();
             }
@@ -195,7 +197,7 @@ namespace ManiacEditor.Methods.Layers
             if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
             {
                 Methods.Editor.Solution.EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-                Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayerActions();
                 Dictionary<Point, ushort> copyData = Methods.Editor.Solution.EditLayerA.CopyToClipboard(true);
                 Editor.FindReplaceClipboard = copyData;
 

@@ -28,6 +28,7 @@ namespace ManiacEditor.Classes.Rendering
         public LayerRenderer MapRenderTileID { get; set; }
         public LayerRenderer MapRenderCollisionMapA { get; set; }
         public LayerRenderer MapRenderCollisionMapB { get; set; }
+        public LayerRenderer MapRenderSelected { get; set; }
 
         #endregion
 
@@ -125,6 +126,33 @@ namespace ManiacEditor.Classes.Rendering
 
 
         }
+        public void TileSelectedProvider(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if (IsTileWithinRange(x, y))
+            {
+                Point point = new Point(x, y);
+                if (IsTileSelected(point))
+                {
+                    rec = GetTileSelectedRect();
+                    color = new SFML.Graphics.Color(255, 0, 0, (byte)ParentLayer.RenderingTransparency);
+                }
+                else
+                {
+                    rec = GetNullTileProviderRect();
+                    color = GetNullTileProviderColor();
+                }
+
+            }
+            else
+            {
+                rec = GetNullTileProviderRect();
+                color = GetNullTileProviderColor();
+            }
+
+
+
+
+        }
         public void TileCollisionProviderA(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
@@ -183,6 +211,17 @@ namespace ManiacEditor.Classes.Rendering
         public IntRect GetNullTileProviderRect()
         {
             return new IntRect(0, 0, 16, 16);
+        }
+        private IntRect GetTileSelectedRect()
+        {
+            int tile_size = Methods.Editor.EditorConstants.TILE_SIZE;
+            int tile_texture_y = 1 * tile_size;
+            int rect_x = 0;
+            int rect_y = tile_texture_y;
+            int rect_width = tile_size;
+            int rect_height = tile_size;
+
+            return new IntRect(rect_x, rect_y, rect_width, rect_height);
         }
         private IntRect GetTileRect(ushort tile, double zoom, bool FlipGuideMode = false)
         {
@@ -246,8 +285,7 @@ namespace ManiacEditor.Classes.Rendering
 
         private SFML.Graphics.Color GetNormalColors(Point point, ushort value)
         {
-            if (IsTileSelected(point)) return new SFML.Graphics.Color(255, 0, 0, (byte)ParentLayer.RenderingTransparency);
-            else return new SFML.Graphics.Color(255, 255, 255, (byte)ParentLayer.RenderingTransparency);
+            return new SFML.Graphics.Color(255, 255, 255, (byte)ParentLayer.RenderingTransparency);
         }
         public SFML.Graphics.Color GetNullTileProviderColor()
         {

@@ -71,6 +71,62 @@
             </Grid.RowDefinitions>
             <Grid Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="scenesTreeHost"></Grid>
             <Label Grid.Row="2" x:Name="CurrenInfoLabel" Content="Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3}" Visibility="Hidden"></Label>
+            <Grid.ContextMenu>
+                <ContextMenu></ContextMenu>
+            </Grid.ContextMenu>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="3" Margin="10,10,10,10">
+            <Grid>
+                <Grid.ContextMenu>
+                    <ContextMenu  Style="{DynamicResource DefaultContextMenuStyle}" x:Name="ScenesTreeCategoryContextMenu" Opened="ScenesTreeSceneContextMenuOpeningEvent">
+                        <MenuItem x:Name="AddSceneToolStripMenuItem" Click="GameConfigAddSceneEvent" Header="Add Scene to Category"></MenuItem>
+                        <Separator></Separator>
+                        <MenuItem x:Name="EditSceneInfoToolStripMenuItem" Click="GameConfigEditSceneEvent" Header="Edit Scene Info"></MenuItem>
+                        <MenuItem x:Name="DeleteSceneInfoToolStripMenuItem" Click="GameConfigDeleteSceneEvent" Header="Delete Scene Info"></MenuItem>
+                        <Separator></Separator>
+                        <MenuItem x:Name="MoveSceneInfoUpToolStripMenuItem" Click="GameConfigMoveSceneUpEvent" Header="Move Scene Info Up"></MenuItem>
+                        <MenuItem x:Name="MoveSceneInfoDownToolStripMenuItem" Click="GameConfigMoveSceneDownEvent" Header="Move Scene Info Down"></MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+            </Grid>
+            <Grid>
+                <Grid.ContextMenu>
+                    <ContextMenu  Style="{DynamicResource DefaultContextMenuStyle}" x:Name="SceneInfoContextMenu" Opened="ScenesTreeCategoryContextMenuOpeningEvent">
+                        <MenuItem x:Name="AddCategoryToolStripMenuItem" Click="GameConfigAddCategoryEvent" Header="Add Category to Gameconfig"></MenuItem>
+                        <Separator></Separator>
+                        <MenuItem x:Name="EditSelectedCategoryToolStripMenuItem" Click="GameConfigEditCategoryEvent" Header="Edit Selected Category"></MenuItem>
+                        <MenuItem x:Name="DeleteSelectedCategoryToolStripMenuItem" Click="GameConfigDeleteCategoryEvent" Header="Delete Selected Category"></MenuItem>
+                        <Separator></Separator>
+                        <MenuItem x:Name="MoveCategoryUpToolStripMenuItem" Click="GameConfigMoveCategoryUpEvent" Header="Move Category Up"></MenuItem>
+                        <MenuItem x:Name="MoveCategoryDownToolStripMenuItem" Click="GameConfigMoveCategoryDownEvent" Header="Move Category Down"></MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="3" Margin="10,10,10,10">
+            <Grid>
+                <Grid.ContextMenu>
+                    <ContextMenu x:Name="SavedDataDirEditContext" Opened="SavedDataDirEditContext_Opening" Style="{DynamicResource DefaultContextMenuStyle}">
+                        <MenuItem x:Name="RemoveSavedDataDirectoryToolStripMenuItem" Click="RemoveSavedDataDirectoryToolStripMenuItem_Click" Header="Remove Saved Data Folder"></MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+            </Grid>
+            <Grid>
+                <Grid.ContextMenu>
+                    <ContextMenu x:Name="RecentDataDirEditContext" Opened="RecentDataDirEditContext_Opening" Style="{DynamicResource DefaultContextMenuStyle}">
+                        <MenuItem x:Name="RemoveRecentDataDirectoryToolStripMenuItem" Click="RemoveRecentDataDirectoryToolStripMenuItem_Click" Header="Remove Recent Data Folder"></MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+            </Grid>
+            <Grid>
+                <Grid.ContextMenu>
+                    <ContextMenu x:Name="FolderEditContext" Style="{DynamicResource DefaultContextMenuStyle}">
+                        <MenuItem x:Name="RemoveSavedFolderToolStripMenuItem" Click="RemoveSelectedSavedPlaceEvent" Header="Remove Saved Place"></MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+            </Grid>
         </Grid>
 
 
@@ -86,7 +142,7 @@
 
         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Height="30" VerticalAlignment="Center">
             <CheckBox x:Name="isFilesView" Grid.Row="3" Grid.Column="0" Content="Files View" Margin="10,0,0,0" VerticalAlignment="Center" Checked="SceneTreeUpdateRequiredEvent" Unchecked="SceneTreeUpdateRequiredEvent"></CheckBox>
-            <CheckBox Visibility="Hidden" x:Name="preRenderCheckbox" Grid.Row="3" Grid.Column="0" Content="Pre-Render on Load" Margin="10,0,0,0" VerticalAlignment="Center"></CheckBox>
+            <CheckBox Visibility="Visible" x:Name="AutoSaveCheckbox" Grid.Row="3" Grid.Column="0" Content="Auto-Save" Margin="10,0,0,0" VerticalAlignment="Center"></CheckBox>
         </StackPanel>
 
         <Button IsEnabled="False" x:Name="browse" Grid.Row="4" Grid.Column="0" Height="25" Content="Browse..." Margin="0,5,100,5" Width="80" VerticalAlignment="Center" HorizontalAlignment="Right" Click="BrowseButtonEvent"></Button>

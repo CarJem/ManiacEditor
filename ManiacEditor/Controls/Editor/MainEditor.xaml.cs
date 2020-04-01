@@ -38,18 +38,11 @@ using System.Windows.Forms.Integration;
 
 namespace ManiacEditor.Controls.Editor
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainEditor : Window
     {
         #region Definitions
 
         public static ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
-
-        #region Misc
-        public System.Timers.Timer Timer = new System.Timers.Timer();
-        #endregion
 
         #region Editor Collections
         public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
@@ -87,8 +80,8 @@ namespace ManiacEditor.Controls.Editor
 
         #endregion
 
-        #region Editor Initalizing Methods
-        public MainEditor(string dataDir = "", string scenePath = "", string modPath = "", int levelID = 0, bool ShortcutLaunch = false, int shortcutLaunchMode = 0, bool isEncoreMode = false, int X = 0, int Y = 0, double _ZoomedLevel = 0.0, int MegaManiacInstanceID = -1)
+        #region Init
+        public MainEditor()
         {
             ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up the Map Editor...");
 
@@ -103,28 +96,12 @@ namespace ManiacEditor.Controls.Editor
 
             ElementHost.EnableModelessKeyboardInterop(this);
 
-            Timer.Interval = 1;
-            Timer.Elapsed += Timer_Elapsed;
-            Timer.Start();
-
             System.Windows.Application.Current.MainWindow = this;
 
             InitilizeEditor();
 
             if (ManiacEditor.Properties.Settings.MyDevSettings.UseAutoForcefulStartup) Methods.Editor.SolutionLoader.OpenSceneForceFully();
         }
-
-        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (Methods.Editor.Solution.CurrentScene != null)
-            {
-                foreach (var layer in Methods.Editor.Solution.CurrentScene.AllLayers)
-                {
-                    layer.UpdateLayerScrollIndex();
-                }
-            }
-        }
-
         public void InitilizeEditor()
         {
             this.Activated += new System.EventHandler(this.Editor_Activated);
@@ -135,7 +112,6 @@ namespace ManiacEditor.Controls.Editor
             Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
 
             //Old Classes
-
             StateModel = new Methods.Editor.SolutionState(this);
             FindAndReplace = new Methods.Layers.TileFindReplace(this);
 
@@ -161,18 +137,18 @@ namespace ManiacEditor.Controls.Editor
             MenuBar.UpdateInstance(this);
             ViewPanel.SplitContainer.UpdateInstance(this);
 
-            EditorStatusBar.UpdateFilterButtonApperance(true);
+            EditorStatusBar.UpdateFilterButtonApperance();
 
             this.Title = String.Format("Maniac Editor - Generations Edition {0}", Methods.ProgramBase.GetCasualVersion());
 
             Extensions.ExternalExtensions.AllocConsole();
             Extensions.ExternalExtensions.HideConsoleWindow();
             RefreshCollisionColours();
-            ViewPanel.SharpPanel.ResizeGraphicsPanel();
+            ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
             Methods.Internal.UserInterface.UpdateControls();
             Methods.Internal.Settings.TryLoadSettings();
 
-            UpdateStartScreen(true, true);
+            Methods.Internal.UserInterface.Misc.UpdateStartScreen(true, true);
 
             ViewPanel.SharpPanel.InitalizeGraphicsPanel();
         }
@@ -231,7 +207,7 @@ namespace ManiacEditor.Controls.Editor
             }
 
         }
-        public void Editor_Resize(object sender, RoutedEventArgs e) { ViewPanel.SharpPanel.ResizeGraphicsPanel(); }
+        public void Editor_Resize(object sender, RoutedEventArgs e) { ViewPanel.SharpPanel.UpdateGraphicsPanelControls(); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -242,39 +218,6 @@ namespace ManiacEditor.Controls.Editor
             Focus();
             ViewPanel.SharpPanel.GraphicPanel.Show();
             ViewPanel.SharpPanel.GraphicPanel.Run();
-
-        }
-        #endregion
-
-        #region Misc Events
-
-        public void UpdateStartScreen(bool visible, bool firstLoad = false)
-        {
-            if (firstLoad)
-            {
-                ViewPanel.OverlayPanel.Children.Add(StartScreen);
-                if (StartScreen.SelectScreen != null) StartScreen.SelectScreen.UpdateRecentsTree();
-                ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
-                ViewPanel.SplitContainer.UpdateToolbars(false, false);
-                Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
-                Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
-            }
-            if (visible)
-            {
-                StartScreen.Visibility = Visibility.Visible;
-                if (StartScreen.SelectScreen != null) StartScreen.SelectScreen.UpdateRecentsTree();
-                ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
-                ViewPanel.SplitContainer.UpdateToolbars(false, false);
-                Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
-                Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
-            }
-            else
-            {
-                StartScreen.Visibility = Visibility.Hidden;
-                if (StartScreen.SelectScreen != null) StartScreen.SelectScreen.UpdateRecentsTree();
-                ViewPanel.SharpPanel.Visibility = Visibility.Visible;
-                ViewPanel.SplitContainer.UpdateToolbars(false, false);
-            }
 
         }
         #endregion
@@ -389,21 +332,6 @@ namespace ManiacEditor.Controls.Editor
 
         }
         #endregion
-
-        #region Data Folder Label
-        public void UpdateDataFolderLabel(object sender, RoutedEventArgs e)
-        {
-            string dataFolderTag_Normal = "Data Directory: {0}";
-            EditorStatusBar._baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
-            UpdateDataFolderLabel();
-        }
-        public void UpdateDataFolderLabel(string dataDirectory = null)
-        {
-            if (dataDirectory != null) EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
-            else EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.DataDirectory);
-        }
-        #endregion
-
 
     }
 }

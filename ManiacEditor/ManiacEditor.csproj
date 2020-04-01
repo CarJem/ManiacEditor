@@ -235,6 +235,8 @@
     <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />
     <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
+    <Compile Include="Classes\General\SceneSelectDirectoriesCollection.cs" />
+    <Compile Include="Classes\General\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
     <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
@@ -345,12 +347,14 @@
     <Compile Include="Entity Renders\Normal Renders\Templates\Template.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\UI\UIButton.cs" />
     <Compile Include="Entity Renders\Normal Renders\UI\UIControl.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\UI\UIPicture.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\UI\UISaveSlot.cs" />
     <Compile Include="Entity Renders\Normal Renders\UI\UIText.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -1180,6 +1184,9 @@
     <Resource Include="Resources\HUD\Headers\Zoom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Resources\Fonts\Roboto\LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Objects\EditorIcons2.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1226,6 +1233,42 @@
     <Resource Include="Resources\Fonts\sonic-1-hud-font.ttf" />
     <Resource Include="Resources\Fonts\sonic2system.ttf" />
     <Resource Include="Resources\Fonts\sonic-hud-font.ttf" />
+    <Content Include="Resources\Fonts\Roboto\Roboto-Black.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-BlackItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-BoldItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-Italic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-Light.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-LightItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-Medium.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-MediumItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-Thin.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Roboto\Roboto-ThinItalic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Text\LayerManagerWarning1.rtf" />
     <None Include="Resources\Text\ObjectWarning1.rtf" />
     <None Include="Resources\Sounds\OhNo.wav" />

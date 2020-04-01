@@ -227,7 +227,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
         private void SharpPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ResizeGraphicsPanel();
+            UpdateGraphicsPanelControls();
             Instance.ViewPanel.InfoHUD.UpdatePopupSize();
         }
 
@@ -243,7 +243,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
-            ResizeGraphicsPanel();
+            UpdateGraphicsPanelControls();
             Instance.ViewPanel.InfoHUD.UpdatePopupSize();
         }
 
@@ -306,7 +306,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
             int oldShiftX = Methods.Editor.SolutionState.ViewPositionX;
             int oldShiftY = Methods.Editor.SolutionState.ViewPositionY;
 
-            if (Methods.Editor.Solution.CurrentScene != null) ResizeGraphicsPanel();
+            if (Methods.Editor.Solution.CurrentScene != null) UpdateGraphicsPanelControls();
 
             UpdateScrollPosXFromZoom(old_zoom, zoom_point, oldShiftX);
             UpdateScrollPosYFromZoom(old_zoom, zoom_point, oldShiftY);
@@ -414,7 +414,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 e.Effect = System.Windows.Forms.DragDropEffects.Move;
                 Methods.Editor.Solution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Editor.SolutionState.ViewPositionX) / Methods.Editor.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Methods.Editor.SolutionState.ViewPositionY) / Methods.Editor.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex);
-                Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayerActions();
             }
             else
             {
@@ -436,15 +436,18 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         #endregion
 
         #region Graphics Panel Refresh/Update Methods
-        public void ResizeGraphicsPanel()
+        public void UpdateGraphicsPanelControls()
         {
-            UpdateScalingforDPI();
-            UpdateScrollBarVisibility();
-            UpdateScrollViewportSize();
-            UpdateScrollBarSizes();
-            UpdateScrollBarMaximumValues();
-            UpdateGraphicPanelViewSize();
-            if (!Methods.Editor.SolutionState.UnlockCamera) SyncScrollBarsWithMaximum();
+            //this.Dispatcher.BeginInvoke(new Action(() =>
+            //{
+                UpdateScalingforDPI();
+                UpdateScrollBarVisibility();
+                UpdateScrollViewportSize();
+                UpdateScrollBarSizes();
+                UpdateScrollBarMaximumValues();
+                UpdateGraphicPanelViewSize();
+                if (!Methods.Editor.SolutionState.UnlockCamera) SyncScrollBarsWithMaximum();
+            //}));
         }
 
         private void UpdateGraphicPanelViewSize()

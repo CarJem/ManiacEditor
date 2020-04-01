@@ -64,8 +64,33 @@ namespace ManiacEditor.Methods.Editor
         public static Classes.Scene.EditorLayer FGLow => CurrentScene?.ForegroundLow;
         public static Classes.Scene.EditorLayer FGLower => CurrentScene?.LowDetails;
         public static Classes.Scene.EditorLayer ScratchLayer => CurrentScene?.Scratch;
-        public static Classes.Scene.EditorLayer EditLayerA { get; set; }
-        public static Classes.Scene.EditorLayer EditLayerB { get; set; }
+
+        private static Classes.Scene.EditorLayer _EditLayerA;
+        public static Classes.Scene.EditorLayer EditLayerA
+        {
+            get
+            {
+                return _EditLayerA;
+            }
+            set
+            {
+                _EditLayerA = value;
+                Methods.Internal.UserInterface.EditorToolbars.ValidateEditorToolbars();
+            }
+        }
+        private static Classes.Scene.EditorLayer _EditLayerB;
+        public static Classes.Scene.EditorLayer EditLayerB
+        {
+            get
+            {
+                return _EditLayerB;
+            }
+            set
+            {
+                _EditLayerB = value;
+                Methods.Internal.UserInterface.EditorToolbars.ValidateEditorToolbars();
+            }
+        }
         #endregion
 
         #region Screen Size
@@ -118,7 +143,7 @@ namespace ManiacEditor.Methods.Editor
             Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
             Instance.EditorToolbar.EditEntities.ClearCheckedItems();
 
-            Instance.ViewPanel.SharpPanel.ResizeGraphicsPanel();
+            Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
 
             Methods.Internal.UserInterface.UpdateControls();
 
@@ -127,7 +152,7 @@ namespace ManiacEditor.Methods.Editor
             GC.Collect();
             Methods.Editor.Solution.TileConfig = null;
 
-            Instance.UpdateStartScreen(true);
+            Methods.Internal.UserInterface.Misc.UpdateStartScreen(true);
         }
         #endregion
     }

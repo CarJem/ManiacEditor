@@ -37,6 +37,11 @@ namespace ManiacEditor
         public float[] Zoom = { 4.0f, 3.0f, 2.5f, 2.0f, 1.5f, 1.0f, 0.8f, 0.6f, 0.4f, 0.2f, 0.1f };
 
         public IDrawArea _parent = null;
+
+        SFML.Graphics.Font RenderingFont;
+
+        SFML.Graphics.Font RenderingFontBold;
+
         #endregion
 
         #region FPS Variables
@@ -133,6 +138,9 @@ namespace ManiacEditor
         public void InitDeviceResources()
         {
             FPS_Clock = Stopwatch.StartNew();
+
+            RenderingFont = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "Roboto", "Roboto-Regular.ttf"));
+            RenderingFontBold = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "Roboto", "Roboto-Bold.ttf"));
         }
 
         #endregion
@@ -765,31 +773,24 @@ namespace ManiacEditor
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
             */
         }
-        public void DrawText(string text, int x, int y, int width, Color color, bool bold)
+        public void DrawText(string text, int x, int y, Color color, bool bold, int size = 4)
+        {
+            DrawText(text, x, y, color, bold, size, System.Drawing.Color.Transparent);
+        }
+        public void DrawText(string text, int x, int y, Color color, bool bold, int size, Color bordercolor)
         {
             SFML.Graphics.Text textObject = new Text();
+            if (bold) textObject.Font = RenderingFontBold;
+            else textObject.Font = RenderingFont;
+
             textObject.DisplayedString = text;
-            textObject.Position = new SFML.System.Vector2f(x, y);
+            float zoom = GetZoom();
+            textObject.CharacterSize = (uint)(size * zoom);
+            textObject.OutlineThickness = 1;
+            textObject.OutlineColor = new SFML.Graphics.Color(bordercolor.R, bordercolor.G, bordercolor.B, bordercolor.A);
+            textObject.Position = new SFML.System.Vector2f(x * zoom, y * zoom);
             textObject.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
             RenderWindow.Draw(textObject);
-        }
-        public void DrawTextSmall(string text, int x, int y, int width, Color color, bool bold)
-        {
-            /*
-            Rectangle screen = GetParentScreen();
-            double zoom = GetZoom();
-
-            sprite.Transform = Matrix.Scaling((float)zoom / 4, (float)zoom / 4, 1f);
-            if (width >= 10)
-            {
-                ((bold) ? fontBold : font).DrawText(sprite, text, new SharpDX.Rectangle((x - (int)(screen.X / zoom)) * 4, (y - (int)(screen.Y / zoom)) * 4, width * 4, 1000), FontDrawFlags.WordBreak, new SharpDX.Color(color.R, color.G, color.B, color.A));
-            }
-            else
-            {
-                ((bold) ? fontBold : font).DrawText(sprite, text, (x - (int)(screen.X / zoom)) * 4, (y - (int)(screen.Y / zoom)) * 4, new SharpDX.Color(color.R, color.G, color.B, color.A));
-            }
-            sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
-            */
         }
         public void Draw2DCursor(int x, int y)
         {

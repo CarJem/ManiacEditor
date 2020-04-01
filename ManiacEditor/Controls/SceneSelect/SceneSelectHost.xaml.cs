@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ManiacEditor.Classes.General;
 using ImageList = System.Windows.Forms.ImageList;
 using MouseButtons = System.Windows.Forms.MouseButtons;
 using TreeNode = System.Windows.Forms.TreeNode;
@@ -22,14 +23,26 @@ namespace ManiacEditor.Controls.SceneSelect
         #region Definitions
 
         #region Collections
-        public List<Tuple<string, List<Tuple<string, string>>>> Categories { get; set; } = new List<Tuple<string, List<Tuple<string, string>>>>();
-        public Dictionary<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>> Directories { get; set; } = new Dictionary<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>>();
+        public SceneSelectCategoriesCollection Categories { get; set; } = new SceneSelectCategoriesCollection();
+        public Dictionary<string, List<SceneSelectDirectory>> Directories { get; set; } = new Dictionary<string, List<SceneSelectDirectory>>();
         #endregion
 
         #region Structures
         public bool isFileViewMode { get => isFilesView.IsChecked.Value; }
         public string PreviousDataFolder { get; set; }
         public bool WithinAParentForm { get; set; } = false;
+        private bool GameConfigAutoSave
+        {
+            get
+            {
+                if (AutoSaveCheckbox.IsChecked.HasValue) return AutoSaveCheckbox.IsChecked.Value;
+                else return false;
+            }
+            set
+            {
+                AutoSaveCheckbox.IsChecked = value;
+            }
+        }
         public int SelectedCategoryIndex
         {
             get
@@ -75,34 +88,6 @@ namespace ManiacEditor.Controls.SceneSelect
 
         #region Legacy WinForms Stuff
         private System.ComponentModel.IContainer Components = null;
-        private System.Windows.Forms.ContextMenuStrip SceneInfoContextMenu;
-        private System.Windows.Forms.ContextMenuStrip FolderEditContext;
-
-        private System.Windows.Forms.ContextMenuStrip RecentDataDirEditContext;
-        private System.Windows.Forms.ContextMenuStrip SavedDataDirEditContext;
-
-        private System.Windows.Forms.ContextMenuStrip ScenesTreeCategoryContextMenu;
-
-        private System.Windows.Forms.ToolStripSeparator Seperator1;
-        private System.Windows.Forms.ToolStripSeparator Seperator2;
-        private System.Windows.Forms.ToolStripSeparator Seperator3;
-
-        private System.Windows.Forms.ToolStripMenuItem RemoveSavedFolderToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem RemoveRecentDataDirectoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem RemoveSavedDataDirectoryToolStripMenuItem;
-
-        private System.Windows.Forms.ToolStripMenuItem MoveCategoryUpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MoveCategoryDownToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MoveSceneInfoUpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MoveSceneInfoDownToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AddCategoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem EditSceneInfoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DeleteSceneInfoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DeleteSelectedCategoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem EditSelectedCategoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AddSceneToolStripMenuItem;
-
-
 
         private System.Windows.Forms.TreeView ScenesTree { get; set; }
         private System.Windows.Forms.TreeView RecentsTree { get; set; }
@@ -148,117 +133,11 @@ namespace ManiacEditor.Controls.SceneSelect
             ScenesTree.Show();
             RecentsTree.Show();
         }
-        public void SetupWinFormContextMenuItems()
-        {
-            this.Seperator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.Seperator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.Seperator3 = new System.Windows.Forms.ToolStripSeparator();
-
-            this.AddSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DeleteSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MoveCategoryUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MoveCategoryDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DeleteSceneInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditSceneInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MoveSceneInfoUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MoveSceneInfoDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RemoveSavedFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RemoveRecentDataDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RemoveSavedDataDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-
-            this.Seperator1.Size = new System.Drawing.Size(226, 6);
-            this.Seperator2.Size = new System.Drawing.Size(226, 6);
-            this.Seperator3.Size = new System.Drawing.Size(193, 6);
-
-            this.AddSceneToolStripMenuItem.Text = "Add Scene to Category";
-            this.DeleteSceneInfoToolStripMenuItem.Text = "Delete Scene Info";
-            this.MoveSceneInfoUpToolStripMenuItem.Text = "Move Scene Info Up";
-            this.MoveSceneInfoDownToolStripMenuItem.Text = "Move Scene Info Down";
-            this.AddCategoryToolStripMenuItem.Text = "Add Category to Gameconfig";
-            this.EditSelectedCategoryToolStripMenuItem.Text = "Edit Selected Category";
-            this.DeleteSelectedCategoryToolStripMenuItem.Text = "Delete Selected Category";
-            this.MoveCategoryUpToolStripMenuItem.Text = "Move Category Up";
-            this.MoveCategoryDownToolStripMenuItem.Text = "Move Category Down";
-            this.EditSceneInfoToolStripMenuItem.Text = "Edit Scene Info";
-
-            this.RemoveRecentDataDirectoryToolStripMenuItem.Text = "Remove Recent Data Folder";
-            this.RemoveSavedDataDirectoryToolStripMenuItem.Text = "Remove Saved Data Folder";
-
-            this.AddSceneToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.DeleteSceneInfoToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.MoveSceneInfoUpToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.MoveSceneInfoDownToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.AddCategoryToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.EditSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.MoveCategoryDownToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.EditSceneInfoToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.MoveCategoryUpToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.DeleteSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.RemoveSavedFolderToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-
-            this.AddSceneToolStripMenuItem.Click += new System.EventHandler(this.GameConfigAddSceneEvent);
-            this.DeleteSceneInfoToolStripMenuItem.Click += new System.EventHandler(this.GameConfigDeleteSceneEvent);
-            this.MoveSceneInfoUpToolStripMenuItem.Click += new System.EventHandler(this.GameConfigMoveSceneUpEvent);
-            this.MoveSceneInfoDownToolStripMenuItem.Click += new System.EventHandler(this.GameConfigMoveSceneDownEvent);
-            this.AddCategoryToolStripMenuItem.Click += new System.EventHandler(this.GameConfigAddCategoryEvent);
-            this.EditSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.GameConfigEditCategoryEvent);
-            this.DeleteSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.GameConfigDeleteCategoryEvent);
-            this.MoveCategoryUpToolStripMenuItem.Click += new System.EventHandler(this.GameConfigMoveCategoryUpEvent);
-            this.MoveCategoryDownToolStripMenuItem.Click += new System.EventHandler(this.GameConfigMoveCategoryDownEvent);
-            this.EditSceneInfoToolStripMenuItem.Click += new System.EventHandler(this.GameConfigEditSceneEvent);
-            this.RemoveSavedFolderToolStripMenuItem.Click += new System.EventHandler(this.RemoveSelectedSavedPlaceEvent);
-            this.RemoveRecentDataDirectoryToolStripMenuItem.Click += RemoveRecentDataDirectoryToolStripMenuItem_Click;
-            this.RemoveSavedDataDirectoryToolStripMenuItem.Click += RemoveSavedDataDirectoryToolStripMenuItem_Click;
-        }
-        public void SetupWinFormContextMenu()
-        {
-            this.FolderEditContext = new System.Windows.Forms.ContextMenuStrip(this.Components);
-            this.RecentDataDirEditContext = new System.Windows.Forms.ContextMenuStrip(this.Components);
-            this.SavedDataDirEditContext = new System.Windows.Forms.ContextMenuStrip(this.Components);
-
-            this.SceneInfoContextMenu = new System.Windows.Forms.ContextMenuStrip(this.Components);
-            this.ScenesTreeCategoryContextMenu = new System.Windows.Forms.ContextMenuStrip(this.Components);
-
-            this.SceneInfoContextMenu.Items.Add(this.AddSceneToolStripMenuItem);
-            this.SceneInfoContextMenu.Items.Add(this.Seperator1);
-            this.SceneInfoContextMenu.Items.Add(this.AddCategoryToolStripMenuItem);
-            this.SceneInfoContextMenu.Items.Add(this.EditSelectedCategoryToolStripMenuItem);
-            this.SceneInfoContextMenu.Items.Add(this.DeleteSelectedCategoryToolStripMenuItem);
-            this.SceneInfoContextMenu.Items.Add(this.Seperator2);
-            this.SceneInfoContextMenu.Items.Add(this.MoveCategoryUpToolStripMenuItem);
-            this.SceneInfoContextMenu.Items.Add(this.MoveCategoryDownToolStripMenuItem);
-            this.SceneInfoContextMenu.Size = new System.Drawing.Size(230, 148);
-            this.SceneInfoContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ScenesTreeSceneContextMenuOpeningEvent);
-
-            this.ScenesTreeCategoryContextMenu.Items.Add(this.DeleteSceneInfoToolStripMenuItem);
-            this.ScenesTreeCategoryContextMenu.Items.Add(this.EditSceneInfoToolStripMenuItem);
-            this.ScenesTreeCategoryContextMenu.Items.Add(this.Seperator3);
-            this.ScenesTreeCategoryContextMenu.Items.Add(this.MoveSceneInfoUpToolStripMenuItem);
-            this.ScenesTreeCategoryContextMenu.Items.Add(this.MoveSceneInfoDownToolStripMenuItem);
-            this.ScenesTreeCategoryContextMenu.Size = new System.Drawing.Size(197, 98);
-            this.ScenesTreeCategoryContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ScenesTreeCategoryContextMenuOpeningEvent);
-
-            this.RecentDataDirEditContext.Items.Add(this.RemoveRecentDataDirectoryToolStripMenuItem);
-            this.RecentDataDirEditContext.Size = new System.Drawing.Size(196, 26);
-            this.RecentDataDirEditContext.Opening += RecentDataDirEditContext_Opening;
-
-            this.SavedDataDirEditContext.Items.Add(this.RemoveSavedDataDirectoryToolStripMenuItem);
-            this.SavedDataDirEditContext.Size = new System.Drawing.Size(196, 26);
-            this.SavedDataDirEditContext.Opening += SavedDataDirEditContext_Opening;
-
-            this.FolderEditContext.Items.Add(this.RemoveSavedFolderToolStripMenuItem);
-            this.FolderEditContext.Size = new System.Drawing.Size(188, 26);
-
-        }
 
         private void InitilizeBase()
         {
             RemoveNullEntries();
             SetupWinFormControls();
-            SetupWinFormContextMenuItems();
-            SetupWinFormContextMenu();
         }
 
         private void InitilizeHost(Gameconfig _Config, SceneSelectWindow _Window = null)
@@ -313,9 +192,9 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 ScenesTree.SelectedNode = e.Node;
                 if (e.Node.ImageKey == "Folder")
-                    SceneInfoContextMenu.Show(ScenesTree, e.Location);
+                    SceneInfoContextMenu.IsOpen = true;
                 else if (e.Node.ImageKey == "File")
-                    ScenesTreeCategoryContextMenu.Show(ScenesTree, e.Location);
+                    ScenesTreeCategoryContextMenu.IsOpen = true;
             }
             UpdateSelectedSceneInfo();
         }
@@ -336,7 +215,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             System.Windows.MessageBox.Show("RSDK-Reverse's GameConfig Library for RSDKv5 currently is Broken, and to prvent unwanted corruption to you gameconfigs, I have disabled this feature for this build.", "Feature Disabled");
         }
-        private void GameConfigAddSceneEvent(object sender, EventArgs e)
+        private void GameConfigAddSceneEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -355,16 +234,15 @@ namespace ManiacEditor.Controls.SceneSelect
             form.ShowDialog();
             if (form.DialogResult == true)
             {
-                var cat = _GameConfig.Categories.Where(t => t.Name == ScenesTree.SelectedNode.Text).FirstOrDefault();
+                var cat = _GameConfig.Categories.Where(t => t.Name == ScenesTree.SelectedNode.Parent.Text).FirstOrDefault();
                 if (cat != null)
                 {
                     cat.Scenes.Add(form.Scene);
-                    LoadFromGameConfig(_GameConfig);
                     WriteGameConfigChangesToFile();
                 }
             }
         }
-        private void GameConfigAddCategoryEvent(object sender, EventArgs e)
+        private void GameConfigAddCategoryEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -372,14 +250,10 @@ namespace ManiacEditor.Controls.SceneSelect
                 return;
             }
             var form = new EditSceneSelectInfoWindow();
-            if (Window != null)
-            {
-                form.Owner = System.Windows.Window.GetWindow(Window);
-            }
-            else if (WithinAParentForm)
-            {
-                form.Owner = System.Windows.Window.GetWindow(Instance.StartScreen);
-            }
+
+            if (Window != null) form.Owner = System.Windows.Window.GetWindow(Window);
+            else if (WithinAParentForm) form.Owner = System.Windows.Window.GetWindow(Instance);
+
             form.ShowDialog();
             if (form.DialogResult == true)
             {
@@ -387,7 +261,10 @@ namespace ManiacEditor.Controls.SceneSelect
                 scenes.Add(form.Scene);
 
                 var form2 = new SceneSelect.SceneSelectEditCategoryLabelWindow();
-                form.Owner = System.Windows.Window.GetWindow(Window);
+
+                if (Window != null) form2.Owner = System.Windows.Window.GetWindow(Window);
+                else if (WithinAParentForm) form2.Owner = System.Windows.Window.GetWindow(Instance);
+
                 form2.Scenes = scenes;
                 form2.ShowDialog();
 
@@ -396,7 +273,6 @@ namespace ManiacEditor.Controls.SceneSelect
                     if (form2.Category != null)
                     {
                         _GameConfig.Categories.Insert(ScenesTree.SelectedNode.Index, form2.Category);
-                        LoadFromGameConfig(_GameConfig);
                         WriteGameConfigChangesToFile();
                     }
 
@@ -404,7 +280,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 }
             }
         }
-        private void GameConfigEditSceneEvent(object sender, EventArgs e)
+        private void GameConfigEditSceneEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -427,12 +303,11 @@ namespace ManiacEditor.Controls.SceneSelect
                 form.ShowDialog();
                 if (form.DialogResult == true)
                 {
-                    LoadFromGameConfig(_GameConfig);
                     WriteGameConfigChangesToFile();
                 }
             }
         }
-        private void GameConfigEditCategoryEvent(object sender, EventArgs e)
+        private void GameConfigEditCategoryEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -452,12 +327,11 @@ namespace ManiacEditor.Controls.SceneSelect
             form.ShowDialog();
             if (form.DialogResult == true)
             {
-                LoadFromGameConfig(_GameConfig);
                 WriteGameConfigChangesToFile();
             }
 
         }
-        private void GameConfigDeleteSceneEvent(object sender, EventArgs e)
+        private void GameConfigDeleteSceneEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -479,12 +353,11 @@ namespace ManiacEditor.Controls.SceneSelect
                         Replace(" " + cat.Scenes[scene].SceneID, " " + cat.Scenes[scene + 1].SceneID);
                 }
                 cat.Scenes.RemoveAt(scene);
-                LoadFromGameConfig(_GameConfig);
                 WriteGameConfigChangesToFile();
 
             }
         }
-        private void GameConfigDeleteCategoryEvent(object sender, EventArgs e)
+        private void GameConfigDeleteCategoryEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -492,10 +365,9 @@ namespace ManiacEditor.Controls.SceneSelect
                 return;
             }
             _GameConfig.Categories.RemoveAt(ScenesTree.SelectedNode.Index);
-            LoadFromGameConfig(_GameConfig);
             WriteGameConfigChangesToFile();
         }
-        private void GameConfigMoveCategoryUpEvent(object sender, EventArgs e)
+        private void GameConfigMoveCategoryUpEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -512,11 +384,10 @@ namespace ManiacEditor.Controls.SceneSelect
 
             _GameConfig.Categories.Insert(NewIndex, item);
 
-            LoadFromGameConfig(_GameConfig);
             WriteGameConfigChangesToFile();
 
         }
-        private void GameConfigMoveCategoryDownEvent(object sender, EventArgs e)
+        private void GameConfigMoveCategoryDownEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -533,11 +404,10 @@ namespace ManiacEditor.Controls.SceneSelect
 
             _GameConfig.Categories.Insert(NewIndex, item);
 
-            LoadFromGameConfig(_GameConfig);
             WriteGameConfigChangesToFile();
 
         }
-        private void GameConfigMoveSceneUpEvent(object sender, EventArgs e)
+        private void GameConfigMoveSceneUpEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -556,12 +426,11 @@ namespace ManiacEditor.Controls.SceneSelect
                 if (NewIndex == OldIndex) NewIndex--;
                 cat.Scenes.Insert(NewIndex, scene);
 
-                LoadFromGameConfig(_GameConfig);
                 WriteGameConfigChangesToFile();
 
             }
         }
-        private void GameConfigMoveSceneDownEvent(object sender, EventArgs e)
+        private void GameConfigMoveSceneDownEvent(object sender, RoutedEventArgs e)
         {
             if (!IsFunctionalGameConfig)
             {
@@ -581,15 +450,32 @@ namespace ManiacEditor.Controls.SceneSelect
                 if (NewIndex == OldIndex) NewIndex++;
                 cat.Scenes.Insert(NewIndex, scene);
 
-
-                LoadFromGameConfig(_GameConfig);
                 WriteGameConfigChangesToFile();
             }
         }
         private void WriteGameConfigChangesToFile()
         {
-            if (MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                _GameConfig.Write(_GameConfig.FilePath);
+            if (!GameConfigAutoSave)
+            {
+                bool result = MessageBox.Show("Write Changes to File?", "Write to File", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+                if (result == false) return;
+            }
+            _GameConfig.Write(_GameConfig.FilePath);
+            LoadFromGameConfig(new Gameconfig(_GameConfig.FilePath));
+        }
+        private void UpdateGameConfigSceneIndexes(Gameconfig config)
+        {
+            int currentIndex = 0;
+            for (int c = 0; c < config.Categories.Count; c++)
+            {
+                for (int i = 0; i < config.Categories[c].Scenes.Count; i++)
+                {
+                    config.Categories[c].Scenes[i].Index = currentIndex;
+                    config.Categories[c].Scenes[i].LevelID = currentIndex;
+                    currentIndex = currentIndex + 1;
+                }
+            }
+
         }
 
         #endregion
@@ -609,59 +495,59 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 RecentsTree.SelectedNode = e.Node;
                 if (e.Node.ImageKey == "SavedDataFolder")
-                    SavedDataDirEditContext.Show(RecentsTree, e.Location);
+                    SavedDataDirEditContext.IsOpen = true;
                 else if (e.Node.ImageKey == "RecentDataFolder")
-                    RecentDataDirEditContext.Show(RecentsTree, e.Location);
+                    RecentDataDirEditContext.IsOpen = true;
                 else if (e.Node.ImageKey == "SavedPlace")
-                    FolderEditContext.Show(RecentsTree, e.Location);
+                    FolderEditContext.IsOpen = true;
             }
         }
         public void UpdateSceneCategoryContextMenu()
         {
             if (isFileViewMode)
             {
-                ScenesTreeCategoryContextMenu.Enabled = false;
+                ScenesTreeCategoryContextMenu.IsEnabled = false;
             }
             else
             {
-                ScenesTreeCategoryContextMenu.Enabled = true;
-                MoveSceneInfoDownToolStripMenuItem.Enabled = false;
-                MoveSceneInfoUpToolStripMenuItem.Enabled = false;
+                ScenesTreeCategoryContextMenu.IsEnabled = true;
+                MoveSceneInfoDownToolStripMenuItem.IsEnabled = false;
+                MoveSceneInfoUpToolStripMenuItem.IsEnabled = false;
             }
         }
         public void UpdateSceneInfoContextMenu()
         {
             if (isFileViewMode)
             {
-                SceneInfoContextMenu.Enabled = false;
+                SceneInfoContextMenu.IsEnabled = false;
             }
             else
             {
-                SceneInfoContextMenu.Enabled = true;
+                SceneInfoContextMenu.IsEnabled = true;
                 if (SelectedCategoryIndex != -1)
                 {
                     if (ScenesTree.SelectedNode.Index == 0)
                     {
-                        MoveCategoryUpToolStripMenuItem.Enabled = false;
+                        MoveCategoryUpToolStripMenuItem.IsEnabled = false;
                     }
                     else
                     {
-                        MoveCategoryUpToolStripMenuItem.Enabled = true;
+                        MoveCategoryUpToolStripMenuItem.IsEnabled = true;
                     }
 
                     if (ScenesTree.SelectedNode.Index == ScenesTree.Nodes.Count - 1)
                     {
-                        MoveCategoryDownToolStripMenuItem.Enabled = false;
+                        MoveCategoryDownToolStripMenuItem.IsEnabled = false;
                     }
                     else
                     {
-                        MoveCategoryDownToolStripMenuItem.Enabled = true;
+                        MoveCategoryDownToolStripMenuItem.IsEnabled = true;
                     }
                 }
                 else
                 {
-                    MoveCategoryUpToolStripMenuItem.Enabled = false;
-                    MoveCategoryDownToolStripMenuItem.Enabled = false;
+                    MoveCategoryUpToolStripMenuItem.IsEnabled = false;
+                    MoveCategoryDownToolStripMenuItem.IsEnabled = false;
                 }
             }
 
@@ -762,20 +648,20 @@ namespace ManiacEditor.Controls.SceneSelect
             if (config == null) return;
             foreach (Gameconfig.Category category in config.Categories)
             {
-                List<Tuple<string, string>> scenes = new List<Tuple<string, string>>();
+                List<SceneSelectScene> scenes = new List<SceneSelectScene>();
                 foreach (Gameconfig.SceneInfo scene in category.Scenes)
                 {
-                    scenes.Add(new Tuple<string, string>(scene.Name, scene.Zone + "\\Scene" + scene.SceneID + ".bin"));
+                    scenes.Add(new SceneSelectScene(scene.Name, scene.Zone + "\\Scene" + scene.SceneID + ".bin"));
 
-                    List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>> files;
+                    List<SceneSelectDirectory> files;
                     if (!Directories.TryGetValue(scene.Zone, out files))
                     {
-                        files = new List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>();
+                        files = new List<SceneSelectDirectory>();
                         Directories[scene.Zone] = files;
                     }
-                    files.Add(new Tuple<string, Tuple<Gameconfig.SceneInfo, string>>("Scene" + scene.SceneID + ".bin" + (scene.ModeFilter == 5 ? " (Encore)" : ""), new Tuple<Gameconfig.SceneInfo, string>(scene, scene.Zone + "\\Scene" + scene.SceneID + ".bin")));
+                    Directories[scene.Zone].Add(new SceneSelectDirectory("Scene" + scene.SceneID + ".bin" + (scene.ModeFilter == 5 ? " (Encore)" : ""), scene, scene.Zone + "\\Scene" + scene.SceneID + ".bin"));
                 }
-                Categories.Add(new Tuple<string, List<Tuple<string, string>>>(category.Name, scenes));
+                Categories.Add(category.Name, scenes);
             }
 
             // Sort
@@ -793,20 +679,19 @@ namespace ManiacEditor.Controls.SceneSelect
             ScenesTree.Nodes.Clear();
             if ((bool)isFilesView.IsChecked)
             {
-                foreach (KeyValuePair<string, List<Tuple<string, Tuple<Gameconfig.SceneInfo, string>>>> directory in Directories)
+                foreach (KeyValuePair<string, List<SceneSelectDirectory>> directory in Directories)
                 {
                     TreeNode dir_node = new TreeNode(directory.Key);
                     dir_node.ImageKey = "Folder";
                     dir_node.SelectedImageKey = "Folder";
-                    dir_node.ContextMenuStrip = SceneInfoContextMenu;
-                    foreach (Tuple<string, Tuple<Gameconfig.SceneInfo, string>> file in directory.Value)
+                    foreach (SceneSelectDirectory file in directory.Value)
                     {
-                        TreeNode file_node = new TreeNode(file.Item1);
-                        file_node.Tag = file.Item2;
+                        TreeNode file_node = new TreeNode(file.Name);
+                        file_node.Tag = file.SceneInfo;
                         file_node.ImageKey = "File";
                         file_node.ImageKey = "File";
                         file_node.SelectedImageKey = "File";
-                        if (filter == "" || (directory.Key + "/" + file.Item1).ToLower().Contains(filter.ToLower()))
+                        if (filter == "" || (directory.Key + "/" + file.Name).ToLower().Contains(filter.ToLower()))
                             dir_node.Nodes.Add(file_node);
                     }
                     if (dir_node.Nodes.Count > 0)
@@ -815,23 +700,23 @@ namespace ManiacEditor.Controls.SceneSelect
             }
             else
             {
-                foreach (Tuple<string, List<Tuple<string, string>>> category in Categories)
+                foreach (SceneSelectCategory category in Categories.Items)
                 {
-                    TreeNode dir_node = new TreeNode(category.Item1);
+                    TreeNode dir_node = new TreeNode(category.Name);
                     dir_node.ImageKey = "Folder";
                     dir_node.SelectedImageKey = "Folder";
                     string last = "";
-                    foreach (Tuple<string, string> scene in category.Item2)
+                    foreach (SceneSelectScene scene in category.Entries)
                     {
-                        string scene_name = scene.Item1;
-                        if (char.IsDigit(scene.Item1[0]))
-                            scene_name = last + scene.Item1;
+                        string scene_name = scene.Name;
+                        if (char.IsDigit(scene.Name[0]))
+                            scene_name = last + scene.Name;
 
-                        TreeNode file_node = new TreeNode(scene_name + " (" + scene.Item2 + ")");
-                        file_node.Tag = scene.Item2;
+                        TreeNode file_node = new TreeNode(scene_name + " (" + scene.Path + ")");
+                        file_node.Tag = scene.Path;
                         file_node.ImageKey = "File";
                         file_node.SelectedImageKey = "File";
-                        if (filter == "" || scene.Item2.ToLower().Contains(filter.ToLower()) || scene_name.ToLower().Contains(filter.ToLower()))
+                        if (filter == "" || scene.Path.ToLower().Contains(filter.ToLower()) || scene_name.ToLower().Contains(filter.ToLower()))
                             dir_node.Nodes.Add(file_node);
 
                         // Only the first act specify the full name, so lets save it
@@ -882,6 +767,7 @@ namespace ManiacEditor.Controls.SceneSelect
                         var cat = _GameConfig.Categories.Where(t => t.Name == ScenesTree.SelectedNode.Parent.Text).FirstOrDefault();
                         if (cat != null)
                         {
+
                             var scene = cat.Scenes.Where(t => t.Index == ScenesTree.SelectedNode.Index).FirstOrDefault();
                             if (scene != null)
                             {
@@ -917,11 +803,12 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region General Events
-        private void RemoveSavedDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void RemoveSavedDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             RemoveSelectedSavedDataFolder();
         }
-        private void RemoveRecentDataDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RemoveRecentDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             RemoveSelectedRecentDataFolder();
         }
@@ -937,26 +824,9 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             BrowseForSceneFile();
         }
-        private void RemoveSelectedSavedPlaceEvent(object sender, EventArgs e)
+        private void RemoveSelectedSavedPlaceEvent(object sender, RoutedEventArgs e)
         {
             RemoveSelectedSavedPlace();
-        }
-        private void RecentDataDirEditContext_Opening(object sender, CancelEventArgs e)
-        {
-            UpdateRecentDataDirInfoContextMenu();
-        }
-
-        private void SavedDataDirEditContext_Opening(object sender, CancelEventArgs e)
-        {
-            UpdateSavedDataDirInfoContextMenu();
-        }
-        private void ScenesTreeSceneContextMenuOpeningEvent(object sender, CancelEventArgs e)
-        {
-            UpdateSceneInfoContextMenu();
-        }
-        private void ScenesTreeCategoryContextMenuOpeningEvent(object sender, CancelEventArgs e)
-        {
-            UpdateSceneCategoryContextMenu();
         }
         private void LoadEvent(object sender, RoutedEventArgs e)
         {
@@ -1133,7 +1003,7 @@ namespace ManiacEditor.Controls.SceneSelect
                     {
                         Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
                         Classes.Prefrences.DataDirectoriesStorage.AddSavedDataFolder(DataDirectory);
-                        if (Instance != null) Instance.UpdateDataFolderLabel(DataDirectory);
+                        if (Instance != null) Methods.Internal.UserInterface.Status.UpdateDataFolderLabel(DataDirectory);
                         UpdateRecentsTree();
                     }
 
@@ -1203,7 +1073,6 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 if (browse != null) browse.IsEnabled = true;
                 LoadFromGameConfig(config);
-                _GameConfig = config;
             }
             else
             {
@@ -1249,8 +1118,7 @@ namespace ManiacEditor.Controls.SceneSelect
             Gameconfig GameConfig = ManiacEditor.Methods.Editor.SolutionPaths.GetGameConfig(SelectedDataDirectory);
             if (GameConfig != null)
             {
-                _GameConfig = GameConfig;
-                LoadFromGameConfig(_GameConfig);
+                LoadFromGameConfig(GameConfig);
                 Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
                 Properties.Settings.MySettings.DefaultMasterDataDirectory = SceneState.MasterDataDirectory;
             }
@@ -1268,8 +1136,7 @@ namespace ManiacEditor.Controls.SceneSelect
             Gameconfig GameConfig = ManiacEditor.Methods.Editor.SolutionPaths.GetGameConfig(SelectedDataDirectory);
             if (GameConfig != null)
             {
-                _GameConfig = GameConfig;
-                LoadFromGameConfig(_GameConfig);
+                LoadFromGameConfig(GameConfig);
                 Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
             }
             else
@@ -1314,6 +1181,8 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void LoadFromGameConfig(Gameconfig config)
         {
+            _GameConfig = null;
+            _GameConfig = config;
             UpdateScenesTree(config);
             if (Properties.Settings.MyDefaults.SceneSelectFilesViewDefault) this.isFilesView.IsChecked = true;
             else this.isFilesView.IsChecked = false;
@@ -1324,6 +1193,23 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             UnloadDataDirectory();
             MasterDataDirectorySelectorComboBox_SelectionChanged(null, null);
+        }
+
+        private void ScenesTreeCategoryContextMenuOpeningEvent(object sender, RoutedEventArgs e)
+        {
+            UpdateSceneInfoContextMenu();
+        }
+        private void ScenesTreeSceneContextMenuOpeningEvent(object sender, RoutedEventArgs e)
+        {
+            UpdateSceneCategoryContextMenu();
+        }
+        private void SavedDataDirEditContext_Opening(object sender, RoutedEventArgs e)
+        {
+            UpdateSavedDataDirInfoContextMenu();
+        }
+        private void RecentDataDirEditContext_Opening(object sender, RoutedEventArgs e)
+        {
+            UpdateSavedDataDirInfoContextMenu();
         }
     }
 }

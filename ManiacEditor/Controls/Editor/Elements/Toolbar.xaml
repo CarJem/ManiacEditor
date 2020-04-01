@@ -177,10 +177,16 @@
                             <MenuItem x:Name="Magnet64x64ModeMenuItem" Header="64x64" Click="Magnet64x64Event"></MenuItem>
                             <MenuItem x:Name="MagnetCustomModeMenuItem" Click="MagnetCustomEvent" StaysOpenOnClick="True">
                                 <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
-                                        <TextBlock Name="CustomMagnetSizeLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
-                                        <wpfTool:IntegerUpDown Width="20" Name="CustomMagnetSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent" DefaultValue="16" ValueChanged="CustomMagnetSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
-                                    </StackPanel>
+                                    <Grid Background="Transparent" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Name="CustomMagnetSizeLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                            <wpfTool:IntegerUpDown Grid.Column="1" Margin="10,0,0,0" Name="CustomMagnetSizeAdjuster" HorizontalAlignment="Right" Value="16" DefaultValue="16" ValueChanged="CustomMagnetSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
+                                        </Grid>
+                                    </Grid>
                                 </MenuItem.Header>
                             </MenuItem>
                             <MenuItem Foreground="{DynamicResource DisabledText}" x:Name="optionsToolStripMenuItem1" Header="Options: "></MenuItem>
@@ -211,10 +217,14 @@
                             <MenuItem x:Name="Grid256x256SizeMenuItem" Header="256x256" Click="SetGrid256x256Event"></MenuItem>
                             <MenuItem x:Name="GridCustomSizeMenuItem" Click="SetGridCustomSizeEvent" StaysOpenOnClick="True">
                                 <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Center">
-                                        <TextBlock Name="CustomGridSizeLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
-                                        <wpfTool:IntegerUpDown AllowDrop="False" Width="20" Minimum="16" Name="CustomGridSizeAdjuster" BorderBrush="Transparent" HorizontalAlignment="Right" Background="Transparent"  ValueChanged="CustomGridSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
-                                    </StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Name="CustomGridSizeLabel" Tag="Custom ({0}x{0})" VerticalAlignment="Center" Text="Custom (16x16)"></TextBlock>
+                                        <wpfTool:IntegerUpDown Grid.Column="1" AllowDrop="False" Margin="10,0,0,0" Value="16" Minimum="16" Name="CustomGridSizeAdjuster" HorizontalAlignment="Right" ValueChanged="CustomGridSizeAdjuster_ValueChanged"></wpfTool:IntegerUpDown>
+                                    </Grid>
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator/>

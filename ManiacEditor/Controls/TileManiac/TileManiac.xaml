@@ -35,6 +35,7 @@
                 <Separator></Separator>
                 <MenuItem x:Name="OpenSingleColMaskMenuItem" Header="Open Single Collision Mask" Click="openSingleCollisionMaskToolStripMenuItem_Click_1"></MenuItem>
                 <MenuItem x:Name="exportCurrentMaskMenuItem" Header="Export Current Collision Mask As..." Click="exportCurrentCollisionMaskAsToolStripMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="exportImages" Header="Export Collision Map as Images..." Click="exportImages_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem x:Name="importMenuItem" Header="Import from older RSDK Version" Click="importFromOlderRSDKVersionToolStripMenuItem_Click"></MenuItem>
             </MenuItem>

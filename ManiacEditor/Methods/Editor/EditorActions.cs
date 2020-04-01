@@ -82,13 +82,13 @@ namespace ManiacEditor.Methods.Editor
             {
                 if (Methods.Editor.Solution.EditLayerA != null) Methods.Editor.Solution.EditLayerA?.SelectAll();
                 if (Methods.Editor.Solution.EditLayerB != null) Methods.Editor.Solution.EditLayerB?.SelectAll();
-                Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayerActions();
             }
             else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
             {
                 Methods.Editor.Solution.Entities.SelectAll();
             }
-            Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
+            Methods.Internal.UserInterface.UpdateControls();
             Methods.Editor.SolutionState.RegionX1 = -1;
             Methods.Editor.SolutionState.RegionY1 = -1;
         }
@@ -96,13 +96,13 @@ namespace ManiacEditor.Methods.Editor
         {
             Methods.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal);
             Methods.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal);
-            Methods.Internal.UserInterface.UpdateEditLayerActions();
+            Actions.UndoRedoModel.UpdateEditLayerActions();
         }
         public static void FlipHorizontalIndividual()
         {
             Methods.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Horizontal, true);
             Methods.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Horizontal, true);
-            Methods.Internal.UserInterface.UpdateEditLayerActions();
+            Actions.UndoRedoModel.UpdateEditLayerActions();
         }
         public static void Delete()
         {
@@ -126,22 +126,21 @@ namespace ManiacEditor.Methods.Editor
             {
                 Methods.Editor.Solution.EditLayerA?.PasteFromClipboard(new Point(16, 16), Methods.Editor.Solution.EditLayerA?.CopyToClipboard(true));
                 Methods.Editor.Solution.EditLayerB?.PasteFromClipboard(new Point(16, 16), Methods.Editor.Solution.EditLayerB?.CopyToClipboard(true));
-                Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayerActions();
             }
             else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
             {
                 try
                 {
                     Methods.Editor.Solution.Entities.PasteFromClipboard(new Point(16, 16), Methods.Editor.Solution.Entities.CopyToClipboard(true));
-                    Methods.Editor.EditorActions.UpdateLastEntityAction();
+                    Actions.UndoRedoModel.UpdateLastEntityAction();
                 }
                 catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
                 {
                     System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
                     return;
                 }
-                Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
-                Methods.Internal.UserInterface.UpdateEntitiesToolbarList();
+                Methods.Internal.UserInterface.UpdateControls();
 
             }
         }
@@ -152,7 +151,7 @@ namespace ManiacEditor.Methods.Editor
                 Methods.Editor.EditorActions.CopyTilesToClipboard();
                 Methods.Editor.EditorActions.DeleteSelected();
                 Methods.Internal.UserInterface.UpdateControls();
-                Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayerActions();
             }
             else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
             {
@@ -161,39 +160,46 @@ namespace ManiacEditor.Methods.Editor
                     Methods.Editor.EditorActions.CopyEntitiesToClipboard();
                     Methods.Editor.EditorActions.DeleteSelected();
                     Methods.Internal.UserInterface.UpdateControls();
-                    Methods.Internal.UserInterface.UpdateEntitiesToolbarList();
                 }
             }
         }
         public static void Paste()
         {
-            if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
+            try
             {
-                // check if there are tiles on the Windows clipboard; if so, use those
-                if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
+                if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
                 {
-                    var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>)System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
-                    Point pastePoint = GetPastePoint();
-                    if (Methods.Editor.Solution.EditLayerA != null) Methods.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
-                    if (Methods.Editor.Solution.EditLayerB != null) Methods.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
+                    // check if there are tiles on the Windows clipboard; if so, use those
+                    if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
+                    {
+                        var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>)System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
+                        Point pastePoint = GetPastePoint();
+                        if (Methods.Editor.Solution.EditLayerA != null) Methods.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, pasteData.Item1);
+                        if (Methods.Editor.Solution.EditLayerB != null) Methods.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, pasteData.Item2);
 
-                    Methods.Internal.UserInterface.UpdateEditLayerActions();
+                        Actions.UndoRedoModel.UpdateEditLayerActions();
+                    }
+
+                    // if there's none, use the internal clipboard
+                    else if (Instance.TilesClipboard != null)
+                    {
+                        Point pastePoint = GetPastePoint();
+                        if (Methods.Editor.Solution.EditLayerA != null) Methods.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item1);
+                        if (Methods.Editor.Solution.EditLayerB != null) Methods.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item2);
+                        Actions.UndoRedoModel.UpdateEditLayerActions();
+                    }
+
                 }
-
-                // if there's none, use the internal clipboard
-                else if (Instance.TilesClipboard != null)
+                else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
                 {
-                    Point pastePoint = GetPastePoint();
-                    if (Methods.Editor.Solution.EditLayerA != null) Methods.Editor.Solution.EditLayerA.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item1);
-                    if (Methods.Editor.Solution.EditLayerB != null) Methods.Editor.Solution.EditLayerB.PasteFromClipboard(pastePoint, Instance.TilesClipboard.Item2);
-                    Methods.Internal.UserInterface.UpdateEditLayerActions();
+                    Methods.Editor.EditorActions.PasteEntitiesToClipboard();
                 }
-
             }
-            else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
+            catch (Exception ex)
             {
-                Methods.Editor.EditorActions.PasteEntitiesToClipboard();
+                System.Windows.MessageBox.Show("There was a problem with pasting the content provided: " + Environment.NewLine + ex.Message);
             }
+
 
             Point GetPastePoint()
             {
@@ -214,13 +220,13 @@ namespace ManiacEditor.Methods.Editor
         {
             Methods.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal);
             Methods.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal);
-            Methods.Internal.UserInterface.UpdateEditLayerActions();
+            Actions.UndoRedoModel.UpdateEditLayerActions();
         }
         public static void FlipVerticalIndividual()
         {
             Methods.Editor.Solution.EditLayerA?.FlipPropertySelected(FlipDirection.Veritcal, true);
             Methods.Editor.Solution.EditLayerB?.FlipPropertySelected(FlipDirection.Veritcal, true);
-            Methods.Internal.UserInterface.UpdateEditLayerActions();
+            Actions.UndoRedoModel.UpdateEditLayerActions();
         }
         public static void EditorPlaceTile(Point position, ushort tile, Classes.Scene.EditorLayer layer, bool isDrawing = false)
         {
@@ -251,30 +257,17 @@ namespace ManiacEditor.Methods.Editor
         {
             Methods.Editor.Solution.EditLayerA?.DeleteSelected();
             Methods.Editor.Solution.EditLayerB?.DeleteSelected();
-            Methods.Internal.UserInterface.UpdateEditLayerActions();
+            Actions.UndoRedoModel.UpdateEditLayerActions();
 
             if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
             {
                 Methods.Editor.Solution.Entities.DeleteSelected();
-                UpdateLastEntityAction();
+                Actions.UndoRedoModel.UpdateLastEntityAction();
             }
         }
-        public static void UpdateLastEntityAction()
-        {
-            if (Methods.Editor.Solution.Entities.LastAction != null || Methods.Editor.Solution.Entities.LastActionInternal != null) Actions.UndoRedoModel.RedoStack.Clear();
-            if (Methods.Editor.Solution.Entities.LastAction != null)
-            {
-                Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
-                Methods.Editor.Solution.Entities.LastAction = null;
-            }
-            if (Methods.Editor.Solution.Entities.LastActionInternal != null)
-            {
-                Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastActionInternal);
-                Methods.Editor.Solution.Entities.LastActionInternal = null;
-            }
-            if (Methods.Editor.Solution.Entities.LastAction != null || Methods.Editor.Solution.Entities.LastActionInternal != null) Methods.Internal.UserInterface.UpdateControls();
 
-        }
+
+
         public static void FlipEntities(FlipDirection direction)
         {
             Dictionary<Classes.Scene.EditorEntity, Point> initalPos = new Dictionary<Classes.Scene.EditorEntity, Point>();
@@ -302,9 +295,8 @@ namespace ManiacEditor.Methods.Editor
                 Methods.Editor.Solution.EditLayerB?.Deselect();
 
                 if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) Methods.Editor.Solution.Entities.Deselect();
-                Methods.Internal.UserInterface.SetSelectOnlyButtonsState(false);
-                if (updateControls)
-                    Methods.Internal.UserInterface.UpdateEditLayerActions();
+                Methods.Internal.UserInterface.UpdateControls();
+                if (updateControls) Actions.UndoRedoModel.UpdateEditLayerActions();
             }
         }
         public static void EditorUndo()
@@ -416,14 +408,14 @@ namespace ManiacEditor.Methods.Editor
                     if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
                     {
                         Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), (List<Classes.Scene.EditorEntity>)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
-                        UpdateLastEntityAction();
+                        Actions.UndoRedoModel.UpdateLastEntityAction();
                     }
 
                     // if there's none, use the internal clipboard
                     else if (Instance.ObjectsClipboard != null)
                     {
                         Methods.Editor.Solution.Entities.PasteFromClipboard(new Point((int)(Methods.Editor.SolutionState.LastX / Methods.Editor.SolutionState.Zoom), (int)(Methods.Editor.SolutionState.LastY / Methods.Editor.SolutionState.Zoom)), Instance.ObjectsClipboard);
-                        UpdateLastEntityAction();
+                        Actions.UndoRedoModel.UpdateLastEntityAction();
                     }
                 }
                 catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
@@ -431,8 +423,7 @@ namespace ManiacEditor.Methods.Editor
                     System.Windows.MessageBox.Show("Too many Classes.Edit.Scene.EditorSolution.Entities! (limit: 2048)");
                     return;
                 }
-                Methods.Internal.UserInterface.UpdateEntitiesToolbarList();
-                Methods.Internal.UserInterface.SetSelectOnlyButtonsState();
+                Methods.Internal.UserInterface.UpdateControls();
             }
         }
         public static void MoveEntityOrTiles(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -501,7 +492,7 @@ namespace ManiacEditor.Methods.Editor
             Methods.Editor.Solution.EditLayerA?.MoveSelectedQuonta(new Point(x, y));
             Methods.Editor.Solution.EditLayerB?.MoveSelectedQuonta(new Point(x, y));
 
-            Methods.Internal.UserInterface.UpdateEditLayerActions();
+            Actions.UndoRedoModel.UpdateEditLayerActions();
 
             if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
             {
