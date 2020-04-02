@@ -6,27 +6,23 @@ namespace ManiacEditor.Entity_Renders
     public class Water : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
-            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
-            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High);
-            var heightY = (int)(entity.attributesMap["height"].ValueVector2.Y.High);
-            var heightX = (int)(entity.attributesMap["height"].ValueVector2.X.High);
-			int r = (int)(entity.attributesMap["r"].ValueUInt8);
-			int g = (int)(entity.attributesMap["g"].ValueUInt8);
-			int b = (int)(entity.attributesMap["b"].ValueUInt8);
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            int type = (int)e.attributesMap["type"].ValueEnum;
+            var widthPixels = (int)(e.attributesMap["size"].ValueVector2.X.High);
+            var heightPixels = (int)(e.attributesMap["size"].ValueVector2.Y.High);
+            var heightY = (int)(e.attributesMap["height"].ValueVector2.Y.High);
+            var heightX = (int)(e.attributesMap["height"].ValueVector2.X.High);
+			int r = (int)(e.attributesMap["r"].ValueUInt8);
+			int g = (int)(e.attributesMap["g"].ValueUInt8);
+			int b = (int)(e.attributesMap["b"].ValueUInt8);
 			var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
             bool fliph = false;
@@ -58,54 +54,30 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Water", d.DevicePanel, animID, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Water", d.DevicePanel, 0, -1, fliph, flipv, false);
+            var editorAnim = LoadAnimation("Water", d, animID, 0);
+            var editorAnim2 = LoadAnimation("Water", d, 0, 0);
 
             // Base Water + Bubble Source
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0 && (type == 2 || type == 0))
+            if (animID >= 0 && (type == 2 || type == 0))
             {
-                var frame = editorAnim.Frames[Animation.index];
-
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-            x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-            y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-            frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
             }
 
 
             // HCZ Big Bubbles
             else if (HCZBubbles == true)
             {
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BigBubble", d.DevicePanel, 7, -1, fliph, flipv, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[Animation.index];
-
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                        y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
+                editorAnim = LoadAnimation("BigBubble", d, 7, 0);
+                DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
             }
 
             // Bounded Water
             if (width != 0 && height != 0 && showBounds == true && HCZBubbles == false)
             {
                 //Draw Icon
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons2", d.DevicePanel, 0, 8, fliph, flipv, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[Animation.index];
+                editorAnim = LoadAnimation("EditorIcons2", d, 0, 8);
+                DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
 
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                        y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
                 int x1 = x + widthPixels / -2;
                 int x2 = x + widthPixels / 2 - 1;
                 int y1 = y + heightPixels / -2;
@@ -115,69 +87,33 @@ namespace ManiacEditor.Entity_Renders
 				{
 					if (Methods.Editor.SolutionState.ShowWaterLevel)
 					{
-						if (selected)
-						{
-							if (!Properties.Settings.MyPerformance.UseSimplifedWaterRendering)
-							{
-								d.DrawRectangle(0, heightX, Methods.Editor.Solution.SceneWidth, heightX, Methods.Editor.SolutionState.waterColor);
-								d.DrawLine(0, heightX, Methods.Editor.Solution.SceneWidth, heightX, SystemColors.White);
-								if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
-								{
-									var frame = editorAnim2.Frames[Animation.index];
+                        if (!ManiacEditor.Properties.Settings.MyPerformance.UseSimplifedWaterRendering)
+                        {
+                            if (Methods.Editor.SolutionState.AlwaysShowWaterLevel)
+                            {
+                                int startX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
+                                int endX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Editor.Solution.SceneWidth);
 
-									Animation.ProcessAnimation2(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+                                d.DrawRectangle(startX, heightX, endX, Methods.Editor.Solution.SceneHeight, Methods.Editor.SolutionState.waterColor);
+                                d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
+                                for (int i = startX; i < endX; i = i + 16)
+                                {
+                                    DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, i, heightX, Transparency);
+                                }
+                            }
 
-									for (int i = 0; i < Methods.Editor.Solution.SceneWidth; i = i + frame.Frame.Width)
-										d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-											i + frame.Frame.PivotX,
-											heightX + frame.Frame.PivotY,
-											frame.Frame.Width, frame.Frame.Height, false, Transparency);
-								}
-							}
-							else
-							{
-								d.DrawRectangle(0, heightX, Methods.Editor.Solution.SceneWidth, heightX, Methods.Editor.SolutionState.waterColor);
-								d.DrawLine(0, heightX, Methods.Editor.Solution.SceneWidth, heightX, SystemColors.White);
-							}
-						}
-						else
-						{
-							if (!Properties.Settings.MyPerformance.UseSimplifedWaterRendering)
-							{
-								if (Methods.Editor.SolutionState.AlwaysShowWaterLevel)
-								{
-									int startX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
-									int endX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Editor.Solution.SceneWidth);
-
-									d.DrawRectangle(startX, heightX, endX, Methods.Editor.Solution.SceneHeight, Methods.Editor.SolutionState.waterColor);
-									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
-									if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
-									{
-										var frame = editorAnim2.Frames[Animation.index];
-
-										Animation.ProcessAnimation2(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-										for (int i = startX; i < endX; i = i + frame.Frame.Width)
-											d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-												i + frame.Frame.PivotX,
-												heightX + frame.Frame.PivotY,
-												frame.Frame.Width, frame.Frame.Height, false, Transparency);
-									}
-								}
-
-							}
-							else
-							{
-								if (Methods.Editor.SolutionState.AlwaysShowWaterLevel)
-								{
-									int startX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
-									int endX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Editor.Solution.SceneWidth);
-									d.DrawRectangle(startX, heightX, endX, Methods.Editor.Solution.SceneHeight, Methods.Editor.SolutionState.waterColor);
-									d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
-								}
-							}
-						}
-					}
+                        }
+                        else
+                        {
+                            if (Methods.Editor.SolutionState.AlwaysShowWaterLevel)
+                            {
+                                int startX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
+                                int endX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Editor.Solution.SceneWidth);
+                                d.DrawRectangle(startX, heightX, endX, Methods.Editor.Solution.SceneHeight, Methods.Editor.SolutionState.waterColor);
+                                d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
+                            }
+                        }
+                    }
 				}
 				else
 				{
@@ -197,64 +133,13 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawLine(x1, y1, x2, y1, SystemColors.Aqua);
                 d.DrawLine(x2, y2, x1, y2, SystemColors.Aqua);
                 d.DrawLine(x2, y2, x2, y1, SystemColors.Aqua);
-
-
-                // draw corners
-
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, false, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        (x + widthPixels / (false ? 2 : -2)) - (false ? frame.Frame.Width : 0),
-                        (y + heightPixels / (false ? 2 : -2) - (false ? frame.Frame.Height : 0)),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                }
-
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, false, true, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        (x + widthPixels / (false ? 2 : -2)) - (false ? frame.Frame.Width : 0),
-                        (y + heightPixels / (true ? 2 : -2) - (true ? frame.Frame.Height : 0)),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                }
-
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, true, false, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        (x + widthPixels / (true ? 2 : -2)) - (true ? frame.Frame.Width : 0),
-                        (y + heightPixels / (false ? 2 : -2) - (false ? frame.Frame.Height : 0)),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                }
-
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, true, true, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
-                {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        (x + widthPixels / (true ? 2 : -2)) - (true ? frame.Frame.Width : 0),
-                        (y + heightPixels / (true ? 2 : -2) - (true ? frame.Frame.Height : 0)),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                }
             }
         }
 
-        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
-            var widthPixels = (int)(entity.attributesMap["size"].ValueVector2.X.High);
-            var heightPixels = (int)(entity.attributesMap["size"].ValueVector2.Y.High);
+            var widthPixels = (int)(e.attributesMap["size"].ValueVector2.X.High);
+            var heightPixels = (int)(e.attributesMap["size"].ValueVector2.Y.High);
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels, heightPixels);
         }
 

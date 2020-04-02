@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int frameType = (int)entity.attributesMap["frame"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
-            var Animation = LoadAnimation("SpikeLog", d, 0, 0);
+            var Animation = LoadAnimation("SpikeLog", d, 0, frameType);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
         }

@@ -6,42 +6,30 @@ namespace ManiacEditor.Entity_Renders
     public class ForceSpin : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
 
-            var size = (int)(entity.attributesMap["size"].ValueEnum) - 1;
-            var angle = entity.attributesMap["angle"].ValueInt32;
+            var size = (int)(e.attributesMap["size"].ValueEnum) - 1;
+            var angle = e.attributesMap["angle"].ValueInt32;
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PlaneSwitch", d.DevicePanel, 0, 4, true, false, false);
+            var editorAnim = LoadAnimation("PlaneSwitch", Properties.Graphics, 0, 4);
 
             const int pivotOffsetX = -8, pivotOffsetY = 0;
             const int drawOffsetX = 0, drawOffsetY = -8;
 
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            bool hEven = size % 2 == 0;
+            for (int yy = 0; yy <= size; ++yy)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                bool hEven = size % 2 == 0;
-                for (int yy = 0; yy <= size; ++yy)
-                {
-                    int[] drawCoords = RotatePoints(
-                        x - frame.Frame.Width / 2,
-                        (y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-size / 2 + yy) * frame.Frame.Height),
-                        x + pivotOffsetX, y + pivotOffsetY, angle);
+                int[] drawCoords = RotatePoints(
+                    x - editorAnim.RequestedFrame.Width / 2,
+                    (y + (hEven ? editorAnim.RequestedFrame.PivotY : -editorAnim.RequestedFrame.Height) + (-size / 2 + yy) * editorAnim.RequestedFrame.Height),
+                    x + pivotOffsetX, y + pivotOffsetY, angle);
 
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
+                DrawTexture(Properties.Graphics, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, Transparency);
             }
         }
 

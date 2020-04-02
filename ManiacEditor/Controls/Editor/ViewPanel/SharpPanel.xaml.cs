@@ -601,11 +601,11 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
                 if (!Methods.Editor.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
-                if (showEntities && !AboveAllMode) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
-
                 DrawLayer(Instance.EditorToolbar.ShowFGLower.IsChecked.Value, Instance.EditorToolbar.EditFGLower.IsCheckedAll, Methods.Editor.Solution.FGLower);
 
                 DrawLayer(Instance.EditorToolbar.ShowFGLow.IsChecked.Value, Instance.EditorToolbar.EditFGLow.IsCheckedAll, Methods.Editor.Solution.FGLow);
+
+                if (showEntities && !AboveAllMode) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
 
                 DrawLayer(Instance.EditorToolbar.ShowFGHigh.IsChecked.Value, Instance.EditorToolbar.EditFGHigh.IsCheckedAll, Methods.Editor.Solution.FGHigh);
 

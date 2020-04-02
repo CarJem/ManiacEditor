@@ -293,6 +293,12 @@
     <Compile Include="Entity Renders\Normal Renders\Bounded\ChemicalPool.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\Water.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\WaterfallSound.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\Buttons\Button.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -320,7 +326,16 @@
     <Compile Include="Entity Renders\Normal Renders\Doors + Tubes\TwistedTubes.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\ZipLine.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\Hazards\SpikeLog.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Internal\ForceSpin.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Internal\ForceUnstick.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Platforms\FoldingPlatform.cs">
@@ -347,14 +362,18 @@
     <Compile Include="Entity Renders\Normal Renders\Templates\Template.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UI\UIButton.cs" />
+    <Compile Include="Entity Renders\Normal Renders\UI\UIButton.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\UI\UIControl.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\UI\UIPicture.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\UI\UISaveSlot.cs" />
+    <Compile Include="Entity Renders\Normal Renders\UI\UISaveSlot.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\UI\UIText.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

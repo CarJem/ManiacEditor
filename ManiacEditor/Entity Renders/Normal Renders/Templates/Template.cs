@@ -43,6 +43,11 @@ namespace ManiacEditor.Entity_Renders
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
+        {
+            return d.IsObjectOnScreen(x, y, 20, 20);
+        }
+
         public override string GetObjectName()
         {
             return "Template";

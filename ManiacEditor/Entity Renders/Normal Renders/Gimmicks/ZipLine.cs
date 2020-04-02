@@ -5,50 +5,39 @@ namespace ManiacEditor.Entity_Renders
 {
     public class ZipLine : EntityRenderer
     {
-
-        public override void Draw(Structures.EntityRenderProp properties)
+        int lastAngle { get; set; } = 0;
+        int lastLength { get; set; } = 0;
+        int[] LastRotatePoints { get; set; } = new int[2] { 0, 0 };
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int angle = (int)(entity.attributesMap["angle"].ValueInt32);
-            int length = (int)(entity.attributesMap["length"].ValueEnum/1.4);
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            int angle = (int)(e.attributesMap["angle"].ValueInt32);
+            int length = (int)(e.attributesMap["length"].ValueEnum/1.4);
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ZipLine", d.DevicePanel, 0, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+
+            var editorAnim = LoadAnimation("ZipLine", d, 0, 0);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
+            var editorAnim2 = LoadAnimation("ZipLine", d, 0, 1);
+
+            if (length != lastLength || angle != lastAngle)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                var frame2 = editorAnim.Frames[1];
+                LastRotatePoints = RotatePoints(x + length, y + length, x, y, -angle + 32);
+                lastLength = length;
+                lastAngle = angle;
+            }
 
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    x + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-
-                if (length != 0)
-                {
-                    int[] processPoints = RotatePoints(x + length, y + length, x, y, -angle + 32);
-                    d.DrawLine(x, y, processPoints[0], processPoints[1], System.Drawing.Color.FromArgb(255, 49, 48, 115));
-                    d.DrawLine(x, y-1, processPoints[0], processPoints[1] - 1, System.Drawing.Color.FromArgb(255, 99, 97, 165));
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    processPoints[0] + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0) - 2,
-                    processPoints[1] + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0) - 1,
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                }
+            if (length != 0)
+            {
+                d.DrawLine(x, y, LastRotatePoints[0], LastRotatePoints[1], System.Drawing.Color.FromArgb(255, 49, 48, 115));
+                d.DrawLine(x, y - 1, LastRotatePoints[0], LastRotatePoints[1] - 1, System.Drawing.Color.FromArgb(255, 99, 97, 165));
+                DrawTexturePivotNormal(d, editorAnim2, editorAnim2.RequestedAnimID, editorAnim2.RequestedFrameID, LastRotatePoints[0], LastRotatePoints[1], Transparency);
             }
 
         }
