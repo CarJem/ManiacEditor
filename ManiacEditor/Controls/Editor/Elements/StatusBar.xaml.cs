@@ -39,86 +39,85 @@ namespace ManiacEditor.Controls.Editor.Elements
                 this.TilesContext.Background = (SolidColorBrush)FindResource("NormalBackground");
             }
         }
-        #region Update Position Label
+        #region Update Position Label / Status Panel
 
         private DispatcherOperation CurrentPositionUpdateOperation { get; set; }
+        private DispatcherOperation StatusPanelUpdateOpteration { get; set; }
         public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs m = null)
         {
-            var action = new Action(() =>
+            if (CurrentPositionUpdateOperation != null && CurrentPositionUpdateOperation.Status != DispatcherOperationStatus.Completed) return;
+            else
             {
-                System.Drawing.Point e;
-                if (m != null) e = m.Location;
-                else e = new System.Drawing.Point(0, 0);
+                var action = new Action(() =>
+                {
+                    System.Drawing.Point e;
+                    if (m != null) e = m.Location;
+                    else e = new System.Drawing.Point(0, 0);
 
-                string text;
-                if (!Methods.Editor.SolutionState.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Methods.Editor.SolutionState.Zoom) + " Y: " + (int)(e.Y / Methods.Editor.SolutionState.Zoom);
-                else text = "X: " + (int)((e.X / Methods.Editor.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Methods.Editor.SolutionState.Zoom) / 16);
-                positionLabel.Content = text;
-            });
-
-            if (CurrentPositionUpdateOperation != null && CurrentPositionUpdateOperation.Status != DispatcherOperationStatus.Completed)
-            {
-                CurrentPositionUpdateOperation.Abort();
+                    string text;
+                    if (!Methods.Editor.SolutionState.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Methods.Editor.SolutionState.Zoom) + " Y: " + (int)(e.Y / Methods.Editor.SolutionState.Zoom);
+                    else text = "X: " + (int)((e.X / Methods.Editor.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Methods.Editor.SolutionState.Zoom) / 16);
+                    positionLabel.Content = text;
+                });
+                CurrentPositionUpdateOperation = positionLabel.Dispatcher.InvokeAsync(action, DispatcherPriority.SystemIdle);
             }
 
-            CurrentPositionUpdateOperation = positionLabel.Dispatcher.InvokeAsync(action, DispatcherPriority.SystemIdle);
 
 
+
+        }
+        public void UpdateStatusPanel()
+        {
+            if (StatusPanelUpdateOpteration != null && StatusPanelUpdateOpteration.Status != DispatcherOperationStatus.Completed) return;
+            else
+            {
+                var action = new Action(() =>
+                {
+                    _levelIDLabel.Content = "Level ID: " + Methods.Editor.SolutionState.LevelID.ToString();
+
+                    if (seperator1.Visibility != Visibility.Visible) seperator1.Visibility = Visibility.Visible;
+                    if (seperator2.Visibility != Visibility.Visible) seperator2.Visibility = Visibility.Visible;
+                    if (seperator3.Visibility != Visibility.Visible) seperator3.Visibility = Visibility.Visible;
+                    if (seperator4.Visibility != Visibility.Visible) seperator4.Visibility = Visibility.Visible;
+                    if (seperator5.Visibility != Visibility.Visible) seperator5.Visibility = Visibility.Visible;
+                    if (seperator6.Visibility != Visibility.Visible) seperator6.Visibility = Visibility.Visible;
+                    if (seperator7.Visibility != Visibility.Visible) seperator7.Visibility = Visibility.Visible;
+
+                    if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
+                    {
+                        selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Methods.Editor.SolutionState.SelectedTileX + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY;
+                        selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
+                    }
+                    else
+                    {
+                        selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Methods.Editor.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY * 16;
+                        selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
+                    }
+                    if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
+                    {
+                        selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount);
+                        selectionSizeLabel.ToolTip = "The Size of the Selection";
+                    }
+                    else
+                    {
+                        selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount) * 16;
+                        selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
+                    }
+
+                    selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Methods.Editor.SolutionState.TempSelectX2 - Methods.Editor.SolutionState.TempSelectX1) + ", Y: " + (Methods.Editor.SolutionState.TempSelectY2 - Methods.Editor.SolutionState.TempSelectY1);
+
+                    scrollLockDirLabel.Content = "Scroll Direction: " + (Methods.Editor.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Methods.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
+
+
+                    hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Editor.SolutionState.Zoom.ToString();
+                });
+
+                StatusPanelUpdateOpteration = this.Dispatcher.InvokeAsync(action, DispatcherPriority.SystemIdle);
+            }
         }
         #endregion
 
-        public void UpdateStatusPanel()
-        {
-            this.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                //
-                // Tooltip Bar Info 
-                //
 
-                _levelIDLabel.Content = "Level ID: " + Methods.Editor.SolutionState.LevelID.ToString();
-                seperator1.Visibility = Visibility.Visible;
-                seperator2.Visibility = Visibility.Visible;
-                seperator3.Visibility = Visibility.Visible;
-                seperator4.Visibility = Visibility.Visible;
-                seperator5.Visibility = Visibility.Visible;
-                seperator6.Visibility = Visibility.Visible;
-                seperator7.Visibility = Visibility.Visible;
-                //seperator8.Visibility = Visibility.Visible;
-                //seperator9.Visibility = Visibility.Visible;
-
-                if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
-                {
-                    selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Methods.Editor.SolutionState.SelectedTileX + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY;
-                    selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
-                }
-                else
-                {
-                    selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Methods.Editor.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY * 16;
-                    selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
-                }
-                if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
-                {
-                    selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount);
-                    selectionSizeLabel.ToolTip = "The Size of the Selection";
-                }
-                else
-                {
-                    selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount) * 16;
-                    selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
-                }
-
-                selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Methods.Editor.SolutionState.TempSelectX2 - Methods.Editor.SolutionState.TempSelectX1) + ", Y: " + (Methods.Editor.SolutionState.TempSelectY2 - Methods.Editor.SolutionState.TempSelectY1);
-
-                scrollLockDirLabel.Content = "Scroll Direction: " + (Methods.Editor.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Methods.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
-
-
-                hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Editor.SolutionState.Zoom.ToString();
-
-                //
-                // End of Tooltip Bar Info Section
-                //
-            }));
-        }
 
         public void QuickButtonClickEvent(object sender, RoutedEventArgs e)
         {
@@ -163,6 +162,17 @@ namespace ManiacEditor.Controls.Editor.Elements
         {
             if (Methods.Editor.Solution.Entities != null) Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
         }
+
+        public void SetSceneOnlyButtonsState(bool enabled)
+        {
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                this.FilterButton.IsEnabled = enabled;
+                this.MoreSettingsButton.IsEnabled = enabled;
+                this.StatusBarQuickButtons.IsEnabled = enabled;
+            }));
+        }
+
 
         public void UpdateTooltips()
         {

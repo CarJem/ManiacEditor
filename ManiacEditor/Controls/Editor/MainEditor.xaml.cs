@@ -73,8 +73,8 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region Controls
-        public ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar TilesToolbar = null;
-        public ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar EntitiesToolbar = null;
+        public ManiacEditor.Controls.Editor.Toolbars.TilesToolbar TilesToolbar = null;
+        public ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar EntitiesToolbar = null;
         public ManiacEditor.Controls.Editor.Elements.StartScreen StartScreen;
         #endregion
 
@@ -207,8 +207,11 @@ namespace ManiacEditor.Controls.Editor
             }
 
         }
-        public void Editor_Resize(object sender, RoutedEventArgs e) { ViewPanel.SharpPanel.UpdateGraphicsPanelControls(); }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Editor_Resize(object sender, SizeChangedEventArgs e)
         {
 
         }
@@ -251,7 +254,7 @@ namespace ManiacEditor.Controls.Editor
             if (Methods.Editor.Solution.CurrentScene != null)
             {
                 // Make sure to dispose the textures of the extra layers too
-                if (Methods.Editor.Solution.CurrentTiles != null) Methods.Editor.Solution.CurrentTiles?.DisposeTextures();
+                if (Methods.Editor.Solution.CurrentTiles != null) Methods.Editor.Solution.CurrentTiles?.Dispose();
                 if (Methods.Editor.Solution.FGHigh != null) Methods.Editor.Solution.FGHigh.DisposeTextures();
                 if (Methods.Editor.Solution.FGLow != null) Methods.Editor.Solution.FGLow.DisposeTextures();
                 if (Methods.Editor.Solution.FGHigher != null) Methods.Editor.Solution.FGHigher.DisposeTextures();
@@ -332,6 +335,5 @@ namespace ManiacEditor.Controls.Editor
 
         }
         #endregion
-
     }
 }

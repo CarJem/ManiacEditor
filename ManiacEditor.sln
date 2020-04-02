@@ -34,16 +34,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationsLib.Core", "Gene
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationsLib.WPF", "GenerationsLib\GenerationsLib.WPF\GenerationsLib.WPF.csproj", "{335800A2-F482-4AE6-9017-57D7C3C52110}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{E426E341-48C3-437D-905A-8FFDC9EE6373}"
-	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
-		Installer\MakeInstaller.bat = Installer\MakeInstaller.bat
-		Installer\MakeZIP.bat = Installer\MakeZIP.bat
-		Installer\ManiacEditor-GenerationsEdition.nsi = Installer\ManiacEditor-GenerationsEdition.nsi
-		Installer\PrototypeInstaller.nsi = Installer\PrototypeInstaller.nsi
-		Installer\win.bmp = Installer\win.bmp
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManiacEditor.Core", "ManiacEditor.Core\ManiacEditor.Core.csproj", "{790117F4-A54F-4DA0-80CE-AB91BFCEED64}"
 EndProject
 Global
@@ -315,7 +305,6 @@ Global
 		{E089DB56-F8D4-434E-A9A8-C7EFCC3278D8} = {4F274C3F-9595-47BF-9F1A-3FC81E1D515A}
 		{51CA42A9-58F0-4F3D-A250-BC22D8A8540E} = {8B2843B5-8206-4931-9A79-B8589178B46A}
 		{335800A2-F482-4AE6-9017-57D7C3C52110} = {8B2843B5-8206-4931-9A79-B8589178B46A}
-		{E426E341-48C3-437D-905A-8FFDC9EE6373} = {4457DD0B-7361-4B25-8BC0-932E4E209AAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7AC57BF-1EA1-478D-9093-C42EF5BABBA9}

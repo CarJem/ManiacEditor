@@ -12,6 +12,8 @@ namespace ManiacEditor.Methods.Draw
 {
     public class GIF : IDisposable
     {
+        #region Definitions
+
         Bitmap _bitmap;
         Bitmap _bitmap_selected;
         string _bitmapFilename;
@@ -20,7 +22,10 @@ namespace ManiacEditor.Methods.Draw
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmapCache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
         Dictionary<Tuple<Rectangle, bool, bool>, Bitmap> _bitmap_selected_Cache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, Bitmap>();
         Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture> _texturesCache { get; set; } = new Dictionary<Tuple<Rectangle, bool, bool>, SFML.Graphics.Texture>();
+       
+        #endregion
 
+        #region Init
         public GIF(string filename, string encoreColors = null)
         {
 
@@ -50,7 +55,6 @@ namespace ManiacEditor.Methods.Draw
 
             this._bitmap_texture = TextureHelper.FromBitmap(_bitmap);
         }
-
         public GIF(Bitmap bitmap)
         {
             this._bitmap = new Bitmap(bitmap);
@@ -58,11 +62,13 @@ namespace ManiacEditor.Methods.Draw
             ColorImage(ref this._bitmap_selected);
             this._bitmap_texture = TextureHelper.FromBitmap(_bitmap);
         }
-
         public GIF(Image image)
         {
             this._bitmap = new Bitmap(image);
         }
+        #endregion
+
+        #region General
 
         private void ColorImage(ref Bitmap pImage)
         {
@@ -84,9 +90,6 @@ namespace ManiacEditor.Methods.Draw
                 }
             }
         }
-
-
-
         private void LoadEncoreColors(string encoreColors = null)
         {
             Bitmap _bitmapEditMemory;
@@ -128,7 +131,6 @@ namespace ManiacEditor.Methods.Draw
 
             ColorImage(ref _bitmap_selected);
         }
-
         private Bitmap CropImage(Bitmap source, Rectangle section)
         {
             // An empty bitmap which will hold the cropped image
@@ -144,75 +146,10 @@ namespace ManiacEditor.Methods.Draw
             return bmp;
         }
 
-        public SFML.Graphics.Texture GetTexture()
-        {
-            return _bitmap_texture;
-        }
-
-        public Bitmap GetBitmap(Rectangle section, bool flipX = false, bool flipY = false, bool isSelected = false)
-        {
-            Bitmap bmp;
-            if (isSelected)
-            {
-                if (_bitmap_selected_Cache.TryGetValue(new Tuple<Rectangle, bool, bool>(section, flipX, flipY), out bmp)) return bmp;
-                GetSelectedBitmap();
-            }
-            else
-            {
-                if (_bitmapCache.TryGetValue(new Tuple<Rectangle, bool, bool>(section, flipX, flipY), out bmp)) return bmp;
-                GetNormalBitmap();
-            }
-            return bmp;
-
-            void GetSelectedBitmap()
-            {
-                bmp = CropImage(_bitmap_selected, section);
-                if (flipX)
-                {
-                    bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                }
-                if (flipY)
-                {
-                    bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                }
-
-                _bitmap_selected_Cache[new Tuple<Rectangle, bool, bool>(section, flipX, flipY)] = bmp;
-            }
-
-            void GetNormalBitmap()
-            {
-                bmp = CropImage(_bitmap, section);
-                if (flipX)
-                {
-                    bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                }
-                if (flipY)
-                {
-                    bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                }
-
-                _bitmapCache[new Tuple<Rectangle, bool, bool>(section, flipX, flipY)] = bmp;
-            }
-        }
-
         public Bitmap ToBitmap()
         {
             return _bitmap;
         }
-
-        public void Dispose()
-        {
-            ReleaseResources();
-        }
-
-        public void DisposeTextures()
-        {
-            if (null == _texturesCache) return;
-            foreach (var texture in _texturesCache.Values)
-                texture?.Dispose();
-            _texturesCache.Clear();
-        }
-
         public void Reload(string encoreColors = null)
         {
             if (!File.Exists(_bitmapFilename))
@@ -241,24 +178,88 @@ namespace ManiacEditor.Methods.Draw
             }
 
         }
-
-        private void ReleaseResources()
-        {
-            _bitmap.Dispose();
-            _bitmap_selected.Dispose();
-            DisposeTextures();
-            foreach (Bitmap b in _bitmapCache.Values)
-                b?.Dispose();
-            foreach (Bitmap b in _bitmap_selected_Cache.Values)
-                b?.Dispose();
-            _bitmapCache.Clear();
-            _bitmap_selected_Cache.Clear();
-        }
-
         public Methods.Draw.GIF Clone()
         {
             return new Methods.Draw.GIF(_bitmapFilename);
         }
+        #endregion
+
+        #region Retrival
+
+        public SFML.Graphics.Texture GetTexture()
+        {
+            return _bitmap_texture;
+        }
+        public Bitmap GetBitmap(Rectangle section, bool flipX = false, bool flipY = false, bool isSelected = false)
+        {
+            if (isSelected) return GetSelectedBitmap(section, flipX, flipY);
+            else return GetNormalBitmap(section, flipX, flipY);
+        }
+
+        public Bitmap GetNormalBitmap(Rectangle section, bool flipX = false, bool flipY = false)
+        {
+            Bitmap bmp;
+            if (_bitmapCache.TryGetValue(new Tuple<Rectangle, bool, bool>(section, flipX, flipY), out bmp)) return bmp;
+            else
+            {
+                bmp = CropImage(_bitmap, section);
+                if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+                _bitmapCache.Add(new Tuple<Rectangle, bool, bool>(section, flipX, flipY), bmp);
+                return bmp;
+            }
+        }
+        public Bitmap GetSelectedBitmap(Rectangle section, bool flipX = false, bool flipY = false)
+        {
+            Bitmap bmp;
+            if (_bitmap_selected_Cache.TryGetValue(new Tuple<Rectangle, bool, bool>(section, flipX, flipY), out bmp)) return bmp;
+            else
+            {
+                bmp = CropImage(_bitmap_selected, section);
+                if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+                _bitmap_selected_Cache.Add(new Tuple<Rectangle, bool, bool>(section, flipX, flipY), bmp);
+                return bmp;
+            }
+        }
+
+        #endregion
+
+        #region Disposal
+        public void Dispose()
+        {
+            ReleaseResources();
+        }
+        private void ReleaseResources()
+        {
+            _bitmap.Dispose();
+            if (_bitmap_selected != null) _bitmap_selected.Dispose();
+            DisposeTextures();
+            if (_bitmapCache != null)
+            {
+                foreach (Bitmap b in _bitmapCache.Values) b?.Dispose();
+                _bitmapCache.Clear();
+            }
+            if (_bitmap_selected_Cache != null)
+            {
+                foreach (Bitmap b in _bitmap_selected_Cache.Values) b?.Dispose();
+                _bitmap_selected_Cache.Clear();
+            }
+            DisposeTextures();
+        }
+
+        public void DisposeTextures()
+        {
+            if (null == _texturesCache) return;
+            foreach (var texture in _texturesCache.Values)
+                texture?.Dispose();
+            _texturesCache.Clear();
+        }
+        #endregion
+
+
     }
 
 

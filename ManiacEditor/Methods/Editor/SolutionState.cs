@@ -79,7 +79,7 @@ namespace ManiacEditor.Methods.Editor
         {
             get
             {
-                return (DraggingSelection || Dragged || AutoScrollingDragged || AutoScrolling);
+                return (DraggingSelection || Dragged || AutoScrolling);
             }
         }
 
@@ -88,7 +88,6 @@ namespace ManiacEditor.Methods.Editor
         #region Auto Scrolling Variables
 
         public static bool AutoScrolling { get; set; } = false; //Determines if the User is Scrolling
-        public static bool AutoScrollingDragged { get; set; } = false;
         public static Point AutoScrollPosition { get; set; } //For Getting the Scroll Position
 
         #endregion
@@ -611,7 +610,7 @@ namespace ManiacEditor.Methods.Editor
                 Instance.EditorToolbar.EncorePaletteButton.IsChecked = value;
                 _UseEncoreColors = value;
                 Methods.Editor.Solution.CurrentTiles?.Image.Reload((value ? ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0] : null));
-                Instance.TilesToolbar?.Reload((value ? ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0] : null));
+                Instance.TilesToolbar?.Reload();
                 Methods.Entities.EntityDrawing.ReleaseResources();
             }
         }

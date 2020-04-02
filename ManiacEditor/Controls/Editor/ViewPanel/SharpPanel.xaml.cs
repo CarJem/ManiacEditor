@@ -78,8 +78,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         public void UpdateInstance(MainEditor editor)
         {
             Instance = editor;
-            (Instance as Window).SizeChanged += SharpPanel_SizeChanged;
-            (Instance as Window).LocationChanged += SharpPanel_LocationChanged; ;
+            (Instance as Window).LocationChanged += SharpPanel_LocationChanged;
             (Instance as Window).MouseMove += SharpPanel_MouseMove; ;
         }
         public void InitalizeGraphicsPanel()
@@ -436,10 +435,12 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         #endregion
 
         #region Graphics Panel Refresh/Update Methods
+
+        bool isDisabled = true;
         public void UpdateGraphicsPanelControls()
         {
-            //this.Dispatcher.BeginInvoke(new Action(() =>
-            //{
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
                 UpdateScalingforDPI();
                 UpdateScrollBarVisibility();
                 UpdateScrollViewportSize();
@@ -447,12 +448,12 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
                 UpdateScrollBarMaximumValues();
                 UpdateGraphicPanelViewSize();
                 if (!Methods.Editor.SolutionState.UnlockCamera) SyncScrollBarsWithMaximum();
-            //}));
+            }));
         }
 
         private void UpdateGraphicPanelViewSize()
         {
-           //if (GraphicPanel.RenderWindow != null && Methods.Editor.SolutionState.IsSceneLoaded()) GraphicPanel.RenderWindow.Size = new SFML.System.Vector2u((uint)Methods.Editor.Solution.SceneWidth, (uint)Methods.Editor.Solution.SceneHeight);
+
         }
 
         #endregion
@@ -631,19 +632,10 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
             if (Methods.Runtime.GameHandler.GameRunning) DrawGameElements();
 
-            if (Methods.Editor.SolutionState.AutoScrolling) DrawScroller();
-
             void DrawBackground()
             {
                 if (!ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.HideNormalBackground == false) Instance.EditBackground.Draw(GraphicPanel);
                 if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.ShowEditLayerBackground == true) Instance.EditBackground.Draw(GraphicPanel, true);
-            }
-
-            void DrawScroller()
-            {
-                if (this.vScrollBar1.IsVisible && this.hScrollBar1.IsVisible) GraphicPanel.Draw2DCursor(Methods.Editor.SolutionState.AutoScrollPosition.X, Methods.Editor.SolutionState.AutoScrollPosition.Y);
-                else if (this.vScrollBar1.IsVisible) GraphicPanel.DrawVertCursor(Methods.Editor.SolutionState.AutoScrollPosition.X, Methods.Editor.SolutionState.AutoScrollPosition.Y);
-                else if (this.hScrollBar1.IsVisible) GraphicPanel.DrawHorizCursor(Methods.Editor.SolutionState.AutoScrollPosition.X, Methods.Editor.SolutionState.AutoScrollPosition.Y);
             }
 
             void DrawExtraLayers()

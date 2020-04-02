@@ -126,6 +126,7 @@ namespace ManiacEditor.Controls.SceneSelect
             this.RecentsTree.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.RecentsTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RecentsTree.TabIndex = 13;
+            this.RecentsTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.RecentsTreeAfterSelectEvent);
             this.RecentsTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.RecentsTreeMouseDownEvent);
             this.RecentsTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.RecentsTreeNodeDoubleClickEvent);
             this.RecentsTree.HideSelection = false;
@@ -158,6 +159,11 @@ namespace ManiacEditor.Controls.SceneSelect
                 MasterDataDirectorySelectorComboBox.SelectedItem = Properties.Settings.MySettings.DefaultMasterDataDirectory;
             }
 
+            if (!WithinAParentForm)
+            {
+                CancelButton.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void InitilizeEvents()
@@ -183,6 +189,11 @@ namespace ManiacEditor.Controls.SceneSelect
         private void ScenesTreeAfterSelectEvent(object sender, TreeViewEventArgs e)
         {
             selectButton.IsEnabled = ScenesTree.SelectedNode.Tag != null;
+            UpdateSelectedSceneInfo();
+        }
+        private void RecentsTreeAfterSelectEvent(object sender, TreeViewEventArgs e)
+        {
+            loadSelectedButton.IsEnabled = RecentsTree.SelectedNode != null && RecentsTree.SelectedNode.Tag != null;
             UpdateSelectedSceneInfo();
         }
         private void ScenesTreeNodeMouseDoubleClickEvent(object sender, TreeNodeMouseClickEventArgs e)
@@ -579,13 +590,15 @@ namespace ManiacEditor.Controls.SceneSelect
                 MasterDataDirectorySelectorComboBox.SelectionChanged -= MasterDataDirectorySelectorComboBox_SelectionChanged;
 
                 MasterDataDirectorySelectorComboBox.Items.Clear();
+                MasterDataDirectorySelectorComboBox.Items.Add("(Unset)");
                 if (Properties.Settings.MySettings.SavedDataDirectories == null) Properties.Settings.MySettings.SavedDataDirectories = new StringCollection();
                 foreach (string savedDirectories in Properties.Settings.MySettings.SavedDataDirectories)
                 {
                     MasterDataDirectorySelectorComboBox.Items.Add(savedDirectories);
                 }
-                
-                MasterDataDirectorySelectorComboBox.SelectedItem = lastItem;
+
+                if (lastItem == null) MasterDataDirectorySelectorComboBox.SelectedIndex = 0;
+                else MasterDataDirectorySelectorComboBox.SelectedItem = lastItem;
 
                 MasterDataDirectorySelectorComboBox.SelectionChanged += MasterDataDirectorySelectorComboBox_SelectionChanged;
                 AllowMasterDataDirectoryUpdate = true;
@@ -803,7 +816,10 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region General Events
-
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            addButton.IsOpen = true;
+        }
         private void RemoveSavedDataDirectoryToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             RemoveSelectedSavedDataFolder();
@@ -814,7 +830,11 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void MasterDataDirectorySelectorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AllowMasterDataDirectoryUpdate && MasterDataDirectorySelectorComboBox.SelectedIndex != -1) LoadMasterDataDirectory(MasterDataDirectorySelectorComboBox.SelectedItem.ToString());
+            if (AllowMasterDataDirectoryUpdate && MasterDataDirectorySelectorComboBox.SelectedIndex != -1)
+            {
+                if (MasterDataDirectorySelectorComboBox.SelectedIndex == 0) LoadMasterDataDirectory(null);
+                else LoadMasterDataDirectory(MasterDataDirectorySelectorComboBox.SelectedItem.ToString());
+            }
         }
         private void RecentsTreeMouseDownEvent(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -946,7 +966,7 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 MessageBox.Show("You can't do that while importing objects!");
             }
-            else
+            else if (RecentsTree.SelectedNode != null)
             {
                 if (RecentsTree.SelectedNode.ImageKey == "SavedDataFolder")
                 {
@@ -1114,18 +1134,25 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void LoadMasterDataDirectory(string SelectedDataDirectory)
         {
-            SceneState.MasterDataDirectory = SelectedDataDirectory;
-            Gameconfig GameConfig = ManiacEditor.Methods.Editor.SolutionPaths.GetGameConfig(SelectedDataDirectory);
-            if (GameConfig != null)
+            UnloadDataDirectory();
+            if (SelectedDataDirectory != null)
             {
-                LoadFromGameConfig(GameConfig);
-                Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
-                Properties.Settings.MySettings.DefaultMasterDataDirectory = SceneState.MasterDataDirectory;
+                SceneState.MasterDataDirectory = SelectedDataDirectory;
+                Gameconfig GameConfig = ManiacEditor.Methods.Editor.SolutionPaths.GetGameConfig(SelectedDataDirectory);
+                if (GameConfig != null)
+                {
+                    LoadFromGameConfig(GameConfig);
+                    Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
+                    Properties.Settings.MySettings.DefaultMasterDataDirectory = SceneState.MasterDataDirectory;
+                }
+                else UnloadMasterDataDirectory();
             }
             else
             {
+                Properties.Settings.MySettings.DefaultMasterDataDirectory = null;
                 UnloadMasterDataDirectory();
             }
+
 
             UpdateDataDirectoryLabel();
             UpdateMasterDataDirectoryComboBox();
@@ -1194,7 +1221,6 @@ namespace ManiacEditor.Controls.SceneSelect
             UnloadDataDirectory();
             MasterDataDirectorySelectorComboBox_SelectionChanged(null, null);
         }
-
         private void ScenesTreeCategoryContextMenuOpeningEvent(object sender, RoutedEventArgs e)
         {
             UpdateSceneInfoContextMenu();
@@ -1211,5 +1237,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             UpdateSavedDataDirInfoContextMenu();
         }
+
+
     }
 }

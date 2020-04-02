@@ -87,17 +87,11 @@ namespace ManiacEditor.Controls.Global.Controls
         #region Splitter Events
         private void Spliter_DragDelta(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Instance != null)
-            {
-                Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
-            }
+
         }
         private void Spliter_SizeChanged(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Instance != null)
-            {
-                Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Editor.SolutionState.ZoomLevel, new System.Drawing.Point(Methods.Editor.SolutionState.ViewPositionX, Methods.Editor.SolutionState.ViewPositionY));
-            }
+
         }
         #endregion
 

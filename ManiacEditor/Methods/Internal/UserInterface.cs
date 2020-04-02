@@ -62,6 +62,7 @@ namespace ManiacEditor.Methods.Internal
                 switch (updateType)
                 {
                     case UpdateType.MouseMoved:
+                        Instance.EditorStatusBar.UpdateStatusPanel();
                         break;
                     case UpdateType.MouseClick:
                         SetSceneOnlyButtonsState(isSceneLoaded);
@@ -82,13 +83,18 @@ namespace ManiacEditor.Methods.Internal
             }
         }
 
-        public static void SetGlobalControlsState(bool enabled)
+        public static void SetLockUIState()
         {
             Instance.MenuBar.MenuBar.IsEnabled = !LockUserInterface;
             Instance.EditorToolbar.LayerToolbar.IsEnabled = !LockUserInterface;
             Instance.EditorToolbar.MainToolbarButtons.IsEnabled = !LockUserInterface;
             Instance.EditorStatusBar.StatusBar1.IsEnabled = !LockUserInterface;
             Instance.EditorStatusBar.StatusBar2.IsEnabled = !LockUserInterface;
+        }
+
+        public static void SetGlobalControlsState(bool enabled)
+        {
+            if (LockUserInterface) SetLockUIState();
 
             Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
 
@@ -105,7 +111,7 @@ namespace ManiacEditor.Methods.Internal
             RefreshModel.RequestEntityVisiblityRefresh(true);
             Instance.MenuBar.SetSceneOnlyButtonsState(enabled);
             Instance.EditorToolbar.SetSceneOnlyButtonsState(enabled);
-            Instance.EditorToolbar.UpdateGameRunningButton(enabled);
+            Instance.EditorStatusBar.SetSceneOnlyButtonsState(enabled);
             EditorToolbars.UpdateEditorToolbars();
         }
         public static void SetSelectOnlyButtonsState(bool enabled = true)
@@ -196,7 +202,7 @@ namespace ManiacEditor.Methods.Internal
                 if (Methods.Editor.SolutionState.UseEncoreColors == true)
                 {
                     Methods.Editor.Solution.CurrentTiles?.Image.Reload(ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
-                    Instance.TilesToolbar?.Reload(ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
+                    Instance.TilesToolbar?.Reload();
                 }
                 else
                 {
@@ -440,8 +446,6 @@ namespace ManiacEditor.Methods.Internal
             {
                 Instance.TilesToolbar.Dispose();
                 Instance.TilesToolbar = null;
-                Instance.Editor_Resize(null, null);
-
                 Instance.Focus();
             }
             private static void CreateTilesToolbar()
@@ -451,14 +455,13 @@ namespace ManiacEditor.Methods.Internal
                 string tileSource = ManiacEditor.Methods.Editor.SolutionPaths.StageTiles_Source.ToString();
                 string palette = (isEncore ? ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0] : null);
 
-                Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar(editorTiles, tileSource, palette, Instance);
+                Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar(tileSource, palette, Instance);
                 Instance.TilesToolbar.TileDoubleClick = new Action<ushort>(x => { TilesToolbar_TileDoubleClick(x); });
                 Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) => { TilesToolbar_TileOptionChanged(option, state); });
 
                 Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
                 Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.TilesToolbar);
                 Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
-                Instance.Editor_Resize(null, null);
                 Instance.Focus();
             }
             private static void TilesToolbar_TileDoubleClick(ushort x)
@@ -492,13 +495,13 @@ namespace ManiacEditor.Methods.Internal
                                     break;
                                 }
                             }
-                            Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Unchcked);
+                            Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Unchcked);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < 4; ++i)
-                            Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TilesToolbar.TileOptionState.Disabled);
+                            Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Disabled);
                     }
                 }
             }
@@ -525,7 +528,7 @@ namespace ManiacEditor.Methods.Internal
             }
             private static void CreateEntitiesToolbar()
             {
-                Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar.EntitiesToolbar(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects, Instance)
+                Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar(Methods.Editor.Solution.CurrentScene.Entities.SceneObjects, Instance)
                 {
                     SelectedEntity = new Action<int>(x => { EntitiesToolbar_EntitySelected(x); }),
                     AddAction = new Action<ManiacEditor.Actions.IAction>(x => { EntitiesToolbar_ActionAdded(x); }),
@@ -534,7 +537,6 @@ namespace ManiacEditor.Methods.Internal
                 Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
                 Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.EntitiesToolbar);
                 Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
-                Instance.Editor_Resize(null, null);
             }
             private static void EntitiesToolbar_ObjectSpawned(SceneObject sceneObject)
             {

@@ -259,7 +259,7 @@ namespace ManiacEditor.Methods.Entities
                     }
 				}
 
-				if (!AssetFound)
+				if (!AssetFound && ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory != null)
 				{
 					Tuple<string, string> Findings = GetAssetSourcePath(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)

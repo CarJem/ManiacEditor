@@ -36,7 +36,7 @@
                 <Separator x:Name="seperator9" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
             </StackPanel>
 
-            <StatusBarItem Margin="0" Grid.Column="1">
+            <StatusBarItem Margin="0" Grid.Column="1" x:Name="StatusBarQuickButtons">
                 <StackPanel Orientation="Horizontal">
                     <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
                     <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="EnablePixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>

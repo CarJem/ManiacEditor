@@ -33,16 +33,15 @@ namespace ManiacEditor.Methods.Internal
         #region Mouse Controls
 
         #region Mouse Auto-Scrolling Methods
-        private static bool ForceAutoScrollMousePosition { get; set; } = false;
         private static AutoScrollDirection LastAutoScrollDirection { get; set; } = AutoScrollDirection.NONE;
         public static void SetAutoScrollerApperance(AutoScrollDirection direction = AutoScrollDirection.NONE)
         {
-            var converter = new System.Windows.Media.BrushConverter();
-            var Active = (System.Windows.Media.Brush)converter.ConvertFromString("Red");
-            var NotActive = (System.Windows.Media.Brush)converter.ConvertFromString("Transparent");
-
             if (LastAutoScrollDirection != direction)
             {
+                var converter = new System.Windows.Media.BrushConverter();
+                var Active = (System.Windows.Media.Brush)converter.ConvertFromString("Red");
+                var NotActive = (System.Windows.Media.Brush)converter.ConvertFromString("Transparent");
+
                 switch (direction)
                 {
                     case AutoScrollDirection.N: Instance.Cursor = System.Windows.Input.Cursors.ScrollN; break;
@@ -59,52 +58,35 @@ namespace ManiacEditor.Methods.Internal
                 }
 
                 LastAutoScrollDirection = direction;
-            }
 
+                if (direction == AutoScrollDirection.N || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = NotActive;
+                if (direction == AutoScrollDirection.S || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = NotActive;
+                if (direction == AutoScrollDirection.E || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = NotActive;
+                if (direction == AutoScrollDirection.W || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = NotActive;
+                if (direction == AutoScrollDirection.NW || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = NotActive;
+                if (direction == AutoScrollDirection.SW || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = NotActive;
+                if (direction == AutoScrollDirection.SE || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = NotActive;
+                if (direction == AutoScrollDirection.NE || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = Active;
+                else Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = NotActive;
 
-
-            if (direction == AutoScrollDirection.N || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderN.Fill = NotActive;
-            if (direction == AutoScrollDirection.S || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderS.Fill = NotActive;
-            if (direction == AutoScrollDirection.E || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderE.Fill = NotActive;
-            if (direction == AutoScrollDirection.W || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderW.Fill = NotActive;
-            if (direction == AutoScrollDirection.NW || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderNW.Fill = NotActive;
-            if (direction == AutoScrollDirection.SW || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderSW.Fill = NotActive;
-            if (direction == AutoScrollDirection.SE || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderSE.Fill = NotActive;
-            if (direction == AutoScrollDirection.NE || direction == AutoScrollDirection.ALL) Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = Active;
-            else Instance.ViewPanel.ScrollGrid.ScrollBorderNE.Fill = NotActive;
-
-            Instance.ViewPanel.ScrollGrid.ScrollBorderN.InvalidateVisual();
-            Instance.ViewPanel.ScrollGrid.ScrollBorderS.InvalidateVisual();
-            Instance.ViewPanel.ScrollGrid.ScrollBorderE.InvalidateVisual();
-            Instance.ViewPanel.ScrollGrid.ScrollBorderW.InvalidateVisual();
-            Instance.ViewPanel.ScrollGrid.ScrollBorderNW.InvalidateVisual();
-            Instance.ViewPanel.ScrollGrid.ScrollBorderSW.InvalidateVisual();
-            Instance.ViewPanel.ScrollGrid.ScrollBorderSE.InvalidateVisual();
-            Instance.ViewPanel.ScrollGrid.ScrollBorderNE.InvalidateVisual();
-
-
-        }
-        public static void EnforceCursorPosition()
-        {
-            if (Properties.Settings.MySettings.ScrollerAutoCenters)
-            {
-                ForceAutoScrollMousePosition = true;
-                System.Windows.Point pointFromParent = Instance.ViewPanel.SharpPanel.TranslatePoint(new System.Windows.Point(0, 0), Instance);
-                Extensions.ExternalExtensions.SetCursorPos((int)(Instance.Left + pointFromParent.X) + (int)(Instance.ViewPanel.SharpPanel.ActualWidth / 2), (int)(Instance.Left + pointFromParent.Y) + (int)(Instance.ViewPanel.SharpPanel.ActualHeight / 2));
+                Instance.ViewPanel.ScrollGrid.ScrollBorderN.InvalidateVisual();
+                Instance.ViewPanel.ScrollGrid.ScrollBorderS.InvalidateVisual();
+                Instance.ViewPanel.ScrollGrid.ScrollBorderE.InvalidateVisual();
+                Instance.ViewPanel.ScrollGrid.ScrollBorderW.InvalidateVisual();
+                Instance.ViewPanel.ScrollGrid.ScrollBorderNW.InvalidateVisual();
+                Instance.ViewPanel.ScrollGrid.ScrollBorderSW.InvalidateVisual();
+                Instance.ViewPanel.ScrollGrid.ScrollBorderSE.InvalidateVisual();
+                Instance.ViewPanel.ScrollGrid.ScrollBorderNE.InvalidateVisual();
             }
         }
-        public static void UpdateAutoScrollerPosition(System.Windows.Forms.MouseEventArgs e)
-        {
-            Methods.Editor.SolutionState.AutoScrollPosition = new Point(e.X - Methods.Editor.SolutionState.ViewPositionX, e.Y - Methods.Editor.SolutionState.ViewPositionY);
-            ForceAutoScrollMousePosition = false;
-        }
+
         public static void ToggleAutoScrollerMode(System.Windows.Forms.MouseEventArgs e)
         {
             if (!Methods.Editor.SolutionState.AutoScrolling) ScrollerModeOn();
@@ -114,7 +96,6 @@ namespace ManiacEditor.Methods.Internal
             {
                 //Turn Scroller Mode On
                 Methods.Editor.SolutionState.AutoScrolling = true;
-                Methods.Editor.SolutionState.AutoScrollingDragged = false;
                 Methods.Editor.SolutionState.AutoScrollPosition = new Point(e.X - Methods.Editor.SolutionState.ViewPositionX, e.Y - Methods.Editor.SolutionState.ViewPositionY);
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible && Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
                 else if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
@@ -125,7 +106,6 @@ namespace ManiacEditor.Methods.Internal
             {
                 //Turn Scroller Mode Off
                 Methods.Editor.SolutionState.AutoScrolling = false;
-                Methods.Editor.SolutionState.AutoScrollingDragged = false;
                 SetAutoScrollerApperance(AutoScrollDirection.NONE);
             }
         }
@@ -134,9 +114,6 @@ namespace ManiacEditor.Methods.Internal
         #region Scroller Mode Events
         public static void ScrollerMouseMove(MouseEventArgs e)
         {
-            if (ForceAutoScrollMousePosition) UpdateAutoScrollerPosition(e);
-            if (Methods.Editor.SolutionState.AutoScrolling) Methods.Editor.SolutionState.AutoScrollingDragged = true;
-
             double xMove = (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) ? e.X - Methods.Editor.SolutionState.ViewPositionX - Methods.Editor.SolutionState.AutoScrollPosition.X : 0;
             double yMove = (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) ? e.Y - Methods.Editor.SolutionState.ViewPositionY - Methods.Editor.SolutionState.AutoScrollPosition.Y : 0;
 
@@ -187,14 +164,6 @@ namespace ManiacEditor.Methods.Internal
                 Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             }
         }
-        public static void ScrollerMouseUp(MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Middle) if (Properties.Settings.MySettings.ScrollerPressReleaseMode) ToggleAutoScrollerMode(e);
-        }
-        public static void ScrollerMouseDown(MouseEventArgs e)
-        {
-
-        }
 
         #endregion
 
@@ -221,8 +190,6 @@ namespace ManiacEditor.Methods.Internal
                 Methods.Editor.SolutionState.RegionX1 = -1;
                 Methods.Editor.SolutionState.RegionY1 = -1;
             }
-
-            else if (e.Button == MouseButtons.Middle) EnforceCursorPosition();
 
             if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit() && !ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) TilesEditMouseMove(e);
             else if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) ChunksEditMouseMove(e);
@@ -288,7 +255,7 @@ namespace ManiacEditor.Methods.Internal
                         Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
                     }
                     Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
-                    if (Methods.Editor.SolutionState.AnyDragged) Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+                    if (Methods.Editor.SolutionState.Dragged || Methods.Editor.SolutionState.DraggingSelection) Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
 
 
 
@@ -297,7 +264,7 @@ namespace ManiacEditor.Methods.Internal
             void SetSelectionBounds()
             {
                 if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) ChunkMode();
-                else Normal();
+                else if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() || ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit()) Normal();
 
                 void ChunkMode()
                 {
@@ -633,7 +600,6 @@ namespace ManiacEditor.Methods.Internal
         public static void MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Methods.Editor.SolutionState.isTileDrawing = false;
-
             if (Methods.Editor.SolutionState.DraggingSelection) MouseUpDraggingSelection(e);
             else
             {
@@ -643,9 +609,9 @@ namespace ManiacEditor.Methods.Internal
                     MouseClick(sender, e);
                 }
                 if (Methods.Editor.SolutionState.Dragged && (Methods.Editor.SolutionState.DraggedX != 0 || Methods.Editor.SolutionState.DraggedY != 0)) Actions.UndoRedoModel.UpdateEditEntitiesActions();
+                Methods.Editor.SolutionState.DraggingSelection = false;
                 Methods.Editor.SolutionState.Dragged = false;
             }
-            ScrollerMouseUp(e);
             Actions.UndoRedoModel.UpdateEditLayerActions();
             Methods.Internal.UserInterface.UpdateControls(UserInterface.UpdateType.MouseClick);
 
@@ -760,7 +726,6 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void MouseDownMiddle(System.Windows.Forms.MouseEventArgs e)
         {
-            EnforceCursorPosition();
             ToggleAutoScrollerMode(e);
         }
         #endregion

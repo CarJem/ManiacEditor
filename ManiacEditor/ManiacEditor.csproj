@@ -150,7 +150,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Experiment|AnyCPU'">
@@ -526,9 +526,6 @@
     <Compile Include="Controls\Global\Controls\EditLayerToggleButton.xaml.cs">
       <DependentUpon>EditLayerToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Toolbars\TilesToolbar\TilesTabControl.xaml.cs">
-      <DependentUpon>TilesTabControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Global\Controls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
@@ -618,10 +615,10 @@
     <Compile Include="Controls\Editor\Elements\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml.cs">
+    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar.xaml.cs">
       <DependentUpon>EntitiesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Toolbars\TilesToolbar\TilesToolbar.xaml.cs">
+    <Compile Include="Controls\Editor\Toolbars\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Methods\Entities\AttributeHandler.cs" />
@@ -1184,6 +1181,13 @@
     <Resource Include="Resources\HUD\Headers\Zoom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <None Include="Properties\PostBuild\MakeInstaller.bat" />
+    <None Include="Properties\PostBuild\PublishStep.bat" />
+    <None Include="Properties\PostBuild\SetToPortableMode.bat" />
+    <None Include="Properties\PostBuild\MakeZIP.bat" />
+    <None Include="Properties\PostBuild\Installer\Script.nsi" />
+    <None Include="Properties\PostBuild\MoveBinaries.bat" />
+    <Resource Include="Properties\PostBuild\Installer\InstallerBanner.bmp" />
     <Content Include="Resources\Fonts\Roboto\LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1228,8 +1232,9 @@
     <EmbeddedResource Include="Resources\entity_definitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Properties\PostBuild.bat" />
-    <None Include="Properties\PreBuild.bat" />
+    <None Include="Properties\PostBuild\MainScript.bat" />
+    <None Include="Properties\PreBuild\UpdateVersion.bat" />
+    <None Include="Properties\PreBuild\MainScript.bat" />
     <Resource Include="Resources\Fonts\sonic-1-hud-font.ttf" />
     <Resource Include="Resources\Fonts\sonic2system.ttf" />
     <Resource Include="Resources\Fonts\sonic-hud-font.ttf" />
@@ -1577,10 +1582,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Toolbars\TilesToolbar\TilesTabControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\Global\Controls\VScrollBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1673,11 +1674,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Toolbars\EntitiesToolbar\EntitiesToolbar.xaml">
+    <Page Include="Controls\Editor\Toolbars\EntitiesToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Editor\Toolbars\TilesToolbar\TilesToolbar.xaml">
+    <Page Include="Controls\Editor\Toolbars\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1757,9 +1758,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>call "$(ProjectDir)\Properties\PreBuild.bat" "$(ConfigurationName)" "$(ProjectDir)" "false" "false"</PreBuildEvent>
+    <PreBuildEvent>call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call "$(ProjectDir)\Properties\PostBuild.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)"</PostBuildEvent>
+    <PostBuildEvent>call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

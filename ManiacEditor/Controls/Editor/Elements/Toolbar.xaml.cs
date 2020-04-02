@@ -1139,6 +1139,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                     ZoomOutButton.IsEnabled = enabled && Methods.Editor.SolutionState.ZoomLevel > -5;
                 }
             }));
+            UpdateGameRunningButton(enabled);
         }
         public void UpdateTooltips()
         {

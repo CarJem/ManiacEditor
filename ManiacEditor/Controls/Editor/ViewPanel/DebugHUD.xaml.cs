@@ -33,7 +33,6 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
             {
                 t = new System.Windows.Forms.Timer();
                 t.Tick += T_Tick;
-                t.Start();
             }
 
         }
@@ -41,7 +40,6 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         private void T_Tick(object sender, EventArgs e)
         {
             UpdateHUDInfo();
-
         }
 
         public void UpdateInstance(MainEditor editor)
@@ -272,58 +270,66 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
             if (IsUserVisible(Instance.ViewPanel.SharpPanel) && Methods.Editor.SolutionState.IsSceneLoaded() && Methods.Editor.SolutionState.DebugStatsVisibleOnPanel)
             {
                 ViewPanelHUD.IsOpen = true;
+                UpdatePopupSize();
             }
             else ViewPanelHUD.IsOpen = false;
         }
 
         public void UpdatePopupSize()
         {
-            int scrollWidth = double.IsNaN(Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth) ? 0 : (int)Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth;
-            int scrollHeight = double.IsNaN(Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight) ? 0 : (int)Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight;
-
-            int desiredWidth = (int)Instance.ViewPanel.SharpPanel.ActualWidth - scrollWidth - 10;
-            int desiredHeight = (int)Instance.ViewPanel.SharpPanel.ActualHeight - scrollHeight - 10;
-
-            if (ViewPanelHUD.MaxWidth != desiredWidth || ViewPanelHUD.MaxHeight != desiredHeight)
+            this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                //Display.MaxWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
-                //Display.MaxHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
-
-                //Display.MinWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
-                //Display.MinHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
-
-                ViewPanelHUD.Width = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
-                ViewPanelHUD.Height = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
-
-                ViewPanelHUD.MaxWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
-                ViewPanelHUD.MaxHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
-
-                ViewPanelHUD.MinWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
-                ViewPanelHUD.MinHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
-            }
-
-            if (Instance.ViewPanel.SharpPanel.IsLoaded)
-            {
-                try
+                if (ViewPanelHUD.IsOpen)
                 {
-                    Point relativePoint = Instance.ViewPanel.SharpPanel.PointToScreen(new Point(0, 0));
-                    UpdatePosition(ViewPanelHUD, (int)relativePoint.X, (int)relativePoint.Y, (int)Instance.ViewPanel.SharpPanel.Width, (int)Instance.ViewPanel.SharpPanel.Height);
-                    ViewPanelHUD.AllowsTransparency = true;
+                    int scrollWidth = double.IsNaN(Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth) ? 0 : (int)Instance.ViewPanel.SharpPanel.vScrollBar1.ActualWidth;
+                    int scrollHeight = double.IsNaN(Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight) ? 0 : (int)Instance.ViewPanel.SharpPanel.hScrollBar1.ActualHeight;
+
+                    int desiredWidth = (int)Instance.ViewPanel.SharpPanel.ActualWidth - scrollWidth - 10;
+                    int desiredHeight = (int)Instance.ViewPanel.SharpPanel.ActualHeight - scrollHeight - 10;
+
+                    if (ViewPanelHUD.MaxWidth != desiredWidth || ViewPanelHUD.MaxHeight != desiredHeight)
+                    {
+                        //Display.MaxWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                        //Display.MaxHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                        //Display.MinWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                        //Display.MinHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                        ViewPanelHUD.Width = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                        ViewPanelHUD.Height = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                        ViewPanelHUD.MaxWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                        ViewPanelHUD.MaxHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+
+                        ViewPanelHUD.MinWidth = (Instance.ViewPanel.SharpPanel.ActualWidth > 0 ? desiredWidth : 0);
+                        ViewPanelHUD.MinHeight = (Instance.ViewPanel.SharpPanel.ActualHeight > 0 ? desiredHeight : 0);
+                    }
+
+                    if (Instance.ViewPanel.SharpPanel.IsLoaded)
+                    {
+                        try
+                        {
+                            Point relativePoint = Instance.ViewPanel.SharpPanel.PointToScreen(new Point(0, 0));
+                            UpdatePosition(ViewPanelHUD, (int)relativePoint.X, (int)relativePoint.Y, (int)Instance.ViewPanel.SharpPanel.Width, (int)Instance.ViewPanel.SharpPanel.Height);
+                            ViewPanelHUD.AllowsTransparency = true;
+                        }
+                        catch { }
+
+                    }
                 }
-                catch { }
-
-            }
-
+            }));
         }
 
         private void ViewPanelHUD_Closed(object sender, EventArgs e)
         {
             UpdatePopupSize();
+            if (t != null) t.Stop();
         }
 
         private void ViewPanelHUD_Opened(object sender, EventArgs e)
         {
             UpdatePopupSize();
+            if (t != null) t.Start();
         }
 
         #endregion

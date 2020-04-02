@@ -91,6 +91,7 @@ namespace ManiacEditor.Methods.Editor
 		#endregion
 
 		#region Data Directories
+
 		public static string DefaultMasterDataDirectory
 		{
 			get
