@@ -78,7 +78,7 @@ namespace ManiacEditor
 
         #region Constructor
 
-        public DevicePanel(Controls.Editor.MainEditor instance = null)
+        public DevicePanel()
         {
             InitializeComponent();
         }
@@ -290,30 +290,29 @@ namespace ManiacEditor
                     (int)Math.Ceiling(screen.Height / zoom));
         }
 
+        private SFML.System.Vector2i GetPosition()
+        {
+            if (_parent == null) return new SFML.System.Vector2i(0, 0);
+            return _parent.GetPosition();
+        }
+
         private FloatRect GetRectScreen()
         {
             var position = GetPosition();
             var size = GetSize();
             return new FloatRect(position.X, position.Y, size.X, size.Y);
         }
+        
+        private float GetZoom()
+        {
+            if (_parent == null) return 1;
+            return _parent.GetZoom();
+        }
 
         private SFML.Graphics.View GetCurrentView()
         {
             var view = new SFML.Graphics.View(GetRectScreen());
             return view;
-        }
-
-        private SFML.System.Vector2i GetPosition()
-        {
-            int x = (int)(Methods.Editor.SolutionState.ViewPositionX);
-            int y = (int)(Methods.Editor.SolutionState.ViewPositionY);
-
-            return new SFML.System.Vector2i(x, y);
-        }
-
-        private float GetZoom()
-        {
-            return (float)Methods.Editor.SolutionState.Zoom;
         }
 
         private SFML.System.Vector2u GetSize()
@@ -529,7 +528,7 @@ namespace ManiacEditor
             var point2 = new SFML.System.Vector2f(real_x2, real_y2);
             var sfmlColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
 
-            Classes.Rendering.SfLine line = new Classes.Rendering.SfLine(point1, point2, sfmlColor, thickness);
+            Classes.Rendering.SelbaWardLine line = new Classes.Rendering.SelbaWardLine(point1, point2, sfmlColor, thickness);
             RenderWindow.Draw(line);
             
         }

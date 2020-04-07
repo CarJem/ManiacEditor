@@ -55,7 +55,6 @@ namespace ManiacEditor.Entity_Renders
             }
 
             var editorAnim = LoadAnimation("Water", d, animID, 0);
-            var editorAnim2 = LoadAnimation("Water", d, 0, 0);
 
             // Base Water + Bubble Source
             if (animID >= 0 && (type == 2 || type == 0))

@@ -242,6 +242,7 @@
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Classes\Rendering\LayerTileProvider.cs" />
     <Compile Include="Classes\Rendering\EllipseShape.cs" />
+    <Compile Include="Classes\Rendering\SelbaWardLine.cs" />
     <Compile Include="Classes\Rendering\SFLine.cs" />
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
@@ -293,10 +294,25 @@
     <Compile Include="Entity Renders\Normal Renders\Bounded\ChemicalPool.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\FBZSinkTrash.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\PetalPile.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\PropellerShaft.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\ShopWindow.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\Bounded\Water.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Bounded\WaterfallSound.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\Whirlpool.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Buttons\Button.cs">
@@ -320,6 +336,15 @@
     <Compile Include="Entity Renders\Normal Renders\Collectables\SpecialRing.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Decor\Constellation.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\EggTV.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Decor\Valve.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\Doors + Tubes\TransportTube.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -336,6 +361,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Internal\ForceUnstick.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Looping\CorkscrewPath.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Platforms\FoldingPlatform.cs">
@@ -1719,7 +1747,6 @@
     <Folder Include="Entity Renders\Normal Renders\Conveyors + Lifts\" />
     <Folder Include="Entity Renders\Normal Renders\Cutscenes\" />
     <Folder Include="Entity Renders\Normal Renders\Flight\" />
-    <Folder Include="Entity Renders\Normal Renders\Looping\" />
     <Folder Include="Entity Renders\Normal Renders\Propulsive\" />
     <Folder Include="Entity Renders\Normal Renders\Pullies + Hanging\" />
     <Folder Include="Entity Renders\Normal Renders\Special Stages\" />

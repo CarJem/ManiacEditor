@@ -99,12 +99,12 @@ namespace ManiacEditor.Methods.Editor
         }
         public static void OpenSceneForceFully()
         {
+            Methods.Editor.Solution.UnloadScene();
             var item = ManiacEditor.Classes.Prefrences.SceneHistoryStorage.Collection.List.FirstOrDefault();
             if (item != null)
             {
-                Methods.Editor.Solution.UnloadScene();
-                ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData = item.SceneState;
-                ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneFromSaveState(item);
+                OpenSceneFromSaveState(item);
+                Classes.Prefrences.SceneHistoryStorage.AddRecentFile(item);
             }
         }
         public static void Save()

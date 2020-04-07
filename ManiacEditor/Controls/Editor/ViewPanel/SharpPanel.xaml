@@ -22,7 +22,7 @@
             <WindowsFormsHost x:Name="Host" Background="Transparent" DpiChanged="Host_DpiChanged" SizeChanged="SharpPanel_SizeChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0"></WindowsFormsHost>
         </Grid>
         <Grid.ContextMenu>
-            <ContextMenu x:Name="ViewPanelContextMenu" Style="{DynamicResource DefaultContextMenuStyle}">
+            <ContextMenu x:Name="ViewPanelContextMenu">
                 <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
                 <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHere"></MenuItem>
                 <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHere"></MenuItem>

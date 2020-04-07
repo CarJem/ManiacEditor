@@ -1471,7 +1471,7 @@ namespace ManiacEditor.Methods.Internal
             }
             if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacOpen))
             {
-                CollisionEditor.Instance.OpenToolStripMenuItem_Click(null, null);
+                CollisionEditor.Instance.OpenCollision();
             }
             if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSave))
             {
@@ -1549,16 +1549,6 @@ namespace ManiacEditor.Methods.Internal
                 CollisionEditor.Instance.showGridToolStripMenuItem.IsChecked = !CollisionEditor.Instance.showGridToolStripMenuItem.IsChecked;
                 CollisionEditor.Instance.showGridToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacClassicMode))
-            {
-                CollisionEditor.Instance.classicViewModeToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacWindowAlwaysOnTop))
-            {
-                CollisionEditor.Instance.windowAlwaysOnTop.IsChecked = !CollisionEditor.Instance.windowAlwaysOnTop.IsChecked;
-                CollisionEditor.Instance.WindowAlwaysOnTop_Click(null, null);
-            }
-
             if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSplitFile))
             {
                 CollisionEditor.Instance.splitFileToolStripMenuItem_Click(null, null);

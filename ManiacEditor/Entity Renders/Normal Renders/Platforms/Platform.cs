@@ -62,6 +62,7 @@ namespace ManiacEditor.Entity_Renders
                     }
                 }
 
+                if (AttributeFrameID <= -1) return;
                 var Animation = LoadAnimation("Platform", d, 0, 0);
                 if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
                 DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x + newX, y - newY, Transparency);
@@ -106,6 +107,7 @@ namespace ManiacEditor.Entity_Renders
             var Animation = LoadAnimation("Platform", d, 0, 0);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
             d.DrawLine(x - amplitudeX, y - amplitudeY, x + amplitudeX, y + amplitudeY, System.Drawing.Color.Yellow, 3);
+            if (AttributeFrameID <= -1) return;
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
             //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }
@@ -120,6 +122,7 @@ namespace ManiacEditor.Entity_Renders
             int y2 = y + (amplitudeY / 2);
 
             d.DrawLine(x1, x2, y1, y2, System.Drawing.Color.Yellow, 3);
+            if (AttributeFrameID <= -1) return;
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
             //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }
@@ -127,6 +130,7 @@ namespace ManiacEditor.Entity_Renders
         {
             var Animation = LoadAnimation("Platform", d, 0, 0);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
+            if (AttributeFrameID <= -1) return;
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
             //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }
@@ -134,6 +138,7 @@ namespace ManiacEditor.Entity_Renders
         {
             var Animation = LoadAnimation("Platform", d, 0, 0);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
+            if (AttributeFrameID <= -1) return;
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency, false, false, 0, System.Drawing.Color.FromArgb(255,255,0,0));
             //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
         }

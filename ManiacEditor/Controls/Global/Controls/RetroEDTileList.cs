@@ -451,14 +451,14 @@ namespace ManiacEditor.Controls.Global.Controls
 
 		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Instance.TileManiacInstance == null || Instance.TileManiacInstance.IsClosed) Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
+			if (Instance.TileManiacInstance == null || Instance.TileManiacInstance.IsEditorClosed) Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
 			if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
 			{
                 Instance.TileManiacInstance.Show();
 			}
 			if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
 			{
-				if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Instance.TileManiacInstance.tcf == null)
+				if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Instance.TileManiacInstance.TileConfig == null)
 				{
                     Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedIndex);
 				}

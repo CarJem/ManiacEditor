@@ -5,20 +5,16 @@ namespace ManiacEditor.Entity_Renders
     public class Valve : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
 
@@ -38,25 +34,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Valve", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Valve", d.DevicePanel, 2, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
-                var frame2 = editorAnim2.Frames[0];
-
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    x + (fliph ? -frame2.Frame.PivotX - frame2.Frame.Width : frame2.Frame.PivotX),
-                    y + (flipv ? -frame2.Frame.PivotY - frame2.Frame.Height : frame2.Frame.PivotY),
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + (fliph ? -frame.Frame.PivotX - frame.Frame.Width : frame.Frame.PivotX),
-                    y + (flipv ? -frame.Frame.PivotY - frame.Frame.Height : frame.Frame.PivotY),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-            }
+            var editorAnim = LoadAnimation("Valve", d, 0, 0);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            var editorAnim2 = LoadAnimation("Valve", d, 2, 0);
+            DrawTexturePivotNormal(d, editorAnim2, editorAnim2.RequestedAnimID, editorAnim2.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

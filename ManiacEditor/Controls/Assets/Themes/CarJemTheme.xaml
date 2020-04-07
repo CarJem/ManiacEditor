@@ -11,7 +11,7 @@
     <SolidColorBrush x:Key="AnimationEditor_IconRed" Color="#FFD92E0C"/>
 
     <SolidColorBrush x:Key="Maniac_ExtraEditLayer_LabelText" Color="Lime"/>
-    <SolidColorBrush x:Key="Maniac_ExtraViewLayer_LabelText" Color="Green"/>
+    <SolidColorBrush x:Key="Maniac_ExtraViewLayer_LabelText" Color="#013601"/>
     <SolidColorBrush x:Key="Maniac_EditLayer_LabelText" Color="#FF8200"/>
 
     <SolidColorBrush x:Key="EditLayerSelectedColor" Color="Blue"/>
@@ -31,7 +31,8 @@
 
     <SolidColorBrush x:Key="Maniac_FolderIcon" Color="#FFE793"/>
 
-    <SolidColorBrush x:Key="TileManiac_CollisionColor" Color="#149414"/>
+    <SolidColorBrush x:Key="TileManiac_CollisionColor" Color="Lime"/>
+    <SolidColorBrush x:Key="TileManiac_AntiCollisionColor" Color="Red"/>
 
     <SolidColorBrush x:Key="LegacyThemeBrush1" Color="#FF5F0000"/>
     <SolidColorBrush x:Key="LegacyThemeBrush2" Color="#750000"/>

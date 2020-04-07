@@ -97,11 +97,11 @@ namespace ManiacEditor.Methods
         }
         public static void TileManiacNormal()
         {
-            if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
+            if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsEditorClosed) Editor.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
             Editor.TileManiacInstance.Show();
             if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
             {
-                if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
+                if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.TileConfig == null)
                 {
                     Editor.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString());
                 }
@@ -117,14 +117,14 @@ namespace ManiacEditor.Methods
         {
             try
             {
-                if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsClosed) Editor.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
+                if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsEditorClosed) Editor.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
                 if (Editor.TileManiacInstance.Visibility != Visibility.Visible)
                 {
                     Editor.TileManiacInstance.Show();
                 }
                 if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
                 {
-                    if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.tcf == null)
+                    if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.TileConfig == null)
                     {
                         Editor.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), Methods.Editor.SolutionState.SelectedTileID);
                     }

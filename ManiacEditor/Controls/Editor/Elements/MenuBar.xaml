@@ -100,6 +100,19 @@
                     <Separator></Separator>
                     <MenuItem x:Name="swapScrollLockDirMenuToolstripButton" Header="Swap Scroll Lock Direction"  Click="SetScrollDirectionEvent"/>
                 </MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="ImageOverlayGroupMenuItem" Header="Overlay Image...">
+                    <MenuItem StaysOpenOnClick="True" x:Name="OverlayImageEnabled" Header="Enable Overlay" IsCheckable="True" IsChecked="True"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem StaysOpenOnClick="True" x:Name="OverlayImageMenuItem" Header="Select Image..." Click="OverlayImageMenuItem_Click"></MenuItem>
+                    <MenuItem StaysOpenOnClick="True" x:Name="ClearImageMenuItem" Header="Clear Current Image" Click="ClearImageMenuItem_Click"></MenuItem>
+                    <MenuItem StaysOpenOnClick="True" IsEnabled="False" x:Name="ImageOpacityLabel" Header="Image Opacity:"></MenuItem>
+                    <MenuItem StaysOpenOnClick="True">
+                        <MenuItem.Header>
+                            <Slider x:Name="OverlayImageOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" Width="156"></Slider>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem x:Name="layersToolStripMenuItem" Header="Layers">
                 <TextBlock x:Name="OptionsLabel" TextWrapping="Wrap" Text="Editing Options:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></TextBlock>
@@ -192,6 +205,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem x:Name="sceneToolStripMenuItem" Header="Scene">
+                <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Collision Editor" Click="TileManiacNormal"/>
                 <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager" Click="ObjectManagerEvent"/>
                 <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Import Sounds" Click="ImportSoundsEvent"/>
                 <MenuItem x:Name="layerManagerToolStripMenuItem" Header="Layer Manager" Click="LayerManagerEvent"/>
@@ -222,9 +236,7 @@
             <MenuItem x:Name="appsToolStripMenuItem" Header="Apps" >
                 <MenuItem x:Name="MenuAppsSonicMania" Header="Sonic Mania (Headless Launch)" Click="SonicManiaHeadless"></MenuItem>
                 <MenuItem x:Name="MenuAppsModLoader" Header="Mania Mod Manager (Mod Loader)" Click="ModManager"></MenuItem>
-                <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Tile Maniac (Collision Editor)" Click="TileManiacNormal"/>
                 <MenuItem x:Name="insanicManiacToolStripMenuItem" Header="Insanic Maniac (Game Config Editor)" Click="InsanicManiacToolStripMenuItem_Click"/>
-                <MenuItem x:Name="duplicateObjectIDHealerToolStripMenuItem" Header="Fixer Maniac (Duplicate Object ID Fixer)" Click="DuplicateObjectIDHealerToolStripMenuItem_Click"/>
                 <MenuItem x:Name="rSDKAnnimationEditorToolStripMenuItem" Header="RSDK Animation Editor" Click="RSDKAnnimationEditorToolStripMenuItem_Click"/>
                 <MenuItem x:Name="RenderListManagerToolstripMenuItem" Header="Render List Manager" Click="RenderListManagerToolstripMenuItem_Click" Visibility="Collapsed" IsEnabled="False"></MenuItem>
                 <MenuItem x:Name="MenuAppsCheatEngine" Header="Cheat Engine (Memory Editing)" Click="MenuAppsCheatEngine_Click"></MenuItem>

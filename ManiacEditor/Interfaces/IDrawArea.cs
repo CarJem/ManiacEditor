@@ -1,12 +1,14 @@
 ﻿using System.Drawing;
+using SFML.System;
+using SFML.Graphics;
 
 namespace ManiacEditor
 {
     public interface IDrawArea
     {
-        void DisposeTextures();
-        
+        void DisposeTextures();       
         Rectangle GetScreen();
-        double GetZoom();
+        float GetZoom();
+        SFML.System.Vector2i GetPosition();
     }
 }

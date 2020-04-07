@@ -2,7 +2,7 @@
 
 namespace ManiacEditor.Entity_Renders
 {
-    public class FBZSinkTrash : EntityRenderer
+    public class EggTV : EntityRenderer
     {
 
         public override void Draw(Structures.EntityRenderProp Properties)
@@ -14,19 +14,17 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var type = e.attributesMap["type"].ValueEnum;
             var widthPixels = (int)(e.attributesMap["size"].ValueVector2.X.High);
             var heightPixels = (int)(e.attributesMap["size"].ValueVector2.Y.High);
+            var width = (int)widthPixels / 16;
+            var height = (int)heightPixels / 16;
 
-            if (widthPixels >= 1 && heightPixels >= 1)
-            {
-                d.DrawRectangle(x - widthPixels / 2, y - heightPixels / 2, x + widthPixels / 2, y + heightPixels / 2, System.Drawing.Color.Gray, System.Drawing.Color.White, 1);
-            }
+            DrawBounds(d, x, y, widthPixels, heightPixels, Transparency, System.Drawing.Color.White, System.Drawing.Color.LightGray);
         }
 
         public override string GetObjectName()
         {
-            return "FBZSinkTrash";
+            return "EggTV";
         }
     }
 }

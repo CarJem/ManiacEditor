@@ -6,17 +6,15 @@
         xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
-        Title="Tile Maniac - RSDKv5 Collision Editor" Height="549" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Width="919" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Tile Maniac - RSDKv5 Collision Editor" Width="868" MinHeight="570" Height="475" KeyDown="Window_KeyDown" MinWidth="868" KeyUp="Window_KeyUp" Background="{DynamicResource NormalBackground}" ResizeMode="CanResize" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="24"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="67"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="377"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="157"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
             <MenuItem Header="File">
@@ -43,34 +41,12 @@
                 <MenuItem x:Name="copyMenuItem" Click="copyToolStripMenuItem_Click" Header="Copy"></MenuItem>
                 <MenuItem x:Name="copyToOtherPathMenuItem" Click="copyToOtherPathToolStripMenuItem_Click" Header="Copy to Other Path"></MenuItem>
                 <MenuItem x:Name="pasteMenuItem" Click="pasteToolStripMenuItem_Click" Header="Paste"></MenuItem>
-                <Separator></Separator>
-                <MenuItem IsCheckable="True" Click="mirrorPathsToolStripMenuItem_Click" x:Name="mirrorPathsToolStripMenuItem1" Header="Mirror Mode"></MenuItem>
-                <MenuItem Header="Restore Mask from Memory">
-                    <MenuItem x:Name="restoreBothMenuItem" Click="bothToolStripMenuItem_Click" Header="Both"></MenuItem>
-                    <MenuItem x:Name="restorePathAMenuItem" Click="pathBToolStripMenuItem_Click" Header="Path A"></MenuItem>
-                    <MenuItem x:Name="restorePathBMenuItem" Click="pathAToolStripMenuItem_Click" Header="Path B"></MenuItem>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="View">
-                <MenuItem IsCheckable="True" Click="showPathBToolStripMenuItem_Click" x:Name="showPathBToolStripMenuItem" Header="Show Path B"></MenuItem>
-                <MenuItem IsCheckable="True" Click="showGridToolStripMenuItem_Click" Header="Show Grid" x:Name="showGridToolStripMenuItem"></MenuItem>
-                <MenuItem IsCheckable="True" Click="classicViewModeToolStripMenuItem_Click" x:Name="classicViewModeToolStripMenuItem" Header="Classic View Mode"></MenuItem>
-                <MenuItem x:Name="viewSettingsToolStripMenuItem" Header="View Settings">
-                    <MenuItem Header="Appearance:" IsEnabled="False"></MenuItem>
-                    <Separator></Separator>
-                    <MenuItem Click="overlayToolStripMenuItem_Click" x:Name="overlayToolStripMenuItem" Header="Overlay"></MenuItem>
-                    <MenuItem Click="collisionToolStripMenuItem_Click" x:Name="collisionToolStripMenuItem" Header="Collision"></MenuItem>
-                </MenuItem>
-                <Separator></Separator>
-                <MenuItem IsCheckable="True" x:Name="windowAlwaysOnTop" Click="WindowAlwaysOnTop_Click" Header="Window Always On Top"></MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem x:Name="splitFileMenuItem" Click="splitFileToolStripMenuItem_Click" Header="Split File"></MenuItem>
                 <MenuItem Header="Developer">
                     <MenuItem Click="developerInterfaceToolStripMenuItem_Click" Header="Developer Interface"></MenuItem>
                 </MenuItem>
-                <MenuItem x:Name="flipTileHMenuItem" Click="flipTileHorizontallyToolStripMenuItem_Click" Header="Flip Tile Horizontally"></MenuItem>
-                <MenuItem x:Name="flipTileVMenuItem" Click="flipTileVerticallyToolStripMenuItem_Click" Header="Flip Tile Vertically"></MenuItem>
             </MenuItem>
             <MenuItem Header="Folders">
                 <MenuItem x:Name="openCollisionHomeFolderToolStripMenuItem" Click="openCollisionHomeFolderToolStripMenuItem_Click" Header="Open Collision Home Folder"></MenuItem>
@@ -80,644 +56,519 @@
                 <MenuItem x:Name="settingsMenuItem" Click="settingsToolStripMenuItem_Click" Header="Settings"></MenuItem>
             </MenuItem>
         </Menu>
-        <GroupBox Grid.Column="0" Grid.Row="1" Foreground="{DynamicResource NormalText}" Header="Tile Collision Data">
-            <Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="5" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="32"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="377"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="250"></ColumnDefinition>
+                <ColumnDefinition Width="176"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Margin="0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="100"></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <Grid x:Name="ClassicMode" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="25"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged"  x:Name="lb00" Grid.RowSpan="16" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb01" Grid.RowSpan="16" Grid.Column="1" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb02" Grid.RowSpan="16" Grid.Column="2" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb03" Grid.RowSpan="16" Grid.Column="3" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb04" Grid.RowSpan="16" Grid.Column="4" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb05" Grid.RowSpan="16" Grid.Column="5" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb06" Grid.RowSpan="16" Grid.Column="6" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb07" Grid.RowSpan="16" Grid.Column="7" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb08" Grid.RowSpan="16" Grid.Column="8" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb09" Grid.RowSpan="16" Grid.Column="9" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb10" Grid.RowSpan="16" Grid.Column="10" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb11" Grid.RowSpan="16" Grid.Column="11" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb12" Grid.RowSpan="16" Grid.Column="12" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb13" Grid.RowSpan="16" Grid.Column="13" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb14" Grid.RowSpan="16" Grid.Column="14" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                    <ListBox SelectionChanged="lb_SelectedIndexChanged" x:Name="lb15" Grid.RowSpan="16" Grid.Column="15" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListBoxItem Padding="0">0</ListBoxItem>
-                        <ListBoxItem Padding="0">1</ListBoxItem>
-                        <ListBoxItem Padding="0">2</ListBoxItem>
-                        <ListBoxItem Padding="0">3</ListBoxItem>
-                        <ListBoxItem Padding="0">4</ListBoxItem>
-                        <ListBoxItem Padding="0">5</ListBoxItem>
-                        <ListBoxItem Padding="0">6</ListBoxItem>
-                        <ListBoxItem Padding="0">7</ListBoxItem>
-                        <ListBoxItem Padding="0">8</ListBoxItem>
-                        <ListBoxItem Padding="0">9</ListBoxItem>
-                        <ListBoxItem Padding="0">A</ListBoxItem>
-                        <ListBoxItem Padding="0">B</ListBoxItem>
-                        <ListBoxItem Padding="0">C</ListBoxItem>
-                        <ListBoxItem Padding="0">D</ListBoxItem>
-                        <ListBoxItem Padding="0">E</ListBoxItem>
-                        <ListBoxItem Padding="0">F</ListBoxItem>
-                    </ListBox>
-                </Grid>
-
-                <Grid MouseLeave="CollisionViewer_MouseLeave" Height="280" x:Name="CollisionViewer" VerticalAlignment="Bottom" MouseEnter="CollisionViewer_MouseHover" MouseDown="CollisionViewer_MouseDown" MouseMove="CollisionViewer_MouseMove" HorizontalAlignment="Stretch" IsEnabled="False">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
-                        <RowDefinition Height="25"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-
-
-
-
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb00" Grid.Row="16" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb01" Grid.Row="16" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb02"  Grid.Row="16" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb03"  Grid.Row="16" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb04"  Grid.Row="16" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb05"  Grid.Row="16" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb06" Grid.Row="16" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb07" Grid.Row="16" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb08" Grid.Row="16" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb09" Grid.Row="16" Grid.Column="9" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb10" Grid.Row="16" Grid.Column="10" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb11" Grid.Row="16" Grid.Column="11" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb12" Grid.Row="16" Grid.Column="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb13" Grid.Row="16" Grid.Column="13" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb14" Grid.Row="16" Grid.Column="14" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb15" Grid.Row="16" Grid.Column="15" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-                </Grid>
-                <Grid  Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52*"></ColumnDefinition>
-                        <ColumnDefinition Width="56*"></ColumnDefinition>
-                        <ColumnDefinition Width="75*"></ColumnDefinition>
-                        <ColumnDefinition Width="64*"></ColumnDefinition>
-                        <ColumnDefinition Width="51*"></ColumnDefinition>
-                        <ColumnDefinition Width="59*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Column="0" Margin="2">
-                        <Label Content="Floor Angle" FontSize="9" Margin="-7,0,0,0"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="SlopeNUD_ValueChanged" x:Name="SlopeNUD" ToolTip="Controls the slope angle of the tile in degrees" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
+                <StackPanel VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Collision Mask" VerticalContentAlignment="Center"></Label>
+                        <wpfTool:IntegerUpDown ValueChanged="GotoNUD_ValueChanged"  Minimum="0" Maximum="1023" x:Name="GotoNUD" DefaultValue="0" Value="0" Height="20" Width="50" IsEnabled="False"></wpfTool:IntegerUpDown>
+                        <Label Content="of 1023" VerticalContentAlignment="Center"></Label>
                     </StackPanel>
-                    <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="2,0">
-                        <Label Content="Floor Angle (°D)"></Label>
-                        <Grid Width="48" Height="20" HorizontalAlignment="Left">
-                            <wpfTool:IntegerUpDown IsEnabled="False" x:Name="RawSlopeNUD" DefaultValue="0" Value="0" Height="20" Width="48"></wpfTool:IntegerUpDown>
-                        </Grid>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="2">
-                        <Label Content="RWall Angle" FontSize="9" Margin="-8,0,0,0"/>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="PhysicsNUD_ValueChanged" x:Name="PhysicsNUD" ToolTip="Controls the physics of the player interacting with the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2"  Margin="2">
-                        <Label Content="LWall Angle" FontSize="9"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="MomentumNUD_ValueChanged" x:Name="MomentumNUD" ToolTip="Controls the momentum the player gets from the tile" DefaultValue="0" Value="0" Height="20" IsEnabled="False"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="3" Margin="2">
-                        <Label Content="Ceiling Angle" FontSize="9" Margin="-7,0,0,0"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" ValueChanged="UnknownNUD_ValueChanged" x:Name="UnknownNUD" ToolTip="Controls the Unknown Value of the tile" DefaultValue="0" Value="0" IsEnabled="False"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="4" Margin="2">
-                        <Label Content="Behaviour" FontSize="9" Margin="-5,0,0,0"></Label>
-                        <wpfTool:IntegerUpDown ParsingNumberStyle="HexNumber" FormatString="X" x:Name="SpecialNUD" ValueChanged="SpecialNUD_ValueChanged" ToolTip="Controls the the tile's 'Special' Properties, like whether it's a conveyor belt or not" DefaultValue="0" Value="0" Height="20" IsEnabled="False"></wpfTool:IntegerUpDown>
-                    </StackPanel>
-                    <StackPanel Grid.Column="5" Margin="2">
-                        <Label Content="IsCelling" FontSize="9"/>
-                        <CheckBox x:Name="IsCeilingButton" Checked="IsCeilingButton_CheckedChanged" Unchecked="IsCeilingButton_CheckedChanged" IsEnabled="False"/>
-                    </StackPanel>
-                </Grid>
-
+                </StackPanel>
+                <Button Padding="15,0" Grid.Column="1" Content="Tools..." x:Name="ToolsButton" Click="ToolsButton_Click" HorizontalAlignment="Right">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Reset Paths...">
+                                <MenuItem x:Name="restoreBothMenuItem" Click="bothToolStripMenuItem_Click" Header="Both"></MenuItem>
+                                <MenuItem x:Name="restorePathAMenuItem" Click="pathAToolStripMenuItem_Click" Header="Path A"></MenuItem>
+                                <MenuItem x:Name="restorePathBMenuItem" Click="pathBToolStripMenuItem_Click" Header="Path B"></MenuItem>
+                            </MenuItem>
+                            <Separator></Separator>
+                            <MenuItem x:Name="flipTileHMenuItem" Click="flipTileHorizontallyToolStripMenuItem_Click" Header="Flip Tile Horizontally"></MenuItem>
+                            <MenuItem x:Name="flipTileVMenuItem" Click="flipTileVerticallyToolStripMenuItem_Click" Header="Flip Tile Vertically"></MenuItem>
+                            <Separator></Separator>
+                            <MenuItem IsCheckable="True" Click="mirrorPathsToolStripMenuItem_Click" x:Name="mirrorPathsToolStripMenuItem1" Header="Mirror Mode"></MenuItem>
+                            <MenuItem IsCheckable="True" Click="showPathBToolStripMenuItem_Click" x:Name="showPathBToolStripMenuItem" Header="Show Path B"></MenuItem>
+                            <MenuItem IsCheckable="True" Click="showGridToolStripMenuItem_Click" Header="Show Grid" x:Name="showGridToolStripMenuItem"></MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
             </Grid>
+            <GroupBox Grid.Column="0" Grid.Row="0" Foreground="{DynamicResource NormalText}" VerticalAlignment="Stretch" Header="Tile Collision Data">
+                <TabControl>
+                    <TabItem Header="Main">
+                        <Grid x:Name="ClassicMode" Visibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="245"></RowDefinition>
+                                    <RowDefinition Height="25"></RowDefinition>
+                                    <RowDefinition Height="120"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
 
-        </GroupBox>
-        <Grid Grid.Row="2" Margin="5">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center">
-                <TextBlock Height="27"></TextBlock>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Collision Mask" VerticalContentAlignment="Center"></Label>
-                    <wpfTool:IntegerUpDown ValueChanged="GotoNUD_ValueChanged"  Minimum="0" Maximum="1023" x:Name="GotoNUD" DefaultValue="0" Value="0" Height="20" Width="50" IsEnabled="False"></wpfTool:IntegerUpDown>
-                    <Label Content="of 1023" VerticalContentAlignment="Center"></Label>
-                </StackPanel>
-            </StackPanel>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb00" Grid.Row="16" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb01" Grid.Row="16" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp" Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb02"  Grid.Row="16" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb03"  Grid.Row="16" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb04"  Grid.Row="16" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb05"  Grid.Row="16" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb06" Grid.Row="16" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb07" Grid.Row="16" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb08" Grid.Row="16" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb09" Grid.Row="16" Grid.Column="9" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb10" Grid.Row="16" Grid.Column="10" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb11" Grid.Row="16" Grid.Column="11" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb12" Grid.Row="16" Grid.Column="12" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb13" Grid.Row="16" Grid.Column="13" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb14" Grid.Row="16" Grid.Column="14" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                    <CheckBox Style="{DynamicResource TileManiacGridBox}" GotMouseCapture="cb_MouseMove" MouseMove="cb_MouseMove" MouseEnter="cb_MouseHover" MouseDown="cb_MouseDown" MouseUp="cb_MouseUp"  Checked="cb_CheckedChanged" Unchecked="cb_CheckedChanged" x:Name="cb15" Grid.Row="16" Grid.Column="15" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+                                </Grid>
 
-            <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical">
-                <Label x:Name="VPLabel" Content="Currently Viewing: Path A" HorizontalAlignment="Center"></Label>
-                <Button x:Name="swapPathButton" Click="showPathBToolStripMenuItem_Click" Content="Swap Path" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="140" IsEnabled="False"></Button>
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="240"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140"></ColumnDefinition>
-                <ColumnDefinition Width="150"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <GroupBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="330" Height="216" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Header="Collision View" Foreground="{DynamicResource NormalText}">
-                <Grid Height="190" HorizontalAlignment="Center" x:Name="OldColViewer">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="160"></RowDefinition>
-                        <RowDefinition Height="10"></RowDefinition>
-                        <RowDefinition Height="20"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20" ></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                        <ColumnDefinition Width="20"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderThickness="0" Margin="0" Padding="0" Grid.Column="0" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer1" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Padding="0" Grid.Column="1" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer2" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="2" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer3" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="3" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer4" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="4" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer5" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="5" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer6" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="6" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer7" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="7" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer8" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="8" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer9" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="9" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer10" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="10" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer11" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="11" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer12" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="12" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer13" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="13" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer14" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="14" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer15" Stretch="Fill" Width="12"></Image>
-                    </Border>
-                    <Border BorderThickness="0" Margin="0" Grid.Column="15" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="Viewer16" Stretch="Fill" Width="12"></Image>
-                    </Border>
-
-                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="0" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox0" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="1" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox1" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="2" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox2" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="3" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox3" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="4" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox4" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="5" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox5" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="6" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox6" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="7" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox7" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="8" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox8" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="9" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBox9" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="10" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBoxA" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="11" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBoxB" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="12" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBoxC" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="13" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBoxD" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="14" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBoxE" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                    <Border  Grid.Row="2" BorderThickness="0" Margin="0" Grid.Column="15" BorderBrush="{DynamicResource DisabledText}">
-                        <Image x:Name="RGBoxF" Stretch="Fill" Width="12" Height="12"></Image>
-                    </Border>
-                </Grid>
+                                <Grid Height="245" Grid.Row="0" VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}"  x:Name="lb00" Grid.RowSpan="16" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_00" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_01" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_02" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_03" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_04" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_05" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_06" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_07" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_08" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_09" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_0A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_0B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_0C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_0D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_0E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_0F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb01" Grid.RowSpan="16" Grid.Column="1" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_10" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_11" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_12" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_13" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_14" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_15" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_16" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_17" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_18" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_19" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_1A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_1B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_1C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_1D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_1E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_1F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb02" Grid.RowSpan="16" Grid.Column="2" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_20" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_21" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_22" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_23" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_24" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_25" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_26" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_27" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_28" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_29" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_2A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_2B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_2C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_2D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_2E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_2F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb03" Grid.RowSpan="16" Grid.Column="3" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_30" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_31" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_32" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_33" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_34" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_35" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_36" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_37" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_38" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_39" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_3A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_3B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_3C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_3D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_3E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_3F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb04" Grid.RowSpan="16" Grid.Column="4" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_40" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_41" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_42" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_43" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_44" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_45" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_46" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_47" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_48" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_49" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_4A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_4B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_4C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_4D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_4E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_4F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb05" Grid.RowSpan="16" Grid.Column="5" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_50" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_51" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_52" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_53" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_54" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_55" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_56" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_57" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_58" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_59" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_5A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_5B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_5C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_5D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_5E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_5F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb06" Grid.RowSpan="16" Grid.Column="6" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_60" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_61" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_62" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_63" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_64" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_65" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_66" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_67" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_68" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_69" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_6A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_6B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_6C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_6D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_6E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_6F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb07" Grid.RowSpan="16" Grid.Column="7" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_70" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_71" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_72" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_73" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_74" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_75" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_76" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_77" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_78" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_79" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_7A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_7B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_7C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_7D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_7E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_7F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb08" Grid.RowSpan="16" Grid.Column="8" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_80" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_81" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_82" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_83" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_84" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_85" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_86" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_87" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_88" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_89" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_8A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_8B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_8C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_8D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_8E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_8F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb09" Grid.RowSpan="16" Grid.Column="9" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_90" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_91" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_92" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_93" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_94" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_95" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_96" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_97" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_98" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_99" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_9A" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_9B" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_9C" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_9D" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_9E" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_9F" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb10" Grid.RowSpan="16" Grid.Column="10" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_A0" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A1" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A2" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A3" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A4" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A5" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A6" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A7" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A8" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_A9" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_AA" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_AB" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_AC" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_AD" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_AE" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_AF" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb11" Grid.RowSpan="16" Grid.Column="11" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_B0" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B1" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B2" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B3" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B4" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B5" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B6" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B7" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B8" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_B9" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_BA" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_BB" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_BC" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_BD" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_BE" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_BF" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb12" Grid.RowSpan="16" Grid.Column="12" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_C0" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C1" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C2" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C3" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C4" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C5" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C6" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C7" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C8" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_C9" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_CA" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_CB" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_CC" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_CD" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_CE" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_CF" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb13" Grid.RowSpan="16" Grid.Column="13" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_D0" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D1" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D2" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D3" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D4" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D5" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D6" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D7" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D8" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_D9" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_DA" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_DB" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_DC" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_DD" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_DE" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_DF" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb14" Grid.RowSpan="16" Grid.Column="14" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_E0" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E1" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E2" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E3" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E4" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E5" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E6" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E7" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E8" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_E9" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_EA" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_EB" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_EC" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_ED" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_EE" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_EF" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                    <ListBox SelectionChanged="lb_SelectedIndexChanged" MouseWheel="LB_Scrolling" Style="{DynamicResource CollisionListBoxStyle}" x:Name="lb15" Grid.RowSpan="16" Grid.Column="15" FontSize="10" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBoxItem x:Name="CB_F0" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">0</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F1" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">1</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F2" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">2</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F3" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">3</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F4" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">4</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F5" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">5</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F6" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">6</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F7" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">7</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F8" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">8</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_F9" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">9</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_FA" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">A</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_FB" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">B</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_FC" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">C</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_FD" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">D</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_FE" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">E</ListBoxItem>
+                                        <ListBoxItem x:Name="CB_FF" Padding="0" Style="{DynamicResource CollisionListItem}" MouseEnter="CB_MouseEnter" MouseMove="CB_MouseMove">F</ListBoxItem>
+                                    </ListBox>
+                                </Grid>
+                            <Grid Grid.Row="2">
+                                <StackPanel Orientation="Vertical" Grid.Row="1" Margin="2" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="2">
+                                        <StackPanel Grid.Column="0" Margin="2" Width="63">
+                                            <Label BorderThickness="1" BorderBrush="DarkRed" Background="Red" Foreground="#3B3B3B" Content="Floor Angle" FontSize="10" Margin="0,0,0,0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="FloorAngleNUD_ValueChanged" x:Name="FloorAngleNUD" DefaultValue="0" Value="0" Height="20" IsEnabled="False" Maximum="255" Minimum="0"></wpfTool:IntegerUpDown>
+                                            <TextBox x:Name="FloorAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                            <TextBox x:Name="FloorAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Width="70" Grid.Column="1" Margin="2">
+                                            <Label  BorderThickness="1" BorderBrush="DarkBlue" Background="Blue" Foreground="#3B3B3B" Content="Ceiling Angle" FontSize="10" Margin="0,0,0,0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="CeilingAngleNUD_ValueChanged" x:Name="CeilingAngleNUD"  DefaultValue="80" Value="80" Height="20" IsEnabled="False" Maximum="255" Minimum="0"/>
+                                            <TextBox x:Name="CeilingAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                            <TextBox x:Name="CeilingAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2"  Margin="2"  Width="65">
+                                            <Label  BorderThickness="1" BorderBrush="DarkGreen" Background="Green" Foreground="#3B3B3B" Content="LWall Angle" FontSize="10" Margin="0,0,0,0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="LWallAngleNUD_ValueChanged" x:Name="LWallAngleNUD" DefaultValue="64" Value="64" Height="20" IsEnabled="False" Maximum="255" Minimum="0"/>
+                                            <TextBox x:Name="LWallAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                            <TextBox x:Name="LWallAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Margin="2" Width="65">
+                                            <Label  BorderThickness="1" BorderBrush="DarkGoldenrod" Background="Gold" Foreground="#3B3B3B" Content="RWall Angle" FontSize="10" Margin="0,0,0,0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="RWallAngleNUD_ValueChanged" x:Name="RWallAngleNUD" DefaultValue="192" Value="192" IsEnabled="False" Maximum="255" Minimum="0"/>
+                                            <TextBox x:Name="RWallAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                            <TextBox x:Name="RWallAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="4" Margin="2" Width="56">
+                                            <Label BorderThickness="1" BorderBrush="Gray" Background="White" Foreground="#3B3B3B" Content="Behaviour"  FontSize="10" Margin="0,0,0,0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" x:Name="BehaviourNUD" ValueChanged="BehaviourNUD_ValueChanged" DefaultValue="0" Value="0" Height="20" IsEnabled="False" Maximum="255" Minimum="0"></wpfTool:IntegerUpDown>
+                                            <TextBox x:Name="BehaviourHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                            <TextBox Visibility="Collapsed" x:Name="BehaviourDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <CheckBox x:Name="IsCeilingButton" VerticalAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" Padding="0" Margin="1,0,0,0" Checked="IsCeilingButton_CheckedChanged" Unchecked="IsCeilingButton_CheckedChanged" IsEnabled="False">
+                                            <CheckBox.Content>
+                                                <TextBlock Padding="4,0,0,0" Text="IsCelling"></TextBlock>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </GroupBox>
-            <GroupBox Grid.Row="1" Width="125" Height="125" VerticalAlignment="Top" Header="Current Tile" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">
+            <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="125"></RowDefinition>
+                    <RowDefinition Height="230"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="125"></ColumnDefinition>
+                    <ColumnDefinition Width="125"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Row="0" Width="125" Height="125" VerticalAlignment="Top" Header="Current Tile" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Center">
+                    <Grid>
+                        <WindowsFormsHost Visibility="Hidden" Width="96" Height="96" x:Name="PicBoxHost1Overlay">
+                        </WindowsFormsHost>
+                        <WindowsFormsHost Visibility="Hidden"  Width="96" Height="96" x:Name="PicBoxHost2Tile">
+                        </WindowsFormsHost>
+                        <WindowsFormsHost Visibility="Hidden"  Width="96" Height="96" x:Name="PicBoxHost3Collision">
+                        </WindowsFormsHost>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="0" Grid.Column="1" Width="125" Height="125" VerticalAlignment="Top" Header="Viewer Mode" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <RadioButton Unchecked="radioButton1_CheckedChanged" Checked="radioButton1_CheckedChanged" x:Name="colllisionViewButton" Content="Collision" Margin="4,2"></RadioButton>
+                        <RadioButton Unchecked="radioButton2_CheckedChanged" Checked="radioButton2_CheckedChanged" x:Name="tileViewButton" Content="Tile" Margin="4,2"></RadioButton>
+                        <RadioButton Unchecked="radioButton3_CheckedChanged" Checked="radioButton3_CheckedChanged" x:Name="overlayViewButton" Content="Overlay" Margin="4,2"></RadioButton>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Angles" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">
+                    <Grid Margin="5" Width="165">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="165"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <WindowsFormsHost SizeChanged="HostGrid_SizeChanged" x:Name="HostGrid" Background="{DynamicResource NormalBackground}"></WindowsFormsHost>
+                        <Button Content="Refresh" x:Name="RenderButton" Click="RenderButton_Click" Grid.Row="1"></Button>
+                    </Grid>
+                </GroupBox>
+                <StackPanel Margin="0,5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Label Content="Checkbox Controls:&#xD;&#xA;Left Click - Check&#xD;&#xA;Right Click - Uncheck"></Label>
+                    <Separator></Separator>
+                    <Label x:Name="mirrorModeStatusLabel" Content="Mirror Mode: OFF" ></Label>
+                    <Label x:Name="VPLabel" Content="Currently Viewing: Path A" HorizontalAlignment="Center"></Label>
+                    <Button x:Name="swapPathButton" Click="showPathBToolStripMenuItem_Click" Content="Swap Path" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="140" IsEnabled="False"></Button>
+                </StackPanel>
+            </Grid>
+            <Border Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" BorderThickness="1" BorderBrush="{DynamicResource ButtonBorder}">
                 <Grid>
-                    <WindowsFormsHost Visibility="Hidden" Width="96" Height="96" x:Name="PicBoxHost1Overlay">
-                    </WindowsFormsHost>
-                    <WindowsFormsHost Visibility="Hidden"  Width="96" Height="96" x:Name="PicBoxHost2Tile">
-                    </WindowsFormsHost>
-                    <WindowsFormsHost Visibility="Hidden"  Width="96" Height="96" x:Name="PicBoxHost3Collision">
-                    </WindowsFormsHost>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <WindowsFormsHost x:Name="TilesListHost" Background="{DynamicResource StatusBarBackground}"></WindowsFormsHost>
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Label Content="View:" Margin="0"></Label>
+                        <RadioButton Checked="tileViewRadioButton_CheckedChanged" Unchecked="tileViewRadioButton_CheckedChanged" x:Name="tileViewRadioButton" Content="Tiles" VerticalAlignment="Center" Margin="2"></RadioButton>
+                        <RadioButton Checked="collisionViewRadioButton_CheckedChanged" Unchecked="collisionViewRadioButton_CheckedChanged" x:Name="collisionViewRadioButton" Content="Collision" VerticalAlignment="Center" Margin="2"></RadioButton>
+                    </StackPanel>
                 </Grid>
-            </GroupBox>
-            <GroupBox Grid.Row="1" Grid.Column="1" Height="92" VerticalAlignment="Top" Header="Viewer Mode" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <RadioButton Unchecked="radioButton1_CheckedChanged" Checked="radioButton1_CheckedChanged" x:Name="colllisionViewButton" Content="Collision" Margin="4,2"></RadioButton>
-                    <RadioButton Unchecked="radioButton2_CheckedChanged" Checked="radioButton2_CheckedChanged" x:Name="tileViewButton" Content="Tile" Margin="4,2"></RadioButton>
-                    <RadioButton Unchecked="radioButton3_CheckedChanged" Checked="radioButton3_CheckedChanged" x:Name="overlayViewButton" Content="Overlay" Margin="4,2"></RadioButton>
-                </StackPanel>
-            </GroupBox>
+            </Border>
+
         </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-            <Label Content="Checkbox Controls:&#xD;&#xA;Left Click - Check&#xD;&#xA;Right Click - Uncheck"></Label>
-        </StackPanel>
-        <Label x:Name="mirrorModeStatusLabel" Content="Mirror Mode: OFF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="1"></Label>
-        <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="3">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-            </Grid.RowDefinitions>
-            <WindowsFormsHost x:Name="TilesListHost" Background="{DynamicResource StatusBarBackground}"></WindowsFormsHost>
-            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label Content="View:" Margin="0"></Label>
-                <RadioButton Checked="tileViewRadioButton_CheckedChanged" Unchecked="tileViewRadioButton_CheckedChanged" x:Name="tileViewRadioButton" Content="Tiles" VerticalAlignment="Center" Margin="2"></RadioButton>
-                <RadioButton Checked="collisionViewRadioButton_CheckedChanged" Unchecked="collisionViewRadioButton_CheckedChanged" x:Name="collisionViewRadioButton" Content="Collision" VerticalAlignment="Center" Margin="2"></RadioButton>
-            </StackPanel>
-        </Grid>
+
     </Grid>
     <Window.Resources>
         <ResourceDictionary>

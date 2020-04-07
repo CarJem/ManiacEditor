@@ -49,10 +49,34 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         public ManiacEditor.DevicePanel GraphicPanel;
         private System.Windows.Forms.Panel HostPanel;
 
-        #region DPI Definitions
+       #region DPI Definitions
         public double DPIScale { get; set; }
         public int RenderingWidth { get; set; }
         public int RenderingHeight { get; set; }
+        #endregion
+ 
+        #region Rendering Definitions
+
+        private SFML.Graphics.Texture OverlayImage { get; set; }
+        private System.Drawing.Size OverlayImageSize { get; set; }
+
+        private int GetOverlayImageOpacity()
+        {
+            if (Instance != null && Instance.MenuBar != null)
+            {
+                return (int)Instance.MenuBar.OverlayImageOpacitySlider.Value;
+            }
+            return 255;
+        }
+        private bool CanOverlayImage()
+        {
+            if (Instance != null && Instance.MenuBar != null)
+            {
+                if (OverlayImage != null && Instance.MenuBar.OverlayImageEnabled.IsChecked) return true;
+            }
+            return false;
+        }
+
         #endregion
 
         #endregion
@@ -124,7 +148,7 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         }
         public void SetupGraphicsPanel()
         {
-            this.GraphicPanel = new ManiacEditor.DevicePanel(Instance);
+            this.GraphicPanel = new ManiacEditor.DevicePanel();
             this.GraphicPanel.AllowDrop = true;
             this.GraphicPanel.AutoSize = false;
             this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
@@ -180,10 +204,13 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         #region DPI / Zooming / Power Status
 
         #region IDrawArea Methods
-
-        public double GetZoom()
+        public SFML.System.Vector2i GetPosition()
         {
-            return Methods.Editor.SolutionState.Zoom;
+            return new SFML.System.Vector2i((int)Methods.Editor.SolutionState.ViewPositionX, (int)Methods.Editor.SolutionState.ViewPositionY);
+        }
+        public float GetZoom()
+        {
+            return (float)Methods.Editor.SolutionState.Zoom;
         }
         public new void Dispose()
         {
@@ -615,6 +642,8 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
 
                 if (Methods.Editor.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
 
+                if (CanOverlayImage()) DrawOverlayImage();
+
                 if (showEntitiesEditing) Methods.Editor.Solution.Entities.Draw(GraphicPanel);
 
                 Methods.Editor.Solution.Entities.DrawInternal(GraphicPanel);
@@ -631,6 +660,17 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
             if (Methods.Editor.SolutionState.UnlockCamera) DrawSceneBounds();
 
             if (Methods.Runtime.GameHandler.GameRunning) DrawGameElements();
+
+            void DrawOverlayImage()
+            {
+                int x = 0;
+                int y = 0;
+                int rec_x = 0;
+                int rec_y = 0;
+                int width = OverlayImageSize.Width;
+                int height = OverlayImageSize.Height;
+                GraphicPanel.DrawTexture(OverlayImage, x, y, rec_x, rec_y, width, height, false, GetOverlayImageOpacity());
+            }
 
             void DrawBackground()
             {
@@ -758,6 +798,52 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
                     Methods.Runtime.GameHandler.UpdateCheckpoint(clicked_point);
                 }
             }
+        }
+
+        #endregion
+
+        #region Overlay Image
+
+
+        public void DisposeOverlayImage()
+        {
+            if (OverlayImage != null)
+            {
+                OverlayImage.Dispose();
+                OverlayImage = null;
+            }
+        }
+
+        public void LoadOverlayImage(string filename)
+        {
+            try
+            {
+                DisposeOverlayImage();
+                var image = new SFML.Graphics.Image(filename);
+                OverlayImageSize = new System.Drawing.Size((int)image.Size.X, (int)image.Size.Y);
+                OverlayImage = new SFML.Graphics.Texture(image);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occured while loading image: " + ex.Message);
+                ClearOverlayImage();
+            }
+        }
+
+        public void SelectOverlayImage()
+        {
+            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+            ofd.Filter = "PNG File|*.png";
+            ofd.Multiselect = false;
+            if (ofd.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+            {
+                LoadOverlayImage(ofd.FileName);
+            }
+        }
+
+        public void ClearOverlayImage()
+        {
+            DisposeOverlayImage();
         }
 
         #endregion

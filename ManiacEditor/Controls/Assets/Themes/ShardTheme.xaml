@@ -31,7 +31,8 @@
 
     <SolidColorBrush x:Key="Maniac_FolderIcon" Color="#FFE793"/>
 
-    <SolidColorBrush x:Key="TileManiac_CollisionColor" Color="#149414"/>
+    <SolidColorBrush x:Key="TileManiac_CollisionColor" Color="Lime"/>
+    <SolidColorBrush x:Key="TileManiac_AntiCollisionColor" Color="Red"/>
 
     <SolidColorBrush x:Key="LegacyThemeBrush1" Color="#FF282828"/>
     <SolidColorBrush x:Key="LegacyThemeBrush2" Color="#323232"/>

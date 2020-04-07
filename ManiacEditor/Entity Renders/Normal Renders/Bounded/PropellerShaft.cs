@@ -6,23 +6,17 @@ namespace ManiacEditor.Entity_Renders
     public class PropellerShaft : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            bool fliph = false;
-            bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
-            var height_value = (int)(entity.attributesMap["size"].ValueEnum);
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            var Animation = LoadAnimation("EditorIcons", d, 0, 6);
+            var height_value = (int)(e.attributesMap["size"].ValueEnum);
             var height = (height_value > 0 ? height_value / 2 : height_value);
             var width = 6;
 
@@ -48,38 +42,21 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorAssets", d.DevicePanel, 0, 1, right, bottom, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        var frame = editorAnim.Frames[Animation.index];
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                            (right ? x1 - frame.Frame.Width + 1 : x2),
-                            (bottom ? y1 - frame.Frame.Height + 1 : y2),
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                    }
+                    Animation = LoadAnimation("EditorAssets", d, 0, 1);
+                    DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID,
+                        (right ? x1 - Animation.RequestedFrame.Width + 1 : x2),
+                        (bottom ? y1 - Animation.RequestedFrame.Height + 1 : y2), Transparency, right, bottom);
                 }
             }
 
-            editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("EditorIcons", d.DevicePanel, 0, 6, fliph, flipv, false);
-
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-
-
+            Animation = LoadAnimation("EditorIcons", d, 0, 6);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 
-        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity e, int x, int y, int Transparency)
         {
             var widthPixels = (int)(13) * 16;
-            var heightPixels = (int)(entity.attributesMap["size"].ValueEnum * 2 - 1) * 16;
+            var heightPixels = (int)(e.attributesMap["size"].ValueEnum * 2 - 1) * 16;
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels + 15, heightPixels + 15);
         }
 

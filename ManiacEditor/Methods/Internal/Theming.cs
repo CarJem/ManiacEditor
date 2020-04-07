@@ -86,12 +86,19 @@ namespace ManiacEditor.Methods.Internal
                 return GetResource("LegacyThemeBrush6");
             }
         }
-
+        
         public static Color TileManiac_CollisionColor
         {
             get
             {
                 return GetResource("TileManiac_CollisionColor");
+            }
+        }
+        public static Color TileManiac_AntiCollisionColor
+        {
+            get
+            {
+                return GetResource("TileManiac_AntiCollisionColor");
             }
         }
 

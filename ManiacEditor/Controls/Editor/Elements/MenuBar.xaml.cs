@@ -45,6 +45,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                 maniacinieditorToolStripMenuItem.IsEnabled = enabled;
                 exportToolStripMenuItem.IsEnabled = enabled;
                 changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
+                ImageOverlayGroupMenuItem.IsEnabled = enabled;
             }));
 
         }
@@ -354,6 +355,16 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void TestingDeveloperMenuItem_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void OverlayImageMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Instance.ViewPanel.SharpPanel.SelectOverlayImage();
+        }
+
+        private void ClearImageMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Instance.ViewPanel.SharpPanel.ClearOverlayImage();
         }
     }
 }

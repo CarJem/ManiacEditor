@@ -100,7 +100,10 @@ namespace ManiacEditor.Controls.Editor
 
             InitilizeEditor();
 
-            if (ManiacEditor.Properties.Settings.MyDevSettings.UseAutoForcefulStartup) Methods.Editor.SolutionLoader.OpenSceneForceFully();
+            if (ManiacEditor.Properties.Settings.MyDevSettings.UseAutoForcefulStartup)
+            {
+                Methods.Editor.SolutionLoader.OpenSceneForceFully();
+            }
         }
         public void InitilizeEditor()
         {
@@ -159,7 +162,7 @@ namespace ManiacEditor.Controls.Editor
         private void Editor_Activated(object sender, EventArgs e)
         {
             ViewPanel.SharpPanel.GraphicPanel.Focus();
-            if (TileManiacInstance.hasModified)
+            if (TileManiacInstance.HasConfigBeenModified)
             {
                 Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             }
