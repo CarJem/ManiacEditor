@@ -11,9 +11,9 @@ namespace ManiacEditor.Classes.Scene
 
         #region GIF Variables
         public Methods.Draw.GIF Image { get; set; }
-        public Methods.Draw.GIF ImageTransparent { get; set; }
         public Methods.Draw.GIF IDImage { get; set; }
         public Methods.Draw.GIF EditorImage { get; set; }
+        public Methods.Draw.GIF SelectionImage { get; set; }
         public Methods.Draw.GIF CollisionMaskA { get; private set; }
         public Methods.Draw.GIF CollisionMaskB { get; private set; }
         #endregion
@@ -42,44 +42,13 @@ namespace ManiacEditor.Classes.Scene
             Image = new Methods.Draw.GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
             TileConfig = new RSDKv5.Tileconfig();
         }
-        public EditorTiles(string stage_directory, string palleteDir = null)
+        public EditorTiles(string StageDirectory, string PaletteDataPath = null)
 		{
-			Image = new Methods.Draw.GIF(Path.Combine(stage_directory, "16x16Tiles.gif"), palleteDir);
-            ImageTransparent = new Methods.Draw.GIF(SetImageOpacity(Image.ToBitmap(), (float)0.1));
+			Image = new Methods.Draw.GIF(Path.Combine(StageDirectory, "16x16Tiles.gif"), PaletteDataPath);
             IDImage = new Methods.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_ID.gif");
 			EditorImage = new Methods.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
+            SelectionImage = new Methods.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Selection.gif");
         }
-        #endregion
-
-        #region Extensions
-
-        public Image SetImageOpacity(Image image, float opacity)
-        {
-            //create a Bitmap the size of the image provided  
-            Bitmap bmp = new Bitmap(image.Width, image.Height);
-
-            //create a graphics object from the image  
-            using (Graphics gfx = Graphics.FromImage(bmp))
-            {
-
-                //create a color matrix object  
-                ColorMatrix matrix = new ColorMatrix();
-
-                //set the opacity  
-                matrix.Matrix33 = opacity;
-
-                //create image attributes  
-                ImageAttributes attributes = new ImageAttributes();
-
-                //set the color(opacity) of the image  
-                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-                //now draw the image  
-                gfx.DrawImage(image, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
-            }
-            return bmp;
-        }
-
         #endregion
 
         #region Collision
@@ -92,8 +61,8 @@ namespace ManiacEditor.Classes.Scene
                 if (CollisionMaskA != null) CollisionMaskA.Dispose();
                 if (CollisionMaskB != null) CollisionMaskB.Dispose();
 
-                CollisionMaskA = DrawCollisionMaskA();
-                CollisionMaskB = DrawCollisionMaskB();
+                CollisionMaskA = new Methods.Draw.GIF(DrawCollisionMaskA());
+                CollisionMaskB = new Methods.Draw.GIF(DrawCollisionMaskB());
             }
             catch (Exception ex)
             {
@@ -101,7 +70,7 @@ namespace ManiacEditor.Classes.Scene
             }
 
         }
-        private Methods.Draw.GIF DrawCollisionMaskA()
+        private Bitmap DrawCollisionMaskA()
         {
             Bitmap bitmap = new Bitmap(16, 16384);
             using (Graphics gfx = Graphics.FromImage(bitmap))
@@ -111,10 +80,9 @@ namespace ManiacEditor.Classes.Scene
                     gfx.DrawImage(TileConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0,(16 * i),16,16));
                 }
             }
-            Methods.Draw.GIF gif = new Methods.Draw.GIF(bitmap);
-            return gif;
+            return bitmap
         }
-        private Methods.Draw.GIF DrawCollisionMaskB()
+        private Bitmap DrawCollisionMaskB()
         {
             Bitmap bitmap = new Bitmap(16, 16384);
             using (Graphics gfx = Graphics.FromImage(bitmap))
@@ -124,8 +92,7 @@ namespace ManiacEditor.Classes.Scene
                     gfx.DrawImage(TileConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0, (16 * i), 16, 16));
                 }
             }
-            Methods.Draw.GIF gif = new Methods.Draw.GIF(bitmap);
-            return gif;
+            return bitmap
         }
 
         #endregion
@@ -137,12 +104,21 @@ namespace ManiacEditor.Classes.Scene
             write.Save(filename);
                 
         }
+        public void Reload(string PaletteDataPath = null)
+        {
+            if (Image != null) Image.Reload(PaletteDataPath);
+            if (IDImage != null) IDImage.Reload();
+            if (EditorImage != null) EditorImage.Reload();
+            if (SelectionImage != null) SelectionImage.Reload();
+            if (CollisionMaskA != null) CollisionMaskA.Reload(DrawCollisionMaskA());
+            if (CollisionMaskB != null) CollisionMaskB.Reload(DrawCollisionMaskB());
+        }
         public void Dispose()
         {
             if (Image != null) Image.Dispose();
-            if (ImageTransparent != null) ImageTransparent.Dispose();
             if (IDImage != null) IDImage.Dispose();
             if (EditorImage != null) EditorImage.Dispose();
+            if (SelectionImage != null) SelectionImage.Dispose();
             if (CollisionMaskA != null) CollisionMaskA.Dispose();
             if (CollisionMaskB != null) CollisionMaskB.Dispose();
         }

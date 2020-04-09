@@ -24,7 +24,19 @@ namespace ManiacEditor.Methods.Internal
             MouseHeld = 2
         }
 
-        public static bool LockUserInterface { get; set; } = false;
+        private static bool _LockUserInterface = false;
+        public static bool LockUserInterface
+        {
+            get
+            {
+                return _LockUserInterface;
+            }
+            set
+            {
+                _LockUserInterface = value;
+                SetLockUIState();
+            }
+        }
         public static bool ShowWaitScreen { get; set; } = false;
 
         public static void UpdateInstance(MainEditor _instance)
@@ -204,17 +216,18 @@ namespace ManiacEditor.Methods.Internal
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (Methods.Editor.SolutionState.UseEncoreColors == true)
                 {
-                    Methods.Editor.Solution.CurrentTiles?.Image.Reload(ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
+                    Methods.Editor.Solution.CurrentTiles?.Reload(ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
                     Instance.TilesToolbar?.Reload();
                 }
                 else
                 {
-                    Methods.Editor.Solution.CurrentTiles?.Image.Reload();
+                    Methods.Editor.Solution.CurrentTiles?.Reload();
                     Instance.TilesToolbar?.Reload();
                 }
 
+                Instance.Chunks?.Dispose();
                 if (Methods.Editor.Solution.TileConfig != null) Methods.Editor.Solution.TileConfig = new Tileconfig(ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString());
-                Classes.Scene.EditorLayer.RequireRefresh = true;
+                Methods.Editor.Solution.CurrentScene?.AllLayers.ToList().ForEach(x => x.RequireRefresh = true);
 
 
             }

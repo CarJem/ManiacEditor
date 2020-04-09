@@ -24,18 +24,22 @@
                 <MenuItem x:Name="saveMenuItem" Header="Save" Click="saveToolStripMenuItem_Click"></MenuItem>
                 <MenuItem x:Name="saveAsMenuItem" Header="Save As..." Click="saveAsToolStripMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem x:Name="saveUncompressedMenuItem" Header="Save (Uncompressed)" Click="saveUncompressedToolStripMenuItem_Click"></MenuItem>
-                <MenuItem x:Name="saveAsUncompressedMenuItem" Header="Save As... (Uncompressed)" Click="saveAsUncompressedToolStripMenuItem_Click"></MenuItem>
                 <MenuItem Header="Backup...">
-                    <MenuItem x:Name="backupTilesMenuItem" Header="16x16Tiles.gif" Click="x16TilesgifToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem x:Name="backupTilesConfigMenuItem" Header="Tilesconfig.bin" Click="tileConfigbinToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="backupTilesMenuItem" Header="Stage Tiles..." Click="x16TilesgifToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="backupTilesConfigMenuItem" Header="Tiles Config..." Click="tileConfigbinToolStripMenuItem_Click"></MenuItem>
                 </MenuItem>
-                <Separator></Separator>
-                <MenuItem x:Name="OpenSingleColMaskMenuItem" Header="Open Single Collision Mask" Click="openSingleCollisionMaskToolStripMenuItem_Click_1"></MenuItem>
-                <MenuItem x:Name="exportCurrentMaskMenuItem" Header="Export Current Collision Mask As..." Click="exportCurrentCollisionMaskAsToolStripMenuItem_Click"></MenuItem>
-                <MenuItem x:Name="exportImages" Header="Export Collision Map as Images..." Click="exportImages_Click"></MenuItem>
-                <Separator></Separator>
-                <MenuItem x:Name="importMenuItem" Header="Import from older RSDK Version" Click="importFromOlderRSDKVersionToolStripMenuItem_Click"></MenuItem>
+                <MenuItem Header="Export..." x:Name="ExportMenuItem">
+                    <MenuItem x:Name="OpenSingleColMaskMenuItem" Header="Open Single Collision Mask" Click="openSingleCollisionMaskToolStripMenuItem_Click_1"></MenuItem>
+                    <MenuItem x:Name="exportCurrentMaskMenuItem" Header="Export Current Collision Mask As..." Click="exportCurrentCollisionMaskAsToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="exportImages" Header="Export Collision Map as Images..." Click="exportImages_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Import..." x:Name="ImportMenuItem">
+                    <MenuItem x:Name="importMenuItem" Header="Import from older RSDK Version" Click="importFromOlderRSDKVersionToolStripMenuItem_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Uncompressed...">
+                    <MenuItem x:Name="saveUncompressedMenuItem" Header="Save Uncompressed Collision" Click="saveUncompressedToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem x:Name="saveAsUncompressedMenuItem" Header="Save Uncompressed Collision As..." Click="saveAsUncompressedToolStripMenuItem_Click"></MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem x:Name="copyMenuItem" Click="copyToolStripMenuItem_Click" Header="Copy"></MenuItem>

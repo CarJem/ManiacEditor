@@ -66,7 +66,6 @@ namespace ManiacEditor.Controls.Editor
 
         #region Internal/Public/Vital Classes
         internal Classes.Scene.EditorBackground EditBackground;
-        public Methods.Editor.SolutionState StateModel;
         public Classes.Scene.EditorChunks Chunks;
         public Methods.Layers.TileFindReplace FindAndReplace;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
@@ -112,16 +111,17 @@ namespace ManiacEditor.Controls.Editor
             EditorToolbar.ExtraLayerEditViewButtons = new Dictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton>();
             EditorToolbar.ExtraLayerSeperators = new List<Separator>();
 
-            Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
+
 
             //Old Classes
-            StateModel = new Methods.Editor.SolutionState(this);
             FindAndReplace = new Methods.Layers.TileFindReplace(this);
 
             //Controls
             StartScreen = new ManiacEditor.Controls.Editor.Elements.StartScreen(this);
 
             //Classes
+            Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
+            Methods.Editor.SolutionState.UpdateInstance(this);
             Controls.Editor.Elements.Toolbar.UpdateInstance(this);
             Methods.Entities.EntityDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
@@ -139,6 +139,7 @@ namespace ManiacEditor.Controls.Editor
             ViewPanel.InfoHUD.UpdateInstance(this);
             MenuBar.UpdateInstance(this);
             ViewPanel.SplitContainer.UpdateInstance(this);
+            Classes.Rendering.GraphicsTileDrawing.UpdateInstance(this);
 
             EditorStatusBar.UpdateFilterButtonApperance();
 

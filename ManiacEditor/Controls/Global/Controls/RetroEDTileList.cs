@@ -26,6 +26,8 @@ namespace ManiacEditor.Controls.Global.Controls
         private int selectedIndex = -1;
 		private System.Windows.Forms.Integration.ElementHost elementHost1;
 		public Global.Controls.VScrollBar vScrollBar1Host;
+
+        private bool isPaintable { get; set; } = false;
 		private System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar1Host.scroller; }
 
 		[Browsable(false)]
@@ -106,7 +108,24 @@ namespace ManiacEditor.Controls.Global.Controls
 			vScrollBar1Host.scroller.Scroll += vScrollBar1_Scroll;
 			vScrollBar1.ViewportSize = this.Height;
 			this.Controls.Add(elementHost1);
-		}
+            TogglePainting(true);
+
+        }
+
+
+        public void TogglePainting(bool isEnabled)
+        {
+            if (isEnabled && !isPaintable)
+            {
+                isPaintable = true;
+                this.Paint += new System.Windows.Forms.PaintEventHandler(this.TileList_Paint);
+            }
+            else if (!isEnabled && isPaintable)
+            {
+                isPaintable = false;
+                this.Paint -= new System.Windows.Forms.PaintEventHandler(this.TileList_Paint);
+            }
+        }
 
 
 		private void SetupHostScrollBar()

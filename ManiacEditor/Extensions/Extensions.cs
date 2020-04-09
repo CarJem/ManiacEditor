@@ -19,8 +19,9 @@ namespace ManiacEditor.Extensions
             byte r = (byte)((color.R * amount) + backcolor.R * (1 - amount));
             byte g = (byte)((color.G * amount) + backcolor.G * (1 - amount));
             byte b = (byte)((color.B * amount) + backcolor.B * (1 - amount));
-            return System.Drawing.Color.FromArgb(r, g, b);
-        }
+			return System.Drawing.Color.FromArgb(r, g, b);
+
+		}
 
         public static void GetRowColIndex(this System.Windows.Controls.Grid @this, System.Windows.Point position, out int row, out int column)
         {

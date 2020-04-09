@@ -301,8 +301,8 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		}
 		public void ReloadLists()
 		{
-			ChunksReload();
 			TilesReload();
+			ChunksReload();
 		}
 
 		#endregion
@@ -444,8 +444,10 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 				ChunksReload();
 			}
 		}
-		private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
+		private void ExtraOptionsButton_Click(object sender, RoutedEventArgs e)
 		{
+			ExtraOptionsButton.ContextMenu.IsOpen = true;
+
 			if (!ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) SetDropdownItemsState(false);
 			else SetDropdownItemsState(true);
 		}
@@ -581,9 +583,10 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 			Instance.Chunks.DuplicateChunk(ChunkIndex);
 			ChunksReload();
 		}
+
+
 		#endregion
 
 
-
-    }
+	}
 }

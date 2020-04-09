@@ -492,93 +492,49 @@ namespace ManiacEditor.Controls.TileManiac
 		{
 			OpenCollision();
 		}
-		public void BackupCollisionData()
+		public void Save16x16Tiles()
 		{
 			try
 			{
-				if (TC_FilePath != null) //Did we open a file?
+				if (HasImageBeenModified && IsIndexedImageLoaded)
 				{
-					string filepathBackup = TC_FilePath + ".bak";
-					string filepathBackupReserve = filepathBackup;
-					int i = 1;
-					while ((File.Exists(filepathBackup + ".bin")))
+					if (!Properties.Settings.MyDefaults.TileManiacAllowDirect16x16TilesGIFEditing)
 					{
-						filepathBackup = filepathBackupReserve + i.ToString();
-						i++;
-					}
-					filepathBackup = filepathBackup + ".bin";
-					File.Copy(TC_FilePath, filepathBackup);
-				}
-				else
-				{
-					MessageBox.Show("No Collision Present!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-			}
-			catch (Exception ex)
-			{
-				ShowError($@"Failed to Save 16x16Tiles Image to file!" + Environment.NewLine + "Error: " + ex.Message.ToString());
-			}
-
-		}
-		public void Save16x16Tiles(bool isBackup = false)
-		{
-			try
-			{
-				if (isBackup)
-				{
-					string tileBitmapPath = Path.Combine(Path.GetDirectoryName(TC_FilePath), "16x16tiles.gif"); // get the path to the stage's tileset
-					string tileBitmapBackupPath = Path.Combine(Path.GetDirectoryName(TC_FilePath), "16x16tiles.bak"); // get the path to the stage's backup tileset
-					string tileBitmapBackupPathReserved = tileBitmapBackupPath; //Perserve this for checking the file each tile
-					int i = 1;
-					while ((File.Exists(tileBitmapBackupPath + ".gif")))
-					{
-						tileBitmapBackupPath = tileBitmapBackupPathReserved + i.ToString();
-						i++;
-					}
-					File.Copy(tileBitmapPath, tileBitmapPath);
-				}
-				else
-				{
-					if (HasImageBeenModified && IsIndexedImageLoaded)
-					{
-						if (!Properties.Settings.MyDefaults.TileManiacAllowDirect16x16TilesGIFEditing)
+						if (Properties.Settings.MyDefaults.TileManiacPromptForChoiceOnImageWrite)
 						{
-							if (Properties.Settings.MyDefaults.TileManiacPromptForChoiceOnImageWrite)
+							MessageBoxResult result = MessageBox.Show("You have made changes that require the 16x16Tiles.gif to be modifed. While this feature should normally work just fine, it may cause some issues, which is why you may choose if you want to or not. So do you want to save directly to the 16x16Tiles.gif? (Click No will save to 16x16Tiles_Copy.gif, and Cancel with not write this file at all) (You also can change this dialog's visibility in options)", "Saving 16x16Tiles.gif", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+							if (result == MessageBoxResult.Yes)
 							{
-								MessageBoxResult result = MessageBox.Show("You have made changes that require the 16x16Tiles.gif to be modifed. While this feature should normally work just fine, it may cause some issues, which is why you may choose if you want to or not. So do you want to save directly to the 16x16Tiles.gif? (Click No will save to 16x16Tiles_Copy.gif, and Cancel with not write this file at all) (You also can change this dialog's visibility in options)", "Saving 16x16Tiles.gif", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-								if (result == MessageBoxResult.Yes)
-								{
-									SaveTileSet("16x16Tiles.gif");
-									HasImageBeenModified = false;
-								}
-								else if (result == MessageBoxResult.No)
-								{
-									SaveTileSet("16x16Tiles_Copy.gif");
-									HasImageBeenModified = false;
-								}
-								else if (result == MessageBoxResult.Cancel)
-								{
-									HasImageBeenModified = true; //We Didn't Change Anything, keep reminding the user
-								}
+								SaveTileSet("16x16Tiles.gif");
+								HasImageBeenModified = false;
 							}
-							else
+							else if (result == MessageBoxResult.No)
 							{
 								SaveTileSet("16x16Tiles_Copy.gif");
 								HasImageBeenModified = false;
 							}
-
+							else if (result == MessageBoxResult.Cancel)
+							{
+								HasImageBeenModified = true; //We Didn't Change Anything, keep reminding the user
+							}
 						}
 						else
 						{
-							SaveTileSet("16x16Tiles.gif");
+							SaveTileSet("16x16Tiles_Copy.gif");
 							HasImageBeenModified = false;
 						}
+
+					}
+					else
+					{
+						SaveTileSet("16x16Tiles.gif");
+						HasImageBeenModified = false;
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				ShowError($@"Failed to Save 16x16Tiles Image to file! We will still try to save your collision however (if this is not a backup)" + Environment.NewLine + "Error: " + ex.Message.ToString());
+				ShowError($@"Failed to Save 16x16Tiles Image to file! We will still try to save your collision however" + Environment.NewLine + "Error: " + ex.Message.ToString());
 			}
 
 		}
@@ -2576,11 +2532,11 @@ namespace ManiacEditor.Controls.TileManiac
 		}
 		public void x16TilesgifToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Save16x16Tiles(true);
+			ManiacEditor.Methods.Editor.SolutionLoader.BackupStageTiles();
 		}
 		public void tileConfigbinToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			BackupCollisionData();
+			ManiacEditor.Methods.Editor.SolutionLoader.BackupTileConfig();
 		}
 		private void Window_Closing(object sender, CancelEventArgs e)
 		{

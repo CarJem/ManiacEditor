@@ -187,10 +187,9 @@ namespace ManiacEditor.Methods.Editor
             }
             return AllowSceneChange;
         }
-        public static void ExportAsPNG()
-        {
-            
-            if (Methods.Editor.Solution.CurrentScene == null) return;
+        public static bool ExportAsPNG(List<string> Layers)
+        {            
+            if (Methods.Editor.Solution.CurrentScene == null) return false;
 
             System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
             {
@@ -199,45 +198,71 @@ namespace ManiacEditor.Methods.Editor
             };
             if (save.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
             {
+                List<EditorLayer> LayerList = new List<EditorLayer>();
+                foreach (var entry in Layers)
+                {
+                    if (Methods.Editor.Solution.CurrentScene.AllLayers.ToList().Exists(x => x.Name == entry))
+                    {
+                        LayerList.AddRange(Methods.Editor.Solution.CurrentScene.AllLayers.Where(x => x.Name == entry));
+                    }
+                }
+
+
                 using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(Methods.Editor.Solution.SceneWidth, Methods.Editor.Solution.SceneHeight))
                 using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap))
                 {
                     // not all scenes have both a Low and a High foreground
                     // only attempt to render the ones we actually have
-                    Methods.Editor.Solution.FGLower?.Draw(g);
-                    Methods.Editor.Solution.FGLow?.Draw(g);
-                    Methods.Editor.Solution.FGHigh?.Draw(g);
-                    Methods.Editor.Solution.FGHigher?.Draw(g);
-                    Methods.Editor.Solution.Entities?.Draw(g);
+                    if (Layers.Contains("FGLower")) Methods.Editor.Solution.FGLower?.Draw(g);
+                    if (Layers.Contains("FGLow")) Methods.Editor.Solution.FGLow?.Draw(g);
+                    if (Layers.Contains("FGHigh")) Methods.Editor.Solution.FGHigh?.Draw(g);
+                    if (Layers.Contains("FGHigher")) Methods.Editor.Solution.FGHigher?.Draw(g);
+                    if (Layers.Contains("Entities")) Methods.Editor.Solution.Entities?.Draw(g);
+
+                    foreach (var layer in LayerList)
+                    {
+                        layer.Draw(g);
+                    }
 
                     bitmap.Save(save.FileName);
                 }
-
+                return true;
             }
+            else return false;
         }
-        public static void ExportLayersAsPNG()
+        public static bool ExportLayersAsPNG(List<string> Layers)
         {
             try
             {
-                if (Methods.Editor.Solution.CurrentScene?.EditorLayers == null || !Methods.Editor.Solution.CurrentScene.EditorLayers.Any()) return;
+                if (Methods.Editor.Solution.CurrentScene?.EditorLayers == null || !Methods.Editor.Solution.CurrentScene.EditorLayers.Any()) return false;
 
                 var dialog = new GenerationsLib.Core.FolderSelectDialog()
                 {
                     Title = "Select folder to save each exported layer image to"
                 };
 
-                if (!dialog.ShowDialog()) return;
+                if (!dialog.ShowDialog()) return false;
 
                 int fileCount = 0;
 
-                foreach (var editorLayer in Methods.Editor.Solution.CurrentScene.AllLayers)
+
+                List<EditorLayer> LayerList = new List<EditorLayer>();
+                foreach (var entry in Layers)
+                {
+                    if (Methods.Editor.Solution.CurrentScene.AllLayers.ToList().Exists(x => x.Name == entry))
+                    {
+                        LayerList.AddRange(Methods.Editor.Solution.CurrentScene.AllLayers.Where(x => x.Name == entry));
+                    }
+                }
+
+                foreach (var editorLayer in LayerList)
                 {
                     string fileName = System.IO.Path.Combine(dialog.FileName, editorLayer.Name + ".png");
 
                     if (!Methods.Internal.Common.CanWriteFile(fileName))
                     {
                         Methods.Internal.Common.ShowError($"Layer export aborted. {fileCount} images saved.");
-                        return;
+                        return false;
                     }
 
                     using (var bitmap = new System.Drawing.Bitmap(editorLayer.Width * Methods.Editor.EditorConstants.TILE_SIZE, editorLayer.Height * Methods.Editor.EditorConstants.TILE_SIZE))
@@ -251,61 +276,12 @@ namespace ManiacEditor.Methods.Editor
 
                 MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
                                 MessageBoxButton.OK, MessageBoxImage.Information);
+                return true;
             }
             catch (Exception ex)
             {
                 Methods.Internal.Common.ShowError("An error occurred: " + ex.Message);
-            }
-        }
-        public static void ExportObjLayoutAsPNG()
-        {
-            int i = 0;
-            try
-            {
-                if (Methods.Editor.Solution.CurrentScene?.EditorLayers == null || !Methods.Editor.Solution.CurrentScene.EditorLayers.Any()) return;
-
-                var dialog = new FolderSelectDialog()
-                {
-                    Title = "Select folder to save each exported object layout image to"
-                };
-
-                if (!dialog.ShowDialog()) return;
-
-                int fileCount = 0;
-
-                string fileName = System.IO.Path.Combine(dialog.FileName, "Objects.png");
-
-                using (var bitmap = new System.Drawing.Bitmap(1024 * Methods.Editor.EditorConstants.TILE_SIZE, 256 * Methods.Editor.EditorConstants.TILE_SIZE))
-                {
-                    using (var g = System.Drawing.Graphics.FromImage(bitmap))
-                    {
-                        for (i = 0; i < Methods.Editor.Solution.Entities.Entities.Count; i++)
-                        {
-                            //if (!Instance.CanWriteFile(fileName))
-                            // {
-                            //    Methods.Internal.Common.ShowError($"Layout export aborted. {fileCount} images saved.");
-                            //    return;
-                            //}
-                            try
-                            {
-                                //Methods.Editor.Solution.Entities.Entities.ToList()[i].ExportDraw(g,false);
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    }
-                    bitmap.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
-                    ++fileCount;
-                }
-
-                System.Windows.MessageBox.Show($"Layer export succeeded. {fileCount} images saved.", "Success!",
-                                MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                Methods.Internal.Common.ShowError("An error occurred: " + ex.Message);
+                return false;
             }
         }
 
@@ -789,50 +765,48 @@ namespace ManiacEditor.Methods.Editor
         }
         #endregion
 
-        #region Broken Backup/Recovery Tool (BROKEN)
+        #region Backup Files
 
-        //TODO : Fix this Bloody Mess Over Here
-
-        public static void BackupRecoverButton_Click(object sender, RoutedEventArgs e)
+        public static void Backup(SolutionPaths.FileSource item)
         {
-            string Result = null, ResultOriginal = null, ResultOld = null;
-            System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog
+            try
             {
-                Filter = "Backup Scene|*.bin.bak|Old Scene|*.bin.old|Crash Backup Scene|*.bin.crash.bak"
-            };
-            if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
-            {
-                Result = open.FileName;
-                ResultOriginal = Result.Split('.')[0] + ".bin";
-                ResultOld = ResultOriginal + ".old";
-                int i = 1;
-                while ((File.Exists(ResultOld)))
+                int recursiveChecking = 0;
+                string BackupPath = item.SourceDirectory + "\\" + System.IO.Path.GetFileName(item.SourcePath) + ".bak";
+                while (System.IO.File.Exists(BackupPath))
                 {
-                    ResultOld = ResultOriginal.Substring(0, ResultOriginal.Length - 4) + "." + i + ".bin.old";
-                    i++;
+                    recursiveChecking++;
+                    BackupPath = item.SourceDirectory + "\\" + System.IO.Path.GetFileName(item.SourcePath) + ".bak" + recursiveChecking.ToString();
                 }
 
-
-
+                System.IO.File.Copy(item.SourcePath, BackupPath);
+                MessageBox.Show(string.Format("Backup of \"{0}\" made!{1}Output:{1}\"{2}\"", System.IO.Path.GetFileName(item.SourcePath), Environment.NewLine, BackupPath));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("Unable to make backup!{0}Reason:{0}{1}", Environment.NewLine, ex.Message));
             }
 
-            if (Result == null)
-                return;
-
-            Methods.Editor.Solution.UnloadScene();
-            Methods.Internal.Settings.UseDefaultPrefrences();
-            File.Replace(Result, ResultOriginal, ResultOld);
-
         }
 
-        public static void StageConfigBackup(object sender, RoutedEventArgs e)
+        public static void BackupStageConfig()
         {
-            //StageConfigBackup(sender, e);
+            Backup(ManiacEditor.Methods.Editor.SolutionPaths.StageConfig_Source);
         }
 
-        public static void SceneBackup(object sender, RoutedEventArgs e)
+        public static void BackupStageTiles()
         {
-            //SceneBackup(sender, e);
+            Backup(ManiacEditor.Methods.Editor.SolutionPaths.StageTiles_Source);
+        }
+
+        public static void BackupTileConfig()
+        {
+            Backup(ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source);
+        }
+
+        public static void BackupSceneFile()
+        {
+            Backup(ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source);
         }
 
         #endregion

@@ -6,16 +6,16 @@ using RSDKv5;
 
 namespace ManiacEditor.Classes.Scene
 {
-    public class EditorChunks
+	public class EditorChunks
 	{
 		#region Definitions
 		private Controls.Editor.MainEditor Instance { get; set; }
 		private TexturedStamps StageStamps { get; set; }
 		private Stamps EditorStamps { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Classes
+		#region Classes
 
 		public class TexturedStamps : RSDKv5.Stamps
 		{
@@ -66,52 +66,41 @@ namespace ManiacEditor.Classes.Scene
 
 				private Bitmap GetTexture(bool isPathAB = false)
 				{
-					if (isPathAB && _MultiImage != null && !NeedsRefresh) return _MultiImage;
-					else if (!isPathAB && _Image != null && !NeedsRefresh) return _Image;
-
-					Rectangle rect = new Rectangle(0, 0, 8, 8);
-
-					Bitmap bmp = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-					Graphics g = Graphics.FromImage(bmp);
-					for (int ty = rect.Y; ty < rect.Y + rect.Height; ty++)
+					try
 					{
-						for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+						if (isPathAB && _MultiImage != null && !NeedsRefresh) return _MultiImage;
+						else if (!isPathAB && _Image != null && !NeedsRefresh) return _Image;
+
+						Rectangle rect = new Rectangle(0, 0, 8, 8);
+
+						Bitmap bmp = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+						Graphics g = Graphics.FromImage(bmp);
+						for (int ty = rect.Y; ty < rect.Y + rect.Height; ty++)
 						{
-							if (this.TileMapA[tx][ty] != 0xffff)
+							for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
 							{
-								DrawTile(g, this.TileMapA[tx][ty], tx - rect.X, ty - rect.Y);
-							}
-							if (this.TileMapB[tx][ty] != 0xffff)
-							{
-								DrawTile(g, this.TileMapB[tx][ty], tx - rect.X, ty - rect.Y, !isPathAB);
+								if (this.TileMapA[tx][ty] != 0xffff)
+								{
+									Classes.Rendering.GraphicsTileDrawing.DrawTile(g, this.TileMapA[tx][ty], tx - rect.X, ty - rect.Y, true, false);
+								}
+								if (this.TileMapB[tx][ty] != 0xffff)
+								{
+									Classes.Rendering.GraphicsTileDrawing.DrawTile(g, this.TileMapB[tx][ty], tx - rect.X, ty - rect.Y, true, isPathAB);
+								}
 							}
 						}
+						g.Flush();
+						g.Dispose();
+
+						if (isPathAB) _MultiImage = bmp;
+						else _Image = bmp;
+
+						return bmp;
 					}
-					g.Flush();
-					g.Dispose();
-					return bmp;
-				}
-				private void DrawTile(Graphics g, ushort tile, int x, int y, bool semitransparent = false)
-				{
-					ushort TileIndex = (ushort)(tile & 0x3ff);
-					int TileIndexInt = (int)TileIndex;
-					bool flipX = ((tile >> 10) & 1) == 1;
-					bool flipY = ((tile >> 11) & 1) == 1;
-					bool SolidTopA = ((tile >> 12) & 1) == 1;
-					bool SolidLrbA = ((tile >> 13) & 1) == 1;
-					bool SolidTopB = ((tile >> 14) & 1) == 1;
-					bool SolidLrbB = ((tile >> 15) & 1) == 1;
-
-					if (semitransparent)
+					catch (Exception ex)
 					{
-						g.DrawImage(Methods.Editor.Solution.CurrentTiles.ImageTransparent.GetBitmap(new Rectangle(0, TileIndex * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE));
-
-					}
-					else
-					{
-						g.DrawImage(Methods.Editor.Solution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE), flipX, flipY), new Rectangle(x * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE, Methods.Editor.EditorConstants.TILE_SIZE));
-
+						throw ex;
 					}
 
 				}
@@ -187,6 +176,10 @@ namespace ManiacEditor.Classes.Scene
 			{
 				Normal = Textured.ConvertAll<TileChunk>(x => ConvertToNormalStamp(x));
 			}
+			public List<TileChunk> GetNormalStamps()
+			{
+				return TexturedStampList.ConvertAll<TileChunk>(x => ConvertToNormalStamp(x));
+			}
 			public static RSDKv5.Stamps.TileChunk ConvertToNormalStamp(TexturedTileChunk chunk)
 			{
 				return chunk;
@@ -197,19 +190,19 @@ namespace ManiacEditor.Classes.Scene
 			}
 		}
 
-        #endregion
+		#endregion
 
-        #region Init
-        public EditorChunks(Controls.Editor.MainEditor _Instance, TexturedStamps _StageStamps)
+		#region Init
+		public EditorChunks(Controls.Editor.MainEditor _Instance, TexturedStamps _StageStamps)
 		{
 			Instance = _Instance;
 			StageStamps = _StageStamps;
 			EditorStamps = new Stamps();
 			AddBlankMap();
 		}
-        #endregion
+		#endregion
 
-        #region Load/Save
+		#region Load/Save
 
 		public void Save(bool SaveAsMode = false, string SaveAsFilePath = "")
 		{
@@ -217,6 +210,7 @@ namespace ManiacEditor.Classes.Scene
 			{
 				if (StageStamps != null)
 				{
+					StageStamps.StampList = StageStamps.GetNormalStamps();
 					if (StageStamps?.loadstate == RSDKv5.Stamps.LoadState.Upgrade)
 					{
 						string message = "This Editor Chunk File needs to be updated to a newer version of the format. This will happen almost instantly, however you will be unable to use your chunks in a previous version of maniac on this is done. Would you like to continue?" + Environment.NewLine + "(Click Yes to Save, Click No to Continue without Saving Your Chunks)";
@@ -242,13 +236,27 @@ namespace ManiacEditor.Classes.Scene
 			}
 		}
 
-        #endregion
+		#endregion
 
 		#region Chunk Management
 		public List<Bitmap> GetChunkCurrentImages()
 		{
-			if (Methods.Editor.Solution.EditLayerB != null) return StageStamps.TexturedStampList.ConvertAll(x => x.MultiImage);
-			else return StageStamps.TexturedStampList.ConvertAll(x => x.Image);
+			try
+			{
+				List<Bitmap> ImageCollection = new List<Bitmap>();
+				bool isMultiLayer = Methods.Editor.Solution.EditLayerB != null;
+				foreach (var chunk in StageStamps.TexturedStampList)
+				{
+					var Image = (isMultiLayer ? chunk.MultiImage : chunk.Image);
+					ImageCollection.Add(Image);
+				}
+				return ImageCollection;
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
 		}
 		public Stamps.TileChunk GetStamp(int ChunkIndex)
 		{
@@ -274,48 +282,44 @@ namespace ManiacEditor.Classes.Scene
 			Methods.Internal.UserInterface.ShowWaitScreen = true;
 			Methods.Internal.UserInterface.UpdateControls();
 
-			System.Threading.Thread thread = new System.Threading.Thread(() => {
-				int width = LayerA.Width;
-				int height = LayerA.Height;
-				int ChunkWidth = width / 8;
-				int ChunkHeight = height / 8;
+			int width = LayerA.Width;
+			int height = LayerA.Height;
+			int ChunkWidth = width / 8;
+			int ChunkHeight = height / 8;
 
-				for (int i = 0; i < ChunkHeight; ++i)
+			for (int i = 0; i < ChunkHeight; ++i)
+			{
+				for (int j = 0; j < ChunkWidth; ++j)
 				{
-					for (int j = 0; j < ChunkWidth; ++j)
+					int tileX = j * 8;
+					int tileY = i * 8;
+
+					int x1 = j * 8;
+					int x2 = x1 + 8;
+					int y1 = i * 8;
+					int y2 = y1 + 8;
+					ushort[][] ChunkMapA = new ushort[8][];
+					ushort[][] ChunkMapB = new ushort[8][];
+					for (int x = 0; x < 8; x++)
 					{
-						int tileX = j * 8;
-						int tileY = i * 8;
-
-						int x1 = j * 8;
-						int x2 = x1 + 8;
-						int y1 = i * 8;
-						int y2 = y1 + 8;
-						ushort[][] ChunkMapA = new ushort[8][];
-						ushort[][] ChunkMapB = new ushort[8][];
-						for (int x = 0; x < 8; x++)
+						ChunkMapA[x] = new ushort[8];
+						ChunkMapB[x] = new ushort[8];
+						for (int y = 0; y < 8; y++)
 						{
-							ChunkMapA[x] = new ushort[8];
-							ChunkMapB[x] = new ushort[8];
-							for (int y = 0; y < 8; y++)
-							{
-								ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
-								ChunkMapB[x][y] = 0xffff;
-							}
+							ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
+							ChunkMapB[x][y] = 0xffff;
 						}
-						var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
-						var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
-						if (duplicate == false) AddChunk(newChunk);
 					}
+					var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
+					var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
+					if (duplicate == false) AddChunk(newChunk);
 				}
+			}
 
-				Instance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.LockUserInterface = false));
-				Instance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.ShowWaitScreen = false));
-				Instance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.UpdateControls()));
+			Methods.Internal.UserInterface.LockUserInterface = false;
+			Methods.Internal.UserInterface.ShowWaitScreen = false;
+			Methods.Internal.UserInterface.UpdateControls();
 
-			})
-			{ IsBackground = true };
-			thread.Start();
 		}
 		public void AutoGenerateChunks(Classes.Scene.EditorLayer LayerA, Classes.Scene.EditorLayer LayerB)
 		{
@@ -323,47 +327,43 @@ namespace ManiacEditor.Classes.Scene
 			Methods.Internal.UserInterface.ShowWaitScreen = true;
 			Methods.Internal.UserInterface.UpdateControls();
 
-			System.Threading.Thread thread = new System.Threading.Thread(() => {
-				int width = (LayerA.Width > LayerB.Width ? LayerA.Width : LayerB.Width);
-				int height = (LayerA.Height > LayerB.Height ? LayerA.Height : LayerB.Height);
-				int ChunkWidth = width / 8;
-				int ChunkHeight = height / 8;
+			int width = (LayerA.Width > LayerB.Width ? LayerA.Width : LayerB.Width);
+			int height = (LayerA.Height > LayerB.Height ? LayerA.Height : LayerB.Height);
+			int ChunkWidth = width / 8;
+			int ChunkHeight = height / 8;
 
-				for (int i = 0; i < ChunkHeight; ++i)
+			for (int i = 0; i < ChunkHeight; ++i)
+			{
+				for (int j = 0; j < ChunkWidth; ++j)
 				{
-					for (int j = 0; j < ChunkWidth; ++j)
+					int tileX = j * 8;
+					int tileY = i * 8;
+
+					int x1 = j * 8;
+					int x2 = x1 + 8;
+					int y1 = i * 8;
+					int y2 = y1 + 8;
+					ushort[][] ChunkMapA = new ushort[8][];
+					ushort[][] ChunkMapB = new ushort[8][];
+					for (int x = 0; x < 8; x++)
 					{
-						int tileX = j * 8;
-						int tileY = i * 8;
-
-						int x1 = j * 8;
-						int x2 = x1 + 8;
-						int y1 = i * 8;
-						int y2 = y1 + 8;
-						ushort[][] ChunkMapA = new ushort[8][];
-						ushort[][] ChunkMapB = new ushort[8][];
-						for (int x = 0; x < 8; x++)
+						ChunkMapA[x] = new ushort[8];
+						ChunkMapB[x] = new ushort[8];
+						for (int y = 0; y < 8; y++)
 						{
-							ChunkMapA[x] = new ushort[8];
-							ChunkMapB[x] = new ushort[8];
-							for (int y = 0; y < 8; y++)
-							{
-								ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
-								ChunkMapB[x][y] = LayerB.GetTileAt(tileX + x, tileY + y);
-							}
+							ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
+							ChunkMapB[x][y] = LayerB.GetTileAt(tileX + x, tileY + y);
 						}
-						var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
-						var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
-						if (duplicate == false) AddChunk(newChunk);
 					}
+					var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
+					var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
+					if (duplicate == false) AddChunk(newChunk);
 				}
-				Instance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.LockUserInterface = false));
-				Instance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.ShowWaitScreen = false));
-				Instance.Dispatcher.Invoke(new Action(() => Methods.Internal.UserInterface.UpdateControls()));
+			}
 
-			})
-			{ IsBackground = true };
-			thread.Start();
+			Methods.Internal.UserInterface.LockUserInterface = false;
+			Methods.Internal.UserInterface.ShowWaitScreen = false;
+			Methods.Internal.UserInterface.UpdateControls();
 		}
 
 		#endregion
@@ -452,10 +452,10 @@ namespace ManiacEditor.Classes.Scene
 			if (isEmptyA == false || isEmptyB == false) return false;
 			else return true;
 		}
-        #endregion
+		#endregion
 
-        #region Clipboard
-        public void ConvertClipboardtoChunk(Dictionary<Point, ushort> points)
+		#region Clipboard
+		public void ConvertClipboardtoChunk(Dictionary<Point, ushort> points)
 		{
 			int minimumX = points.Min(kvp => kvp.Key.X);
 			int minimumY = points.Min(kvp => kvp.Key.Y);
@@ -484,20 +484,20 @@ namespace ManiacEditor.Classes.Scene
 
 			StageStamps.StampList.Add(new TexturedStamps.TexturedTileChunk(convertedPoints));
 		}
-        public void ConvertClipboardtoMultiLayerChunk(Dictionary<Point, ushort> pointsA, Dictionary<Point, ushort> pointsB = null)
+		public void ConvertClipboardtoMultiLayerChunk(Dictionary<Point, ushort> pointsA, Dictionary<Point, ushort> pointsB = null)
 		{
 			if (pointsB == null || pointsB.Count == 0)
 			{
 				ConvertClipboardtoChunk(pointsA);
 				return;
 			}
-            else if (pointsA == null || pointsA.Count == 0)
-            {
-                ConvertClipboardtoChunk(pointsB);
-                return;
-            }
+			else if (pointsA == null || pointsA.Count == 0)
+			{
+				ConvertClipboardtoChunk(pointsB);
+				return;
+			}
 
-            int minimumX_A = pointsA.Min(kvp => kvp.Key.X);
+			int minimumX_A = pointsA.Min(kvp => kvp.Key.X);
 			int minimumY_A = pointsA.Min(kvp => kvp.Key.Y);
 			int minimumX_B = pointsB.Min(kvp => kvp.Key.X);
 			int minimumY_B = pointsB.Min(kvp => kvp.Key.Y);
@@ -565,7 +565,7 @@ namespace ManiacEditor.Classes.Scene
 			EditLayerA?.Deselect();
 			EditLayerB?.Deselect();
 		}
-        public Dictionary<Point, ushort> ConvertChunkSideAtoClipboard(Stamps.TileChunk Chunk)
+		public Dictionary<Point, ushort> ConvertChunkSideAtoClipboard(Stamps.TileChunk Chunk)
 		{
 			ushort[][] ChunkData = Chunk.TileMapA;
 			Dictionary<Point, ushort> ClipboardData = new Dictionary<Point, ushort>();
@@ -595,10 +595,10 @@ namespace ManiacEditor.Classes.Scene
 
 			return ClipboardData;
 		}
-        #endregion
+		#endregion
 
-        #region Test Methods
-        public Dictionary<Point, ushort> MakeaBlankChunk_Clip(int chunkSize = 8)
+		#region Test Methods
+		public Dictionary<Point, ushort> MakeaBlankChunk_Clip(int chunkSize = 8)
 		{
 			Dictionary<Point, ushort> ClipboardData = new Dictionary<Point, ushort>();
 
@@ -620,7 +620,7 @@ namespace ManiacEditor.Classes.Scene
 			{
 				for (int y = 0; y < chunkSize; y++)
 				{
-					ChunkData[x,y] = 0xffff;
+					ChunkData[x, y] = 0xffff;
 				}
 			}
 
@@ -666,11 +666,20 @@ namespace ManiacEditor.Classes.Scene
 			EditorStamps.StampList.Add(new Stamps.TileChunk(TestChunkDic));
 			TestChunkDic.Clear();
 		}
-		#endregion
+        #endregion
+
+        #region Dispose
+
+		public void Dispose()
+		{
+			StageStamps.DisposeTextures();
+		}
+
+        #endregion
 
 
 
 
 
-	}
+    }
 }

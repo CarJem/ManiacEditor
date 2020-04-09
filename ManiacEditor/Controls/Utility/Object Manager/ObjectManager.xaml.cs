@@ -461,7 +461,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		private void backupStageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ManiacEditor.Methods.Editor.SolutionLoader.StageConfigBackup(null, null);
+			ManiacEditor.Methods.Editor.SolutionLoader.BackupStageConfig();
 		}
 
 		private void lvObjects_ItemChecked(object sender, RoutedEventArgs e)

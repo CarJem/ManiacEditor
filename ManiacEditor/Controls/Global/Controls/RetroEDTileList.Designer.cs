@@ -151,7 +151,6 @@
 			this.Controls.Add(this.vScrollBar1Old);
 			this.DoubleBuffered = true;
 			this.Name = "RetroEDTileList";
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.TileList_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TileList_KeyDown);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TileList_MouseDown);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TileList_MouseMove);

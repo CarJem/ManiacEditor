@@ -51,17 +51,16 @@
 
             </TabItem>
         </TabControl>
-        <wpfTool:SplitButton Grid.Column="2" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}" wpfTool:DropDownButton.Opened="MenuItem_SubmenuOpened">
-            <wpfTool:SplitButton.DropDownContent>
-                <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                    <MenuItem Header="Save Current Chunks to File" x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
-                    <MenuItem Header="Auto Generate Chunks from Current Layers &#xD;(Make Sure that you have Both Multi-Layers Selected)" x:Name="AutoGenerateChunks" Click="AutoGenerateChunks_Click">
+        <Button Content="..." Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="ExtraOptionsButton" Click="ExtraOptionsButton_Click">
+            <Button.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Save Chunks..." x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
+                    <MenuItem Header="Generate Chunks (EditLayer's A and B)" x:Name="AutoGenerateChunks" Click="AutoGenerateChunks_Click"></MenuItem>
+                    <MenuItem Header="Generate Chunks (EditLayer A Only)" x:Name="AutoGenerateChunksSingle"  Click="AutoGenerateChunksSingle_Click">
                     </MenuItem>
-                    <MenuItem x:Name="AutoGenerateChunksSingle" Header="Auto Generate Chunks from Single Active Layer" Click="AutoGenerateChunksSingle_Click">
-                    </MenuItem>
-                </StackPanel>
-            </wpfTool:SplitButton.DropDownContent>
-        </wpfTool:SplitButton>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
             <StackPanel>
                 <CheckBox x:Name="option1CheckBox" Margin="5" Content="Flip Horizontal &#xD;&#xA;(Ctrl)" Checked="option1CheckBox_CheckedChanged" Unchecked="option1CheckBox_CheckedChanged"></CheckBox>

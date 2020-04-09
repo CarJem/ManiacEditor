@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace ManiacEditor.Controls.Utility
 {
@@ -8,10 +9,12 @@ namespace ManiacEditor.Controls.Utility
     /// </summary>
     public partial class ExportAsImageGUI : Window
     {
-        public ExportAsImageGUI(Classes.Scene.EditorScene editorScene)
+        private Classes.Scene.EditorScene Scene { get; set; }
+        public ExportAsImageGUI(Classes.Scene.EditorScene _Scene)
         {
             InitializeComponent();
-            foreach (var layer in editorScene.OtherLayers)
+            Scene = _Scene;
+            foreach (var layer in _Scene.OtherLayers)
             {
                 CheckBox layerCheckbox = new CheckBox()
                 {
@@ -20,7 +23,7 @@ namespace ManiacEditor.Controls.Utility
                 ExtraLayersSection.Children.Add(layerCheckbox);
             }
 
-            foreach (var obj in editorScene.Entities.SceneObjects)
+            foreach (var obj in _Scene.Entities.SceneObjects)
             {
                 CheckBox entityCheckbox = new CheckBox()
                 {
@@ -82,6 +85,35 @@ namespace ManiacEditor.Controls.Utility
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
+            List<string> ExtraLayersForExport = new List<string>();
+            foreach (var checkbox in ExtraLayersSection.Children)
+            {
+                if (checkbox is CheckBox)
+                {
+                    if ((checkbox as CheckBox).IsChecked.Value)
+                    {
+                        ExtraLayersForExport.Add((checkbox as CheckBox).Content.ToString());
+                    }
+                }
+            }
+
+            if (FGLowerCheckbox.IsChecked.Value) ExtraLayersForExport.Add("FGLower");
+            if (FGLowCheckbox.IsChecked.Value) ExtraLayersForExport.Add("FGLow");
+            if (FGHighCheckbox.IsChecked.Value) ExtraLayersForExport.Add("FGHigh");
+            if (FGHigherCheckbox.IsChecked.Value) ExtraLayersForExport.Add("FGHigher");
+            if (EntitiesCheckbox.IsChecked.Value) ExtraLayersForExport.Add("Entities");
+
+            if (SingleImageModeRadioButton.IsChecked.Value)
+            {
+                bool result = ManiacEditor.Methods.Editor.SolutionLoader.ExportAsPNG(ExtraLayersForExport);
+                if (result != false) DialogResult = true;
+            }
+            else
+            {
+                bool result = ManiacEditor.Methods.Editor.SolutionLoader.ExportLayersAsPNG(ExtraLayersForExport);
+                if (result != false) DialogResult = true;
+            }
+
 
         }
     }

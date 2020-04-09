@@ -16,17 +16,17 @@
                 <StackPanel>
                     <GroupBox Header="Mode">
                         <StackPanel>
-                            <RadioButton Content="Single Image" IsChecked="True"></RadioButton>
-                            <RadioButton Content="Seperate Images"></RadioButton>
+                            <RadioButton Content="Single Image" IsChecked="True" x:Name="SingleImageModeRadioButton"></RadioButton>
+                            <RadioButton Content="Seperate Images" x:Name="SeperateImageModeRadioButton"></RadioButton>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Format">
                         <StackPanel IsEnabled="False">
-                            <RadioButton IsChecked="True" Content="PNG"></RadioButton>
-                            <RadioButton Content="GIF"></RadioButton>
+                            <RadioButton IsChecked="True" Content="PNG" Foreground="{DynamicResource DisabledText}"></RadioButton>
+                            <RadioButton Content="GIF" Foreground="{DynamicResource DisabledText}"></RadioButton>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Options">
+                    <GroupBox Header="Options" Visibility="Collapsed">
                         <StackPanel>
                             <CheckBox Content="Show Selection Boxes"></CheckBox>
                             <CheckBox>
@@ -60,11 +60,11 @@
                     <StackPanel>
                         <Label Content="Default Layers:"></Label>
                         <Separator></Separator>
-                        <CheckBox Content="FG Lower"></CheckBox>
-                        <CheckBox Content="FG Low"></CheckBox>
-                        <CheckBox Content="FG High"></CheckBox>
-                        <CheckBox Content="FG Higher"></CheckBox>
-                        <CheckBox Content="Entities"></CheckBox>
+                        <CheckBox Content="FG Lower" x:Name="FGLowerCheckbox" IsChecked="True"></CheckBox>
+                        <CheckBox Content="FG Low" x:Name="FGLowCheckbox" IsChecked="True"></CheckBox>
+                        <CheckBox Content="FG High" x:Name="FGHighCheckbox" IsChecked="True"></CheckBox>
+                        <CheckBox Content="FG Higher" x:Name="FGHigherCheckbox" IsChecked="True"></CheckBox>
+                        <CheckBox Content="Entities" x:Name="EntitiesCheckbox" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></CheckBox>
                         <Separator></Separator>
                         <Label Content="Other Layers:"></Label>
                         <Separator></Separator>

@@ -46,6 +46,7 @@ namespace ManiacEditor.Controls.Editor.Elements
                 exportToolStripMenuItem.IsEnabled = enabled;
                 changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
                 ImageOverlayGroupMenuItem.IsEnabled = enabled;
+                BackupMenuItem.IsEnabled = enabled;
             }));
 
         }
@@ -228,15 +229,30 @@ namespace ManiacEditor.Controls.Editor.Elements
         public void OpenDataDirectoryEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.OpenDataDirectory(); }
         public void SaveSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.Save(); }
         private void ExitEditorEvent(object sender, RoutedEventArgs e) { Instance.Close(); }
-        private void ExportAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.ExportAsPNG(); }
-        private void ExportLayersAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.ExportLayersAsPNG(); }
-        private void ExportObjLayoutAsPNGEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.ExportObjLayoutAsPNG(); }
         private void ExportToolStripMenuItem_Click(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.ExportGUI(sender, e); }
         public void SaveSceneAsEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.SaveAs(); }
-        private void RecoverEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.BackupRecoverButton_Click(sender, e); }
         public void UnloadSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.UnloadScene(); }
-        private void BackupStageConfigEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.StageConfigBackup(sender, e); }
-        private void BackupSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Editor.SolutionLoader.SceneBackup(sender, e); }
+
+        private void BackupStageConfigMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Methods.Editor.SolutionLoader.BackupStageConfig();
+        }
+
+        private void BackupTileConfigMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Methods.Editor.SolutionLoader.BackupTileConfig();
+        }
+
+        private void BackupSceneMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Methods.Editor.SolutionLoader.BackupSceneFile();
+        }
+
+        private void BackupStageTilesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Methods.Editor.SolutionLoader.BackupStageTiles();
+        }
+
         #endregion
         #region Edit Events
         public void PasteToChunksEvent(object sender, RoutedEventArgs e) { Methods.Editor.EditorActions.PasteToChunks(); }
@@ -366,5 +382,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         {
             Instance.ViewPanel.SharpPanel.ClearOverlayImage();
         }
+
+
     }
 }

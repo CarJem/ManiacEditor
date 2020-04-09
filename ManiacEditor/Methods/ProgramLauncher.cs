@@ -630,7 +630,6 @@ namespace ManiacEditor.Methods
             var eG = new ExportAsImageGUI(Methods.Editor.Solution.CurrentScene);
             eG.Owner = Window.GetWindow(Editor);
             eG.ShowDialog();
-
         }
 
         public static void ObjectManager()

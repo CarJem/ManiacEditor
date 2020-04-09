@@ -239,6 +239,7 @@
     <Compile Include="Classes\General\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
     <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
+    <Compile Include="Classes\Rendering\GraphicsTileDrawing.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Classes\Rendering\LayerTileProvider.cs" />
     <Compile Include="Classes\Rendering\EllipseShape.cs" />
@@ -709,6 +710,9 @@
     <Compile Include="Classes\General\EntityRenderingOptions.cs" />
     <Compile Include="Classes\General\EntityDefinitions.cs" />
     <Compile Include="Structures\LinkedEntityRenderProp.cs" />
+    <Content Include="Resources\Tile Overlays\16x16Tiles_Selection.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Controls\TileManiac\Resources\Maniac.bmp" />
     <Resource Include="Controls\TileManiac\Resources\Green.png" />
     <Resource Include="Controls\TileManiac\Resources\9.png" />

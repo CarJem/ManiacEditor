@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace ManiacEditor.Methods.Editor
 {
-    public class SolutionState
+    public static class SolutionState
     {
         #region Init
         private static ManiacEditor.Controls.Editor.MainEditor Instance;
-        public SolutionState(ManiacEditor.Controls.Editor.MainEditor instance)
+        public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor instance)
         {
             Instance = instance;
         }

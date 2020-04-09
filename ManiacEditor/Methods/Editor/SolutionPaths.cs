@@ -535,7 +535,7 @@ namespace ManiacEditor.Methods.Editor
 			string sourcePath = Path.Combine(SceneFile_Source.SourceDirectory, sourceFile);
 
 			Stamps_Source = new FileSource(sourceId, sourcePath);
-			if (IsEditorStampsValid())
+			if (IsEditorStampsValid(sourceFile))
 			{
 				return new Classes.Scene.EditorChunks.TexturedStamps(sourcePath);
 			}
@@ -557,9 +557,9 @@ namespace ManiacEditor.Methods.Editor
 		{
 			Methods.Editor.Solution.CurrentScene.EditorMetadata.StampName = Name;
 		}
-		public static bool IsEditorStampsValid()
+		public static bool IsEditorStampsValid(string sourceFile)
 		{
-			return File.Exists(Path.Combine(SceneFile_Source.SourceDirectory, Methods.Editor.Solution.CurrentScene.EditorMetadata.StampName.Replace("\0", "")));
+			return File.Exists(Path.Combine(SceneFile_Source.SourceDirectory, sourceFile));
 		}
 		#endregion
 
