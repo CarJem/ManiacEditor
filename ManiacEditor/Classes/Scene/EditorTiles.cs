@@ -80,7 +80,7 @@ namespace ManiacEditor.Classes.Scene
                     gfx.DrawImage(TileConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0,(16 * i),16,16));
                 }
             }
-            return bitmap
+            return bitmap;
         }
         private Bitmap DrawCollisionMaskB()
         {
@@ -92,7 +92,7 @@ namespace ManiacEditor.Classes.Scene
                     gfx.DrawImage(TileConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0, (16 * i), 16, 16));
                 }
             }
-            return bitmap
+            return bitmap;
         }
 
         #endregion

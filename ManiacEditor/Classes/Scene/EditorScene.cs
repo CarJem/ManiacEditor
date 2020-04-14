@@ -12,109 +12,112 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 using ManiacEditor.Classes.Scene;
+using ManiacEditor.Classes.Rendering;
 
 namespace ManiacEditor.Classes.Scene
 {
     public class EditorScene : RSDKv5.Scene, IDisposable
     {
-        public IList<EditorLayer> EditorLayers;
-        public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
+        public ManiacEditor.Controls.Editor.MainEditor Instance;
         public EditorEntities Entities { get; set; }
 
         #region Layers
 
         public EditorLayer LowDetails
         {
-            get => EditorLayers.FirstOrDefault(el => el.Name.Equals(Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundLower) || el.Name.Equals(ManiacEditor.Properties.Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+            get => AllLayers.FirstOrDefault(el => el.Name.Equals(Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundLower) || el.Name.Equals(ManiacEditor.Properties.Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
         }
         public EditorLayer ForegroundLow
         {
-            get => EditorLayers.LastOrDefault(el => el.Name.Equals("FG Low") || el.Name.Equals("Playfield"));
+            get => AllLayers.LastOrDefault(el => el.Name.Equals("FG Low") || el.Name.Equals("Playfield"));
         }
         public EditorLayer Scratch
         {
-            get => EditorLayers.LastOrDefault(el => el.Name.Equals("Scratch"));
+            get => AllLayers.LastOrDefault(el => el.Name.Equals("Scratch"));
         }
         public EditorLayer Move
         {
-            get => EditorLayers.LastOrDefault(el => el.Name.Equals("Move"));
+            get => AllLayers.LastOrDefault(el => el.Name.Equals("Move"));
         }
         public EditorLayer HighDetails
         {
-            get => EditorLayers.FirstOrDefault(el => el.Name.Equals(Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundHigher) || el.Name.Equals(ManiacEditor.Properties.Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+            get => AllLayers.FirstOrDefault(el => el.Name.Equals(Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundHigher) || el.Name.Equals(ManiacEditor.Properties.Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
         }
         public EditorLayer ForegroundHigh
         {
-            get => EditorLayers.LastOrDefault(el => el.Name.Equals("FG High") || el.Name.Equals("Ring Count"));
+            get => AllLayers.LastOrDefault(el => el.Name.Equals("FG High") || el.Name.Equals("Ring Count"));
         }
         #endregion
 
         #region List of Layers
-        public IEnumerable<EditorLayer> AllLayers
-        {
-            get { return EditorLayers; }
-        }
+        public IList<EditorLayer> AllLayers { get; set; }
         public IList<EditorLayer> AllLayersList
         {
-            get { return EditorLayers; }
+            get { return AllLayers; }
         }
         public IEnumerable<EditorLayer> OtherLayers
         {
             get
             {
-                return EditorLayers.Where(el => el != ForegroundLow && el != ForegroundHigh && el != HighDetails && el != LowDetails);
+                return AllLayers.Where(el => el != ForegroundLow && el != ForegroundHigh && el != HighDetails && el != LowDetails);
             }
         }
         public IEnumerable<EditorLayer> LayerByDrawingOrder
         {
             get
             {
-                return EditorLayers.Where(el => el.Layer.DrawingOrder.Equals(1));
+                return AllLayers.Where(el => el.Layer.DrawingOrder.Equals(1));
             }
         }
         #endregion
 
+        #region Misc
         public EditorScene(string filename, DevicePanel d, ManiacEditor.Controls.Editor.MainEditor instance) : base(filename)
         {
-            EditorInstance = instance;
-            EditorLayers = new List<EditorLayer>(Layers.Count);
+            Instance = instance;
+            AllLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
             {
-                EditorLayers.Add(new EditorLayer(layer, EditorInstance));
+                AllLayers.Add(new EditorLayer(layer, Instance));
             }
         }
 
         public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, ManiacEditor.Controls.Editor.MainEditor instance)
         {
-            EditorInstance = instance;
+            Instance = instance;
             Layers = new List<SceneLayer>(3);
             Layers.Add(new SceneLayer("FG Low", (ushort)width, (ushort)height));
             Layers.Add(new SceneLayer("FG High", (ushort)width, (ushort)height));
             Layers.Add(new SceneLayer("Background", (ushort)BGWidth, (ushort)BGHeight));
 
-            EditorLayers = new List<EditorLayer>(Layers.Count);
+            AllLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
             {
-                EditorLayers.Add(new EditorLayer(layer, EditorInstance));
+                AllLayers.Add(new EditorLayer(layer, Instance));
             }
+        }
+
+        public void Reload()
+        {
+            AllLayers.ToList().ForEach(x => x.RequireRefresh = true);
         }
 
         public EditorLayer ProduceLayer()
         {
             // lets just pick some reasonably safe defaults
             var sceneLayer = new SceneLayer("New Layer", 128, 128);
-            var editorLayer = new EditorLayer(sceneLayer, EditorInstance);
+            var editorLayer = new EditorLayer(sceneLayer, Instance);
             return editorLayer;
         }
 
         public void DeleteLayer(int byIndex)
         {
-            EditorLayers.RemoveAt(byIndex);
+            AllLayers.RemoveAt(byIndex);
         }
 
         public void DeleteLayer(EditorLayer thisLayer)
         {
-            EditorLayers.Remove(thisLayer);
+            AllLayers.Remove(thisLayer);
         }
 
         public String[] GetEncorePalette(string SelectedZone, string DataDirectory, string SelectedScene, string Result, int searchType, string userLoad = "")
@@ -404,15 +407,16 @@ namespace ManiacEditor.Classes.Scene
         public void Save(string filename)
         {
             // save any changes made to the scrolling horizontal rules
-            foreach (var el in EditorLayers)
+            foreach (var el in AllLayers)
             {
                 el.WriteHorizontalLineRules();
             }
-            Layers = EditorLayers.Select(el => el.Layer).ToList();
+            Layers = AllLayers.Select(el => el.Layer).ToList();
             Objects.Clear();
             Objects = Entities.Save();
             Write(filename);
         }
+        #endregion
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -424,7 +428,7 @@ namespace ManiacEditor.Classes.Scene
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    foreach (var el in EditorLayers)
+                    foreach (var el in AllLayers)
                     {
                         el.Dispose();
                     }
@@ -452,5 +456,6 @@ namespace ManiacEditor.Classes.Scene
             // GC.SuppressFinalize(this);
         }
         #endregion
+
     }
 }

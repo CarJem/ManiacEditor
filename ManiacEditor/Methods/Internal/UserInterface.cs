@@ -209,26 +209,17 @@ namespace ManiacEditor.Methods.Internal
             {
                 // release all our resources, and force a reload of the tiles
                 // Entities should take care of themselves
-                Instance.DisposeTextures();
                 Methods.Entities.EntityDrawing.ReleaseResources();
                 Methods.Entities.EntityDrawing.RefreshRenderLists();
 
                 //Reload for Encore Palletes, otherwise reload the image normally
-                if (Methods.Editor.SolutionState.UseEncoreColors == true)
-                {
-                    Methods.Editor.Solution.CurrentTiles?.Reload(ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
-                    Instance.TilesToolbar?.Reload();
-                }
-                else
-                {
-                    Methods.Editor.Solution.CurrentTiles?.Reload();
-                    Instance.TilesToolbar?.Reload();
-                }
+                if (Methods.Editor.SolutionState.UseEncoreColors == true) Methods.Editor.Solution.CurrentTiles?.Reload(ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
+                else Methods.Editor.Solution.CurrentTiles?.Reload();
 
                 Instance.Chunks?.Dispose();
                 if (Methods.Editor.Solution.TileConfig != null) Methods.Editor.Solution.TileConfig = new Tileconfig(ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString());
-                Methods.Editor.Solution.CurrentScene?.AllLayers.ToList().ForEach(x => x.RequireRefresh = true);
-
+                Methods.Editor.Solution.CurrentScene?.Reload();
+                Instance.TilesToolbar?.Reload();
 
             }
             catch (Exception ex)
@@ -471,7 +462,7 @@ namespace ManiacEditor.Methods.Internal
                 string tileSource = ManiacEditor.Methods.Editor.SolutionPaths.StageTiles_Source.ToString();
                 string palette = (isEncore ? ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0] : null);
 
-                Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar(tileSource, palette, Instance);
+                Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar(Instance);
                 Instance.TilesToolbar.TileDoubleClick = new Action<ushort>(x => { TilesToolbar_TileDoubleClick(x); });
                 Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) => { TilesToolbar_TileOptionChanged(option, state); });
 
@@ -491,34 +482,31 @@ namespace ManiacEditor.Methods.Internal
             }
             private static void UpdateTilesOptions()
             {
-                if (!ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit())
-                {
-                    List<ushort> values = Methods.Editor.Solution.EditLayerA?.GetSelectedValues();
-                    List<ushort> valuesB = Methods.Editor.Solution.EditLayerB?.GetSelectedValues();
-                    if (valuesB != null) values.AddRange(valuesB);
+                List<ushort> values = Methods.Editor.Solution.EditLayerA?.GetSelectedValues();
+                List<ushort> valuesB = Methods.Editor.Solution.EditLayerB?.GetSelectedValues();
+                if (valuesB != null) values.AddRange(valuesB);
 
-                    if (values.Count > 0)
+                if (values.Count > 0)
+                {
+                    for (int i = 0; i < 4; ++i)
                     {
-                        for (int i = 0; i < 4; ++i)
+                        bool set = ((values[0] & (1 << (i + 12))) != 0);
+                        bool unk = false;
+                        foreach (ushort value in values)
                         {
-                            bool set = ((values[0] & (1 << (i + 12))) != 0);
-                            bool unk = false;
-                            foreach (ushort value in values)
+                            if (set != ((value & (1 << (i + 12))) != 0))
                             {
-                                if (set != ((value & (1 << (i + 12))) != 0))
-                                {
-                                    unk = true;
-                                    break;
-                                }
+                                unk = true;
+                                break;
                             }
-                            Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Unchcked);
                         }
+                        Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Unchcked);
                     }
-                    else
-                    {
-                        for (int i = 0; i < 4; ++i)
-                            Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Disabled);
-                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 4; ++i)
+                        Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Disabled);
                 }
             }
 

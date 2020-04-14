@@ -810,15 +810,8 @@ namespace ManiacEditor
         #endregion
 
         #region Disposing
-
-        public void DisposeDeviceResources()
-        {
-
-        }
         public new void Dispose()
         {
-            DisposeDeviceResources();
-            if (_parent != null) _parent.DisposeTextures();
             if (RenderWindow != null) RenderWindow.Dispose();
             base.Dispose();
         }

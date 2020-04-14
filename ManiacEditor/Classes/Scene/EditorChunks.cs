@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using System.Windows.Media;
 using RSDKv5;
 
 namespace ManiacEditor.Classes.Scene
@@ -64,7 +65,7 @@ namespace ManiacEditor.Classes.Scene
 				}
 				#endregion
 
-				private Bitmap GetTexture(bool isPathAB = false)
+				private ImageSource GetTexture(bool isPathAB = false)
 				{
 					try
 					{
@@ -93,10 +94,12 @@ namespace ManiacEditor.Classes.Scene
 						g.Flush();
 						g.Dispose();
 
-						if (isPathAB) _MultiImage = bmp;
-						else _Image = bmp;
+						var source = Extensions.ImageExtensions.ImageSourceFromBitmap(bmp);
 
-						return bmp;
+						if (isPathAB) _MultiImage = source;
+						else _Image = source;
+
+						return source;
 					}
 					catch (Exception ex)
 					{
@@ -105,16 +108,16 @@ namespace ManiacEditor.Classes.Scene
 
 				}
 				public bool NeedsRefresh { get; set; } = false;
-				private Bitmap _Image { get; set; }
-				private Bitmap _MultiImage { get; set; }
-				public Bitmap Image
+				private ImageSource _Image { get; set; }
+				private ImageSource _MultiImage { get; set; }
+				public ImageSource Image
 				{
 					get
 					{
 						return GetTexture();
 					}
 				}
-				public Bitmap MultiImage
+				public ImageSource MultiImage
 				{
 					get
 					{
@@ -125,12 +128,12 @@ namespace ManiacEditor.Classes.Scene
 				{
 					if (Image != null)
 					{
-						_Image.Dispose();
+						//_Image.Dispose();
 						_Image = null;
 					}
 					if (MultiImage != null)
 					{
-						_MultiImage.Dispose();
+						//_MultiImage.Dispose();
 						_MultiImage = null;
 					}
 				}
@@ -239,11 +242,11 @@ namespace ManiacEditor.Classes.Scene
 		#endregion
 
 		#region Chunk Management
-		public List<Bitmap> GetChunkCurrentImages()
+		public List<ImageSource> GetChunkCurrentImages()
 		{
 			try
 			{
-				List<Bitmap> ImageCollection = new List<Bitmap>();
+				List<ImageSource> ImageCollection = new List<ImageSource>();
 				bool isMultiLayer = Methods.Editor.Solution.EditLayerB != null;
 				foreach (var chunk in StageStamps.TexturedStampList)
 				{

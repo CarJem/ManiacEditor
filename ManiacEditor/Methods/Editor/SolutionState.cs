@@ -509,7 +509,6 @@ namespace ManiacEditor.Methods.Editor
                 _ShowCollisionA = value;
                 Instance.EditorToolbar.ShowCollisionBButton.IsChecked = false;
                 _ShowCollisionB = false;
-                Instance.ReloadSpecificTextures(null, null);
             }
         }
         private static bool _ShowCollisionA;
@@ -523,7 +522,6 @@ namespace ManiacEditor.Methods.Editor
                 _ShowCollisionA = false;
                 Instance.EditorToolbar.ShowCollisionBButton.IsChecked = value;
                 _ShowCollisionB = value;
-                Instance.ReloadSpecificTextures(null, null);
             }
         }
         private static bool _ShowCollisionB;
@@ -596,7 +594,6 @@ namespace ManiacEditor.Methods.Editor
             set
             {
                 Instance.EditorToolbar.ShowTileIDButton.IsChecked = value;
-                Instance.ReloadSpecificTextures(null, null);
                 _ShowTileID = value;
             }
         }
@@ -606,12 +603,9 @@ namespace ManiacEditor.Methods.Editor
             get { return _UseEncoreColors; }
             set
             {
-                Instance.DisposeTextures();
                 Instance.EditorToolbar.EncorePaletteButton.IsChecked = value;
                 _UseEncoreColors = value;
-                Methods.Editor.Solution.CurrentTiles?.Image.Reload((value ? ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0] : null));
-                Instance.TilesToolbar?.Reload();
-                Methods.Entities.EntityDrawing.ReleaseResources();
+                Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             }
         }
         private static bool _UseEncoreColors = false;
@@ -637,7 +631,6 @@ namespace ManiacEditor.Methods.Editor
             set
             {
                 _ShowFlippedTileHelper = value;
-                Instance.ReloadSpecificTextures(null, null);
             }
         }
         private static bool _ShowFlippedTileHelper = false;
@@ -1022,9 +1015,7 @@ namespace ManiacEditor.Methods.Editor
             else if (value == 1) Instance.EditorToolbar.CollisionInvertedMenuItem.IsChecked = true;
             else if (value == 2) Instance.EditorToolbar.CollisionCustomMenuItem.IsChecked = true;
 
-
-            Instance.ReloadSpecificTextures(null, null);
-            Instance.RefreshCollisionColours(true);
+            Instance.RefreshCollisionColours();
         }
 
         #region Collision Colors

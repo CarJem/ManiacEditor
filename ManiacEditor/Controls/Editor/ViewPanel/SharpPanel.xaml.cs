@@ -222,24 +222,6 @@ namespace ManiacEditor.Controls.Editor.ViewPanel
         {
             return new System.Drawing.Rectangle((int)Methods.Editor.SolutionState.ViewPositionX, (int)Methods.Editor.SolutionState.ViewPositionY, RenderingWidth, RenderingHeight);
         }
-        public void DisposeTextures()
-        {
-            // Make sure to dispose the textures of the extra layers too
-            Methods.Editor.Solution.CurrentTiles?.Dispose();
-            if (Methods.Editor.Solution.FGHigh != null) Methods.Editor.Solution.FGHigh?.DisposeTextures();
-            if (Methods.Editor.Solution.FGLow != null) Methods.Editor.Solution.FGLow?.DisposeTextures();
-            if (Methods.Editor.Solution.FGHigher != null) Methods.Editor.Solution.FGHigher?.DisposeTextures();
-            if (Methods.Editor.Solution.FGLower != null) Methods.Editor.Solution.FGLower?.DisposeTextures();
-
-            if (Methods.Editor.Solution.CurrentScene != null)
-            {
-                foreach (var el in Methods.Editor.Solution.CurrentScene?.OtherLayers)
-                {
-                    el.DisposeTextures();
-                }
-            }
-
-        }
 
 
         #endregion

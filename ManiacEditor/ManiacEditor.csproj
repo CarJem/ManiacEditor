@@ -245,6 +245,12 @@
     <Compile Include="Classes\Rendering\EllipseShape.cs" />
     <Compile Include="Classes\Rendering\SelbaWardLine.cs" />
     <Compile Include="Classes\Rendering\SFLine.cs" />
+    <Compile Include="Controls\Global\Controls\TileListItem.xaml.cs">
+      <DependentUpon>TileListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Global\Controls\ManiacTileList.xaml.cs">
+      <DependentUpon>ManiacTileList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
@@ -260,6 +266,9 @@
     </Compile>
     <Compile Include="Controls\Global\Controls\RemapEntry.xaml.cs">
       <DependentUpon>RemapEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TileEditor\TileManager.xaml.cs">
+      <DependentUpon>TileManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1553,6 +1562,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Global\Controls\TileListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Global\Controls\ManiacTileList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Global\Controls\PropertyGrid\PropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1588,6 +1605,10 @@
     <Page Include="Controls\Assets\IconLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TileEditor\TileManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Utility\ExportAsImageGUI.xaml">
       <SubType>Designer</SubType>

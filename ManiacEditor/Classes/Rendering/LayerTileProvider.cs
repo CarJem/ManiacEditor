@@ -22,60 +22,7 @@ namespace ManiacEditor.Classes.Rendering
     public class ConnectedTexturesLogic
     {
 
-        public class Tile
-        {
-            public int ID { get; set; }
-            public bool isTop { get; set; } = false;
-            public bool isBottom { get; set; } = false;
-            public bool isLeft { get; set; } = false;
-            public bool isRight { get; set; } = false;
-
-            public Tile(int _ID, bool _isTop, bool _isBottom, bool _isLeft, bool _isRight)
-            {
-                ID = _ID;
-                isTop = _isTop;
-                isBottom = _isBottom;
-                isLeft = _isLeft;
-                isRight = _isRight;
-            }
-
-            public Tile(int _ID, byte[] b)
-            {
-                ID = _ID;
-                isTop = b[0] == 1;
-                isBottom = b[1] == 1;
-                isLeft = b[2] == 1;
-                isRight = b[3] == 1;
-            }
-
-            public Tile(int _ID, string c)
-            {
-                ID = _ID;
-                isTop = c.Contains("↑");
-                isBottom = c.Contains("↓");
-                isLeft = c.Contains("←");
-                isRight = c.Contains("→");
-            }
-
-            public bool Matches(bool[] array)
-            {
-                bool _isTop = array[0];
-                bool _isBottom = array[1];
-                bool _isLeft = array[2];
-                bool _isRight = array[3];
-
-                if (isTop != _isTop) return false;
-                if (isBottom != _isBottom) return false;
-                if (isLeft != _isLeft) return false;
-                if (isRight != _isRight) return false;
-
-
-                return true;
-            }
-
-        }
-
-        public Tile[] Map = new Tile[16];
+        public Dictionary<int, int> Map = new Dictionary<int, int>();
 
         private LayerTileProvider Parent { get; set; }
 
@@ -85,37 +32,67 @@ namespace ManiacEditor.Classes.Rendering
             InitTileMap();
         }
 
+        private int GetKeyCode(bool top, bool bottom, bool left, bool right)
+        {
+            int value = 0;
+            if (top) value += 1000;
+            if (bottom) value += 100;
+            if (left) value += 10;
+            if (right) value += 1;
+            return value;
+        }
+
         private void InitTileMap()
         {
             // ↑  ↓  ←  →  ↗  ↙  ↘  ↖
 
             //Base
-            Map[00] = new Tile(00, "");
+            AddMap(00, "");
 
             //Horizontal
-            Map[01] = new Tile(01, "→");
-            Map[02] = new Tile(02, "← →");
-            Map[03] = new Tile(03, "←");
+            AddMap(01, "→");
+            AddMap(02, "← →");
+            AddMap(03, "←");
 
             //Vertical
-            Map[04] = new Tile(12, "↓");
-            Map[05] = new Tile(24, "↓ ↑");
-            Map[06] = new Tile(36, "↑");
+            AddMap(12, "↓");
+            AddMap(24, "↓ ↑");
+            AddMap(36, "↑");
 
             //Box A
-            Map[07] = new Tile(13, "↓ →");
-            Map[08] = new Tile(15, "← ↓");
-            Map[09] = new Tile(37, "→ ↑");
-            Map[10] = new Tile(39, "← ↑");
+            AddMap(13, "↓ →");
+            AddMap(15, "← ↓");
+            AddMap(37, "→ ↑");
+            AddMap(39, "← ↑");
 
             //Box  B 
-            Map[11] = new Tile(25, "→ ↑ ↓");
-            Map[12] = new Tile(14, "← → ↓");
-            Map[13] = new Tile(38, "← → ↑");
-            Map[14] = new Tile(27, "← ↑ ↓");
+            AddMap(25, "→ ↑ ↓");
+            AddMap(14, "← → ↓");
+            AddMap(38, "← → ↑");
+            AddMap(27, "← ↑ ↓");
 
             //All Sides
-            Map[15] = new Tile(26, "← → ↑ ↓");
+            AddMap(26, "← → ↑ ↓");
+
+
+            void AddMap(int value, string tempkey)
+            {
+
+                bool _isTop = false;
+                bool _isBottom = false;
+                bool _isLeft = false;
+                bool _isRight = false;
+
+                if (tempkey.Contains("↑")) _isTop = true;
+                if (tempkey.Contains("↓")) _isBottom = true;
+                if (tempkey.Contains("←")) _isLeft = true;
+                if (tempkey.Contains("→")) _isRight = true;
+
+
+                var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
+
+                Map.Add(key, value);
+            }
         }
 
         public int GetConnectionID(Point point)
@@ -124,15 +101,8 @@ namespace ManiacEditor.Classes.Rendering
             bool _isBottom = IsBottom(point);
             bool _isLeft = IsLeft(point);
             bool _isRight = IsRight(point);
-
-            var array = new bool[] { _isTop, _isBottom, _isLeft, _isRight };
-
-            var entry = Map.Where(x => x.Matches(array)).FirstOrDefault();
-
-            if (entry != null) return entry.ID;
-            else return 0;
-
-
+            var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
+            return Map[key];
         }
 
         public bool IsTop(Point point)
@@ -151,22 +121,6 @@ namespace ManiacEditor.Classes.Rendering
         {
             return Parent.IsTileSelected(new Point(point.X + 1, point.Y));
         }
-        public bool IsNorth(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X + 1, point.Y - 1));
-        }
-        public bool IsEast(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X + 1, point.Y + 1));
-        }
-        public bool IsSouth(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X - 1, point.Y + 1));
-        }
-        public bool IsWest(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X - 1, point.Y - 1));
-        }
 
     }
 
@@ -178,7 +132,7 @@ namespace ManiacEditor.Classes.Rendering
 
         #region Layer Renders
 
-        private Classes.Scene.EditorLayer ParentLayer { get; set; }
+        public Classes.Scene.EditorLayer ParentLayer { get; set; }
         public LayerRenderer MapRender { get; set; }
         public LayerRenderer MapRenderEditor { get; set; }
         public LayerRenderer MapRenderTileID { get; set; }
@@ -190,9 +144,9 @@ namespace ManiacEditor.Classes.Rendering
 
         #region Init
 
-        public LayerTileProvider(Classes.Scene.EditorLayer parentLayer)
+        public LayerTileProvider(Classes.Scene.EditorLayer _ParentLayer)
         {
-            ParentLayer = parentLayer;
+            ParentLayer = _ParentLayer;
             ConnectedTexturesLogic = new ConnectedTexturesLogic(this);
         }
 
@@ -211,7 +165,7 @@ namespace ManiacEditor.Classes.Rendering
 
                 if (NotAir)
                 {
-                    rec = GetTileRect(tile, Zoom);
+                    rec = GetTileRectNoFlip(tile, Zoom);
                     color = GetNormalColors(new Point(x, y), tile);
                 }
                 else
@@ -380,7 +334,26 @@ namespace ManiacEditor.Classes.Rendering
 
             return new IntRect(rect_x, rect_y, rect_width, rect_height);
         }
+        private IntRect GetTileRectNoFlip(ushort tile, double zoom)
+        {
+            int index = (tile & 0x3ff);
 
+            bool flipX = ((tile >> 10) & 1) == 1;
+            bool flipY = ((tile >> 11) & 1) == 1;
+            bool SolidTopA = ((tile >> 12) & 1) == 1;
+            bool SolidLrbA = ((tile >> 13) & 1) == 1;
+            bool SolidTopB = ((tile >> 14) & 1) == 1;
+            bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
+            int tile_size = Methods.Editor.EditorConstants.TILE_SIZE;
+            int tile_texture_y = index * tile_size;
+            int rect_x = 0;
+            int rect_y = tile_texture_y;
+            int rect_width = tile_size;
+            int rect_height = tile_size;
+
+            return new IntRect(rect_x, rect_y, rect_width, rect_height);
+        }
         private IntRect GetTileRect(ushort tile, double zoom, bool FlipGuideMode = false)
         {
             int index = (tile & 0x3ff);
@@ -458,9 +431,10 @@ namespace ManiacEditor.Classes.Rendering
 
         private System.Drawing.Color GetCollisionColor(System.Drawing.Color Color, int Opacity, int Opacity2)
         {
-            double Amount = (Opacity2 / 255) * 100;
-            double AmountOfLoss = Opacity / Amount;
-            int RealOpacity = Opacity - (int)AmountOfLoss;
+            int Diff = Opacity > Opacity2 ? Opacity - Opacity2 : Opacity2 - Opacity;
+            int Biggest = Opacity > Opacity2 ? Opacity : Opacity2;
+
+            int RealOpacity = Biggest - (int)Diff;
             return System.Drawing.Color.FromArgb(RealOpacity, Color.R, Color.G, Color.B);
         }
 

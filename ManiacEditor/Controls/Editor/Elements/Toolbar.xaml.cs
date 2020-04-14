@@ -319,7 +319,7 @@ namespace ManiacEditor.Controls.Editor.Elements
         private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.CollisionPreset = 2; }
         private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (Instance != null) Instance.RefreshCollisionColours(true);
+
         }
         #endregion
 
@@ -893,7 +893,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             if (e.NewValue.Value != null && Instance != null)
             {
                 Methods.Editor.SolutionState.CollisionTOColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Instance.RefreshCollisionColours(true);
+                Instance.RefreshCollisionColours();
             }
         }
         private void comboBox5_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
@@ -902,7 +902,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             if (e.NewValue.Value != null && Instance != null)
             {
                 Methods.Editor.SolutionState.CollisionLRDColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Instance.RefreshCollisionColours(true);
+                Instance.RefreshCollisionColours();
             }
         }
         private void comboBox4_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
@@ -911,13 +911,12 @@ namespace ManiacEditor.Controls.Editor.Elements
             if (e.NewValue.Value != null && Instance != null)
             {
                 Methods.Editor.SolutionState.CollisionSAColour = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Instance.RefreshCollisionColours(true);
+                Instance.RefreshCollisionColours();
             }
         }
         private void CollisionColorPickerClosed(object sender, RoutedEventArgs e)
         {
-            Instance.ReloadSpecificTextures(sender, e);
-            Instance.RefreshCollisionColours(true);
+            Instance.RefreshCollisionColours();
         }
 
 

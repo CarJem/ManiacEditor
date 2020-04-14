@@ -234,7 +234,7 @@ namespace ManiacEditor.Methods.Editor
         {
             try
             {
-                if (Methods.Editor.Solution.CurrentScene?.EditorLayers == null || !Methods.Editor.Solution.CurrentScene.EditorLayers.Any()) return false;
+                if (Methods.Editor.Solution.CurrentScene?.AllLayers == null || !Methods.Editor.Solution.CurrentScene.AllLayers.Any()) return false;
 
                 var dialog = new GenerationsLib.Core.FolderSelectDialog()
                 {

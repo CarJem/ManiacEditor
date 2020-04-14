@@ -405,8 +405,6 @@ namespace ManiacEditor.Methods.Internal
             Instance.TilesToolbar.Refresh();
             Instance.TilesToolbar.ChunkList.Refresh();
             Instance.TilesToolbar.TilesList.Refresh();
-            Instance.TilesToolbar.ChunkList.vScrollBar1Host.Refresh();
-            Instance.TilesToolbar.TilesList.vScrollBar1Host.Refresh();
             Instance.TilesToolbar.RefreshThemeColors();
             TilesToolbarAwaitingRefresh = false;
         }

@@ -32,7 +32,12 @@
                     <Grid x:Name="TileSlider" Grid.Row="0">
                         <Slider ValueChanged="TileZoomTrackbar_ValueChanged" x:Name="TileZoomTrackbar" VerticalAlignment="Center" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
                     </Grid>
-                    <Grid x:Name="TileViewer" Grid.Row="1">
+                    <Grid x:Name="TileViewer" Grid.Row="1" ContextMenuOpening="TileContextMenu_ContextMenuOpening">
+                        <Grid.ContextMenu>
+                            <ContextMenu x:Name="TileContextMenu">
+                                <MenuItem x:Name="EditTileCollisionMenuItem" Header="Edit Tile Collision {0}..." Tag="Edit Tile Collision {0}..." Click="EditTileCollisionMenuItem_Click" IsEnabled="False"></MenuItem>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                     </Grid>
 
                 </Grid>
@@ -46,7 +51,20 @@
                     <Grid x:Name="ChunksSlider" Grid.Row="0">
                         <Slider ValueChanged="ChunkZoomTrackbar_ValueChanged" x:Name="ChunkZoomTrackbar" VerticalAlignment="Center" Value="2" IsSnapToTickEnabled="True" Maximum="3" Ticks="0 1 2 3" TickPlacement="Both"></Slider>
                     </Grid>
-                    <Grid Grid.Row="1" x:Name="ChunksPage"></Grid>
+                    <Grid Grid.Row="1" x:Name="ChunksPage" ContextMenuOpening="ChunksContextMenu_ContextMenuOpening">
+                        <Grid.ContextMenu>
+                            <ContextMenu x:Name="ChunksContextMenu">
+                                <MenuItem x:Name="PasteChunkMenuItem" Header="Paste Chunk From Clipboard" Click="PasteChunkFromClipboardMenuItem_Click" IsEnabled="False"></MenuItem>
+                                <Separator></Separator>
+                                <MenuItem x:Name="EditChunkMenuItem" Header="Edit Chunk {0}..." Tag="Edit Chunk {0}..." Click="EditChunkMenuItem_Click" IsEnabled="False"></MenuItem>
+                                <MenuItem x:Name="RemoveChunkMenuItem" Header="Remove Chunk {0}..." Tag="Remove Chunk {0}..." Click="RemoveChunkMenuItem_Click" IsEnabled="False"></MenuItem>
+                                <MenuItem x:Name="DuplicateChunkMenuItem" Header="Duplicate Chunk {0}..." Tag="Duplicate Chunk {0}..." Click="DuplicateChunkMenuItem_Click" IsEnabled="False"></MenuItem>
+                                <Separator></Separator>
+                                <MenuItem x:Name="MoveChunkUpMenuItem" Header="Move Chunk {0} Up" Tag="Move Chunk {0} Up" IsEnabled="False"></MenuItem>
+                                <MenuItem x:Name="MoveChunkDownMenuItem" Header="Move Chunk {0} Down" Tag="Move Chunk {0} Down" IsEnabled="False"></MenuItem>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
                 </Grid>
 
             </TabItem>

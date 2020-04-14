@@ -3,13 +3,16 @@ using System.Windows;
 using System.Windows.Controls;
 using RSDKv5;
 using System.Diagnostics;
+using GenerationsLib.WPF;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace ManiacEditor.Controls.Editor.Toolbars
 {
 	public partial class TilesToolbar : UserControl
 	{
-        #region Definitions
-        public ManiacEditor.Controls.Editor.MainEditor Instance;
+		#region Definitions
+		public ManiacEditor.Controls.Editor.MainEditor Instance;
 
 		public Methods.Draw.GIF TileGridImage
 		{
@@ -20,22 +23,44 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		}
 
 		bool isDisposing = false;
-		public Action<ushort> TileDoubleClick { get; set; } 
+		public Action<ushort> TileDoubleClick { get; set; }
 
-		bool TilesFlipHorizontal = false;
-		bool TilesFlipVertical = false;
+		private bool _TilesFlipHorizontal = false;
+		private bool _TilesFlipVertical = false;
 
-		private bool ChunkRefreshNeeded { get; set; } = false;
-		private bool TileRefreshNeeded { get; set; } = false;
+		public bool TilesFlipHorizontal
+		{
+			get
+			{
+				return _TilesFlipHorizontal;
+			}
+			set
+			{
+				_TilesFlipHorizontal = value;
+				TilesList.FlipX = value;
+				ChunkList.FlipX = value;
+			}
+		}
+		public bool TilesFlipVertical
+		{
+			get
+			{
+				return _TilesFlipVertical;
+			}
+			set
+			{
+				_TilesFlipVertical = value;
+				TilesList.FlipY = value;
+				ChunkList.FlipY = value;
+			}
+		}
 		private bool CurrentMultiLayerState { get; set; } = false;
 
-		public System.Windows.Forms.Panel TilePanel;
+		private bool AwaitTileContextMenuOpen { get; set; } = false;
+		private bool AwaitChunkContextMenuOpen { get; set; } = false;
 
-		public ManiacEditor.Controls.Global.Controls.RetroEDTileList ChunkList;
-        public ManiacEditor.Controls.Global.Controls.RetroEDTileList TilesList;
-
-		public System.Windows.Forms.Integration.WindowsFormsHost TileHost;
-		public System.Windows.Forms.Integration.WindowsFormsHost ChunkHost;
+		public ManiacEditor.Controls.Global.Controls.ManiacTileList ChunkList;
+		public ManiacEditor.Controls.Global.Controls.ManiacTileList TilesList;
 
 		public Action<int, bool> TileOptionChanged;
 
@@ -43,13 +68,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		CheckBox[] SelectedTilesCheckboxOptions = new CheckBox[4];
 		bool setCheckboxes;
 
-		public int SelectedTileIndex
-		{
-			get
-			{
-				return TilesList.SelectedIndex;
-			}
-		}
+		public int SelectedTileIndex { get; set; }
+
+		public int SelectedChunkIndex { get; set; }
 
 		public ushort SelectedTile
 		{
@@ -84,115 +105,75 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 			Unchcked,
 			Indeterminate
 		}
-        #endregion
+		#endregion
 
-        #region Init
-        public TilesToolbar(String data_directory, String Colors, ManiacEditor.Controls.Editor.MainEditor instance)
+		#region Init
+		public TilesToolbar(ManiacEditor.Controls.Editor.MainEditor _Instance)
 		{
-            try
-            {
-                InitializeComponent();
-                SetupTilesList(instance);
+			try
+			{
+				InitializeComponent();
+				SetupTilesList(_Instance);
 
-                Instance = instance;
+				Instance = _Instance;
 
-                SelectedTilesCheckboxOptions[0] = tileOption1;
-                SelectedTilesCheckboxOptions[1] = tileOption2;
-                SelectedTilesCheckboxOptions[2] = tileOption3;
-                SelectedTilesCheckboxOptions[3] = tileOption4;
-
-                CurrentTileCheckboxOptions[0] = option1CheckBox;
-                CurrentTileCheckboxOptions[1] = option2CheckBox;
-                CurrentTileCheckboxOptions[2] = SolidTopACheckBox;
-                CurrentTileCheckboxOptions[3] = SolidAllButTopACheckBox;
-                CurrentTileCheckboxOptions[4] = SolidTopBCheckBox;
-                CurrentTileCheckboxOptions[5] = SolidAllButTopBCheckBox;
-
-                UpdateShortcuts();
-
+				SetCheckboxDefaults();
+				UpdateShortcuts();
 				ReloadLists();
 
 			}
-            catch (Exception ex)
-            {
-                Debug.Print(ex.ToString());
-            }
+			catch (Exception ex)
+			{
+				Debug.Print(ex.ToString());
+			}
 
 		}
+
+
+		private void SetCheckboxDefaults()
+		{
+			SelectedTilesCheckboxOptions[0] = tileOption1;
+			SelectedTilesCheckboxOptions[1] = tileOption2;
+			SelectedTilesCheckboxOptions[2] = tileOption3;
+			SelectedTilesCheckboxOptions[3] = tileOption4;
+
+			CurrentTileCheckboxOptions[0] = option1CheckBox;
+			CurrentTileCheckboxOptions[1] = option2CheckBox;
+			CurrentTileCheckboxOptions[2] = SolidTopACheckBox;
+			CurrentTileCheckboxOptions[3] = SolidAllButTopACheckBox;
+			CurrentTileCheckboxOptions[4] = SolidTopBCheckBox;
+			CurrentTileCheckboxOptions[5] = SolidAllButTopBCheckBox;
+		}
+
 		#endregion
 
 		#region UI Refresh
 		public void RefreshThemeColors()
 		{
 			System.Drawing.Color ListBackColor = Methods.Internal.Theming.ThemeBrush1;
-			this.ChunkList.BackColor = ListBackColor;
-			this.TilePanel.BackColor = ListBackColor;
-			this.TilesList.BackColor = ListBackColor;
+			this.ChunkList.Background = new System.Windows.Media.SolidColorBrush(ListBackColor.ToSWMColor());
+			this.TilesList.Background = new System.Windows.Media.SolidColorBrush(ListBackColor.ToSWMColor());
 		}
 		public void SetupTilesList(ManiacEditor.Controls.Editor.MainEditor Instance)
 		{
-			TileHost = new System.Windows.Forms.Integration.WindowsFormsHost();
-			ChunkHost = new System.Windows.Forms.Integration.WindowsFormsHost();
-			this.ChunkList = new ManiacEditor.Controls.Global.Controls.RetroEDTileList();
+			this.ChunkList = new ManiacEditor.Controls.Global.Controls.ManiacTileList();
+			this.TilesList = new ManiacEditor.Controls.Global.Controls.ManiacTileList();
 
-			this.TilePanel = new System.Windows.Forms.Panel();
+			this.ChunkList.ContextMenuRequestClick += ChunkList_ContextMenuRequestClick;
+			this.TilesList.ContextMenuRequestClick += TilesList_ContextMenuRequestClick;
 
-			// 
-			// ChunkList
-			// 
-			this.ChunkList.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ChunkList.ImageHeight = 16 * 8;
-			this.ChunkList.ImageSize = 16 * 8;
-			this.ChunkList.ImageWidth = 16 * 8;
-			this.ChunkList.Location = new System.Drawing.Point(3, 3);
-			this.ChunkList.Name = "ChunkList";
-			this.ChunkList.ScrollValue = 0;
-			this.ChunkList.SelectedIndex = -1;
-			this.ChunkList.Size = new System.Drawing.Size(234, 290);
-			this.ChunkList.TabIndex = 1;
-			this.ChunkList.MouseClick += ChunkList_Click;
 			this.ChunkList.SelectedIndexChanged += ChunkList_SelectedIndexChanged;
-
-			// 
-			// TileList
-			//
-			this.TilesList = new ManiacEditor.Controls.Global.Controls.RetroEDTileList();
-			this.TilesList.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TilesList.ImageHeight = 16 * 1;
-			this.TilesList.ImageSize = 16 * 1;
-			this.TilesList.ImageWidth = 16 * 1;
-			this.TilesList.Location = new System.Drawing.Point(3, 3);
-			this.TilesList.Name = "TilesList";
-			this.TilesList.ScrollValue = 0;
-			this.TilesList.SelectedIndex = -1;
-			this.TilesList.Size = new System.Drawing.Size(234, 290);
-			this.TilesList.TabIndex = 1;
-			this.TilesList.MouseClick += TilesList_MouseClick; ;
 			this.TilesList.SelectedIndexChanged += TilesListList_SelectedIndexChanged;
+
 			this.TilesList.MouseMove += TilesList_MouseMove;
 			this.TilesList.MouseDoubleClick += TilesList_MouseDoubleClick;
-			this.TilePanel.Controls.Add(this.TilesList);
-
-			// 
-			// tilePanel
-			// 
-			this.TilePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.TilePanel.Location = new System.Drawing.Point(0, 45);
-			this.TilePanel.Name = "tilePanel";
-			this.TilePanel.Size = new System.Drawing.Size(241, 253);
-			this.TilePanel.TabIndex = 2;
-			this.TilePanel.Dock = System.Windows.Forms.DockStyle.Fill;
 
 			RefreshThemeColors();
 
-
-			TileHost.Child = TilePanel;
-			ChunkHost.Child = ChunkList;
-			TileViewer.Children.Add(TileHost);
-			ChunksPage.Children.Add(ChunkHost);
+			TileViewer.Children.Add(TilesList);
+			ChunksPage.Children.Add(ChunkList);
 		}
+
 		private void UpdateShortcuts(bool Show = false)
 		{
 			if (Show)
@@ -233,20 +214,28 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 					SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
 					if (TabControl.SelectedIndex != 0) TabControl.SelectedIndex = 0;
 				}
+
+				SelectedChunkIndex = ChunkList.SelectedIndex;
+				SelectedTileIndex = TilesList.SelectedIndex;
+
+				if (AwaitChunkContextMenuOpen)
+				{
+					UpdateChunksContextMenu();
+				}
+				
+				if (AwaitTileContextMenuOpen)
+				{
+					UpdateTilesContextMenu();
+				}
+
+
+
 			}));
 		}
 		private void RefreshLists()
 		{
-			if (ChunkRefreshNeeded)
-			{
-				ChunkList.Refresh();
-				ChunkRefreshNeeded = false;
-			}
-			if (TileRefreshNeeded)
-			{
-				TilesList.Refresh();
-				TileRefreshNeeded = false;
-			}
+			ChunkList.Invalidate();
+			TilesList.Invalidate();
 		}
 
 
@@ -270,33 +259,46 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		public void ChunksReload()
 		{
 			if (isDisposing) return;
-			ChunkList.Images.Clear();
 			if (Instance.Chunks != null)
 			{
 				int LastIndex = ChunkList.SelectedIndex;
 				ChunkList.SelectedIndex = -1;
-				ChunkList.Images = Instance.Chunks.GetChunkCurrentImages();
-
-
-				ChunkRefreshNeeded = true;
+				var chunksList = Instance.Chunks.GetChunkCurrentImages();
+				ChunkList.Images.Clear();
+				ChunkList.Images = new List<System.Windows.Media.ImageSource>(chunksList);
 				ChunkList.SelectedIndex = LastIndex;
+				TilesList.Invalidate(true);
 			}
 
 		}
+
+		private List<System.Windows.Media.ImageSource> GetCurrentTileImages()
+		{
+			List<System.Windows.Media.ImageSource> TilesList = new List<System.Windows.Media.ImageSource>();
+			for (int i = 0; i < 1024; i++)
+			{
+				TilesList.Add(TileGridImage.GetImageSource(new System.Drawing.Rectangle(0, 16 * i, 16, 16), false, false));
+			}
+			return TilesList;
+		}
+
+
 		public void TilesReload()
 		{
 			if (isDisposing) return;
 			TilesList.Images.Clear();
 
-			for (int i = 0; i < 1024; i++)
-			{
-				TilesList.Images.Add(TileGridImage.GetBitmap(new System.Drawing.Rectangle(0, 16 * i, 16, 16), TilesFlipHorizontal, TilesFlipVertical));
-			}
+			var tilesList = GetCurrentTileImages();
+			TilesList.Images.Clear();
+			TilesList.Images = new List<System.Windows.Media.ImageSource>(tilesList);
+
+			//TilesFlipHorizontal
+			//TilesFlipVertical
+
 			int indexStorage = TilesList.SelectedIndex;
 			TilesList.SelectedIndex = -1;
-
-			TileRefreshNeeded = true;
 			TilesList.SelectedIndex = indexStorage;
+			TilesList.Invalidate(true);
 
 		}
 		public void ReloadLists()
@@ -308,10 +310,10 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		#endregion
 
 		#region Events
-		private void TilesList_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void TilesList_MouseDoubleClick(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			if (isDisposing) return;
-			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
 			{
 				if (SelectedTileIndex != -1 && TileDoubleClick != null)
 				{
@@ -319,38 +321,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 				}
 			}
 		}
-		private void TilesList_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void TilesList_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
 		{
-			TilesList.EditCollisionMenuItem.Enabled = false;
-			if (e.Button == System.Windows.Forms.MouseButtons.Right)
-			{
-				if (TilesList.SelectedIndex != -1)
-				{
-					TilesList.EditCollisionMenuItem.Enabled = true;
-					TilesList.EditCollisionMenuItem.Text = string.Format("Edit Collision of Tile {0} with Tile Maniac", SelectedTileIndex);
 
-					TilesList.Tiles16ToolStrip.Show(TilesList, e.Location);
-				}
-				else
-				{
-					TilesList.EditCollisionMenuItem.Enabled = false;
-					TilesList.EditCollisionMenuItem.Text = string.Format("Edit Collision of Tile {0} with Tile Maniac", "N/A");
-
-					TilesList.Tiles16ToolStrip.Show(TilesList, e.Location);
-				}
-			}
-		}
-		private void TilesList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			if (isDisposing) return;
-			if (e.Button == System.Windows.Forms.MouseButtons.Left)
-			{
-				if (SelectedTileIndex != -1)
-				{
-					Int32 val = SelectedTileIndex;
-					TilesList.DoDragDrop(val, System.Windows.Forms.DragDropEffects.Move);
-				}
-			}
 		}
 		private void TilePanel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
@@ -368,28 +341,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		{
 			UpdateModeSpecifics();
 		}
-		private void ChunkList_Click(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			ChunkList.moveChunkDownToolStripMenuItem.Enabled = false;
-			ChunkList.moveChunkUpToolStripMenuItem.Enabled = false;
-			if (e.Button == System.Windows.Forms.MouseButtons.Right)
-			{
-				if (ChunkList.SelectedIndex != -1)
-				{
-					ChunkList.removeChunkToolStripMenuItem.Enabled = true;
-					ChunkList.duplicateChunkToolStripMenuItem.Enabled = true;
 
-					ChunkList.Chunks128ToolStrip.Show(ChunkList, e.Location);
-				}
-				else
-				{
-					ChunkList.removeChunkToolStripMenuItem.Enabled = false;
-					ChunkList.duplicateChunkToolStripMenuItem.Enabled = false;
-
-					ChunkList.Chunks128ToolStrip.Show(ChunkList, e.Location);
-				}
-			}
-		}
 		private void TileZoomTrackbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			if (isDisposing) return;
@@ -404,7 +356,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		private void TabControl_SelectedIndexChanged(object sender, SelectionChangedEventArgs e)
 		{
 			UpdateModeSpecifics(e);
-			RefreshLists();
 		}
 		private void UserControl_Unloaded(object sender, RoutedEventArgs e)
 		{
@@ -473,36 +424,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		public void Dispose()
 		{
 			isDisposing = true;
-			if (TilePanel != null)
-			{
-				TilePanel.Controls.Clear();
-				TilePanel.Dispose();
-				TilePanel = null;
-			}
-			if (TilesList != null)
-			{
-				TilesList.Controls.Clear();
-				TilesList.Dispose();
-				TilesList = null;
-			}
-			if (ChunkList != null)
-			{
-				ChunkList.Controls.Clear();
-				ChunkList.Dispose();
-				ChunkList = null;
-			}
-			if (TileHost != null)
-			{
-				TileHost.Child.Dispose();
-				TileHost = null;
-			}
-			if (ChunkHost != null)
-			{
-				ChunkHost.Child.Dispose();
-				ChunkHost = null;
-			}
-
-
 		}
 
 		#endregion
@@ -543,12 +464,10 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		private void option1CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 		{
 			TilesFlipHorizontal = option1CheckBox.IsChecked.Value;
-			TilesReload();
 		}
 		private void option2CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
 		{
 			TilesFlipVertical = option2CheckBox.IsChecked.Value;
-			TilesReload();
 		}
 		private void tileOption1_CheckedChanged(object sender, RoutedEventArgs e)
 		{
@@ -585,8 +504,141 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		}
 
 
+
 		#endregion
 
+		#region Context Menu Items
 
+		private void TilesList_ContextMenuRequestClick(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
+			{
+				TileContextMenu.IsOpen = true;
+			}
+		}
+		private void ChunkList_ContextMenuRequestClick(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
+			{
+				ChunksContextMenu.IsOpen = true;
+			}
+		}
+
+		private void UpdateTilesContextMenu()
+		{
+			EditTileCollisionMenuItem.IsEnabled = false;
+
+			if (SelectedTileIndex != -1)
+			{
+				EditTileCollisionMenuItem.IsEnabled = true;
+				EditTileCollisionMenuItem.Header = string.Format(EditTileCollisionMenuItem.Tag.ToString(), "#" + SelectedTileIndex);
+			}
+			else
+			{
+				EditTileCollisionMenuItem.IsEnabled = false;
+				EditTileCollisionMenuItem.Header = string.Format(EditTileCollisionMenuItem.Tag.ToString(), "N/A");
+			}
+		}
+
+		private void UpdateChunksContextMenu()
+		{
+			MoveChunkDownMenuItem.IsEnabled = false;
+			MoveChunkUpMenuItem.IsEnabled = false;
+			DuplicateChunkMenuItem.IsEnabled = false;
+			RemoveChunkMenuItem.IsEnabled = false;
+			PasteChunkMenuItem.IsEnabled = false;
+
+			PasteChunkMenuItem.IsEnabled = true;
+
+			if (SelectedChunkIndex != -1)
+			{
+				//MoveChunkDownMenuItem.IsEnabled = true;
+				//MoveChunkUpMenuItem.IsEnabled = true;
+				DuplicateChunkMenuItem.IsEnabled = true;
+				RemoveChunkMenuItem.IsEnabled = true;
+
+				MoveChunkDownMenuItem.Header = string.Format(MoveChunkDownMenuItem.Tag.ToString(), "#" + SelectedChunkIndex);
+				MoveChunkUpMenuItem.Header = string.Format(MoveChunkUpMenuItem.Tag.ToString(), "#" + SelectedChunkIndex);
+				DuplicateChunkMenuItem.Header = string.Format(DuplicateChunkMenuItem.Tag.ToString(), "#" + SelectedChunkIndex);
+				RemoveChunkMenuItem.Header = string.Format(RemoveChunkMenuItem.Tag.ToString(), "#" + SelectedChunkIndex);
+			}
+			else
+			{
+				//MoveChunkDownMenuItem.IsEnabled = false;
+				//MoveChunkUpMenuItem.IsEnabled = false;
+				DuplicateChunkMenuItem.IsEnabled = false;
+				RemoveChunkMenuItem.IsEnabled = false;
+
+				MoveChunkDownMenuItem.Header = string.Format(MoveChunkDownMenuItem.Tag.ToString(), "N/A");
+				MoveChunkUpMenuItem.Header = string.Format(MoveChunkUpMenuItem.Tag.ToString(), "N/A");
+				DuplicateChunkMenuItem.Header = string.Format(DuplicateChunkMenuItem.Tag.ToString(), "N/A");
+				RemoveChunkMenuItem.Header = string.Format(RemoveChunkMenuItem.Tag.ToString(), "N/A");
+			}
+		}
+
+		private void RemoveChunkMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (SelectedChunkIndex != -1)
+			{
+				Instance.TilesToolbar.RemoveChunk(SelectedChunkIndex);
+			}
+		}
+
+		private void DuplicateChunkMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (SelectedChunkIndex != -1)
+			{
+				Instance.TilesToolbar.DuplicateChunk(SelectedChunkIndex);
+			}
+		}
+
+		private void PasteChunkFromClipboardMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (Instance.TilesClipboard != null)
+			{
+				Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Instance.TilesClipboard.Item1, Instance.TilesClipboard.Item2);
+
+				Instance.TilesToolbar?.ChunksReload();
+			}
+		}
+
+		private void EditTileCollisionMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (Instance.TileManiacInstance == null || Instance.TileManiacInstance.IsEditorClosed) Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
+			if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
+			{
+				Instance.TileManiacInstance.Show();
+			}
+			if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
+			{
+				if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Instance.TileManiacInstance.TileConfig == null)
+				{
+					Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedTileIndex);
+				}
+				else
+				{
+					Instance.TileManiacInstance.SetCollisionIndex(SelectedTileIndex);
+					Instance.TileManiacInstance.Activate();
+				}
+
+			}
+		}
+
+		private void EditChunkMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		#endregion
+
+		private void TileContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+		{
+			UpdateTilesContextMenu();
+		}
+
+		private void ChunksContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+		{
+			UpdateChunksContextMenu();
+		}
 	}
 }

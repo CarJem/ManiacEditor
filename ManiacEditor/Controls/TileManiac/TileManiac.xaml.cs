@@ -67,11 +67,6 @@ namespace ManiacEditor.Controls.TileManiac
 
 		public class IDrawPanel : System.Windows.Forms.Panel, IDrawArea
 		{
-			public void DisposeTextures()
-			{
-
-			}
-
 			public SFML.System.Vector2i GetPosition()
 			{
 				return new SFML.System.Vector2i(0, 0);

@@ -11,72 +11,343 @@ using System.Globalization;
 using System.Windows.Media;
 using ManiacEditor.Converters;
 using ManiacEditor.Extensions;
+using ManiacEditor.Classes.Scene;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace ManiacEditor.Controls.Utility
 {
-	/// <summary>
-	/// Converts a number of tiles, in any one dimension, to the equivalent number of pixels.
-	/// </summary>
-
-
-	/// <summary>
-	/// Interaction logic for LayerEditor.xaml
-	/// </summary>
 	public partial class LayerManager : Window
 	{
-		private Classes.Scene.EditorScene _editorScene;
-		private IList<Classes.Scene.EditorLayer> Layers
+		#region View Model
+		public class ViewModel : INotifyPropertyChanged
 		{
-			get => _editorScene?.AllLayersList;
+            #region Collections
+            private IList<EditorLayer> _Layers { get; set; }
+			public IList<EditorLayer> Layers
+			{
+				get
+				{
+					return _Layers;
+				}
+				set
+				{
+					_Layers = value;
+					NotifyPropertyChanged("Layers");
+				}
+			}
+			public IList<EditorLayer.HorizontalLayerScroll> HorizontalLayerScroll
+			{
+				get
+				{
+					return GetHorizontalLayerScrolls();
+				}
+				set
+				{
+					SetHorizontalLayerScrolls(value);
+					NotifyPropertyChanged("HorizontalLayerScroll");
+
+				}
+			}
+			public IList<EditorLayer.ScrollInfoLines> ScrollInfoLines
+			{
+				get
+				{
+					return GetScrollInfoLines();
+				}
+				set
+				{
+					SetScrollInfoLines(value);
+					NotifyPropertyChanged("ScrollInfoLines");
+				}
+			}
+            #endregion
+
+            #region Current Items
+            public EditorLayer CurrentLayer
+			{
+				get
+				{
+					return GetCurrentLayer();
+				}
+				set
+				{
+					SetCurrentLayer(value);
+					NotifyPropertyChanged("CurrentLayer");
+				}
+			}
+			public EditorLayer.HorizontalLayerScroll CurrentHorizontalLayerScroll
+			{
+				get
+				{
+					return GetCurrentHorizontalLayerScroll();
+				}
+				set
+				{
+					SetCurrentHorizontalLayerScroll(value);
+					NotifyPropertyChanged("CurrentHorizontalLayerScroll");
+				}
+			}
+			public EditorLayer.ScrollInfoLines CurrentScrollInfoLines
+			{
+				get
+				{
+					return GetCurrentScrollInfoLine();
+				}
+				set
+				{
+					SetCurrentScrollInfoLine(value);
+					NotifyPropertyChanged("CurrentScrollInfoLines");
+				}
+			}
+			#endregion
+
+			#region Indexes
+			private int _SelectedLayerIndex { get; set; } = 0;
+			private int _SelectedLayerHorizontalIndex { get; set; } = 0;
+			private int _SelectedLayerScrollIndex { get; set; } = 0;
+
+			public int SelectedLayerIndex
+			{
+				get
+				{
+					return _SelectedLayerIndex;
+				}
+				set
+				{
+					_SelectedLayerIndex = value;
+					UpdateSection(true, true, true);
+				}
+			}
+			public int SelectedLayerHorizontalIndex
+			{
+				get
+				{
+					return _SelectedLayerHorizontalIndex;
+				}
+				set
+				{
+					_SelectedLayerHorizontalIndex = value;
+					UpdateSection(false, true, true);
+				}
+			}
+			public int SelectedLayerScrollIndex
+			{
+				get
+				{
+					return _SelectedLayerScrollIndex;
+				}
+				set
+				{
+					_SelectedLayerScrollIndex = value;
+					UpdateSection(false, false, true);
+				}
+			}
+
+
+            #endregion
+
+            #region Index Helpers
+
+			public bool OutsideOfLayerBounds
+			{
+				get 
+				{
+					return (Layers.Count - 1 < SelectedLayerIndex || SelectedLayerIndex < 0);
+				}
+			}
+
+			public bool OutsideOfHorizontalRuleBounds
+			{
+				get
+				{
+					return (Layers[SelectedLayerIndex].HorizontalLayerRules.Count - 1 < SelectedLayerHorizontalIndex || SelectedLayerHorizontalIndex < 0);
+				}
+			}
+
+			public bool OutsideOfScrollInfoBounds
+			{
+				get
+				{
+					return (Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList.Count - 1 < SelectedLayerScrollIndex || SelectedLayerScrollIndex < 0);
+				}
+			}
+
+			#endregion
+
+			#region Current Helper Methods
+			private EditorLayer GetCurrentLayer()
+			{
+				if (OutsideOfLayerBounds) return null;
+				return Layers[SelectedLayerIndex];
+			}
+			private void SetCurrentLayer(EditorLayer value)
+			{
+				if (OutsideOfLayerBounds) return;
+				else Layers[SelectedLayerIndex] = value;
+
+			}
+			private EditorLayer.HorizontalLayerScroll GetCurrentHorizontalLayerScroll()
+			{
+				if (OutsideOfLayerBounds) return null;
+				else if (OutsideOfHorizontalRuleBounds) return null;
+				return Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex];
+			}
+			private EditorLayer.ScrollInfoLines GetCurrentScrollInfoLine()
+			{
+				if (OutsideOfLayerBounds) return null;
+				else if (OutsideOfHorizontalRuleBounds) return null;
+				else if (OutsideOfScrollInfoBounds) return null;
+				else return Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList[SelectedLayerScrollIndex];
+
+			}
+			private void SetCurrentHorizontalLayerScroll(EditorLayer.HorizontalLayerScroll value)
+			{
+				if (OutsideOfLayerBounds) return;
+				else if (OutsideOfHorizontalRuleBounds) return;
+				else Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex] = value;
+			}
+			private void SetCurrentScrollInfoLine(EditorLayer.ScrollInfoLines value)
+			{
+				if (OutsideOfLayerBounds) return;
+				else if (OutsideOfHorizontalRuleBounds) return;
+				else if (OutsideOfScrollInfoBounds) return;
+				else Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList[SelectedLayerScrollIndex] = value;
+			}
+
+            #endregion
+
+            #region Collection Helper Methods
+
+            private IList<EditorLayer.HorizontalLayerScroll> GetHorizontalLayerScrolls()
+			{
+				if (OutsideOfLayerBounds) return null;
+				else return Layers[SelectedLayerIndex].HorizontalLayerRules;
+			}
+			private IList<EditorLayer.ScrollInfoLines> GetScrollInfoLines()
+			{
+				if (OutsideOfLayerBounds) return null;
+				else if (OutsideOfHorizontalRuleBounds) return null;
+				else return Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList;
+
+			}
+			private void SetHorizontalLayerScrolls(IList<EditorLayer.HorizontalLayerScroll> value)
+			{
+				if (OutsideOfLayerBounds) return;
+				Layers[SelectedLayerIndex].HorizontalLayerRules = value;
+			}
+			private void SetScrollInfoLines(IList<EditorLayer.ScrollInfoLines> value)
+			{
+				if (OutsideOfLayerBounds) return;
+				else if (OutsideOfHorizontalRuleBounds) return;
+				else Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList = value;
+			}
+
+			#endregion
+
+			#region Update Helper Methods
+
+			private void UpdateSection(bool UpdateLayerProps, bool UpdateHorizontalProps, bool UpdateScrollMapProps)
+			{
+				if (UpdateLayerProps)
+				{
+					NotifyPropertyChanged("SelectedLayerIndex");
+					NotifyPropertyChanged("CurrentLayer");
+				}
+				if (UpdateHorizontalProps)
+				{
+					NotifyPropertyChanged("SelectedLayerHorizontalIndex");
+					NotifyPropertyChanged("CurrentHorizontalLayerScroll");
+				}
+				if (UpdateScrollMapProps)
+				{
+					NotifyPropertyChanged("SelectedLayerScrollIndex");
+					NotifyPropertyChanged("CurrentScrollInfoLines");
+				}
+			}
+
+			#endregion
+
+			#region INotifyPropertyChanged Properties
+
+			public event PropertyChangedEventHandler PropertyChanged;
+
+			protected void NotifyPropertyChanged(String info)
+			{
+				if (PropertyChanged != null)
+				{
+					PropertyChanged(this, new PropertyChangedEventArgs(info));
+				}
+			}
+
+            #endregion
+        }
+
+        public ViewModel CurrentDataContext
+		{
+			get
+			{
+				return (this.DataContext as ViewModel);
+			}
+			set
+			{
+				this.DataContext = value;
+			}
 		}
+
+        #endregion
+
+        #region Base Definitions
+
+        private Classes.Scene.EditorScene EditorScene;
+
+		private Classes.Scene.EditorLayer LayerClipboard;
+
+		#endregion
+
+		#region Index Definitions
 
 		private int SelectedLayerIndex
 		{
-			get => GetSelectedLayer();
+			get
+			{
+				return CurrentDataContext.SelectedLayerIndex;
+			}
 		}
-
-		private int SelectedLayerHorizontalIndex
-		{
-			get => GetSelectedHorizontalMap();
-		}
-
 		private int SelectedLayerScrollIndex
 		{
-			get => GetSelectedLayerScroll();
+			get
+			{
+				return CurrentDataContext.SelectedLayerScrollIndex;
+			}
+		}
+		private int SelectedLayerHorizontalIndex
+		{
+			get
+			{
+				return CurrentDataContext.SelectedLayerHorizontalIndex;
+			}
 		}
 
-        private Classes.Scene.EditorLayer SelectedLayer;
+		#endregion
 
-		private bool LockSelectionChangedTriggers = false;
-		private bool _layerArrangementChanged = false;
-		bool initilzing = true;
-
-		//Previous Values for Specific Varriables
-		int nudStartLineTemp = 0;
-		int nudLineCountTemp = 0;
-
-		//Clipboards
-		private Classes.Scene.EditorLayer LayerClipboard;
+		#region Definitions
+		private bool HasLayerArangementChanged { get; set; } = false;
+		private bool isLoaded { get; set; } = true;
 
 
+        #endregion
 
-		// I clearly have no understanding of WinForms Data Binding
-		public LayerManager(Classes.Scene.EditorScene editorScene)
+        #region Init
+        public LayerManager(Classes.Scene.EditorScene editorScene)
 		{
 			InitializeComponent();
-			_editorScene = editorScene;
-			if (Methods.Internal.Theming.UseExtendedColors)
-			{
-				SetRTFText(ManiacEditor.Properties.Resources.LayerManagerWarningDarkTheme);
-			}
-			else
-			{
-				SetRTFText(ManiacEditor.Properties.Resources.LayerManagerWarning);
-			}
+			CurrentDataContext = new ViewModel();
+			EditorScene = editorScene;
 
-			contextMenu1.Foreground = (SolidColorBrush)FindResource("NormalText");
-			contextMenu1.Background = (SolidColorBrush)FindResource("ToolbarBackground");
-			contextMenu1.BorderBrush = (SolidColorBrush)FindResource("ButtonBorder");
+			LayerContextMenu.Foreground = (SolidColorBrush)FindResource("NormalText");
+			LayerContextMenu.Background = (SolidColorBrush)FindResource("ToolbarBackground");
+			LayerContextMenu.BorderBrush = (SolidColorBrush)FindResource("ButtonBorder");
 
 			lbLayers.SelectionChanged += OversizeTextUpdater;
 			lbHorizontalRules.SelectionChanged += OversizeTextUpdater;
@@ -84,296 +355,160 @@ namespace ManiacEditor.Controls.Utility
 			nudStartLine.ValueChanged += OversizeTextUpdater;
 			nudLineCount.ValueChanged += OversizeTextUpdater;
 
-			SelectionChanged();
 
-		}
-
-		public void SetRTFText(string text)
-		{
-			MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(text));
-			this.rtbWarn.Selection.Load(stream, DataFormats.Rtf);
-		}
-
-		public void BindControl(DependencyObject control, DependencyProperty prop, string path)
-		{
-			var binding = new Binding(path);
-			binding.Source = DataContext;
-			binding.Mode = BindingMode.TwoWay;
-			binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-			BindingOperations.SetBinding(control, prop, binding);
-		}
-
-		public void BindControlOneWay(DependencyObject control, DependencyProperty prop, string path)
-		{
-			var binding = new Binding(path);
-			binding.Source = DataContext;
-			binding.Mode = BindingMode.OneWay;
-			binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-			BindingOperations.SetBinding(control, prop, binding);
-		}
-
-		public void BindControlEffictiveSize(DependencyObject control, DependencyProperty prop, string path)
-		{
-			var binding = new Binding(path);
-			binding.Source = DataContext;
-			binding.Mode = BindingMode.OneWay;
-			binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            binding.Converter = new TilePixelConverter();
-			BindingOperations.SetBinding(control, prop, binding);
-		}
-
-		public int GetSelectedLayer()
-		{
-			if (lbLayers == null) return 0;
-			if (lbLayers.SelectedIndex != -1)
-			{
-				return lbLayers.SelectedIndex;
-			}
-			else return 0;
-		}
-
-		public int GetSelectedLayerScroll()
-		{
-			if (lbHorizontalRules == null) return 0;
-			if (lbHorizontalRules.SelectedIndex != -1)
-			{
-				return lbHorizontalRules.SelectedIndex;
-			}
-			else return 0;
-		}
-
-		public int GetSelectedHorizontalMap()
-		{
-			if (lbMappings == null) return 0;
-			if (lbMappings.SelectedIndex != -1)
-			{
-				return lbMappings.SelectedIndex;
-			}
-			else return 0;
+			InitDataBindings(EditorScene.AllLayers);
 		}
 
 
-		private void DesiredSizeChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-		{
-			lblResizedEffective.Content = $"Effective Width {(nudWidth.Value * 16):N0}, " +
-										$"Effective Height {(nudHeight.Value * 16):N0}";
-		}
 
-		private void SelectionChanged(int itemChanged = 0)
+		private void InitDataBindings(IList<EditorLayer> Layers)
 		{
 
-			if (itemChanged != 1)
-			{
-				lbLayers.Refresh();
-				lbLayers.Items.Refresh();
-			}
-			if (itemChanged != 2)
-			{
-				lbHorizontalRules.Refresh();
-				lbHorizontalRules.Items.Refresh();
-			}
-			if (itemChanged != 3)
-			{
-				lbMappings.Refresh();
-				lbMappings.Items.Refresh();
-			}
-
-
-            SelectedLayer = Layers.ElementAtOrDefault(SelectedLayerIndex);
-
-
-                DataContext = new
-				{
-					bsLayers = Layers.ElementAtOrDefault(SelectedLayerIndex),
-					_bsHorizontal = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerRules.ElementAtOrDefault(SelectedLayerScrollIndex),
-					_bsHorizontalMap = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerRules.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList.ElementAtOrDefault(SelectedLayerHorizontalIndex)
-				};
-
-
-				if (itemChanged != 1)  lbLayers.ItemsSource = Layers;
-				if (itemChanged != 2) lbHorizontalRules.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerRules;
-				if (itemChanged != 3) lbMappings.ItemsSource = Layers.ElementAtOrDefault(SelectedLayerIndex).HorizontalLayerRules.ElementAtOrDefault(SelectedLayerScrollIndex).LinesMapList;
-
-
-				lbLayers.DisplayMemberPath = "Name";
-
-				BindControlOneWay(lblRawWidthValue, Label.ContentProperty, "bsLayers.Width");
-				BindControlOneWay(lblRawHeightValue, Label.ContentProperty, "bsLayers.Height");
-
-				BindControlEffictiveSize(lblEffSizeWidth, Label.ContentProperty, "bsLayers.Width");
-				BindControlEffictiveSize(lblEffSizeHeight, Label.ContentProperty, "bsLayers.Height");
-
-				BindControlOneWay(nudWidth, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.Width");
-				BindControlOneWay(nudHeight, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.Height");
-				BindControl(tbName, TextBox.TextProperty, "bsLayers.Name");
-
-				BindControl(nudVerticalScroll, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.Behaviour");
-				BindControl(nudUnknownByte2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.DrawingOrder");
-				BindControl(nudUnknownWord1, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.RelativeSpeed");
-				BindControl(nudUnknownWord2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "bsLayers.ConstantSpeed");
+			BindControl(lbLayers, ListBox.SelectedIndexProperty, "SelectedLayerIndex");
+			BindControl(lbHorizontalRules, ListBox.SelectedIndexProperty, "SelectedLayerHorizontalIndex");
+			BindControl(lbMappings, ListBox.SelectedIndexProperty, "SelectedLayerScrollIndex");
 			
+			BindControl(lbLayers, ListBox.ItemsSourceProperty, "Layers");
+			BindControl(lbHorizontalRules, ListBox.ItemsSourceProperty, "CurrentLayer.HorizontalLayerRules");
+			BindControl(lbMappings, ListBox.ItemsSourceProperty, "CurrentHorizontalLayerScroll.LinesMapList");
 
-				lbHorizontalRules.DisplayMemberPath = "Id";
+			lbLayers.Items.Refresh();
+			lbHorizontalRules.Items.Refresh();
+			lbMappings.Items.Refresh();
 
-				BindControl(nudHorizontalEffect, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontal.Behavior");
-				BindControl(nudHorizByte2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontal.DrawOrder");
-				BindControl(nudHorizVal1, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontal.RelativeSpeed");
-				BindControl(nudHorizVal2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontal.ConstantSpeed");
+			CurrentDataContext.Layers = Layers;
 
-				BindControl(nudStartLine, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontalMap.StartIndex");
-				BindControl(nudLineCount, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "_bsHorizontalMap.LineCount");
-			
+			lbLayers.DisplayMemberPath = "Name";
+
+			BindControlOneWay(lblRawWidthValue, Label.ContentProperty, "CurrentLayer.Width");
+			BindControlOneWay(lblRawHeightValue, Label.ContentProperty, "CurrentLayer.Height");
+
+			BindControlEffictiveSize(lblEffSizeWidth, Label.ContentProperty, "CurrentLayer.Width");
+			BindControlEffictiveSize(lblEffSizeHeight, Label.ContentProperty, "CurrentLayer.Height");
+
+			BindControl(nudWidth, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentLayer.WorkingWidth");
+			BindControl(nudHeight, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentLayer.WorkingHeight");
+			BindControl(tbName, TextBox.TextProperty, "CurrentLayer.Name");
+
+			BindControl(nudVerticalScroll, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentLayer.Behaviour");
+			BindControl(nudUnknownByte2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentLayer.DrawingOrder");
+			BindControl(nudUnknownWord1, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentLayer.RelativeSpeed");
+			BindControl(nudUnknownWord2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentLayer.ConstantSpeed");
+
+			lbHorizontalRules.DisplayMemberPath = "Id";
+
+			BindControl(nudHorizontalEffect, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentHorizontalLayerScroll.Behavior");
+			BindControl(nudHorizByte2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentHorizontalLayerScroll.DrawOrder");
+			BindControl(nudHorizVal1, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentHorizontalLayerScroll.RelativeSpeed");
+			BindControl(nudHorizVal2, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentHorizontalLayerScroll.ConstantSpeed");
+
+			BindControl(nudStartLine, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentScrollInfoLines.StartIndex");
+			BindControl(nudLineCount, Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, "CurrentScrollInfoLines.LineCount");
+
 
 
 		}
+		#endregion
 
-		private void LbHorizontalRules_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		#region Layer Manipulation
+		private void ResizeLayer()
 		{
-			if (LockSelectionChangedTriggers) return;
-
-			LockSelectionChangedTriggers = true;
-			SelectionChanged(2);
-			LockSelectionChangedTriggers = false;
-		}
-
-		private void LbMappings_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-
-			if (LockSelectionChangedTriggers) return;
-			LockSelectionChangedTriggers = true;
-			SelectionChanged(3);
-			LockSelectionChangedTriggers = false;
-		}
-
-		private void LbLayers_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (LockSelectionChangedTriggers) return;
-
-			LockSelectionChangedTriggers = true;
-			lbHorizontalRules.SelectedIndex = 0;
-			lbMappings.SelectedIndex = 0;
-			SelectionChanged(1);
-			LockSelectionChangedTriggers = false;
-		}
-
-		private void btnResize_Click(object sender, RoutedEventArgs e)
-		{
-			if (MessageBox.Show(@"Resizing a layer can not be undone. You really should save what you have and take a backup first. Proceed with the resize?","Caution!",MessageBoxButton.YesNo,MessageBoxImage.Warning) == MessageBoxResult.Yes)
+			if (MessageBox.Show(@"Resizing a layer can not be undone. You really should save what you have and take a backup first. Proceed with the resize?", "Caution!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
 			{
-				var layer = Layers.ElementAt(GetSelectedLayer());
+				var layer = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
 				layer.Resize(Convert.ToUInt16(nudWidth.Value), Convert.ToUInt16(nudHeight.Value));
 			}
 
-			SelectionChanged();
+			
 		}
 
-		private void btnUp_Click(object sender, RoutedEventArgs e)
+		private void MoveLayerUp()
 		{
-			var current = Layers.ElementAt(GetSelectedLayer());
+			var current = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
 			if (current == null) return;
 
 			int index = lbLayers.SelectedIndex;
 			if (index == 0) return;
-			Layers.Remove(current);
-			Layers.Insert(--index, current);
+			CurrentDataContext.Layers.Remove(current);
+			CurrentDataContext.Layers.Insert(--index, current);
 			lbLayers.SelectedIndex = index;
 
-			_layerArrangementChanged = true;
-			SelectionChanged();
+			HasLayerArangementChanged = true;
+			
 		}
-
-		private void btnDown_Click(object sender, RoutedEventArgs e)
+		private void MoveLayerDown()
 		{
-			var current = Layers.ElementAt(GetSelectedLayer());
+			var current = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
 			if (current == null) return;
 
 			int index = lbLayers.SelectedIndex;
-			if (index == Layers.Count - 1) return;
-			Layers.Remove(current);
-			Layers.Insert(++index, current);
+			if (index == CurrentDataContext.Layers.Count - 1) return;
+			CurrentDataContext.Layers.Remove(current);
+			CurrentDataContext.Layers.Insert(++index, current);
 			lbLayers.SelectedIndex = index;
 
-			_layerArrangementChanged = true;
-			SelectionChanged();
-
+			HasLayerArangementChanged = true;
+			
 		}
-
-		private void btnAdd_Click(object sender, RoutedEventArgs e)
+		private void AddLayer()
 		{
-			Classes.Scene.EditorLayer newEditorLayer = _editorScene.ProduceLayer();
-			Layers.Add(newEditorLayer);
-			int newIndex = Layers.IndexOf(newEditorLayer);
+			Classes.Scene.EditorLayer newEditorLayer = EditorScene.ProduceLayer();
+			CurrentDataContext.Layers.Add(newEditorLayer);
+			int newIndex = CurrentDataContext.Layers.IndexOf(newEditorLayer);
 			lbLayers.SelectedIndex = newIndex;
 
-			_layerArrangementChanged = true;
-			SelectionChanged();
+			HasLayerArangementChanged = true;
+			
 		}
-
-		private void btnDelete_Click(object sender, RoutedEventArgs e)
+		private void DeleteLayer()
 		{
-			var current = Layers.ElementAt(GetSelectedLayer());
+			var current = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
 			if (null == current) return;
 
 			if (MessageBox.Show($@"Deleting a layer can not be undone! Are you sure you want to delete the [{current.Name}] layer?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
 			{
+				EditorScene.DeleteLayer(current);
 
-				Layers.Remove(current);
-
-				_layerArrangementChanged = true;
-				SelectionChanged();
+				HasLayerArangementChanged = true;
+				
 			}
 		}
-		
-		private void btnCut_Click(object sender, RoutedEventArgs e)
+		private void CutLayer()
 		{
-			var current = Layers.ElementAt(GetSelectedLayer());
+			var current = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
 			if (null == current) return;
 			CopyLayerToClipboard(current);
-			Layers.Remove(current);
-			_layerArrangementChanged = true;
-			SelectionChanged();
+			CurrentDataContext.Layers.Remove(current);
+			HasLayerArangementChanged = true;
+			
 		}
-
-		private void btnCopy_Click(object sender, RoutedEventArgs e)
+		private void CopyLayer()
 		{
-			var current = Layers.ElementAt(GetSelectedLayer());
+			var current = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
 			if (null == current) return;
 			CopyLayerToClipboard(current);
 		}
-
-		private void btnDuplicate_Click(object sender, RoutedEventArgs e)
+		private void DuplicateLayer()
 		{
-			var current = Layers.ElementAt(GetSelectedLayer());
+			var current = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex) as Classes.Scene.EditorLayer;
 			if (null == current) return;
-			Layers.Insert(Layers.IndexOf(current), current);
-			_layerArrangementChanged = true;
-			SelectionChanged();
+			CurrentDataContext.Layers.Insert(SelectedLayerIndex, current);
+			HasLayerArangementChanged = true;
+			
 		}
-
-		private void btnPaste_Click(object sender, RoutedEventArgs e)
+		private void PasteLayer()
 		{
 			PasteLayerFromClipboard();
 		}
 
-		private void LayerManager_FormClosed(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if (!_layerArrangementChanged) return;
+        #endregion
 
-			MessageBox.Show(@"If you have changed the number, or order of the layers, 
-			you may need to update any layer switching entities/objects in the scene too.
+        #region Horizontal Mapping Manipulation
 
-			If you don't, strange things may well happen.
-			They may well happen anway, this is all experimental!",
-			"Don't forget!",
-			MessageBoxButton.OK,
-			MessageBoxImage.Information);
-		}
-
-
-		private void btnAddHorizontalRule_Click(object sender, RoutedEventArgs e)
+		private void AddHorizontalMapping()
 		{
 			// create the horizontal rule set
-			var layer = Layers.ElementAt(GetSelectedLayer());
+			var layer = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
 			layer.ProduceHorizontalLayerScroll();
 
 			// make sure our view of the underlying set of rules is refreshed
@@ -381,67 +516,194 @@ namespace ManiacEditor.Controls.Utility
 
 			// and select the one we just made
 			lbHorizontalRules.SelectedIndex = lbHorizontalRules.Items.Count - 1;
-			SelectionChanged();
+			
+		}
+		private void RemoveHorizontalMapping()
+		{
+			var itemsToRemove = lbMappings.SelectedItems;
+			if (null == itemsToRemove) return;
+
+			if (MessageBox.Show($@"Deleting a set of horizontal scrolling rule mappings can not be undone!
+			Are you sure you want to delete?",
+			"Confirm Deletion",
+			MessageBoxButton.YesNo,
+			MessageBoxImage.Warning) == MessageBoxResult.Yes)
+			{
+				foreach (var entry in itemsToRemove)
+				{
+					CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.ElementAt(SelectedLayerHorizontalIndex).LinesMapList.Remove(entry as Classes.Scene.EditorLayer.ScrollInfoLines);
+				}
+
+				lbMappings.Items.Refresh();
+			}
 		}
 
 
-		private void btnRemoveHorizontalRule_Click(object sender, RoutedEventArgs e)
+		#endregion
+
+		#region Horizontal Rule Manipulation
+
+		private void AddHorizontalRule()
 		{
-			if (Layers.ElementAt(GetSelectedLayer()).HorizontalLayerRules.Count == 1)
+			var hls = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.ElementAt(SelectedLayerHorizontalIndex);
+			if (null == hls) return;
+
+			hls.AddMapping();
+			
+		}
+		private void RemoveHorizontalRule()
+		{
+			int amountSelected = lbHorizontalRules.SelectedItems.Count;
+
+			if (CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.Count - amountSelected < 1)
 			{
-			MessageBox.Show("There must be at least one set of horizontal scrolling rules.",
-			"Delete not allowed.",
-			MessageBoxButton.OK,
-			MessageBoxImage.Error);
-			return;
+				MessageBox.Show("There must be at least one set of horizontal scrolling rules.",
+				"Delete not allowed.",
+				MessageBoxButton.OK,
+				MessageBoxImage.Error);
+				return;
 			}
 
-		var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayerRules.ElementAt(GetSelectedLayerScroll());
-		if (null == current) return;
+			var itemsToRemove = lbHorizontalRules.SelectedItems;
+
+			if (null == itemsToRemove) return;
 
 			if (MessageBox.Show($@"Deleting a set of horizontal scrolling rules can not be undone!
-			Are you sure you want to delete the set of rules with id '{current.Id}'?
+			Are you sure you want to delete these set of rules?
 			All mappings for this rule will be deleted too!",
 			"Confirm Deletion",
 			MessageBoxButton.YesNo,
 			MessageBoxImage.Warning) == MessageBoxResult.Yes)
 			{
-				Layers.ElementAt(GetSelectedLayer()).HorizontalLayerRules.Remove(current);
-				SelectionChanged();
+				foreach (var entry in itemsToRemove)
+				{
+					CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.Remove(entry as Classes.Scene.EditorLayer.HorizontalLayerScroll);
+				}
+
+				lbHorizontalRules.Items.Refresh();
 			}
 		}
 
+		#endregion
 
+		#region Clipboard
+
+		private void CopyLayerToClipboard(Classes.Scene.EditorLayer layerToCopy)
+		{
+			Classes.Scene.EditorLayer copyData = layerToCopy;
+			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
+			LayerClipboard = copyData;
+
+		}
+		public void PasteLayerFromClipboard()
+		{
+			if (Clipboard.ContainsData("ManiacLayer") && false)
+			{
+				var layerToPaste = (Classes.Scene.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
+
+				CurrentDataContext.Layers.Insert(CurrentDataContext.Layers.Count - 1, layerToPaste);
+
+				HasLayerArangementChanged = true;
+
+				
+			}
+			else if (LayerClipboard != null)
+			{
+				var layerToPaste = LayerClipboard;
+				CurrentDataContext.Layers.Insert(CurrentDataContext.Layers.Count - 1, layerToPaste);
+				HasLayerArangementChanged = true;
+
+				
+			}
+		}
+
+		#endregion
+
+		#region Events
+		private void HorizontalMappingChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			lbMappings.Items.Refresh();
+		}
+		private void DesiredSizeChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			UpdateDesiredSizeLabel();
+		}
+		private void btnAddHorizontalRule_Click(object sender, RoutedEventArgs e)
+		{
+			AddHorizontalRule();
+		}
+		private void btnRemoveHorizontalRule_Click(object sender, RoutedEventArgs e)
+		{
+			RemoveHorizontalRule();
+		}
 		private void btnAddHorizontalMapping_Click(object sender, RoutedEventArgs e)
 		{
-			var hls = Layers.ElementAt(GetSelectedLayer()).HorizontalLayerRules.ElementAt(GetSelectedLayerScroll());
-			if (null == hls) return;
-
-			hls.AddMapping();
-			SelectionChanged();
+			AddHorizontalMapping();
 		}
-
-
 		private void btnRemoveHorizontalMapping_Click(object sender, RoutedEventArgs e)
 		{
-			var current = Layers.ElementAt(GetSelectedLayer()).HorizontalLayerRules.ElementAt(GetSelectedLayerScroll()).LinesMapList.ElementAt(GetSelectedHorizontalMap()) as Classes.Scene.EditorLayer.ScrollInfoLines;
-			if (null == current) return;
-
-			if (MessageBox.Show($@"Deleting a set of horizontal scrolling rule mappings can not be undone!
-			Are you sure you want to delete this mapping?",
-			"Confirm Deletion",
-			MessageBoxButton.YesNo,
-			MessageBoxImage.Warning) == MessageBoxResult.Yes)
-			{
-				Layers.ElementAt(GetSelectedLayer()).HorizontalLayerRules.ElementAt(GetSelectedLayerScroll()).LinesMapList.Remove(current);
-				SelectionChanged();
-			}
+			RemoveHorizontalMapping();
 		}
-
-
 		private void OversizeTextUpdater(object sender, RoutedEventArgs e)
 		{
-			if (!initilzing)
+			UpdateLayerOversizedLabels();
+		}
+
+		private void btnResize_Click(object sender, RoutedEventArgs e)
+		{
+			ResizeLayer();
+		}
+
+		private void btnUp_Click(object sender, RoutedEventArgs e)
+		{
+			MoveLayerUp();
+		}
+
+		private void btnDown_Click(object sender, RoutedEventArgs e)
+		{
+			MoveLayerDown();
+		}
+
+		private void btnAdd_Click(object sender, RoutedEventArgs e)
+		{
+			AddLayer();
+		}
+
+		private void btnDelete_Click(object sender, RoutedEventArgs e)
+		{
+			DeleteLayer();
+		}
+
+		private void btnCut_Click(object sender, RoutedEventArgs e)
+		{
+			CutLayer();
+		}
+
+		private void btnCopy_Click(object sender, RoutedEventArgs e)
+		{
+			CopyLayer();
+		}
+
+		private void btnDuplicate_Click(object sender, RoutedEventArgs e)
+		{
+			DuplicateLayer();
+		}
+
+		private void btnPaste_Click(object sender, RoutedEventArgs e)
+		{
+			PasteLayer();
+		}
+
+		#endregion
+
+		#region UI Updating
+		public void UpdateDesiredSizeLabel()
+		{
+			lblResizedEffective.Text = $"Effective Width {(nudWidth.Value * 16):N0}, " + $"Effective Height {(nudHeight.Value * 16):N0}";
+		}
+		public void UpdateLayerOversizedLabels()
+		{
+			if (!isLoaded)
 			{
 				if (nudStartLine.Value + nudLineCount.Value > (nudHeight.Value * 16))
 				{
@@ -452,7 +714,6 @@ namespace ManiacEditor.Controls.Utility
 						TextWrapping = TextWrapping.WrapWithOverflow,
 						Foreground = new SolidColorBrush(Colors.Red)
 					};
-					//SelectionChanged();
 				}
 				else
 				{
@@ -463,21 +724,76 @@ namespace ManiacEditor.Controls.Utility
 						TextWrapping = TextWrapping.WrapWithOverflow,
 						Foreground = (SolidColorBrush)FindResource("NormalText")
 					};
-					//SelectionChanged();
 				}
 			}
-
+		}
+		public void BindControl(DependencyObject control, DependencyProperty prop, string path)
+		{
+			var binding = new Binding(path);
+			binding.Source = DataContext;
+			binding.Mode = BindingMode.TwoWay;
+			binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+			BindingOperations.SetBinding(control, prop, binding);
+		}
+		public void BindControlOneWay(DependencyObject control, DependencyProperty prop, string path)
+		{
+			var binding = new Binding(path);
+			binding.Source = DataContext;
+			binding.Mode = BindingMode.OneWay;
+			binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+			BindingOperations.SetBinding(control, prop, binding);
+		}
+		public void BindControlEffictiveSize(DependencyObject control, DependencyProperty prop, string path)
+		{
+			var binding = new Binding(path);
+			binding.Source = DataContext;
+			binding.Mode = BindingMode.OneWay;
+			binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            binding.Converter = new TilePixelConverter();
+			BindingOperations.SetBinding(control, prop, binding);
 		}
 
+		#endregion
+
+		#region Selection Changed
+
+		private void LbHorizontalRules_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+		private void LbMappings_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+		private void LbLayers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+		#endregion
+
+		#region Open/Close Events
+
+		private void LayerManager_FormClosed(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (!HasLayerArangementChanged) return;
+
+			MessageBox.Show(@"If you have changed the number, or order of the layers, 
+			you may need to update any layer switching entities/objects in the scene too.
+
+			If you don't, strange things may well happen.
+			They may well happen anway, this is all experimental!",
+			"Don't forget!",
+			MessageBoxButton.OK,
+			MessageBoxImage.Information);
+		}
 		private void LayerManager_Load(object sender, RoutedEventArgs e)
 		{
-			if (nudStartLine.Value + nudLineCount.Value > (nudHeight.Value * 16))
-			{
-				nudStartLineTemp = (int)nudStartLine.Value;
-				nudLineCountTemp = (int)nudLineCount.Value;
-			}
-			initilzing = false;
+			isLoaded = false;
 		}
+
+		#endregion
+
+		#region Context Menu
 
 		private void lbLayers_MouseUp(object sender, MouseButtonEventArgs e)
 		{
@@ -492,55 +808,7 @@ namespace ManiacEditor.Controls.Utility
 			}
 		}
 
-		private void CopyLayerToClipboard(Classes.Scene.EditorLayer layerToCopy)
-		{
-			Classes.Scene.EditorLayer copyData = layerToCopy;
 
-			// Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
-
-			// Also copy to Maniac's clipboard in case it gets overwritten elsewhere
-			LayerClipboard = copyData;
-
-		}
-
-		public void PasteLayerFromClipboard()
-		{
-			// check if there is a layer on the Windows clipboard; if so, use those
-
-			// For Some reason this isn't working, please check this out campbell. (And no, I put in false to prevent it from running, that's not the problem)
-			if (Clipboard.ContainsData("ManiacLayer") && false)
-			{
-				var layerToPaste = (Classes.Scene.EditorLayer)Clipboard.GetDataObject().GetData("ManiacLayer");
-
-				Layers.Insert(Layers.Count - 1, layerToPaste);
-
-				_layerArrangementChanged = true;
-
-				SelectionChanged();
-			}
-
-
-			// if there's none, use the internal clipboard
-			else if (LayerClipboard != null)
-			{
-
-				var layerToPaste = LayerClipboard;
-				Layers.Insert(Layers.Count - 1, layerToPaste);
-				_layerArrangementChanged = true;
-
-				SelectionChanged();
-
-			}
-		}
-
-        private void SaveLayers_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void HorizontalMappingChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            lbMappings.Items.Refresh();
-        }
+        #endregion
     }
 }

@@ -106,8 +106,7 @@ namespace ManiacEditor.Controls.Global.Controls
             InitializeComponent();
 			SetupHostScrollBar();
 			vScrollBar1Host.scroller.Scroll += vScrollBar1_Scroll;
-			vScrollBar1.ViewportSize = this.Height;
-			this.Controls.Add(elementHost1);
+            this.Controls.Add(elementHost1);
             TogglePainting(true);
 
         }
@@ -164,6 +163,9 @@ namespace ManiacEditor.Controls.Global.Controls
                                 vScrollBar1.SmallChange = vScrollBar1.LargeChange = imageWidth + 4;
                             break;
                     }
+
+                    vScrollBar1.ViewportSize = this.Height;
+                    vScrollBar1.Track.Thumb.Height = (this.Height / (vScrollBar1.Maximum - vScrollBar1.Maximum + vScrollBar1.ViewportSize)) * vScrollBar1.Track.ViewportSize;
                 }
                 Invalidate();
 
@@ -197,7 +199,8 @@ namespace ManiacEditor.Controls.Global.Controls
                         {
                             if (i == selectedIndex) g.DrawRectangle(new Pen(Color.Red, 2), (actualImageWidth * c) + 1 - hScrollBar1.Value, actualImageHeight * r + 1, actualImageWidth - 2, actualImageHeight - 2);
 							else g.DrawRectangle(new Pen(Color.Black, 2), (actualImageWidth * c) + 1 - hScrollBar1.Value, actualImageHeight * r + 1, actualImageWidth - 2, actualImageHeight - 2);
-							g.DrawImage(Images[i], (actualImageWidth * c) + 2 - hScrollBar1.Value, (actualImageHeight * r) + 2, imageWidth, imageHeight);
+                            var image = Images[i];
+                            if (image != null) g.DrawImage(image, (actualImageWidth * c) + 2 - hScrollBar1.Value, (actualImageHeight * r) + 2, imageWidth, imageHeight);
                             i++;
                             if (i == Images.Count) return;
                         }
@@ -216,7 +219,8 @@ namespace ManiacEditor.Controls.Global.Controls
                         {
                             if (i == selectedIndex) g.DrawRectangle(new Pen(Color.Red, 2), actualImageWidth * c + 1, (actualImageHeight * r) - (int)vScrollBar1.Value + 1, actualImageWidth - 2, actualImageHeight - 2);
 							else g.DrawRectangle(new Pen(Color.Black, 2), actualImageWidth * c + 1, (actualImageHeight * r) - (int)vScrollBar1.Value + 1, actualImageWidth - 2, actualImageHeight - 2);
-							g.DrawImage(Images[i], (actualImageWidth * c) + 2, (actualImageHeight * r) + 2 - (int)vScrollBar1.Value, imageWidth, imageHeight);
+                            var image = Images[i];
+                            if (image != null) g.DrawImage(image, (actualImageWidth * c) + 2, (actualImageHeight * r) + 2 - (int)vScrollBar1.Value, imageWidth, imageHeight);
                             i++;
                             if (i == Images.Count) return;
                         }
@@ -445,49 +449,6 @@ namespace ManiacEditor.Controls.Global.Controls
             Invalidate();
         }
 
-		private void removeChunkToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-            Instance.TilesToolbar.RemoveChunk(selectedIndex);
-		}
 
-		private void duplicateChunkToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (SelectedIndex != -1)
-			{
-                Instance.TilesToolbar.DuplicateChunk(SelectedIndex);
-			}
-		}
-
-		private void importChunkFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (Instance.TilesClipboard != null)
-			{
-                Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Instance.TilesClipboard.Item1, Instance.TilesClipboard.Item2);
-
-                Instance.TilesToolbar?.ChunksReload();
-			}
-		}
-
-		private void editCollisionToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (Instance.TileManiacInstance == null || Instance.TileManiacInstance.IsEditorClosed) Instance.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
-			if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible)
-			{
-                Instance.TileManiacInstance.Show();
-			}
-			if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
-			{
-				if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Instance.TileManiacInstance.TileConfig == null)
-				{
-                    Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedIndex);
-				}
-				else
-				{
-                    Instance.TileManiacInstance.SetCollisionIndex(SelectedIndex);
-                    Instance.TileManiacInstance.Activate();
-				}
-
-			}
-		}
 	}
 }

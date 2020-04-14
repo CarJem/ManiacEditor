@@ -2,6 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using ManiacEditor.Classes.Scene;
 
 namespace ManiacEditor.Classes.Rendering
 {

@@ -32,8 +32,6 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Chunk Map
-
-        private ChunkVBO[][] ChunkMap { get; set; }
         public int ChunksWidth { get; set; }
         public int ChunksHeight { get; set; }
 
@@ -62,7 +60,7 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Layer Rules
-        public IList<HorizontalLayerScroll> HorizontalLayerRules { get => _horizontalLayerRules; }
+        public IList<HorizontalLayerScroll> HorizontalLayerRules { get => _horizontalLayerRules; set => _horizontalLayerRules = value; }
         private IList<HorizontalLayerScroll> _horizontalLayerRules;
 
         #endregion
@@ -107,6 +105,32 @@ namespace ManiacEditor.Classes.Scene
         }
         public ushort Height { get => _layer.Height; }
         public ushort Width { get => _layer.Width; }
+
+        private ushort TempWidth { get; set; }
+        private ushort TempHeight { get; set; }
+
+        public ushort WorkingHeight
+        {
+            get
+            {
+                return TempHeight;
+            }
+            set
+            {
+                TempHeight = value;
+            }
+        }
+        public ushort WorkingWidth
+        {
+            get
+            {
+                return TempWidth;
+            }
+            set
+            {
+                TempWidth = value;
+            }
+        }
         public int HeightPixels { get => _layer.Height * Methods.Editor.EditorConstants.TILE_SIZE; }
         public int WidthPixels { get => _layer.Width * Methods.Editor.EditorConstants.TILE_SIZE; }
         public ushort[][] Tiles { get => Layer.Tiles; }
@@ -114,25 +138,6 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Classes
-
-        public class ChunkVBO
-        {
-            public bool IsReady = false;
-            public SFML.Graphics.Texture Texture;
-            public bool HasBeenRendered = false;
-            public bool HasBeenSelectedPrior = false;
-
-            public void Dispose()
-            {
-                if (this.Texture != null)
-                {
-                    this.Texture.Dispose();
-                    this.Texture = null;
-                }
-                this.IsReady = false;
-                this.HasBeenSelectedPrior = false;
-            }
-        }
 
         /// <summary>
         /// Defines the horizontal scrolling behaviour of a set of potentially non-contiguous lines.
@@ -176,7 +181,7 @@ namespace ManiacEditor.Classes.Scene
             public short RelativeSpeed { get => _scrollInfo.RelativeSpeed; set => _scrollInfo.RelativeSpeed = value; }
             public short ConstantSpeed { get => _scrollInfo.ConstantSpeed; set => _scrollInfo.ConstantSpeed = value; }
 
-            public IList<ScrollInfoLines> LinesMapList { get => _linesMapList; }
+            public IList<ScrollInfoLines> LinesMapList { get => _linesMapList; set => _linesMapList = value; }
             public ScrollInfo ScrollInfo { get => _scrollInfo; }
 
             /// <summary>
@@ -371,6 +376,9 @@ namespace ManiacEditor.Classes.Scene
 
             _horizontalLayerRules = ReadHorizontalLineRules();
             InitiallizeChunkMap();
+
+            WorkingHeight = _layer.Height;
+            WorkingWidth = _layer.Width;
         }
 
 
@@ -382,13 +390,6 @@ namespace ManiacEditor.Classes.Scene
             ChunksWidth += ModulusRoundUp(Width, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
             ChunksHeight = DivideRoundUp(Height, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
             ChunksHeight += ModulusRoundUp(Height, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
-
-            ChunkMap = new ChunkVBO[ChunksHeight][];
-            for (int i = 0; i < ChunkMap.Length; ++i)
-            {
-                ChunkMap[i] = new ChunkVBO[ChunksWidth];
-            }
-
         }
         private IList<HorizontalLayerScroll> ReadHorizontalLineRules()
         {
@@ -600,7 +601,7 @@ namespace ManiacEditor.Classes.Scene
                     RefreshTileCount();
                 }
             }
-            InvalidateChunks();
+            
         }
         private void DeselectPoint(Point p)
         {
@@ -648,7 +649,6 @@ namespace ManiacEditor.Classes.Scene
                 }
             }
             RefreshTileCount();
-            InvalidateChunks();
         }
         public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
@@ -684,7 +684,7 @@ namespace ManiacEditor.Classes.Scene
                     }
                 }
             }
-            InvalidateChunks();
+            
         }
         public void SelectChunk(Point point, bool addSelection = false, bool deselectIfSelected = false)
         {
@@ -712,7 +712,7 @@ namespace ManiacEditor.Classes.Scene
                     RefreshTileCount();
                 }
             }
-            InvalidateChunks();
+            
         }
         public void TempSelection(Rectangle area, bool deselectIfSelected)
         {
@@ -736,20 +736,18 @@ namespace ManiacEditor.Classes.Scene
                     }
                 }
             }
-            InvalidateChunks();
         }
         public void EndTempSelection()
         {
             TempSelectionTiles.Clear();
             TempSelectionDeselectTiles.Clear();
             RefreshTileCount();
-            InvalidateChunks();
+            
         }
         public void StartDrag()
         {
             FirstDrag = true;
             RefreshTileCount();
-            InvalidateChunks();
         }
         public void StartDragOver(Point point, ushort value)
         {
@@ -757,7 +755,7 @@ namespace ManiacEditor.Classes.Scene
             isDragOver = true;
             DragOver(point, value);
             RefreshTileCount();
-            InvalidateChunks();
+            
         }
         public void DragOver(Point point, ushort value)
         {
@@ -767,7 +765,7 @@ namespace ManiacEditor.Classes.Scene
             SelectedTiles.Add(point);
             SelectedTiles.Values[point] = value;
             RefreshTileCount();
-            InvalidateChunks();
+            
         }
         public void EndDragOver(bool remove)
         {
@@ -782,7 +780,7 @@ namespace ManiacEditor.Classes.Scene
                 isDragOver = false;
                 RefreshTileCount();
             }
-            InvalidateChunks();
+            
         }
 
         #endregion
@@ -806,7 +804,7 @@ namespace ManiacEditor.Classes.Scene
 
             SelectedTiles.Values.Clear();
             RefreshTileCount();
-            InvalidateChunks();
+            
 
         }
         public void MoveSelectedQuonta(Point change)
@@ -839,8 +837,6 @@ namespace ManiacEditor.Classes.Scene
                         if (!duplicate) RemoveTile(point);
 
                     }
-                    InvalidateChunkFromPixelPosition(point);
-                    InvalidateChunkFromPixelPosition(newPoint);
                 }
                 if (duplicate)
                 {
@@ -859,7 +855,6 @@ namespace ManiacEditor.Classes.Scene
             if (addAction)
                 Actions.Add(new ActionChangeTile((x, y) => SetTile(x, y, false), point, _layer.Tiles[point.Y][point.X], value));
             _layer.Tiles[point.Y][point.X] = value;
-            InvalidateChunk(point.X / Methods.Editor.EditorConstants.TILES_CHUNK_SIZE, point.Y / Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
         }
         private void RemoveTile(Point point)
         {
@@ -868,18 +863,14 @@ namespace ManiacEditor.Classes.Scene
         }
         public void Resize(ushort width, ushort height)
         {
-            ushort oldWidth = Width;
-            ushort oldHeight = Height;
-
             // first resize the underlying SceneLayer
             _layer.Resize(width, height);
 
-            int oldWidthChunkSize = DivideRoundUp(oldWidth, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
-            int newWidthChunkSize = DivideRoundUp(Width, Methods.Editor.EditorConstants.TILES_CHUNK_SIZE);
-
-
             SelectedTiles = new PointsMap(Width, Height);
             TempSelectionTiles = new PointsMap(Width, Height);
+
+            WorkingHeight = Height;
+            WorkingWidth = Width;
         }
         public void DrawAsBrush(Point newPos, Dictionary<Point, ushort> points)
         {
@@ -947,7 +938,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 FlipGroupTiles(direction, points, min, max);
             }
-            InvalidateChunks();
+            
         }
         private void FlipIndividualTiles(FlipDirection direction, IEnumerable<Point> points)
         {
@@ -955,7 +946,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 SelectedTiles.Values[point] ^= (ushort)direction;
             }
-            InvalidateChunks();
+            
         }
         private void FlipGroupTiles(FlipDirection direction, IEnumerable<Point> points, int min, int max)
         {
@@ -989,7 +980,7 @@ namespace ManiacEditor.Classes.Scene
             SelectedTiles.Values.Clear();
             SelectedTiles.AddPoints(workingTiles.Select(wt => wt.Key).ToList());
             SelectedTiles.Values = workingTiles;
-            InvalidateChunks();
+            
         }
         public void SetPropertySelected(int bit, bool state)
         {
@@ -1186,71 +1177,6 @@ namespace ManiacEditor.Classes.Scene
 
         public void Dispose()
         {
-            if (ChunkMap != null)
-            {
-                for (int y = 0; y < ChunksHeight; y++)
-                {
-                    for (int x = 0; x < ChunksWidth; x++)
-                    {
-                        if (ChunkMap[y][x] != null)
-                        {
-                            ChunkMap[y][x].Dispose();
-                            ChunkMap[y][x] = null;
-                        }
-                    }
-                }
-            }
-            ChunkMap = null;
-        }
-        public void InvalidateChunks()
-        {
-            if (ChunkMap != null)
-            {
-                for (int y = 0; y < ChunksHeight; y++)
-                {
-                    for (int x = 0; x < ChunksWidth; x++)
-                    {
-                        if (ChunkMap[y][x] != null)
-                        {
-                            ChunkMap[y][x].Dispose();
-                            ChunkMap[y][x] = null;
-                        }
-                    }
-                }
-
-            }
-        }
-        public void DisposeTextures()
-        {
-            InvalidateChunks();
-            InitalizeRender();
-        }
-        private void InvalidateChunk(int x, int y)
-        {
-            if (ChunkMap[y][x] != null)
-            {
-                ChunkMap[y][x].Dispose();
-                ChunkMap[y][x] = null;
-            }
-        }
-        private void InvalidateChunkFromPixelPosition(Point point)
-        {
-            var chunkPoint = GetDrawingChunkCoordinates(point.X, point.Y);
-            if (!(chunkPoint.X >= ChunksWidth || chunkPoint.Y >= ChunksHeight || chunkPoint.Y < 0 || chunkPoint.X < 0))
-            {
-                if (ChunkMap[chunkPoint.Y][chunkPoint.X] != null) ChunkMap[chunkPoint.Y][chunkPoint.X].HasBeenSelectedPrior = true;
-            }
-
-            Point GetDrawingChunkCoordinates(int x, int y)
-            {
-                Point ChunkCoordinate = new Point();
-                if (x != 0) ChunkCoordinate.X = x / 16;
-                else ChunkCoordinate.X = 0;
-                if (y != 0) ChunkCoordinate.Y = y / 16;
-                else ChunkCoordinate.Y = 0;
-
-                return ChunkCoordinate;
-            }
 
         }
 

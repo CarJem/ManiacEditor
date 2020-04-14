@@ -230,47 +230,8 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region Asset Reloading (TO-MOVE)
-        public void ReloadSpecificTextures(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // release all our resources, and force a reload of the tiles
-                // Classes.Edit.Scene.EditorSolution.Entities should take care of themselves
-                DisposeTextures();
 
-                if (Methods.Editor.SolutionState.UseEncoreColors)
-                {
-                    if (Methods.Editor.Solution.CurrentTiles != null) Methods.Editor.Solution.CurrentTiles?.Image.Reload(Methods.Editor.SolutionPaths.EncorePalette[0]);
-                }
-                else
-                {
-                    if (Methods.Editor.Solution.CurrentTiles != null) Methods.Editor.Solution.CurrentTiles?.Image.Reload();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-            }
-        }
-        public void DisposeTextures()
-        {
-            if (Methods.Editor.Solution.CurrentScene != null)
-            {
-                // Make sure to dispose the textures of the extra layers too
-                if (Methods.Editor.Solution.CurrentTiles != null) Methods.Editor.Solution.CurrentTiles?.Dispose();
-                if (Methods.Editor.Solution.FGHigh != null) Methods.Editor.Solution.FGHigh.DisposeTextures();
-                if (Methods.Editor.Solution.FGLow != null) Methods.Editor.Solution.FGLow.DisposeTextures();
-                if (Methods.Editor.Solution.FGHigher != null) Methods.Editor.Solution.FGHigher.DisposeTextures();
-                if (Methods.Editor.Solution.FGLower != null) Methods.Editor.Solution.FGLower.DisposeTextures();
-
-                foreach (var el in Methods.Editor.Solution.CurrentScene.OtherLayers)
-                {
-                    el.DisposeTextures();
-                }
-            }
-        }
-        public void RefreshCollisionColours(bool RefreshMasks = false)
+        public void RefreshCollisionColours()
         {
             try
             {
@@ -293,11 +254,6 @@ namespace ManiacEditor.Controls.Editor
                             CollisionTopOnlySolid = Color.Yellow;
                             CollisionLRDSolid = Color.Red;
                             break;
-                    }
-
-                    if (RefreshMasks)
-                    {
-                        //UI.ReloadSpritesAndTextures();
                     }
                 }
             }

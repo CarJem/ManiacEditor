@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using SystemColor = System.Drawing.Color;
+using ManiacEditor.Extensions;
+using System.Runtime.InteropServices;
+using System.Windows.Media.Imaging;
 using SFML.Graphics;
 using RSDKv5;
-using ManiacEditor.Extensions;
+using SystemColor = System.Drawing.Color;
+using ImageSource = System.Windows.Media.ImageSource;
 
 namespace ManiacEditor.Methods.Draw
 {
@@ -33,6 +36,8 @@ namespace ManiacEditor.Methods.Draw
 
         Dictionary<CacheKey, Bitmap> StandardCache { get; set; } = new Dictionary<CacheKey, Bitmap>();
         Dictionary<CacheKey, Bitmap> TransparentCache { get; set; } = new Dictionary<CacheKey, Bitmap>();
+        Dictionary<CacheKey, BitmapSource> StandardSourceCache { get; set; } = new Dictionary<CacheKey, BitmapSource>();
+        Dictionary<CacheKey, BitmapSource> TransparentSourceCache { get; set; } = new Dictionary<CacheKey, BitmapSource>();
         Dictionary<CacheKey, Texture> TextureCache { get; set; } = new Dictionary<CacheKey, Texture>();
         #endregion
 
@@ -78,9 +83,7 @@ namespace ManiacEditor.Methods.Draw
         }
         private void CreateStandardImage(string PaletteDataPath)
         {
-            StandardBitmap = new Bitmap(Filename);
-            if (PaletteDataPath != null) SetPaletteColors(PaletteDataPath);
-
+            StandardBitmap = SetPaletteColors(new Bitmap(Filename), PaletteDataPath);
             if (StandardBitmap.Palette != null && StandardBitmap.Palette.Entries.Length > 0) StandardBitmap.MakeTransparent(StandardBitmap.Palette.Entries[0]);
             else StandardBitmap.MakeTransparent(SystemColor.FromArgb(0xff00ff));
         }
@@ -121,9 +124,9 @@ namespace ManiacEditor.Methods.Draw
         #endregion
 
         #region Palette
-        private void SetPaletteColors(string PaletteDataPath = null)
+        private Bitmap SetPaletteColors(Bitmap _Bitmap, string PaletteDataPath)
         {
-            Bitmap ModifiedStandardBitmap = StandardBitmap.Clone(new Rectangle(0, 0, StandardBitmap.Width, StandardBitmap.Height), PixelFormat.Format8bppIndexed);
+            Bitmap ModifiedStandardBitmap = _Bitmap.Clone(new Rectangle(0, 0, _Bitmap.Width, _Bitmap.Height), PixelFormat.Format8bppIndexed);
 
             //Encore Palettes (WIP Potentially Improvable)
             RSDKv5.Color[] PaletteColors = new RSDKv5.Color[256];
@@ -143,8 +146,9 @@ namespace ManiacEditor.Methods.Draw
                 for (int y = 0; y < 255; ++y) pal.Entries[y] = SystemColor.FromArgb(PaletteColors[y].R, PaletteColors[y].G, PaletteColors[y].B);
                 ModifiedStandardBitmap.Palette = pal;
 
-                StandardBitmap = ModifiedStandardBitmap;
+                return ModifiedStandardBitmap;
             }
+            else return _Bitmap;
 
         }
 
@@ -164,12 +168,17 @@ namespace ManiacEditor.Methods.Draw
             return TextureBitmap;
         }
 
+
+
+        #endregion
+
+        #region Get Bitmap
+
         public Bitmap GetBitmap(Rectangle section, bool flipX = false, bool flipY = false, bool SemiTransparent = false)
         {
             if (SemiTransparent) return GetTransparentBitmap(section, flipX, flipY);
             else return GetNormalBitmap(section, flipX, flipY);
         }
-
         public Bitmap GetNormalBitmap(Rectangle section, bool flipX = false, bool flipY = false)
         {
             Bitmap bmp;
@@ -198,6 +207,50 @@ namespace ManiacEditor.Methods.Draw
                 return bmp;
             }
         }
+
+        #endregion
+
+        #region Get ImageSource
+
+        public BitmapSource GetImageSource(Rectangle section, bool flipX = false, bool flipY = false, bool SemiTransparent = false)
+        {
+            if (SemiTransparent) return GetTransparentImageSource(section, false, false);
+            else return GetNormalImageSource(section, false, false);
+        }
+        public BitmapSource GetNormalImageSource(Rectangle section, bool flipX = false, bool flipY = false)
+        {
+            BitmapSource source;
+            Bitmap bmp;
+            if (StandardSourceCache.TryGetValue(new CacheKey(section, flipX, flipY), out source)) return source;
+            else
+            {
+                bmp = CropImage(StandardBitmap, section);
+                if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+
+                source = Extensions.ImageExtensions.ToBitmapSource(bmp);
+                StandardSourceCache.Add(new CacheKey(section, flipX, flipY), source);
+                return source;
+            }
+        }
+        public BitmapSource GetTransparentImageSource(Rectangle section, bool flipX = false, bool flipY = false)
+        {
+            BitmapSource source;
+            Bitmap bmp;
+            if (TransparentSourceCache.TryGetValue(new CacheKey(section, flipX, flipY), out source)) return source;
+            else
+            {
+                bmp = CropImage(TransparentBitmap, section);
+                if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+                source = Extensions.ImageExtensions.ToBitmapSource(bmp);
+                TransparentSourceCache.Add(new CacheKey(section, flipX, flipY), source);
+                return source;
+            }
+        }
+
 
         #endregion
 
@@ -247,6 +300,10 @@ namespace ManiacEditor.Methods.Draw
 
             DisposeCache();
             DisposeOpaqueCache();
+
+            DisposeSourceCache();
+            DisposeOpaqueSourceCache();
+
             DisposeTextureCache();
         }
 
@@ -262,6 +319,18 @@ namespace ManiacEditor.Methods.Draw
             if (null == TransparentCache) return;
             foreach (Bitmap b in TransparentCache.Values) b?.Dispose();
             TransparentCache.Clear();
+        }
+
+        private void DisposeSourceCache()
+        {
+            if (null == StandardSourceCache) return;
+            StandardSourceCache.Clear();
+        }
+
+        private void DisposeOpaqueSourceCache()
+        {
+            if (null == TransparentSourceCache) return;
+            TransparentSourceCache.Clear();
         }
 
         private void DisposeTextureCache()
