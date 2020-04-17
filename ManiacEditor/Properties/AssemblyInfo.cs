@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Maniac Editor")]
-[assembly: AssemblyCopyright("Copyright © koolkdev, OtherworldBob, SuperSonic16, CarJem Generations, Rubberduckycooly 2017-2018")]
+[assembly: AssemblyCopyright("Copyright © CarJem Generations 2017-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -55,8 +55,8 @@ namespace ManiacEditor.Controls.Editor.Elements
                     else e = new System.Drawing.Point(0, 0);
 
                     string text;
-                    if (!Methods.Editor.SolutionState.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Methods.Editor.SolutionState.Zoom) + " Y: " + (int)(e.Y / Methods.Editor.SolutionState.Zoom);
-                    else text = "X: " + (int)((e.X / Methods.Editor.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Methods.Editor.SolutionState.Zoom) / 16);
+                    if (!Methods.Solution.SolutionState.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Methods.Solution.SolutionState.Zoom) + " Y: " + (int)(e.Y / Methods.Solution.SolutionState.Zoom);
+                    else text = "X: " + (int)((e.X / Methods.Solution.SolutionState.Zoom) / 16) + " Y: " + (int)((e.Y / Methods.Solution.SolutionState.Zoom) / 16);
                     positionLabel.Content = text;
                 });
                 CurrentPositionUpdateOperation = positionLabel.Dispatcher.InvokeAsync(action, DispatcherPriority.SystemIdle);
@@ -73,7 +73,7 @@ namespace ManiacEditor.Controls.Editor.Elements
             {
                 var action = new Action(() =>
                 {
-                    _levelIDLabel.Content = "Level ID: " + Methods.Editor.SolutionState.LevelID.ToString();
+                    LevelID_Label.Content = "Level ID: " + Methods.Solution.CurrentSolution.LevelID.ToString();
 
                     if (seperator1.Visibility != Visibility.Visible) seperator1.Visibility = Visibility.Visible;
                     if (seperator2.Visibility != Visibility.Visible) seperator2.Visibility = Visibility.Visible;
@@ -83,33 +83,33 @@ namespace ManiacEditor.Controls.Editor.Elements
                     if (seperator6.Visibility != Visibility.Visible) seperator6.Visibility = Visibility.Visible;
                     if (seperator7.Visibility != Visibility.Visible) seperator7.Visibility = Visibility.Visible;
 
-                    if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
+                    if (Methods.Solution.SolutionState.CountTilesSelectedInPixels == false)
                     {
-                        selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Methods.Editor.SolutionState.SelectedTileX + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY;
+                        selectedPositionLabel.Content = "Selected Tile Position: X: " + (int)Methods.Solution.SolutionState.SelectedTileX + ", Y: " + (int)Methods.Solution.SolutionState.SelectedTileY;
                         selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
                     }
                     else
                     {
-                        selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Methods.Editor.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Methods.Editor.SolutionState.SelectedTileY * 16;
+                        selectedPositionLabel.Content = "Selected Tile Pixel Position: " + "X: " + (int)Methods.Solution.SolutionState.SelectedTileX * 16 + ", Y: " + (int)Methods.Solution.SolutionState.SelectedTileY * 16;
                         selectedPositionLabel.ToolTip = "The Pixel Position of the Selected Tile";
                     }
-                    if (Methods.Editor.SolutionState.CountTilesSelectedInPixels == false)
+                    if (Methods.Solution.SolutionState.CountTilesSelectedInPixels == false)
                     {
-                        selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount);
+                        selectionSizeLabel.Content = "Amount of Tiles in Selection: " + (Methods.Solution.SolutionState.SelectedTilesCount);
                         selectionSizeLabel.ToolTip = "The Size of the Selection";
                     }
                     else
                     {
-                        selectionSizeLabel.Content = "Length of Pixels in Selection: " + (Methods.Editor.SolutionState.SelectedTilesCount - Methods.Editor.SolutionState.DeselectTilesCount) * 16;
+                        selectionSizeLabel.Content = "Length of Pixels in Selection: " + Methods.Solution.SolutionState.SelectedTilesCount * 16;
                         selectionSizeLabel.ToolTip = "The Length of all the Tiles (by Pixels) in the Selection";
                     }
 
-                    selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Methods.Editor.SolutionState.TempSelectX2 - Methods.Editor.SolutionState.TempSelectX1) + ", Y: " + (Methods.Editor.SolutionState.TempSelectY2 - Methods.Editor.SolutionState.TempSelectY1);
+                    selectionBoxSizeLabel.Content = "Selection Box Size: X: " + (Methods.Solution.SolutionState.TempSelectX2 - Methods.Solution.SolutionState.TempSelectX1) + ", Y: " + (Methods.Solution.SolutionState.TempSelectY2 - Methods.Solution.SolutionState.TempSelectY1);
 
-                    scrollLockDirLabel.Content = "Scroll Direction: " + (Methods.Editor.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Methods.Editor.SolutionState.ScrollLocked ? " (Locked)" : "");
+                    scrollLockDirLabel.Content = "Scroll Direction: " + (Methods.Solution.SolutionState.ScrollDirection == (int)Axis.X ? "X" : "Y") + (Methods.Solution.SolutionState.ScrollLocked ? " (Locked)" : "");
 
 
-                    hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Editor.SolutionState.Zoom.ToString();
+                    hVScrollBarXYLabel.Content = "Zoom Value: " + Methods.Solution.SolutionState.Zoom.ToString();
                 });
 
                 StatusPanelUpdateOpteration = this.Dispatcher.InvokeAsync(action, DispatcherPriority.SystemIdle);
@@ -123,44 +123,44 @@ namespace ManiacEditor.Controls.Editor.Elements
         {
             if (sender == MoreSettingsButton)
             {
-                switch (Methods.Editor.SolutionState.LastQuickButtonState)
+                switch (Methods.Solution.SolutionState.LastQuickButtonState)
                 {
                     case 1:
-                        ManiacEditor.Methods.Editor.EditorActions.SetScrollLockDirection();
+                        ManiacEditor.Methods.Solution.SolutionActions.SetScrollLockDirection();
                         break;
                     case 2:
-                        Methods.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true;
+                        Methods.Solution.SolutionState.ApplyEditEntitiesTransparency ^= true;
                         break;
                     case 3:
-                        ManiacEditor.Methods.Editor.EditorActions.SwapEncoreManiaEntityVisibility();
+                        ManiacEditor.Methods.Solution.SolutionActions.SwapEncoreManiaEntityVisibility();
                         break;
                     default:
-                        Methods.Editor.SolutionState.LastQuickButtonState = 1;
-                        ManiacEditor.Methods.Editor.EditorActions.SetScrollLockDirection();
+                        Methods.Solution.SolutionState.LastQuickButtonState = 1;
+                        ManiacEditor.Methods.Solution.SolutionActions.SetScrollLockDirection();
                         break;
                 }
             }
             else if (sender == QuickSwapScrollDirection)
             {
-                Methods.Editor.SolutionState.LastQuickButtonState = 1;
-                ManiacEditor.Methods.Editor.EditorActions.SetScrollLockDirection();
+                Methods.Solution.SolutionState.LastQuickButtonState = 1;
+                ManiacEditor.Methods.Solution.SolutionActions.SetScrollLockDirection();
             }
             else if (sender == QuickSwapEncoreManiaEntitVisibility)
             {
-                Methods.Editor.SolutionState.LastQuickButtonState = 3;
-                ManiacEditor.Methods.Editor.EditorActions.SwapEncoreManiaEntityVisibility();
+                Methods.Solution.SolutionState.LastQuickButtonState = 3;
+                ManiacEditor.Methods.Solution.SolutionActions.SwapEncoreManiaEntityVisibility();
             }
             else if (sender == QuickEditEntitiesTransparentLayers)
             {
-                Methods.Editor.SolutionState.LastQuickButtonState = 2;
-                Methods.Editor.SolutionState.ApplyEditEntitiesTransparency ^= true;
+                Methods.Solution.SolutionState.LastQuickButtonState = 2;
+                Methods.Solution.SolutionState.ApplyEditEntitiesTransparency ^= true;
             }
 
         }
         private void FilterButtonOpenContextMenuEvent(object sender, RoutedEventArgs e) { FilterButton.ContextMenu.IsOpen = true; }
         private void FilterCheckChangedEvent(object sender, RoutedEventArgs e)
         {
-            if (Methods.Editor.Solution.Entities != null) Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
+            if (Methods.Solution.CurrentSolution.Entities != null) Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
         }
 
         public void SetSceneOnlyButtonsState(bool enabled)
@@ -251,27 +251,27 @@ namespace ManiacEditor.Controls.Editor.Elements
 
                 if (Properties.Settings.MySettings.UseBitOperators)
                 {
-                    maniaFilterCheck.Content = "Mania (0b0010)";
-                    encoreFilterCheck.Content = "Encore (0b0100)";
-                    otherFilterCheck.Content = "Other (0b0000)";
-                    bothFilterCheck.Content = "Both (0b0001)";
-                    pinballFilterCheck.Content = "All (0b11111111)";
+                    maniaFilterCheck.Header = "Mania (0b0010)";
+                    encoreFilterCheck.Header = "Encore (0b0100)";
+                    otherFilterCheck.Header = "Other (0b0000)";
+                    bothFilterCheck.Header = "Both (0b0001)";
+                    pinballFilterCheck.Header = "All (0b11111111)";
                 }
                 else
                 {
-                    maniaFilterCheck.Content = "Mania (2)";
-                    encoreFilterCheck.Content = "Encore (4)";
-                    otherFilterCheck.Content = "Other (0)";
-                    bothFilterCheck.Content = "Both (1 & 5)";
-                    pinballFilterCheck.Content = "All (255)";
+                    maniaFilterCheck.Header = "Mania (2)";
+                    encoreFilterCheck.Header = "Encore (4)";
+                    otherFilterCheck.Header = "Other (0)";
+                    bothFilterCheck.Header = "Both (1 & 5)";
+                    pinballFilterCheck.Header = "All (255)";
                 }
             }));
 
         }
 
         private void TileManiacEditTileEvent(object sender, RoutedEventArgs e) { Methods.ProgramLauncher.TileManiacIntergration(); }
-        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.CountTilesSelectedInPixels ^= true; }
-        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.ScrollLocked ^= true; }
-        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Methods.Editor.SolutionState.EnableFasterNudge ^= true; }
+        private void TogglePixelModeEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.CountTilesSelectedInPixels ^= true; }
+        public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.ScrollLocked ^= true; }
+        public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.EnableFasterNudge ^= true; }
     }
 }

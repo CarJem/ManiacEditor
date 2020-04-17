@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using ManiacEditor.Methods.Editor;
+using ManiacEditor.Methods.Solution;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -16,9 +16,6 @@ namespace ManiacEditor.Classes.Options
         public bool FGLowDefault { get; set; } = true;
         public bool FGHighDefault { get; set; } = true;
         public bool FGHigherDefault { get; set; } = true;
-        public bool AnimationsDefault { get; set; } = true;
-        public bool SpriteAnimationsDefault { get; set; } = true;
-        public bool PlatformAnimationsDefault { get; set; } = false;
         public bool SolidTopADefault { get; set; } = false;
         public bool SolidAllButTopADefault { get; set; } = false;
         public bool SolidTopBDefault { get; set; } = false;
@@ -38,10 +35,8 @@ namespace ManiacEditor.Classes.Options
         public bool AlwaysShowWaterLevelDefault { get; set; } = false;
         public bool SizeWaterLevelWithBoundsDefault { get; set; } = false;
         public bool ShowFullParallaxSpritesDefault { get; set; } = false;
-        public bool PrioritizedObjectRenderingDefault { get; set; } = false;
         public bool ShowEntitySelectionBoxesDefault { get; set; } = true;
         public bool ShowDebugStatsDefault { get; set; } = false;
-        public bool LargeDebugStatsDefault { get; set; } = false;
         public bool ScrollLockDirectionDefault { get; set; } = false;
         public String MenuButtonLayoutDefault { get; set; } = "Xbox";
         public String MenuLanguageDefault { get; set; } = "EN";
@@ -63,15 +58,13 @@ namespace ManiacEditor.Classes.Options
         public String AnimationEditorPath { get; set; }
         public String CustomFGHigher { get; set; }
         public String CustomFGLower { get; set; }
-        public String PresetSetting { get; set; } = "Basic";
         public String CheatEnginePath { get; set; }
+        public String ImageEditorPath { get; set; }
+        public String ImageEditorArguments { get; set; }
         public Int32 TileManiacListSetting { get; set; } = 0;
         public Int32 TileManiacRenderViewerSetting { get; set; } = 0;
         public bool TileManiacShowGrid { get; set; } = false;
-        public bool TileManiacClassicMode { get; set; } = false;
-        public Int32 TileManiacViewAppearanceMode { get; set; } = 0;
         public bool TileManiacMirrorMode { get; set; } = false;
-        public bool TileManiacWindowAlwaysOnTop { get; set; } = false;
         public bool TileManiacAllowDirect16x16TilesGIFEditing { get; set; } = false;
         public bool TileManiacPromptForChoiceOnImageWrite { get; set; } = false;
         public bool TileManiacEnableWindowsClipboard { get; set; } = false;

@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var tagged = Methods.Editor.Solution.Entities.Entities.ToList().Where(e => targetSlotIDs.Contains(e.SlotID));
+            var tagged = Methods.Solution.CurrentSolution.Entities.Entities.ToList().Where(e => targetSlotIDs.Contains(e.SlotID));
 
             if (tagged != null && tagged.Any())
             {

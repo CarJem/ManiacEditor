@@ -51,30 +51,16 @@ namespace ManiacEditor.Controls.Editor
         public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
         #endregion
 
-        #region Clipboards
-        public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> TilesClipboard;
-        public Dictionary<Point, ushort> FindReplaceClipboard;
-        public Dictionary<Point, ushort> TilesClipboardEditable;
-        public List<Classes.Scene.EditorEntity> ObjectsClipboard;
-        #endregion
-
-        #region Collision Colours
-        public Color CollisionAllSolid { get; set; } = Color.White;
-        public Color CollisionTopOnlySolid { get; set; } = Color.Yellow;
-        public Color CollisionLRDSolid { get; set; } = Color.Red;
-        #endregion
-
         #region Internal/Public/Vital Classes
         internal Classes.Scene.EditorBackground EditBackground;
         public Classes.Scene.EditorChunks Chunks;
-        public Methods.Layers.TileFindReplace FindAndReplace;
         public ManiacEditor.Controls.TileManiac.CollisionEditor TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
         #endregion
 
         #region Controls
         public ManiacEditor.Controls.Editor.Toolbars.TilesToolbar TilesToolbar = null;
         public ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar EntitiesToolbar = null;
-        public ManiacEditor.Controls.Editor.Elements.StartScreen StartScreen;
+        public ManiacEditor.Controls.Editor.Elements.StartScreen StartScreen { get; set; }
         #endregion
 
         #endregion
@@ -82,79 +68,97 @@ namespace ManiacEditor.Controls.Editor
         #region Init
         public MainEditor()
         {
-            ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up the Map Editor...");
-
-            Methods.Internal.Theming.UpdateInstance(this);
-            Methods.Internal.Settings.UpdateInstance(this);
-            Methods.Editor.Solution.UpdateInstance(this);
-            Controls.Global.Controls.RetroEDTileList.UpdateInstance(this);
-
-            Instance = this;
+            PreInitalization();
             InitializeComponent();
+            PostInitalization();
+
+        }
+        private void PreInitalization()
+        {
+            ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up the Map Editor...");
+            Instance = this;
+            InitalizeInstances();
+        }
+        private void PostInitalization()
+        {
+            RuntimeInitalization();
+            InitalizeSettings();
+            InitilizeControls();
+            LaunchInialization();
+        }
+
+        #endregion
+
+        #region Init (Phases)
+
+        private void LaunchInialization()
+        {
+            if (ManiacEditor.Properties.Settings.MyDevSettings.UseAutoForcefulStartup) Methods.Solution.SolutionLoader.OpenSceneForceFully();
+        }
+
+        private void RuntimeInitalization()
+        {
+            this.Title = String.Format("Maniac Editor - Generations Edition {0}", Methods.ProgramBase.GetCasualVersion());
+
+            this.Activated += new System.EventHandler(this.Editor_Activated);
+
             Methods.Internal.Theming.SetTheme();
-
             ElementHost.EnableModelessKeyboardInterop(this);
-
             System.Windows.Application.Current.MainWindow = this;
 
-            InitilizeEditor();
-
-            if (ManiacEditor.Properties.Settings.MyDevSettings.UseAutoForcefulStartup)
-            {
-                Methods.Editor.SolutionLoader.OpenSceneForceFully();
-            }
+            Extensions.ExternalExtensions.AllocConsole();
+            Extensions.ExternalExtensions.HideConsoleWindow();
         }
-        public void InitilizeEditor()
+        private void InitilizeControls()
         {
-            this.Activated += new System.EventHandler(this.Editor_Activated);
+            StartScreen = new Elements.StartScreen();
+
+            ViewPanel.UpdateInstance(this);
+            ViewPanel.InfoHUD.UpdateInstance(this);
+            ViewPanel.SplitContainer.UpdateInstance(this);
+
+            ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+            ViewPanel.SharpPanel.InitalizeGraphicsPanel();
 
             EditorToolbar.ExtraLayerEditViewButtons = new Dictionary<Controls.Global.EditLayerToggleButton, Controls.Global.EditLayerToggleButton>();
             EditorToolbar.ExtraLayerSeperators = new List<Separator>();
 
+            MenuBar.UpdateInstance(this);
+            StartScreen.UpdateInstance(this);
 
+            Methods.Internal.UserInterface.UpdateControls();
+            Methods.Internal.UserInterface.Misc.UpdateStartScreen(true, true);
 
-            //Old Classes
-            FindAndReplace = new Methods.Layers.TileFindReplace(this);
-
-            //Controls
-            StartScreen = new ManiacEditor.Controls.Editor.Elements.StartScreen(this);
-
-            //Classes
+            EditorStatusBar.UpdateFilterButtonApperance();
+            Methods.Solution.SolutionState.RefreshCollisionColours();
+        }
+        private void InitalizeInstances()
+        {
+            Methods.Internal.Theming.UpdateInstance(this);
+            Methods.Internal.Settings.UpdateInstance(this);
+            Methods.Solution.CurrentSolution.UpdateInstance(this);
+            Global.Controls.RetroEDTileList.UpdateInstance(this);
             Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
-            Methods.Editor.SolutionState.UpdateInstance(this);
-            Controls.Editor.Elements.Toolbar.UpdateInstance(this);
+            Methods.Solution.SolutionState.UpdateInstance(this);
+            Elements.Toolbar.UpdateInstance(this);
             Methods.Entities.EntityDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
-            Methods.Editor.SolutionPaths.UpdateInstance(this);
+            Methods.Solution.SolutionPaths.UpdateInstance(this);
             Classes.Prefrences.SceneCurrentSettings.UpdateInstance(this);
             Methods.Internal.UserInterface.UpdateInstance(this);
             Methods.Internal.Controls.UpdateInstance(this);
-            ManiacEditor.Methods.Editor.SolutionLoader.UpdateInstance(this);
-            Classes.Prefrences.SceneHistoryStorage.Initilize(this);
-            ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.Initilize(this);
+            Methods.Solution.SolutionLoader.UpdateInstance(this);
             Methods.ProgramLauncher.UpdateInstance(this);
             Methods.Runtime.GameHandler.UpdateInstance(this);
-            ViewPanel.UpdateInstance(this);
-            ManiacEditor.Methods.Editor.EditorActions.UpdateInstance(this);
-            ViewPanel.InfoHUD.UpdateInstance(this);
-            MenuBar.UpdateInstance(this);
-            ViewPanel.SplitContainer.UpdateInstance(this);
-            Classes.Rendering.GraphicsTileDrawing.UpdateInstance(this);
-
-            EditorStatusBar.UpdateFilterButtonApperance();
-
-            this.Title = String.Format("Maniac Editor - Generations Edition {0}", Methods.ProgramBase.GetCasualVersion());
-
-            Extensions.ExternalExtensions.AllocConsole();
-            Extensions.ExternalExtensions.HideConsoleWindow();
-            RefreshCollisionColours();
-            ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
-            Methods.Internal.UserInterface.UpdateControls();
+            Methods.Solution.SolutionActions.UpdateInstance(this);
+            Methods.Draw.GraphicsTileDrawing.UpdateInstance(this);
+            Methods.Layers.TileFindReplace.UpdateInstance(this);
+        }
+        private void InitalizeSettings()
+        {
+            Classes.Prefrences.SceneHistoryStorage.Initilize(this);
+            Classes.Prefrences.DataStateHistoryStorage.Initilize(this);
             Methods.Internal.Settings.TryLoadSettings();
-
-            Methods.Internal.UserInterface.Misc.UpdateStartScreen(true, true);
-
-            ViewPanel.SharpPanel.InitalizeGraphicsPanel();
         }
 
         #endregion
@@ -186,17 +190,30 @@ namespace ManiacEditor.Controls.Editor
             }
 
             ViewPanel.SharpPanel.Dispose();
-            //editorView = null;
             ViewPanel.SharpPanel.Host.Child.Dispose();
-            //host = null;
 
 
 
         }
+
+        private bool IsViewPanelFocused()
+        {
+            bool TilesToolbarFocused = false;
+            bool EntitiesToolbarFocused = false;
+            bool MenuBarHasFocus = MenuBar.IsFocused || MenuBar.IsMouseOver;
+            bool ViewPanelFocused = ViewPanel.IsFocused || ViewPanel.IsMouseOver;
+            bool AreWeFocused = this.IsFocused || this.IsMouseOver;
+
+            if (TilesToolbar != null) TilesToolbarFocused = TilesToolbar.IsFocused || TilesToolbar.IsMouseOver;
+            if (EntitiesToolbar != null) EntitiesToolbarFocused = EntitiesToolbar.IsFocused || EntitiesToolbar.IsMouseOver;
+
+            return ((ViewPanelFocused || AreWeFocused) && !MenuBarHasFocus && !TilesToolbarFocused && !EntitiesToolbarFocused);
+        }
+
         private void Editor_KeyDown(object sender, KeyEventArgs e)
         {
             var e2 = KeyEventExts.ToWinforms(e);
-            if (e2 != null && ViewPanel.IsFocused)
+            if (e2 != null && IsViewPanelFocused())
             {
                 Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e2);
             }
@@ -205,7 +222,7 @@ namespace ManiacEditor.Controls.Editor
         private void Editor_KeyUp(object sender, KeyEventArgs e)
         {
             var e2 = KeyEventExts.ToWinforms(e);
-            if (e2 != null && ViewPanel.IsFocused)
+            if (e2 != null && IsViewPanelFocused())
             {
                 Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e2);
             }
@@ -225,43 +242,6 @@ namespace ManiacEditor.Controls.Editor
             Focus();
             ViewPanel.SharpPanel.GraphicPanel.Show();
             ViewPanel.SharpPanel.GraphicPanel.Run();
-
-        }
-        #endregion
-
-        #region Asset Reloading (TO-MOVE)
-
-        public void RefreshCollisionColours()
-        {
-            try
-            {
-                if (Methods.Editor.Solution.CurrentScene != null && Methods.Editor.Solution.CurrentTiles != null)
-                {
-                    switch (Methods.Editor.SolutionState.CollisionPreset)
-                    {
-                        case 2:
-                            CollisionAllSolid = Methods.Editor.SolutionState.CollisionSAColour;
-                            CollisionTopOnlySolid = Methods.Editor.SolutionState.CollisionTOColour;
-                            CollisionLRDSolid = Methods.Editor.SolutionState.CollisionLRDColour;
-                            break;
-                        case 1:
-                            CollisionAllSolid = Color.Black;
-                            CollisionTopOnlySolid = Color.Yellow;
-                            CollisionLRDSolid = Color.Red;
-                            break;
-                        case 0:
-                            CollisionAllSolid = Color.White;
-                            CollisionTopOnlySolid = Color.Yellow;
-                            CollisionLRDSolid = Color.Red;
-                            break;
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-
 
         }
         #endregion

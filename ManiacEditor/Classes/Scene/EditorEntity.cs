@@ -50,7 +50,7 @@ namespace ManiacEditor.Classes.Scene
                     SelectedIndex = -1;
                 }
 
-                Methods.Editor.Solution.Entities.UpdateSelectedIndexForEntities();
+                Methods.Solution.CurrentSolution.Entities.UpdateSelectedIndexForEntities();
             }
         }
         public bool InTempSelection { get; set; } = false;
@@ -249,19 +249,19 @@ namespace ManiacEditor.Classes.Scene
 
             if (GridAlignment)
             {
-                if (Methods.Editor.SolutionState.UseMagnetMode)
+                if (Methods.Solution.SolutionState.UseMagnetMode)
                 {
-                    int x = Methods.Editor.SolutionState.MagnetSize * (PositionX / Methods.Editor.SolutionState.MagnetSize);
-                    int y = Methods.Editor.SolutionState.MagnetSize * (PositionY / Methods.Editor.SolutionState.MagnetSize);
-                    return new Rectangle(x, y, Methods.Editor.SolutionState.MagnetSize, Methods.Editor.SolutionState.MagnetSize);
+                    int x = Methods.Solution.SolutionState.MagnetSize * (PositionX / Methods.Solution.SolutionState.MagnetSize);
+                    int y = Methods.Solution.SolutionState.MagnetSize * (PositionY / Methods.Solution.SolutionState.MagnetSize);
+                    return new Rectangle(x, y, Methods.Solution.SolutionState.MagnetSize, Methods.Solution.SolutionState.MagnetSize);
                 }
                 else
                 {
-                    return new Rectangle(PositionX, PositionY, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+                    return new Rectangle(PositionX, PositionY, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT);
                 }
 
             }
-            else return new Rectangle(PositionX, PositionY, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT);
+            else return new Rectangle(PositionX, PositionY, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT);
         }
 
         #endregion
@@ -294,7 +294,7 @@ namespace ManiacEditor.Classes.Scene
             }
 
 
-            if (Methods.Editor.SolutionState.ObjectFilter != "" && !_entity.Object.Name.Name.Contains(Methods.Editor.SolutionState.ObjectFilter))
+            if (Methods.Solution.SolutionState.ObjectFilter != "" && !_entity.Object.Name.Name.Contains(Methods.Solution.SolutionState.ObjectFilter))
             {
                 FilteredOut = true;
             }

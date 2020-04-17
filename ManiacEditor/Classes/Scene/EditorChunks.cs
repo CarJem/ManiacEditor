@@ -83,11 +83,11 @@ namespace ManiacEditor.Classes.Scene
 							{
 								if (this.TileMapA[tx][ty] != 0xffff)
 								{
-									Classes.Rendering.GraphicsTileDrawing.DrawTile(g, this.TileMapA[tx][ty], tx - rect.X, ty - rect.Y, true, false);
+									Methods.Draw.GraphicsTileDrawing.DrawTile(g, this.TileMapA[tx][ty], tx - rect.X, ty - rect.Y, true, false);
 								}
 								if (this.TileMapB[tx][ty] != 0xffff)
 								{
-									Classes.Rendering.GraphicsTileDrawing.DrawTile(g, this.TileMapB[tx][ty], tx - rect.X, ty - rect.Y, true, isPathAB);
+									Methods.Draw.GraphicsTileDrawing.DrawTile(g, this.TileMapB[tx][ty], tx - rect.X, ty - rect.Y, true, isPathAB);
 								}
 							}
 						}
@@ -224,18 +224,18 @@ namespace ManiacEditor.Classes.Scene
 					if (SaveAsMode)
 					{
 						StageStamps?.Write(SaveAsFilePath);
-						Methods.Editor.SolutionPaths.Stamps_Source = new Methods.Editor.SolutionPaths.FileSource(-3, SaveAsFilePath);
+						Methods.Solution.SolutionPaths.Stamps_Source = new Methods.Solution.SolutionPaths.FileSource(-3, SaveAsFilePath);
 					}
 					else
 					{
-						if (Methods.Editor.SolutionState.DataDirectoryReadOnlyMode && Methods.Editor.SolutionPaths.Stamps_Source.SourceID == -1) return;
-						else StageStamps?.Write(ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.SourcePath);
+						if (Methods.Solution.SolutionState.DataDirectoryReadOnlyMode && Methods.Solution.SolutionPaths.Stamps_Source.SourceID == -1) return;
+						else StageStamps?.Write(ManiacEditor.Methods.Solution.SolutionPaths.Stamps_Source.SourcePath);
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{ManiacEditor.Methods.Editor.SolutionPaths.Stamps_Source.SourcePath}' Error: {ex.Message}");
+				Methods.Internal.Common.ShowError($@"Failed to save StageStamps to file '{ManiacEditor.Methods.Solution.SolutionPaths.Stamps_Source.SourcePath}' Error: {ex.Message}");
 			}
 		}
 
@@ -247,7 +247,7 @@ namespace ManiacEditor.Classes.Scene
 			try
 			{
 				List<ImageSource> ImageCollection = new List<ImageSource>();
-				bool isMultiLayer = Methods.Editor.Solution.EditLayerB != null;
+				bool isMultiLayer = Methods.Solution.CurrentSolution.EditLayerB != null;
 				foreach (var chunk in StageStamps.TexturedStampList)
 				{
 					var Image = (isMultiLayer ? chunk.MultiImage : chunk.Image);
@@ -487,8 +487,13 @@ namespace ManiacEditor.Classes.Scene
 
 			StageStamps.StampList.Add(new TexturedStamps.TexturedTileChunk(convertedPoints));
 		}
-		public void ConvertClipboardtoMultiLayerChunk(Dictionary<Point, ushort> pointsA, Dictionary<Point, ushort> pointsB = null)
+		public void ConvertClipboardtoMultiLayerChunk(Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry data)
 		{
+			var points = data.GetData();
+			var pointsA = points.Item1;
+			var pointsB = points.Item2;
+
+
 			if (pointsB == null || pointsB.Count == 0)
 			{
 				ConvertClipboardtoChunk(pointsA);
@@ -562,11 +567,11 @@ namespace ManiacEditor.Classes.Scene
 				ConvertedChunkB = ConvertChunkSideBtoClipboard(StageStamps.StampList[index]);
 			}
 
-			EditLayerA?.PasteFromClipboard(TileCoord, ConvertedChunkA);
-			EditLayerB?.PasteFromClipboard(TileCoord, ConvertedChunkB);
+			EditLayerA?.PasteClipboardData(TileCoord, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(ConvertedChunkA));
+			EditLayerB?.PasteClipboardData(TileCoord, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(ConvertedChunkB));
 			Actions.UndoRedoModel.UpdateEditLayerActions();
-			EditLayerA?.Deselect();
-			EditLayerB?.Deselect();
+			EditLayerA?.DeselectAll();
+			EditLayerB?.DeselectAll();
 		}
 		public Dictionary<Point, ushort> ConvertChunkSideAtoClipboard(Stamps.TileChunk Chunk)
 		{

@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
+            string text = "Text" + Methods.Solution.SolutionState.CurrentManiaUILanguage;
             int frameID = (int)e.attributesMap["frameID"].ValueEnum;
             int listID = (int)e.attributesMap["listID"].ValueEnum;
             int align = (int)e.attributesMap["align"].ValueEnum;

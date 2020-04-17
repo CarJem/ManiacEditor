@@ -6,6 +6,7 @@ using System.Diagnostics;
 using GenerationsLib.WPF;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ManiacEditor.Controls.Editor.Toolbars
 {
@@ -14,16 +15,17 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		#region Definitions
 		public ManiacEditor.Controls.Editor.MainEditor Instance;
 
-		public Methods.Draw.GIF TileGridImage
+		public Classes.Rendering.GIF TileGridImage
 		{
 			get
 			{
-				return Methods.Editor.Solution.CurrentTiles?.Image;
+				return Methods.Solution.CurrentSolution.CurrentTiles?.Image;
 			}
 		}
 
 		bool isDisposing = false;
 		public Action<ushort> TileDoubleClick { get; set; }
+		public Action<Tuple<List<ushort>, int[]>> MultiTileDoubleClick { get; set; }
 
 		private bool _TilesFlipHorizontal = false;
 		private bool _TilesFlipVertical = false;
@@ -37,8 +39,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 			set
 			{
 				_TilesFlipHorizontal = value;
-				TilesList.FlipX = value;
-				ChunkList.FlipX = value;
+				UpdateListFlips();
 			}
 		}
 		public bool TilesFlipVertical
@@ -50,10 +51,22 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 			set
 			{
 				_TilesFlipVertical = value;
-				TilesList.FlipY = value;
-				ChunkList.FlipY = value;
+				UpdateListFlips();
 			}
 		}
+
+
+		private void UpdateListFlips()
+		{
+			Application.Current.Dispatcher.Invoke(new Action(() =>
+			{
+				TilesList.FlipX = TilesFlipHorizontal;
+				ChunkList.FlipX = TilesFlipHorizontal;
+				TilesList.FlipY = TilesFlipVertical;
+				ChunkList.FlipY = TilesFlipVertical;
+			}), System.Windows.Threading.DispatcherPriority.Background);
+		}
+
 		private bool CurrentMultiLayerState { get; set; } = false;
 
 		private bool AwaitTileContextMenuOpen { get; set; } = false;
@@ -71,7 +84,36 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		public int SelectedTileIndex { get; set; }
 
 		public int SelectedChunkIndex { get; set; }
+		public List<Tile> SelectedTiles
+		{
+			get
+			{
+				List<Tile> Tiles = new List<Tile>();
 
+				foreach (var tile in TilesList.TileList.SelectedItems)
+				{
+					ushort Tile = (ushort)TilesList.Images.IndexOf(tile as System.Windows.Media.ImageSource);
+
+					bool FlipX = CurrentTileCheckboxOptions[0].IsChecked.Value;
+					bool FlipY = CurrentTileCheckboxOptions[1].IsChecked.Value;
+					bool SolidTopA = CurrentTileCheckboxOptions[2].IsChecked.Value;
+					bool SolidLrbA = CurrentTileCheckboxOptions[3].IsChecked.Value;
+					bool SolidTopB = CurrentTileCheckboxOptions[4].IsChecked.Value;
+					bool SolidLrbB = CurrentTileCheckboxOptions[5].IsChecked.Value;
+
+					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(10, FlipX, Tile);
+					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(11, FlipY, Tile);
+					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(12, SolidTopA, Tile);
+					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(13, SolidLrbA, Tile);
+					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(14, SolidTopB, Tile);
+					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(15, SolidLrbB, Tile);
+
+					Tiles.Add(new Tile(Tile));
+				}
+
+				return Tiles.OrderBy(x => x.Index).ToList();
+			}
+		}
 		public ushort SelectedTile
 		{
 			get
@@ -194,6 +236,11 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 			SaveChunksManually.IsEnabled = enabled;
 		}
 
+		private void SetTilesDropdownItemsState(bool enabled)
+		{
+			AllowMultiTileSelectMenuItem.IsEnabled = enabled;
+		}
+
 		public void UpdateModeSpecifics(SelectionChangedEventArgs sender = null)
 		{
 			this.Dispatcher.BeginInvoke(new Action(() =>
@@ -204,14 +251,18 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 					else Instance.EditorToolbar.ChunksToolButton.IsChecked = true;
 				}
 
-				if (ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit() && this.ChunkList != null)
+				if (ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit() && this.ChunkList != null)
 				{
-					SelectedTileLabel.Content = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
+					ExtraOptionsButton.Visibility = Visibility.Visible;
+					ExtraTileOptionsButton.Visibility = Visibility.Collapsed;
+					SelectedTileLabel.Text = "Selected Chunk: " + ChunkList.SelectedIndex.ToString();
 					if (TabControl.SelectedIndex != 1) TabControl.SelectedIndex = 1;
 				}
 				else if (this.TilesList != null)
 				{
-					SelectedTileLabel.Content = "Selected Tile: " + TilesList.SelectedIndex.ToString();
+					ExtraOptionsButton.Visibility = Visibility.Collapsed;
+					ExtraTileOptionsButton.Visibility = Visibility.Visible;
+					SelectedTileLabel.Text = "Selected Tile: " + TilesList.SelectedIndex.ToString();
 					if (TabControl.SelectedIndex != 0) TabControl.SelectedIndex = 0;
 				}
 
@@ -245,12 +296,12 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 
 		public void UpdateChunksListIfNeeded()
 		{
-			if (CurrentMultiLayerState == false && Methods.Editor.Solution.EditLayerB != null)
+			if (CurrentMultiLayerState == false && Methods.Solution.CurrentSolution.EditLayerB != null)
 			{
 				CurrentMultiLayerState = true;
 				ChunksReload();
 			}
-			else if (CurrentMultiLayerState == true && Methods.Editor.Solution.EditLayerB == null)
+			else if (CurrentMultiLayerState == true && Methods.Solution.CurrentSolution.EditLayerB == null)
 			{
 				CurrentMultiLayerState = false;
 				ChunksReload();
@@ -310,15 +361,32 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		#endregion
 
 		#region Events
+
+		private void PlaceTileMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (TilesList.TileList.SelectedItems.Count > 1 && MultiTileDoubleClick != null)
+			{
+				var SelectedItems = SelectedTiles;
+				int StartIndex = GetStartIndex((ushort)(SelectedItems[0].Index & 0x3ff), TilesList.ModelView.ItemColumns);
+				MultiTileDoubleClick(new Tuple<List<ushort>, int[]>(SelectedItems.ConvertAll(x => x.RawData), new int[] { TilesList.ModelView.ItemColumns, StartIndex }));
+			}
+			else if (SelectedTileIndex != -1 && TileDoubleClick != null)
+			{
+				TileDoubleClick(SelectedTile);
+			}
+
+
+			int GetStartIndex(int Index, int Columns)
+			{
+				return Index % Columns;
+			}
+		}
 		private void TilesList_MouseDoubleClick(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			if (isDisposing) return;
 			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
 			{
-				if (SelectedTileIndex != -1 && TileDoubleClick != null)
-				{
-					TileDoubleClick(SelectedTile);
-				}
+				PlaceTileMenuItem_Click(sender, e);
 			}
 		}
 		private void TilesList_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -365,15 +433,39 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		{
 
 		}
+		private void ExtraTileOptionsButton_Click(object sender, RoutedEventArgs e)
+		{
+			ExtraTileOptionsButton.ContextMenu.IsOpen = true;
+
+			if (!ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) SetTilesDropdownItemsState(false);
+			else SetTilesDropdownItemsState(true);
+		}
+
+		private void AllowMultiTileSelectMenuItem_Checked(object sender, RoutedEventArgs e)
+		{
+			if (TilesList != null)
+			{
+				if (AllowMultiTileSelectMenuItem.IsChecked && TilesList.TileList.SelectionMode != SelectionMode.Extended)
+				{
+					TilesList.TileList.SelectionMode = SelectionMode.Extended;
+					TilesList.SelectedIndex = 0;
+				}
+				else if (TilesList.TileList.SelectionMode != SelectionMode.Single)
+				{
+					TilesList.TileList.SelectionMode = SelectionMode.Single;
+					TilesList.SelectedIndex = 0;
+				}
+			}
+		}
 		private void SaveChunksManually_Click(object sender, RoutedEventArgs e)
 		{
 			Instance.Chunks?.Save();
 		}
 		private void AutoGenerateChunks_Click(object sender, RoutedEventArgs e)
 		{
-			if (Methods.Editor.Solution.EditLayerA != null && Methods.Editor.Solution.EditLayerB != null)
+			if (Methods.Solution.CurrentSolution.EditLayerA != null && Methods.Solution.CurrentSolution.EditLayerB != null)
 			{
-				Instance.Chunks.AutoGenerateChunks(Methods.Editor.Solution.EditLayerA, Methods.Editor.Solution.EditLayerB);
+				Instance.Chunks.AutoGenerateChunks(Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB);
 				ChunksReload();
 			}
 		}
@@ -389,9 +481,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		}
 		private void AutoGenerateChunksSingle_Click(object sender, RoutedEventArgs e)
 		{
-			if (Methods.Editor.Solution.EditLayerA != null)
+			if (Methods.Solution.CurrentSolution.EditLayerA != null)
 			{
-				Instance.Chunks.AutoGenerateChunks(Methods.Editor.Solution.EditLayerA);
+				Instance.Chunks.AutoGenerateChunks(Methods.Solution.CurrentSolution.EditLayerA);
 				ChunksReload();
 			}
 		}
@@ -399,7 +491,7 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		{
 			ExtraOptionsButton.ContextMenu.IsOpen = true;
 
-			if (!ManiacEditor.Methods.Editor.SolutionState.IsChunksEdit()) SetDropdownItemsState(false);
+			if (!ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit()) SetDropdownItemsState(false);
 			else SetDropdownItemsState(true);
 		}
 		#endregion
@@ -508,6 +600,15 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 		#endregion
 
 		#region Context Menu Items
+		private void TileContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+		{
+			UpdateTilesContextMenu();
+		}
+
+		private void ChunksContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+		{
+			UpdateChunksContextMenu();
+		}
 
 		private void TilesList_ContextMenuRequestClick(object sender, System.Windows.Input.MouseEventArgs e)
 		{
@@ -530,8 +631,21 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 
 			if (SelectedTileIndex != -1)
 			{
-				EditTileCollisionMenuItem.IsEnabled = true;
-				EditTileCollisionMenuItem.Header = string.Format(EditTileCollisionMenuItem.Tag.ToString(), "#" + SelectedTileIndex);
+				PlaceTileMenuItem.IsEnabled = true;
+				if (TilesList.TileList.SelectedItems.Count > 1)
+				{
+					PlaceTileMenuItem.Header = "Place Tiles...";
+					EditTileCollisionMenuItem.IsEnabled = false;
+					EditTileCollisionMenuItem.Header = string.Format(EditTileCollisionMenuItem.Tag.ToString(), "N/A");
+				}
+				else
+				{
+					PlaceTileMenuItem.Header = "Place Tile...";
+					EditTileCollisionMenuItem.IsEnabled = true;
+					EditTileCollisionMenuItem.Header = string.Format(EditTileCollisionMenuItem.Tag.ToString(), "#" + SelectedTileIndex);
+				}
+
+
 			}
 			else
 			{
@@ -594,9 +708,9 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 
 		private void PasteChunkFromClipboardMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Instance.TilesClipboard != null)
+			if (Methods.Solution.SolutionClipboard.TilesClipboard != null)
 			{
-				Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Instance.TilesClipboard.Item1, Instance.TilesClipboard.Item2);
+				Instance.Chunks.ConvertClipboardtoMultiLayerChunk(Methods.Solution.SolutionClipboard.TilesClipboard);
 
 				Instance.TilesToolbar?.ChunksReload();
 			}
@@ -609,11 +723,11 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 			{
 				Instance.TileManiacInstance.Show();
 			}
-			if (Methods.Editor.Solution.TileConfig != null && Methods.Editor.Solution.CurrentTiles != null)
+			if (Methods.Solution.CurrentSolution.TileConfig != null && Methods.Solution.CurrentSolution.CurrentTiles != null)
 			{
 				if (Instance.TileManiacInstance.Visibility != System.Windows.Visibility.Visible || Instance.TileManiacInstance.TileConfig == null)
 				{
-					Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Editor.Solution.TileConfig, ManiacEditor.Methods.Editor.SolutionPaths.TileConfig_Source.ToString(), SelectedTileIndex);
+					Instance.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Solution.CurrentSolution.TileConfig, ManiacEditor.Methods.Solution.SolutionPaths.TileConfig_Source.ToString(), SelectedTileIndex);
 				}
 				else
 				{
@@ -631,14 +745,6 @@ namespace ManiacEditor.Controls.Editor.Toolbars
 
 		#endregion
 
-		private void TileContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-		{
-			UpdateTilesContextMenu();
-		}
 
-		private void ChunksContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-		{
-			UpdateChunksContextMenu();
-		}
 	}
 }

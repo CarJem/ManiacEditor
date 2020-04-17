@@ -27,15 +27,12 @@ using System.Threading;
 using ManiacEditor.Controls;
 using MessageBox = System.Windows.MessageBox;
 using TileConfig = RSDKv5.Tileconfig;
-using ManiacEditor.Controls.TileManiac.Controls;
+using ManiacEditor.Controls.Global.Controls;
 using ManiacEditor.Extensions;
 
 using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Editors;
-using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
+using ManiacEditor.Controls.Utility.Configuration;
 using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Editors.Dev;
-using ManiacEditor.Controls.Utility.Editors.Configuration;
 using ManiacEditor.Controls.Options;
 
 
@@ -2527,11 +2524,11 @@ namespace ManiacEditor.Controls.TileManiac
 		}
 		public void x16TilesgifToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ManiacEditor.Methods.Editor.SolutionLoader.BackupStageTiles();
+			ManiacEditor.Methods.Solution.SolutionLoader.BackupStageTiles();
 		}
 		public void tileConfigbinToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ManiacEditor.Methods.Editor.SolutionLoader.BackupTileConfig();
+			ManiacEditor.Methods.Solution.SolutionLoader.BackupTileConfig();
 		}
 		private void Window_Closing(object sender, CancelEventArgs e)
 		{

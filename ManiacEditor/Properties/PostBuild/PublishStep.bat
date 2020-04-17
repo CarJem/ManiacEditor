@@ -6,15 +6,16 @@ SET ProjectDir=%~4
 
 SET CurrentDir=%~dp0
 SET AssistantPath="D:\Users\CarJem\source\personal_repos\GenerationsLib\GenerationsLib.UpdateAssistant\bin\x86\Release\GenerationsLib.UpdateAssistant.exe"
-SET SettingsPath="%ProjectDir%\bin\Release\Settings\"
-
+SET SettingsPath="%ProjectDir%\bin\%ConfigurationName%\Settings\"
+SET SettingsFile="%ProjectDir%\bin\%ConfigurationName%\Settings\internal_switches.json"
 
 :: Remove Settings File
-rmdir %SettingsPath% /s /q
+del /s /q %SettingsFile%
 
 :: Generate Installer and Prepare to Publish
 if %ConfigurationName% == "Publish" (
 	call "%CurrentDir%\MakeInstaller.bat" %ProjectDir%
+	call "%CurrentDir%\MakeZIP.bat" "%TargetDir%" "%CurrentDir%Build.zip"
 	call "%AssistantPath%" "ManiacEditor"
 )
 

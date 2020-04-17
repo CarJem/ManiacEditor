@@ -55,7 +55,7 @@
                                         <ColumnDefinition Width="20"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="RSDK Animation Editor Path"></TextBlock>
-                                    <TextBox  Grid.Column="1" Text="{maniac:DefaultSettingsBinding AnimationClasses.Edit.Scene.EditorPath}" IsEnabled="False"></TextBox>
+                                    <TextBox  Grid.Column="1" Text="{maniac:DefaultSettingsBinding AnimationEditorPath}" IsEnabled="False"></TextBox>
                                     <Button Grid.Column="2" Content="..." Click="button15_Click"></Button>
                                 </Grid>
                                 <Grid>
@@ -64,9 +64,18 @@
                                         <ColumnDefinition></ColumnDefinition>
                                         <ColumnDefinition Width="20"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Color Palette Editor Path"></TextBlock>
-                                    <TextBox Grid.Column="1" VerticalContentAlignment="Center" Text="Removed" IsEnabled="False"></TextBox>
-                                    <Button Grid.Column="2" Width="20" Content="..." Click="button15_Click" IsEnabled="False"></Button>
+                                    <TextBlock Text="Cheat Engine Path"></TextBlock>
+                                    <TextBox  Grid.Column="1" Text="{maniac:DefaultSettingsBinding CheatEnginePath}" IsEnabled="False"></TextBox>
+                                    <Button Grid.Column="2" Content="..." Click="Button_Click_4"></Button>
+                                </Grid>
+                                <controls:SettingsHeader></controls:SettingsHeader>
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="160"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="20"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Image Editor" Foreground="{DynamicResource DisabledText}"></TextBlock>
                                 </Grid>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -74,9 +83,19 @@
                                         <ColumnDefinition></ColumnDefinition>
                                         <ColumnDefinition Width="20"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Tile Maniac Path"></TextBlock>
-                                    <TextBox Grid.Column="1" VerticalContentAlignment="Center"  Text="Removed" IsEnabled="False"></TextBox>
-                                    <Button Grid.Column="2" Width="20" Content="..." Click="button15_Click" IsEnabled="False"></Button>
+                                    <TextBlock Text="Path"></TextBlock>
+                                    <TextBox Grid.Column="1" VerticalContentAlignment="Center" Text="{maniac:DefaultSettingsBinding ImageEditorPath}" IsEnabled="False"></TextBox>
+                                    <Button Grid.Column="2" Width="20" Content="..." Click="Button_Click_2"></Button>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="160"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="20"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Arguments"></TextBlock>
+                                    <TextBox Grid.Column="1" VerticalContentAlignment="Center"  Text="{maniac:DefaultSettingsBinding ImageEditorArguments}" IsEnabled="False"></TextBox>
+                                    <Button Grid.Column="2" Width="20" Content="..." Click="Button_Click_3"></Button>
                                 </Grid>
                                 <Button Content="Game Settings..." Margin="0,5" Click="Button_Click_1"></Button>
                             </StackPanel>
@@ -239,7 +258,7 @@
                                         <CheckBox Content="Encore" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding ShowEncoreEntities}"/>
                                         <CheckBox Content="Both" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}"/>
                                         <CheckBox Content="Other" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Grid.ColumnSpan="2" IsChecked="{maniac:DefaultSettingsBinding ShowOtherEntities}"/>
-                                        <CheckBox Content="Pinball" HorizontalAlignment="Left" IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}"/>
+                                        <CheckBox Content="All" HorizontalAlignment="Left" IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}"/>
                                         <CheckBox Content="Filterless" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding ShowFilterlessEntities}"/>
                                         <Separator Width="200" Margin="0,5" HorizontalAlignment="Left"></Separator>
                                         <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" IsChecked="{maniac:SettingBinding UseBitOperators}">
@@ -279,7 +298,7 @@
                                         <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:DefaultSettingsBinding SizeWaterLevelWithBoundsDefault}">
                                             <TextBlock Text="Size Water Level with Bounds when Not Selected" TextWrapping="WrapWithOverflow"></TextBlock>
                                         </CheckBox>
-                                        <CheckBox Content="Show Debug HUD" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ShowDebugStatsDefault}"/>
+                                        <CheckBox Content="Enable Editor HUD" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" IsChecked="{maniac:DefaultSettingsBinding ShowDebugStatsDefault}"/>
                                         <GroupBox Header="Scroll Lock Direction">
                                             <StackPanel Orientation="Horizontal">
                                                 <RadioButton Checked="radioButtonX_CheckedChanged_1" Margin="0,0" Unchecked="radioButtonX_CheckedChanged_1" x:Name="radioButtonX" Content="X" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -314,11 +333,7 @@
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Data Directory" Height="10" KeybindTag="OpenDataDir"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save" Height="10" KeybindTag="_Save"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save As" Height="10" KeybindTag="SaveAs"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Backup Normal" Height="10" KeybindTag="UnloadScene"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Backup Stage Config" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Export as PNG..." Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Export Each Layer as PNG..." Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Exit" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
+                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Unload Scene" Height="10" KeybindTag="UnloadScene"></globcontrols:RemapEntry>
                                 </StackPanel>
                             </Expander>
                             <Expander>
@@ -329,8 +344,7 @@
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Cut" Height="10" KeybindTag="Cut"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Copy" Height="10" KeybindTag="Copy"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Paste" Height="10" KeybindTag="Paste"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Paste to Chunk" Height="10" KeybindTag="PasteToChunk"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Title" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
+                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Paste as New Chunk" Height="10" KeybindTag="PasteToChunk"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Delete" Height="10" KeybindTag="Delete"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Duplicate" Height="10" KeybindTag="Duplicate"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Select All" Height="10" KeybindTag="SelectAll"></globcontrols:RemapEntry>
@@ -350,21 +364,7 @@
                                     <controls:SettingsHeader HeaderName="View"></controls:SettingsHeader>
                                 </Expander.Header>
                                 <StackPanel x:Name="ManiacViewControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Test" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Selection Boxes" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Mania/Encore Entities" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Pixel Count Mode" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Edit Entities Transparency" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Full Parallax Sprites" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Status Viewer" Height="10" KeybindTag="StatusBoxToggle"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Larger Status Text" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Enable Entities Always On Top" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Enable Prioritized Entity Rendering" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Move Extra Layers to Front" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Entity/WarpDoor Path Arrows" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Water Level" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Always Show Water Level" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Bound Water Level to Size" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
+                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Editor HUD" Height="10" KeybindTag="StatusBoxToggle"></globcontrols:RemapEntry>
                                 </StackPanel>
                             </Expander>
                             <Expander>
@@ -372,68 +372,46 @@
                                     <controls:SettingsHeader HeaderName="Tools"></controls:SettingsHeader>
                                 </Expander.Header>
                                 <StackPanel x:Name="ManiacToolControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Find and Replace" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Scroll Lock" Height="10" KeybindTag="ScrollLock"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Swap Scroll Lock Axis" Height="10" KeybindTag="ScrollLockTypeSwitch"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Reset Zoom Level" Height="10" KeybindTag="ResetZoomLevel"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Faster Nudge" Height="10" KeybindTag="NudgeFaster"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Go to Specific Place" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Go to Player Spawn" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Change Level ID" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Copy Air Tiles" Height="10" KeybindTag="CopyAirTiles"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Right Click to Swap Object IDs" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Optimize Slot IDs" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Pre-Render Scene" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Desktop Shortcut Dropdown" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
                                 </StackPanel>
                             </Expander>
-                            <Expander>
+                            <Expander Visibility="Collapsed">
                                 <Expander.Header>
                                     <controls:SettingsHeader HeaderName="Scene"></controls:SettingsHeader>
                                 </Expander.Header>
                                 <StackPanel x:Name="ManiacSceneControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Entity Manager" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Import Sounds" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Layer Manager" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Background Colors Dropdown" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
+
                                 </StackPanel>
                             </Expander>
-                            <Expander>
+                            <Expander  Visibility="Collapsed">
                                 <Expander.Header>
                                     <controls:SettingsHeader HeaderName="Folders"></controls:SettingsHeader>
                                 </Expander.Header>
                                 <StackPanel x:Name="ManiacFolderControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Scene Folder" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Data Directory" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Sonic Mania Directory" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Mod Folder" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Saved Places Dropdown" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
+
                                 </StackPanel>
                             </Expander>
-                            <Expander>
+                            <Expander  Visibility="Collapsed">
                                 <Expander.Header>
                                     <controls:SettingsHeader HeaderName="Apps"></controls:SettingsHeader>
                                 </Expander.Header>
                                 <StackPanel x:Name="ManiacAppControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Tile Maniac" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Insanic Maniac" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Fixer Maniac" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="RSDK Animation Editor" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="ManiaPal Launcher" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
+
                                 </StackPanel>
                             </Expander>
-                            <Expander>
+                            <Expander  Visibility="Collapsed">
                                 <Expander.Header>
                                     <controls:SettingsHeader HeaderName="Other"></controls:SettingsHeader>
                                 </Expander.Header>
                                 <StackPanel x:Name="ManiacOtherControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="About" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Settings" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Controls" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Wiki" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
+
                                 </StackPanel>
                             </Expander>
-                            <Expander>
+                            <Expander  Visibility="Collapsed">
                                 <Expander.Header>
                                     <controls:SettingsHeader HeaderName="Layers"></controls:SettingsHeader>
                                 </Expander.Header>
@@ -448,14 +426,7 @@
                                 <StackPanel x:Name="ManiacMenuItemControls" Margin="20,0,0,0">
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Reload Tiles/Sprites" Height="10" KeybindTag="RefreshResources"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Run Scene" Height="10" KeybindTag="RunScene"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Pointer Tool" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Selection Tool" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Draw Tool" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Interaction Tool" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Magnet Tool" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Stamp Tool" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Tile ID" Height="10" KeybindTag="ShowTileID"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Rotate Assist Tool" Height="10" KeybindTag="NULL"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Grid" Height="10" KeybindTag="ShowGrid"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Collision (A)" Height="10" KeybindTag="ShowPathA"></globcontrols:RemapEntry>
                                     <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Collision (B)" Height="10" KeybindTag="ShowPathB"></globcontrols:RemapEntry>

@@ -84,16 +84,16 @@ namespace ManiacEditor.Entity_Renders
 
 				if (type != 1)
 				{
-					if (Methods.Editor.SolutionState.ShowWaterLevel)
+					if (Methods.Solution.SolutionState.ShowWaterLevel)
 					{
                         if (!ManiacEditor.Properties.Settings.MyPerformance.UseSimplifedWaterRendering)
                         {
-                            if (Methods.Editor.SolutionState.AlwaysShowWaterLevel)
+                            if (Methods.Solution.SolutionState.AlwaysShowWaterLevel)
                             {
-                                int startX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
-                                int endX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Editor.Solution.SceneWidth);
+                                int startX = (Methods.Solution.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
+                                int endX = (Methods.Solution.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Solution.CurrentSolution.SceneWidth);
 
-                                d.DrawRectangle(startX, heightX, endX, Methods.Editor.Solution.SceneHeight, Methods.Editor.SolutionState.waterColor);
+                                d.DrawRectangle(startX, heightX, endX, Methods.Solution.CurrentSolution.SceneHeight, Methods.Solution.SolutionState.waterColor);
                                 d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
                                 for (int i = startX; i < endX; i = i + 16)
                                 {
@@ -104,11 +104,11 @@ namespace ManiacEditor.Entity_Renders
                         }
                         else
                         {
-                            if (Methods.Editor.SolutionState.AlwaysShowWaterLevel)
+                            if (Methods.Solution.SolutionState.AlwaysShowWaterLevel)
                             {
-                                int startX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
-                                int endX = (Methods.Editor.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Editor.Solution.SceneWidth);
-                                d.DrawRectangle(startX, heightX, endX, Methods.Editor.Solution.SceneHeight, Methods.Editor.SolutionState.waterColor);
+                                int startX = (Methods.Solution.SolutionState.SizeWaterLevelwithBounds ? x1 : 0);
+                                int endX = (Methods.Solution.SolutionState.SizeWaterLevelwithBounds ? x2 : Methods.Solution.CurrentSolution.SceneWidth);
+                                d.DrawRectangle(startX, heightX, endX, Methods.Solution.CurrentSolution.SceneHeight, Methods.Solution.SolutionState.waterColor);
                                 d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
                             }
                         }

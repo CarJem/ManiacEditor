@@ -6,17 +6,16 @@ using System.Windows.Forms;
 
 namespace ManiacEditor.Methods.Layers
 {
-    public class TileFindReplace
+    public static class TileFindReplace
     {
-        public Controls.Editor.MainEditor Editor;
-
-        public TileFindReplace(Controls.Editor.MainEditor instance)
+        private static ManiacEditor.Controls.Editor.MainEditor Instance;
+        public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor instance)
         {
-            Editor = instance;
+            Instance = instance;
         }
 
         #region Find Unused Tiles
-        public void FindUnusedTiles()
+        public static void FindUnusedTiles()
         {
             Methods.Internal.UserInterface.LockUserInterface = true;
             Methods.Internal.UserInterface.ShowWaitScreen = true;
@@ -28,22 +27,22 @@ namespace ManiacEditor.Methods.Layers
             {
                 for (int i = 0; i < 1024; i++)
                 {
-                    if (Editor.TilesToolbar != null) Editor.TilesToolbar.SelectedTileLabel.Content = "Selected Tile: " + i;
+                    if (Instance.TilesToolbar != null) Instance.TilesToolbar.SelectedTileLabel.Text = "Selected Tile: " + i;
                     bool Unusued = IsTileUnused(i);
                     if (Unusued) UnusedTiles.Add(i);
                 }
-                Editor.Dispatcher.Invoke(new Action(() => ShowUnusedTiles(UnusedTiles)));
+                Instance.Dispatcher.Invoke(new Action(() => ShowUnusedTiles(UnusedTiles)));
             })
             { IsBackground = true };
             thread.Start();
 
         }
-        public bool IsTileUnused(int tile)
+        public static bool IsTileUnused(int tile)
         {
-            IEnumerable<Classes.Scene.EditorLayer> AllLayers = Methods.Editor.Solution.CurrentScene.AllLayers;
+            IEnumerable<Classes.Scene.EditorLayer> AllLayers = Methods.Solution.CurrentSolution.CurrentScene.AllLayers;
             bool unused = true;
 
-            foreach (var editorLayer in Methods.Editor.Solution.CurrentScene.AllLayers)
+            foreach (var editorLayer in Methods.Solution.CurrentSolution.CurrentScene.AllLayers)
             {
                 for (int x = 0; x < editorLayer.Layer.Tiles.Length; x++)
                 {
@@ -58,7 +57,7 @@ namespace ManiacEditor.Methods.Layers
             }
             return unused;
         }
-        public void ShowUnusedTiles(List<int> UnusedTiles)
+        public static void ShowUnusedTiles(List<int> UnusedTiles)
         {
             if (UnusedTiles.Count != 0)
             {
@@ -105,151 +104,50 @@ namespace ManiacEditor.Methods.Layers
         }
         #endregion
 
-        #region Unsorted
-        public void EditorTileReplaceTest(int findValue, int replaceValue, int applyState, bool copyResults, bool perserveColllision)
-        {
-            if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
-            {
-                Methods.Editor.Solution.EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-                Actions.UndoRedoModel.UpdateEditLayerActions();
-                Dictionary<Point, ushort> copyData = Methods.Editor.Solution.EditLayerA.CopyToClipboard(true);
-                Editor.FindReplaceClipboard = copyData;
+        #region Offset Tile Indexes
 
-                List<ushort> listValue = new List<ushort> { };
-                List<Point> listPoint = new List<Point> { };
-                List<int> listReplaceValues = new List<int> { };
-                foreach (var item in Editor.FindReplaceClipboard)
-                {
-                    listPoint.Add(item.Key);
-                }
-                foreach (var item in Editor.FindReplaceClipboard)
-                {
-                    listValue.Add(item.Value);
-                }
-                for (int i = 0; i < listValue.Count; i++)
-                {
-                    if ((listValue[i] & 0x3ff) == (ushort)(findValue & 0x3ff))
-                        unchecked
+        public static void OffsetEditLayerIndexes(int Amount)
+        {
+            if (Methods.Solution.CurrentSolution.EditLayerA != null)
+            {
+               for (int x = 0; x < Methods.Solution.CurrentSolution.EditLayerA.Tiles.Length; x++)
+               {
+                    for (int y = 0; y < Methods.Solution.CurrentSolution.EditLayerA.Tiles[x].Length; y++)
+                    {
+                        RSDKv5.Tile currentTile = new RSDKv5.Tile(Methods.Solution.CurrentSolution.EditLayerA.Tiles[x][y]);
+                        int currentIndex = currentTile.Index;
+                        if (currentIndex + Amount > 1024)
                         {
-                            if (perserveColllision)
-                            {
-                                ushort TileIndex = (ushort)(listValue[i] & 0x3ff);
-                                int TileIndexInt = (int)(listValue[i] & 0x3ff);
-                                bool flipX = ((listValue[i] >> 10) & 1) == 1;
-                                bool flipY = ((listValue[i] >> 11) & 1) == 1;
-                                bool SolidTopA = ((listValue[i] >> 12) & 1) == 1;
-                                bool SolidLrbA = ((listValue[i] >> 13) & 1) == 1;
-                                bool SolidTopB = ((listValue[i] >> 14) & 1) == 1;
-                                bool SolidLrbB = ((listValue[i] >> 15) & 1) == 1;
-
-                                listValue[i] = (ushort)replaceValue;
-                                if (flipX)
-                                    listValue[i] |= (1 << 10);
-                                else
-                                    listValue[i] &= (ushort)~(1 << 10);
-                                if (flipY)
-                                    listValue[i] |= (1 << 11);
-                                else
-                                    listValue[i] &= (ushort)~(1 << 11);
-                                if (SolidTopA)
-                                    listValue[i] |= (1 << 12);
-                                else
-                                    listValue[i] &= (ushort)~(1 << 12);
-                                if (SolidLrbA)
-                                    listValue[i] |= (1 << 13);
-                                else
-                                    listValue[i] &= (ushort)~(1 << 13);
-                                if (SolidTopB)
-                                    listValue[i] |= (1 << 14);
-                                else
-                                    listValue[i] &= (ushort)~(1 << 14);
-                                if (SolidLrbB)
-                                    listValue[i] |= (1 << 15);
-                                else
-                                    listValue[i] &= (ushort)~(1 << 15);
-                            }
-                            else
-                            {
-                                listValue[i] = (ushort)replaceValue;
-                            }
+                            currentTile.Index = (ushort)(1024);
                         }
-                }
-                Editor.FindReplaceClipboard.Clear();
-                for (int i = 0; i < listPoint.Count; i++)
-                {
-                    Editor.FindReplaceClipboard.Add(listPoint[i], listValue[i]);
-                }
+                        else if (currentIndex + Amount < 0)
+                        {
+                            currentTile.Index = (ushort)(0);
+                        }
+                        else
+                        {
+                            currentTile.Index = (ushort)(currentTile.Index + Amount);
+                        }
 
-                // if there's none, use the internal clipboard
-                if (Editor.FindReplaceClipboard != null)
-                {
-                    Methods.Editor.Solution.EditLayerA.PasteFromClipboard(new Point(0, 0), Editor.FindReplaceClipboard);
-                    Actions.UndoRedoModel.UpdateEditLayerActions();
-                }
-                Actions.UndoRedoModel.UpdateEditLayerActions();
-                Editor.FindReplaceClipboard.Clear();
-                Methods.Editor.EditorActions.Deselect();
-            }
 
-        }
-        public void EditorTileFindTest(int tile, int applyState, bool copyResults)
-        {
-            if (ManiacEditor.Methods.Editor.SolutionState.IsTilesEdit())
-            {
-                Methods.Editor.Solution.EditLayerA.Select(new Rectangle(0, 0, 32768, 32768), true, false);
-                Actions.UndoRedoModel.UpdateEditLayerActions();
-                Dictionary<Point, ushort> copyData = Methods.Editor.Solution.EditLayerA.CopyToClipboard(true);
-                Editor.FindReplaceClipboard = copyData;
-
-                List<ushort> listValue = new List<ushort> { };
-                List<Point> listPoint = new List<Point> { };
-                List<Point> listLocations = new List<Point> { };
-
-                foreach (var item in Editor.FindReplaceClipboard)
-                {
-                    listPoint.Add(item.Key);
-                }
-                foreach (var item in Editor.FindReplaceClipboard)
-                {
-                    listValue.Add(item.Value);
-                }
-                for (int i = 0; i < listValue.Count; i++)
-                {
-                    if ((listValue[i] & 0x3ff) == (ushort)(tile & 0x3ff))
-                    {
-                        listLocations.Add(listPoint[i]);
+                        Methods.Solution.CurrentSolution.EditLayerA.Tiles[x][y] = currentTile.RawData;
                     }
                 }
-                Editor.FindReplaceClipboard.Clear();
-                if (listLocations != null || listLocations.Count != 0)
-                {
-                    var message = string.Join(Environment.NewLine, listLocations);
-                    System.Windows.MessageBox.Show("Tiles found at: " + Environment.NewLine + message, "Results");
-                    if (copyResults && message != null)
-                    {
-                        Clipboard.SetText(message);
-                    }
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show("Found Nothing", "Results");
-                }
-                Editor.FindReplaceClipboard.Clear();
-                Methods.Editor.EditorActions.Deselect();
-
-
             }
-
         }
-        public void EditorTileFind(int tile, int applyState, bool copyResults)
+
+        #endregion
+
+        #region Unsorted
+        public static void EditorTileFind(int tile, int applyState, bool copyResults)
         {
             List<Point> Points = new List<Point>();
 
-            for (int y = 0; y < Methods.Editor.Solution.EditLayerA.Layer.Height; y++)
+            for (int y = 0; y < Methods.Solution.CurrentSolution.EditLayerA.Layer.Height; y++)
             {
-                for (int x = 0; x < Methods.Editor.Solution.EditLayerA.Layer.Width; x++)
+                for (int x = 0; x < Methods.Solution.CurrentSolution.EditLayerA.Layer.Width; x++)
                 {
-                    ushort TileIndex = (ushort)(Methods.Editor.Solution.EditLayerA.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
+                    ushort TileIndex = (ushort)(Methods.Solution.CurrentSolution.EditLayerA.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
                     if (TileIndex == tile) //do the tiles match?
                     {
                         Points.Add(new Point(x * 16, y * 16)); //Add the found tile to our list of points!
@@ -258,24 +156,24 @@ namespace ManiacEditor.Methods.Layers
                 }
             }
 
-            Methods.Editor.Solution.EditLayerA.Deselect();
+            Methods.Solution.CurrentSolution.EditLayerA.DeselectAll();
             foreach (var point in Points)
             {
-                Methods.Editor.Solution.EditLayerA.Select(point, true);
+                Methods.Solution.CurrentSolution.EditLayerA.Select(point, true);
             }
-            Editor.EditorStatusBar.UpdateStatusPanel();
+            Instance.EditorStatusBar.UpdateStatusPanel();
 
 
         }
-        public void EditorTileFindReplace(int FindTile, int ReplaceTile, int applyState, bool copyResults)
+        public static void EditorTileFindReplace(int FindTile, int ReplaceTile, int applyState, bool copyResults)
         {
             List<Point> Points = new List<Point>();
 
-            for (int y = 0; y < Methods.Editor.Solution.EditLayerA.Layer.Height; y++)
+            for (int y = 0; y < Methods.Solution.CurrentSolution.EditLayerA.Layer.Height; y++)
             {
-                for (int x = 0; x < Methods.Editor.Solution.EditLayerA.Layer.Width; x++)
+                for (int x = 0; x < Methods.Solution.CurrentSolution.EditLayerA.Layer.Width; x++)
                 {
-                    ushort TileIndex = (ushort)(Methods.Editor.Solution.EditLayerA.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
+                    ushort TileIndex = (ushort)(Methods.Solution.CurrentSolution.EditLayerA.Layer.Tiles[y][x] & 0x3ff); //What is our tile index?
                     if (TileIndex == FindTile) //do the tiles match?
                     {
                         Points.Add(new Point(x * 16, y * 16)); //Add the found tile to our list of points!
@@ -299,7 +197,7 @@ namespace ManiacEditor.Methods.Layers
                         Tile = (ushort)SetBit(14, false, Tile);
                         Tile = (ushort)SetBit(15, false, Tile);
 
-                        Methods.Editor.Solution.EditLayerA.Layer.Tiles[y][x] = Tile; //Set our new tile Value
+                        Methods.Solution.CurrentSolution.EditLayerA.Layer.Tiles[y][x] = Tile; //Set our new tile Value
 
                         //Console.WriteLine(x * 16 + " " + y * 16);
                     }

@@ -31,7 +31,7 @@
 
         <!--Status Bar-->
 
-        <editorControls:StatusBar genTools:DesignModeTool.IsHidden="True" x:Name="EditorStatusBar" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="3"></editorControls:StatusBar>
+        <editorControls:StatusBar x:Name="EditorStatusBar" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="3"></editorControls:StatusBar>
         <!--End of Status Bar-->
 
         <!--Main View-->
@@ -58,7 +58,7 @@
         <!--End of Menu Bar-->
 
         <!--Toolbar-->
-        <editorControls:Toolbar genTools:DesignModeTool.IsHidden="True" Grid.ColumnSpan="4" Grid.Row="1" x:Name="EditorToolbar"></editorControls:Toolbar>
+        <editorControls:Toolbar Grid.ColumnSpan="4" Grid.Row="1" x:Name="EditorToolbar"></editorControls:Toolbar>
         <!--End of Toolbar-->
 
     </Grid>

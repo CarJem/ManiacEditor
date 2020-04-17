@@ -173,7 +173,7 @@ namespace ManiacEditor.Methods
         {
             try
             {
-                string resource_folder = Environment.CurrentDirectory + @"\Resources\";
+                string resource_folder = Environment.CurrentDirectory + @"\Settings\";
                 string definitions_file = Path.Combine(resource_folder, "entity_definitions.json");
 
                 Console.WriteLine("Setting up Object & Attribute Definitions");

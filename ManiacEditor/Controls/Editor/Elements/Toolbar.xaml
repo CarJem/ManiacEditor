@@ -303,7 +303,7 @@
                                 <MenuItem.Header>
                                     <StackPanel Orientation="Vertical">
                                         <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
-                                        <Slider x:Name="collisionOpacitySlider" Width="128" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
+                                        <Slider x:Name="CollisionOpacitySlider" Width="128" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
                                     </StackPanel>
                                 </MenuItem.Header>
                             </MenuItem>
@@ -361,21 +361,6 @@
                 <ToggleButton x:Name="ShowFGHigh" Content="FG High" Click="ShowFGHigh_Click" Style="{DynamicResource EditLayerToggleButton}"/>
                 <ToggleButton x:Name="ShowFGHigher" Content="FG Higher" Click="ShowFGHigher_Click" Style="{DynamicResource EditLayerToggleButton}"/>
                 <ToggleButton x:Name="ShowEntities" Content="Entities" Click="ShowEntities_Click" Style="{DynamicResource EditLayerToggleButton}"/>
-                <ToggleButton Visibility="Collapsed" x:Name="ShowAnimations" Click="ShowAnimations_Click" Checked="ShowAnimations_Checked" Unchecked="ShowAnimations_Unchecked"  Content="Animations" Style="{DynamicResource EditLayerToggleButton}" IsEnabled="False"/>
-                <Button Visibility="Collapsed" BorderThickness="0" VerticalAlignment="Stretch" Margin="0,0,6,0" Padding="0,0,0,0" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="animationsSplitButton_Dropdown" Foreground="{DynamicResource NormalText}">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
-                    <Button.ContextMenu>
-                        <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
-                            <MenuItem x:Name="movingPlatformsObjectsToolStripMenuItem" Header="Moving Platforms / Objects" Click="MovingPlatformsObjectsToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="spriteFramesToolStripMenuItem" Header="Sprite Frames" Click="SpriteFramesToolStripMenuItem_Click"></MenuItem>
-                            <MenuItem x:Name="parallaxAnimationMenuItem" Header="Parallax Animation (Will Disable Editing)" Click="ParallaxAnimationMenuItem_Click"></MenuItem>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
 
                 <Separator Margin="0,2" Visibility="Collapsed"/>
                 <Separator x:Name="extraViewLayersSeperator" Margin="0,2" Visibility="Visible"/>

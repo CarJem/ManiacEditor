@@ -10,12 +10,12 @@ namespace ManiacEditor.Classes.Scene
         #region Definitions
 
         #region GIF Variables
-        public Methods.Draw.GIF Image { get; set; }
-        public Methods.Draw.GIF IDImage { get; set; }
-        public Methods.Draw.GIF EditorImage { get; set; }
-        public Methods.Draw.GIF SelectionImage { get; set; }
-        public Methods.Draw.GIF CollisionMaskA { get; private set; }
-        public Methods.Draw.GIF CollisionMaskB { get; private set; }
+        public Classes.Rendering.GIF Image { get; set; }
+        public Classes.Rendering.GIF IDImage { get; set; }
+        public Classes.Rendering.GIF EditorImage { get; set; }
+        public Classes.Rendering.GIF SelectionImage { get; set; }
+        public Classes.Rendering.GIF CollisionMaskA { get; private set; }
+        public Classes.Rendering.GIF CollisionMaskB { get; private set; }
         #endregion
 
         #region Tile Config
@@ -39,15 +39,15 @@ namespace ManiacEditor.Classes.Scene
         #region Init
         public EditorTiles()
         {
-            Image = new Methods.Draw.GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
+            Image = new Classes.Rendering.GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
             TileConfig = new RSDKv5.Tileconfig();
         }
         public EditorTiles(string StageDirectory, string PaletteDataPath = null)
 		{
-			Image = new Methods.Draw.GIF(Path.Combine(StageDirectory, "16x16Tiles.gif"), PaletteDataPath);
-            IDImage = new Methods.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_ID.gif");
-			EditorImage = new Methods.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
-            SelectionImage = new Methods.Draw.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Selection.gif");
+			Image = new Classes.Rendering.GIF(Path.Combine(StageDirectory, "16x16Tiles.gif"), PaletteDataPath);
+            IDImage = new Classes.Rendering.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_ID.gif");
+			EditorImage = new Classes.Rendering.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
+            SelectionImage = new Classes.Rendering.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Selection.gif");
         }
         #endregion
 
@@ -61,8 +61,8 @@ namespace ManiacEditor.Classes.Scene
                 if (CollisionMaskA != null) CollisionMaskA.Dispose();
                 if (CollisionMaskB != null) CollisionMaskB.Dispose();
 
-                CollisionMaskA = new Methods.Draw.GIF(DrawCollisionMaskA());
-                CollisionMaskB = new Methods.Draw.GIF(DrawCollisionMaskB());
+                CollisionMaskA = new Classes.Rendering.GIF(DrawCollisionMaskA());
+                CollisionMaskB = new Classes.Rendering.GIF(DrawCollisionMaskB());
             }
             catch (Exception ex)
             {

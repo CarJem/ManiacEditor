@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ManiacEditor.Controls"
         xmlns:base="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
         Title="Pick Sounds to Import" Background="{DynamicResource NormalBackground}" Height="440" Width="440" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
@@ -13,13 +12,13 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <RichTextBox IsEnabled="False" x:Name="rtbWarning" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True" Style="{DynamicResource RichTextBoxStyle1}"/>
+        <RichTextBox IsEnabled="False" x:Name="rtbWarning" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource NormalBackground}" BorderThickness="0" IsReadOnly="True"/>
         <ListBox Style="{DynamicResource BaseListBoxStyle}" x:Name="lvObjectsView" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

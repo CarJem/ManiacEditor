@@ -85,7 +85,7 @@ namespace ManiacEditor.Classes.Scene
         {
             try
             {
-                var objectList = GetObjects(Methods.Editor.Solution.CurrentScene.Objects);
+                var objectList = GetObjects(Methods.Solution.CurrentSolution.CurrentScene.Objects);
                 string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
                 return setupObject;
             }
@@ -129,7 +129,7 @@ namespace ManiacEditor.Classes.Scene
         {
             return SelectedEntities.Count > 0 || TemporarySelection.Count > 0;
         }
-        public void SelectAll()
+        private void SelectEverything()
         {
             foreach (var entity in Entities)
             {
@@ -144,7 +144,7 @@ namespace ManiacEditor.Classes.Scene
         }
         public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
-            if (!addSelection) Deselect();
+            if (!addSelection) ClearSelection();
             SelectNormal();
             SelectInternal();
 
@@ -204,7 +204,7 @@ namespace ManiacEditor.Classes.Scene
         }
         public void Select(Point point, bool addSelection = false, bool deselectIfSelected = false)
         {
-            if (!addSelection) Deselect();
+            if (!addSelection) ClearSelection();
             // In reverse because we want to select the top one
             SelectNormal();
             SelectInternal();
@@ -279,7 +279,7 @@ namespace ManiacEditor.Classes.Scene
         }
         public void SelectSlot(int slot)
         {
-            Deselect();
+            ClearSelection();
             if (Entities.Exists(x => x.SlotID == (ushort)slot))
             {
                 SelectedEntities.Add(Entities[(ushort)slot]);
@@ -287,7 +287,7 @@ namespace ManiacEditor.Classes.Scene
             }
             ObjectRefreshNeeded = true;
         }
-        public void Deselect()
+        public void ClearSelection()
         {
             DeselectNormal();
             DeselectInternal();
@@ -387,7 +387,7 @@ namespace ManiacEditor.Classes.Scene
             var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
             LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
             AddEntities(newEntities);
-            Deselect();
+            ClearSelection();
             editorEntity.Selected = true;
             SelectedEntities.Add(editorEntity);
         }
@@ -406,7 +406,7 @@ namespace ManiacEditor.Classes.Scene
 
             LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
             AddEntities(newEntities);
-            Deselect();
+            ClearSelection();
             foreach (var editorEntity in newEntities)
             {
                 editorEntity.Selected = true;
@@ -433,14 +433,14 @@ namespace ManiacEditor.Classes.Scene
             foreach (var entity in entities) DeleteEntity(entity, isInternal);
 
             EvaluteSlotIDOrder();
-            RefreshModel.RequestEntityVisiblityRefresh(true);
+            Methods.Entities.EntityDrawing.RequestEntityVisiblityRefresh(true);
         }
         public void DeleteSelected(bool isInternal = false)
         {
-            if ((isInternal ? SelectedInternalEntities.Count : SelectedEntities.Count) > 0)
-                LastAction = new Actions.ActionAddDeleteEntities((isInternal ? SelectedInternalEntities.ToList() : SelectedEntities.ToList()), false, x => AddEntities(x, isInternal), x => DeleteEntities(x, isInternal));
+            if ((isInternal ? SelectedInternalEntities.Count : SelectedEntities.Count) > 0) LastAction = new Actions.ActionAddDeleteEntities((isInternal ? SelectedInternalEntities.ToList() : SelectedEntities.ToList()), false, x => AddEntities(x, isInternal), x => DeleteEntities(x, isInternal));
             DeleteEntities(SelectedEntities.ToList(), false, isInternal);
-            Deselect();
+            ClearSelection();
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditEntityActions();
         }
 
         #endregion
@@ -518,7 +518,7 @@ namespace ManiacEditor.Classes.Scene
             var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
             LastActionInternal = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x, true), x => DeleteEntities(x, false, true));
             AddEntities(newEntities, true);
-            Deselect();
+            ClearSelection();
             editorEntity.Selected = true;
             SelectedInternalEntities.Add(editorEntity);
         }
@@ -600,7 +600,7 @@ namespace ManiacEditor.Classes.Scene
                 SceneEntity sceneEntity;
                 // If this is pasted from another Scene, we need to reassign its Object
                 if (entity.IsExternal)
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Methods.Editor.Solution.CurrentScene.Entities.SceneObjects, slot);
+                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects, slot);
                 // If it's from this Scene, we can use the existing Object
                 else
                     sceneEntity = new SceneEntity(entity.Entity, slot);
@@ -618,7 +618,7 @@ namespace ManiacEditor.Classes.Scene
                 LastAction = new Actions.ActionAddDeleteEntities(new_entities.ToList(), true, x => AddEntities(x, isInternal), x => DeleteEntities(x, false, isInternal));
             }
 
-            Deselect();
+            ClearSelection();
             if (isInternal)
             {
                 foreach (var entity in new_entities)
@@ -640,31 +640,211 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Clipboard
-        public List<Classes.Scene.EditorEntity> CopyToClipboard(bool keepPosition = false)
+        public Methods.Solution.SolutionClipboard.ObjectsClipboardEntry GetClipboardData(bool KeepPosition = false)
         {
             if (SelectedEntities.Count == 0) return null;
             short minX = 0, minY = 0;
 
             List<Classes.Scene.EditorEntity> copiedEntities = SelectedEntities.Select(x => GenerateEditorEntity(new RSDKv5.SceneEntity(x.Entity, x.SlotID))).ToList();
-            if (!keepPosition)
+            if (!KeepPosition)
             {
                 minX = copiedEntities.Min(x => x.Position.X.High);
                 minY = copiedEntities.Min(x => x.Position.Y.High);
                 copiedEntities.ForEach(x => x.Move(new Point(-minX, -minY)));
             }
 
-            return copiedEntities;
+            return new Methods.Solution.SolutionClipboard.ObjectsClipboardEntry(copiedEntities);
         }
-        public void PasteFromClipboard(Point newPos, List<Classes.Scene.EditorEntity> entities)
+        public void PasteClipboardData(Point NewPos, Methods.Solution.SolutionClipboard.ObjectsClipboardEntry data)
         {
+            var entities = data.GetData();
             DuplicateEntities(entities);
             foreach (var entity in SelectedEntities)
             {
                 // Move them
-                entity.Move(newPos);
+                entity.Move(NewPos);
             }
             ObjectRefreshNeeded = true;
         }
+
+        #endregion
+
+        #region Actions
+        public static void Cut()
+        {
+            Copy();
+            Delete();
+        }
+        public static void Paste()
+        {
+            try
+            {
+
+                // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
+                if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
+                {
+                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.GetLastXY(), (Methods.Solution.SolutionClipboard.ObjectsClipboardEntry)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+                    Actions.UndoRedoModel.UpdateEditEntityActions();
+                }
+
+                // if there's none, use the internal clipboard
+                else if (Methods.Solution.SolutionClipboard.ObjectsClipboard != null)
+                {
+                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.GetLastXY(), Methods.Solution.SolutionClipboard.ObjectsClipboard);
+                    Actions.UndoRedoModel.UpdateEditEntityActions();
+                }
+            }
+            catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
+            {
+                System.Windows.MessageBox.Show("Too many Classes.Edit.Scene.EditorSolution.Entities! (limit: 2048)");
+                return;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("There was a problem with pasting the content provided: " + Environment.NewLine + ex.Message);
+                return;
+            }
+        }
+        public static void Copy()
+        {
+            var copyData = Methods.Solution.CurrentSolution.Entities.GetClipboardData();
+
+            // Make a DataObject for the data and send it to the Windows clipboard for cross-instance copying
+            //Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData));
+
+            // Send to Maniac's clipboard
+            Methods.Solution.SolutionClipboard.ObjectsClipboard = copyData;
+        }
+        public static void Duplicate()
+        {
+            try
+            {
+                Methods.Solution.CurrentSolution.Entities.PasteClipboardData(new Point(16, 16), Methods.Solution.CurrentSolution.Entities.GetClipboardData(true));
+                ManiacEditor.Actions.UndoRedoModel.UpdateEditEntityActions();
+            }
+            catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
+            {
+                System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+                return;
+            }
+
+        }
+        public static void Delete()
+        {
+            Methods.Solution.CurrentSolution.Entities.DeleteSelected();
+        }
+        public static void Deselect()
+        {
+            Methods.Solution.CurrentSolution.Entities.ClearSelection();
+        }
+        public static void SelectAll()
+        {
+            Methods.Solution.CurrentSolution.Entities.SelectEverything();
+        }
+        public static void FlipEntities(FlipDirection direction)
+        {
+            Dictionary<Classes.Scene.EditorEntity, Point> initalPos = new Dictionary<Classes.Scene.EditorEntity, Point>();
+            Dictionary<Classes.Scene.EditorEntity, Point> postPos = new Dictionary<Classes.Scene.EditorEntity, Point>();
+            foreach (Classes.Scene.EditorEntity e in Methods.Solution.CurrentSolution.Entities.SelectedEntities)
+            {
+                initalPos.Add(e, new Point(e.PositionX, e.PositionY));
+            }
+            Methods.Solution.CurrentSolution.Entities.Flip(direction);
+            foreach (Classes.Scene.EditorEntity e in Methods.Solution.CurrentSolution.Entities.SelectedEntities)
+            {
+                postPos.Add(e, new Point(e.PositionX, e.PositionY));
+            }
+            IAction action = new ActionMultipleMoveEntities(initalPos, postPos);
+            Actions.UndoRedoModel.UndoStack.Push(action);
+            Actions.UndoRedoModel.RedoStack.Clear();
+
+        }
+        public static void MoveEntities(System.Windows.Forms.KeyEventArgs e)
+        {
+            int x = 0, y = 0;
+            int modifier = 1;
+            if (Methods.Solution.SolutionState.UseMagnetMode)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.Up: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? -Methods.Solution.SolutionState.MagnetSize : -1); break;
+                    case Keys.Down: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? Methods.Solution.SolutionState.MagnetSize : 1); break;
+                    case Keys.Left: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? -Methods.Solution.SolutionState.MagnetSize : -1); break;
+                    case Keys.Right: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? Methods.Solution.SolutionState.MagnetSize : 1); break;
+                }
+            }
+            if (Methods.Solution.SolutionState.EnableFasterNudge)
+            {
+                if (Methods.Solution.SolutionState.UseMagnetMode)
+                {
+                    switch (e.KeyData)
+                    {
+                        case Keys.Up: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? -Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.FasterNudgeAmount); break;
+                        case Keys.Down: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.FasterNudgeAmount); break;
+                        case Keys.Left: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? -Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.FasterNudgeAmount); break;
+                        case Keys.Right: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.FasterNudgeAmount); break;
+                    }
+                }
+                else
+                {
+                    switch (e.KeyData)
+                    {
+                        case Keys.Up: y = (-1 - Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
+                        case Keys.Down: y = (1 + Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
+                        case Keys.Left: x = (-1 - Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
+                        case Keys.Right: x = (1 + Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
+                    }
+
+                }
+
+            }
+            if (Methods.Solution.SolutionState.UseMagnetMode == false && Methods.Solution.SolutionState.EnableFasterNudge == false)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.Up: y = -1 * modifier; break;
+                    case Keys.Down: y = 1 * modifier; break;
+                    case Keys.Left: x = -1 * modifier; break;
+                    case Keys.Right: x = 1 * modifier; break;
+                }
+
+            }
+            if (Methods.Solution.SolutionState.UseMagnetMode)
+            {
+                int xE = Methods.Solution.CurrentSolution.Entities.SelectedEntities[0].Position.X.High;
+                int yE = Methods.Solution.CurrentSolution.Entities.SelectedEntities[0].Position.Y.High;
+
+                if (xE % Methods.Solution.SolutionState.MagnetSize != 0 && Methods.Solution.SolutionState.UseMagnetXAxis)
+                {
+                    int offsetX = x % Methods.Solution.SolutionState.MagnetSize;
+                    x -= offsetX;
+                }
+                if (yE % Methods.Solution.SolutionState.MagnetSize != 0 && Methods.Solution.SolutionState.UseMagnetYAxis)
+                {
+                    int offsetY = y % Methods.Solution.SolutionState.MagnetSize;
+                    y -= offsetY;
+                }
+            }
+
+            Methods.Solution.CurrentSolution.Entities.MoveSelected(new Point(0, 0), new Point(x, y), false);
+
+
+            // Try to merge with last move
+            List<Classes.Scene.EditorEntity> SelectedList = Methods.Solution.CurrentSolution.Entities.SelectedEntities.ToList();
+            List<Classes.Scene.EditorEntity> SelectedInternalList = Methods.Solution.CurrentSolution.Entities.SelectedInternalEntities.ToList();
+            bool selectedActionsState = Actions.UndoRedoModel.UndoStack.Count > 0 && Actions.UndoRedoModel.UndoStack.Peek() is ActionMoveEntities && (Actions.UndoRedoModel.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedList, new Point(x, y));
+            bool selectedInternalActionsState = Actions.UndoRedoModel.UndoStack.Count > 0 && Actions.UndoRedoModel.UndoStack.Peek() is ActionMoveEntities && (Actions.UndoRedoModel.UndoStack.Peek() as ActionMoveEntities).UpdateFromKey(SelectedInternalList, new Point(x, y));
+
+            if (selectedActionsState || selectedInternalActionsState) { }
+            else
+            {
+                if (SelectedList.Count != 0) Actions.UndoRedoModel.UndoStack.Push(new ActionMoveEntities(SelectedList, new Point(x, y), true));
+                if (SelectedInternalList.Count != 0) Actions.UndoRedoModel.UndoStack.Push(new ActionMoveEntities(SelectedInternalList, new Point(x, y), true));
+
+                Actions.UndoRedoModel.RedoStack.Clear();
+            }
+        }
+
         #endregion
 
         #region Movement + Interactions
@@ -688,7 +868,7 @@ namespace ManiacEditor.Classes.Scene
                 foreach (var entity in SelectedInternalEntities) entity.Move(diff);
             }
 
-            ManiacEditor.Methods.Internal.RefreshModel.RequestEntityVisiblityRefresh(true);
+            ManiacEditor.Methods.Entities.EntityDrawing.RequestEntityVisiblityRefresh(true);
         }
 
         private Dictionary<Classes.Scene.EditorEntity, Point> GetSelectedMovePositions()
@@ -822,7 +1002,7 @@ namespace ManiacEditor.Classes.Scene
                 if (entity.Name == "Spline")
                 {
                     int id = entity.attributesMap["SplineID"].ValueInt32;
-                    if (!Methods.Editor.SolutionState.SplineOptionsGroup.ContainsKey(id)) Methods.Editor.SolutionState.AddSplineOptionsGroup(id);
+                    if (!Methods.Solution.SolutionState.SplineOptionsGroup.ContainsKey(id)) Methods.Solution.SolutionState.AddSplineOptionsGroup(id);
                     if (SplineXPos.ContainsKey(id))
                     {
                         SplineXPos[id].Add(entity.PositionX);
@@ -841,7 +1021,7 @@ namespace ManiacEditor.Classes.Scene
                 int CurrentSplineTotalNumberOfObjects = 0;
                 int CurrentNumberOfObjectsRendered = 0;
                 int splineID = path.Key;
-                Methods.Editor.SolutionState.SplineOptions selectedOptions = Methods.Editor.SolutionState.SplineOptionsGroup[splineID];
+                Methods.Solution.SolutionState.SplineOptions selectedOptions = Methods.Solution.SolutionState.SplineOptionsGroup[splineID];
                 CurrentSplineTotalNumberOfObjects = SplineXPos[splineID].Count;
                 if (SplineXPos[splineID].Count > 1)
                 {
@@ -870,8 +1050,8 @@ namespace ManiacEditor.Classes.Scene
                 SplineXPos[path.Key].Clear();
                 SplineYPos[path.Key].Clear();
 
-                Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects = CurrentSplineTotalNumberOfObjects - 1;
-                Methods.Editor.SolutionState.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered = CurrentNumberOfObjectsRendered;
+                Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects = CurrentSplineTotalNumberOfObjects - 1;
+                Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered = CurrentNumberOfObjectsRendered;
             }
 
             Methods.Internal.UserInterface.SplineControls.UpdateSplineToolbox();
@@ -905,21 +1085,10 @@ namespace ManiacEditor.Classes.Scene
                 Objects[index].Entities.Add(entry.Entity);
             }
             return Objects;
-        } 
+        }
 
         #endregion
-    }
 
-    public static class EditorEntityExtensions
-    {
-        public static void MoveSlotIDs(this List<EditorEntity> list, int oldIndex, int newIndex)
-        {
-            EditorEntity aux = list[newIndex];
-            list[newIndex] = list[oldIndex];
-            list[oldIndex] = aux;
 
-            list[newIndex].SlotID = (ushort)oldIndex;
-            list[oldIndex].SlotID = (ushort)newIndex;
-        }
     }
 }

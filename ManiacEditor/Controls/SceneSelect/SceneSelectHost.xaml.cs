@@ -867,9 +867,9 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void CloseHostEvent()
         {
-            if (!Methods.Editor.SolutionState.isImportingObjects)
+            if (!Methods.Solution.SolutionState.isImportingObjects)
             {
-                ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneUsingSceneSelect(this);
+                ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneUsingSceneSelect(this);
             }
             if (Window != null) Window.Close();
 
@@ -880,7 +880,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void SelectButtonEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Editor.SolutionState.LevelID = SceneState.LevelID;
+            Methods.Solution.CurrentSolution.LevelID = SceneState.LevelID;
             if (!isFilesView.IsChecked.Value)
             {
                 SceneState.FilePath = ScenesTree.SelectedNode.Tag as string;
@@ -962,7 +962,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void UniversalLoadMethod()
         {
-            if (Methods.Editor.SolutionState.isImportingObjects == true)
+            if (Methods.Solution.SolutionState.isImportingObjects == true)
             {
                 MessageBox.Show("You can't do that while importing objects!");
             }
@@ -1008,17 +1008,17 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void AddANewDataDirectory()
         {
-            if (Methods.Editor.SolutionState.isImportingObjects == false)
+            if (Methods.Solution.SolutionState.isImportingObjects == false)
             {
-                string newDataDirectory = ManiacEditor.Methods.Editor.SolutionPaths.SelectDataDirectory();
+                string newDataDirectory = ManiacEditor.Methods.Solution.SolutionPaths.SelectDataDirectory();
                 string returnDataDirectory;
 
                 if (string.IsNullOrWhiteSpace(newDataDirectory)) return;
-                if (ManiacEditor.Methods.Editor.SolutionPaths.DoesDataDirHaveGameConfig(newDataDirectory))
+                if (ManiacEditor.Methods.Solution.SolutionPaths.DoesDataDirHaveGameConfig(newDataDirectory))
                 {
                     DataDirectory = newDataDirectory;
                     returnDataDirectory = newDataDirectory;
-                    bool goodDataDir = ManiacEditor.Methods.Editor.SolutionPaths.SetGameConfig(returnDataDirectory);
+                    bool goodDataDir = ManiacEditor.Methods.Solution.SolutionPaths.SetGameConfig(returnDataDirectory);
                     if (goodDataDir == true)
                     {
                         Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
@@ -1128,7 +1128,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 SceneState.Zone = "N/A";
                 SceneState.LoadType = Classes.General.SceneState.LoadMethod.FullPath;
                 SceneState.Name = "N/A";
-                SceneState.MasterDataDirectory = Methods.Editor.SolutionPaths.DefaultMasterDataDirectory;
+                SceneState.MasterDataDirectory = Methods.Solution.SolutionPaths.DefaultMasterDataDirectory;
                 CloseHostEvent();
             }
         }
@@ -1138,7 +1138,7 @@ namespace ManiacEditor.Controls.SceneSelect
             if (SelectedDataDirectory != null)
             {
                 SceneState.MasterDataDirectory = SelectedDataDirectory;
-                Gameconfig GameConfig = ManiacEditor.Methods.Editor.SolutionPaths.GetGameConfig(SelectedDataDirectory);
+                Gameconfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
                 if (GameConfig != null)
                 {
                     LoadFromGameConfig(GameConfig);
@@ -1160,7 +1160,7 @@ namespace ManiacEditor.Controls.SceneSelect
         public void LoadDataDirectory(string SelectedDataDirectory)
         {
             DataDirectory = SelectedDataDirectory;
-            Gameconfig GameConfig = ManiacEditor.Methods.Editor.SolutionPaths.GetGameConfig(SelectedDataDirectory);
+            Gameconfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
             if (GameConfig != null)
             {
                 LoadFromGameConfig(GameConfig);

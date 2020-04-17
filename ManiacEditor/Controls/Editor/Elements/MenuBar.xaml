@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu x:Name="MenuBar" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="20" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}" Grid.RowSpan="2">
+        <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="20" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" Margin="4,0,0,0">
                 <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"></MenuItem>
                 <MenuItem x:Name="openToolStripMenuItem" Header="Open Scene..." Click="OpenSceneEvent"></MenuItem>
@@ -79,18 +79,11 @@
             </MenuItem>
             <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,0,0,0">
                 <MenuItem x:Name="EnablePixelModeMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"></MenuItem>
-                <MenuItem x:Name="changeEncorePaleteToolStripMenuItem" Header="Change Encore Palette..">
-                    <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="SetEncorePalleteEvent"></MenuItem>
-                    <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="SetEncorePalleteEvent"></MenuItem>
-                </MenuItem>
+                <MenuItem x:Name="nudgeSelectionFasterToolStripMenuItem" Header="Nudge Selection Faster" Click="ToggleFasterNudgeEvent"/>
+                <Separator></Separator>
                 <MenuItem x:Name="UnlockCameraToolStripMenuItem" Header="Unlock Camera Boundaries" IsCheckable="True" Click="UnlockCameraToolStripMenuItem_Click"/>
-                <MenuItem x:Name="statsViewerToolStripMenuItem" Header="Editor HUD...">
-                    <MenuItem x:Name="showStatsToolStripMenuItem" Header="Enable HUD" Click="ToggleDebugHUDEvent"></MenuItem>
-                    <Separator Visibility="Hidden"/>
-                    <MenuItem x:Name="optionsToolStripMenuItem3" Header="Visibility Options:" IsEnabled="False"></MenuItem>
-                    <Separator/>
-                    <MenuItem x:Name="useLargeTextToolStripMenuItem" Header="Use Increased Size" Click="UseLargeDebugHUDText"></MenuItem>
-                </MenuItem>
+                <MenuItem x:Name="showStatsToolStripMenuItem" Header="Enable Debug HUD" Click="ShowDebugStatsEvent"></MenuItem>
+                <Separator></Separator>
                 <MenuItem x:Name="resetZoomLevelToolstripMenuItem" Header="Reset Zoom Level" Click="ResetZoomLevelEvent"/>
                 <MenuItem x:Name="scrollLockToolStripMenuItem" Header="Scroll Lock...">
                     <MenuItem x:Name="statusNAToolStripMenuItem" Header="Enabled" Click="ToggleScrollLockEvent"/>
@@ -116,29 +109,15 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem x:Name="layersToolStripMenuItem" Header="Layers">
-                <TextBlock x:Name="OptionsLabel" TextWrapping="Wrap" Text="Editing Options:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></TextBlock>
+                <MenuItem x:Name="copyAirToggle" Header="Allow Air Tile Selection"  Click="ToggleCopyAirEvent"></MenuItem>
                 <Separator></Separator>
-                <MenuItem x:Name="copyAirToggle"  Click="ToggleCopyAirEvent">
-                    <MenuItem.Header>
-                        <TextBlock Text="Copy Air Tiles" Name="CopyAirLabel" TextWrapping="Wrap"></TextBlock>
-                    </MenuItem.Header>
-                </MenuItem>
-                <MenuItem x:Name="multiLayerSelectionToolStripMenuItem" Click="ToggleMultiLayerSelectEvent" Header="Multi-Layer Selection Mode" IsEnabled="True" Visibility="Collapsed" IsChecked="True"/>
-                <Separator Visibility="Hidden"></Separator>
-                <TextBlock x:Name="OptionsLabel2" TextWrapping="Wrap" Text="Quick Tools:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></TextBlock>
-                <Separator></Separator>
-                <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles..." Click="FindUnusedTiles"/>
-                <Separator Visibility="Hidden"></Separator>
-                <TextBlock x:Name="VisibilityOptionsLabel" TextWrapping="Wrap" Text="Visibility Options:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource DisabledText}"></TextBlock>
-                <Separator></Separator>
-                <MenuItem x:Name="moveExtraLayersToFrontToolStripMenuItem" Click="MoveExtraLayersToFrontEvent" Header="Move All Extra Layers to Front"></MenuItem>
+                <MenuItem x:Name="moveExtraLayersToFrontToolStripMenuItem" Click="MoveExtraLayersToFrontEvent" Header="Bring All Extra Layers to Front"></MenuItem>
             </MenuItem>
             <MenuItem x:Name="entitiesToolStripMenuItem" Header="Entities">
                 <MenuItem x:Name="toggleEncoreManiaObjectVisibilityToolStripMenuItem" Click="SwapEncoreManiaEntityVisibilityEvent" Header="Toggle Encore/Mania Object Visibility"></MenuItem>
-                <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" IsCheckable="True" Header="Always On Top" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"></MenuItem>
-                <MenuItem x:Name="SelectionBoxesAlwaysPrioritized" Click="EntitySelectionBoxesAlwaysPrioritizedEvent" IsChecked="True" Header="Selection Boxes Always Prioritized"></MenuItem>
+                <MenuItem x:Name="showEntitiesAboveAllOtherLayersToolStripMenuItem" IsCheckable="True" Header="Always Draw Entities on Top of Layers" Click="ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click"></MenuItem>
                 <MenuItem x:Name="showEntitySelectionBoxesToolStripMenuItem" Click="ShowEntitySelectionBoxesEvent" Header="Show Entity Selection Boxes"></MenuItem>
-                <MenuItem x:Name="EditEntitiesTransparencyToggle" Click="ApplyEditEntitiesTransparencyEvent" Header="Transparent Layers for Editing Entities"></MenuItem>
+                <MenuItem x:Name="EditEntitiesTransparencyToggle" Click="ApplyEditEntitiesTransparencyEvent" Header="Make Layers Transparent when Editing Entities"></MenuItem>
                 <TextBlock x:Name="objectFilterToolStripMenuItem" Text="Entity Filter:" Margin="1,0,0,0" IsEnabled="False" Foreground="{DynamicResource NormalText}"></TextBlock>
                 <TextBox x:Name="EntityFilterTextbox" Width="220" VerticalAlignment="Center" Height="24" HorizontalAlignment="Stretch" Margin="0,0,2,0" UseLayoutRounding="False" TextChanged="EntityFilterTextChangedEvent"/>
                 <Separator Visibility="Hidden"></Separator>
@@ -186,77 +165,85 @@
             </MenuItem>
             <MenuItem x:Name="toolsToolStripMenuItem" Header="Tools" Margin="0,0,0,0">
                 <MenuItem x:Name="findAndReplaceToolStripMenuItem" Header="Find and Replace..." Click="FindAndReplaceToolEvent"/>
+                <MenuItem x:Name="findUnusedTilesToolStripMenuItem" Header="Find Unused Tiles..." Click="FindUnusedTiles"/>
+                <MenuItem x:Name="OffsetTileIndexesMenuItem" Header="Offset Tile Indexes..." Click="OffsetTileIndexesMenuItem_Click"></MenuItem>
                 <Separator></Separator>
-                <MenuItem x:Name="nudgeSelectionFasterToolStripMenuItem" Header="Nudge Selection Faster" Click="ToggleFasterNudgeEvent"/>
                 <MenuItem x:Name="goToToolStripMenuItem" Header="Warp To..." Click="GoToPositionEvent"/>
-                <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID..." Click="ChangeLevelIDEvent"/>
-                <Separator/>
-                <MenuItem x:Name="developerToolStripMenuItem1" Header="Developer Tools">
-                    <MenuItem x:Name="developerInterfaceToolStripMenuItem" Header="Developer Interface" Click="DeveloperTerminalEvent"/>
-                    <MenuItem x:Name="soundLooperToolStripMenuItem" Header="Sound Looper" Click="SoundLooperToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="mD5GeneratorToolStripMenuItem" Header="MD5 Generator" Click="MD5GeneratorToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="consoleWindowToolStripMenuItem" Header="Console Window" Click="ConsoleWindowToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Header="Save for Force Open on Startup" Click="SaveForForceOpenOnStartupToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="enableAllButtonsToolStripMenuItem" Header="Enable all Main Toolstrip Buttons" Click="EnableAllButtonsToolStripMenuItem_Click"/>
-                    <MenuItem Header="Force Toolbars to Open/Close">
-                        <MenuItem Header="Right Toolbar" x:Name="rightToolbarToggleDev" Click="RightToolbarToggleDev_Click"></MenuItem>
-                        <MenuItem Header="Left Toolbar" x:Name="leftToolbarToggleDev" Click="LeftToolbarToggleDev_Click"></MenuItem>
-                    </MenuItem>
-                    <MenuItem x:Name="TestingDeveloperMenuItem" Header="Testing Button" Click="TestingDeveloperMenuItem_Click"></MenuItem>
-                </MenuItem>
             </MenuItem>
             <MenuItem x:Name="sceneToolStripMenuItem" Header="Scene">
+                <MenuItem x:Name="changeEncorePaleteToolStripMenuItem" Header="Set Encore Palette...">
+                    <MenuItem x:Name="fromDataDirectoryToolStripMenuItem" Header="From Data Directory" Click="SetEncorePalleteEvent"></MenuItem>
+                    <MenuItem x:Name="fromModDirectoryToolStripMenuItem" Header="From Mod Directory" Click="SetEncorePalleteEvent"></MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID... (Temporary)" Click="ChangeLevelIDEvent"/>
+                <MenuItem x:Name="editBackgroundColorsToolStripMenuItem" Header="Edit BG Colors..." Click="ChangeEditorBGColorEvent"></MenuItem>
+                    <Separator></Separator>
                 <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Collision Editor" Click="TileManiacNormal"/>
                 <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager" Click="ObjectManagerEvent"/>
-                <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Import Sounds" Click="ImportSoundsEvent"/>
+                <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Sound Importer" Click="ImportSoundsEvent"/>
                 <MenuItem x:Name="layerManagerToolStripMenuItem" Header="Layer Manager" Click="LayerManagerEvent"/>
-                <MenuItem x:Name="maniacinieditorToolStripMenuItem" Header="Maniac.INI Settings Editor" Click="ManiacINIEditorEvent"/>
-                <MenuItem x:Name="editBackgroundColorsToolStripMenuItem" Header="Background Colors">
-                    <MenuItem x:Name="primaryColorToolStripMenuItem" Header="Primary Color..." Click="ChangePrimaryBackgroundColorEvent"/>
-                    <MenuItem x:Name="secondaryColorToolStripMenuItem" Header="Secondary Color..." Click="ChangeSecondaryBackgroundColorEvent"/>
-                </MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="maniacinieditorToolStripMenuItem" Header="Scene Settings..." Click="ManiacINIEditorEvent"/>
             </MenuItem>
             <MenuItem x:Name="foldersToolstripMenuItem" Header="Folders" >
-                <MenuItem x:Name="openSceneFolderToolStripMenuItem" Header="Open Scene Folder" Click="OpenSceneFolderToolStripMenuItem_Click"/>
-                <MenuItem x:Name="openDataDirectoryFolderToolStripMenuItem" Header="Open Data Directory" Click="OpenDataDirectoryFolderToolStripMenuItem_Click"/>
-                <MenuItem x:Name="openSonicManiaFolderToolStripMenuItem" Header="Open Sonic Mania Folder" Click="OpenSonicManiaFolderToolStripMenuItem_Click"/>
+                <MenuItem Header="Solution...">
+                    <MenuItem x:Name="openSceneFolderToolStripMenuItem" Header="Open Scene Folder..." Click="OpenSceneFolderToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="openMasterDataDirectoryFolderToolStripMenuItem" Header="Open Master Data Directory..." Click="openMasterDataDirectoryFolderToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="openDataDirectoryFolderToolStripMenuItem" Header="Open Data Directory..." Click="OpenDataDirectoryFolderToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="OpenTilesGIFMenuItem" Header="Open Stage Tiles..." Click="OpenTilesGIFMenuItem_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="External...">
+                    <MenuItem x:Name="openSonicManiaFolderToolStripMenuItem" Header="Open Sonic Mania Folder..." Click="OpenSonicManiaFolderToolStripMenuItem_Click"/>
+                </MenuItem>
                 <MenuItem x:Name="OpenManiacFolders" Header="Maniac Editor...">
-                    <MenuItem x:Name="openManiacEditorFolderToolStripMenuItem" Header="Open Maniac Editor Directory" Click="OpenManiacEditorFolderToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="openManiacEditorFolderToolStripMenuItem" Header="Open Maniac Editor Directory..." Click="OpenManiacEditorFolderToolStripMenuItem_Click"/>
                     <Separator/>
-                    <MenuItem x:Name="openManiacEditorFixedSettingsFolderToolStripMenuItem" Header="Open Fixed Settings Directory" Click="OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="openManiacEditorPortableSettingsFolderToolStripMenuItem" Header="Open Portable Settings Directory" Click="OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="openManiacEditorFixedSettingsFolderToolStripMenuItem" Header="Open Fixed Settings Directory..." Click="OpenManiacEditorFixedSettingsFolderToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="openManiacEditorPortableSettingsFolderToolStripMenuItem" Header="Open Portable Settings Directory..." Click="OpenManiacEditorPortableSettingsFolderToolStripMenuItem_Click"/>
                 </MenuItem>
                 <Separator/>
                 <MenuItem x:Name="openASavedPlaceToolStripMenuItem" Header="Open a Saved Place" SubmenuOpened="OpenASavedPlaceToolStripMenuItem_DropDownOpening" SubmenuClosed="OpenASavedPlaceToolStripMenuItem_DropDownClosed">
                     <MenuItem x:Name="noSavedPlacesToolStripMenuItem" Header="No Saved Places" IsEnabled="False"/>
                 </MenuItem>
-                <MenuItem x:Name="openAResourcePackFolderToolStripMenuItem" Header="Open a Resource Pack Folder" SubmenuOpened="OpenAResourcePackFolderToolStripMenuItem_DropDownOpening" SubmenuClosed="OpenAResourcePackFolderToolStripMenuItem_DropDownClosed">
-                    <MenuItem x:Name="noResourcePackFolderToolStripMenuItem" Header="No Resource Packs Loaded" IsEnabled="False"/>
-                </MenuItem>
             </MenuItem>
             <MenuItem x:Name="appsToolStripMenuItem" Header="Apps" >
-                <MenuItem x:Name="MenuAppsSonicMania" Header="Sonic Mania (Headless Launch)" Click="SonicManiaHeadless"></MenuItem>
-                <MenuItem x:Name="MenuAppsModLoader" Header="Mania Mod Manager (Mod Loader)" Click="ModManager"></MenuItem>
-                <MenuItem x:Name="insanicManiacToolStripMenuItem" Header="Insanic Maniac (Game Config Editor)" Click="InsanicManiacToolStripMenuItem_Click"/>
-                <MenuItem x:Name="rSDKAnnimationEditorToolStripMenuItem" Header="RSDK Animation Editor" Click="RSDKAnnimationEditorToolStripMenuItem_Click"/>
-                <MenuItem x:Name="RenderListManagerToolstripMenuItem" Header="Render List Manager" Click="RenderListManagerToolstripMenuItem_Click" Visibility="Collapsed" IsEnabled="False"></MenuItem>
-                <MenuItem x:Name="MenuAppsCheatEngine" Header="Cheat Engine (Memory Editing)" Click="MenuAppsCheatEngine_Click"></MenuItem>
-                <MenuItem SubmenuOpened="ManiaPalMenuItem_SubmenuOpened" IsEnabled="True">
-                    <MenuItem.Header>
-                        <TextBlock PreviewMouseDown="ColorPaletteEditorToolStripMenuItem_Click" x:Name="colorPaletteEditorToolStripMenuItem" Text="ManiaPal (Color Palette Editor)"></TextBlock>
-                    </MenuItem.Header>
-                    <MenuItem x:Name="maniaPalStageConfigToolStripMenuItem" Header="ManiaPal (Stage Config)" Click="ColorPaletteEditorToolStripMenuItem_Click"/>
-                    <MenuItem x:Name="maniaPalGameConfigToolStripMenuItem" Header="ManiaPal (Game Config)" Click="ColorPaletteEditorToolStripMenuItem_Click"/>
+                <MenuItem x:Name="MenuAppsSonicMania" Header="Sonic Mania..." Click="SonicManiaHeadless"></MenuItem>
+                <MenuItem x:Name="MenuAppsModLoader" Header="Mania Mod Manager..." Click="ModManager"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="rSDKAnnimationEditorToolStripMenuItem" Header="RSDK Animation Editor..." Click="RSDKAnnimationEditorToolStripMenuItem_Click"/>
+                <MenuItem x:Name="tileManiac2ToolStripMenuItem" Header="TileManiac..." Click="TileManiacNormal"/>
+                <MenuItem SubmenuOpened="ManiaPalMenuItem_SubmenuOpened" IsEnabled="True" Header="ManiaPal..." Click="ColorPaletteEditorToolStripMenuItem_Click">
+                    <MenuItem x:Name="maniaPalStageConfigToolStripMenuItem" Header="Open using StageConfig..." Click="ColorPaletteEditorToolStripMenuItem_Click"/>
+                    <MenuItem x:Name="maniaPalGameConfigToolStripMenuItem" Header="Open using GameConfig..." Click="ColorPaletteEditorToolStripMenuItem_Click"/>
                     <Separator/>
                     <MenuItem x:Name="maniaPalHint" Header="Hint:" IsEnabled="False" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
                 </MenuItem>
-                <MenuItem Visibility="Collapsed" x:Name="optionsToolStripMenuItem2" Header="Options" IsEnabled="False"/>
+                <MenuItem Header="ConfigManiac..." IsEnabled="False" x:Name="ConfigManiacMenuItem"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="MenuAppsCheatEngine" Header="Cheat Engine..." Click="MenuAppsCheatEngine_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="customAppsMenuStrip" Header="Custom..." IsEnabled="False">
+                    <MenuItem Header="No Custom Apps" IsEnabled="False"></MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem x:Name="helpToolStripMenuItem" Header="Other" >
                 <MenuItem x:Name="aboutToolStripMenuItem" Header="About" Click="AboutScreenEvent"/>
                 <MenuItem x:Name="optionsToolStripMenuItem" Header="Settings" Click="OptionsMenuEvent"/>
                 <MenuItem x:Name="controlsToolStripMenuItem" Header="Controls" Click="ControlsMenuEvent"/>
                 <MenuItem x:Name="wikiToolStripMenuItem" Header="Wiki" Click="WikiLinkEvent"/>
+            </MenuItem>
+            <MenuItem x:Name="developerToolStripMenuItem1" Header="Dev">
+                <MenuItem x:Name="developerInterfaceToolStripMenuItem" Header="Developer Interface" Click="DeveloperTerminalEvent"/>
+                <MenuItem x:Name="soundLooperToolStripMenuItem" Header="Sound Looper" Click="SoundLooperToolStripMenuItem_Click"/>
+                <MenuItem x:Name="mD5GeneratorToolStripMenuItem" Header="MD5 Generator" Click="MD5GeneratorToolStripMenuItem_Click"/>
+                <MenuItem x:Name="consoleWindowToolStripMenuItem" Header="Console Window" Click="ConsoleWindowToolStripMenuItem_Click"/>
+                <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Header="Save for Force Open on Startup" Click="SaveForForceOpenOnStartupToolStripMenuItem_Click"/>
+                <MenuItem x:Name="enableAllButtonsToolStripMenuItem" Header="Enable all Main Toolstrip Buttons" Click="EnableAllButtonsToolStripMenuItem_Click"/>
+                <MenuItem Header="Force Toolbars to Open/Close">
+                    <MenuItem Header="Right Toolbar" x:Name="rightToolbarToggleDev" Click="RightToolbarToggleDev_Click"></MenuItem>
+                    <MenuItem Header="Left Toolbar" x:Name="leftToolbarToggleDev" Click="LeftToolbarToggleDev_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="TestingDeveloperMenuItem" Header="Testing Button" Click="TestingDeveloperMenuItem_Click"></MenuItem>
             </MenuItem>
         </Menu>
     </Grid>

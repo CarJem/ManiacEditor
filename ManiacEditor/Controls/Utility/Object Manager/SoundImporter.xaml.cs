@@ -21,10 +21,8 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 		public SoundImporter(Stageconfig sourceSceneSounds, Stageconfig stageConfig)
 		{
 			InitializeComponent();
-			if (Methods.Internal.Theming.UseExtendedColors)
-				SetRTFText(ManiacEditor.Properties.Resources.SoundWarningDarkTheme);
-			else
-				SetRTFText(ManiacEditor.Properties.Resources.SoundWarning);
+			//if (Methods.Internal.Theming.UseExtendedColors) SetRTFText(ManiacEditor.Properties.Resources.SoundWarningDarkTheme);
+			//else SetRTFText(ManiacEditor.Properties.Resources.SoundWarning);
 
 			_sourceSceneSounds = sourceSceneSounds.WAVs;
 			_targetSceneSounds = stageConfig.WAVs;

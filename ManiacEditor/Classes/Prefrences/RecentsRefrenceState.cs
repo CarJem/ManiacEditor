@@ -100,12 +100,12 @@ namespace ManiacEditor.Classes.Prefrences
         }
         public static void RecentSceneEntryClicked(object sender, RoutedEventArgs e)
         {
-            if (ManiacEditor.Methods.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
-            Methods.Editor.Solution.UnloadScene();
+            if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
+            Methods.Solution.CurrentSolution.UnloadScene();
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
             var item = Classes.Prefrences.SceneHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
-            ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneFromSaveState(item);
+            ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneFromSaveState(item);
             Classes.Prefrences.SceneHistoryStorage.AddRecentFile(item);
         }
         private static void CleanUpRecentScenesList()
@@ -164,12 +164,12 @@ namespace ManiacEditor.Classes.Prefrences
         }
         public static void RecentDataSourceEntryClicked(object sender, RoutedEventArgs e)
         {
-            if (ManiacEditor.Methods.Editor.SolutionLoader.AllowSceneUnloading() != true) return;
-            Methods.Editor.Solution.UnloadScene();
+            if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
+            Methods.Solution.CurrentSolution.UnloadScene();
             var menuItem = sender as MenuItem;
             string entryName = menuItem.Tag.ToString();
             var item = ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
-            ManiacEditor.Methods.Editor.SolutionLoader.OpenSceneSelectSaveState(item);
+            ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneSelectSaveState(item);
             ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.AddRecentFile(item);
         }
         private static void CleanUpDataSourcesList()

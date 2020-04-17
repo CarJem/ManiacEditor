@@ -39,7 +39,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 			EditorInstance = instance;
             InitializeComponent();
 
-            if (Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
+            if (rmvStgCfgCheckbox.IsChecked.Value)
 			{
 				rmvStgCfgCheckbox.IsChecked = true;
 			}
@@ -68,9 +68,9 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-					if (Methods.Editor.Solution.GameConfig != null)
+					if (Methods.Solution.CurrentSolution.GameConfig != null)
 					{
-						if (!Methods.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+						if (!Methods.Solution.CurrentSolution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
 						{
 							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_RedTextColor");
 						}
@@ -187,9 +187,9 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 				};
                 if (!_stageConfig.ObjectsNames.Contains(io.Name.ToString()))
                 {
-					if (Methods.Editor.Solution.GameConfig != null)
+					if (Methods.Solution.CurrentSolution.GameConfig != null)
 					{
-						if (!Methods.Editor.Solution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
+						if (!Methods.Solution.CurrentSolution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
 						{
 							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_RedTextColor");
 						}
@@ -325,7 +325,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
                             }
                         }
 
-						if (Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed)
+						if (rmvStgCfgCheckbox.IsChecked.Value)
 						{
 							if (_stageConfig != null
 								&& !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
@@ -461,7 +461,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		private void backupStageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ManiacEditor.Methods.Editor.SolutionLoader.BackupStageConfig();
+			ManiacEditor.Methods.Solution.SolutionLoader.BackupStageConfig();
 		}
 
 		private void lvObjects_ItemChecked(object sender, RoutedEventArgs e)
@@ -471,14 +471,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		private void Checkbox_CheckChanged(object sender, RoutedEventArgs e)
 		{
-			if (rmvStgCfgCheckbox.IsChecked.Value)
-			{
-				Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed = true;
-			}
-			else
-			{
-				Methods.Editor.SolutionState.RemoveStageConfigEntriesAllowed = false;
-			}
+
 		}
 
 		private void attributesTable_KeyUp(object sender, KeyEventArgs e)
@@ -510,7 +503,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
 		private void mD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			ManiacEditor.Controls.Utility.Editors.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Editors.Dev.MD5HashGen(EditorInstance);
+			ManiacEditor.Controls.Utility.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Dev.MD5HashGen(EditorInstance);
 			hashmap.Show();
 		}
 

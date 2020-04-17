@@ -19,67 +19,98 @@ namespace ManiacEditor.Actions
         public static Stack<IAction> UndoStack { get; set; } = new Stack<IAction>(); //Undo Actions Stack
         public static Stack<IAction> RedoStack { get; set; } = new Stack<IAction>(); //Redo Actions Stack
 
-        public static void UpdateLastEntityAction()
+        public static void Undo()
         {
-            if (Methods.Editor.Solution.Entities.LastAction != null || Methods.Editor.Solution.Entities.LastActionInternal != null) Actions.UndoRedoModel.RedoStack.Clear();
-            if (Methods.Editor.Solution.Entities.LastAction != null)
+            if (Actions.UndoRedoModel.UndoStack.Count > 0)
             {
-                Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastAction);
-                Methods.Editor.Solution.Entities.LastAction = null;
+                if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect(false);
+                else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit())
+                {
+                    // deselect only if delete/create
+                    if (Actions.UndoRedoModel.UndoStack.Peek() is ActionAddDeleteEntities) Methods.Solution.SolutionActions.Deselect(false);
+                }
+                IAction act = Actions.UndoRedoModel.UndoStack.Pop();
+                if (act != null)
+                {
+                    act.Undo();
+                    Actions.UndoRedoModel.RedoStack.Push(act.Redo());
+                }
             }
-            if (Methods.Editor.Solution.Entities.LastActionInternal != null)
+            Methods.Internal.UserInterface.UpdateControls();
+        }
+        public static void Redo()
+        {
+            if (Actions.UndoRedoModel.RedoStack.Count > 0)
             {
-                Actions.UndoRedoModel.UndoStack.Push(Methods.Editor.Solution.Entities.LastActionInternal);
-                Methods.Editor.Solution.Entities.LastActionInternal = null;
+                IAction act = Actions.UndoRedoModel.RedoStack.Pop();
+                act.Undo();
+                Actions.UndoRedoModel.UndoStack.Push(act.Redo());
             }
-            if (Methods.Editor.Solution.Entities.LastAction != null || Methods.Editor.Solution.Entities.LastActionInternal != null) Methods.Internal.UserInterface.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls();
+        }
+        public static void ClearStacks()
+        {
+            Actions.UndoRedoModel.UndoStack.Clear();
+            Actions.UndoRedoModel.RedoStack.Clear();
+        }
+        public static void UpdateEditEntityActions()
+        {
+            if (Methods.Solution.CurrentSolution.Entities.LastAction != null || Methods.Solution.CurrentSolution.Entities.LastActionInternal != null) Actions.UndoRedoModel.RedoStack.Clear();
+            if (Methods.Solution.CurrentSolution.Entities.LastAction != null)
+            {
+                Actions.UndoRedoModel.UndoStack.Push(Methods.Solution.CurrentSolution.Entities.LastAction);
+                Methods.Solution.CurrentSolution.Entities.LastAction = null;
+            }
+            if (Methods.Solution.CurrentSolution.Entities.LastActionInternal != null)
+            {
+                Actions.UndoRedoModel.UndoStack.Push(Methods.Solution.CurrentSolution.Entities.LastActionInternal);
+                Methods.Solution.CurrentSolution.Entities.LastActionInternal = null;
+            }
 
         }
         public static void UpdateEditEntitiesActions()
         {
-            if (ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit())
+            if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit())
             {
-                if (Methods.Editor.Solution.Entities.SelectedEntities.Count > 0)
+                if (Methods.Solution.CurrentSolution.Entities.SelectedEntities.Count > 0)
                 {
-                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedEntities.ToList(), new System.Drawing.Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
-                    if (Methods.Editor.Solution.Entities.LastAction != null)
+                    IAction action = new ActionMoveEntities(Methods.Solution.CurrentSolution.Entities.SelectedEntities.ToList(), new System.Drawing.Point(Methods.Solution.SolutionState.DraggedX, Methods.Solution.SolutionState.DraggedY));
+                    if (Methods.Solution.CurrentSolution.Entities.LastAction != null)
                     {
                         // If it is move & duplicate, merge them together
                         var taction = new ActionsGroup();
-                        taction.AddAction(Methods.Editor.Solution.Entities.LastAction);
-                        Methods.Editor.Solution.Entities.LastAction = null;
+                        taction.AddAction(Methods.Solution.CurrentSolution.Entities.LastAction);
+                        Methods.Solution.CurrentSolution.Entities.LastAction = null;
                         taction.AddAction(action);
                         taction.Close();
                         action = taction;
                     }
                     Actions.UndoRedoModel.UndoStack.Push(action);
                     Actions.UndoRedoModel.RedoStack.Clear();
-                    Methods.Internal.UserInterface.UpdateControls();
                 }
-                if (Methods.Editor.Solution.Entities.SelectedInternalEntities.Count > 0)
+                if (Methods.Solution.CurrentSolution.Entities.SelectedInternalEntities.Count > 0)
                 {
-                    IAction action = new ActionMoveEntities(Methods.Editor.Solution.Entities.SelectedInternalEntities.ToList(), new System.Drawing.Point(Methods.Editor.SolutionState.DraggedX, Methods.Editor.SolutionState.DraggedY));
-                    if (Methods.Editor.Solution.Entities.LastActionInternal != null)
+                    IAction action = new ActionMoveEntities(Methods.Solution.CurrentSolution.Entities.SelectedInternalEntities.ToList(), new System.Drawing.Point(Methods.Solution.SolutionState.DraggedX, Methods.Solution.SolutionState.DraggedY));
+                    if (Methods.Solution.CurrentSolution.Entities.LastActionInternal != null)
                     {
                         // If it is move & duplicate, merge them together
                         var taction = new ActionsGroup();
-                        taction.AddAction(Methods.Editor.Solution.Entities.LastActionInternal);
-                        Methods.Editor.Solution.Entities.LastActionInternal = null;
+                        taction.AddAction(Methods.Solution.CurrentSolution.Entities.LastActionInternal);
+                        Methods.Solution.CurrentSolution.Entities.LastActionInternal = null;
                         taction.AddAction(action);
                         taction.Close();
                         action = taction;
                     }
                     Actions.UndoRedoModel.UndoStack.Push(action);
                     Actions.UndoRedoModel.RedoStack.Clear();
-                    Methods.Internal.UserInterface.UpdateControls();
                 }
             }
         }
         public static void UpdateEditLayerActions()
         {
-            if (Methods.Editor.Solution.EditLayerA != null)
+            if (Methods.Solution.CurrentSolution.EditLayerA != null)
             {
-                List<IAction> actions = Methods.Editor.Solution.EditLayerA?.Actions;
+                List<IAction> actions = Methods.Solution.CurrentSolution.EditLayerA?.Actions;
                 if (actions.Count > 0) Actions.UndoRedoModel.RedoStack.Clear();
                 while (actions.Count > 0)
                 {
@@ -100,9 +131,9 @@ namespace ManiacEditor.Actions
                     actions.RemoveAt(0);
                 }
             }
-            if (Methods.Editor.Solution.EditLayerB != null)
+            if (Methods.Solution.CurrentSolution.EditLayerB != null)
             {
-                List<IAction> actions = Methods.Editor.Solution.EditLayerB?.Actions;
+                List<IAction> actions = Methods.Solution.CurrentSolution.EditLayerB?.Actions;
                 if (actions.Count > 0) Actions.UndoRedoModel.RedoStack.Clear();
                 while (actions.Count > 0)
                 {

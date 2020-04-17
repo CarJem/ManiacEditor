@@ -9,11 +9,10 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Editors;
-using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
+using ManiacEditor.Controls.Utility.Configuration;
 using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Editors.Dev;
-using ManiacEditor.Controls.Utility.Editors.Configuration;
+using ManiacEditor.Controls.Utility.Dev;
+using ManiacEditor.Controls.Utility.Configuration;
 using ManiacEditor.Controls.Options;
 
 namespace ManiacEditor.Controls.Utility.Object_Manager
@@ -40,9 +39,9 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
         public void SetupWindow()
         {
-            if (Methods.Editor.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
-            if (Methods.Internal.Theming.UseExtendedColors) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
-            else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
+            if (Methods.Solution.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
+            //if (Methods.Internal.Theming.UseExtendedColors) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
+            //else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 
         public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, Stageconfig stageConfig, Controls.Editor.MainEditor instance)
@@ -270,7 +269,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
                             objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
                             _targetSceneObjects.Add(objectToImport);
 
-                            if (Methods.Editor.SolutionState.AddStageConfigEntriesAllowed)
+                            if (Methods.Solution.SolutionState.AddStageConfigEntriesAllowed)
                             {
                                 if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
                                 {
@@ -299,11 +298,11 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 		{
 			if (checkBox1.IsChecked.Value)
 			{
-				Methods.Editor.SolutionState.AddStageConfigEntriesAllowed = true;
+				Methods.Solution.SolutionState.AddStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				Methods.Editor.SolutionState.AddStageConfigEntriesAllowed = false;
+				Methods.Solution.SolutionState.AddStageConfigEntriesAllowed = false;
 			}
 		}
 	}

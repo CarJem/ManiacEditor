@@ -30,7 +30,7 @@ namespace ManiacEditor.Classes.General
         {
             string data;
 
-            var resourceName = "ManiacEditor.Resources.rendering_options.json";
+            var resourceName = "ManiacEditor.Settings.rendering_options.json";
             var assembly = Assembly.GetExecutingAssembly();
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
@@ -45,7 +45,7 @@ namespace ManiacEditor.Classes.General
 
         public static void Save(EntityRenderingOptions self)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, "Resources\\rendering_options.json");
+            var path = Path.Combine(Environment.CurrentDirectory, "Settings\\rendering_options.json");
             string data = JsonConvert.SerializeObject(self, Formatting.Indented);
             File.WriteAllText(path, data);
 
@@ -53,7 +53,7 @@ namespace ManiacEditor.Classes.General
 
         public static void GetExternalData(ref EntityRenderingOptions self)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, "Resources\\rendering_options.json");
+            var path = Path.Combine(Environment.CurrentDirectory, "Settings\\rendering_options.json");
             string data = File.ReadAllText(path);
             EntityRenderingOptions Options = JsonConvert.DeserializeObject<EntityRenderingOptions>(data);
             self = Options;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ManiacEditor.Methods.Editor;
+using ManiacEditor.Methods.Solution;
 using System.IO;
 using Newtonsoft.Json;
 

@@ -110,8 +110,8 @@ namespace ManiacEditor.Classes.Prefrences
             string Name = "";
 
             DataStateHistoryCollection.SaveState section = new DataStateHistoryCollection.SaveState();
-            section.MasterDataDirectory = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory;
-            section.ExtraDataDirectories = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.ExtraDataDirectories;
+            section.MasterDataDirectory = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory;
+            section.ExtraDataDirectories = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories;
 
             Title = string.Format("Data Dir: {0}", (section.DataDirectory == string.Empty ? "N/A" : section.DataDirectory));
             Name = string.Format("Master Dat Dir: {0}", section.MasterDataDirectory);

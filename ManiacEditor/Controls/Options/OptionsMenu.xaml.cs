@@ -14,11 +14,10 @@ using ManiacEditor.Extensions;
 
 using ManiacEditor.Controls.Global.Controls;
 using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Editors;
-using ManiacEditor.Controls.Utility.Object_ID_Repair_Tool;
+using ManiacEditor.Controls.Utility.Configuration;
 using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Editors.Dev;
-using ManiacEditor.Controls.Utility.Editors.Configuration;
+using ManiacEditor.Controls.Utility.Dev;
+using ManiacEditor.Controls.Utility.Configuration;
 
 using GenerationsLib.WPF.Themes;
 
@@ -153,7 +152,7 @@ namespace ManiacEditor.Controls.Options
 			{
 				RPCCheckBox.IsChecked = true;
 				Properties.Settings.MySettings.ShowDiscordRPC = true;
-				DiscordRP.UpdateDiscord(ManiacEditor.Methods.Editor.SolutionPaths.SceneFile_Source.ToString());
+				DiscordRP.UpdateDiscord(ManiacEditor.Methods.Solution.SolutionPaths.SceneFile_Source.ToString());
 			}
 			else
 			{
@@ -178,33 +177,6 @@ namespace ManiacEditor.Controls.Options
             Properties.Settings.SaveAllSettings();
             this.DialogResult = true;
         }
-
-        private void ModLoader_Click(object sender, RoutedEventArgs e)
-        {
-            var ofd = new System.Windows.Forms.OpenFileDialog();
-            ofd.Title = "Select Mania Mod Manager.exe";
-            ofd.Filter = "Windows PE Executable|*.exe";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Properties.Settings.MyDefaults.ModLoaderPath = ofd.FileName;
-        }
-
-        private void SonicMania_Click(object sender, RoutedEventArgs e)
-        {
-            var ofd = new System.Windows.Forms.OpenFileDialog();
-            ofd.Title = "Select Sonic Mania.exe";
-            ofd.Filter = "Windows PE Executable|*.exe";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                Properties.Settings.MyDefaults.SonicManiaPath = ofd.FileName;
-        }
-
-        private void button15_Click(object sender, RoutedEventArgs e)
-		{
-			var ofd = new System.Windows.Forms.OpenFileDialog();
-			ofd.Title = "Select RSDK Animation Editor.exe";
-			ofd.Filter = "Windows PE Executable|*.exe";
-			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				Properties.Settings.MyDefaults.AnimationEditorPath = ofd.FileName;
-		}
 
 		private void uncheckOtherGridDefaults(int i)
 		{
@@ -315,7 +287,7 @@ namespace ManiacEditor.Controls.Options
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Properties.Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
-				Methods.Editor.SolutionState.waterColor = colorSelect.Color;
+				Methods.Solution.SolutionState.waterColor = colorSelect.Color;
 			}
 		}
 
@@ -831,7 +803,36 @@ namespace ManiacEditor.Controls.Options
             ScrollerToggleModeClickButton.IsChecked = !enabled;
             ScrollerToggleModePressReleaseButton.IsChecked = enabled;
         }
+        #region Program Paths
+        private void ModLoader_Click(object sender, RoutedEventArgs e)
+		{
+			ManiacEditor.Methods.ProgramLauncher.UpdateModManagerPath();
+		}
 
+		private void SonicMania_Click(object sender, RoutedEventArgs e)
+		{
+			ManiacEditor.Methods.ProgramLauncher.UpdateSonicManiaPath();
+		}
 
-	}
+		private void button15_Click(object sender, RoutedEventArgs e)
+		{
+			ManiacEditor.Methods.ProgramLauncher.UpdateRSDKAnimationEditorPath();
+		}
+
+		private void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			ManiacEditor.Methods.ProgramLauncher.UpdateImageEditorPath();
+		}
+
+		private void Button_Click_3(object sender, RoutedEventArgs e)
+		{
+			ManiacEditor.Methods.ProgramLauncher.UpdateImageEditorArguments();
+		}
+
+		private void Button_Click_4(object sender, RoutedEventArgs e)
+		{
+			ManiacEditor.Methods.ProgramLauncher.UpdateCheatEnginePath();
+		}
+        #endregion
+    }
 }

@@ -6,40 +6,49 @@ using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Controls.Editor.Elements
 {
-    /// <summary>
-    /// Interaction logic for StartScreen.xaml
-    /// </summary>
     public partial class StartScreen : UserControl
 	{
-		public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
+		#region Definitions
+
 		public ManiacEditor.Controls.SceneSelect.SceneSelectHost SelectScreen;
 
 		public string SelectedSavedPlace = "";
 		public string SelectedModFolder = "";
 
 		private bool AlreadyLoaded = false;
+        #endregion
 
-		public StartScreen(ManiacEditor.Controls.Editor.MainEditor instance)
+        #region Init
+
+        private MainEditor Instance;
+		public void UpdateInstance(MainEditor _instance)
+		{
+			Instance = _instance;
+			SetupStartScreen();
+		}
+		public StartScreen()
 		{
 			InitializeComponent();
-			this.Loaded += StartScreen_Loaded;
-			SelectScreen = new ManiacEditor.Controls.SceneSelect.SceneSelectHost(null, EditorInstance);
-			EditorInstance = instance;
 		}
-
-		private void StartScreen_Loaded(object sender, RoutedEventArgs e)
+		private void SetupStartScreen()
 		{
 			if (!AlreadyLoaded)
 			{
+				SelectScreen = new ManiacEditor.Controls.SceneSelect.SceneSelectHost(null, Instance);
 				AlreadyLoaded = true;
 				SceneSelectHost.Children.Add(SelectScreen);
 				SelectScreen.Refresh();
 			}
 		}
 
+		#endregion
+
+		#region Events
+
+
 		private void linkLabel3_LinkClicked(object sender, RoutedEventArgs e)
 		{
-			Methods.Editor.SolutionLoader.OpenSceneForceFully();
+			Methods.Solution.SolutionLoader.OpenSceneForceFully();
 		}
 
 		private void linkLabel4_LinkClicked(object sender, RoutedEventArgs e)
@@ -163,5 +172,7 @@ namespace ManiacEditor.Controls.Editor.Elements
 		{
 			Classes.Options.DevelopmentStates.Save();
 		}
-	}
+
+        #endregion
+    }
 }

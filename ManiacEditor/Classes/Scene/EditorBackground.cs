@@ -43,8 +43,8 @@ namespace ManiacEditor.Classes.Scene
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Methods.Editor.Solution.CurrentScene.EditorMetadata.BackgroundColor2;
+            RSDKv5Color rcolor1 = Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor1;
+            RSDKv5Color rcolor2 = Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor2;
 
 
             int transparency1 = (drawEdit ? 30 : rcolor1.A);
@@ -58,19 +58,19 @@ namespace ManiacEditor.Classes.Scene
             int start_y;
             int end_y;
 
-            if (!Methods.Editor.SolutionState.UnlockCamera)
+            if (!Methods.Solution.SolutionState.UnlockCamera)
             {
-                start_x = screen.X / (Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE);
-                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE), Methods.Editor.Solution.SceneWidth);
-                start_y = screen.Y / (Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE);
-                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE), Methods.Editor.Solution.SceneHeight);
+                start_x = screen.X / (Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE);
+                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), Methods.Solution.CurrentSolution.SceneWidth);
+                start_y = screen.Y / (Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE);
+                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), Methods.Solution.CurrentSolution.SceneHeight);
             }
             else
             {
                 start_x = 0;
-                end_x = Math.Min(DivideRoundUp(Methods.Editor.Solution.SceneWidth, Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE), (int)(Methods.Editor.Solution.SceneWidth));
+                end_x = Math.Min(DivideRoundUp(Methods.Solution.CurrentSolution.SceneWidth, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), (int)(Methods.Solution.CurrentSolution.SceneWidth));
                 start_y = 0;
-                end_y = Math.Min(DivideRoundUp(Methods.Editor.Solution.SceneHeight, Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE), (int)(Methods.Editor.Solution.SceneHeight));
+                end_y = Math.Min(DivideRoundUp(Methods.Solution.CurrentSolution.SceneHeight, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), (int)(Methods.Solution.CurrentSolution.SceneHeight));
             }
             
 
@@ -82,7 +82,7 @@ namespace ManiacEditor.Classes.Scene
                 {
                     for (int x = start_x; x < end_x; ++x)
                     {
-                        if ((x + y) % 2 == 1) d.DrawRectangle(x * Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE, y * Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE, (x + 1) * Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE, (y + 1) * Methods.Editor.EditorConstants.BOX_SIZE * Methods.Editor.EditorConstants.TILE_SIZE, color2);
+                        if ((x + y) % 2 == 1) d.DrawRectangle(x * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, y * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, (x + 1) * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, (y + 1) * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, color2);
                     }
                 }
             }
@@ -90,10 +90,10 @@ namespace ManiacEditor.Classes.Scene
 
         public void DrawGrid(DevicePanel d)
         {
-            int GridSize = (EditorInstance != null ? Methods.Editor.SolutionState.GridSize : 16);
+            int GridSize = (EditorInstance != null ? Methods.Solution.SolutionState.GridSize : 16);
             Rectangle screen = d.GetScreen();
 
-			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Methods.Editor.SolutionState.GridColor.R, Methods.Editor.SolutionState.GridColor.B, Methods.Editor.SolutionState.GridColor.G);
+			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Methods.Solution.SolutionState.GridColor.R, Methods.Solution.SolutionState.GridColor.B, Methods.Solution.SolutionState.GridColor.G);
 
 
             int start_x;
@@ -101,19 +101,19 @@ namespace ManiacEditor.Classes.Scene
             int start_y;
             int end_y;
 
-            if (!Methods.Editor.SolutionState.UnlockCamera)
+            if (!Methods.Solution.SolutionState.UnlockCamera)
             {
-                start_x = screen.X / (Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize);
-                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize), Methods.Editor.Solution.SceneWidth);
-                start_y = screen.Y / (Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize);
-                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize), Methods.Editor.Solution.SceneHeight);
+                start_x = screen.X / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
+                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), Methods.Solution.CurrentSolution.SceneWidth);
+                start_y = screen.Y / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
+                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), Methods.Solution.CurrentSolution.SceneHeight);
             }
             else
             {
-                start_x = screen.X / (Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize);
-                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize), screen.Width);
-                start_y = screen.Y / (Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize);
-                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Editor.EditorConstants.TILE_BOX_SIZE * GridSize), screen.Height);
+                start_x = screen.X / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
+                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), screen.Width);
+                start_y = screen.Y / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
+                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), screen.Height);
             }
 
             for (int y = start_y; y < end_y; ++y)

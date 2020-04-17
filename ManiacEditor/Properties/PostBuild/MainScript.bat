@@ -8,4 +8,4 @@ SET CurrentDir=%~dp0
 
 CALL "%CurrentDir%\MoveBinaries.bat" %ConfigurationName% %SolutionDir% %TargetDir% %ProjectDir%
 CALL "%CurrentDir%\PublishStep.bat" %ConfigurationName% %SolutionDir% %TargetDir% %ProjectDir%
-
+	

@@ -21,7 +21,7 @@
             <RowDefinition Height="90"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="1" x:Name="SelectedTileLabel" Content="Selected Tile: N/A" HorizontalAlignment="Right"></Label>
+        <TextBlock Grid.Column="1" x:Name="SelectedTileLabel" Text="Selected Tile: N/A" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center"></TextBlock>
         <TabControl SelectionChanged="TabControl_SelectedIndexChanged" x:Name="TabControl" Grid.ColumnSpan="4" Grid.RowSpan="2" Margin="5,5,5,5" Background="{DynamicResource NormalBackground}">
             <TabItem MouseUp="TabItem_MouseUp" Header="Tiles" Foreground="{DynamicResource NormalText}">
                 <Grid x:Name="TilesPage">
@@ -35,6 +35,8 @@
                     <Grid x:Name="TileViewer" Grid.Row="1" ContextMenuOpening="TileContextMenu_ContextMenuOpening">
                         <Grid.ContextMenu>
                             <ContextMenu x:Name="TileContextMenu">
+                                <MenuItem x:Name="PlaceTileMenuItem" Header="Place Tile..." Click="PlaceTileMenuItem_Click"></MenuItem>
+                                <Separator></Separator>
                                 <MenuItem x:Name="EditTileCollisionMenuItem" Header="Edit Tile Collision {0}..." Tag="Edit Tile Collision {0}..." Click="EditTileCollisionMenuItem_Click" IsEnabled="False"></MenuItem>
                             </ContextMenu>
                         </Grid.ContextMenu>
@@ -69,13 +71,20 @@
 
             </TabItem>
         </TabControl>
-        <Button Content="..." Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="ExtraOptionsButton" Click="ExtraOptionsButton_Click">
+        <Button Content="•••" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Stretch" x:Name="ExtraOptionsButton" Click="ExtraOptionsButton_Click">
             <Button.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Save Chunks..." x:Name="SaveChunksManually" Click="SaveChunksManually_Click"></MenuItem>
                     <MenuItem Header="Generate Chunks (EditLayer's A and B)" x:Name="AutoGenerateChunks" Click="AutoGenerateChunks_Click"></MenuItem>
                     <MenuItem Header="Generate Chunks (EditLayer A Only)" x:Name="AutoGenerateChunksSingle"  Click="AutoGenerateChunksSingle_Click">
                     </MenuItem>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
+        <Button Content="•••" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Stretch" x:Name="ExtraTileOptionsButton" Click="ExtraTileOptionsButton_Click">
+            <Button.ContextMenu>
+                <ContextMenu>
+                    <MenuItem IsCheckable="True" IsChecked="False" x:Name="AllowMultiTileSelectMenuItem" Header="Allow Multi-Tile Selection" Checked="AllowMultiTileSelectMenuItem_Checked" Unchecked="AllowMultiTileSelectMenuItem_Checked"></MenuItem>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>

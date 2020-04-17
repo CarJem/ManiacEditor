@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ManiacEditor.Methods.Editor;
+using ManiacEditor.Methods.Solution;
 using System.IO;
 using Newtonsoft.Json;
 using GenerationsLib.WPF.Themes;
@@ -22,7 +22,6 @@ namespace ManiacEditor.Classes.Options
         public bool DisableSaveWarnings { get; set; } = false;
         public bool ShowDiscordRPC { get; set; } = true;
         public bool NeverShowThisAgain { get; set; } = false;
-        public bool DisableEntityReading { get; set; } = false;
         public System.Collections.Specialized.StringCollection SavedPlaces { get; set; } 
         public System.Collections.Specialized.StringCollection ModLoaderConfigs { get; set; }
         public System.Collections.Specialized.StringCollection ModLoaderConfigsNames { get; set; }

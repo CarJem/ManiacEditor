@@ -9,12 +9,22 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Configuration;
 using System.Windows.Data;
+using System.Runtime.InteropServices;
+using GenerationsLib.Core;
 
 namespace ManiacEditor.Extensions
 {
     public static class Extensions
     {
-        public static System.Drawing.Color Blend(this System.Drawing.Color color, System.Drawing.Color backcolor, double amount)
+		[DllImport("shlwapi.dll")]
+		public static extern int ColorHLSToRGB(int H, int L, int S);
+		public static System.Drawing.Color Darken(System.Drawing.Color color, double darkenAmount)
+		{
+			HSLColor hslColor = new HSLColor(color);
+			hslColor.Luminosity *= darkenAmount; // 0 to 1
+			return hslColor;
+		}
+		public static System.Drawing.Color Blend(this System.Drawing.Color color, System.Drawing.Color backcolor, double amount)
         {
             byte r = (byte)((color.R * amount) + backcolor.R * (1 - amount));
             byte g = (byte)((color.G * amount) + backcolor.G * (1 - amount));

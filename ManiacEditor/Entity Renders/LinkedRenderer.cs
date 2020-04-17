@@ -35,31 +35,31 @@ namespace ManiacEditor.Entity_Renders
             if (Math.Abs(dx) > Math.Abs(dy))
             {
                 // horizontal difference greater than vertical difference
-                offsetY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
-                offsetDestinationY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetY = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
+                offsetDestinationY = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HALF_HEIGHT;
 
                 if (dx > 0)
                 {
-                    offsetX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH;
+                    offsetX = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH;
                 }
                 else
                 {
-                    offsetDestinationX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH;
+                    offsetDestinationX = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH;
                 }
             }
             else
             {
                 // vertical difference greater than horizontal difference
-                offsetX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
-                offsetDestinationX = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetX = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HALF_WIDTH;
+                offsetDestinationX = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HALF_WIDTH;
 
                 if (dy > 0)
                 {
-                    offsetY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetY = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT;
                 }
                 else
                 {
-                    offsetDestinationY = Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT;
+                    offsetDestinationY = Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT;
                 }
             }
 
@@ -156,7 +156,7 @@ namespace ManiacEditor.Entity_Renders
                 filteredOut = !Properties.Settings.MyDefaults.ShowFilterlessEntities;
             }
 
-            if (Methods.Editor.SolutionState.ObjectFilter != "" && !entity.Object.Name.Name.Contains(Methods.Editor.SolutionState.ObjectFilter))
+            if (Methods.Solution.SolutionState.ObjectFilter != "" && !entity.Object.Name.Name.Contains(Methods.Solution.SolutionState.ObjectFilter))
             {
                 filteredOut = true;
             }

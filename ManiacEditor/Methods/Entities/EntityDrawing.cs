@@ -21,6 +21,10 @@ namespace ManiacEditor.Methods.Entities
     public static class EntityDrawing
     {
         #region Definitions
+
+        private static int LastViewPositionX { get; set; } = -1;
+        private static int LastViewPositionY { get; set; } = -1;
+
         // Object Render List
         public static List<EntityRenderer> EntityRenderers { get; set; } = new List<EntityRenderer>();
         public static List<LinkedRenderer> LinkedEntityRenderers { get; set; } = new List<LinkedRenderer>();
@@ -143,7 +147,7 @@ namespace ManiacEditor.Methods.Entities
         }
         public static Bitmap SetEncoreColors(Bitmap map, bool NoEncoreColors)
         {
-            if (Methods.Editor.SolutionState.UseEncoreColors && NoEncoreColors == false) return SetColors((Bitmap)map.Clone(), ManiacEditor.Methods.Editor.SolutionPaths.EncorePalette[0]);
+            if (Methods.Solution.SolutionState.UseEncoreColors && NoEncoreColors == false) return SetColors((Bitmap)map.Clone(), ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]);
             else return map;
 
             Bitmap SetColors(Bitmap _bitmap, string encoreColors)
@@ -247,7 +251,7 @@ namespace ManiacEditor.Methods.Entities
             else
             {
 				bool AssetFound = false;
-				foreach (string dataDir in ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
+				foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
 				{
 					Tuple<string, string> Findings = GetAssetSourcePath(dataDir, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)
@@ -259,9 +263,9 @@ namespace ManiacEditor.Methods.Entities
                     }
 				}
 
-				if (!AssetFound && ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory != null)
+				if (!AssetFound && ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory != null)
 				{
-					Tuple<string, string> Findings = GetAssetSourcePath(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.MasterDataDirectory, name);
+					Tuple<string, string> Findings = GetAssetSourcePath(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, name);
 					if (Findings.Item1 != null && Findings.Item2 != null)
 					{
 						AssetFound = true;
@@ -279,7 +283,7 @@ namespace ManiacEditor.Methods.Entities
 			string path, path2;
 			string dataDirectory = dataFolder;
 			// Checks the Stage Folder First
-			path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
+			path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
 			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 			if (Instance.userDefinedSpritePaths != null && Instance.userDefinedSpritePaths.Count != 0)
 			{
@@ -295,7 +299,7 @@ namespace ManiacEditor.Methods.Entities
 				}
 				if (!File.Exists(path2))
 				{
-					path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
+					path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "\\Sprites") + "\\" + path;
 				}
 			}
@@ -309,18 +313,18 @@ namespace ManiacEditor.Methods.Entities
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
-					path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + name + ".bin";
+					path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + name + ".bin";
 					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 					if (!File.Exists(path2))
 					{
 						// Checks for name without the last character and without the numbers in the entity name
 						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-						path = path = ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + adjustedName + ".bin";
+						path = path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + adjustedName + ".bin";
 						path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 						if (!File.Exists(path2))
 						{
 							// Checks for name without any numbers in the Zone name
-							string adjustedZone = Regex.Replace(ManiacEditor.Methods.Editor.SolutionPaths.CurrentSceneData.Zone, @"[\d-]", string.Empty);
+							string adjustedZone = Regex.Replace(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, @"[\d-]", string.Empty);
 							path = path = adjustedZone + "\\" + name + ".bin";
 							path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 							if (!File.Exists(path2))
@@ -447,7 +451,7 @@ namespace ManiacEditor.Methods.Entities
         {
             int x = e.Position.X.High;
             int y = e.Position.Y.High;
-            int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Methods.Solution.CurrentSolution.EditLayerA == null) ? 0xff : 0x32;
 
             Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, e, x, y, Transparency);
 
@@ -492,22 +496,22 @@ namespace ManiacEditor.Methods.Entities
         }
         public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
         {
-            if (Methods.Editor.SolutionState.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
+            if (Methods.Solution.SolutionState.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
             {
                 if (e.RenderNotFound)
                 {
-                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BackgroundBoxColor));
+                    d.DrawRectangle(x, y, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BackgroundBoxColor));
                 }
                 else
                 {
-                    d.DrawRectangle(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(BorderBoxColor, e));
+                    d.DrawRectangle(x, y, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, GetSelectedColor(BorderBoxColor, e));
                 }
-                d.DrawLine(x, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                d.DrawLine(x, y, x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                d.DrawLine(x, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
-                d.DrawLine(x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Editor.EditorConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x, y, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x, y, x, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
+                d.DrawLine(x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
 
-                if (Methods.Editor.SolutionState.Zoom >= 2)
+                if (Methods.Solution.SolutionState.Zoom >= 2)
                 {
                     d.DrawText(string.Format("{0}", e.Object.Name), x + 2, y + 2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
                     d.DrawText(string.Format("(ID: {0})", e.SlotID), x + 2, y + 10, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
@@ -528,18 +532,18 @@ namespace ManiacEditor.Methods.Entities
         {
             if (e.InTempSelection)
             {
-                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
             }
             else
             {
-                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
             }
         }
         public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
             int x = _entity.Position.X.High;
             int y = _entity.Position.Y.High;
-            int Transparency = (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
+            int Transparency = (Methods.Solution.CurrentSolution.EditLayerA == null) ? 0xff : 0x32;
 
             if (!_entity.FilteredOut)
             {
@@ -587,16 +591,16 @@ namespace ManiacEditor.Methods.Entities
         {
             if (e.InTempSelection)
             {
-                return (e.TempSelected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+                return (e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             }
             else
             {
-                return (e.Selected && ManiacEditor.Methods.Editor.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+                return (e.Selected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             }
         }
         public static int GetTransparencyLevel()
         {
-            return (Methods.Editor.Solution.EditLayerA == null) ? 0xff : 0x32;
+            return (Methods.Solution.CurrentSolution.EditLayerA == null) ? 0xff : 0x32;
         }
         public static bool CanDraw(string Name)
         {
@@ -615,9 +619,9 @@ namespace ManiacEditor.Methods.Entities
         public static void RefreshRenderLists()
         {
 
-            if (Methods.Editor.Solution.Entities != null)
+            if (Methods.Solution.CurrentSolution.Entities != null)
             {
-                foreach (var entry in Methods.Editor.Solution.Entities.Entities)
+                foreach (var entry in Methods.Solution.CurrentSolution.Entities.Entities)
                 {
                     entry.CurrentRender = null;
                     entry.CurrentLinkedRender = null;
@@ -675,6 +679,23 @@ namespace ManiacEditor.Methods.Entities
             foreach (var entity in Entities)
             {
                 entity.IsVisible = IsObjectOnScreen(d, entity);
+            }
+        }
+
+        public static void RequestEntityVisiblityRefresh(bool force = false)
+        {
+            if (Methods.Solution.CurrentSolution.Entities != null)
+            {
+                if (Methods.Solution.SolutionState.ViewPositionX != LastViewPositionX || Methods.Solution.SolutionState.ViewPositionX != LastViewPositionY)
+                {
+                    LastViewPositionX = Methods.Solution.SolutionState.ViewPositionX;
+                    LastViewPositionY = Methods.Solution.SolutionState.ViewPositionY;
+                    Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
+                }
+                else if (force)
+                {
+                    Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
+                }
             }
         }
 

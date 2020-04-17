@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
 
             string binFile = "Icons";
-            switch (Methods.Editor.Solution.Entities.SetupObject) {
+            switch (Methods.Solution.CurrentSolution.Entities.SetupObject) {
                 case "MenuSetup":
                     binFile = "Picture";
                     break;

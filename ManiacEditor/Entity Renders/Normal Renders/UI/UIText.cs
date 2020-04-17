@@ -28,7 +28,7 @@ namespace ManiacEditor.Entity_Renders
             int spacingAmount = 0;
             foreach(char symb in text)
             {
-                int frameID = GetFrameID(symb, Methods.Editor.SolutionState.LevelSelectChar);
+                int frameID = GetFrameID(symb, Methods.Solution.SolutionState.LevelSelectChar);
                 int animID = (highlighted ? 1 : 0);
 
                 var Animation = LoadAnimation("Text", d, animID, frameID);
