@@ -120,7 +120,7 @@ namespace ManiacEditor.Methods.Solution
 		{
 			try
 			{
-				Methods.Solution.CurrentSolution.GameConfig = new Gameconfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
+				Methods.Solution.CurrentSolution.GameConfig = new GameConfig(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
 				GameConfig_Source = new FileSource(Path.Combine(DataDirectory, "Game", "GameConfig.bin"));
 				return true;
 			}
@@ -147,12 +147,12 @@ namespace ManiacEditor.Methods.Solution
 			else return SetGameConfig(validDataDirectoryPath);
 		}
 
-		public static Gameconfig GetGameConfig(string DataDirectory)
+		public static GameConfig GetGameConfig(string DataDirectory)
 		{
 			try
 			{
 				string path = Path.Combine(DataDirectory, "Game", "GameConfig.bin");
-				var GameConfig = new Gameconfig(path);
+				var GameConfig = new GameConfig(path);
 				return GameConfig;
 			}
 			catch (Exception ex)
@@ -162,7 +162,7 @@ namespace ManiacEditor.Methods.Solution
 			}
 
 		}
-		public static Gameconfig GetGameConfig(SceneState sceneState)
+		public static GameConfig GetGameConfig(SceneState sceneState)
 		{
 			bool validDataDirectoryFound = false;
 			string validDataDirectoryPath = "";
@@ -494,7 +494,7 @@ namespace ManiacEditor.Methods.Solution
 		{
 			try
 			{
-				Methods.Solution.CurrentSolution.StageConfig = new Stageconfig(Path.Combine(configPath, "Stages", CurrentSceneData.Zone, "StageConfig.bin"));
+				Methods.Solution.CurrentSolution.StageConfig = new StageConfig(Path.Combine(configPath, "Stages", CurrentSceneData.Zone, "StageConfig.bin"));
 				StageConfig_Source = new FileSource(sourceId, Path.Combine(configPath, "Stages", CurrentSceneData.Zone, "StageConfig.bin"));
 				return true;
 			}
@@ -509,7 +509,7 @@ namespace ManiacEditor.Methods.Solution
 		{
 			try
 			{
-				Methods.Solution.CurrentSolution.StageConfig = new Stageconfig(Path.Combine(filepath, "StageConfig.bin"));
+				Methods.Solution.CurrentSolution.StageConfig = new StageConfig(Path.Combine(filepath, "StageConfig.bin"));
 				StageConfig_Source = new FileSource(-3, Path.Combine(filepath, "StageConfig.bin"));
 				return true;
 			}

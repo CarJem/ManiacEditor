@@ -165,7 +165,7 @@ namespace ManiacEditor.Controls.Global.Controls
                     }
 
                     vScrollBar1.ViewportSize = this.Height;
-                    vScrollBar1.Track.Thumb.Height = (this.Height / (vScrollBar1.Maximum - vScrollBar1.Maximum + vScrollBar1.ViewportSize)) * vScrollBar1.Track.ViewportSize;
+                    if (vScrollBar1.Track != null) vScrollBar1.Track.Thumb.Height = (this.Height / (vScrollBar1.Maximum - vScrollBar1.Maximum + vScrollBar1.ViewportSize)) * vScrollBar1.Track.ViewportSize;
                 }
                 Invalidate();
 

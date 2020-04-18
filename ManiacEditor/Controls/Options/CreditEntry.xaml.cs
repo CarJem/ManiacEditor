@@ -33,7 +33,7 @@ namespace ManiacEditor.Controls.Options
             if (!string.IsNullOrEmpty(message))
             {
                 MessageBox.Visibility = Visibility.Visible;
-                MessageBox.Text = "(" + message + ")";
+                MessageBox.Text = " - (" + message + ")";
             }
             else MessageBox.Visibility = Visibility.Collapsed;
             if (!string.IsNullOrEmpty(url2))

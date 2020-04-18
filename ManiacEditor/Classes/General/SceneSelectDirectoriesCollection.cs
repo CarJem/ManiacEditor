@@ -10,12 +10,12 @@ namespace ManiacEditor.Classes.General
     public struct SceneSelectDirectory
     {
         public string Name { get; set; }
-        public Tuple<Gameconfig.SceneInfo,string> SceneInfo { get; set; }
+        public Tuple<GameConfig.SceneInfo,string> SceneInfo { get; set; }
 
-        public SceneSelectDirectory(string _name, Gameconfig.SceneInfo _sceneInfo, string _path)
+        public SceneSelectDirectory(string _name, GameConfig.SceneInfo _sceneInfo, string _path)
         {
             Name = _name;
-            SceneInfo = new Tuple<Gameconfig.SceneInfo, string>(_sceneInfo, _path);
+            SceneInfo = new Tuple<GameConfig.SceneInfo, string>(_sceneInfo, _path);
         }
     }
 }

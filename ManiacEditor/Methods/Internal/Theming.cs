@@ -20,6 +20,7 @@ namespace ManiacEditor.Methods.Internal
         {
             try
             {
+                if (Instance == null) return Color.Empty;
                 var c = (SolidColorBrush)Instance.FindResource(resourceName);
                 if (c != null) return Color.FromArgb(c.Color.A, c.Color.R, c.Color.G, c.Color.B);
                 else return Color.Empty;
@@ -34,6 +35,7 @@ namespace ManiacEditor.Methods.Internal
         {
             try
             {
+                if (Instance == null) return new SolidColorBrush();
                 var c = (SolidColorBrush)Instance.FindResource(resourceName);
                 if (c != null) return c;
                 else return new SolidColorBrush();
@@ -134,6 +136,7 @@ namespace ManiacEditor.Methods.Internal
         #region Theming Stuff
         public static void SetThemeColors(bool UsingSystem = false)
         {
+            /*
             if (!UsingSystem)
             {
                 SystemColorsUtility systemColors = new SystemColorsUtility();
@@ -190,7 +193,7 @@ namespace ManiacEditor.Methods.Internal
                 systemColors.SetColor(KnownColor.InactiveBorder, SystemColors.InactiveBorder);
                 systemColors.SetColor(KnownColor.MenuBar, SystemColors.MenuBar);
             }
-
+            */
         }
 
 

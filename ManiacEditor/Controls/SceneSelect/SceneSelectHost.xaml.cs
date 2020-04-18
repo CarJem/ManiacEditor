@@ -80,7 +80,7 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region Classes
-        public Gameconfig _GameConfig { get; set; }
+        public GameConfig _GameConfig { get; set; }
         public SceneSelectWindow Window { get; set; }
         private Controls.Editor.MainEditor Instance { get; set; }
         public Classes.General.SceneState SceneState { get; set; } = new Classes.General.SceneState();
@@ -96,7 +96,7 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region Init
-        public SceneSelectHost(Gameconfig _Config = null, Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null)
+        public SceneSelectHost(GameConfig _Config = null, Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null)
         {
             InitializeComponent();
             Instance = _Instance;
@@ -141,7 +141,7 @@ namespace ManiacEditor.Controls.SceneSelect
             SetupWinFormControls();
         }
 
-        private void InitilizeHost(Gameconfig _Config, SceneSelectWindow _Window = null)
+        private void InitilizeHost(GameConfig _Config, SceneSelectWindow _Window = null)
         {
             WithinAParentForm = (Window != null);
             Window = _Window;
@@ -268,7 +268,7 @@ namespace ManiacEditor.Controls.SceneSelect
             form.ShowDialog();
             if (form.DialogResult == true)
             {
-                var scenes = new List<RSDKv5.Gameconfig.SceneInfo>();
+                var scenes = new List<RSDKv5.GameConfig.SceneInfo>();
                 scenes.Add(form.Scene);
 
                 var form2 = new SceneSelect.SceneSelectEditCategoryLabelWindow();
@@ -472,9 +472,9 @@ namespace ManiacEditor.Controls.SceneSelect
                 if (result == false) return;
             }
             _GameConfig.Write(_GameConfig.FilePath);
-            LoadFromGameConfig(new Gameconfig(_GameConfig.FilePath));
+            LoadFromGameConfig(new GameConfig(_GameConfig.FilePath));
         }
-        private void UpdateGameConfigSceneIndexes(Gameconfig config)
+        private void UpdateGameConfigSceneIndexes(GameConfig config)
         {
             int currentIndex = 0;
             for (int c = 0; c < config.Categories.Count; c++)
@@ -653,16 +653,16 @@ namespace ManiacEditor.Controls.SceneSelect
             }
             UpdateMasterDataDirectoryComboBox();
         }
-        public void UpdateScenesTree(Gameconfig config)
+        public void UpdateScenesTree(GameConfig config)
         {
             Categories.Clear();
             Directories.Clear();
 
             if (config == null) return;
-            foreach (Gameconfig.Category category in config.Categories)
+            foreach (GameConfig.Category category in config.Categories)
             {
                 List<SceneSelectScene> scenes = new List<SceneSelectScene>();
-                foreach (Gameconfig.SceneInfo scene in category.Scenes)
+                foreach (GameConfig.SceneInfo scene in category.Scenes)
                 {
                     scenes.Add(new SceneSelectScene(scene.Name, scene.Zone + "\\Scene" + scene.SceneID + ".bin"));
 
@@ -756,10 +756,10 @@ namespace ManiacEditor.Controls.SceneSelect
                 {
                     if (isFilesView.IsChecked.Value)
                     {
-                        Tuple<Gameconfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<Gameconfig.SceneInfo, string>;
+                        Tuple<GameConfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
                         if (tag != null)
                         {
-                            Gameconfig.SceneInfo scene = tag.Item1;
+                            GameConfig.SceneInfo scene = tag.Item1;
                             if (scene != null)
                             {
                                 SceneState.SceneID = scene.SceneID;
@@ -887,7 +887,7 @@ namespace ManiacEditor.Controls.SceneSelect
             }
             else
             {
-                Tuple<Gameconfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<Gameconfig.SceneInfo, string>;
+                Tuple<GameConfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
                 if (tag != null)
                 {
                     SceneState.FilePath = tag.Item2;
@@ -1087,7 +1087,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 Debug.Print("Failed to add Saved Place to list: " + ex);
             }
         }
-        public void SetupGameConfig(Gameconfig config)
+        public void SetupGameConfig(GameConfig config)
         {
             if (config != null)
             {
@@ -1138,7 +1138,7 @@ namespace ManiacEditor.Controls.SceneSelect
             if (SelectedDataDirectory != null)
             {
                 SceneState.MasterDataDirectory = SelectedDataDirectory;
-                Gameconfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
+                GameConfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
                 if (GameConfig != null)
                 {
                     LoadFromGameConfig(GameConfig);
@@ -1160,7 +1160,7 @@ namespace ManiacEditor.Controls.SceneSelect
         public void LoadDataDirectory(string SelectedDataDirectory)
         {
             DataDirectory = SelectedDataDirectory;
-            Gameconfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
+            GameConfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
             if (GameConfig != null)
             {
                 LoadFromGameConfig(GameConfig);
@@ -1206,7 +1206,7 @@ namespace ManiacEditor.Controls.SceneSelect
             UpdateDataDirectoryLabel();
             UpdateMasterDataDirectoryComboBox();
         }
-        public void LoadFromGameConfig(Gameconfig config)
+        public void LoadFromGameConfig(GameConfig config)
         {
             _GameConfig = null;
             _GameConfig = config;

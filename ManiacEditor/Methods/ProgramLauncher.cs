@@ -545,7 +545,7 @@ namespace ManiacEditor.Methods
                     string gameConfigPath = System.IO.Path.Combine(ofd.FileName, "Game", "GameConfig.bin");
                     if (File.Exists(gameConfigPath))
                     {
-                        Gameconfig SourceConfig = new Gameconfig(gameConfigPath);
+                        GameConfig SourceConfig = new GameConfig(gameConfigPath);
                         var objectImporter = new ObjectImporter(ofd.FileName, SourceConfig, Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects, Methods.Solution.CurrentSolution.StageConfig, Editor);
                         if (window != null) objectImporter.Owner = window;
                         objectImporter.ShowDialog();
@@ -577,7 +577,7 @@ namespace ManiacEditor.Methods
         {
             try
             {
-                Stageconfig sourceStageConfig = null;
+                StageConfig sourceStageConfig = null;
                 using (var fd = new OpenFileDialog())
                 {
                     fd.Filter = "Stage Config File|*.bin";
@@ -588,7 +588,7 @@ namespace ManiacEditor.Methods
                     {
                         try
                         {
-                            sourceStageConfig = new Stageconfig(fd.FileName);
+                            sourceStageConfig = new StageConfig(fd.FileName);
                         }
                         catch
                         {

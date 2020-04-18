@@ -39,7 +39,7 @@ namespace ManiacEditor.Controls.Options
             CreditsRoll.Children.Add(GenerateString("Extended/Enhanced By:"));
             CreditsRoll.Children.Add(GenerateCreditLine("OtherworldBob", "https://github.com/OtherworldBob/ManiacEditor", "For his fork that allowed ours to exist"));
             CreditsRoll.Children.Add(GenerateCreditLine("CampbellSonic", "https://github.com/campbellsonic/ManiacEditor", "Early object rendering work and feature ideas"));
-            CreditsRoll.Children.Add(GenerateCreditLine("SuperSonic16", "https://github.com/thesupersonic16", "The original entity rendering system"));
+            CreditsRoll.Children.Add(GenerateCreditLine("SuperSonic16", "https://github.com/thesupersonic16", "For the original entity rendering system and providing ManiaPal Intergration"));
             CreditsRoll.Children.Add(GenerateCreditLine("Rubberduckycooly", "https://github.com/Rubberduckycooly/RSDK", "The RSDK-Reverse libs that allow this editor to exist today"));
             CreditsRoll.Children.Add(GenerateCreditLine("Beta Angel", "https://twitter.com/BetaAngel01", "Programming, the original tile maniac source code, an active assistant and my motivation"));
             CreditsRoll.Children.Add(GenerateString("Our Most Honored:"));

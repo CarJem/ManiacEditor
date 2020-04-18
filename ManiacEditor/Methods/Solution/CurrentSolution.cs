@@ -20,8 +20,8 @@ namespace ManiacEditor.Methods.Solution
 
         public static Classes.Scene.EditorTiles CurrentTiles { get; set; }
         public static Classes.Scene.EditorScene CurrentScene { get; set; }
-        public static Stageconfig StageConfig { get; set; }
-        public static Gameconfig GameConfig { get; set; }
+        public static StageConfig StageConfig { get; set; }
+        public static GameConfig GameConfig { get; set; }
         public static Tileconfig TileConfig
         {
             get

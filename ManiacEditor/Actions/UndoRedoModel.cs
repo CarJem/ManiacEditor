@@ -21,6 +21,8 @@ namespace ManiacEditor.Actions
 
         public static void Undo()
         {
+            if (Methods.Solution.SolutionState.isTileDrawing) return;
+
             if (Actions.UndoRedoModel.UndoStack.Count > 0)
             {
                 if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect(false);
@@ -40,6 +42,8 @@ namespace ManiacEditor.Actions
         }
         public static void Redo()
         {
+            if (Methods.Solution.SolutionState.isTileDrawing) return;
+
             if (Actions.UndoRedoModel.RedoStack.Count > 0)
             {
                 IAction act = Actions.UndoRedoModel.RedoStack.Pop();

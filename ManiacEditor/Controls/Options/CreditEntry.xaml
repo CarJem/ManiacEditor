@@ -11,7 +11,6 @@
         <TextBlock Margin="2,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource NormalText}">
             <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" x:Name="MainHyperLink"><Run x:Name="MainLinkText" Text="Name"/></Hyperlink>
         </TextBlock>
-        <TextBlock Margin="2,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource NormalText}" x:Name="MessageBox" Text="(Message)"></TextBlock>
         <TextBlock VerticalAlignment="Center" Margin="2,0,0,0" x:Name="HyperLinkHost2" Foreground="{DynamicResource NormalText}" Visibility="Collapsed">
             <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" x:Name="HyperLink2"><Run Text="[2]"/></Hyperlink>
         </TextBlock>
@@ -21,5 +20,6 @@
         <TextBlock VerticalAlignment="Center" Margin="2,0,0,0" x:Name="HyperLinkHost4" Foreground="{DynamicResource NormalText}" Visibility="Collapsed">
             <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" x:Name="HyperLink4"><Run Text="[4]"/></Hyperlink>
         </TextBlock>
+        <TextBlock Margin="2,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource NormalText}" x:Name="MessageBox" Text="(Message)"></TextBlock>
     </StackPanel>
 </UserControl>

@@ -1257,9 +1257,6 @@
     <Content Include="Resources\Objects\EditorText.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ManiaPal.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="App.config" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1412,6 +1409,8 @@
     <ProjectReference Include="..\ManiacED-ManiaPal\ManiacED-ManiaPal.csproj">
       <Project>{f75427b3-facd-43a9-af49-98a0f3aaadb5}</Project>
       <Name>ManiacED-ManiaPal</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKv1\RSDKv1.csproj">
       <Project>{e089db56-f8d4-434e-a9a8-c7efcc3278d8}</Project>

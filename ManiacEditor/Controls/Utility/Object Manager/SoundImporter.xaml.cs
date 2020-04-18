@@ -15,10 +15,10 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 	{
 		private IList<WAVConfiguration> _sourceSceneSounds;
 		private IList<WAVConfiguration> _targetSceneSounds;
-		private Stageconfig _stageConfig;
+		private StageConfig _stageConfig;
 		public IList<CheckBox> lvObjects = new List<CheckBox>();
 
-		public SoundImporter(Stageconfig sourceSceneSounds, Stageconfig stageConfig)
+		public SoundImporter(StageConfig sourceSceneSounds, StageConfig stageConfig)
 		{
 			InitializeComponent();
 			//if (Methods.Internal.Theming.UseExtendedColors) SetRTFText(ManiacEditor.Properties.Resources.SoundWarningDarkTheme);

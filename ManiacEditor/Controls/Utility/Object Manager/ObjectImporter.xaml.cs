@@ -24,11 +24,11 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
     {
         private IList<SceneObject> _sourceSceneObjects;
         private IList<SceneObject> _targetSceneObjects;
-        private Stageconfig _stageConfig;
+        private StageConfig _stageConfig;
         public Controls.Editor.MainEditor EditorInstance;
         public IList<CheckBox> lvObjects = new List<CheckBox>();
 
-        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, Stageconfig stageConfig, Controls.Editor.MainEditor instance)
+        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -44,7 +44,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             //else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
 
-        public ObjectImporter(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects, Stageconfig stageConfig, Controls.Editor.MainEditor instance)
+        public ObjectImporter(string dataFolderBase, GameConfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
         {
             InitializeComponent();
             EditorInstance = instance;
@@ -75,7 +75,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
             }
         }
 
-        public void GenerateMegaList(string dataFolderBase, Gameconfig SourceConfig, IList<SceneObject> targetSceneObjects)
+        public void GenerateMegaList(string dataFolderBase, GameConfig SourceConfig, IList<SceneObject> targetSceneObjects)
         {
             var targetNames = targetSceneObjects.Select(tso => tso.Name.ToString());
             _sourceSceneObjects = new List<SceneObject>();
@@ -181,7 +181,7 @@ namespace ManiacEditor.Controls.Utility.Object_Manager
 
         }
 
-        public void GenerateNormalList(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, Stageconfig stageConfig)
+        public void GenerateNormalList(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
         {
             _sourceSceneObjects = sourceSceneObjects;
             _targetSceneObjects = targetSceneObjects;

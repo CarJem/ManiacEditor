@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Reflection;
+using System.IO;
+
+
 
 namespace ManiacED_ManiaPal
 {
@@ -14,10 +18,21 @@ namespace ManiacED_ManiaPal
 		bool GameConfigNull = false;
 		bool StageConfigNull = false;
 		static ManiaPal.MainWindow ManiaPalInstance;
-
 		public Connector()
 		{
+			AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
+			{
+				return AppDomain.CurrentDomain.GetAssemblies()
+				   .SingleOrDefault(asm => asm.FullName == e.Name);
+			};
+			/*
+			string exeLocationUrl = System.Reflection.Assembly.GetEntryAssembly().GetName().CodeBase;
+			string exeLocation = new Uri(exeLocationUrl).LocalPath;
+			string directory = new System.IO.FileInfo(exeLocation).Directory.FullName;
 
+			Assembly.LoadFile(System.IO.Path.Combine(directory, "ManiaPal", "Cyotek.Windows.Forms.ColorPicker.dll"));
+			Assembly.LoadFile(System.IO.Path.Combine(directory, "ManiaPal", "RSDKv5.dll"));
+			*/
 		}
 
 		void ResetInformation()

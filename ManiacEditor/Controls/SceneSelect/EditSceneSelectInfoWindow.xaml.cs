@@ -8,18 +8,18 @@ namespace ManiacEditor.Controls.SceneSelect
     /// </summary>
     public partial class EditSceneSelectInfoWindow : Window
 	{
-		public RSDKv5.Gameconfig.SceneInfo Scene;
+		public RSDKv5.GameConfig.SceneInfo Scene;
 
 		public EditSceneSelectInfoWindow()
 		{
-			Scene = new RSDKv5.Gameconfig.SceneInfo();
+			Scene = new RSDKv5.GameConfig.SceneInfo();
 			InitializeComponent();
 		}
 
-		public EditSceneSelectInfoWindow(RSDKv5.Gameconfig.SceneInfo scene)
+		public EditSceneSelectInfoWindow(RSDKv5.GameConfig.SceneInfo scene)
 		{
 			if (scene == null)
-				Scene = new RSDKv5.Gameconfig.SceneInfo();
+				Scene = new RSDKv5.GameConfig.SceneInfo();
 			else
 				Scene = scene;
 			InitializeComponent();
