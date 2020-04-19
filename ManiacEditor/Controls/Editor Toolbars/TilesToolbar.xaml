@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ManiacEditor.Controls.Editor.Toolbars.TilesToolbar"
+﻿<UserControl x:Class="ManiacEditor.Controls.Editor_Toolbars.TilesToolbar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

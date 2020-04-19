@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="ManiacEditor.Controls.Editor.Elements.ViewPanel"
+﻿<UserControl x:Class="ManiacEditor.Controls.Editor_Elements.ViewPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements"
+             xmlns:local="clr-namespace:ManiacEditor.Controls.Editor_Elements"
              xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls"
              xmlns:genLib="clr-namespace:GenerationsLib.WPF.Controls;assembly=GenerationsLib.WPF"
-             xmlns:myControls="clr-namespace:ManiacEditor.Controls.Editor.ViewPanel"
+             xmlns:myControls="clr-namespace:ManiacEditor.Controls.Editor_ViewPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource ButtonBorder}">

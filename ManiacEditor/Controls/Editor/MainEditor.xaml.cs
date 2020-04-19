@@ -34,6 +34,7 @@ using ManiacEditor.Enums;
 using ManiacEditor.EventHandlers;
 using ManiacEditor.Extensions;
 using System.Windows.Forms.Integration;
+using ManiacEditor.Controls.Editor;
 
 
 namespace ManiacEditor.Controls.Editor
@@ -58,9 +59,9 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region Controls
-        public ManiacEditor.Controls.Editor.Toolbars.TilesToolbar TilesToolbar = null;
-        public ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar EntitiesToolbar = null;
-        public ManiacEditor.Controls.Editor.Elements.StartScreen StartScreen { get; set; }
+        public ManiacEditor.Controls.Editor_Toolbars.TilesToolbar TilesToolbar = null;
+        public ManiacEditor.Controls.Editor_Toolbars.EntitiesToolbar EntitiesToolbar = null;
+        public ManiacEditor.Controls.Editor_Elements.StartScreen StartScreen { get; set; }
         #endregion
 
         #endregion
@@ -111,7 +112,7 @@ namespace ManiacEditor.Controls.Editor
         }
         private void InitilizeControls()
         {
-            StartScreen = new Elements.StartScreen();
+            StartScreen = new Editor_Elements.StartScreen();
 
             ViewPanel.UpdateInstance(this);
             ViewPanel.InfoHUD.UpdateInstance(this);
@@ -140,7 +141,7 @@ namespace ManiacEditor.Controls.Editor
             Global.Controls.RetroEDTileList.UpdateInstance(this);
             Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
             Methods.Solution.SolutionState.UpdateInstance(this);
-            Elements.Toolbar.UpdateInstance(this);
+            Editor_Elements.Toolbar.UpdateInstance(this);
             Methods.Entities.EntityDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
             Methods.Solution.SolutionPaths.UpdateInstance(this);

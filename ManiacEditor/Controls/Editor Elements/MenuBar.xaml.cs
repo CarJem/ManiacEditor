@@ -13,8 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
+using ManiacEditor.Controls.Editor;
 
-namespace ManiacEditor.Controls.Editor.Elements
+namespace ManiacEditor.Controls.Editor_Elements
 {
     /// <summary>
     /// Interaction logic for MenuBar.xaml

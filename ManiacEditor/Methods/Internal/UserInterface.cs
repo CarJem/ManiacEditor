@@ -6,7 +6,7 @@ using RSDKv5;
 using ManiacEditor.Actions;
 using System.Windows.Controls;
 using ManiacEditor.Controls.Editor;
-using ManiacEditor.Controls.Editor.Toolbars;
+using ManiacEditor.Controls.Editor_Toolbars;
 using ManiacEditor.Controls.TileManiac;
 using GenerationsLib.WPF;
 
@@ -470,7 +470,7 @@ namespace ManiacEditor.Methods.Internal
                 string tileSource = ManiacEditor.Methods.Solution.SolutionPaths.StageTiles_Source.ToString();
                 string palette = (isEncore ? ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0] : null);
 
-                Instance.TilesToolbar = new ManiacEditor.Controls.Editor.Toolbars.TilesToolbar(Instance);
+                Instance.TilesToolbar = new ManiacEditor.Controls.Editor_Toolbars.TilesToolbar(Instance);
                 Instance.TilesToolbar.TileDoubleClick = new Action<ushort>(x => { TilesToolbar_TileDoubleClick(x); });
                 Instance.TilesToolbar.MultiTileDoubleClick = new Action<Tuple<List<ushort>, int[]>>(x => { TilesToolbar_MultiTileDoubleClick(x); });
                 Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) => { TilesToolbar_TileOptionChanged(option, state); });
@@ -514,13 +514,13 @@ namespace ManiacEditor.Methods.Internal
                                 break;
                             }
                         }
-                        Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Unchcked);
+                        Instance.TilesToolbar.SetTileOptionState(i, unk ? ManiacEditor.Controls.Editor_Toolbars.TilesToolbar.TileOptionState.Indeterminate : set ? ManiacEditor.Controls.Editor_Toolbars.TilesToolbar.TileOptionState.Checked : ManiacEditor.Controls.Editor_Toolbars.TilesToolbar.TileOptionState.Unchcked);
                     }
                 }
                 else
                 {
                     for (int i = 0; i < 4; ++i)
-                        Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Editor.Toolbars.TilesToolbar.TileOptionState.Disabled);
+                        Instance.TilesToolbar.SetTileOptionState(i, ManiacEditor.Controls.Editor_Toolbars.TilesToolbar.TileOptionState.Disabled);
                 }
             }
 
@@ -546,7 +546,7 @@ namespace ManiacEditor.Methods.Internal
             }
             private static void CreateEntitiesToolbar()
             {
-                Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor.Toolbars.EntitiesToolbar(Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects, Instance)
+                Instance.EntitiesToolbar = new ManiacEditor.Controls.Editor_Toolbars.EntitiesToolbar(Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects, Instance)
                 {
                     SelectedEntity = new Action<int>(x => { EntitiesToolbar_EntitySelected(x); }),
                     AddAction = new Action<ManiacEditor.Actions.IAction>(x => { EntitiesToolbar_ActionAdded(x); }),

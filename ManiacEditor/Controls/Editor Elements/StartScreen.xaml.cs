@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ManiacEditor.Extensions;
 
-namespace ManiacEditor.Controls.Editor.Elements
+namespace ManiacEditor.Controls.Editor_Elements
 {
     public partial class StartScreen : UserControl
 	{
@@ -20,8 +20,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         #region Init
 
-        private MainEditor Instance;
-		public void UpdateInstance(MainEditor _instance)
+        private Editor.MainEditor Instance;
+		public void UpdateInstance(Editor.MainEditor _instance)
 		{
 			Instance = _instance;
 			SetupStartScreen();

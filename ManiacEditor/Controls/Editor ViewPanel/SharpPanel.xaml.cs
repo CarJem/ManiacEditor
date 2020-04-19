@@ -34,9 +34,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using ManiacEditor.Controls.Editor;
 
 
-namespace ManiacEditor.Controls.Editor.ViewPanel
+namespace ManiacEditor.Controls.Editor_ViewPanel
 {
     /// <summary>
     /// Interaction logic for SharpPanel.xaml

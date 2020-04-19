@@ -6,8 +6,8 @@
         xmlns:maniac="clr-namespace:ManiacEditor"
         xmlns:update="clr-namespace:ManiacEditor.Controls.Updater"
         mc:Ignorable="d"
-        Title="Updates" Height="192" Width="515" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
-    <update:ManiacUpdater VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></update:ManiacUpdater>
+        Title="Updates" Height="515" Width="715" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
+    <update:ManiacUpdater VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10"></update:ManiacUpdater>
     <Window.Resources>
         <Style TargetType="{x:Type Label}">
                 <Setter Property="Foreground" Value="{DynamicResource NormalText}" />

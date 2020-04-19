@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-        xmlns:local="clr-namespace:ManiacEditor.Controls.Editor.Elements"
+        xmlns:local="clr-namespace:ManiacEditor.Controls.Editor_Elements"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
         Title="Layer Manager" 

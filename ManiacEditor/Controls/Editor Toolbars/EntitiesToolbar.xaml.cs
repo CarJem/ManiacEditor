@@ -15,7 +15,7 @@ using ManiacEditor.Controls.Global.Controls;
 using ManiacEditor.Controls.Global.Controls.PropertyGrid;
 using GenerationsLib.Core;
 
-namespace ManiacEditor.Controls.Editor.Toolbars
+namespace ManiacEditor.Controls.Editor_Toolbars
 {
 	public partial class EntitiesToolbar : UserControl
 	{

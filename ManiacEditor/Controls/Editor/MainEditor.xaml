@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interop;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:editorControls="clr-namespace:ManiacEditor.Controls.Editor.Elements"
+        xmlns:editorControls="clr-namespace:ManiacEditor.Controls.Editor_Elements"
         xmlns:global="clr-namespace:ManiacEditor.Controls.Global.Controls"
         xmlns:local="clr-namespace:ManiacEditor"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"

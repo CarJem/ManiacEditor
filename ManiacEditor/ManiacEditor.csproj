@@ -514,19 +514,19 @@
     <Compile Include="Methods\Solution\SolutionClipboard.cs" />
     <Compile Include="Methods\Solution\SolutionPaths.cs" />
     <Compile Include="Classes\General\SceneState.cs" />
-    <Compile Include="Controls\Editor\ViewPanel\DebugHUD.xaml.cs">
+    <Compile Include="Controls\Editor ViewPanel\DebugHUD.xaml.cs">
       <DependentUpon>DebugHUD.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\ViewPanel.xaml.cs">
+    <Compile Include="Controls\Editor Elements\ViewPanel.xaml.cs">
       <DependentUpon>ViewPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\ViewPanel\ScrollGrid.xaml.cs">
+    <Compile Include="Controls\Editor ViewPanel\ScrollGrid.xaml.cs">
       <DependentUpon>ScrollGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\ViewPanel\SharpPanel.xaml.cs">
+    <Compile Include="Controls\Editor ViewPanel\SharpPanel.xaml.cs">
       <DependentUpon>SharpPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\ViewPanel\WaitingPanel.xaml.cs">
+    <Compile Include="Controls\Editor ViewPanel\WaitingPanel.xaml.cs">
       <DependentUpon>WaitingPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\RenderedTextBox.xaml.cs">
@@ -580,13 +580,13 @@
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Extensions\Spline\ArrayUtil.cs" />
     <Compile Include="Extensions\Spline\CubicSpline.cs" />
-    <Compile Include="Controls\Editor\Elements\MenuBar.xaml.cs">
+    <Compile Include="Controls\Editor Elements\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\StatusBar.xaml.cs">
+    <Compile Include="Controls\Editor Elements\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\Toolbar.xaml.cs">
+    <Compile Include="Controls\Editor Elements\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Updater\DownloadWindow.xaml.cs" />
@@ -692,13 +692,13 @@
     <Compile Include="Controls\Scene Select\SceneSelectEditCategoryLabelWindow.xaml.cs">
       <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Elements\StartScreen.xaml.cs">
+    <Compile Include="Controls\Editor Elements\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Toolbars\EntitiesToolbar.xaml.cs">
+    <Compile Include="Controls\Editor Toolbars\EntitiesToolbar.xaml.cs">
       <DependentUpon>EntitiesToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Editor\Toolbars\TilesToolbar.xaml.cs">
+    <Compile Include="Controls\Editor Toolbars\TilesToolbar.xaml.cs">
       <DependentUpon>TilesToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Methods\Entities\AttributeHandler.cs" />
@@ -1498,35 +1498,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Editor\ViewPanel\DebugHUD.xaml">
+    <Page Include="Controls\Editor ViewPanel\DebugHUD.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\MenuBar.xaml">
+    <Page Include="Controls\Editor Elements\MenuBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\StatusBar.xaml">
+    <Page Include="Controls\Editor Elements\StatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\Toolbar.xaml">
+    <Page Include="Controls\Editor Elements\Toolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\ViewPanel.xaml">
+    <Page Include="Controls\Editor Elements\ViewPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\ViewPanel\ScrollGrid.xaml">
+    <Page Include="Controls\Editor ViewPanel\ScrollGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\ViewPanel\SharpPanel.xaml">
+    <Page Include="Controls\Editor ViewPanel\SharpPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\ViewPanel\WaitingPanel.xaml">
+    <Page Include="Controls\Editor ViewPanel\WaitingPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1730,15 +1730,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Elements\StartScreen.xaml">
+    <Page Include="Controls\Editor Elements\StartScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Editor\Toolbars\EntitiesToolbar.xaml">
+    <Page Include="Controls\Editor Toolbars\EntitiesToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Editor\Toolbars\TilesToolbar.xaml">
+    <Page Include="Controls\Editor Toolbars\TilesToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

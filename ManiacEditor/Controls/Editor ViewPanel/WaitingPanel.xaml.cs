@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ManiacEditor.Controls.Editor.ViewPanel
+namespace ManiacEditor.Controls.Editor_ViewPanel
 {
     /// <summary>
     /// Interaction logic for WaitingPanel.xaml

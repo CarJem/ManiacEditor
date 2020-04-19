@@ -15,8 +15,9 @@ using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using ManiacEditor.Controls.Editor;
 
-namespace ManiacEditor.Controls.Editor.Elements
+namespace ManiacEditor.Controls.Editor_Elements
 {
     /// <summary>
     /// Interaction logic for ViewPanel.xaml

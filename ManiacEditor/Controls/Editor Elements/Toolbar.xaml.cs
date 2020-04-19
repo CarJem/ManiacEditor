@@ -24,7 +24,7 @@ using System.ComponentModel;
 
 
 
-namespace ManiacEditor.Controls.Editor.Elements
+namespace ManiacEditor.Controls.Editor_Elements
 {
     /// <summary>
     /// Interaction logic for Toolbar.xaml
@@ -63,8 +63,8 @@ namespace ManiacEditor.Controls.Editor.Elements
 
         }
 
-        private static MainEditor Instance;
-        public static void UpdateInstance(MainEditor _instance)
+        private static Editor.MainEditor Instance;
+        public static void UpdateInstance(Editor.MainEditor _instance)
         {
             Instance = _instance;
         }
