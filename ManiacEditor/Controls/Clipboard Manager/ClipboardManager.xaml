@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="ManiacEditor.Controls.Clipboard_Manager.ClipboardManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManiacEditor.Controls.Clipboard_Manager"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <TabControl>
+        <TabItem x:Name="TilesTab" Header="Tiles">
+            <local:TilesClipboardPage></local:TilesClipboardPage>
+        </TabItem>
+        <TabItem x:Name="EntitiesTab" Header="Entities">
+            <local:EntitiesClipboardPage></local:EntitiesClipboardPage>
+        </TabItem>
+        <TabItem x:Name="CollisionTab" Header="Colllision">
+            <local:CollisionClipboardPage></local:CollisionClipboardPage>
+        </TabItem>
+        <TabItem x:Name="LayersTab" Header="Layers">
+            <local:LayersClipboardPage></local:LayersClipboardPage>
+        </TabItem>
+    </TabControl>
+</UserControl>

@@ -239,6 +239,12 @@
     <Compile Include="Classes\General\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
     <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
+    <Compile Include="Controls\Graphics\DevicePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Graphics\DevicePanel.designer.cs">
+      <DependentUpon>DevicePanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Methods\Draw\GraphicsTileDrawing.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Methods\Draw\LayerTileProvider.cs" />
@@ -267,31 +273,31 @@
     <Compile Include="Controls\Global\Controls\RemapEntry.xaml.cs">
       <DependentUpon>RemapEntry.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Options\CreditEntry.xaml.cs">
+    <Compile Include="Controls\About\CreditEntry.xaml.cs">
       <DependentUpon>CreditEntry.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Technical\TileManager.xaml.cs">
+    <Compile Include="Controls\Toolbox\TileManager.xaml.cs">
       <DependentUpon>TileManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Clipboard Manager\CollisionClipboardPage.xaml.cs">
+    <Compile Include="Controls\Clipboard Manager\CollisionClipboardPage.xaml.cs">
       <DependentUpon>CollisionClipboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Clipboard Manager\EntitiesClipboardPage.xaml.cs">
+    <Compile Include="Controls\Clipboard Manager\EntitiesClipboardPage.xaml.cs">
       <DependentUpon>EntitiesClipboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Clipboard Manager\LayersClipboardPage.xaml.cs">
+    <Compile Include="Controls\Clipboard Manager\LayersClipboardPage.xaml.cs">
       <DependentUpon>LayersClipboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Clipboard Manager\TilesClipboardPage.xaml.cs">
+    <Compile Include="Controls\Clipboard Manager\TilesClipboardPage.xaml.cs">
       <DependentUpon>TilesClipboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Clipboard Manager\ClipboardManager.xaml.cs">
+    <Compile Include="Controls\Clipboard Manager\ClipboardManager.xaml.cs">
       <DependentUpon>ClipboardManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Technical\OffsetTilesTool.xaml.cs">
+    <Compile Include="Controls\Toolbox\OffsetTilesTool.xaml.cs">
       <DependentUpon>OffsetTilesTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Technical\SceneBGColorPickerTool.xaml.cs">
+    <Compile Include="Controls\Toolbox\SceneBGColorPickerTool.xaml.cs">
       <DependentUpon>SceneBGColorPickerTool.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPlatform.cs">
@@ -583,10 +589,6 @@
     <Compile Include="Controls\Editor\Elements\Toolbar.xaml.cs">
       <DependentUpon>Toolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Graphics\DevicePanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Graphics\DevicePanel.designer.cs" />
     <Compile Include="Controls\Updater\DownloadWindow.xaml.cs" />
     <Compile Include="Controls\Updater\ManiacUpdater.xaml.cs">
       <DependentUpon>ManiacUpdater.xaml</DependentUpon>
@@ -598,7 +600,7 @@
     <Compile Include="Classes\Rendering\GIF.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Classes\Scene\EditorTiles.cs" />
-    <Compile Include="Controls\Utility\Technical\ExportAsImageGUI.xaml.cs">
+    <Compile Include="Controls\Toolbox\ExportAsImageGUI.xaml.cs">
       <DependentUpon>ExportAsImageGUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Options\SettingsHeader.xaml.cs">
@@ -610,46 +612,46 @@
     <Compile Include="Controls\Global\Controls\VScrollBar.xaml.cs">
       <DependentUpon>VScrollBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Configuration\CheatCodeManager.xaml.cs">
+    <Compile Include="Controls\Misc\Configuration\CheatCodeManager.xaml.cs">
       <DependentUpon>CheatCodeManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Technical\FindandReplaceTool.xaml.cs">
+    <Compile Include="Controls\Toolbox\FindandReplaceTool.xaml.cs">
       <DependentUpon>FindandReplaceTool.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialog\UnloadingSceneWarning.xaml.cs">
       <DependentUpon>UnloadingSceneWarning.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Configuration\ModConfigManager.xaml.cs">
+    <Compile Include="Controls\Misc\Configuration\ModConfigManager.xaml.cs">
       <DependentUpon>ModConfigManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Editor\MainEditor.xaml.cs">
       <DependentUpon>MainEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Configuration\ModConfigEditor.xaml.cs">
+    <Compile Include="Controls\Misc\Configuration\ModConfigEditor.xaml.cs">
       <DependentUpon>ModConfigEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Dev\MD5HashGen.xaml.cs">
+    <Compile Include="Controls\Misc\Dev\MD5HashGen.xaml.cs">
       <DependentUpon>MD5HashGen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Updater\ManiacUpdaterWindow.xaml.cs">
       <DependentUpon>ManiacUpdaterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Configuration\ManiacINIEditor.xaml.cs">
+    <Compile Include="Controls\Misc\Configuration\ManiacINIEditor.xaml.cs">
       <DependentUpon>ManiacINIEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SceneSelect\EditSceneSelectInfoWindow.xaml.cs">
+    <Compile Include="Controls\Scene Select\EditSceneSelectInfoWindow.xaml.cs">
       <DependentUpon>EditSceneSelectInfoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SceneSelect\NewSceneWindow.xaml.cs">
+    <Compile Include="Controls\Scene Select\NewSceneWindow.xaml.cs">
       <DependentUpon>NewSceneWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SceneSelect\SceneSelectWindow.xaml.cs">
+    <Compile Include="Controls\Scene Select\SceneSelectWindow.xaml.cs">
       <DependentUpon>SceneSelectWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Object Manager\SoundImporter.xaml.cs">
+    <Compile Include="Controls\Object Manager\SoundImporter.xaml.cs">
       <DependentUpon>SoundImporter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Object Manager\ObjectImporter.xaml.cs">
+    <Compile Include="Controls\Object Manager\ObjectImporter.xaml.cs">
       <DependentUpon>ObjectImporter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Actions\ActionAddDeleteEntities.cs" />
@@ -660,34 +662,34 @@
     <Compile Include="Actions\ActionsGroup.cs" />
     <Compile Include="Actions\ActionsGroupCloseMarker.cs" />
     <Compile Include="Actions\IAction.cs" />
-    <Compile Include="Controls\Options\AboutWindow.xaml.cs">
+    <Compile Include="Controls\About\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Dev\DeveloperInterface.xaml.cs">
+    <Compile Include="Controls\Misc\Dev\DeveloperInterface.xaml.cs">
       <DependentUpon>DeveloperInterface.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Technical\GoToPositionWindow.xaml.cs">
+    <Compile Include="Controls\Toolbox\GoToPositionWindow.xaml.cs">
       <DependentUpon>GoToPositionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Options\KeyBindConfigurator.xaml.cs">
       <DependentUpon>KeyBindConfigurator.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Technical\LayerManager.xaml.cs">
+    <Compile Include="Controls\Toolbox\LayerManager.xaml.cs">
       <DependentUpon>LayerManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Object Manager\ObjectManager.xaml.cs">
+    <Compile Include="Controls\Object Manager\ObjectManager.xaml.cs">
       <DependentUpon>ObjectManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Options\OptionsMenu.xaml.cs">
       <DependentUpon>OptionsMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Utility\Object Manager\AddAttributeWindow.xaml.cs">
+    <Compile Include="Controls\Object Manager\AddAttributeWindow.xaml.cs">
       <DependentUpon>AddAttributeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SceneSelect\SceneSelectHost.xaml.cs">
+    <Compile Include="Controls\Scene Select\SceneSelectHost.xaml.cs">
       <DependentUpon>SceneSelectHost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml.cs">
+    <Compile Include="Controls\Scene Select\SceneSelectEditCategoryLabelWindow.xaml.cs">
       <DependentUpon>SceneSelectEditCategoryLabelWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Editor\Elements\StartScreen.xaml.cs">
@@ -1258,14 +1260,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
-    <None Include="log4net.config">
+    <None Include="Config\log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Controls\Graphics\DevicePanel.resx" />
+    <EmbeddedResource Include="Controls\Graphics\DevicePanel.resx">
+      <DependentUpon>DevicePanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\entity_definitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Properties\PostBuild\MainScript.bat" />
+    <None Include="Properties\PreBuild\AlwaysClean.bat" />
     <None Include="Properties\PreBuild\UpdateVersion.bat" />
     <None Include="Properties\PreBuild\MainScript.bat" />
     <Resource Include="Resources\Fonts\sonic-1-hud-font.ttf" />
@@ -1411,6 +1416,10 @@
       <Name>ManiacED-ManiaPal</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Retro-Engine-Animation-Editor\AnimationEditor\AnimationEditor.csproj">
+      <Project>{36174cf4-c09e-4e5f-9445-4dfe1072667b}</Project>
+      <Name>AnimationEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKv1\RSDKv1.csproj">
       <Project>{e089db56-f8d4-434e-a9a8-c7efcc3278d8}</Project>
@@ -1565,35 +1574,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Options\CreditEntry.xaml">
+    <Page Include="Controls\About\CreditEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Technical\TileManager.xaml">
+    <Page Include="Controls\Toolbox\TileManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Clipboard Manager\CollisionClipboardPage.xaml">
+    <Page Include="Controls\Clipboard Manager\CollisionClipboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Clipboard Manager\EntitiesClipboardPage.xaml">
+    <Page Include="Controls\Clipboard Manager\EntitiesClipboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Clipboard Manager\LayersClipboardPage.xaml">
+    <Page Include="Controls\Clipboard Manager\LayersClipboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Clipboard Manager\TilesClipboardPage.xaml">
+    <Page Include="Controls\Clipboard Manager\TilesClipboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Clipboard Manager\ClipboardManager.xaml">
+    <Page Include="Controls\Clipboard Manager\ClipboardManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Technical\ExportAsImageGUI.xaml">
+    <Page Include="Controls\Toolbox\ExportAsImageGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1609,11 +1618,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Configuration\CheatCodeManager.xaml">
+    <Page Include="Controls\Misc\Configuration\CheatCodeManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Technical\FindandReplaceTool.xaml">
+    <Page Include="Controls\Toolbox\FindandReplaceTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1621,15 +1630,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Configuration\ModConfigManager.xaml">
+    <Page Include="Controls\Misc\Configuration\ModConfigManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Configuration\ModConfigEditor.xaml">
+    <Page Include="Controls\Misc\Configuration\ModConfigEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Options\AboutWindow.xaml">
+    <Page Include="Controls\About\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1637,7 +1646,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Utility\Dev\DeveloperInterface.xaml">
+    <Page Include="Controls\Misc\Dev\DeveloperInterface.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1645,7 +1654,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Dev\MD5HashGen.xaml">
+    <Page Include="Controls\Misc\Dev\MD5HashGen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1661,15 +1670,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Configuration\ManiacINIEditor.xaml">
+    <Page Include="Controls\Misc\Configuration\ManiacINIEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SceneSelect\EditSceneSelectInfoWindow.xaml">
+    <Page Include="Controls\Scene Select\EditSceneSelectInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Technical\GoToPositionWindow.xaml">
+    <Page Include="Controls\Toolbox\GoToPositionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1677,7 +1686,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Technical\LayerManager.xaml">
+    <Page Include="Controls\Toolbox\LayerManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1685,23 +1694,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SceneSelect\NewSceneWindow.xaml">
+    <Page Include="Controls\Scene Select\NewSceneWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SceneSelect\SceneSelectWindow.xaml">
+    <Page Include="Controls\Scene Select\SceneSelectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Object Manager\SoundImporter.xaml">
+    <Page Include="Controls\Object Manager\SoundImporter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Utility\Object Manager\ObjectImporter.xaml">
+    <Page Include="Controls\Object Manager\ObjectImporter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Object Manager\ObjectManager.xaml">
+    <Page Include="Controls\Object Manager\ObjectManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1709,15 +1718,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Object Manager\AddAttributeWindow.xaml">
+    <Page Include="Controls\Object Manager\AddAttributeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SceneSelect\SceneSelectHost.xaml">
+    <Page Include="Controls\Scene Select\SceneSelectHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SceneSelect\SceneSelectEditCategoryLabelWindow.xaml">
+    <Page Include="Controls\Scene Select\SceneSelectEditCategoryLabelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1745,11 +1754,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Technical\OffsetTilesTool.xaml">
+    <Page Include="Controls\Toolbox\OffsetTilesTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Utility\Technical\SceneBGColorPickerTool.xaml">
+    <Page Include="Controls\Toolbox\SceneBGColorPickerTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1769,13 +1778,13 @@
       <Version>1.7.2</Version>
     </PackageReference>
     <PackageReference Include="DiscordRichPresence">
-      <Version>1.0.121</Version>
+      <Version>1.0.150</Version>
     </PackageReference>
     <PackageReference Include="Expression.Blend.Sdk">
       <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
-      <Version>3.8.0</Version>
+      <Version>3.8.1</Version>
     </PackageReference>
     <PackageReference Include="ini-parser">
       <Version>2.5.2</Version>
@@ -1784,7 +1793,7 @@
       <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="Magick.NET-Q8-AnyCPU">
-      <Version>7.9.0.1</Version>
+      <Version>7.16.0</Version>
     </PackageReference>
     <PackageReference Include="nrtftree-library">
       <Version>0.4.0</Version>
@@ -1804,14 +1813,8 @@
     <PackageReference Include="SharpDX.Mathematics">
       <Version>4.2.0</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp">
-      <Version>1.68.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="SkiaSharp.Views.WPF">
-      <Version>1.68.1.1</Version>
-    </PackageReference>
     <PackageReference Include="WpfAnimatedGif">
-      <Version>1.4.18</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

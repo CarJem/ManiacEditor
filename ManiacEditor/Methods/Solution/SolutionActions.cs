@@ -224,7 +224,7 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void GoToPosition(object sender, RoutedEventArgs e)
         {
-            ManiacEditor.Controls.Utility.GoToPositionBox form = new ManiacEditor.Controls.Utility.GoToPositionBox(Instance);
+            ManiacEditor.Controls.Toolbox.GoToPositionBox form = new ManiacEditor.Controls.Toolbox.GoToPositionBox(Instance);
             form.Owner = Instance as Window;
             form.ShowDialog();
         }
@@ -234,12 +234,12 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ManiacEditor.Controls.Utility.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Utility.Dev.MD5HashGen(Instance);
+            ManiacEditor.Controls.Misc.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Misc.Dev.MD5HashGen(Instance);
             hashmap.Show();
         }
         public static void OffsetTileIndexesTool()
         {
-            ManiacEditor.Controls.Utility.Technical.OffsetTilesTool form = new ManiacEditor.Controls.Utility.Technical.OffsetTilesTool();
+            ManiacEditor.Controls.Toolbox.OffsetTilesTool form = new ManiacEditor.Controls.Toolbox.OffsetTilesTool();
             form.ShowDialog();
             if (form.DialogResult == true)
             {
@@ -248,7 +248,7 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void FindAndReplaceTool(object sender, RoutedEventArgs e)
         {
-            ManiacEditor.Controls.Utility.FindandReplaceTool form = new ManiacEditor.Controls.Utility.FindandReplaceTool();
+            ManiacEditor.Controls.Toolbox.FindandReplaceTool form = new ManiacEditor.Controls.Toolbox.FindandReplaceTool();
             form.ShowDialog();
             if (form.DialogResult == true)
             {

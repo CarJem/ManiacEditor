@@ -16,9 +16,8 @@ using System.Windows.Shapes;
 using System.Collections.Specialized;
 using ManiacEditor.Controls.Global;
 
-using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Configuration;
-using ManiacEditor.Controls.Utility.Object_Manager;
+using ManiacEditor.Controls.Misc;
+using ManiacEditor.Controls.Misc.Configuration;
 
 using ManiacEditor.Extensions;
 using System.ComponentModel;

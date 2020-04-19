@@ -13,11 +13,9 @@ using KeysConverter = System.Windows.Forms.KeysConverter;
 using ManiacEditor.Extensions;
 
 using ManiacEditor.Controls.Global.Controls;
-using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Configuration;
-using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Dev;
-using ManiacEditor.Controls.Utility.Configuration;
+using ManiacEditor.Controls.Misc;
+using ManiacEditor.Controls.Misc.Configuration;
+using ManiacEditor.Controls.Misc.Dev;
 
 using GenerationsLib.WPF.Themes;
 

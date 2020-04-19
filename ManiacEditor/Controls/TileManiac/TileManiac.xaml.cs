@@ -30,9 +30,8 @@ using TileConfig = RSDKv5.Tileconfig;
 using ManiacEditor.Controls.Global.Controls;
 using ManiacEditor.Extensions;
 
-using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Configuration;
-using ManiacEditor.Controls.Utility.Object_Manager;
+using ManiacEditor.Controls.Misc;
+using ManiacEditor.Controls.Misc.Configuration;
 using ManiacEditor.Controls.Options;
 
 
@@ -2346,7 +2345,7 @@ namespace ManiacEditor.Controls.TileManiac
 		}
 		public void aboutToolStripMenuItem1_Click(object sender, RoutedEventArgs e)
 		{
-			AboutWindow frm = new AboutWindow();
+			About.AboutWindow frm = new About.AboutWindow();
 			frm.ShowDialog();
 		}
 		public void copyToOtherPathToolStripMenuItem_Click(object sender, RoutedEventArgs e)

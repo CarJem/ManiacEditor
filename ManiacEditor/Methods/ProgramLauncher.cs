@@ -8,12 +8,11 @@ using Cyotek.Windows.Forms;
 using Color = System.Drawing.Color;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using ManiacEditor.Controls.Utility;
-using ManiacEditor.Controls.Utility.Configuration;
-using ManiacEditor.Controls.Utility.Object_Manager;
-using ManiacEditor.Controls.Utility.Dev;
-using ManiacEditor.Controls.Utility.Configuration;
+using ManiacEditor.Controls.Misc;
+using ManiacEditor.Controls.Misc.Configuration;
+using ManiacEditor.Controls.Misc.Dev;
 using ManiacEditor.Controls.Options;
+using ManiacEditor.Controls.Object_Manager;
 
 
 namespace ManiacEditor.Methods
@@ -169,6 +168,7 @@ namespace ManiacEditor.Methods
         }
         public static void RSDKAnimationEditor()
         {
+            /*
             String aniProcessName = Path.GetFileNameWithoutExtension(ManiacEditor.Properties.Settings.MyDefaults.AnimationEditorPath);
             IntPtr hWnd = FindWindow(aniProcessName, null); // this gives you the handle of the window you need.
             Process processes = Process.GetProcessesByName(aniProcessName).FirstOrDefault();
@@ -202,6 +202,8 @@ namespace ManiacEditor.Methods
                 psi = new ProcessStartInfo(ManiacEditor.Properties.Settings.MyDefaults.AnimationEditorPath);
                 Process.Start(psi);
             }
+            */
+            AnimationEditor.Program.MainMethod();
         }
         public static void ManiaPal(object sender, RoutedEventArgs e)
         {
@@ -629,7 +631,7 @@ namespace ManiacEditor.Methods
         {
             Methods.Solution.SolutionActions.Deselect(true);
 
-            var lm = new LayerManager(Methods.Solution.CurrentSolution.CurrentScene);
+            var lm = new Controls.Toolbox.LayerManager(Methods.Solution.CurrentSolution.CurrentScene);
             lm.Owner = Window.GetWindow(Editor);
             lm.ShowDialog();
 
@@ -642,7 +644,7 @@ namespace ManiacEditor.Methods
 
         public static void ExportGUI(object sender, RoutedEventArgs e)
         {
-            var eG = new ExportAsImageGUI(Methods.Solution.CurrentSolution.CurrentScene);
+            var eG = new Controls.Toolbox.ExportAsImageGUI(Methods.Solution.CurrentSolution.CurrentScene);
             eG.Owner = Window.GetWindow(Editor);
             eG.ShowDialog();
         }
@@ -657,7 +659,7 @@ namespace ManiacEditor.Methods
 
         public static void AboutScreen()
         {
-            var aboutBox = new AboutWindow();
+            var aboutBox = new Controls.About.AboutWindow();
             aboutBox.Owner = Editor;
             aboutBox.ShowDialog();
         }
@@ -693,7 +695,7 @@ namespace ManiacEditor.Methods
         {
             var colorA = Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor1;
             var colorB = Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor2;
-            Controls.Utility.Technical.SceneBGColorPickerTool colorSelect = new Controls.Utility.Technical.SceneBGColorPickerTool(colorA, colorB);
+            Controls.Toolbox.SceneBGColorPickerTool colorSelect = new Controls.Toolbox.SceneBGColorPickerTool(colorA, colorB);
             bool? result = colorSelect.ShowDialog();
             if (colorSelect.ColorsChanged == true)
             {

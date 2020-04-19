@@ -7,3 +7,4 @@ SET ProjectDir=%~4
 SET CurrentDir=%~dp0
 
 CALL "%CurrentDir%\UpdateVersion.bat" %ConfigurationName% %SolutionDir% %TargetDir% %ProjectDir%
+CALL "%CurrentDir%\AlwaysClean.bat" %ConfigurationName% %SolutionDir% %TargetDir% %ProjectDir%

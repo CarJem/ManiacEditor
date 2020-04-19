@@ -1,0 +1,125 @@
+﻿<Window x:Class="ManiacEditor.Controls.Toolbox.FindandReplaceTool"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:maniac="clr-namespace:ManiacEditor"
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:ManiacEditor.Controls.Toolbox"
+        mc:Ignorable="d"
+        Title="Find and Replace" Height="450" Width="800" Background="{DynamicResource NormalBackground}" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid>
+        <TabControl Background="{DynamicResource NormalBackground}">
+            <TabItem Header="Tiles" Foreground="{DynamicResource NormalText}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Find/Replace">
+                        <StackPanel Margin="10">
+                            <Label x:Name="FindLabel" Content="Find:"></Label>
+                            <wpfTool:IntegerUpDown ValueChanged="FindNUD_ValueChanged" DefaultValue="0" Value="0" x:Name="FindNUD" Width="80" HorizontalAlignment="Left"></wpfTool:IntegerUpDown>
+                            <Label IsEnabled="False" x:Name="ReplaceLabel" Content="Replace:"></Label>
+                            <wpfTool:IntegerUpDown IsEnabled="False" ValueChanged="ReplaceNUD_ValueChanged" DefaultValue="0" Value="0" x:Name="ReplaceNUD" Width="80" HorizontalAlignment="Left"></wpfTool:IntegerUpDown>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Apply to..." Grid.Column="1">
+                        <StackPanel Margin="5">
+                            <RadioButton IsChecked="True" x:Name="activeLayerRadio" Content="Active Edit Layer" Margin="0,5,0,0"></RadioButton>
+                            <RadioButton x:Name="allLayersRadio" Content="All Layers" Margin="0,5,0,0"></RadioButton>
+                            <RadioButton Checked="radioButton2_CheckedChanged" Unchecked="radioButton2_CheckedChanged" x:Name="specificLayerRadio" Content="Specified Layer(s):" Margin="0,5,0,0"></RadioButton>
+                            <wpfTool:SplitButton IsEnabled="False" x:Name="specificLayerSplitBox" Height="25" Margin="0,5,0,0"></wpfTool:SplitButton>
+                        </StackPanel>
+
+                    </GroupBox>
+                    <GroupBox Header="Find by Specific Colllision: (Unimplemented)" Grid.Column="2">
+                        <StackPanel Margin="0">
+                            <CheckBox Checked="checkBox6_CheckedChanged" Unchecked="checkBox6_CheckedChanged" x:Name="enableCollisionCheckbox" Content="Enabled" Margin="0,5,0,10"></CheckBox>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <CheckBox IsEnabled="False" x:Name="optionBox1" Content="Flip Horizontal" Margin="0,5,0,0"></CheckBox>
+                                    <CheckBox IsEnabled="False" x:Name="optionBox3" Content="Solid &#x0a; (Top)" Margin="0,5,0,0"></CheckBox>
+                                    <CheckBox IsEnabled="False" x:Name="optionBox5" Content="Solid &#x0a; (Top - Plane 2)" Margin="0,5,0,0"></CheckBox>
+                                </StackPanel>
+                                <StackPanel>
+                                    <CheckBox IsEnabled="False" x:Name="optionBox2" Content="Flip Vertical" Margin="0,5,0,0"></CheckBox>
+                                    <CheckBox IsEnabled="False" x:Name="optionBox4" Margin="0,5,0,0" Height="Auto">
+                                        <TextBlock Text="Solid &#x0a;(All Excl. Top)" TextWrapping="Wrap"></TextBlock>
+                                    </CheckBox>
+                                    <CheckBox IsEnabled="False" x:Name="optionBox6" Content="Solid &#x0a;(All Excl. Top - Plane 2)" Margin="0,5,0,0"></CheckBox>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <StackPanel Grid.Row="1">
+                        <CheckBox Checked="checkBox1_CheckedChanged" Unchecked="checkBox1_CheckedChanged" x:Name="replaceModeCheckBox" Margin="0,5,0,0">Replace Mode</CheckBox>
+                        <CheckBox x:Name="clipboardResultsCheckbox" Margin="0,5,0,0">Copy Results to Clipboard</CheckBox>
+                        <CheckBox IsEnabled="False" x:Name="multiTileSearchCheckbox" Margin="0,5,0,0">Multi-Tile Search/Swap</CheckBox>
+                        <CheckBox x:Name="preserveCollisionCheckbox" Margin="0,5,0,0">Preserve Collision</CheckBox>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsEnabled="False" x:Name="bulkFindandReplaceTilesCheckbox" Margin="0,0,5,0" VerticalContentAlignment="Center">Bulk Find and Replace from File</CheckBox>
+                            <Button IsEnabled="False" Height="24" Width="70">Browse...</Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock Margin="5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"><Span><Run Text="Using Multi-Tile Search/Swap: (Unimplemented)"/></Span><LineBreak/><LineBreak/><Span><Run Text="● 1,2,3,4,5 == Separate Collision by Commas"/></Span><LineBreak/><Span><Run Text="● 1[1,1,1,1,1,1],2[1,1,0,0,0,0]..... == Finding with specific collision by Brackets"/></Span><LineBreak/><Span><Run Text="● Collision Syntax: [flipx,flipv,solidtopA,solidA,solidtopB,solidB]"/></Span><LineBreak/><Span><Run Text="● Use 0 for false, 1 for true"/></Span><LineBreak/><Span><Run Text="● You can replace multiple tiles with one tile, but it can only be one"/></Span><LineBreak/></TextBlock>
+                    <Button Click="button1_Click" Grid.Column="2" Grid.Row="1" Width="75" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">GO!</Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Entities/Objects" Foreground="{DynamicResource NormalText}">
+                <Grid IsEnabled="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GroupBox IsEnabled="False" Foreground="{DynamicResource DisabledText}" Header="Find/Replace">
+                        <StackPanel Margin="10">
+                            <Label Content="Find:"></Label>
+                            <TextBox Width="80" HorizontalAlignment="Left"></TextBox>
+                            <Label Content="Replace:"></Label>
+                            <TextBox Width="80" HorizontalAlignment="Left"></TextBox>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox IsEnabled="False" Foreground="{DynamicResource DisabledText}" Header="Find by Specific Attribute:" Grid.Column="1">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="5" Width="100">
+                                <Label>Name:</Label>
+                                <TextBox Height="25"></TextBox>
+                                <Label>Value:</Label>
+                                <TextBox Height="25"></TextBox>
+                            </StackPanel>
+                            <StackPanel Margin="5" Width="100">
+                                <Label>Type:</Label>
+                                <ComboBox Height="25"></ComboBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <StackPanel IsEnabled="False" Grid.Row="1" Grid.ColumnSpan="2">
+                        <CheckBox Foreground="{DynamicResource DisabledText}" Margin="0,5,0,0">Multi-Entity Search and Replace</CheckBox>
+                        <CheckBox Foreground="{DynamicResource DisabledText}" Margin="0,5,0,0">Replace Mode</CheckBox>
+                        <CheckBox Foreground="{DynamicResource DisabledText}" Margin="0,5,0,0">Copy Results to Clipboard</CheckBox>
+                        <CheckBox Foreground="{DynamicResource DisabledText}" Margin="0,5,0,0">Multi-Tile Search/Swap</CheckBox>
+                        <CheckBox Foreground="{DynamicResource DisabledText}" Margin="0,5,0,0">Select Found Objects (Find Only)</CheckBox>
+                        <CheckBox Foreground="{DynamicResource DisabledText}" Margin="0,5,0,0">Preserve Attributes (Replace Only)</CheckBox>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Foreground="{DynamicResource DisabledText}" Margin="0,0,20,0" VerticalContentAlignment="Center">Bulk Find and Replace from File</CheckBox>
+                            <Button Height="24" Width="70">Browse...</Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Grid.Column="2" Grid.Row="1" Width="75" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">GO!</Button>
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

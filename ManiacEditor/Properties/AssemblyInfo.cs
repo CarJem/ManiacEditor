@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.config", Watch = true)]
 [assembly: AssemblyTitle("Maniac Editor")]
 [assembly: AssemblyDescription("An editor for Sonic Mania levels/scenes.")]
 [assembly: AssemblyConfiguration("")]
