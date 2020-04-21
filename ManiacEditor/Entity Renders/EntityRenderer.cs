@@ -80,12 +80,7 @@ namespace ManiacEditor.Entity_Renders
                 int y1 = y + height / -2;
                 int y2 = y + height / 2 - 1;
 
-                d.DrawRectangle(x1, y1, x2, y2, fill);
-
-                d.DrawLine(x1, y1, x1, y2, outline);
-                d.DrawLine(x1, y1, x2, y1, outline);
-                d.DrawLine(x2, y2, x1, y2, outline);
-                d.DrawLine(x2, y2, x2, y1, outline);
+                d.DrawRectangle(x1, y1, x2, y2, fill, outline, 2);
 
                 var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "EditorAssets", 0, 1);
 
@@ -95,8 +90,8 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    int realX = (x + width / (right ? 2 : -2)) - (right ? Animation.RequestedFrame.Width : 0);
-                    int realY = (y + height / (bottom ? 2 : -2) - (bottom ? Animation.RequestedFrame.Height : 0));
+                    int realX = (right ? x2 - 15 : x1 - 1);
+                    int realY = (bottom ? y2 - 15 : y1 - 1);
                     DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, realX, realY, Transparency, right, bottom);
 
 

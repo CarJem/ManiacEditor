@@ -390,17 +390,15 @@ namespace ManiacEditor
         {
             if (!IsObjectOnScreen(x, y, width, height) || image == null) return;
 
-            Rectangle boundBox = new Rectangle(rect_x, rect_y, width, height);
-
             var zoom = GetZoom();
 
             int real_x = (int)(x * zoom);
             int real_y = (int)(y * zoom);
 
-            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x, real_y);
             SFML.System.Vector2f size = new SFML.System.Vector2f(width * zoom, height * zoom);
+            SFML.System.Vector2f center = new SFML.System.Vector2f(size.X / 2, size.Y / 2);
+            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x + center.X, real_y + center.Y);
 
-            Vector3 center = new Vector3(new float[] { 0, 0, 0 });
 
             var textureRect = new IntRect(rect_x, rect_y, width, height);
 
@@ -421,11 +419,13 @@ namespace ManiacEditor
                     textureRect.Height = -textureRect.Height;
                 }
             }
-            
+
 
 
             SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
             rect.Position = position;
+            rect.Origin = center;
+            rect.Rotation = rotation;
             rect.Size = size;
             rect.Texture = image;
             rect.FillColor = GetTransparency(color, Transparency);

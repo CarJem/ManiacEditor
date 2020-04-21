@@ -5,8 +5,7 @@ namespace ManiacEditor.Entity_Renders
 {
     public class ZipLine : EntityRenderer
     {
-        int lastAngle { get; set; } = 0;
-        int lastLength { get; set; } = 0;
+        int[] LastValues { get; set; } = new int[4] { 0, 0, 0, 0 };
         int[] LastRotatePoints { get; set; } = new int[2] { 0, 0 };
         public override void Draw(Structures.EntityRenderProp Properties)
         {
@@ -26,11 +25,9 @@ namespace ManiacEditor.Entity_Renders
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
             var editorAnim2 = LoadAnimation("ZipLine", d, 0, 1);
 
-            if (length != lastLength || angle != lastAngle)
+            if (AreValuesDiffrent(x + length, y + length, x, y, -angle + 32))
             {
                 LastRotatePoints = RotatePoints(x + length, y + length, x, y, -angle + 32);
-                lastLength = length;
-                lastAngle = angle;
             }
 
             if (length != 0)
@@ -40,6 +37,17 @@ namespace ManiacEditor.Entity_Renders
                 DrawTexturePivotNormal(d, editorAnim2, editorAnim2.RequestedAnimID, editorAnim2.RequestedFrameID, LastRotatePoints[0], LastRotatePoints[1], Transparency);
             }
 
+        }
+
+        private bool AreValuesDiffrent(int initX, int initY, int centerX, int centerY, int angle)
+        {
+            int[] CurrentValues = new int[] { initX, initY, centerX, centerY, angle };
+            if (LastValues != CurrentValues)
+            {
+                LastValues = CurrentValues;
+                return true;
+            }
+            else return false;
         }
 
         private static int[] RotatePoints(double initX, double initY, double centerX, double centerY, int angle)

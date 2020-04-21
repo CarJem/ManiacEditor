@@ -239,12 +239,14 @@
     <Compile Include="Classes\General\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
     <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
+    <Compile Include="Classes\Rendering\Graphing.cs" />
     <Compile Include="Controls\Graphics\DevicePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Graphics\DevicePanel.designer.cs">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Honkytonk.cs" />
     <Compile Include="Methods\Draw\GraphicsTileDrawing.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Methods\Draw\LayerTileProvider.cs" />
@@ -1794,6 +1796,9 @@
     </PackageReference>
     <PackageReference Include="Magick.NET-Q8-AnyCPU">
       <Version>7.16.0</Version>
+    </PackageReference>
+    <PackageReference Include="MathNet.Numerics">
+      <Version>4.9.1</Version>
     </PackageReference>
     <PackageReference Include="nrtftree-library">
       <Version>0.4.0</Version>

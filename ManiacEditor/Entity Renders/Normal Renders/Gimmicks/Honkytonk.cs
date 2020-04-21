@@ -5,37 +5,42 @@ namespace ManiacEditor.Entity_Renders
     public class Honkytonk : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            int angle = (int)entity.attributesMap["angle"].ValueEnum;
+
+            int angle = (int)e.attributesMap["angle"].ValueEnum;
             int rotation = (int)(angle / -0.71);
 
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("HonkyTonk", d.DevicePanel, 0, 1, fliph, flipv, true, rotation, true, false, Methods.Entities.EntityDrawing.Flag.PartialEngineRotation, true);
+            var Animation = LoadAnimation("HonkyTonk", d, 0, 0);
 
+            int offset_x = (int)(Animation.RequestedFrame.Width / 2);
+            int offset_y = (int)(Animation.RequestedFrame.Height / 2);
 
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-			{
-				var frame = editorAnim.Frames[0];
+            DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - offset_x, y - offset_y, Transparency, false, false, rotation);
 
-				d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-					x - (int)(frame.ImageWidth / 2),
-					y - (int)(frame.ImageHeight / 2),
-					frame.ImageWidth, frame.ImageHeight, false, Transparency);
-			}
+            Animation = LoadAnimation("HonkyTonk", d, 0, 1);
+
+            offset_x = (int)(Animation.RequestedFrame.Width / 2);
+            offset_y = (int)(Animation.RequestedFrame.Height / 2);
+
+            DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - offset_x, y - offset_y, Transparency, false, false, rotation);
+
+            Animation = LoadAnimation("HonkyTonk", d, 0, 2);
+
+            offset_x = (int)(Animation.RequestedFrame.Width / 2);
+            offset_y = (int)(Animation.RequestedFrame.Height / 2);
+
+            DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - offset_x, y - offset_y, Transparency, false, false, rotation);
 
 
         }
