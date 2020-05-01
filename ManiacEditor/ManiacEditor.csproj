@@ -284,6 +284,9 @@
     <Compile Include="Entity Renders\Normal Renders\Badniks\Clucker.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Dango.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Dragonfly.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Iwamodoki.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Splats.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Vultron.cs" />
     <Compile Include="Entity Renders\Normal Renders\Cutscenes\ControlPanel.cs" />
     <Compile Include="Entity Renders\Normal Renders\Decor\RubyFX.cs" />
     <Compile Include="Entity Renders\Normal Renders\Generic\DCEvent.cs" />

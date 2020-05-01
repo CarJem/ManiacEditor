@@ -65,7 +65,7 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Original Object
-        public Dictionary<string, AttributeValue> attributesMap
+        public DictionaryWithDefault<string, AttributeValue> attributesMap
         {
             get
             {
