@@ -2593,7 +2593,7 @@ namespace ManiacEditor.Controls.TileManiac
 			return EndPoint;
 		}
 
-		private void GraphicPanel_OnRender(object sender, EventHandlers.DeviceEventArgs e)
+		private void GraphicPanel_OnRender(object sender, Events.DeviceEventArgs e)
 		{
 			if (TileConfig != null)
 			{

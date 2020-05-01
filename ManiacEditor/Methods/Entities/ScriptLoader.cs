@@ -14,6 +14,7 @@ namespace ManiacEditor.Methods.Entities
 {
     public static class ScriptLoader
     {
+
         #region Compilation
         public static List<EntityRenderer> LoadRenderers(List<string> filepaths)
         {

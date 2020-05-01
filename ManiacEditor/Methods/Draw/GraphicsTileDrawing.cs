@@ -42,9 +42,9 @@ namespace ManiacEditor.Methods.Draw
 
 
             int CollisionOpacity = (int)Instance.EditorToolbar.CollisionOpacitySlider.Value;
-            var CollisionAllSolidColor = Methods.Solution.SolutionState.CollisionAllSolid_Color;
-            var CollisionLRDSolidColor = Methods.Solution.SolutionState.CollisionLRDSolid_Color;
-            var CollisionTopOnlyColor = Methods.Solution.SolutionState.CollisionTopOnlySolid_Color;
+            var CollisionAllSolidColor = Methods.Solution.SolutionState.Main.CollisionAllSolid_Color;
+            var CollisionLRDSolidColor = Methods.Solution.SolutionState.Main.CollisionLRDSolid_Color;
+            var CollisionTopOnlyColor = Methods.Solution.SolutionState.Main.CollisionTopOnlySolid_Color;
 
 
             System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb(CollisionOpacity, CollisionAllSolidColor.R, CollisionAllSolidColor.G, CollisionAllSolidColor.B);
@@ -55,7 +55,7 @@ namespace ManiacEditor.Methods.Draw
 
             if (ChunkDraw) return;
 
-            if (Methods.Solution.SolutionState.ShowCollisionA)
+            if (Methods.Solution.SolutionState.Main.ShowCollisionA)
             {
                 if (SolidLrbA || SolidTopA)
                 {
@@ -64,7 +64,7 @@ namespace ManiacEditor.Methods.Draw
                     if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid);
                 }
             }
-            if (Methods.Solution.SolutionState.ShowCollisionB)
+            if (Methods.Solution.SolutionState.Main.ShowCollisionB)
             {
                 if (SolidLrbB || SolidTopB)
                 {
@@ -74,12 +74,12 @@ namespace ManiacEditor.Methods.Draw
                 }
             }
 
-            if (Methods.Solution.SolutionState.ShowFlippedTileHelper == true)
+            if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper == true)
             {
                 g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false, SemiTransparent),
                             new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
             }
-            if (Methods.Solution.SolutionState.ShowTileID == true)
+            if (Methods.Solution.SolutionState.Main.ShowTileID == true)
             {
                 g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false, SemiTransparent),
                             new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));

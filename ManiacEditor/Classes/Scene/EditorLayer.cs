@@ -502,7 +502,7 @@ namespace ManiacEditor.Classes.Scene
             point = new Point(point.X / Methods.Solution.SolutionConstants.TILE_SIZE, point.Y / Methods.Solution.SolutionConstants.TILE_SIZE);
             if (point.X >= 0 && point.Y >= 0 && point.X < this._layer.Tiles[0].Length && point.Y < this._layer.Tiles.Length)
             {
-                return (_layer.Tiles[point.Y][point.X] != 0xffff || Methods.Solution.SolutionState.CopyAir);
+                return (_layer.Tiles[point.Y][point.X] != 0xffff || Methods.Solution.SolutionState.Main.CopyAir);
             }
             return false;
         }
@@ -606,7 +606,7 @@ namespace ManiacEditor.Classes.Scene
                         SelectedTiles.Add(new Point(x, y));
 
                     }
-                    else if (_layer.Tiles[y][x] == 0xffff && Methods.Solution.SolutionState.CopyAir)
+                    else if (_layer.Tiles[y][x] == 0xffff && Methods.Solution.SolutionState.Main.CopyAir)
                     {
                         SelectedTiles.Add(new Point(x, y));
 
@@ -643,7 +643,7 @@ namespace ManiacEditor.Classes.Scene
                         SelectedTiles.Add(new Point(x, y));
 
                     }
-                    else if (_layer.Tiles[y][x] == 0xffff && Methods.Solution.SolutionState.CopyAir)
+                    else if (_layer.Tiles[y][x] == 0xffff && Methods.Solution.SolutionState.Main.CopyAir)
                     {
                         SelectedTiles.Add(new Point(x, y));
 
@@ -669,7 +669,7 @@ namespace ManiacEditor.Classes.Scene
                     DeselectPoint(point);
 
                 }
-                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || Methods.Solution.SolutionState.CopyAir)
+                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || Methods.Solution.SolutionState.Main.CopyAir)
                 {
                     // Just add the point
                     SelectedTiles.Add(point);
@@ -687,7 +687,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 for (int x = Math.Max(area.X / Methods.Solution.SolutionConstants.TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, Methods.Solution.SolutionConstants.TILE_SIZE), _layer.Width); ++x)
                 {
-                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || Methods.Solution.SolutionState.CopyAir))
+                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || Methods.Solution.SolutionState.Main.CopyAir))
                     {
                         TempSelectionTiles.Add(new Point(x, y));
                         if (SelectedTiles.Contains(new Point(x, y)) && TempSelectionTiles.Contains(new Point(x, y)))
@@ -842,12 +842,12 @@ namespace ManiacEditor.Classes.Scene
         }
         public void DrawTiles(Point position, ushort tile)
         {
-            double offset = (Methods.Solution.SolutionState.DrawBrushSize / 2) * Methods.Solution.SolutionConstants.TILE_SIZE;
+            double offset = (Methods.Solution.SolutionState.Main.DrawBrushSize / 2) * Methods.Solution.SolutionConstants.TILE_SIZE;
             Point finalPosition = new Point((int)(position.X - offset), (int)(position.Y - offset));
             Dictionary<Point, ushort> tiles = new Dictionary<Point, ushort>();
-            for (int x = 0; x < Methods.Solution.SolutionState.DrawBrushSize; x++)
+            for (int x = 0; x < Methods.Solution.SolutionState.Main.DrawBrushSize; x++)
             {
-                for (int y = 0; y < Methods.Solution.SolutionState.DrawBrushSize; y++)
+                for (int y = 0; y < Methods.Solution.SolutionState.Main.DrawBrushSize; y++)
                 {
                     if (!tiles.ContainsKey(new Point(x, y))) tiles.Add(new Point(x, y), (ushort)tile);
                 }
@@ -1068,11 +1068,10 @@ namespace ManiacEditor.Classes.Scene
                 var copyData = Classes.Scene.EditorLayer.GetClipboardData(Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB);
 
                 // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-                if (!AvoidWindowsClipboard)
-                    Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData.GetData()), true);
+
 
                 // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
-                Methods.Solution.SolutionClipboard.TilesClipboard = copyData;
+                Methods.Solution.SolutionClipboard.SetTileClipboard(copyData);
             }
             else
             {
@@ -1080,12 +1079,8 @@ namespace ManiacEditor.Classes.Scene
                 var copyDataB = Methods.Solution.CurrentSolution.EditLayerB?.GetClipboardData();
                 var copyData = new Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry(copyDataA, copyDataB);
 
-                // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-                if (!AvoidWindowsClipboard)
-                    Clipboard.SetDataObject(new DataObject("ManiacTiles", copyData.GetData()), true);
-
                 // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
-                Methods.Solution.SolutionClipboard.TilesClipboard = copyData;
+                Methods.Solution.SolutionClipboard.SetTileClipboard(copyData);
             }
         }
         public static void Paste()
@@ -1113,15 +1108,15 @@ namespace ManiacEditor.Classes.Scene
 
             Point GetPastePoint()
             {
-                if (ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit())
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
                 {
 
-                    Point p = Methods.Solution.SolutionState.GetLastXY();
+                    Point p = Methods.Solution.SolutionState.Main.GetLastXY();
                     return Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
                 }
                 else
                 {
-                    return new Point((int)(Methods.Solution.SolutionState.LastX / Methods.Solution.SolutionState.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1, (int)(Methods.Solution.SolutionState.LastY / Methods.Solution.SolutionState.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1);
+                    return new Point((int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1, (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1);
                 }
             }
         }
@@ -1134,6 +1129,7 @@ namespace ManiacEditor.Classes.Scene
         }
         public static void Duplicate()
         {
+            Copy();
             Methods.Solution.CurrentSolution.EditLayerA?.PasteClipboardData(new Point(16, 16), Methods.Solution.CurrentSolution.EditLayerA?.GetClipboardData(true));
             Methods.Solution.CurrentSolution.EditLayerB?.PasteClipboardData(new Point(16, 16), Methods.Solution.CurrentSolution.EditLayerB?.GetClipboardData(true));
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
@@ -1165,32 +1161,32 @@ namespace ManiacEditor.Classes.Scene
         public static void MoveTiles(System.Windows.Forms.KeyEventArgs e)
         {
             int x = 0, y = 0;
-            int modifier = (ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit() ? 8 : 1);
-            if (Methods.Solution.SolutionState.UseMagnetMode)
+            int modifier = (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit() ? 8 : 1);
+            if (Methods.Solution.SolutionState.Main.UseMagnetMode)
             {
                 switch (e.KeyData)
                 {
-                    case Keys.Up: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? -Methods.Solution.SolutionState.MagnetSize : -1); break;
-                    case Keys.Down: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? Methods.Solution.SolutionState.MagnetSize : 1); break;
-                    case Keys.Left: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? -Methods.Solution.SolutionState.MagnetSize : -1); break;
-                    case Keys.Right: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? Methods.Solution.SolutionState.MagnetSize : 1); break;
+                    case Keys.Up: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? -Methods.Solution.SolutionState.Main.MagnetSize : -1); break;
+                    case Keys.Down: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? Methods.Solution.SolutionState.Main.MagnetSize : 1); break;
+                    case Keys.Left: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? -Methods.Solution.SolutionState.Main.MagnetSize : -1); break;
+                    case Keys.Right: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? Methods.Solution.SolutionState.Main.MagnetSize : 1); break;
                 }
             }
-            if (Methods.Solution.SolutionState.EnableFasterNudge)
+            if (Methods.Solution.SolutionState.Main.EnableFasterNudge)
             {
-                if (Methods.Solution.SolutionState.UseMagnetMode)
+                if (Methods.Solution.SolutionState.Main.UseMagnetMode)
                 {
                     switch (e.KeyData)
                     {
-                        case Keys.Up: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? -Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.FasterNudgeAmount); break;
-                        case Keys.Down: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.FasterNudgeAmount); break;
-                        case Keys.Left: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? -Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.FasterNudgeAmount); break;
-                        case Keys.Right: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.FasterNudgeAmount); break;
+                        case Keys.Up: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? -Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Down: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Left: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? -Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Right: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
                     }
                 }
                 else
                 {
-                    if (ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit())
+                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
                     {
                         switch (e.KeyData)
                         {
@@ -1204,17 +1200,17 @@ namespace ManiacEditor.Classes.Scene
                     {
                         switch (e.KeyData)
                         {
-                            case Keys.Up: y = (-1 - Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
-                            case Keys.Down: y = (1 + Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
-                            case Keys.Left: x = (-1 - Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
-                            case Keys.Right: x = (1 + Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
+                            case Keys.Up: y = (-1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                            case Keys.Down: y = (1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                            case Keys.Left: x = (-1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                            case Keys.Right: x = (1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
                         }
                     }
 
                 }
 
             }
-            if (Methods.Solution.SolutionState.UseMagnetMode == false && Methods.Solution.SolutionState.EnableFasterNudge == false)
+            if (Methods.Solution.SolutionState.Main.UseMagnetMode == false && Methods.Solution.SolutionState.Main.EnableFasterNudge == false)
             {
                 switch (e.KeyData)
                 {
@@ -1349,16 +1345,16 @@ namespace ManiacEditor.Classes.Scene
 
             if (Methods.Solution.CurrentSolution.EditLayerA != null && (Methods.Solution.CurrentSolution.EditLayerA != this && Methods.Solution.CurrentSolution.EditLayerB != this))
                 RenderingTransparency = 0x32;
-            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.CurrentSolution.EditLayerA == null && Methods.Solution.SolutionState.ApplyEditEntitiesTransparency)
+            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.CurrentSolution.EditLayerA == null && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency)
                 RenderingTransparency = 0x32;
             else
                 RenderingTransparency = 0xFF;
 
             RenderSection(RenderingProvider.MapRender);
-            if (Methods.Solution.SolutionState.ShowTileID) RenderSection(RenderingProvider.MapRenderTileID);
-            if (Methods.Solution.SolutionState.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
-            if (Methods.Solution.SolutionState.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
-            if (Methods.Solution.SolutionState.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
+            if (Methods.Solution.SolutionState.Main.ShowTileID) RenderSection(RenderingProvider.MapRenderTileID);
+            if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
+            if (Methods.Solution.SolutionState.Main.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
+            if (Methods.Solution.SolutionState.Main.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
             RenderSection(RenderingProvider.MapRenderSelected);
 
 
@@ -1366,7 +1362,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 if (vbo == null) return;
                 vbo.Refresh();
-                vbo.Zoom = Methods.Solution.SolutionState.Zoom;
+                vbo.Zoom = Methods.Solution.SolutionState.Main.Zoom;
                 d.RenderWindow.Draw(vbo);
             }
 

@@ -151,7 +151,7 @@ namespace ManiacEditor.Methods.Layers
                     if (TileIndex == tile) //do the tiles match?
                     {
                         Points.Add(new Point(x * 16, y * 16)); //Add the found tile to our list of points!
-                                                               //Console.WriteLine(x * 16 + " " + y * 16);                       
+                                                               //ManiacEditor.Extensions.ConsoleExtensions.Print(x * 16 + " " + y * 16);                       
                     }
                 }
             }
@@ -199,7 +199,7 @@ namespace ManiacEditor.Methods.Layers
 
                         Methods.Solution.CurrentSolution.EditLayerA.Layer.Tiles[y][x] = Tile; //Set our new tile Value
 
-                        //Console.WriteLine(x * 16 + " " + y * 16);
+                        //ManiacEditor.Extensions.ConsoleExtensions.Print(x * 16 + " " + y * 16);
                     }
                 }
             }

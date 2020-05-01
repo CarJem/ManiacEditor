@@ -147,7 +147,7 @@ namespace ManiacEditor.Methods.Entities
         }
         public static Bitmap SetEncoreColors(Bitmap map, bool NoEncoreColors)
         {
-            if (Methods.Solution.SolutionState.UseEncoreColors && NoEncoreColors == false) return SetColors((Bitmap)map.Clone(), ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]);
+            if (Methods.Solution.SolutionState.Main.UseEncoreColors && NoEncoreColors == false) return SetColors((Bitmap)map.Clone(), ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]);
             else return map;
 
             Bitmap SetColors(Bitmap _bitmap, string encoreColors)
@@ -307,9 +307,6 @@ namespace ManiacEditor.Methods.Entities
 
 			if (!File.Exists(path2))
 			{
-				// Checks using Setup Object (Removed Until Further Notice)
-				//path = Extensions.ReplaceLastOccurrence(Classes.Edit.Scene.EditorSolution.Entities.SetupObject, "Setup", "") + "\\" + name + ".bin";
-				//path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
 				if (!File.Exists(path2))
 				{
 					// Checks without last character
@@ -496,7 +493,7 @@ namespace ManiacEditor.Methods.Entities
         }
         public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
         {
-            if (Methods.Solution.SolutionState.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
+            if (Methods.Solution.SolutionState.Main.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
             {
                 if (e.RenderNotFound)
                 {
@@ -511,7 +508,7 @@ namespace ManiacEditor.Methods.Entities
                 d.DrawLine(x, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
                 d.DrawLine(x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
 
-                if (Methods.Solution.SolutionState.Zoom >= 2)
+                if (Methods.Solution.SolutionState.Main.Zoom >= 2)
                 {
                     d.DrawText(string.Format("{0}", e.Object.Name), x + 2, y + 2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
                     d.DrawText(string.Format("(ID: {0})", e.SlotID), x + 2, y + 10, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
@@ -532,11 +529,11 @@ namespace ManiacEditor.Methods.Entities
         {
             if (e.InTempSelection)
             {
-                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x00, color);
             }
             else
             {
-                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x00, color);
             }
         }
         public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
@@ -591,11 +588,11 @@ namespace ManiacEditor.Methods.Entities
         {
             if (e.InTempSelection)
             {
-                return (e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+                return (e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             }
             else
             {
-                return (e.Selected && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
+                return (e.Selected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) ? System.Drawing.Color.MediumPurple : System.Drawing.Color.MediumTurquoise;
             }
         }
         public static int GetTransparencyLevel()
@@ -674,6 +671,13 @@ namespace ManiacEditor.Methods.Entities
 
         #region Update Visibility
 
+        public static void UpdateVisibleEntities(List<Classes.Scene.EditorEntity> Entities)
+        {
+            foreach (var entity in Entities)
+            {
+                entity.IsVisible = IsObjectOnScreen(Instance.ViewPanel.SharpPanel.GraphicPanel, entity);
+            }
+        }
         public static void UpdateVisibleEntities(DevicePanel d, List<Classes.Scene.EditorEntity> Entities)
         {
             foreach (var entity in Entities)
@@ -686,10 +690,10 @@ namespace ManiacEditor.Methods.Entities
         {
             if (Methods.Solution.CurrentSolution.Entities != null)
             {
-                if (Methods.Solution.SolutionState.ViewPositionX != LastViewPositionX || Methods.Solution.SolutionState.ViewPositionX != LastViewPositionY)
+                if (Methods.Solution.SolutionState.Main.ViewPositionX != LastViewPositionX || Methods.Solution.SolutionState.Main.ViewPositionY != LastViewPositionY)
                 {
-                    LastViewPositionX = Methods.Solution.SolutionState.ViewPositionX;
-                    LastViewPositionY = Methods.Solution.SolutionState.ViewPositionY;
+                    LastViewPositionX = Methods.Solution.SolutionState.Main.ViewPositionX;
+                    LastViewPositionY = Methods.Solution.SolutionState.Main.ViewPositionY;
                     Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
                 }
                 else if (force)

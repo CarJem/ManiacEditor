@@ -58,7 +58,7 @@ namespace ManiacEditor.Classes.Scene
             int start_y;
             int end_y;
 
-            if (!Methods.Solution.SolutionState.UnlockCamera)
+            if (!Methods.Solution.SolutionState.Main.UnlockCamera)
             {
                 start_x = screen.X / (Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE);
                 end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), Methods.Solution.CurrentSolution.SceneWidth);
@@ -90,10 +90,10 @@ namespace ManiacEditor.Classes.Scene
 
         public void DrawGrid(DevicePanel d)
         {
-            int GridSize = (EditorInstance != null ? Methods.Solution.SolutionState.GridSize : 16);
+            int GridSize = (EditorInstance != null ? Methods.Solution.SolutionState.Main.GridSize : 16);
             Rectangle screen = d.GetScreen();
 
-			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Methods.Solution.SolutionState.GridColor.R, Methods.Solution.SolutionState.GridColor.B, Methods.Solution.SolutionState.GridColor.G);
+			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Methods.Solution.SolutionState.Main.GridColor.R, Methods.Solution.SolutionState.Main.GridColor.B, Methods.Solution.SolutionState.Main.GridColor.G);
 
 
             int start_x;
@@ -101,7 +101,7 @@ namespace ManiacEditor.Classes.Scene
             int start_y;
             int end_y;
 
-            if (!Methods.Solution.SolutionState.UnlockCamera)
+            if (!Methods.Solution.SolutionState.Main.UnlockCamera)
             {
                 start_x = screen.X / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
                 end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), Methods.Solution.CurrentSolution.SceneWidth);

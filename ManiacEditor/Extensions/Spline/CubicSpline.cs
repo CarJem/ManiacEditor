@@ -127,7 +127,7 @@ namespace ManiacEditor.Extensions.Spline
 			float dx = xOrig[j + 1] - xOrig[j];
 			float t = (x - xOrig[j]) / dx;
 			float y = (1 - t) * yOrig[j] + t * yOrig[j + 1] + t * (1 - t) * (a[j] * (1 - t) + b[j] * t); // equation 9
-			if (debug) Console.WriteLine("xs = {0}, j = {1}, t = {2}", x, j, t);
+			if (debug) ManiacEditor.Extensions.ConsoleExtensions.Print("xs = {0}, j = {1}, t = {2}", x, j, t);
 			return y;
 		}
 
@@ -226,12 +226,12 @@ namespace ManiacEditor.Extensions.Spline
 				r[n - 1] = endSlope;
 			}
 
-			if (debug) Console.WriteLine("Tri-diagonal matrix:\n{0}", m.ToDisplayString(":0.0000", "  "));
-			if (debug) Console.WriteLine("r: {0}", ArrayUtil.ToString<float>(r));
+			if (debug) ManiacEditor.Extensions.ConsoleExtensions.Print("Tri-diagonal matrix:\n{0}", m.ToDisplayString(":0.0000", "  "));
+			if (debug) ManiacEditor.Extensions.ConsoleExtensions.Print("r: {0}", ArrayUtil.ToString<float>(r));
 
 			// k is the solution to the matrix
 			float[] k = m.Solve(r);
-			if (debug) Console.WriteLine("k = {0}", ArrayUtil.ToString<float>(k));
+			if (debug) ManiacEditor.Extensions.ConsoleExtensions.Print("k = {0}", ArrayUtil.ToString<float>(k));
 
 			// a and b are each spline's coefficients
 			this.a = new float[n - 1];
@@ -245,8 +245,8 @@ namespace ManiacEditor.Extensions.Spline
 				b[i - 1] = -k[i] * dx1 + dy1; // equation 11 from the article
 			}
 
-			if (debug) Console.WriteLine("a: {0}", ArrayUtil.ToString<float>(a));
-			if (debug) Console.WriteLine("b: {0}", ArrayUtil.ToString<float>(b));
+			if (debug) ManiacEditor.Extensions.ConsoleExtensions.Print("a: {0}", ArrayUtil.ToString<float>(a));
+			if (debug) ManiacEditor.Extensions.ConsoleExtensions.Print("b: {0}", ArrayUtil.ToString<float>(b));
 		}
 
 		#endregion
@@ -314,7 +314,7 @@ namespace ManiacEditor.Extensions.Spline
 					+ (1 - 2 * t) * (a[j] * (1 - t) + b[j] * t) / dx
 					+ t * (1 - t) * (b[j] - a[j]) / dx;
 
-				if (debug) Console.WriteLine("[{0}]: xs = {1}, j = {2}, t = {3}", i, x[i], j, t);
+				if (debug) ManiacEditor.Extensions.ConsoleExtensions.Print("[{0}]: xs = {1}, j = {2}, t = {3}", i, x[i], j, t);
 			}
 
 			return qPrime;

@@ -14,13 +14,13 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+
+            int direction = 0;
             bool fliph = false;
             bool flipv = false;
-            if (direction == 1)
-            {
-                fliph = true;
-            }
+
+            if (entity.AttributeExists("direction", AttributeTypes.UINT8)) direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            if (direction == 1) fliph = true;
 
             var Animation = LoadAnimation("Platform", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);

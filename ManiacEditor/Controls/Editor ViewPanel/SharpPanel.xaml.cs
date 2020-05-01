@@ -19,7 +19,7 @@ using ManiacEditor.Controls;
 using ManiacEditor.Controls.Global;
 using ManiacEditor.Entity_Renders;
 using ManiacEditor.Enums;
-using ManiacEditor.EventHandlers;
+using ManiacEditor.Events;
 using ManiacEditor.Extensions;
 using Microsoft.Win32;
 using RSDKv5;
@@ -145,7 +145,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         private void GraphicPanel_PreRenderingSetup(object sender, DeviceEventArgs e)
         {
             GraphicPanel.OnRender -= GraphicPanel_PreRenderingSetup;
-            this.UpdateZoomLevel((int)Methods.Solution.SolutionState.ZoomLevel, new System.Drawing.Point(0, 0));
+            this.UpdateZoomLevel((int)Methods.Solution.SolutionState.Main.ZoomLevel, new System.Drawing.Point(0, 0));
         }
         public void SetupGraphicsPanel()
         {
@@ -207,11 +207,11 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         #region IDrawArea Methods
         public SFML.System.Vector2i GetPosition()
         {
-            return new SFML.System.Vector2i((int)Methods.Solution.SolutionState.ViewPositionX, (int)Methods.Solution.SolutionState.ViewPositionY);
+            return new SFML.System.Vector2i((int)Methods.Solution.SolutionState.Main.ViewPositionX, (int)Methods.Solution.SolutionState.Main.ViewPositionY);
         }
         public float GetZoom()
         {
-            return (float)Methods.Solution.SolutionState.Zoom;
+            return (float)Methods.Solution.SolutionState.Main.Zoom;
         }
         public new void Dispose()
         {
@@ -221,7 +221,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         public System.Drawing.Rectangle GetScreen()
         {
-            return new System.Drawing.Rectangle((int)Methods.Solution.SolutionState.ViewPositionX, (int)Methods.Solution.SolutionState.ViewPositionY, RenderingWidth, RenderingHeight);
+            return new System.Drawing.Rectangle((int)Methods.Solution.SolutionState.Main.ViewPositionX, (int)Methods.Solution.SolutionState.Main.ViewPositionY, RenderingWidth, RenderingHeight);
         }
 
 
@@ -231,7 +231,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
         private void Host_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            Console.WriteLine("DPI Change Detected!");
+            ManiacEditor.Extensions.ConsoleExtensions.Print("DPI Change Detected!");
         }
 
         private void SharpPanel_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -269,7 +269,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         {
             if (Instance != null)
             {
-                if (Methods.Solution.SolutionState.UnlockCamera)
+                if (Methods.Solution.SolutionState.Main.UnlockCamera)
                 {
                     RenderingWidth = (int)(this.ActualWidth * DPIScale);
                     RenderingHeight = (int)(this.ActualHeight * DPIScale);
@@ -293,27 +293,27 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         #region Zooming Methods
         public void UpdateZoomLevel(int zoom_level, System.Drawing.Point zoom_point)
         {
-            double old_zoom = Methods.Solution.SolutionState.Zoom;
-            Methods.Solution.SolutionState.ZoomLevel = zoom_level;
-            switch (Methods.Solution.SolutionState.ZoomLevel)
+            double old_zoom = Methods.Solution.SolutionState.Main.Zoom;
+            Methods.Solution.SolutionState.Main.ZoomLevel = zoom_level;
+            switch (Methods.Solution.SolutionState.Main.ZoomLevel)
             {
-                case 5: Methods.Solution.SolutionState.Zoom = 4; break;
-                case 4: Methods.Solution.SolutionState.Zoom = 3; break;
-                case 3: Methods.Solution.SolutionState.Zoom = 2; break;
-                case 2: Methods.Solution.SolutionState.Zoom = 3 / 2.0; break;
-                case 1: Methods.Solution.SolutionState.Zoom = 5 / 4.0; break;
-                case 0: Methods.Solution.SolutionState.Zoom = 1; break;
-                case -1: Methods.Solution.SolutionState.Zoom = 2 / 3.0; break;
-                case -2: Methods.Solution.SolutionState.Zoom = 1 / 2.0; break;
-                case -3: Methods.Solution.SolutionState.Zoom = 1 / 3.0; break;
-                case -4: Methods.Solution.SolutionState.Zoom = 1 / 4.0; break;
-                case -5: Methods.Solution.SolutionState.Zoom = 1 / 8.0; break;
+                case 5: Methods.Solution.SolutionState.Main.Zoom = 4; break;
+                case 4: Methods.Solution.SolutionState.Main.Zoom = 3; break;
+                case 3: Methods.Solution.SolutionState.Main.Zoom = 2; break;
+                case 2: Methods.Solution.SolutionState.Main.Zoom = 3 / 2.0; break;
+                case 1: Methods.Solution.SolutionState.Main.Zoom = 5 / 4.0; break;
+                case 0: Methods.Solution.SolutionState.Main.Zoom = 1; break;
+                case -1: Methods.Solution.SolutionState.Main.Zoom = 2 / 3.0; break;
+                case -2: Methods.Solution.SolutionState.Main.Zoom = 1 / 2.0; break;
+                case -3: Methods.Solution.SolutionState.Main.Zoom = 1 / 3.0; break;
+                case -4: Methods.Solution.SolutionState.Main.Zoom = 1 / 4.0; break;
+                case -5: Methods.Solution.SolutionState.Main.Zoom = 1 / 8.0; break;
             }
 
-            Methods.Solution.SolutionState.Zooming = true;
+            Methods.Solution.SolutionState.Main.Zooming = true;
 
-            int oldShiftX = Methods.Solution.SolutionState.ViewPositionX;
-            int oldShiftY = Methods.Solution.SolutionState.ViewPositionY;
+            int oldShiftX = Methods.Solution.SolutionState.Main.ViewPositionX;
+            int oldShiftY = Methods.Solution.SolutionState.Main.ViewPositionY;
 
             if (Methods.Solution.CurrentSolution.CurrentScene != null) UpdateGraphicsPanelControls();
 
@@ -321,30 +321,30 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             UpdateScrollPosYFromZoom(old_zoom, zoom_point, oldShiftY);
 
 
-            Methods.Solution.SolutionState.Zooming = false;
+            Methods.Solution.SolutionState.Main.Zooming = false;
             Methods.Internal.UserInterface.UpdateControls();
         }
         public void ResetZoomLevel(bool resizeForm = true)
         {
-            Methods.Solution.SolutionState.ZoomLevel = 1;
-            this.UpdateZoomLevel((int)Methods.Solution.SolutionState.ZoomLevel, new System.Drawing.Point(0, 0));
+            Methods.Solution.SolutionState.Main.ZoomLevel = 1;
+            this.UpdateZoomLevel((int)Methods.Solution.SolutionState.Main.ZoomLevel, new System.Drawing.Point(0, 0));
         }
         private void UpdateScrollPosXFromZoom(double old_zoom, System.Drawing.Point zoom_point, int oldShiftX)
         {
             if (this.hScrollBar1.IsVisible)
             {
-                int value = (int)((zoom_point.X + oldShiftX) / old_zoom * Methods.Solution.SolutionState.Zoom - zoom_point.X);
-                if (!Methods.Solution.SolutionState.UnlockCamera) value = (int)Math.Min((this.hScrollBar1.Maximum), Math.Max(0, value));
-                Methods.Solution.SolutionState.SetViewPositionX(value);
+                int value = (int)((zoom_point.X + oldShiftX) / old_zoom * Methods.Solution.SolutionState.Main.Zoom - zoom_point.X);
+                if (!Methods.Solution.SolutionState.Main.UnlockCamera) value = (int)Math.Min((this.hScrollBar1.Maximum), Math.Max(0, value));
+                Methods.Solution.SolutionState.Main.ViewPositionX = value;
             }
         }
         private void UpdateScrollPosYFromZoom(double old_zoom, System.Drawing.Point zoom_point, int oldShiftY)
         {
             if (this.vScrollBar1.IsVisible)
             {
-                int value = (int)((zoom_point.Y + oldShiftY) / old_zoom * Methods.Solution.SolutionState.Zoom - zoom_point.Y);
-                if (!Methods.Solution.SolutionState.UnlockCamera) value = (int)Math.Min((this.vScrollBar1.Maximum), Math.Max(0, value));
-                Methods.Solution.SolutionState.SetViewPositionY(value);
+                int value = (int)((zoom_point.Y + oldShiftY) / old_zoom * Methods.Solution.SolutionState.Main.Zoom - zoom_point.Y);
+                if (!Methods.Solution.SolutionState.Main.UnlockCamera) value = (int)Math.Min((this.vScrollBar1.Maximum), Math.Max(0, value));
+                Methods.Solution.SolutionState.Main.ViewPositionY = value;
             }
         }
         #endregion
@@ -399,10 +399,10 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
         private void GP_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit())
+            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
             {
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
-                Methods.Solution.CurrentSolution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Solution.SolutionState.ViewPositionX) / Methods.Solution.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Methods.Solution.SolutionState.ViewPositionY) / Methods.Solution.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex);
+                Methods.Solution.CurrentSolution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Solution.SolutionState.Main.ViewPositionX) / Methods.Solution.SolutionState.Main.Zoom), (int)(((e.Y - rel.Y) + Methods.Solution.SolutionState.Main.ViewPositionY) / Methods.Solution.SolutionState.Main.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex);
                 GraphicPanel.Render();
 
             }
@@ -418,11 +418,11 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         private void GP_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit())
+            if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
             {
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 e.Effect = System.Windows.Forms.DragDropEffects.Move;
-                Methods.Solution.CurrentSolution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Solution.SolutionState.ViewPositionX) / Methods.Solution.SolutionState.Zoom), (int)(((e.Y - rel.Y) + Methods.Solution.SolutionState.ViewPositionY) / Methods.Solution.SolutionState.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex);
+                Methods.Solution.CurrentSolution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Solution.SolutionState.Main.ViewPositionX) / Methods.Solution.SolutionState.Main.Zoom), (int)(((e.Y - rel.Y) + Methods.Solution.SolutionState.Main.ViewPositionY) / Methods.Solution.SolutionState.Main.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex);
                 Actions.UndoRedoModel.UpdateEditLayerActions();
             }
             else
@@ -456,14 +456,8 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
                 UpdateScrollViewportSize();
                 UpdateScrollBarSizes();
                 UpdateScrollBarMaximumValues();
-                UpdateGraphicPanelViewSize();
-                if (!Methods.Solution.SolutionState.UnlockCamera) SyncScrollBarsWithMaximum();
-            }));
-        }
-
-        private void UpdateGraphicPanelViewSize()
-        {
-
+                if (!Methods.Solution.SolutionState.Main.UnlockCamera) SyncScrollBarsWithMaximum();
+            }), System.Windows.Threading.DispatcherPriority.Background);
         }
 
         #endregion
@@ -485,7 +479,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         public void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
-            if (Methods.Solution.SolutionState.AnyDragged)
+            if (Methods.Solution.SolutionState.Main.AnyDragged())
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -493,7 +487,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         public void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
-            if (Methods.Solution.SolutionState.AnyDragged)
+            if (Methods.Solution.SolutionState.Main.AnyDragged())
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }
@@ -501,11 +495,11 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         public void HScrollBar1_Entered(object sender, EventArgs e)
         {
-            if (!Methods.Solution.SolutionState.ScrollLocked) Methods.Solution.SolutionState.ScrollDirection = Axis.X;
+            if (!Methods.Solution.SolutionState.Main.ScrollLocked) Methods.Solution.SolutionState.Main.ScrollDirection = Axis.X;
         }
         public void VScrollBar1_Entered(object sender, EventArgs e)
         {
-            if (!Methods.Solution.SolutionState.ScrollLocked) Methods.Solution.SolutionState.ScrollDirection = Axis.Y;
+            if (!Methods.Solution.SolutionState.Main.ScrollLocked) Methods.Solution.SolutionState.Main.ScrollDirection = Axis.Y;
         }
         #endregion
 
@@ -517,7 +511,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         private void UpdateScrollViewportSize()
         {
-            if (Methods.Solution.SolutionState.IsSceneLoaded() && this.vScrollBar1.Track != null && this.hScrollBar1.Track != null)
+            if (Methods.Solution.SolutionState.Main.IsSceneLoaded() && this.vScrollBar1.Track != null && this.hScrollBar1.Track != null)
             {
                 if (this.vScrollBar1.Track.ViewportSize != Methods.Solution.CurrentSolution.SceneHeight) this.vScrollBar1.Track.ViewportSize = Methods.Solution.CurrentSolution.SceneHeight;
                 if (this.hScrollBar1.Track.ViewportSize != Methods.Solution.CurrentSolution.SceneWidth) this.hScrollBar1.Track.ViewportSize = Methods.Solution.CurrentSolution.SceneWidth;
@@ -525,7 +519,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         private void UpdateScrollBarMaximumValues()
         {
-            if (!Methods.Solution.SolutionState.UnlockCamera)
+            if (!Methods.Solution.SolutionState.Main.UnlockCamera)
             {
                 double height = !double.IsNaN(this.vScrollBar1.ActualHeight) ? this.vScrollBar1.ActualHeight : 0;
                 double width = !double.IsNaN(this.hScrollBar1.ActualWidth) ? this.hScrollBar1.ActualWidth : 0;
@@ -533,8 +527,8 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
                 vScrollBar1.Minimum = 0;
                 hScrollBar1.Minimum = 0;
 
-                vScrollBar1.Maximum = (ManiacEditor.Methods.Solution.CurrentSolution.SceneHeight * ManiacEditor.Methods.Solution.SolutionState.Zoom) - height;
-                hScrollBar1.Maximum = (ManiacEditor.Methods.Solution.CurrentSolution.SceneWidth * ManiacEditor.Methods.Solution.SolutionState.Zoom) - width;
+                vScrollBar1.Maximum = (ManiacEditor.Methods.Solution.CurrentSolution.SceneHeight * ManiacEditor.Methods.Solution.SolutionState.Main.Zoom) - height;
+                hScrollBar1.Maximum = (ManiacEditor.Methods.Solution.CurrentSolution.SceneWidth * ManiacEditor.Methods.Solution.SolutionState.Main.Zoom) - width;
             }
             else
             {
@@ -581,8 +575,8 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             Visibility nvscrollbar = Visibility.Visible;
             Visibility nhscrollbar = Visibility.Visible;
 
-            if (this.hScrollBar1.Maximum == 0 && !Methods.Solution.SolutionState.UnlockCamera) nhscrollbar = Visibility.Hidden;
-            if (this.vScrollBar1.Maximum == 0 && !Methods.Solution.SolutionState.UnlockCamera) nvscrollbar = Visibility.Hidden;
+            if (this.hScrollBar1.Maximum == 0 && !Methods.Solution.SolutionState.Main.UnlockCamera) nhscrollbar = Visibility.Hidden;
+            if (this.vScrollBar1.Maximum == 0 && !Methods.Solution.SolutionState.Main.UnlockCamera) nvscrollbar = Visibility.Hidden;
 
             this.vScrollBar1.Visibility = nvscrollbar;
             this.hScrollBar1.Visibility = nhscrollbar;
@@ -598,7 +592,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             bool showEntities = Instance.EditorToolbar.ShowEntities.IsChecked.Value && !Instance.EditorToolbar.EditEntities.IsCheckedAll;
             bool showEntitiesEditing = Instance.EditorToolbar.EditEntities.IsCheckedAll;
 
-            bool AboveAllMode = Methods.Solution.SolutionState.EntitiesVisibileAboveAllLayers;
+            bool AboveAllMode = Methods.Solution.SolutionState.Main.EntitiesVisibileAboveAllLayers;
 
             Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
 
@@ -609,7 +603,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
                 if (Methods.Solution.CurrentSolution.CurrentScene.OtherLayers.Contains(Methods.Solution.CurrentSolution.EditLayerA)) Methods.Solution.CurrentSolution.EditLayerA.Draw(GraphicPanel);
 
-                if (!Methods.Solution.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
+                if (!Methods.Solution.SolutionState.Main.ExtraLayersMoveToFront) DrawExtraLayers();
 
                 DrawLayer(Instance.EditorToolbar.ShowFGLower.IsChecked.Value, Instance.EditorToolbar.EditFGLower.IsCheckedAll, Methods.Solution.CurrentSolution.FGLower);
 
@@ -623,7 +617,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
                 if (showEntities && AboveAllMode) Methods.Solution.CurrentSolution.Entities.Draw(GraphicPanel);
 
-                if (Methods.Solution.SolutionState.ExtraLayersMoveToFront) DrawExtraLayers();
+                if (Methods.Solution.SolutionState.Main.ExtraLayersMoveToFront) DrawExtraLayers();
 
                 if (CanOverlayImage()) DrawOverlayImage();
 
@@ -633,14 +627,14 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
             }
 
-            if (Methods.Solution.SolutionState.DraggingSelection) DrawSelectionBox();
+            if (Methods.Solution.SolutionState.Main.DraggingSelection) DrawSelectionBox();
             else DrawSelectionBox(true);
 
-            if (Methods.Solution.SolutionState.isTileDrawing && Methods.Solution.SolutionState.DrawBrushSize != 1) DrawBrushBox();
+            if (Methods.Solution.SolutionState.Main.isTileDrawing && Methods.Solution.SolutionState.Main.DrawBrushSize != 1) DrawBrushBox();
 
-            if (Methods.Solution.SolutionState.ShowGrid && Methods.Solution.CurrentSolution.CurrentScene != null) Instance.EditBackground.DrawGrid(GraphicPanel);
+            if (Methods.Solution.SolutionState.Main.ShowGrid && Methods.Solution.CurrentSolution.CurrentScene != null) Instance.EditBackground.DrawGrid(GraphicPanel);
 
-            if (Methods.Solution.SolutionState.UnlockCamera) DrawSceneBounds();
+            if (Methods.Solution.SolutionState.Main.UnlockCamera) DrawSceneBounds();
 
             if (Methods.Runtime.GameHandler.GameRunning) DrawGameElements();
 
@@ -657,8 +651,8 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
             void DrawBackground()
             {
-                if (!ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.HideNormalBackground == false) Instance.EditBackground.Draw(GraphicPanel);
-                if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.ShowEditLayerBackground == true) Instance.EditBackground.Draw(GraphicPanel, true);
+                if (!ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.HideNormalBackground == false) Instance.EditBackground.Draw(GraphicPanel);
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.ShowEditLayerBackground == true) Instance.EditBackground.Draw(GraphicPanel, true);
             }
 
             void DrawExtraLayers()
@@ -692,21 +686,21 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             {
                 if (!resetSelection)
                 {
-                    int bound_x1 = (int)(Methods.Solution.SolutionState.RegionX2 / Methods.Solution.SolutionState.Zoom); int bound_x2 = (int)(Methods.Solution.SolutionState.LastX / Methods.Solution.SolutionState.Zoom);
-                    int bound_y1 = (int)(Methods.Solution.SolutionState.RegionY2 / Methods.Solution.SolutionState.Zoom); int bound_y2 = (int)(Methods.Solution.SolutionState.LastY / Methods.Solution.SolutionState.Zoom);
+                    int bound_x1 = (int)(Methods.Solution.SolutionState.Main.RegionX2 / Methods.Solution.SolutionState.Main.Zoom); int bound_x2 = (int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom);
+                    int bound_y1 = (int)(Methods.Solution.SolutionState.Main.RegionY2 / Methods.Solution.SolutionState.Main.Zoom); int bound_y2 = (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom);
                     if (bound_x1 != bound_x2 && bound_y1 != bound_y2)
                     {
                         if (bound_x1 > bound_x2)
                         {
-                            bound_x1 = (int)(Methods.Solution.SolutionState.LastX / Methods.Solution.SolutionState.Zoom);
-                            bound_x2 = (int)(Methods.Solution.SolutionState.RegionX2 / Methods.Solution.SolutionState.Zoom);
+                            bound_x1 = (int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom);
+                            bound_x2 = (int)(Methods.Solution.SolutionState.Main.RegionX2 / Methods.Solution.SolutionState.Main.Zoom);
                         }
                         if (bound_y1 > bound_y2)
                         {
-                            bound_y1 = (int)(Methods.Solution.SolutionState.LastY / Methods.Solution.SolutionState.Zoom);
-                            bound_y2 = (int)(Methods.Solution.SolutionState.RegionY2 / Methods.Solution.SolutionState.Zoom);
+                            bound_y1 = (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom);
+                            bound_y2 = (int)(Methods.Solution.SolutionState.Main.RegionY2 / Methods.Solution.SolutionState.Main.Zoom);
                         }
-                        if (ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit())
+                        if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
                         {
                             bound_x1 = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).X;
                             bound_y1 = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(bound_x1, bound_y1).Y;
@@ -725,18 +719,18 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
                 }
                 else
                 {
-                    Methods.Solution.SolutionState.TempSelectX1 = 0; Methods.Solution.SolutionState.TempSelectX2 = 0; Methods.Solution.SolutionState.TempSelectY1 = 0; Methods.Solution.SolutionState.TempSelectY2 = 0;
+                    Methods.Solution.SolutionState.Main.TempSelectX1 = 0; Methods.Solution.SolutionState.Main.TempSelectX2 = 0; Methods.Solution.SolutionState.Main.TempSelectY1 = 0; Methods.Solution.SolutionState.Main.TempSelectY2 = 0;
                 }
             }
 
             void DrawBrushBox()
             {
 
-                int offset = (Methods.Solution.SolutionState.DrawBrushSize / 2) * Methods.Solution.SolutionConstants.TILE_SIZE;
-                int x1 = (int)(Methods.Solution.SolutionState.LastX / Methods.Solution.SolutionState.Zoom) - offset;
-                int x2 = (int)(Methods.Solution.SolutionState.LastX / Methods.Solution.SolutionState.Zoom) + offset;
-                int y1 = (int)(Methods.Solution.SolutionState.LastY / Methods.Solution.SolutionState.Zoom) - offset;
-                int y2 = (int)(Methods.Solution.SolutionState.LastY / Methods.Solution.SolutionState.Zoom) + offset;
+                int offset = (Methods.Solution.SolutionState.Main.DrawBrushSize / 2) * Methods.Solution.SolutionConstants.TILE_SIZE;
+                int x1 = (int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom) - offset;
+                int x2 = (int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom) + offset;
+                int y1 = (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom) - offset;
+                int y2 = (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom) + offset;
 
 
                 int bound_x1 = (int)(x1); int bound_x2 = (int)(x2);
@@ -774,10 +768,10 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             {
                 Methods.Runtime.GameHandler.DrawGameElements(GraphicPanel);
 
-                if (Methods.Runtime.GameHandler.PlayerSelected) Methods.Runtime.GameHandler.MovePlayer(new System.Drawing.Point(Methods.Solution.SolutionState.LastX, Methods.Solution.SolutionState.LastY), Methods.Solution.SolutionState.Zoom, Methods.Runtime.GameHandler.SelectedPlayer);
+                if (Methods.Runtime.GameHandler.PlayerSelected) Methods.Runtime.GameHandler.MovePlayer(new System.Drawing.Point(Methods.Solution.SolutionState.Main.LastX, Methods.Solution.SolutionState.Main.LastY), Methods.Solution.SolutionState.Main.Zoom, Methods.Runtime.GameHandler.SelectedPlayer);
                 if (Methods.Runtime.GameHandler.CheckpointSelected)
                 {
-                    System.Drawing.Point clicked_point = new System.Drawing.Point((int)(Methods.Solution.SolutionState.LastX / Methods.Solution.SolutionState.Zoom), (int)(Methods.Solution.SolutionState.LastY / Methods.Solution.SolutionState.Zoom));
+                    System.Drawing.Point clicked_point = new System.Drawing.Point((int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom), (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom));
                     Methods.Runtime.GameHandler.UpdateCheckpoint(clicked_point);
                 }
             }

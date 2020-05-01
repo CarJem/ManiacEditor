@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Windows.Input;
 using ManiacEditor.Controls.Global;
 using ManiacEditor.Enums;
-using ManiacEditor.EventHandlers;
+using ManiacEditor.Events;
 using ManiacEditor.Extensions;
 using ManiacEditor.Actions;
 using Microsoft.Win32;
@@ -57,21 +57,21 @@ namespace ManiacEditor.Methods.Solution
 
         public static void FlipHorizontal()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(false, FlipDirection.Horizontal);
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) ManiacEditor.Classes.Scene.EditorEntities.FlipEntities(FlipDirection.Horizontal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(false, FlipDirection.Horizontal);
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) ManiacEditor.Classes.Scene.EditorEntities.FlipEntities(FlipDirection.Horizontal);
         }
         public static void FlipVertical()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(false, FlipDirection.Veritcal);
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) ManiacEditor.Classes.Scene.EditorEntities.FlipEntities(FlipDirection.Veritcal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(false, FlipDirection.Veritcal);
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) ManiacEditor.Classes.Scene.EditorEntities.FlipEntities(FlipDirection.Veritcal);
         }
         public static void FlipHorizontalIndividual()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(true, FlipDirection.Horizontal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(true, FlipDirection.Horizontal);
         }
         public static void FlipVerticalIndividual()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(true, FlipDirection.Veritcal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(true, FlipDirection.Veritcal);
         }
 
         #endregion
@@ -89,38 +89,38 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void SelectAll()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit()) Classes.Scene.EditorLayer.SelectAll();
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) Classes.Scene.EditorEntities.SelectAll();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) Classes.Scene.EditorLayer.SelectAll();
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.SelectAll();
 
             Methods.Internal.UserInterface.UpdateControls();
-            Methods.Solution.SolutionState.RegionX1 = -1;
-            Methods.Solution.SolutionState.RegionY1 = -1;
+            Methods.Solution.SolutionState.Main.RegionX1 = -1;
+            Methods.Solution.SolutionState.Main.RegionY1 = -1;
         }
         public static void Delete()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Classes.Scene.EditorLayer.Delete();
-            if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) Classes.Scene.EditorEntities.Delete();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Delete();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.Delete();
 
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Copy()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Classes.Scene.EditorLayer.Copy();
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Copy();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Copy();
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Copy();
 
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Duplicate()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Classes.Scene.EditorLayer.Duplicate();
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) Classes.Scene.EditorEntities.Duplicate();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Duplicate();
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.Duplicate();
 
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Cut()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Classes.Scene.EditorLayer.Cut();
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Cut();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Cut();
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Cut();
 
             Methods.Internal.UserInterface.UpdateControls();
         }
@@ -128,8 +128,8 @@ namespace ManiacEditor.Methods.Solution
         {
             try
             {
-                if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Classes.Scene.EditorLayer.Paste();
-                else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Paste();
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Paste();
+                else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Paste();
             }
             catch (Exception ex)
             {
@@ -140,10 +140,10 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void Deselect(bool UpdateControls = true)
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsEditing())
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEditing())
             {
-                if (SolutionState.IsTilesEdit()) Classes.Scene.EditorLayer.Deselect();
-                if (SolutionState.IsEntitiesEdit()) Classes.Scene.EditorEntities.Deselect(); 
+                if (SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Deselect();
+                if (SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.Deselect(); 
                 if (UpdateControls) Methods.Internal.UserInterface.UpdateControls();
             }
         }
@@ -154,58 +154,58 @@ namespace ManiacEditor.Methods.Solution
 
         public static void ZoomIn()
         {
-            Methods.Solution.SolutionState.ZoomLevel += 1;
-            if (Methods.Solution.SolutionState.ZoomLevel >= 5) Methods.Solution.SolutionState.ZoomLevel = 5;
-            if (Methods.Solution.SolutionState.ZoomLevel <= -5) Methods.Solution.SolutionState.ZoomLevel = -5;
+            Methods.Solution.SolutionState.Main.ZoomLevel += 1;
+            if (Methods.Solution.SolutionState.Main.ZoomLevel >= 5) Methods.Solution.SolutionState.Main.ZoomLevel = 5;
+            if (Methods.Solution.SolutionState.Main.ZoomLevel <= -5) Methods.Solution.SolutionState.Main.ZoomLevel = -5;
 
-            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.Main.ZoomLevel, new Point(0, 0));
         }
         public static void ZoomOut()
         {
-            Methods.Solution.SolutionState.ZoomLevel -= 1;
-            if (Methods.Solution.SolutionState.ZoomLevel >= 5) Methods.Solution.SolutionState.ZoomLevel = 5;
-            if (Methods.Solution.SolutionState.ZoomLevel <= -5) Methods.Solution.SolutionState.ZoomLevel = -5;
+            Methods.Solution.SolutionState.Main.ZoomLevel -= 1;
+            if (Methods.Solution.SolutionState.Main.ZoomLevel >= 5) Methods.Solution.SolutionState.Main.ZoomLevel = 5;
+            if (Methods.Solution.SolutionState.Main.ZoomLevel <= -5) Methods.Solution.SolutionState.Main.ZoomLevel = -5;
 
-            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.ZoomLevel, new Point(0, 0));
+            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.Main.ZoomLevel, new Point(0, 0));
         }
         public static void Move(System.Windows.Forms.KeyEventArgs e)
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Classes.Scene.EditorLayer.MoveTiles(e);
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) Classes.Scene.EditorEntities.MoveEntities(e);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.MoveTiles(e);
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.MoveEntities(e);
 
             if (Instance.EntitiesToolbar != null) Instance.EntitiesToolbar.UpdateSelectedProperties();
         }
         public static void GoToPosition(int x, int y, bool CenterCoords = true)
         {
-            if (Methods.Solution.SolutionState.UnlockCamera) CenterCoords = true;
+            if (Methods.Solution.SolutionState.Main.UnlockCamera) CenterCoords = true;
 
             /*
             if (CenterCoords)
             {
                 Rectangle r = Instance.ViewPanel.SharpPanel.GraphicPanel.GetScreen();
-                int x2 = (int)(r.Width * Methods.Editor.SolutionState.Zoom);
-                int y2 = (int)(r.Height * Methods.Editor.SolutionState.Zoom);
+                int x2 = (int)(r.Width * Methods.Editor.SolutionState.Main.Zoom);
+                int y2 = (int)(r.Height * Methods.Editor.SolutionState.Main.Zoom);
 
-                int ResultX = (int)(x * Methods.Editor.SolutionState.Zoom) - x2 / 2;
-                int ResultY = (int)(y * Methods.Editor.SolutionState.Zoom) - y2 / 2;
+                int ResultX = (int)(x * Methods.Editor.SolutionState.Main.Zoom) - x2 / 2;
+                int ResultY = (int)(y * Methods.Editor.SolutionState.Main.Zoom) - y2 / 2;
 
-                if ((ResultX <= 0 && !Methods.Editor.SolutionState.UnlockCamera)) ResultX = 0;
-                if ((ResultY <= 0 && !Methods.Editor.SolutionState.UnlockCamera)) ResultY = 0;
+                if ((ResultX <= 0 && !Methods.Editor.SolutionState.Main.UnlockCamera)) ResultX = 0;
+                if ((ResultY <= 0 && !Methods.Editor.SolutionState.Main.UnlockCamera)) ResultY = 0;
 
 
-                Methods.Editor.SolutionState.SetViewPositionX(ResultX);
-                Methods.Editor.SolutionState.SetViewPositionY(ResultY);
+                Methods.Editor.SolutionState.Main.SetViewPositionX(ResultX);
+                Methods.Editor.SolutionState.Main.SetViewPositionY(ResultY);
             }
             else
             {*/
-            int ResultX = (int)(x * Methods.Solution.SolutionState.Zoom);
-            int ResultY = (int)(y * Methods.Solution.SolutionState.Zoom);
+            int ResultX = (int)(x * Methods.Solution.SolutionState.Main.Zoom);
+            int ResultY = (int)(y * Methods.Solution.SolutionState.Main.Zoom);
 
             if ((ResultX <= 0)) ResultX = 0;
             if ((ResultY <= 0)) ResultY = 0;
 
-            Methods.Solution.SolutionState.SetViewPositionX(ResultX);
-            Methods.Solution.SolutionState.SetViewPositionY(ResultY);
+            Methods.Solution.SolutionState.Main.ViewPositionX = ResultX;
+            Methods.Solution.SolutionState.Main.ViewPositionY = ResultY;
             //}
         }
 
@@ -277,24 +277,15 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void ConsoleWindowToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!Methods.Solution.SolutionState.IsConsoleWindowOpen)
-            {
-                Methods.Solution.SolutionState.IsConsoleWindowOpen = true;
-                Extensions.ExternalExtensions.ShowConsoleWindow();
-            }
-            else
-            {
-                Methods.Solution.SolutionState.IsConsoleWindowOpen = false;
-                Extensions.ExternalExtensions.HideConsoleWindow();
-            }
+            ProgramLauncher.ManiacConsoleToggle();
         }
         public static void SaveForForceOpenOnStartupToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.MyDevSettings.DevForceRestartData = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory;
             Properties.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath;
-            Properties.Settings.MyDevSettings.DevForceRestartX = (short)(Methods.Solution.SolutionState.ViewPositionX / Methods.Solution.SolutionState.Zoom);
-            Properties.Settings.MyDevSettings.DevForceRestartY = (short)(Methods.Solution.SolutionState.ViewPositionY / Methods.Solution.SolutionState.Zoom);
-            Properties.Settings.MyDevSettings.DevForceRestartZoomLevel = Methods.Solution.SolutionState.ZoomLevel;
+            Properties.Settings.MyDevSettings.DevForceRestartX = (short)(Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom);
+            Properties.Settings.MyDevSettings.DevForceRestartY = (short)(Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom);
+            Properties.Settings.MyDevSettings.DevForceRestartZoomLevel = Methods.Solution.SolutionState.Main.ZoomLevel;
             Properties.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode;
             Properties.Settings.MyDevSettings.DevForceRestartID = Methods.Solution.CurrentSolution.LevelID;
             Properties.Settings.MyDevSettings.DevForceRestartCurrentName = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Name;
@@ -332,16 +323,16 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void SetScrollLockDirection()
         {
-            if (Methods.Solution.SolutionState.ScrollDirection == Axis.X)
+            if (Methods.Solution.SolutionState.Main.ScrollDirection == Axis.X)
             {
-                Methods.Solution.SolutionState.ScrollDirection = Axis.Y;
+                Methods.Solution.SolutionState.Main.ScrollDirection = Axis.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
                 Instance.MenuBar.xToolStripMenuItem.IsChecked = false;
                 Instance.MenuBar.yToolStripMenuItem.IsChecked = true;
             }
             else
             {
-                Methods.Solution.SolutionState.ScrollDirection = Axis.X;
+                Methods.Solution.SolutionState.Main.ScrollDirection = Axis.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
                 Instance.MenuBar.xToolStripMenuItem.IsChecked = true;
                 Instance.MenuBar.yToolStripMenuItem.IsChecked = false;
@@ -370,40 +361,40 @@ namespace ManiacEditor.Methods.Solution
                     switch (tag)
                     {
                         case "Xbox":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 2;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 2;
                             break;
                         case "Switch":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 4;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 4;
                             break;
                         case "PS4":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 3;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 3;
                             break;
                         case "Saturn Black":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 5;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 5;
                             break;
                         case "Saturn White":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 6;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 6;
                             break;
                         case "Switch Joy L":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 7;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 7;
                             break;
                         case "Switch Joy R":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 8;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 8;
                             break;
                         case "PC EN/JP":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 1;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 1;
                             break;
                         case "PC FR":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 9;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 9;
                             break;
                         case "PC IT":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 10;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 10;
                             break;
                         case "PC GE":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 11;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 11;
                             break;
                         case "PC SP":
-                            Methods.Solution.SolutionState.CurrentManiaUIControllerType = 12;
+                            Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 12;
                             break;
                     }
                     menuItem.IsChecked = true;
@@ -417,40 +408,40 @@ namespace ManiacEditor.Methods.Solution
             switch (tag)
             {
                 case "Xbox":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 2;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 2;
                     break;
                 case "Switch":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 4;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 4;
                     break;
                 case "PS4":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 3;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 3;
                     break;
                 case "Saturn Black":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 5;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 5;
                     break;
                 case "Saturn White":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 6;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 6;
                     break;
                 case "Switch Joy L":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 7;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 7;
                     break;
                 case "Switch Joy R":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 8;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 8;
                     break;
                 case "PC EN/JP":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 1;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 1;
                     break;
                 case "PC FR":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 9;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 9;
                     break;
                 case "PC IT":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 10;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 10;
                     break;
                 case "PC GE":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 11;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 11;
                     break;
                 case "PC SP":
-                    Methods.Solution.SolutionState.CurrentManiaUIControllerType = 12;
+                    Methods.Solution.SolutionState.Main.CurrentManiaUIControllerType = 12;
                     break;
             }
         }
@@ -471,11 +462,11 @@ namespace ManiacEditor.Methods.Solution
                         if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette = Methods.Solution.CurrentSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, fd.FileName);
-                            Methods.Solution.SolutionState.EncoreSetupType = 0;
+                            Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
                             if (File.Exists(ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]))
                             {
-                                Methods.Solution.SolutionState.EncorePaletteExists = true;
-                                Methods.Solution.SolutionState.UseEncoreColors = true;
+                                Methods.Solution.SolutionState.Main.EncorePaletteExists = true;
+                                Methods.Solution.SolutionState.Main.UseEncoreColors = true;
                             }
 
                         }
@@ -489,11 +480,11 @@ namespace ManiacEditor.Methods.Solution
             else if (path != "")
             {
                 ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette = Methods.Solution.CurrentSolution.CurrentScene.GetEncorePalette("", "", "", "", -1, path);
-                Methods.Solution.SolutionState.EncoreSetupType = 0;
+                Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
                 if (File.Exists(ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]))
                 {
-                    Methods.Solution.SolutionState.EncorePaletteExists = true;
-                    Methods.Solution.SolutionState.UseEncoreColors = true;
+                    Methods.Solution.SolutionState.Main.EncorePaletteExists = true;
+                    Methods.Solution.SolutionState.Main.UseEncoreColors = true;
                 }
                 else
                 {
@@ -509,15 +500,15 @@ namespace ManiacEditor.Methods.Solution
             {
                 LockEntityFilterTextChanged = true;
                 System.Windows.Controls.TextBox theSender = sender as System.Windows.Controls.TextBox;
-                Methods.Solution.SolutionState.ObjectFilter = theSender.Text;
-                Instance.MenuBar.EntityFilterTextbox.Text = Methods.Solution.SolutionState.ObjectFilter;
+                Methods.Solution.SolutionState.Main.ObjectFilter = theSender.Text;
+                Instance.MenuBar.EntityFilterTextbox.Text = Methods.Solution.SolutionState.Main.ObjectFilter;
                 Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
                 LockEntityFilterTextChanged = false;
             }
             else
             {
                 LockEntityFilterTextChanged = true;
-                Methods.Solution.SolutionState.ObjectFilter = string.Empty;
+                Methods.Solution.SolutionState.Main.ObjectFilter = string.Empty;
                 Instance.MenuBar.EntityFilterTextbox.Text = string.Empty;
                 LockEntityFilterTextChanged = false;
             }
@@ -527,7 +518,7 @@ namespace ManiacEditor.Methods.Solution
         public static void ManiaMenuLanguageChanged(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.MenuItem menuItem = sender as System.Windows.Controls.MenuItem;
-            Methods.Solution.SolutionState.CurrentManiaUILanguage = menuItem.Tag.ToString();
+            Methods.Solution.SolutionState.Main.CurrentManiaUILanguage = menuItem.Tag.ToString();
             var allLangItems = Instance.MenuBar.menuLanguageToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
             foreach (var item in allLangItems)
             {

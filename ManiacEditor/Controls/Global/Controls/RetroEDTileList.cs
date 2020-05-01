@@ -171,7 +171,7 @@ namespace ManiacEditor.Controls.Global.Controls
 
             }
             catch (Exception ex) {
-                Console.WriteLine(ex.Message);
+                ManiacEditor.Extensions.ConsoleExtensions.Print(ex.Message);
             }
 
         }

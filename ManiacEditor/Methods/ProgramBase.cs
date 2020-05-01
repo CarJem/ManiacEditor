@@ -176,7 +176,7 @@ namespace ManiacEditor.Methods
                 string resource_folder = Environment.CurrentDirectory + @"\Settings\";
                 string definitions_file = Path.Combine(resource_folder, "entity_definitions.json");
 
-                Console.WriteLine("Setting up Object & Attribute Definitions");
+                ManiacEditor.Extensions.ConsoleExtensions.Print("Setting up Object & Attribute Definitions");
 
                 string data = File.ReadAllText(definitions_file);
                 EntityDefinitions definitions = Newtonsoft.Json.JsonConvert.DeserializeObject<EntityDefinitions>(data);
@@ -184,7 +184,7 @@ namespace ManiacEditor.Methods
                 foreach (string attribute in definitions.Attributes) RSDKv5.Objects.AddAttributeName(attribute);
                 foreach (string entityObject in definitions.Objects) RSDKv5.Objects.AddObjectName(entityObject);
 
-                Console.WriteLine("Finished Object & Attribute Definitions");
+                ManiacEditor.Extensions.ConsoleExtensions.Print("Finished Object & Attribute Definitions");
 
             }
             catch (FileNotFoundException fnfe)

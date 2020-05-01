@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" SizeChanged="TileList_Resize">
     <Grid>
-        <ListView ScrollViewer.IsDeferredScrollingEnabled="True" SelectionMode="Single" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="TileList" MouseDown="TileList_MouseDown" MouseUp="TileList_MouseUp" MouseWheel="TileList_MouseWheel" MouseMove="TileList_MouseMove" KeyDown="TileList_KeyDown" PreviewKeyDown="TileList_PreviewKeyDown"  ItemContainerStyle="{DynamicResource TileListViewItemStyle}">
+        <ListView ScrollViewer.IsDeferredScrollingEnabled="True" SelectionChanged="TileList_SelectionChanged" SelectionMode="Single" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="TileList" MouseDown="TileList_MouseDown" MouseUp="TileList_MouseUp" MouseWheel="TileList_MouseWheel" MouseMove="TileList_MouseMove" KeyDown="TileList_KeyDown" PreviewKeyDown="TileList_PreviewKeyDown"  ItemContainerStyle="{DynamicResource TileListViewItemStyle}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <genLib:UniformGridPanel 

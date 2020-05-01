@@ -108,6 +108,15 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
+        public static void DrawTexturePivotForced(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - (Frame.Width / 2), y - (Frame.Height / 2), Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+            }
+        }
+
         public static void DrawHitbox(DevicePanel Graphics, Methods.Entities.EntityDrawing.EditorAnimation Animation, string HitboxName, System.Drawing.Color color, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))

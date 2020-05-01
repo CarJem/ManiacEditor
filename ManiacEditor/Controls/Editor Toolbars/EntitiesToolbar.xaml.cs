@@ -49,10 +49,10 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 			}
 			set
 			{
-				int splineID = Methods.Solution.SolutionState.SelectedSplineID;
-				if (ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Methods.Solution.SolutionState.SplineOptionsGroup.ContainsKey(splineID) && Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+				int splineID = Methods.Solution.SolutionState.Main.SelectedSplineID;
+				if (ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Methods.Solution.SolutionState.Main.SplineOptionsGroup.ContainsKey(splineID) && Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
 				{
-					UpdateToolbar(new List<EditorEntity>() { Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
+					UpdateToolbar(new List<EditorEntity>() { Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
 				}
 				else
 				{
@@ -437,15 +437,18 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 
 			UpdateToolbar(values.ConvertAll(x => x.Entity).ToList());
 		}
-		private void UpdatePositionProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		private void UndoPositionProperty(EditorEntity entity, string Property, object NewValue, object OldValue)
 		{
-			float fvalue = (float)NewValue;
-			if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue)
-			{
-				// Invalid
+			UpdatePositionProperty(entity, Property, NewValue, OldValue, false, true);
+		}
+		private void UpdatePositionProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
+		{
+			string Category = Property.Split(',')[0];
+			string Name = Property.Split(',')[1];
 
-				return;
-			}
+			if (NewValue == null) return;
+			float fvalue = (float)NewValue;
+			if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
 			var pos = entity.Position;
 			if (Name == "x")
 			{
@@ -458,11 +461,11 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 				pos.Y.Low = (ushort)(fvalue * 0x10000);
 			}
 			entity.Position = pos;
+			if (entity == CurrentEntity) UpdateSelectedProperties();
 
-			AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
 
-			if (entity == CurrentEntity)
-				UpdateSelectedProperties();
+			if (CurrentEntity != null && !isUndo) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(UndoPositionProperty)));
+			if (UpdateUI) UpdateToolbar(new List<EditorEntity>() { entity });
 		}
 		private void UpdateNameProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
 		{

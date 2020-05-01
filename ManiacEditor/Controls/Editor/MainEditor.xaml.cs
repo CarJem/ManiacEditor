@@ -31,7 +31,7 @@ using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using ManiacEditor.Controls.Global;
 using ManiacEditor.Enums;
-using ManiacEditor.EventHandlers;
+using ManiacEditor.Events;
 using ManiacEditor.Extensions;
 using System.Windows.Forms.Integration;
 using ManiacEditor.Controls.Editor;
@@ -106,9 +106,10 @@ namespace ManiacEditor.Controls.Editor
             Methods.Internal.Theming.SetTheme();
             ElementHost.EnableModelessKeyboardInterop(this);
             System.Windows.Application.Current.MainWindow = this;
-
-            Extensions.ExternalExtensions.AllocConsole();
-            Extensions.ExternalExtensions.HideConsoleWindow();
+            
+            Extensions.ConsoleExtensions.AllocConsole();
+            Extensions.ConsoleExtensions.AttachConsole(Process.GetCurrentProcess().Id);
+            Extensions.ConsoleExtensions.HideConsoleWindow();
         }
         private void InitilizeControls()
         {
@@ -131,7 +132,7 @@ namespace ManiacEditor.Controls.Editor
             Methods.Internal.UserInterface.Misc.UpdateStartScreen(true, true);
 
             EditorStatusBar.UpdateFilterButtonApperance();
-            Methods.Solution.SolutionState.RefreshCollisionColours();
+            Methods.Solution.SolutionState.Main.RefreshCollisionColours();
         }
         private void InitalizeInstances()
         {
@@ -140,7 +141,7 @@ namespace ManiacEditor.Controls.Editor
             Methods.Solution.CurrentSolution.UpdateInstance(this);
             Global.Controls.RetroEDTileList.UpdateInstance(this);
             Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
-            Methods.Solution.SolutionState.UpdateInstance(this);
+            Methods.Solution.SolutionState.Main.UpdateInstance(this);
             Editor_Elements.Toolbar.UpdateInstance(this);
             Methods.Entities.EntityDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
@@ -157,6 +158,7 @@ namespace ManiacEditor.Controls.Editor
         }
         private void InitalizeSettings()
         {
+            Classes.Prefrences.CommonPathsStorage.Initilize(this);
             Classes.Prefrences.SceneHistoryStorage.Initilize(this);
             Classes.Prefrences.DataStateHistoryStorage.Initilize(this);
             Methods.Internal.Settings.TryLoadSettings();
@@ -252,8 +254,8 @@ namespace ManiacEditor.Controls.Editor
         {
             MenuItem newItem = new MenuItem()
             {
-                Header = ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigsNames[i],
-                Tag = ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs[i]
+                Header = Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigsNames[i],
+                Tag = Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs[i]
             };
             newItem.Click += ModConfigItemClicked;
             if (newItem.Tag.ToString() == ManiacEditor.Properties.Settings.MySettings.LastModConfig) newItem.IsChecked = true;

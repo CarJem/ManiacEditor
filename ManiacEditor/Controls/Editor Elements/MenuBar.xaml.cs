@@ -51,6 +51,7 @@ namespace ManiacEditor.Controls.Editor_Elements
                 changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
                 ImageOverlayGroupMenuItem.IsEnabled = enabled;
                 BackupMenuItem.IsEnabled = enabled;
+                tilemanagerToolStripMenuItem.IsEnabled = enabled;
             }));
 
         }
@@ -158,9 +159,9 @@ namespace ManiacEditor.Controls.Editor_Elements
             //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
             try
             {
-                if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
                 else windowsClipboardState = false;
-                if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
                 else windowsEntityClipboardState = false;
             }
             catch
@@ -170,12 +171,12 @@ namespace ManiacEditor.Controls.Editor_Elements
             }
 
 
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit())
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
             {
                 if (enabled && HasCopyDataTiles()) SetPasteEnabledButtons(true);
                 else SetPasteEnabledButtons(false);
             }
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit())
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
             {
                 if (enabled && HasCopyDataEntities()) SetPasteEnabledButtons(true);
                 else SetPasteEnabledButtons(false);
@@ -188,7 +189,7 @@ namespace ManiacEditor.Controls.Editor_Elements
             void SetPasteEnabledButtons(bool pasteEnabled)
             {
                 pasteToolStripMenuItem.IsEnabled = pasteEnabled;
-                pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit();
+                pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
             }
 
             bool HasCopyDataTiles() { return Methods.Solution.SolutionClipboard.TilesClipboard != null || windowsClipboardState == true; }
@@ -208,18 +209,18 @@ namespace ManiacEditor.Controls.Editor_Elements
             flipHorizontalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
             flipVerticalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
 
-            selectAllToolStripMenuItem.IsEnabled = (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit()) || ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
+            selectAllToolStripMenuItem.IsEnabled = (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) || ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
 
             bool CanFlip(int option)
             {
                 switch (option)
                 {
                     case 0:
-                        if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() && ManiacEditor.Methods.Solution.SolutionState.IsSelected()) return true;
-                        else if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) return true;
+                        if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && ManiacEditor.Methods.Solution.SolutionState.Main.IsSelected()) return true;
+                        else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) return true;
                         break;
                     case 1:
-                        return ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit();
+                        return ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
                 }
                 return false;
             }
@@ -358,6 +359,11 @@ namespace ManiacEditor.Controls.Editor_Elements
         { 
             Methods.Solution.SolutionActions.FlipHorizontalIndividual(); 
         }
+
+        private void ClipboardManagerMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Methods.ProgramLauncher.ClipboardManager();
+        }
         #endregion
 
         #region Tool Events
@@ -387,27 +393,27 @@ namespace ManiacEditor.Controls.Editor_Elements
         #region View Events
         private void UnlockCameraToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.UnlockCamera ^= true;
+            Methods.Solution.SolutionState.Main.UnlockCamera ^= true;
         }
 
         private void TogglePixelModeEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.CountTilesSelectedInPixels ^= true;
+            Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels ^= true;
         }
 
         public void ToggleScrollLockEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.ScrollLocked ^= true;
+            Methods.Solution.SolutionState.Main.ScrollLocked ^= true;
         }
 
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.EnableFasterNudge ^= true;
+            Methods.Solution.SolutionState.Main.EnableFasterNudge ^= true;
         }
 
         public void ShowDebugStatsEvent(object sender, RoutedEventArgs e) 
         {
-            Methods.Solution.SolutionState.DebugStatsVisibleOnPanel ^= true; 
+            Methods.Solution.SolutionState.Main.DebugStatsVisibleOnPanel ^= true; 
         }
 
         private void ResetZoomLevelEvent(object sender, RoutedEventArgs e) 
@@ -441,6 +447,11 @@ namespace ManiacEditor.Controls.Editor_Elements
         private void LayerManagerEvent(object sender, RoutedEventArgs e) 
         { 
             Methods.ProgramLauncher.LayerManager(sender, e); 
+        }
+
+        private void TileManagerEvent(object sender, RoutedEventArgs e)
+        {
+            Methods.ProgramLauncher.TileManager();
         }
 
         private void TileManiacNormal(object sender, RoutedEventArgs e)
@@ -478,12 +489,12 @@ namespace ManiacEditor.Controls.Editor_Elements
 
         private void MoveExtraLayersToFrontEvent(object sender, RoutedEventArgs e) 
         { 
-            Methods.Solution.SolutionState.ExtraLayersMoveToFront ^= true; 
+            Methods.Solution.SolutionState.Main.ExtraLayersMoveToFront ^= true; 
         }
 
         private void ToggleCopyAirEvent(object sender, RoutedEventArgs e) 
         { 
-            Methods.Solution.SolutionState.CopyAir ^= true; 
+            Methods.Solution.SolutionState.Main.CopyAir ^= true; 
         }
 
         #endregion
@@ -491,7 +502,7 @@ namespace ManiacEditor.Controls.Editor_Elements
         #region Entities Events
         public void ApplyEditEntitiesTransparencyEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.ApplyEditEntitiesTransparency ^= true;
+            Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency ^= true;
         }
         public void MenuButtonChangedEvent(object sender, RoutedEventArgs e)
         {
@@ -499,7 +510,7 @@ namespace ManiacEditor.Controls.Editor_Elements
         }
         private void ShowEntitiesAboveAllOtherLayersToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.EntitiesVisibileAboveAllLayers ^= true;
+            Methods.Solution.SolutionState.Main.EntitiesVisibileAboveAllLayers ^= true;
         }
 
         private void EntityFilterTextChangedEvent(object sender, TextChangedEventArgs e)
@@ -508,19 +519,19 @@ namespace ManiacEditor.Controls.Editor_Elements
         }
         private void ShowEntitySelectionBoxesEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.ShowEntitySelectionBoxes ^= true;
+            Methods.Solution.SolutionState.Main.ShowEntitySelectionBoxes ^= true;
         }
         private void ShowWaterLevelEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.ShowWaterLevel ^= true;
+            Methods.Solution.SolutionState.Main.ShowWaterLevel ^= true;
         }
         private void AlwaysShowWaterLevelEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.AlwaysShowWaterLevel ^= true;
+            Methods.Solution.SolutionState.Main.AlwaysShowWaterLevel ^= true;
         }
         private void WaterSizeWithBoundsEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.SizeWaterLevelwithBounds ^= true;
+            Methods.Solution.SolutionState.Main.SizeWaterLevelwithBounds ^= true;
         }
         private void SwapEncoreManiaEntityVisibilityEvent(object sender, RoutedEventArgs e)
         {
@@ -528,12 +539,12 @@ namespace ManiacEditor.Controls.Editor_Elements
         }
         private void ShowParallaxSpritesEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.ShowParallaxSprites ^= true;
+            Methods.Solution.SolutionState.Main.ShowParallaxSprites ^= true;
         }
 
         private void ShowEntityPathArrowsEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.SolutionState.ShowEntityPathArrows ^= true;
+            Methods.Solution.SolutionState.Main.ShowEntityPathArrows ^= true;
         }
         private void MenuLanguageChangedEvent(object sender, RoutedEventArgs e)
         {
@@ -688,5 +699,7 @@ namespace ManiacEditor.Controls.Editor_Elements
 
 
         #endregion
+
+
     }
 }

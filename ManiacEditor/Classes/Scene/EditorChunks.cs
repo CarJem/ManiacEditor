@@ -228,7 +228,7 @@ namespace ManiacEditor.Classes.Scene
 					}
 					else
 					{
-						if (Methods.Solution.SolutionState.DataDirectoryReadOnlyMode && Methods.Solution.SolutionPaths.Stamps_Source.SourceID == -1) return;
+						if (Methods.Solution.SolutionState.Main.DataDirectoryReadOnlyMode && Methods.Solution.SolutionPaths.Stamps_Source.SourceID == -1) return;
 						else StageStamps?.Write(ManiacEditor.Methods.Solution.SolutionPaths.Stamps_Source.SourcePath);
 					}
 				}

@@ -5,67 +5,55 @@ namespace ManiacEditor.Entity_Renders
     public class CaterkillerJr : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            //int type = (int)entity.attributesMap["type"].ValueUInt8;
-            //int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("CaterkillerJr", d.DevicePanel, 0, -1, true, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("CaterkillerJr", d.DevicePanel, 1, -1, fliph, flipv, false);
-            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("CaterkillerJr", d.DevicePanel, 2, -1, fliph, flipv, false);
-            var editorAnim4 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("CaterkillerJr", d.DevicePanel, 3, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0)
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            if (direction == 1)
             {
-                var frame = editorAnim.Frames[0];
-                var frame2 = editorAnim2.Frames[0];
-                var frame3 = editorAnim3.Frames[0];
-                var frame4 = editorAnim4.Frames[0];
+                int x = Properties.DrawX + 37;
+                fliph = true;
+                var Animation = LoadAnimation("CaterkillerJr", d, 0, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, !fliph, flipv);
 
-                //ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                for (int i = 0; i <= 6; i++)
-                {
-                    if (i <= 3 && i >= 1)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                            x + frame2.Frame.PivotX + (i * frame2.Frame.Width) + (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
-                            y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
-                            frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                    }
-                    if (i == 4)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-                            x + frame3.Frame.PivotX + (i * frame3.Frame.Width) + (frame2.Frame.Width - 5) + (fliph ? (frame3.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
-                            y + frame3.Frame.PivotY + (flipv ? (frame3.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
-                            frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                    }
-                    if (i >= 5)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame4),
-                            x + frame4.Frame.PivotX + (i * frame4.Frame.Width) + frame2.Frame.Width + frame3.Frame.Width + (fliph ? (frame4.Frame.Width - editorAnim4.Frames[0].Frame.Width) : 0),
-                            y + frame4.Frame.PivotY + (flipv ? (frame4.Frame.Height - editorAnim4.Frames[0].Frame.Height) : 0),
-                            frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-                    }
-                }
-
-
+                Animation = LoadAnimation("CaterkillerJr", d, 1, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 12, y, Transparency, fliph, flipv);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 24, y, Transparency, fliph, flipv);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 36, y, Transparency, fliph, flipv);
+                Animation = LoadAnimation("CaterkillerJr", d, 2, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 47, y, Transparency, fliph, flipv);
+                Animation = LoadAnimation("CaterkillerJr", d, 3, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 55, y, Transparency, fliph, flipv);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 62, y, Transparency, fliph, flipv);
             }
+            else
+            {
+                int x = Properties.DrawX;
+                var Animation = LoadAnimation("CaterkillerJr", d, 0, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, !fliph, flipv);
+
+                Animation = LoadAnimation("CaterkillerJr", d, 1, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 12, y, Transparency, fliph, flipv);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 24, y, Transparency, fliph, flipv);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 36, y, Transparency, fliph, flipv);
+                Animation = LoadAnimation("CaterkillerJr", d, 2, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 47, y, Transparency, fliph, flipv);
+                Animation = LoadAnimation("CaterkillerJr", d, 3, 0);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 55, y, Transparency, fliph, flipv);
+                DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 62, y, Transparency, fliph, flipv);
+            }
+
+
+
         }
 
         public override string GetObjectName()

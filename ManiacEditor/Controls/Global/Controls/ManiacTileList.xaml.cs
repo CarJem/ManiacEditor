@@ -179,7 +179,7 @@ namespace ManiacEditor.Controls.Global.Controls
                 bool changed = value != TileList.SelectedIndex;
                 TileList.SelectedIndex = value;
                 ScrollToSelected();
-                if (changed) SelectedIndexChanged(this, EventArgs.Empty);
+                if (changed && this.SelectedIndexChanged != null) this.SelectedIndexChanged(this, EventArgs.Empty);
             }
         }
 
@@ -474,5 +474,10 @@ namespace ManiacEditor.Controls.Global.Controls
         }
 
         #endregion
+
+        private void TileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.SelectedIndexChanged != null) this.SelectedIndexChanged(this, EventArgs.Empty);
+        }
     }
 }

@@ -60,7 +60,7 @@ namespace ManiacEditor.Methods.Entities
             GatherSplineObjects(splineID);
             RemoveSplineObjects(splineID);
 
-            Methods.Solution.SolutionState.SplineOptions selectedOptions = Methods.Solution.SolutionState.SplineOptionsGroup[splineID];
+            Methods.Solution.SolutionState.StateModel.SplineOptions selectedOptions = Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID];
             if (SplineXPos.Count > 1)
             {
                 float[] xs, ys;
@@ -76,8 +76,8 @@ namespace ManiacEditor.Methods.Entities
                 Actions.UndoRedoModel.RedoStack.Clear();
             }
 
-            Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects = 0;
-            Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered = 0;
+            Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects = 0;
+            Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered = 0;
             SplineXPos.Clear();
             SplineYPos.Clear();
         }

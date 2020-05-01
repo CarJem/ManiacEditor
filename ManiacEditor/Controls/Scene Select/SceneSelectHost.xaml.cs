@@ -154,9 +154,9 @@ namespace ManiacEditor.Controls.SceneSelect
             SetupGameConfig(_Config);
             InitilizeEvents();
 
-            if (Properties.Settings.MySettings.SavedDataDirectories.Contains(Properties.Settings.MySettings.DefaultMasterDataDirectory))
+            if (Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories.Contains(Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory))
             {
-                MasterDataDirectorySelectorComboBox.SelectedItem = Properties.Settings.MySettings.DefaultMasterDataDirectory;
+                MasterDataDirectorySelectorComboBox.SelectedItem = Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory;
             }
 
             if (!WithinAParentForm)
@@ -591,8 +591,8 @@ namespace ManiacEditor.Controls.SceneSelect
 
                 MasterDataDirectorySelectorComboBox.Items.Clear();
                 MasterDataDirectorySelectorComboBox.Items.Add("(Unset)");
-                if (Properties.Settings.MySettings.SavedDataDirectories == null) Properties.Settings.MySettings.SavedDataDirectories = new StringCollection();
-                foreach (string savedDirectories in Properties.Settings.MySettings.SavedDataDirectories)
+                if (Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories == null) Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories = new StringCollection();
+                foreach (string savedDirectories in Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories)
                 {
                     MasterDataDirectorySelectorComboBox.Items.Add(savedDirectories);
                 }
@@ -616,9 +616,9 @@ namespace ManiacEditor.Controls.SceneSelect
             RecentsTree.ImageList.Images.Add("File", Properties.Resources.file);
             RecentsTree.ImageList.Images.Add("SubFolder", Properties.Resources.folder);
 
-            if (Properties.Settings.MySettings.SavedDataDirectories != null && Properties.Settings.MySettings.SavedDataDirectories?.Count > 0)
+            if (Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories != null && Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories?.Count > 0)
             {
-                foreach (string dataDir in Properties.Settings.MySettings.SavedDataDirectories)
+                foreach (string dataDir in Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories)
                 {
                     var node = RecentsTree.Nodes[0].Nodes.Add(dataDir);
                     node.Tag = dataDir;
@@ -628,9 +628,9 @@ namespace ManiacEditor.Controls.SceneSelect
                 RecentsTree.Nodes[0].ExpandAll();
             }
 
-            if (Properties.Settings.MySettings.RecentDataDirectories != null && Properties.Settings.MySettings.RecentDataDirectories?.Count > 0)
+            if (Classes.Prefrences.CommonPathsStorage.Collection.RecentDataDirectories != null && Classes.Prefrences.CommonPathsStorage.Collection.RecentDataDirectories?.Count > 0)
             {
-                foreach (string dataDir in Properties.Settings.MySettings.RecentDataDirectories)
+                foreach (string dataDir in Classes.Prefrences.CommonPathsStorage.Collection.RecentDataDirectories)
                 {
                     var node = RecentsTree.Nodes[1].Nodes.Add(dataDir);
                     node.Tag = dataDir;
@@ -640,9 +640,9 @@ namespace ManiacEditor.Controls.SceneSelect
                 RecentsTree.Nodes[1].ExpandAll();
             }
 
-            if (Properties.Settings.MySettings.SavedPlaces != null && Properties.Settings.MySettings.SavedPlaces?.Count > 0)
+            if (Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces != null && Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces?.Count > 0)
             {
-                foreach (string folder in Properties.Settings.MySettings.SavedPlaces)
+                foreach (string folder in Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces)
                 {
                     var node = RecentsTree.Nodes[1].Nodes.Add(folder, folder, this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"), this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"));
                     node.Tag = folder;
@@ -867,7 +867,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void CloseHostEvent()
         {
-            if (!Methods.Solution.SolutionState.isImportingObjects)
+            if (!Methods.Solution.SolutionState.Main.isImportingObjects)
             {
                 ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneUsingSceneSelect(this);
             }
@@ -930,39 +930,29 @@ namespace ManiacEditor.Controls.SceneSelect
         #region Data Managemenet
         public void RemoveNullEntries()
         {
-            if (Properties.Settings.MySettings.RecentDataDirectories != null) Properties.Settings.MySettings.RecentDataDirectories.Remove(null);
-            if (Properties.Settings.MySettings.SavedPlaces != null) Properties.Settings.MySettings.SavedPlaces.Remove(null);
+            Classes.Prefrences.CommonPathsStorage.RemoveNullEntries();
         }
         public void RemoveSelectedSavedPlace()
         {
             String toRemove = RecentsTree.SelectedNode.Tag.ToString();
-            if (Properties.Settings.MySettings.SavedPlaces.Contains(toRemove))
-            {
-                Properties.Settings.MySettings.SavedPlaces.Remove(toRemove);
-            }
+            Classes.Prefrences.CommonPathsStorage.RemoveSavedPlace(toRemove);
             UpdateRecentsTree();
         }
         public void RemoveSelectedRecentDataFolder()
         {
             String toRemove = RecentsTree.SelectedNode.Tag.ToString();
-            if (Properties.Settings.MySettings.RecentDataDirectories.Contains(toRemove))
-            {
-                Properties.Settings.MySettings.RecentDataDirectories.Remove(toRemove);
-            }
+            Classes.Prefrences.CommonPathsStorage.RemoveRecentDataFolder(toRemove);
             UpdateRecentsTree();
         }
         public void RemoveSelectedSavedDataFolder()
         {
             String toRemove = RecentsTree.SelectedNode.Tag.ToString();
-            if (Properties.Settings.MySettings.SavedDataDirectories.Contains(toRemove))
-            {
-                Properties.Settings.MySettings.SavedDataDirectories.Remove(toRemove);
-            }
+            Classes.Prefrences.CommonPathsStorage.RemoveSavedDataFolder(toRemove);
             UpdateRecentsTree();
         }
         public void UniversalLoadMethod()
         {
-            if (Methods.Solution.SolutionState.isImportingObjects == true)
+            if (Methods.Solution.SolutionState.Main.isImportingObjects == true)
             {
                 MessageBox.Show("You can't do that while importing objects!");
             }
@@ -987,28 +977,21 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Saved Places", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (Properties.Settings.MySettings.SavedPlaces != null)
-                {
-                    Properties.Settings.MySettings.SavedPlaces.Clear();
-                    UpdateRecentsTree();
-                }
+                Classes.Prefrences.CommonPathsStorage.RemoveAllSavedPlaces();
+                UpdateRecentsTree();
             }
         }
         public void RemoveAllDataFolders()
         {
             if (MessageBox.Show("Are you sure you want to do this? No undos here!", "Delete All Data Directories", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (Properties.Settings.MySettings.RecentDataDirectories != null)
-                {
-                    Properties.Settings.MySettings.RecentDataDirectories.Clear();
-
-                    UpdateRecentsTree();
-                }
+                Classes.Prefrences.CommonPathsStorage.RemoveAllDataFolders();
+                UpdateRecentsTree();
             }
         }
         public void AddANewDataDirectory()
         {
-            if (Methods.Solution.SolutionState.isImportingObjects == false)
+            if (Methods.Solution.SolutionState.Main.isImportingObjects == false)
             {
                 string newDataDirectory = ManiacEditor.Methods.Solution.SolutionPaths.SelectDataDirectory();
                 string returnDataDirectory;
@@ -1021,8 +1004,8 @@ namespace ManiacEditor.Controls.SceneSelect
                     bool goodDataDir = ManiacEditor.Methods.Solution.SolutionPaths.SetGameConfig(returnDataDirectory);
                     if (goodDataDir == true)
                     {
-                        Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
-                        Classes.Prefrences.DataDirectoriesStorage.AddSavedDataFolder(DataDirectory);
+                        Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
+                        Classes.Prefrences.CommonPathsStorage.AddSavedDataFolder(DataDirectory);
                         if (Instance != null) Methods.Internal.UserInterface.Status.UpdateDataFolderLabel(DataDirectory);
                         UpdateRecentsTree();
                     }
@@ -1060,32 +1043,8 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void AddANewSavedPlace(string savedFolder)
         {
-            try
-            {
-                var mySettings = Properties.Settings.MySettings;
-                var savedPlaces = mySettings.SavedPlaces;
-
-                if (savedPlaces == null)
-                {
-                    savedPlaces = new StringCollection();
-                    mySettings.SavedPlaces = savedPlaces;
-                }
-
-                if (savedPlaces.Contains(savedFolder))
-                {
-                    savedPlaces.Remove(savedFolder);
-                }
-
-                savedPlaces.Insert(0, savedFolder);
-
-                Classes.Options.GeneralSettings.Save();
-
-                UpdateRecentsTree();
-            }
-            catch (Exception ex)
-            {
-                Debug.Print("Failed to add Saved Place to list: " + ex);
-            }
+            Classes.Prefrences.CommonPathsStorage.AddANewSavedPlace(savedFolder);
+            UpdateRecentsTree();
         }
         public void SetupGameConfig(GameConfig config)
         {
@@ -1142,14 +1101,14 @@ namespace ManiacEditor.Controls.SceneSelect
                 if (GameConfig != null)
                 {
                     LoadFromGameConfig(GameConfig);
-                    Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
-                    Properties.Settings.MySettings.DefaultMasterDataDirectory = SceneState.MasterDataDirectory;
+                    Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
+                    Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory = SceneState.MasterDataDirectory;
                 }
                 else UnloadMasterDataDirectory();
             }
             else
             {
-                Properties.Settings.MySettings.DefaultMasterDataDirectory = null;
+                Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory = null;
                 UnloadMasterDataDirectory();
             }
 
@@ -1164,7 +1123,7 @@ namespace ManiacEditor.Controls.SceneSelect
             if (GameConfig != null)
             {
                 LoadFromGameConfig(GameConfig);
-                Classes.Prefrences.DataDirectoriesStorage.AddRecentDataFolder(DataDirectory);
+                Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
             }
             else
             {

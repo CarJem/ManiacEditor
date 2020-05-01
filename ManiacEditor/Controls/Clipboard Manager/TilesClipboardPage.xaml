@@ -9,7 +9,7 @@
     <TabControl>
         <TabItem Header="Recent">
             <Grid>
-                <ListView x:Name="RecentTilesList" HorizontalContentAlignment="Stretch">
+                <ListView x:Name="RecentTilesList" HorizontalContentAlignment="Stretch" ItemsSource="{Binding TilesClipboardHistory}">
                     <ListView.Resources>
                         <Style TargetType="GridViewColumnHeader">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -25,13 +25,22 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Name}" Padding="15,0"></TextBlock>
+                                <TextBlock Text="{Binding DisplayName}" Padding="15,0"></TextBlock>
                                 <Button x:Name="SetButton" Click="SetButton_Click" Grid.Column="2" Content="Use" Padding="15,0"></Button>
                                 <Button x:Name="SaveButton" Click="SaveButton_Click" Grid.Column="3" Content="Save" Padding="15,0"></Button>
                                 <Button x:Name="RemoveButton" Click="RemoveButton_Click" Grid.Column="4" Content="Remove" Padding="15,0"></Button>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="IsSelected" Value="True"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                 </ListView>
             </Grid>
         </TabItem>

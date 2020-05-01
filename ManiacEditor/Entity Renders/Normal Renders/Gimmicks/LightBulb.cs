@@ -17,11 +17,9 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("LightBulb", d, 0, 0);
+            var Animation = LoadAnimation("LightBulb", d, 0, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
             Animation = LoadAnimation("LightBulb", d, 0, 1);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
-            Animation = LoadAnimation("LightBulb", d, 0, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

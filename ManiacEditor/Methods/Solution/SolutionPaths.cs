@@ -96,12 +96,12 @@ namespace ManiacEditor.Methods.Solution
 		{
 			get
 			{
-				return Classes.Options.GeneralSettings.Default.DefaultMasterDataDirectory;
+				return Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory;
 			}
 			set
 			{
-				Classes.Options.GeneralSettings.Default.DefaultMasterDataDirectory = value;
-				Classes.Options.GeneralSettings.Save();
+				Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory = value;
+				Classes.Prefrences.CommonPathsStorage.SaveFile();
 			}
 		}
 
@@ -185,46 +185,49 @@ namespace ManiacEditor.Methods.Solution
 		#region Tile Config
 		public static bool GetTileConfig(string Zone, bool browsed = false)
 		{
-			bool validTileConfigFound = false;
+			bool ValidFileFound = false;
 			int sourceID = -2;
-			string validTileConfigPathDir = "";
+			string ValidPathDir = "";
+
+
+			if (browsed) return GetBrowsedTileConfig(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone);
+			else return GetNormalTileConfig(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone);
+		}
+
+		public static bool GetBrowsedTileConfig(ref bool ValidFileFound, ref string ValidPathDir, ref int sourceID, ref string Zone)
+		{
+			bool result = SetTileConfigFromFilePath(SceneFile_Source.SourceDirectory);
+			if (result == false) return GetNormalTileConfig(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone);
+
+			sourceID = -3;
+			return result;
+
+		}
+		public static bool GetNormalTileConfig(ref bool ValidFileFound, ref string ValidPathDir, ref int sourceID, ref string Zone)
+		{
+			GetExtraTileConfig(ref sourceID, ref ValidFileFound, ref ValidPathDir);
+			if (ValidFileFound) return SetTileConfig(ValidPathDir, sourceID);
+			else return GetMasterTileConfig(ref sourceID, ref Zone);
+		}
+		public static bool GetMasterTileConfig(ref int sourceID, ref string Zone)
+		{
+			sourceID = -1;
+			return SetTileConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, sourceID);
+		}
+		public static void GetExtraTileConfig(ref int sourceID, ref bool ValidFileFound, ref string ValidPathDir)
+		{
 			foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
 			{
 				if (IsTileConfigValid(dataDir))
 				{
 					sourceID = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories.IndexOf(dataDir);
-					validTileConfigFound = true;
-					validTileConfigPathDir = dataDir;
+					ValidFileFound = true;
+					ValidPathDir = dataDir;
 					break;
 				}
 			}
-			if (!validTileConfigFound)
-			{
-				if (browsed)
-				{
-					bool result = SetTileConfigFromFilePath(SceneFile_Source.SourceDirectory);
-					if (result == false)
-					{
-						sourceID = -1;
-						return result = SetTileConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, sourceID);
-					}
-					else
-					{
-						sourceID = -3;
-					}
-					return result;
-				}
-				else
-				{
-					sourceID = -1;
-					return SetTileConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, sourceID);
-				}
-			}
-			else
-			{
-				return SetTileConfig(validTileConfigPathDir, sourceID);
-			}
 		}
+
 		public static bool SetTileConfig(string configPath, int sourceID)
 		{
 			try
@@ -255,7 +258,7 @@ namespace ManiacEditor.Methods.Solution
 				TileConfig_Source = new FileSource(-3, Path.Combine(filepath, "TileConfig.bin"));
 				return true;
 			}
-			catch (EventHandlers.TileConfigException ex)
+			catch (Events.TileConfigException ex)
 			{
 				throw ex;
 			}
@@ -275,47 +278,46 @@ namespace ManiacEditor.Methods.Solution
 		public static bool GetStageTiles(string Zone, string colors = null, bool browsed = false)
 		{
 			int sourceID = -2;
-			bool validStageTilesFound = false;
-			string validStageTilesPathDir = "";
+			bool ValidFileFound = false;
+			string ValidPathDir = "";
+
+			if (browsed) return GetBrowsedStageTiles(ref ValidFileFound, ref ValidPathDir, ref colors, ref sourceID, ref Zone);
+			else return GetNormalStageTiles(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone, ref colors);
+		}
+		public static bool GetNormalStageTiles(ref bool ValidFileFound, ref string ValidPathDir, ref int sourceID, ref string Zone, ref string colors)
+		{
+			GetExtraStageTiles(ref sourceID, ref ValidFileFound, ref ValidPathDir);
+			if (ValidFileFound) return SetStageTiles(ValidPathDir, Zone, colors, sourceID);
+			else return GetMasterStageTiles(ref sourceID, ref Zone, ref colors);
+		}
+		public static bool GetBrowsedStageTiles(ref bool ValidFileFound, ref string ValidPathDir, ref string colors, ref int sourceID, ref string Zone)
+		{
+			bool result = SetStageTilesFromFilePath(SceneFile_Source.SourceDirectory, colors);
+			if (result == false) return GetNormalStageTiles(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone, ref colors);
+			sourceID = -3;
+			return result;
+
+		}
+		public static bool GetMasterStageTiles(ref int sourceID, ref string Zone, ref string colors)
+		{
+			sourceID = -1;
+			return SetStageTiles(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, Zone, colors, sourceID);
+		}
+		public static void GetExtraStageTiles(ref int sourceID, ref bool ValidFileFound, ref string ValidPathDir)
+		{
 			foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
 			{
 				if (IsStageTilesValid(dataDir))
 				{
 					sourceID = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories.IndexOf(dataDir);
-					validStageTilesFound = true;
-					validStageTilesPathDir = dataDir;
+					ValidFileFound = true;
+					ValidPathDir = dataDir;
 					break;
 				}
 			}
-			if (!validStageTilesFound)
-			{
-
-				if (browsed)
-				{
-					bool result = SetStageTilesFromFilePath(SceneFile_Source.SourceDirectory, colors);
-					if (result == false)
-					{
-						sourceID = -1;
-						return result = SetStageTiles(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, Zone, colors, sourceID);
-					}
-					else
-					{
-						sourceID = -3;
-						return result;
-					}
-
-				}
-				else
-				{
-					sourceID = -1;
-					return SetStageTiles(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, Zone, colors, sourceID);
-				}
-			}
-			else
-			{
-				return SetStageTiles(validStageTilesPathDir, Zone, colors, sourceID);
-			}
 		}
+
+
 		public static bool SetStageTiles(string tilePath, string Zone, string colors, int sourceID)
 		{
 			try
@@ -446,50 +448,52 @@ namespace ManiacEditor.Methods.Solution
 		#endregion
 
 		#region Stage Config
+
 		public static bool GetStageConfig(string Zone, bool browsed = false)
 		{
-			bool validStageConfigFound = false;
-			int sourceId = -2;
-			string validStageConfigPathDir = "";
+			bool ValidFileFound = false;
+			int sourceID = -2;
+			string ValidPathDir = "";
+
+
+			if (browsed) return GetBrowsedStageConfig(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone);
+			else return GetNormalStageConfig(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone);
+		}
+
+		public static bool GetNormalStageConfig(ref bool ValidFileFound, ref string ValidPathDir, ref int sourceID, ref string Zone)
+		{
+			GetExtraStageConfig(ref sourceID, ref ValidFileFound, ref ValidPathDir);
+			if (ValidFileFound) return SetStageConfig(ValidPathDir, sourceID);
+			else return GetMasterStageConfig(ref sourceID, ref Zone);
+		}
+		public static bool GetBrowsedStageConfig(ref bool ValidFileFound, ref string ValidPathDir, ref int sourceID, ref string Zone)
+		{
+			bool result = SetStageConfigFromFilePath(SceneFile_Source.SourceDirectory);
+			if (result == false) return GetNormalStageConfig(ref ValidFileFound, ref ValidPathDir, ref sourceID, ref Zone);
+
+			sourceID = -3;
+			return result;
+
+		}
+		public static bool GetMasterStageConfig(ref int sourceID, ref string Zone)
+		{
+			sourceID = -1;
+			return SetStageConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, sourceID);
+		}
+		public static void GetExtraStageConfig(ref int sourceID, ref bool ValidFileFound, ref string ValidPathDir)
+		{
 			foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
 			{
 				if (IsStageConfigValid(dataDir))
 				{
-					sourceId = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories.IndexOf(dataDir);
-					validStageConfigFound = true;
-					validStageConfigPathDir = dataDir;
+					sourceID = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories.IndexOf(dataDir);
+					ValidFileFound = true;
+					ValidPathDir = dataDir;
 					break;
 				}
 			}
-			if (!validStageConfigFound)
-			{
-				if (browsed)
-				{
-					bool result = SetStageConfigFromFilePath(SceneFile_Source.SourceDirectory);
-					if (result == false)
-					{
-						sourceId = -1;
-						return result = SetStageConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, sourceId);
-					}
-					else
-					{
-						sourceId = -3;
-						return result;
-					}
-
-				}
-				else
-				{
-					sourceId = -1;
-					return SetStageConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, sourceId);
-				}
-
-			}
-			else
-			{
-				return SetStageConfig(validStageConfigPathDir, sourceId);
-			}
 		}
+
 		public static bool SetStageConfig(string configPath, int sourceId)
 		{
 			try

@@ -29,6 +29,8 @@ namespace ManiacEditor.Classes.Rendering
         /// </summary>
         private Vector2i offset;
         private Vertex[] vertices;
+        public Vector2f Position { get; set; } = new Vector2f(0, 0);
+        public Vector2f Size { get; set; } = new Vector2f(0, 0);
 
         /// <summary>
         /// Provides Color and Texture Source from tile map
@@ -137,8 +139,7 @@ namespace ManiacEditor.Classes.Rendering
         /// <param name="y">Y coord of the tile</param>
         public void Refresh(int x, int y)
         {
-            if (x < (int)(offset.X / Zoom) || x >= (int)(offset.X / Zoom) + (int)(width) || y < (int)(offset.Y / Zoom) || y >= (int)(offset.Y / Zoom) + (int)(height))
-                return; //check if tile is visible
+            if (x < (int)(offset.X / Zoom) || x >= (int)(offset.X / Zoom) + (int)(width) || y < (int)(offset.Y / Zoom) || y >= (int)(offset.Y / Zoom) + (int)(height)) return; //check if tile is visible
 
             //vertices works like 2d ring buffer
             var vx = x % width;
@@ -165,8 +166,8 @@ namespace ManiacEditor.Classes.Rendering
         /// </summary>
         private unsafe void Draw(int index, FloatRect rec, IntRect src, Color color)
         {
-            float rec_left = (float)(rec.Left);
-            float rec_top = (float)(rec.Top);
+            float rec_left = Position.X + (float)(rec.Left);
+            float rec_top = Position.Y + (float)(rec.Top);
             float rec_width = (float)(rec.Width);
             float rec_height = (float)(rec.Height);
 
@@ -218,12 +219,21 @@ namespace ManiacEditor.Classes.Rendering
         /// </summary>
         public void Draw(RenderTarget rt, RenderStates states)
         {
-            var view = rt.GetView();
-
-            SetSize(view.Size);
-            SetCorner(rt.MapPixelToCoords(new Vector2i()));
-            states.Texture = texture;
-            rt.Draw(vertices, PrimitiveType.Quads, states);
+            if (Position.X == 0 && Position.Y == 0)
+            {
+                var view = rt.GetView();
+                SetSize(view.Size);
+                SetCorner(rt.MapPixelToCoords(new Vector2i()));
+                states.Texture = texture;
+                rt.Draw(vertices, PrimitiveType.Quads, states);
+            }
+            else
+            {
+                SetSize(Size);
+                SetCorner(new Vector2f());
+                states.Texture = texture;
+                rt.Draw(vertices, PrimitiveType.Quads, states);
+            }
 
         }
     }

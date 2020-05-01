@@ -21,12 +21,12 @@ namespace ManiacEditor.Actions
 
         public static void Undo()
         {
-            if (Methods.Solution.SolutionState.isTileDrawing) return;
+            if (Methods.Solution.SolutionState.Main.isTileDrawing) return;
 
             if (Actions.UndoRedoModel.UndoStack.Count > 0)
             {
-                if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect(false);
-                else if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit())
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect(false);
+                else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
                 {
                     // deselect only if delete/create
                     if (Actions.UndoRedoModel.UndoStack.Peek() is ActionAddDeleteEntities) Methods.Solution.SolutionActions.Deselect(false);
@@ -42,7 +42,7 @@ namespace ManiacEditor.Actions
         }
         public static void Redo()
         {
-            if (Methods.Solution.SolutionState.isTileDrawing) return;
+            if (Methods.Solution.SolutionState.Main.isTileDrawing) return;
 
             if (Actions.UndoRedoModel.RedoStack.Count > 0)
             {
@@ -70,15 +70,16 @@ namespace ManiacEditor.Actions
                 Actions.UndoRedoModel.UndoStack.Push(Methods.Solution.CurrentSolution.Entities.LastActionInternal);
                 Methods.Solution.CurrentSolution.Entities.LastActionInternal = null;
             }
+            Methods.Entities.EntityDrawing.UpdateVisibleEntities(Methods.Solution.CurrentSolution.Entities.Entities);
 
         }
         public static void UpdateEditEntitiesActions()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit())
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
             {
                 if (Methods.Solution.CurrentSolution.Entities.SelectedEntities.Count > 0)
                 {
-                    IAction action = new ActionMoveEntities(Methods.Solution.CurrentSolution.Entities.SelectedEntities.ToList(), new System.Drawing.Point(Methods.Solution.SolutionState.DraggedX, Methods.Solution.SolutionState.DraggedY));
+                    IAction action = new ActionMoveEntities(Methods.Solution.CurrentSolution.Entities.SelectedEntities.ToList(), new System.Drawing.Point(Methods.Solution.SolutionState.Main.DraggedX, Methods.Solution.SolutionState.Main.DraggedY));
                     if (Methods.Solution.CurrentSolution.Entities.LastAction != null)
                     {
                         // If it is move & duplicate, merge them together
@@ -94,7 +95,7 @@ namespace ManiacEditor.Actions
                 }
                 if (Methods.Solution.CurrentSolution.Entities.SelectedInternalEntities.Count > 0)
                 {
-                    IAction action = new ActionMoveEntities(Methods.Solution.CurrentSolution.Entities.SelectedInternalEntities.ToList(), new System.Drawing.Point(Methods.Solution.SolutionState.DraggedX, Methods.Solution.SolutionState.DraggedY));
+                    IAction action = new ActionMoveEntities(Methods.Solution.CurrentSolution.Entities.SelectedInternalEntities.ToList(), new System.Drawing.Point(Methods.Solution.SolutionState.Main.DraggedX, Methods.Solution.SolutionState.Main.DraggedY));
                     if (Methods.Solution.CurrentSolution.Entities.LastActionInternal != null)
                     {
                         // If it is move & duplicate, merge them together

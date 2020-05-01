@@ -7,6 +7,7 @@ using ManiacEditor.Classes.Scene;
 
 namespace ManiacEditor.Entity_Renders
 {
+    [Serializable]
     public abstract class LinkedRenderer
     {
 
@@ -156,7 +157,7 @@ namespace ManiacEditor.Entity_Renders
                 filteredOut = !Properties.Settings.MyDefaults.ShowFilterlessEntities;
             }
 
-            if (Methods.Solution.SolutionState.ObjectFilter != "" && !entity.Object.Name.Name.Contains(Methods.Solution.SolutionState.ObjectFilter))
+            if (Methods.Solution.SolutionState.Main.ObjectFilter != "" && !entity.Object.Name.Name.Contains(Methods.Solution.SolutionState.Main.ObjectFilter))
             {
                 filteredOut = true;
             }

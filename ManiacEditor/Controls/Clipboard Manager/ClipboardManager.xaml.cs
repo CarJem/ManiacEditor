@@ -18,7 +18,7 @@ namespace ManiacEditor.Controls.Clipboard_Manager
     /// <summary>
     /// Interaction logic for ClipboardManager.xaml
     /// </summary>
-    public partial class ClipboardManager : UserControl
+    public partial class ClipboardManager : Window
     {
         public ClipboardManager()
         {

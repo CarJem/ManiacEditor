@@ -285,7 +285,7 @@ namespace ManiacEditor.Controls.Options
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				Properties.Settings.MyDefaults.WaterEntityColorDefault = colorSelect.Color;
-				Methods.Solution.SolutionState.waterColor = colorSelect.Color;
+				Methods.Solution.SolutionState.Main.waterColor = colorSelect.Color;
 			}
 		}
 
@@ -696,10 +696,10 @@ namespace ManiacEditor.Controls.Options
         private void DataDirectoriesExport_Click(object sender, RoutedEventArgs e)
         {
 
-            if (Properties.Settings.MySettings.SavedDataDirectories != null && Properties.Settings.MySettings.SavedDataDirectories.Count >= 1)
+            if (Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories != null && Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories.Count >= 1)
             {
-                string[] output = new string[Properties.Settings.MySettings.SavedDataDirectories.Count];
-                Properties.Settings.MySettings.SavedDataDirectories.CopyTo(output, 0);
+                string[] output = new string[Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories.Count];
+                Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
                 fsd.InitialDirectory = Methods.ProgramPaths.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
@@ -716,10 +716,10 @@ namespace ManiacEditor.Controls.Options
 
         private void SavedPlacesExport_Click(object sender, RoutedEventArgs e)
         {
-            if (Properties.Settings.MySettings.SavedPlaces != null && Properties.Settings.MySettings.SavedPlaces.Count >= 1)
+            if (Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces != null && Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces.Count >= 1)
             {
-                string[] output = new string[Properties.Settings.MySettings.SavedPlaces.Count];
-                Properties.Settings.MySettings.SavedPlaces.CopyTo(output, 0);
+                string[] output = new string[Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces.Count];
+                Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces.CopyTo(output, 0);
 				GenerationsLib.Core.FolderSelectDialog fsd = new GenerationsLib.Core.FolderSelectDialog();
                 fsd.InitialDirectory = Methods.ProgramPaths.SettingsPortableDirectory;
                 fsd.Title = "Select a Place to Save the Output";
@@ -751,7 +751,7 @@ namespace ManiacEditor.Controls.Options
                 List<string> input = System.IO.File.ReadAllLines(filename).ToList();
                 foreach (var entry in input)
                 {
-                    if (!Properties.Settings.MySettings.SavedDataDirectories.Contains(entry)) Properties.Settings.MySettings.SavedDataDirectories.Add(entry);
+                    if (!Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories.Contains(entry)) Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories.Add(entry);
                 }
 
             }
@@ -775,7 +775,7 @@ namespace ManiacEditor.Controls.Options
                 List<string> input = System.IO.File.ReadAllLines(filename).ToList();
                 foreach (var entry in input)
                 {
-                    if (!Properties.Settings.MySettings.SavedPlaces.Contains(entry)) Properties.Settings.MySettings.SavedPlaces.Add(entry);
+                    if (!Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces.Contains(entry)) Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces.Add(entry);
                 }
 
             }
@@ -800,7 +800,8 @@ namespace ManiacEditor.Controls.Options
         {
             ScrollerToggleModeClickButton.IsChecked = !enabled;
             ScrollerToggleModePressReleaseButton.IsChecked = enabled;
-        }
+
+		}
         #region Program Paths
         private void ModLoader_Click(object sender, RoutedEventArgs e)
 		{

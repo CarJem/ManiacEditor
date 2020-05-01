@@ -442,9 +442,9 @@ namespace ManiacEditor.Methods.Draw
         {
             RSDKv5.Tile tile = new Tile(value);
 
-            System.Drawing.Color AllSolid = GetCollisionColor(Methods.Solution.SolutionState.CollisionAllSolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
-            System.Drawing.Color LRDSolid = GetCollisionColor(Methods.Solution.SolutionState.CollisionLRDSolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
-            System.Drawing.Color TopOnlySolid = GetCollisionColor(Methods.Solution.SolutionState.CollisionTopOnlySolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
+            System.Drawing.Color AllSolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionAllSolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
+            System.Drawing.Color LRDSolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionLRDSolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
+            System.Drawing.Color TopOnlySolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionTopOnlySolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
 
             if (IsTileSelected(point))
             {

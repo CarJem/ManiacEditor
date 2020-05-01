@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
 
             //int frameID = (int)entity.attributesMap["listID"].ValueEnum;
             int type = (int)e.attributesMap["type"].ValueEnum;
-            string text = "Text" + Methods.Solution.SolutionState.CurrentManiaUILanguage;
+            string text = "Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage;
 
 
 

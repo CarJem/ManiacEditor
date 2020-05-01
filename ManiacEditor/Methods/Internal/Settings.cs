@@ -145,10 +145,10 @@ namespace ManiacEditor.Methods.Internal
                 Instance.WindowState = ManiacEditor.Properties.Settings.MySettings.IsMaximized ? System.Windows.WindowState.Maximized : Instance.WindowState;
                 Methods.Runtime.GameHandler.GamePath = ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath;
 
-                if (ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs?.Count > 0)
+                if (Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs?.Count > 0)
                 {
                     Instance.EditorToolbar.selectConfigToolStripMenuItem.Items.Clear();
-                    for (int i = 0; i < ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs.Count; i++)
+                    for (int i = 0; i < Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs.Count; i++)
                     {
                         Instance.EditorToolbar.selectConfigToolStripMenuItem.Items.Add(Instance.CreateModConfigMenuItem(i));
 
@@ -183,7 +183,7 @@ namespace ManiacEditor.Methods.Internal
 
 
 
-            Methods.Solution.SolutionState.waterColor = ManiacEditor.Properties.Settings.MyDefaults.WaterEntityColorDefault;
+            Methods.Solution.SolutionState.Main.waterColor = ManiacEditor.Properties.Settings.MyDefaults.WaterEntityColorDefault;
 
 
 
@@ -192,25 +192,25 @@ namespace ManiacEditor.Methods.Internal
             if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 0)
             {
                 Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = true;
-                Methods.Solution.SolutionState.GridSize = 16;
+                Methods.Solution.SolutionState.Main.GridSize = 16;
             }
             else Instance.EditorToolbar.Grid16x16SizeMenuItem.IsChecked = false;
             if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 1)
             {
                 Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = true;
-                Methods.Solution.SolutionState.GridSize = 128;
+                Methods.Solution.SolutionState.Main.GridSize = 128;
             }
             else Instance.EditorToolbar.Grid128x128SizeMenuItem.IsChecked = false;
             if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 2)
             {
                 Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = true;
-                Methods.Solution.SolutionState.GridSize = 256;
+                Methods.Solution.SolutionState.Main.GridSize = 256;
             }
             else Instance.EditorToolbar.Grid256x256SizeMenuItem.IsChecked = false;
             if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 3)
             {
                 Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = true;
-                Methods.Solution.SolutionState.GridSize = -1;
+                Methods.Solution.SolutionState.Main.GridSize = -1;
             }
             else Instance.EditorToolbar.GridCustomSizeMenuItem.IsChecked = false;
 
@@ -220,18 +220,18 @@ namespace ManiacEditor.Methods.Internal
             Instance.EditorToolbar.CollisionDefaultMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 0;
             Instance.EditorToolbar.CollisionInvertedMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 1;
             Instance.EditorToolbar.CollisionCustomMenuItem.IsChecked = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors == 2;
-            Methods.Solution.SolutionState.CollisionPreset = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors;
-            Methods.Solution.SolutionState.RefreshCollisionColours();
+            Methods.Solution.SolutionState.Main.CollisionPreset = ManiacEditor.Properties.Settings.MyDefaults.DefaultCollisionColors;
+            Methods.Solution.SolutionState.Main.RefreshCollisionColours();
 
             if (ManiacEditor.Properties.Settings.MyDefaults.ScrollLockDirectionDefault == false)
             {
-                Methods.Solution.SolutionState.ScrollDirection = Axis.X;
+                Methods.Solution.SolutionState.Main.ScrollDirection = Axis.X;
                 Instance.EditorStatusBar.UpdateStatusPanel();
 
             }
             else
             {
-                Methods.Solution.SolutionState.ScrollDirection = Axis.Y;
+                Methods.Solution.SolutionState.Main.ScrollDirection = Axis.Y;
                 Instance.EditorStatusBar.UpdateStatusPanel();
             }
 
@@ -240,47 +240,47 @@ namespace ManiacEditor.Methods.Internal
         public static void ApplyDefaults()
         {
             // These Prefrences are applied on Editor Load
-            Methods.Solution.SolutionState.ApplyEditEntitiesTransparency = ManiacEditor.Properties.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
+            Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency = ManiacEditor.Properties.Settings.MyDefaults.EditEntitiesTransparentLayersDefault;
 
-            Methods.Solution.SolutionState.ScrollLocked = ManiacEditor.Properties.Settings.MyDefaults.ScrollLockDefault;
-            Methods.Solution.SolutionState.ScrollDirection = (ManiacEditor.Properties.Settings.MyDefaults.ScrollLockDirectionDefault == true ? Axis.Y : Axis.X);
+            Methods.Solution.SolutionState.Main.ScrollLocked = ManiacEditor.Properties.Settings.MyDefaults.ScrollLockDefault;
+            Methods.Solution.SolutionState.Main.ScrollDirection = (ManiacEditor.Properties.Settings.MyDefaults.ScrollLockDirectionDefault == true ? Axis.Y : Axis.X);
 
-            Instance.MenuBar.xToolStripMenuItem.IsChecked = Methods.Solution.SolutionState.ScrollDirection == Axis.X;
-            Instance.MenuBar.yToolStripMenuItem.IsChecked = Methods.Solution.SolutionState.ScrollDirection == Axis.Y;
+            Instance.MenuBar.xToolStripMenuItem.IsChecked = Methods.Solution.SolutionState.Main.ScrollDirection == Axis.X;
+            Instance.MenuBar.yToolStripMenuItem.IsChecked = Methods.Solution.SolutionState.Main.ScrollDirection == Axis.Y;
 
-            Methods.Solution.SolutionState.CountTilesSelectedInPixels = ManiacEditor.Properties.Settings.MyDefaults.EnablePixelModeDefault;
+            Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels = ManiacEditor.Properties.Settings.MyDefaults.EnablePixelModeDefault;
 
-            Methods.Solution.SolutionState.ShowEntityPathArrows = ManiacEditor.Properties.Settings.MyDefaults.ShowEntityArrowPathsDefault;
+            Methods.Solution.SolutionState.Main.ShowEntityPathArrows = ManiacEditor.Properties.Settings.MyDefaults.ShowEntityArrowPathsDefault;
 
-            Methods.Solution.SolutionState.ShowWaterLevel = ManiacEditor.Properties.Settings.MyDefaults.ShowWaterEntityLevelDefault;
-            Methods.Solution.SolutionState.AlwaysShowWaterLevel = ManiacEditor.Properties.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
-            Methods.Solution.SolutionState.SizeWaterLevelwithBounds = ManiacEditor.Properties.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
+            Methods.Solution.SolutionState.Main.ShowWaterLevel = ManiacEditor.Properties.Settings.MyDefaults.ShowWaterEntityLevelDefault;
+            Methods.Solution.SolutionState.Main.AlwaysShowWaterLevel = ManiacEditor.Properties.Settings.MyDefaults.AlwaysShowWaterLevelDefault;
+            Methods.Solution.SolutionState.Main.SizeWaterLevelwithBounds = ManiacEditor.Properties.Settings.MyDefaults.SizeWaterLevelWithBoundsDefault;
 
-            Methods.Solution.SolutionState.ShowParallaxSprites = ManiacEditor.Properties.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
+            Methods.Solution.SolutionState.Main.ShowParallaxSprites = ManiacEditor.Properties.Settings.MyDefaults.ShowFullParallaxSpritesDefault;
 
-            Methods.Solution.SolutionState.ShowEntitySelectionBoxes = ManiacEditor.Properties.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
+            Methods.Solution.SolutionState.Main.ShowEntitySelectionBoxes = ManiacEditor.Properties.Settings.MyDefaults.ShowEntitySelectionBoxesDefault;
 
-            Methods.Solution.SolutionState.DebugStatsVisibleOnPanel = ManiacEditor.Properties.Settings.MyDefaults.ShowDebugStatsDefault;
+            Methods.Solution.SolutionState.Main.DebugStatsVisibleOnPanel = ManiacEditor.Properties.Settings.MyDefaults.ShowDebugStatsDefault;
 
             if (ManiacEditor.Properties.Settings.MyDefaults.CustomGridSizeValue < 16)
             {
                 ManiacEditor.Properties.Settings.MyDefaults.CustomGridSizeValue = 16;
                 ManiacEditor.Classes.Options.DefaultPrefrences.Save();
             }
-            Methods.Solution.SolutionState.GridCustomSize = ManiacEditor.Properties.Settings.MyDefaults.CustomGridSizeValue;
+            Methods.Solution.SolutionState.Main.GridCustomSize = ManiacEditor.Properties.Settings.MyDefaults.CustomGridSizeValue;
 
-            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 0) Methods.Solution.SolutionState.GridCustomSize = 16;
-            else if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 1) Methods.Solution.SolutionState.GridCustomSize = 32;
-            else if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 2) Methods.Solution.SolutionState.GridCustomSize = 128;
-            else if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 3) Methods.Solution.SolutionState.GridCustomSize = ManiacEditor.Properties.Settings.MyDefaults.CustomGridSizeValue;
+            if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 0) Methods.Solution.SolutionState.Main.GridCustomSize = 16;
+            else if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 1) Methods.Solution.SolutionState.Main.GridCustomSize = 32;
+            else if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 2) Methods.Solution.SolutionState.Main.GridCustomSize = 128;
+            else if (ManiacEditor.Properties.Settings.MyDefaults.DefaultGridSizeOption == 3) Methods.Solution.SolutionState.Main.GridCustomSize = ManiacEditor.Properties.Settings.MyDefaults.CustomGridSizeValue;
 
 
-            Methods.Solution.SolutionState.Custom_CollisionAllSolid_Color = ManiacEditor.Properties.Settings.MyDefaults.CollisionSAColour;
-            Methods.Solution.SolutionState.Custom_CollisionLRDSolid_Color = ManiacEditor.Properties.Settings.MyDefaults.CollisionLRDColour;
-            Methods.Solution.SolutionState.Custom_CollisionTopOnlySolid_Color = ManiacEditor.Properties.Settings.MyDefaults.CollisionTOColour;
+            Methods.Solution.SolutionState.Main.Custom_CollisionAllSolid_Color = ManiacEditor.Properties.Settings.MyDefaults.CollisionSAColour;
+            Methods.Solution.SolutionState.Main.Custom_CollisionLRDSolid_Color = ManiacEditor.Properties.Settings.MyDefaults.CollisionLRDColour;
+            Methods.Solution.SolutionState.Main.Custom_CollisionTopOnlySolid_Color = ManiacEditor.Properties.Settings.MyDefaults.CollisionTOColour;
 
-            Methods.Solution.SolutionState.GridColor = ManiacEditor.Properties.Settings.MyDefaults.DefaultGridColor;
-            Methods.Solution.SolutionState.waterColor = ManiacEditor.Properties.Settings.MyDefaults.WaterEntityColorDefault;
+            Methods.Solution.SolutionState.Main.GridColor = ManiacEditor.Properties.Settings.MyDefaults.DefaultGridColor;
+            Methods.Solution.SolutionState.Main.waterColor = ManiacEditor.Properties.Settings.MyDefaults.WaterEntityColorDefault;
 
             Instance.EditorToolbar.FasterNudgeValueNUD.Value = ManiacEditor.Properties.Settings.MyDefaults.FasterNudgeValue;
 
@@ -295,7 +295,7 @@ namespace ManiacEditor.Methods.Internal
                     if (item.Tag.ToString() == ManiacEditor.Properties.Settings.MyDefaults.MenuLanguageDefault)
                     {
                         item.IsChecked = true;
-                        Methods.Solution.SolutionState.CurrentManiaUILanguage = item.Tag.ToString();
+                        Methods.Solution.SolutionState.Main.CurrentManiaUILanguage = item.Tag.ToString();
                     }
                 }
 

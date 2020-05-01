@@ -6,7 +6,44 @@
              xmlns:local="clr-namespace:ManiacEditor.Controls.Clipboard_Manager"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <TabControl>
+        <TabItem Header="Recent">
+            <Grid>
+                <ListView x:Name="RecentEntitiesList" HorizontalContentAlignment="Stretch" ItemsSource="{Binding ObjectsClipboardHistory}">
+                    <ListView.Resources>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </ListView.Resources>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="20" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding DisplayName}" Padding="15,0"></TextBlock>
+                                <Button x:Name="SetButton" Click="SetButton_Click" Grid.Column="2" Content="Use" Padding="15,0"></Button>
+                                <Button x:Name="SaveButton" Click="SaveButton_Click" Grid.Column="3" Content="Save" Padding="15,0"></Button>
+                                <Button x:Name="RemoveButton" Click="RemoveButton_Click" Grid.Column="4" Content="Remove" Padding="15,0"></Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="IsSelected" Value="True"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListView>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Saved" Visibility="Collapsed"></TabItem>
+    </TabControl>
 </UserControl>

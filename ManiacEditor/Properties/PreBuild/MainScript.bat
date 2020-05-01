@@ -1,4 +1,4 @@
-@echo off
+@ECHO OFF
 SET ConfigurationName=%1
 SET SolutionDir=%~2
 SET TargetDir=%~3

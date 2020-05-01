@@ -33,7 +33,7 @@ namespace ManiacEditor.Controls.Object_Manager
 
         public void SetupWindow()
         {
-            if (Methods.Solution.SolutionState.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
+            if (Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
             //if (Methods.Internal.Theming.UseExtendedColors) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
             //else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
         }
@@ -263,7 +263,7 @@ namespace ManiacEditor.Controls.Object_Manager
                             objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
                             _targetSceneObjects.Add(objectToImport);
 
-                            if (Methods.Solution.SolutionState.AddStageConfigEntriesAllowed)
+                            if (Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed)
                             {
                                 if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
                                 {
@@ -292,11 +292,11 @@ namespace ManiacEditor.Controls.Object_Manager
 		{
 			if (checkBox1.IsChecked.Value)
 			{
-				Methods.Solution.SolutionState.AddStageConfigEntriesAllowed = true;
+				Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed = true;
 			}
 			else
 			{
-				Methods.Solution.SolutionState.AddStageConfigEntriesAllowed = false;
+				Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed = false;
 			}
 		}
 	}

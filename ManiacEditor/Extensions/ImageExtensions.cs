@@ -4,11 +4,47 @@ using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
+using System.IO;
 using System.ComponentModel;
+using System.Linq;
 
 namespace ManiacEditor.Extensions
 {
-	public static class ImageExtensions
+    public static class BitmapImageExtensions
+    {
+        public static bool IsEqual(this BitmapImage image1, BitmapImage image2)
+        {
+            if (image1 == null || image2 == null)
+            {
+                return false;
+            }
+            return image1.ToBytes().SequenceEqual(image2.ToBytes());
+        }
+
+        public static byte[] ToBytes(this BitmapImage image)
+        {
+            byte[] data = new byte[] { };
+            if (image != null)
+            {
+                try
+                {
+                    var encoder = new BmpBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(image));
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        encoder.Save(ms);
+                        data = ms.ToArray();
+                    }
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return data;
+        }
+    }
+    public static class ImageExtensions
 	{
 
 		#region WPF Extension
@@ -25,6 +61,22 @@ namespace ManiacEditor.Extensions
             [DllImport("gdi32.dll")]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool DeleteObject(IntPtr hObject);
+        }
+        public static Bitmap ToWinFormsBitmap(this BitmapSource bitmapsource)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BitmapEncoder enc = new BmpBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create(bitmapsource));
+                enc.Save(stream);
+
+                using (var tempBitmap = new Bitmap(stream))
+                {
+                    // According to MSDN, one "must keep the stream open for the lifetime of the Bitmap."
+                    // So we return a copy of the new bitmap, allowing us to dispose both the bitmap and the stream.
+                    return new Bitmap(tempBitmap);
+                }
+            }
         }
 
         public static ImageSource ImageSourceFromBitmap(Bitmap bmp)
@@ -88,6 +140,24 @@ namespace ManiacEditor.Extensions
         }
 
         #endregion
+        public static bool DrawingBitmapEquals(Bitmap bmp1, Bitmap bmp2)
+        {
+            if (!bmp1.Size.Equals(bmp2.Size))
+            {
+                return false;
+            }
+            for (int x = 0; x < bmp1.Width; ++x)
+            {
+                for (int y = 0; y < bmp1.Height; ++y)
+                {
+                    if (bmp1.GetPixel(x, y) != bmp2.GetPixel(x, y))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         public static Image ScaleImage(Image image, int maxWidth, int maxHeight)
 		{
 			var ratioX = (double)maxWidth / image.Width;

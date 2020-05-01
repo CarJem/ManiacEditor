@@ -283,7 +283,7 @@ namespace ManiacEditor.Methods.Runtime
 
             if (playerID <= 0 || playerID >= 5) return;
 
-            if (playerID == Methods.Solution.SolutionState.CurrentPlayerBeingTracked) Methods.Solution.SolutionActions.GoToPosition(x, y);
+            if (playerID == Methods.Solution.SolutionState.Main.CurrentPlayerBeingTracked) Methods.Solution.SolutionActions.GoToPosition(x, y);
 
             int Transparency = 0xff;
             string name = "Player " + playerID;
@@ -488,7 +488,7 @@ namespace ManiacEditor.Methods.Runtime
         {
             if (!GameRunning)
             {
-                if (ManiacEditor.Properties.Settings.MyDefaults.ModLoaderPath != null && ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs?.Count > 0)
+                if (ManiacEditor.Properties.Settings.MyDefaults.ModLoaderPath != null && Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs?.Count > 0)
                 {
                     string ConfigPath = ManiacEditor.Properties.Settings.MyDefaults.SonicManiaPath;
                     System.Windows.Controls.MenuItem dropDownItem = Editor.EditorToolbar.selectConfigToolStripMenuItem.Items[0] as System.Windows.Controls.MenuItem;
@@ -644,14 +644,14 @@ namespace ManiacEditor.Methods.Runtime
             if (GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Solution.SolutionState.LastX / Methods.Solution.SolutionState.Zoom));
-                GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Solution.SolutionState.LastY / Methods.Solution.SolutionState.Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom));
             }
         }
 
         public static void SetPlayerRespawnToHere()
         {
-            Point clicked_point = Methods.Solution.SolutionState.GetLastXY();
+            Point clicked_point = Methods.Solution.SolutionState.Main.GetLastXY();
             if (GameRunning)
             {
                 UpdateCheckpoint(clicked_point);
@@ -669,12 +669,12 @@ namespace ManiacEditor.Methods.Runtime
                     UncheckAllPlayers();
                     item.IsChecked = true;
                     int.TryParse(item.Tag.ToString(), out int player);
-                    Methods.Solution.SolutionState.CurrentPlayerBeingTracked = player;
+                    Methods.Solution.SolutionState.Main.CurrentPlayerBeingTracked = player;
                 }
                 else
                 {
                     item.IsChecked = false;
-                    Methods.Solution.SolutionState.CurrentPlayerBeingTracked = -1;
+                    Methods.Solution.SolutionState.Main.CurrentPlayerBeingTracked = -1;
                 }
 
 

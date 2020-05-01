@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ManiacEditor.Methods.Solution;
 
 namespace ManiacEditor.Controls.Clipboard_Manager
 {
@@ -23,6 +24,26 @@ namespace ManiacEditor.Controls.Clipboard_Manager
         public EntitiesClipboardPage()
         {
             InitializeComponent();
+            this.DataContext = Methods.Solution.SolutionClipboard.ClipboardViewModel;
         }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (RecentEntitiesList.SelectedIndex == -1) return;
+            SolutionClipboard.ClipboardViewModel.RemoveFromObjectsHistory(SolutionClipboard.ClipboardViewModel.ObjectsClipboardHistory[RecentEntitiesList.SelectedIndex]);
+        }
+
+        private void SetButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (RecentEntitiesList.SelectedIndex == -1) return;
+            SolutionClipboard.ClipboardViewModel.SetObjectClipboard(SolutionClipboard.ClipboardViewModel.ObjectsClipboardHistory[RecentEntitiesList.SelectedIndex]);
+        }
+
+
     }
 }

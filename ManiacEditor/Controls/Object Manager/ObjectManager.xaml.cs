@@ -265,7 +265,7 @@ namespace ManiacEditor.Controls.Object_Manager
 		{
 			// this method is not being called for some reason
 			// TODO: call this properly and update selected object count
-			Console.WriteLine("TEST");
+			ManiacEditor.Extensions.ConsoleExtensions.Print("TEST");
 			updateSelectedText();
 		}
 
@@ -516,7 +516,7 @@ namespace ManiacEditor.Controls.Object_Manager
 
 		private void importSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			Methods.ProgramLauncher.ImportSounds(GetWindow(this));
+			Methods.ProgramLauncher.ImportSounds(null);
 			ReloadList();
 		}
 

@@ -115,11 +115,11 @@ namespace ManiacEditor.Methods
                 {
                     if (Editor.TileManiacInstance.Visibility != Visibility.Visible || Editor.TileManiacInstance.TileConfig == null)
                     {
-                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Solution.CurrentSolution.TileConfig, ManiacEditor.Methods.Solution.SolutionPaths.TileConfig_Source.ToString(), Methods.Solution.SolutionState.LastSelectedTileID);
+                        Editor.TileManiacInstance.LoadTileConfigViaIntergration(Methods.Solution.CurrentSolution.TileConfig, ManiacEditor.Methods.Solution.SolutionPaths.TileConfig_Source.ToString(), Methods.Solution.SolutionState.Main.LastSelectedTileID);
                     }
                     else
                     {
-                        Editor.TileManiacInstance.SetCollisionIndex(Methods.Solution.SolutionState.LastSelectedTileID);
+                        Editor.TileManiacInstance.SetCollisionIndex(Methods.Solution.SolutionState.Main.LastSelectedTileID);
                         Editor.TileManiacInstance.Activate();
                     }
 
@@ -441,11 +441,11 @@ namespace ManiacEditor.Methods
         #region Saved Place
         public static void OpenASavedPlaceDropDownOpening(object sender, RoutedEventArgs e)
         {
-            if (ManiacEditor.Properties.Settings.MySettings.SavedPlaces != null && ManiacEditor.Properties.Settings.MySettings.SavedPlaces.Count > 0)
+            if (Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces != null && Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces.Count > 0)
             {
                 Editor.MenuBar.openASavedPlaceToolStripMenuItem.Items.Clear();
                 var allItems = Editor.MenuBar.openASavedPlaceToolStripMenuItem.Items.Cast<System.Windows.Controls.MenuItem>().ToArray();
-                foreach (string savedPlace in ManiacEditor.Properties.Settings.MySettings.SavedPlaces)
+                foreach (string savedPlace in Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces)
                 {
                     var savedPlaceItem = new System.Windows.Controls.MenuItem()
                     {
@@ -487,7 +487,7 @@ namespace ManiacEditor.Methods
         #region Scene Tab Buttons
         public static void ImportObjectsToolStripMenuItem_Click(Window window = null)
         {
-            Methods.Solution.SolutionState.isImportingObjects = true;
+            Methods.Solution.SolutionState.Main.isImportingObjects = true;
             try
             {
                 RSDKv5.Scene sourceScene = GetSceneForObjectImporting(window);
@@ -509,7 +509,7 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Methods.Solution.SolutionState.isImportingObjects = false;
+            Methods.Solution.SolutionState.Main.isImportingObjects = false;
         }
 
         public static Scene GetSceneForObjectImporting(Window window = null)
@@ -537,7 +537,7 @@ namespace ManiacEditor.Methods
 
         public static void ImportObjectsWithMegaList(Window window = null)
         {
-            Methods.Solution.SolutionState.isImportingObjects = true;
+            Methods.Solution.SolutionState.Main.isImportingObjects = true;
             try
             {
                 GenerationsLib.Core.FolderSelectDialog ofd = new GenerationsLib.Core.FolderSelectDialog();
@@ -568,7 +568,7 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Methods.Solution.SolutionState.isImportingObjects = false;
+            Methods.Solution.SolutionState.Main.isImportingObjects = false;
         }
 
         public static void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
@@ -616,7 +616,7 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
             }
-            Methods.Solution.SolutionState.QuitWithoutSavingWarningRequired = true;
+            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ManiacINIEditor(object sender, RoutedEventArgs e)
@@ -625,6 +625,14 @@ namespace ManiacEditor.Methods
             if (editor.Owner != null) editor.Owner = Window.GetWindow(Editor);
             else editor.Owner = System.Windows.Application.Current.MainWindow;
             editor.ShowDialog();
+        }
+        public static void TileManager()
+        {
+            var tm = new Controls.Toolbox.TileManager();
+            tm.Owner = Window.GetWindow(Editor);
+            tm.ShowDialog();
+
+            Methods.Internal.UserInterface.UpdateControls();
         }
 
         public static void LayerManager(object sender, RoutedEventArgs e)
@@ -639,7 +647,7 @@ namespace ManiacEditor.Methods
             Editor.EditorToolbar.SetupLayerButtons();
             Editor.ViewPanel.SharpPanel.ResetZoomLevel();
             Methods.Internal.UserInterface.UpdateControls();
-            Methods.Solution.SolutionState.QuitWithoutSavingWarningRequired = true;
+            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ExportGUI(object sender, RoutedEventArgs e)
@@ -654,7 +662,7 @@ namespace ManiacEditor.Methods
             var objectManager = new ObjectManager(Methods.Solution.CurrentSolution.Entities.SceneObjects, Methods.Solution.CurrentSolution.StageConfig, Editor);
             objectManager.Owner = Window.GetWindow(Editor);
             objectManager.ShowDialog();
-            Methods.Solution.SolutionState.QuitWithoutSavingWarningRequired = true;
+            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void AboutScreen()
@@ -708,7 +716,39 @@ namespace ManiacEditor.Methods
 
         #endregion
 
+        #region Editor Tools
+
+        public static void ClipboardManager(Window window = null)
+        {
+            var cm = new Controls.Clipboard_Manager.ClipboardManager();
+            if (window != null) cm.Owner = window;
+            cm.Show();
+
+            Methods.Internal.UserInterface.UpdateControls();
+        }
+
+        #endregion
+
         #region Dev
+
+        public static void ManiacConsoleToggle()
+        {
+            Extensions.ConsoleExtensions.ToggleManiacConsole();
+        }
+
+        public static void ConsoleToggle()
+        {
+            if (!Methods.Solution.SolutionState.Main.IsConsoleWindowOpen)
+            {
+                Methods.Solution.SolutionState.Main.IsConsoleWindowOpen = true;
+                Extensions.ConsoleExtensions.ShowConsoleWindow();
+            }
+            else
+            {
+                Methods.Solution.SolutionState.Main.IsConsoleWindowOpen = false;
+                Extensions.ConsoleExtensions.HideConsoleWindow();
+            }
+        }
 
         public static void DevTerm()
         {

@@ -75,10 +75,10 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		public ManiacEditor.Controls.Global.Controls.ManiacTileList ChunkList;
 		public ManiacEditor.Controls.Global.Controls.ManiacTileList TilesList;
 
-		public Action<int, bool> TileOptionChanged;
+		public Action<int, bool> TileOptionChanged { get; set; }
 
-		CheckBox[] CurrentTileCheckboxOptions = new CheckBox[6];
-		CheckBox[] SelectedTilesCheckboxOptions = new CheckBox[4];
+		CheckBox[] PlacedTileCheckboxOptions = new CheckBox[6];
+		CheckBox[] SelectedTilesCheckboxOptions = new CheckBox[6];
 		bool setCheckboxes;
 
 		public int SelectedTileIndex { get; set; }
@@ -94,12 +94,12 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 				{
 					ushort Tile = (ushort)TilesList.Images.IndexOf(tile as System.Windows.Media.ImageSource);
 
-					bool FlipX = CurrentTileCheckboxOptions[0].IsChecked.Value;
-					bool FlipY = CurrentTileCheckboxOptions[1].IsChecked.Value;
-					bool SolidTopA = CurrentTileCheckboxOptions[2].IsChecked.Value;
-					bool SolidLrbA = CurrentTileCheckboxOptions[3].IsChecked.Value;
-					bool SolidTopB = CurrentTileCheckboxOptions[4].IsChecked.Value;
-					bool SolidLrbB = CurrentTileCheckboxOptions[5].IsChecked.Value;
+					bool FlipX = PlacedTileCheckboxOptions[0].IsChecked.Value;
+					bool FlipY = PlacedTileCheckboxOptions[1].IsChecked.Value;
+					bool SolidTopA = PlacedTileCheckboxOptions[2].IsChecked.Value;
+					bool SolidLrbA = PlacedTileCheckboxOptions[3].IsChecked.Value;
+					bool SolidTopB = PlacedTileCheckboxOptions[4].IsChecked.Value;
+					bool SolidLrbB = PlacedTileCheckboxOptions[5].IsChecked.Value;
 
 					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(10, FlipX, Tile);
 					Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(11, FlipY, Tile);
@@ -120,12 +120,12 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 			{
 				ushort Tile = (ushort)TilesList.SelectedIndex;
 
-				bool FlipX = CurrentTileCheckboxOptions[0].IsChecked.Value;
-				bool FlipY = CurrentTileCheckboxOptions[1].IsChecked.Value;
-				bool SolidTopA = CurrentTileCheckboxOptions[2].IsChecked.Value;
-				bool SolidLrbA = CurrentTileCheckboxOptions[3].IsChecked.Value;
-				bool SolidTopB = CurrentTileCheckboxOptions[4].IsChecked.Value;
-				bool SolidLrbB = CurrentTileCheckboxOptions[5].IsChecked.Value;
+				bool FlipX = PlacedTileCheckboxOptions[0].IsChecked.Value;
+				bool FlipY = PlacedTileCheckboxOptions[1].IsChecked.Value;
+				bool SolidTopA = PlacedTileCheckboxOptions[2].IsChecked.Value;
+				bool SolidLrbA = PlacedTileCheckboxOptions[3].IsChecked.Value;
+				bool SolidTopB = PlacedTileCheckboxOptions[4].IsChecked.Value;
+				bool SolidLrbB = PlacedTileCheckboxOptions[5].IsChecked.Value;
 
 				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(10, FlipX, Tile);
 				Tile = (ushort)ManiacEditor.Methods.Layers.TileFindReplace.SetBit(11, FlipY, Tile);
@@ -166,7 +166,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 			}
 			catch (Exception ex)
 			{
-				Debug.Print(ex.ToString());
+				ManiacEditor.Extensions.ConsoleExtensions.Print(ex.ToString());
 			}
 
 		}
@@ -174,17 +174,19 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 
 		private void SetCheckboxDefaults()
 		{
-			SelectedTilesCheckboxOptions[0] = tileOption1;
-			SelectedTilesCheckboxOptions[1] = tileOption2;
-			SelectedTilesCheckboxOptions[2] = tileOption3;
-			SelectedTilesCheckboxOptions[3] = tileOption4;
+			SelectedTilesCheckboxOptions[0] = SelectedTileOptionFlipX;
+			SelectedTilesCheckboxOptions[1] = SelectedTileOptionFlipY;
+			SelectedTilesCheckboxOptions[2] = SelectedTileOptionSolidTop_A;
+			SelectedTilesCheckboxOptions[3] = SelectedTileOptionSolidLRB_A;
+			SelectedTilesCheckboxOptions[4] = SelectedTileOptionSolidTop_B;
+			SelectedTilesCheckboxOptions[5] = SelectedTileOptionSolidLRB_B;
 
-			CurrentTileCheckboxOptions[0] = option1CheckBox;
-			CurrentTileCheckboxOptions[1] = option2CheckBox;
-			CurrentTileCheckboxOptions[2] = SolidTopACheckBox;
-			CurrentTileCheckboxOptions[3] = SolidAllButTopACheckBox;
-			CurrentTileCheckboxOptions[4] = SolidTopBCheckBox;
-			CurrentTileCheckboxOptions[5] = SolidAllButTopBCheckBox;
+			PlacedTileCheckboxOptions[0] = PlacedTileOptionFlipX;
+			PlacedTileCheckboxOptions[1] = PlacedTileOptionFlipY;
+			PlacedTileCheckboxOptions[2] = PlacedTileOptionSolidTop_A;
+			PlacedTileCheckboxOptions[3] = PlacedTileOptionSolidLRB_A;
+			PlacedTileCheckboxOptions[4] = PlacedTileOptionSolidTop_B;
+			PlacedTileCheckboxOptions[5] = PlacedTileOptionSolidLRB_B;
 		}
 
 		#endregion
@@ -220,13 +222,13 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		{
 			if (Show)
 			{
-				option1CheckBox.Content = "Flip Horizontal " + Environment.NewLine + Extensions.KeyEventExts.KeyBindPraser("FlipHTiles", true);
-				option2CheckBox.Content = "Flip Vertical " + Environment.NewLine + Extensions.KeyEventExts.KeyBindPraser("FlipVTiles", true);
+				PlacedTileOptionFlipX.Content = "Flip X - " + Extensions.KeyEventExts.KeyBindPraser("FlipHTiles", true);
+				PlacedTileOptionFlipY.Content = "Flip Y - " + Extensions.KeyEventExts.KeyBindPraser("FlipVTiles", true);
 			}
 			else
 			{
-				option1CheckBox.Content = "Flip Horizontal" + Environment.NewLine + string.Format("({0} - Selected Only)", Extensions.KeyEventExts.KeyBindPraser("FlipH"));
-				option2CheckBox.Content = "Flip Vertical" + Environment.NewLine + string.Format("({0} - Selected Only)", Extensions.KeyEventExts.KeyBindPraser("FlipV"));
+				PlacedTileOptionFlipX.Content = "Flip X";
+				PlacedTileOptionFlipY.Content = "Flip Y";
 			}
 		}
 		private void SetDropdownItemsState(bool enabled)
@@ -251,7 +253,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 					else Instance.EditorToolbar.ChunksToolButton.IsChecked = true;
 				}
 
-				if (ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit() && this.ChunkList != null)
+				if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit() && this.ChunkList != null)
 				{
 					ExtraOptionsButton.Visibility = Visibility.Visible;
 					ExtraTileOptionsButton.Visibility = Visibility.Collapsed;
@@ -437,7 +439,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		{
 			ExtraTileOptionsButton.ContextMenu.IsOpen = true;
 
-			if (!ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) SetTilesDropdownItemsState(false);
+			if (!ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) SetTilesDropdownItemsState(false);
 			else SetTilesDropdownItemsState(true);
 		}
 
@@ -491,7 +493,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		{
 			ExtraOptionsButton.ContextMenu.IsOpen = true;
 
-			if (!ManiacEditor.Methods.Solution.SolutionState.IsChunksEdit()) SetDropdownItemsState(false);
+			if (!ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) SetDropdownItemsState(false);
 			else SetDropdownItemsState(true);
 		}
 		#endregion
@@ -503,10 +505,10 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 			TileZoomTrackbar.Value = Properties.Settings.MyDefaults.TilesDefaultZoom;
 			ChunkZoomTrackbar.Value = Properties.Settings.MyDefaults.ChunksDefaultZoom;
 
-			SolidTopACheckBox.IsChecked = Properties.Settings.MyDefaults.SolidTopADefault;
-			SolidAllButTopACheckBox.IsChecked = Properties.Settings.MyDefaults.SolidAllButTopADefault;
-			SolidTopBCheckBox.IsChecked = Properties.Settings.MyDefaults.SolidTopBDefault;
-			SolidAllButTopBCheckBox.IsChecked = Properties.Settings.MyDefaults.SolidAllButTopBDefault;
+			PlacedTileOptionSolidTop_A.IsChecked = Properties.Settings.MyDefaults.SolidTopADefault;
+			PlacedTileOptionSolidLRB_A.IsChecked = Properties.Settings.MyDefaults.SolidAllButTopADefault;
+			PlacedTileOptionSolidTop_B.IsChecked = Properties.Settings.MyDefaults.SolidTopBDefault;
+			PlacedTileOptionSolidLRB_B.IsChecked = Properties.Settings.MyDefaults.SolidAllButTopBDefault;
 		}
 		public void Reload()
 		{
@@ -523,7 +525,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		#region Set Tile Option Methods
 		public void SetSelectTileOption(int option, bool state)
 		{
-			CurrentTileCheckboxOptions[option].IsChecked = state;
+			PlacedTileCheckboxOptions[option].IsChecked = state;
 		}
 		public void SetTileOptionState(int option, TileOptionState state)
 		{
@@ -553,29 +555,38 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 
 		#region Tile Option Events
 
-		private void option1CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+		private void PlaceOptionFlipX(object sender, RoutedEventArgs e)
 		{
-			TilesFlipHorizontal = option1CheckBox.IsChecked.Value;
+			TilesFlipHorizontal = PlacedTileOptionFlipX.IsChecked.Value;
 		}
-		private void option2CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+		private void PlaceOptionFlipY(object sender, RoutedEventArgs e)
 		{
-			TilesFlipVertical = option2CheckBox.IsChecked.Value;
+			TilesFlipVertical = PlacedTileOptionFlipY.IsChecked.Value;
 		}
-		private void tileOption1_CheckedChanged(object sender, RoutedEventArgs e)
+		private void SelectTileOptionFlipX(object sender, RoutedEventArgs e)
 		{
-			if (!setCheckboxes) TileOptionChanged?.Invoke(0, tileOption1.IsChecked.Value);
+			if (!setCheckboxes) TileOptionChanged?.Invoke(0, SelectedTileOptionFlipX.IsChecked.Value);
 		}
-		private void tileOption2_CheckedChanged(object sender, RoutedEventArgs e)
+
+		private void SelectTileOptionFlipY(object sender, RoutedEventArgs e)
 		{
-			if (!setCheckboxes) TileOptionChanged?.Invoke(1, tileOption2.IsChecked.Value);
+			if (!setCheckboxes) TileOptionChanged?.Invoke(1, SelectedTileOptionFlipY.IsChecked.Value);
 		}
-		private void tileOption3_CheckedChanged(object sender, RoutedEventArgs e)
+		private void SelectOptionSolidTopA(object sender, RoutedEventArgs e)
 		{
-			if (!setCheckboxes) TileOptionChanged?.Invoke(2, tileOption3.IsChecked.Value);
+			if (!setCheckboxes) TileOptionChanged?.Invoke(2, SelectedTileOptionSolidTop_A.IsChecked.Value);
 		}
-		private void tileOption4_CheckedChanged(object sender, RoutedEventArgs e)
+		private void SelectOptionSolidLRB_A(object sender, RoutedEventArgs e)
 		{
-			if (!setCheckboxes) TileOptionChanged?.Invoke(3, tileOption4.IsChecked.Value);
+			if (!setCheckboxes) TileOptionChanged?.Invoke(3, SelectedTileOptionSolidLRB_A.IsChecked.Value);
+		}
+		private void SelectOptionSolidTopB(object sender, RoutedEventArgs e)
+		{
+			if (!setCheckboxes) TileOptionChanged?.Invoke(4, SelectedTileOptionSolidTop_B.IsChecked.Value);
+		}
+		private void SelectOptionSolidLRB_B(object sender, RoutedEventArgs e)
+		{
+			if (!setCheckboxes) TileOptionChanged?.Invoke(5, SelectedTileOptionSolidLRB_B.IsChecked.Value);
 		}
 
 		#endregion
@@ -742,6 +753,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		{
 
 		}
+
 
 		#endregion
 

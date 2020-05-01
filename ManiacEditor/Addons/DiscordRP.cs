@@ -12,7 +12,7 @@ namespace ManiacEditor
 		{
 			string output = string.Format("[Discord RPC] Received Ready from user {0}", e.User.Username);
 			System.Diagnostics.Debug.Print(output);
-			Console.WriteLine(output);
+			ManiacEditor.Extensions.ConsoleExtensions.Print(output);
 		}
 
 		private static void Client_OnPresenceUpdate(object sender, DiscordRPC.Message.PresenceMessage e)
@@ -21,7 +21,7 @@ namespace ManiacEditor
 			{
 				string output = string.Format("[Discord RPC] Received Update! {0}", e.Presence);
 				System.Diagnostics.Debug.Print(output);
-				Console.WriteLine(output);
+				ManiacEditor.Extensions.ConsoleExtensions.Print(output);
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace ManiacEditor
 			{
 				string output = string.Format("[Discord RPC] Failed Update! {0}", e.Message);
 				System.Diagnostics.Debug.Print(output);
-				Console.WriteLine(output);
+				ManiacEditor.Extensions.ConsoleExtensions.Print(output);
 			}
 		}
 		#endregion

@@ -192,6 +192,45 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Quick Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <WarningLevel>2</WarningLevel>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Quick Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Quick Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Quick Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Quick Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework">
@@ -237,8 +276,35 @@
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
     <Compile Include="Classes\General\SceneSelectDirectoriesCollection.cs" />
     <Compile Include="Classes\General\SceneSelectCategoriesCollection.cs" />
-    <Compile Include="Classes\Prefrences\DataDirectoriesStorage.cs" />
-    <Compile Include="Classes\Prefrences\RecentsRefrenceState.cs" />
+    <Compile Include="Controls\Misc\Dev\ManiacConsole.xaml.cs">
+      <DependentUpon>ManiacConsole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\CaterkillerJr.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Chopper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Clucker.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Dango.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Dragonfly.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Cutscenes\ControlPanel.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Decor\RubyFX.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Generic\DCEvent.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Generic\ZoneSetup.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\LRZSpiral.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LRZFireball.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\FlingRamp.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\EncoreRoute.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Generic\HUD.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\GasPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\LRZRockPile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_ItemBox.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Player.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Ring.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Sphere.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Springboard.cs" />
+    <Compile Include="Extensions\ExternalExtensions.cs" />
+    <Compile Include="Settings\Prefrences\CommonPathsStorage.cs" />
+    <Compile Include="Settings\Prefrences\RecentsRefrenceState.cs" />
     <Compile Include="Classes\Rendering\Graphing.cs" />
     <Compile Include="Controls\Graphics\DevicePanel.cs">
       <SubType>UserControl</SubType>
@@ -247,6 +313,10 @@
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\Honkytonk.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SeltzerBottle.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\AIZRockPile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\CollapsingSand.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SwingRope.cs" />
     <Compile Include="Methods\Draw\GraphicsTileDrawing.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Methods\Draw\LayerTileProvider.cs" />
@@ -357,25 +427,25 @@
     <Compile Include="Entity Renders\Normal Renders\Bounded\Whirlpool.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Buttons\Button.cs">
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\Button.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Buttons\PullSwitch.cs">
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\PullSwitch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Checkpoints\SignPost.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\SignPost.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Checkpoints\SpinSign.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\SpinSign.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Checkpoints\StarPost.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\StarPost.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Checkpoints\TimePost.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\TimePost.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Collectables\SpecialRing.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\SpecialRing.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Decor\Constellation.cs">
@@ -387,25 +457,25 @@
     <Compile Include="Entity Renders\Normal Renders\Decor\Valve.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Doors + Tubes\TransportTube.cs">
+    <Compile Include="Entity Renders\Normal Renders\Motion\TransportTube.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Doors + Tubes\TwistedTubes.cs">
+    <Compile Include="Entity Renders\Normal Renders\Motion\TwistedTubes.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\ZipLine.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Hazards\SpikeLog.cs">
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SpikeLog.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Internal\ForceSpin.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\ForceSpin.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Internal\ForceUnstick.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\ForceUnstick.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Looping\CorkscrewPath.cs">
+    <Compile Include="Entity Renders\Normal Renders\Bounded\CorkscrewPath.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Platforms\FoldingPlatform.cs">
@@ -423,10 +493,10 @@
     <Compile Include="Entity Renders\Normal Renders\Platforms\TippingPlatform.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Springs\CircleBumper.cs">
+    <Compile Include="Entity Renders\Normal Renders\Motion\CircleBumper.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Springs\Flipper.cs">
+    <Compile Include="Entity Renders\Normal Renders\Motion\Flipper.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Templates\Template.cs">
@@ -453,19 +523,19 @@
     <Compile Include="Entity Renders\Normal Renders\Bounded\BGSwitch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Internal\BlankObject.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\BlankObject.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Bounded\BoundsMarker.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Platforms\BreakableWall.cs">
+    <Compile Include="Entity Renders\Normal Renders\Bounded\BreakableWall.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Platforms\Bridge.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Platforms\CollapsingPlatform.cs">
+    <Compile Include="Entity Renders\Normal Renders\Bounded\CollapsingPlatform.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Bounded\Current.cs">
@@ -474,41 +544,41 @@
     <Compile Include="Entity Renders\Normal Renders\Decor\Decoration.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Platforms\InvisibleBlock.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\InvisibleBlock.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Collectables\ItemBox.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\ItemBox.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Internal\Music.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\Music.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Doors + Tubes\PlaneSwitch.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\PlaneSwitch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Platforms\Platform.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Internal\Player.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\Player.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Collectables\Ring.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\Ring.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Hazards\Spikes.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\Spikes.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Springs\Spring.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\Spring.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Checkpoints\TimeAttackGate.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\TimeAttackGate.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\LightBulb.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Enums\MiscEnums.cs" />
-    <Compile Include="EventHandlers\TileConfigException.cs" />
+    <Compile Include="Events\TileConfigException.cs" />
     <Compile Include="Methods\Solution\SolutionConstants.cs" />
     <Compile Include="Methods\Solution\SolutionActions.cs" />
     <Compile Include="Classes\Scene\EditorLayer.cs" />
@@ -537,21 +607,21 @@
     <Compile Include="Controls\Global\Controls\SplitContainer.cs" />
     <Compile Include="Methods\Entities\ScriptLoader.cs" />
     <Compile Include="Methods\Entities\SplineSpawning.cs" />
-    <Compile Include="Classes\Options\DevelopmentStates.cs" />
-    <Compile Include="Classes\Options\DefaultPrefrences.cs" />
-    <Compile Include="Classes\Options\GameplaySettings.cs" />
-    <Compile Include="Classes\Options\GeneralSettings.cs" />
-    <Compile Include="Classes\Options\DefaultInputPreferences.cs" />
-    <Compile Include="Classes\Options\InputPreferences.cs" />
-    <Compile Include="Classes\Options\InternalSwitches.cs" />
-    <Compile Include="Classes\Options\VideoConfiguration.cs" />
+    <Compile Include="Settings\Options\DevelopmentStates.cs" />
+    <Compile Include="Settings\Options\DefaultPrefrences.cs" />
+    <Compile Include="Settings\Options\GameplaySettings.cs" />
+    <Compile Include="Settings\Options\GeneralSettings.cs" />
+    <Compile Include="Settings\Options\DefaultInputPreferences.cs" />
+    <Compile Include="Settings\Options\InputPreferences.cs" />
+    <Compile Include="Settings\Options\InternalSwitches.cs" />
+    <Compile Include="Settings\Options\VideoConfiguration.cs" />
     <Compile Include="Enums\AutoScrollDirection.cs" />
-    <Compile Include="Extensions\ExternalExtensions.cs" />
+    <Compile Include="Extensions\ConsoleExtensions.cs" />
     <Compile Include="Extensions\SystemColorsUtility.cs" />
     <Compile Include="Methods\Internal\Common.cs" />
     <Compile Include="Methods\Internal\Controls.cs" />
     <Compile Include="Methods\Internal\UserInterface.cs" />
-    <Compile Include="Classes\Prefrences\DataStateHistoryStorage.cs" />
+    <Compile Include="Settings\Prefrences\DataStateHistoryStorage.cs" />
     <Compile Include="Methods\ProgramPaths.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -570,9 +640,9 @@
     <Compile Include="Enums\DuplicateAction.cs" />
     <Compile Include="Enums\FlipDirection.cs" />
     <Compile Include="Methods\ProgramBase.cs" />
-    <Compile Include="Classes\Prefrences\SceneHistoryStorage.cs" />
+    <Compile Include="Settings\Prefrences\SceneHistoryStorage.cs" />
     <Compile Include="Methods\Solution\CurrentSolution.cs" />
-    <Compile Include="Classes\Prefrences\SceneCurrentSettings.cs" />
+    <Compile Include="Settings\Prefrences\SceneCurrentSettings.cs" />
     <Compile Include="Addons\DiscordRP.cs" />
     <Compile Include="Methods\Layers\TileFindReplace.cs" />
     <Compile Include="Methods\Runtime\GameHandler.cs" />
@@ -707,7 +777,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventHandlers\DeviceEventArgs.cs" />
+    <Compile Include="Events\DeviceEventArgs.cs" />
     <Compile Include="Controls\Global\Controls\HScrollBar.xaml.cs">
       <DependentUpon>HScrollBar.xaml</DependentUpon>
     </Compile>
@@ -1423,6 +1493,10 @@
       <Project>{36174cf4-c09e-4e5f-9445-4dfe1072667b}</Project>
       <Name>AnimationEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Retro-Engine-Animation-Editor\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj">
+      <Project>{02c46a71-d578-4aad-b7f2-dbfe550bbb57}</Project>
+      <Name>Xe.Tools.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKv1\RSDKv1.csproj">
       <Project>{e089db56-f8d4-434e-a9a8-c7efcc3278d8}</Project>
       <Name>RSDKv1</Name>
@@ -1577,6 +1651,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\About\CreditEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Misc\Dev\ManiacConsole.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1767,13 +1845,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity Renders\Normal Renders\Bosses\" />
-    <Folder Include="Entity Renders\Normal Renders\Conveyors + Lifts\" />
-    <Folder Include="Entity Renders\Normal Renders\Cutscenes\" />
-    <Folder Include="Entity Renders\Normal Renders\Flight\" />
-    <Folder Include="Entity Renders\Normal Renders\Propulsive\" />
-    <Folder Include="Entity Renders\Normal Renders\Pullies + Hanging\" />
-    <Folder Include="Entity Renders\Normal Renders\Special Stages\" />
-    <Folder Include="Entity Renders\Normal Renders\Structures\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker">
@@ -1824,9 +1895,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)"</PreBuildEvent>
+    <PreBuildEvent>start cmd.exe /c "call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)"</PostBuildEvent>
+    <PostBuildEvent>start cmd.exe /c "call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PostBuildEvent>
   </PropertyGroup>
 </Project>

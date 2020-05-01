@@ -45,11 +45,16 @@ namespace ManiacEditor.Classes.Rendering
 
         private bool IsRefreshable { get; set; } = false;
 
-        private Bitmap StandardBitmap;
+        private Bitmap StandardBitmap { get; set; }
+        private Bitmap IndexedBitmap { get; set; }
         private Bitmap TransparentBitmap;
-        private string Filename;
+        private ColorPalette OriginalPalette;
+
         private Texture TextureBitmap;
         private float SemiOpacity = (float)0.5;
+        public string Filename { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
         #endregion
 
@@ -86,6 +91,14 @@ namespace ManiacEditor.Classes.Rendering
             StandardBitmap = SetPaletteColors(new Bitmap(Filename), PaletteDataPath);
             if (StandardBitmap.Palette != null && StandardBitmap.Palette.Entries.Length > 0) StandardBitmap.MakeTransparent(StandardBitmap.Palette.Entries[0]);
             else StandardBitmap.MakeTransparent(SystemColor.FromArgb(0xff00ff));
+        }
+
+        private void CreateIndexedImage()
+        {
+            IndexedBitmap = new Bitmap(Filename);
+            OriginalPalette = IndexedBitmap.Palette;
+            Width = IndexedBitmap.Width;
+            Height = IndexedBitmap.Height;
         }
 
         #endregion
@@ -168,12 +181,42 @@ namespace ManiacEditor.Classes.Rendering
             return TextureBitmap;
         }
 
+        public SFML.Graphics.Texture GetTexture(Rectangle section, bool flipX = false, bool flipY = false)
+        {
+            Texture texture;
+            if (TextureCache.TryGetValue(new CacheKey(section, flipX, flipY), out texture)) return texture;
+            else
+            {
+                Bitmap bmp;
+                bmp = CropImage(StandardBitmap, section);
+                if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                texture = Methods.Draw.TextureHelper.FromBitmap(bmp);
+
+                TextureCache.Add(new CacheKey(section, flipX, flipY), texture);
+                return texture;
+            }
+        }
+
 
 
         #endregion
 
         #region Get Bitmap
-
+        public PixelFormat GetPixelFormat()
+        {
+            return PixelFormat.Format8bppIndexed;
+        }
+        public ColorPalette GetPalette()
+        {
+            return OriginalPalette;
+        }
+        public Bitmap GetBitmapIndexed(Rectangle section)
+        {
+            Bitmap bmp = new Bitmap(section.Width, section.Height);
+            bmp = IndexedBitmap.Clone(section, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+            return bmp;
+        }
         public Bitmap GetBitmap(Rectangle section, bool flipX = false, bool flipY = false, bool SemiTransparent = false)
         {
             if (SemiTransparent) return GetTransparentBitmap(section, flipX, flipY);
@@ -261,6 +304,9 @@ namespace ManiacEditor.Classes.Rendering
             this.TransparentBitmap = this.StandardBitmap.Clone(new Rectangle(0, 0, StandardBitmap.Width, StandardBitmap.Height), PixelFormat.Format32bppArgb);
             this.TransparentBitmap = SetImageOpacity(TransparentBitmap, SemiOpacity);
             this.TextureBitmap = Methods.Draw.TextureHelper.FromBitmap(StandardBitmap);
+
+            Width = StandardBitmap.Width;
+            Height = StandardBitmap.Height;
         }
         public void RefreshGIF(string PaletteDataPath = null)
         {
@@ -269,6 +315,7 @@ namespace ManiacEditor.Classes.Rendering
             CreateStandardImage(PaletteDataPath);
             CreateTransparentImage();
             CreateTextureImage();
+            CreateIndexedImage();
         }
         public void Reload(string PaletteDataPath = null)
         {

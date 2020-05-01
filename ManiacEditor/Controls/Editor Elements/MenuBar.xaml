@@ -66,16 +66,14 @@
                 <MenuItem x:Name="duplicateToolStripMenuItem" Header="Duplicate" Click="DuplicateEvent"></MenuItem>
                 <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllEvent"></MenuItem>
                 <MenuItem x:Name="deleteToolStripMenuItem" Header="Delete" Click="DeleteEvent"></MenuItem>
-                <Separator Visibility="Hidden"></Separator>
-                <MenuItem x:Name="labelItem" IsEnabled="False" Header="Flip Actions:"></MenuItem>
-                <Separator/>
+                <Separator></Separator>
                 <MenuItem x:Name="flipHorizontalToolStripMenuItem" Header="Flip Horizontal" Click="FlipHorizontalEvent"></MenuItem>
                 <MenuItem x:Name="flipVerticalToolStripMenuItem" Header="Flip Vertical" Click="FlipVerticalEvent"></MenuItem>
-                <Separator Visibility="Hidden"></Separator>
-                <MenuItem x:Name="labelItem2" IsEnabled="False" Header="Tile Only Flip Actions:"></MenuItem>
-                <Separator/>
                 <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horizontal Individual" Click="FlipHorizontalIndividualEvent"/>
                 <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualEvent"/>
+                <Separator></Separator>
+                <MenuItem x:Name="ClipboardManagerMenuItem" Header="Clipboard Manager..." Click="ClipboardManagerMenuItem_Click"></MenuItem>
+                <Separator></Separator>
             </MenuItem>
             <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,0,0,0">
                 <MenuItem x:Name="EnablePixelModeMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"></MenuItem>
@@ -178,10 +176,11 @@
                 <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID... (Temporary)" Click="ChangeLevelIDEvent"/>
                 <MenuItem x:Name="editBackgroundColorsToolStripMenuItem" Header="Edit BG Colors..." Click="ChangeEditorBGColorEvent"></MenuItem>
                     <Separator></Separator>
-                <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Collision Editor" Click="TileManiacNormal"/>
-                <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager" Click="ObjectManagerEvent"/>
-                <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Sound Importer" Click="ImportSoundsEvent"/>
-                <MenuItem x:Name="layerManagerToolStripMenuItem" Header="Layer Manager" Click="LayerManagerEvent"/>
+                <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Collision Editor..." Click="TileManiacNormal"/>
+                <MenuItem x:Name="tilemanagerToolStripMenuItem" Header="Tile Manager..." Click="TileManagerEvent"/>
+                <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager..." Click="ObjectManagerEvent"/>
+                <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Sound Importer..." Click="ImportSoundsEvent"/>
+                <MenuItem x:Name="layerManagerToolStripMenuItem" Header="Layer Manager..." Click="LayerManagerEvent"/>
                 <Separator></Separator>
                 <MenuItem x:Name="maniacinieditorToolStripMenuItem" Header="Scene Settings..." Click="ManiacINIEditorEvent"/>
             </MenuItem>

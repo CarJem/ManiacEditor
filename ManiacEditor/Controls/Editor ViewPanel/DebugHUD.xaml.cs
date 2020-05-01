@@ -164,7 +164,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
         public string GetZoom()
         {
-            return Math.Round(Methods.Solution.SolutionState.Zoom, 2).ToString();
+            return Math.Round(Methods.Solution.SolutionState.Main.Zoom, 2).ToString();
         }
 
         public string GetSelectedZone()
@@ -217,8 +217,8 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
         public string GetPosition()
         {
-            int x = (int)((Methods.Solution.SolutionState.ViewPositionX / Methods.Solution.SolutionState.Zoom) / 16);
-            int y = (int)((Methods.Solution.SolutionState.ViewPositionY / Methods.Solution.SolutionState.Zoom) / 16);
+            int x = (int)((Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom) / 16);
+            int y = (int)((Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom) / 16);
             return string.Format("Position: {0}, {1}", x, y);
         }
 
@@ -268,7 +268,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
         public void UpdatePopupVisibility()
         {
-            if (IsUserVisible(Instance.ViewPanel.SharpPanel) && Methods.Solution.SolutionState.IsSceneLoaded() && Methods.Solution.SolutionState.DebugStatsVisibleOnPanel)
+            if (IsUserVisible(Instance.ViewPanel.SharpPanel) && Methods.Solution.SolutionState.Main.IsSceneLoaded() && Methods.Solution.SolutionState.Main.DebugStatsVisibleOnPanel)
             {
                 ViewPanelHUD.IsOpen = true;
                 UpdatePopupSize();

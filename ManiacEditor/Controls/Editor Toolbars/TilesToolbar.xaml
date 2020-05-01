@@ -17,7 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="28"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="90"></RowDefinition>
             <RowDefinition Height="90"></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -88,31 +88,53 @@
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
-            <StackPanel>
-                <CheckBox x:Name="option1CheckBox" Margin="5" Content="Flip Horizontal &#xD;&#xA;(Ctrl)" Checked="option1CheckBox_CheckedChanged" Unchecked="option1CheckBox_CheckedChanged"></CheckBox>
-                <CheckBox x:Name="SolidTopACheckBox" Margin="5">Solid (Top)</CheckBox>
-                <CheckBox x:Name="SolidTopBCheckBox" Margin="5" Content="Solid (Top) &#xD;&#xA;(Plane 2)"></CheckBox>
-            </StackPanel>
-            <StackPanel>
-                <CheckBox x:Name="option2CheckBox" Margin="5" Content="Flip Vertical &#xD;&#xA;(Shift)" Checked="option2CheckBox_CheckedChanged" Unchecked="option2CheckBox_CheckedChanged"></CheckBox>
-                <CheckBox x:Name="SolidAllButTopACheckBox"  Margin="5">Solid (All excl. top)</CheckBox>
-                <CheckBox x:Name="SolidAllButTopBCheckBox" Margin="5" Content="Solid (All excl. top) &#xD;&#xA;(Plane 2)"></CheckBox>
-            </StackPanel>
-
-        </StackPanel>
+        <GroupBox HorizontalContentAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Header="Placed Tile(s)" Foreground="{DynamicResource NormalText}">
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Center">
+                    <CheckBox x:Name="PlacedTileOptionFlipX" Content="Flip X - (Ctrl)" Checked="PlaceOptionFlipX" Unchecked="PlaceOptionFlipX"></CheckBox>
+                    <CheckBox x:Name="PlacedTileOptionSolidTop_A" Content="Solid Top - (A)"></CheckBox>
+                    <CheckBox x:Name="PlacedTileOptionSolidLRB_A" Content="Solid LRB - (A)"></CheckBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                    <CheckBox x:Name="PlacedTileOptionFlipY" Content="Flip Y - (Shift)" Checked="PlaceOptionFlipY" Unchecked="PlaceOptionFlipY"></CheckBox>
+                    <CheckBox x:Name="PlacedTileOptionSolidTop_B" Content="Solid Top - (B)"></CheckBox>
+                    <CheckBox x:Name="PlacedTileOptionSolidLRB_B" Content="Solid LRB - (B)"></CheckBox>
+                </StackPanel>
+                <Grid.Resources>
+                    <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyle1}">
+                        <Setter Property="Foreground" Value="{DynamicResource NormalText}"></Setter>
+                        <Setter Property="Margin" Value="3,3,3,3"></Setter>
+                    </Style>
+                </Grid.Resources>
+            </Grid>
+        </GroupBox>
         <GroupBox HorizontalContentAlignment="Center" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Header="Selected Tile(s)" Foreground="{DynamicResource NormalText}">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel>
-                    <CheckBox x:Name="tileOption1" Margin="5" Checked="tileOption1_CheckedChanged" Unchecked="tileOption1_CheckedChanged">Solid (Top)</CheckBox>
-                    <CheckBox x:Name="tileOption3" Margin="5" Checked="tileOption3_CheckedChanged" Unchecked="tileOption3_CheckedChanged" Content="Solid (Top) &#xD;&#xA;(Plane 2)"></CheckBox>
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Center">
+                    <CheckBox x:Name="SelectedTileOptionFlipX" Content="Flip X" Checked="SelectTileOptionFlipX" Unchecked="SelectTileOptionFlipX"></CheckBox>
+                    <CheckBox x:Name="SelectedTileOptionSolidTop_A" Content="Solid Top - (A)" Checked="SelectOptionSolidTopA" Unchecked="SelectOptionSolidTopA"></CheckBox>
+                    <CheckBox x:Name="SelectedTileOptionSolidLRB_A" Content="Solid LRB - (A)" Checked="SelectOptionSolidLRB_A" Unchecked="SelectOptionSolidLRB_A"></CheckBox>
                 </StackPanel>
-                <StackPanel>
-                    <CheckBox x:Name="tileOption2" Margin="5" Checked="tileOption2_CheckedChanged" Unchecked="tileOption2_CheckedChanged">Solid (All excl. top)</CheckBox>
-                    <CheckBox x:Name="tileOption4" Margin="5" Checked="tileOption4_CheckedChanged" Unchecked="tileOption4_CheckedChanged" Content="Solid (All excl. top) &#xD;&#xA;(Plane 2)"></CheckBox>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                    <CheckBox x:Name="SelectedTileOptionFlipY" Content="Flip Y" Checked="SelectTileOptionFlipY" Unchecked="SelectTileOptionFlipY"></CheckBox>
+                    <CheckBox x:Name="SelectedTileOptionSolidTop_B" Content="Solid Top - (B)" Checked="SelectOptionSolidTopB" Unchecked="SelectOptionSolidTopB"></CheckBox>
+                    <CheckBox x:Name="SelectedTileOptionSolidLRB_B" Content="Solid LRB - (B)" Checked="SelectOptionSolidLRB_B" Unchecked="SelectOptionSolidLRB_B"></CheckBox>
                 </StackPanel>
-
-            </StackPanel>
+                <Grid.Resources>
+                    <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyle1}">
+                        <Setter Property="Foreground" Value="{DynamicResource NormalText}"></Setter>
+                        <Setter Property="Margin" Value="3,3,3,3"></Setter>
+                    </Style>
+                </Grid.Resources>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

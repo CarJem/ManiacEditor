@@ -15,7 +15,13 @@ namespace ManiacEditor.Classes.Scene
 
         #region Objects
 
-        public EditorEntities Entities { get; private set; }
+        public EditorEntities Entities
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.Entities;
+            }
+        }
 
         #endregion
 
@@ -59,7 +65,7 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Original Object
-        public SceneEntity.DictionaryWithDefault<string, AttributeValue> attributesMap
+        public Dictionary<string, AttributeValue> attributesMap
         {
             get
             {
@@ -206,11 +212,6 @@ namespace ManiacEditor.Classes.Scene
             this._entity = entity;
         }
 
-        public void UpdateInstance(EditorEntities editorEntities)
-        {
-            Entities = editorEntities;
-        }
-
         #endregion
 
         #region Original Methods
@@ -249,11 +250,11 @@ namespace ManiacEditor.Classes.Scene
 
             if (GridAlignment)
             {
-                if (Methods.Solution.SolutionState.UseMagnetMode)
+                if (Methods.Solution.SolutionState.Main.UseMagnetMode)
                 {
-                    int x = Methods.Solution.SolutionState.MagnetSize * (PositionX / Methods.Solution.SolutionState.MagnetSize);
-                    int y = Methods.Solution.SolutionState.MagnetSize * (PositionY / Methods.Solution.SolutionState.MagnetSize);
-                    return new Rectangle(x, y, Methods.Solution.SolutionState.MagnetSize, Methods.Solution.SolutionState.MagnetSize);
+                    int x = Methods.Solution.SolutionState.Main.MagnetSize * (PositionX / Methods.Solution.SolutionState.Main.MagnetSize);
+                    int y = Methods.Solution.SolutionState.Main.MagnetSize * (PositionY / Methods.Solution.SolutionState.Main.MagnetSize);
+                    return new Rectangle(x, y, Methods.Solution.SolutionState.Main.MagnetSize, Methods.Solution.SolutionState.Main.MagnetSize);
                 }
                 else
                 {
@@ -294,7 +295,7 @@ namespace ManiacEditor.Classes.Scene
             }
 
 
-            if (Methods.Solution.SolutionState.ObjectFilter != "" && !_entity.Object.Name.Name.Contains(Methods.Solution.SolutionState.ObjectFilter))
+            if (Methods.Solution.SolutionState.Main.ObjectFilter != "" && !_entity.Object.Name.Name.Contains(Methods.Solution.SolutionState.Main.ObjectFilter))
             {
                 FilteredOut = true;
             }

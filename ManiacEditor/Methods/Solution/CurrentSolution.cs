@@ -125,14 +125,14 @@ namespace ManiacEditor.Methods.Solution
             Methods.Solution.CurrentSolution.StageConfig = null;
             Instance.EditorStatusBar.LevelID_Label.Content = "Level ID: NULL";
             Methods.Solution.CurrentSolution.LevelID = -1;
-            Methods.Solution.SolutionState.EncorePaletteExists = false;
-            Methods.Solution.SolutionState.EncoreSetupType = 0;
+            Methods.Solution.SolutionState.Main.EncorePaletteExists = false;
+            Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
             Classes.Prefrences.SceneCurrentSettings.ClearSettings();
             Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             Instance.userDefinedSpritePaths = new List<string>();
             Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
 			SolutionPaths.UnloadScene();
-            Methods.Solution.SolutionState.QuitWithoutSavingWarningRequired = false;
+            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = false;
 
             if (Methods.Solution.CurrentSolution.CurrentTiles != null) Methods.Solution.CurrentSolution.CurrentTiles.Dispose();
             Methods.Solution.CurrentSolution.CurrentTiles = null;
@@ -142,8 +142,8 @@ namespace ManiacEditor.Methods.Solution
             Instance.Background = null;
             Instance.Chunks = null;
 
-            Methods.Solution.SolutionState.Zoom = 1;
-            Methods.Solution.SolutionState.ZoomLevel = 0;
+            Methods.Solution.SolutionState.Main.Zoom = 1;
+            Methods.Solution.SolutionState.Main.ZoomLevel = 0;
 
             Actions.UndoRedoModel.ClearStacks();
 

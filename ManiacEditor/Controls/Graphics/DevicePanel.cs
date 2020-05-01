@@ -12,7 +12,7 @@ using Rectangle = System.Drawing.Rectangle;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 using Bitmap = System.Drawing.Bitmap;
-using ManiacEditor.EventHandlers;
+using ManiacEditor.Events;
 using System.Diagnostics;
 using Texture = SFML.Graphics.Texture;
 

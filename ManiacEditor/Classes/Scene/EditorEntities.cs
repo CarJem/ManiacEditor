@@ -507,7 +507,6 @@ namespace ManiacEditor.Classes.Scene
             Entity.attributesMap["SplineID"].ValueInt32 = value;
 
             var entity = new Classes.Scene.EditorEntity(Entity, true);
-            entity.UpdateInstance(this);
             return entity;
         }
         public void SpawnInternalSplineObject(RSDKv5.Position position, int value)
@@ -525,7 +524,6 @@ namespace ManiacEditor.Classes.Scene
         public Classes.Scene.EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
         {
             Classes.Scene.EditorEntity entity = new Classes.Scene.EditorEntity(sceneEntity);
-            entity.UpdateInstance(this);
 
             if (entity.HasFilter() && CurrentDefaultFilter > -1)
             {
@@ -683,14 +681,14 @@ namespace ManiacEditor.Classes.Scene
                 // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
                 if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
                 {
-                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.GetLastXY(), (Methods.Solution.SolutionClipboard.ObjectsClipboardEntry)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities"));
+                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), GetClipboardData());
                     Actions.UndoRedoModel.UpdateEditEntityActions();
                 }
 
                 // if there's none, use the internal clipboard
                 else if (Methods.Solution.SolutionClipboard.ObjectsClipboard != null)
                 {
-                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.GetLastXY(), Methods.Solution.SolutionClipboard.ObjectsClipboard);
+                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), Methods.Solution.SolutionClipboard.ObjectsClipboard);
                     Actions.UndoRedoModel.UpdateEditEntityActions();
                 }
             }
@@ -704,21 +702,24 @@ namespace ManiacEditor.Classes.Scene
                 System.Windows.MessageBox.Show("There was a problem with pasting the content provided: " + Environment.NewLine + ex.Message);
                 return;
             }
+
+
+            Methods.Solution.SolutionClipboard.ObjectsClipboardEntry GetClipboardData()
+            {
+                return (Methods.Solution.SolutionClipboard.ObjectsClipboardEntry)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities");
+            }
+            
         }
         public static void Copy()
         {
             var copyData = Methods.Solution.CurrentSolution.Entities.GetClipboardData();
-
-            // Make a DataObject for the data and send it to the Windows clipboard for cross-instance copying
-            //Clipboard.SetDataObject(new DataObject("ManiacEntities", copyData));
-
-            // Send to Maniac's clipboard
-            Methods.Solution.SolutionClipboard.ObjectsClipboard = copyData;
+            Methods.Solution.SolutionClipboard.SetObjectClipboard(copyData);
         }
         public static void Duplicate()
         {
             try
             {
+                Copy();
                 Methods.Solution.CurrentSolution.Entities.PasteClipboardData(new Point(16, 16), Methods.Solution.CurrentSolution.Entities.GetClipboardData(true));
                 ManiacEditor.Actions.UndoRedoModel.UpdateEditEntityActions();
             }
@@ -763,42 +764,42 @@ namespace ManiacEditor.Classes.Scene
         {
             int x = 0, y = 0;
             int modifier = 1;
-            if (Methods.Solution.SolutionState.UseMagnetMode)
+            if (Methods.Solution.SolutionState.Main.UseMagnetMode)
             {
                 switch (e.KeyData)
                 {
-                    case Keys.Up: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? -Methods.Solution.SolutionState.MagnetSize : -1); break;
-                    case Keys.Down: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? Methods.Solution.SolutionState.MagnetSize : 1); break;
-                    case Keys.Left: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? -Methods.Solution.SolutionState.MagnetSize : -1); break;
-                    case Keys.Right: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? Methods.Solution.SolutionState.MagnetSize : 1); break;
+                    case Keys.Up: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? -Methods.Solution.SolutionState.Main.MagnetSize : -1); break;
+                    case Keys.Down: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? Methods.Solution.SolutionState.Main.MagnetSize : 1); break;
+                    case Keys.Left: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? -Methods.Solution.SolutionState.Main.MagnetSize : -1); break;
+                    case Keys.Right: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? Methods.Solution.SolutionState.Main.MagnetSize : 1); break;
                 }
             }
-            if (Methods.Solution.SolutionState.EnableFasterNudge)
+            if (Methods.Solution.SolutionState.Main.EnableFasterNudge)
             {
-                if (Methods.Solution.SolutionState.UseMagnetMode)
+                if (Methods.Solution.SolutionState.Main.UseMagnetMode)
                 {
                     switch (e.KeyData)
                     {
-                        case Keys.Up: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? -Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.FasterNudgeAmount); break;
-                        case Keys.Down: y = (Methods.Solution.SolutionState.UseMagnetYAxis ? Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.FasterNudgeAmount); break;
-                        case Keys.Left: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? -Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.FasterNudgeAmount); break;
-                        case Keys.Right: x = (Methods.Solution.SolutionState.UseMagnetXAxis ? Methods.Solution.SolutionState.MagnetSize * Methods.Solution.SolutionState.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.FasterNudgeAmount); break;
+                        case Keys.Up: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? -Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Down: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Left: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? -Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Right: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
                     }
                 }
                 else
                 {
                     switch (e.KeyData)
                     {
-                        case Keys.Up: y = (-1 - Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
-                        case Keys.Down: y = (1 + Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
-                        case Keys.Left: x = (-1 - Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
-                        case Keys.Right: x = (1 + Methods.Solution.SolutionState.FasterNudgeAmount) * modifier; break;
+                        case Keys.Up: y = (-1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                        case Keys.Down: y = (1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                        case Keys.Left: x = (-1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                        case Keys.Right: x = (1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
                     }
 
                 }
 
             }
-            if (Methods.Solution.SolutionState.UseMagnetMode == false && Methods.Solution.SolutionState.EnableFasterNudge == false)
+            if (Methods.Solution.SolutionState.Main.UseMagnetMode == false && Methods.Solution.SolutionState.Main.EnableFasterNudge == false)
             {
                 switch (e.KeyData)
                 {
@@ -809,19 +810,19 @@ namespace ManiacEditor.Classes.Scene
                 }
 
             }
-            if (Methods.Solution.SolutionState.UseMagnetMode)
+            if (Methods.Solution.SolutionState.Main.UseMagnetMode)
             {
                 int xE = Methods.Solution.CurrentSolution.Entities.SelectedEntities[0].Position.X.High;
                 int yE = Methods.Solution.CurrentSolution.Entities.SelectedEntities[0].Position.Y.High;
 
-                if (xE % Methods.Solution.SolutionState.MagnetSize != 0 && Methods.Solution.SolutionState.UseMagnetXAxis)
+                if (xE % Methods.Solution.SolutionState.Main.MagnetSize != 0 && Methods.Solution.SolutionState.Main.UseMagnetXAxis)
                 {
-                    int offsetX = x % Methods.Solution.SolutionState.MagnetSize;
+                    int offsetX = x % Methods.Solution.SolutionState.Main.MagnetSize;
                     x -= offsetX;
                 }
-                if (yE % Methods.Solution.SolutionState.MagnetSize != 0 && Methods.Solution.SolutionState.UseMagnetYAxis)
+                if (yE % Methods.Solution.SolutionState.Main.MagnetSize != 0 && Methods.Solution.SolutionState.Main.UseMagnetYAxis)
                 {
-                    int offsetY = y % Methods.Solution.SolutionState.MagnetSize;
+                    int offsetY = y % Methods.Solution.SolutionState.Main.MagnetSize;
                     y -= offsetY;
                 }
             }
@@ -955,13 +956,7 @@ namespace ManiacEditor.Classes.Scene
             ObjectRefreshNeeded = false;
             foreach (var Entity in Entities)
             {
-                Entity.UpdateInstance(this);
                 Entity.SetFilter();
-            }
-
-            foreach (var Entity in InternalEntities)
-            {
-                Entity.UpdateInstance(this);
             }
 
             if (d != null)
@@ -1002,7 +997,7 @@ namespace ManiacEditor.Classes.Scene
                 if (entity.Name == "Spline")
                 {
                     int id = entity.attributesMap["SplineID"].ValueInt32;
-                    if (!Methods.Solution.SolutionState.SplineOptionsGroup.ContainsKey(id)) Methods.Solution.SolutionState.AddSplineOptionsGroup(id);
+                    if (!Methods.Solution.SolutionState.Main.SplineOptionsGroup.ContainsKey(id)) Methods.Solution.SolutionState.Main.AddSplineOptionsGroup(id);
                     if (SplineXPos.ContainsKey(id))
                     {
                         SplineXPos[id].Add(entity.PositionX);
@@ -1021,7 +1016,7 @@ namespace ManiacEditor.Classes.Scene
                 int CurrentSplineTotalNumberOfObjects = 0;
                 int CurrentNumberOfObjectsRendered = 0;
                 int splineID = path.Key;
-                Methods.Solution.SolutionState.SplineOptions selectedOptions = Methods.Solution.SolutionState.SplineOptionsGroup[splineID];
+                Methods.Solution.SolutionState.StateModel.SplineOptions selectedOptions = Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID];
                 CurrentSplineTotalNumberOfObjects = SplineXPos[splineID].Count;
                 if (SplineXPos[splineID].Count > 1)
                 {
@@ -1050,8 +1045,8 @@ namespace ManiacEditor.Classes.Scene
                 SplineXPos[path.Key].Clear();
                 SplineYPos[path.Key].Clear();
 
-                Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects = CurrentSplineTotalNumberOfObjects - 1;
-                Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered = CurrentNumberOfObjectsRendered;
+                Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineTotalNumberOfObjects = CurrentSplineTotalNumberOfObjects - 1;
+                Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineNumberOfObjectsRendered = CurrentNumberOfObjectsRendered;
             }
 
             Methods.Internal.UserInterface.SplineControls.UpdateSplineToolbox();

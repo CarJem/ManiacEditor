@@ -110,7 +110,7 @@ namespace ManiacEditor.Methods.Solution
         public static void Save()
         {
             if (Methods.Solution.CurrentSolution.CurrentScene == null) return;
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect();
 
             SaveScene();
             SaveStageConfig();
@@ -119,7 +119,7 @@ namespace ManiacEditor.Methods.Solution
         public static void SaveAs()
         {
             if (Methods.Solution.CurrentSolution.CurrentScene == null) return;
-            if (ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Methods.Solution.SolutionActions.Deselect();
 
             System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
             {
@@ -147,15 +147,15 @@ namespace ManiacEditor.Methods.Solution
         {
             if (SkipCheck) return true;
             bool AllowSceneChange = false;
-            if (ManiacEditor.Methods.Solution.SolutionState.IsSceneLoaded() == false)
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsSceneLoaded() == false)
             {
                 AllowSceneChange = true;
                 return AllowSceneChange;
             }
-            else if (ManiacEditor.Methods.Solution.SolutionState.IsSceneLoaded() == true && ManiacEditor.Properties.Settings.MySettings.DisableSaveWarnings == false)
+            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsSceneLoaded() == true && ManiacEditor.Properties.Settings.MySettings.DisableSaveWarnings == false)
             {
 
-                if ((Actions.UndoRedoModel.UndoStack.Count != 0 || Actions.UndoRedoModel.RedoStack.Count != 0) || Methods.Solution.SolutionState.QuitWithoutSavingWarningRequired == true)
+                if ((Actions.UndoRedoModel.UndoStack.Count != 0 || Actions.UndoRedoModel.RedoStack.Count != 0) || Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired == true)
                 {
                     var exitBox = new Controls.Dialog.UnloadingSceneWarning();
                     exitBox.Owner = Window.GetWindow(Instance);
@@ -484,21 +484,21 @@ namespace ManiacEditor.Methods.Solution
                     if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsFullPath)
                     {
                         ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette = Methods.Solution.CurrentSolution.CurrentScene.GetEncorePalette(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneDirectory, 0);
-                        Methods.Solution.SolutionState.EncoreSetupType = Methods.Solution.CurrentSolution.CurrentScene.GetEncoreSetupType(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneDirectory);
+                        Methods.Solution.SolutionState.Main.EncoreSetupType = Methods.Solution.CurrentSolution.CurrentScene.GetEncoreSetupType(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneDirectory);
                     }
                     else
                     {
                         ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette = Methods.Solution.CurrentSolution.CurrentScene.GetEncorePalette(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, "", 1);
-                        Methods.Solution.SolutionState.EncoreSetupType = Methods.Solution.CurrentSolution.CurrentScene.GetEncoreSetupType(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, "");
+                        Methods.Solution.SolutionState.Main.EncoreSetupType = Methods.Solution.CurrentSolution.CurrentScene.GetEncoreSetupType(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, "");
                     }
 
                     if (ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0] != "")
                     {
-                        Methods.Solution.SolutionState.EncorePaletteExists = true;
+                        Methods.Solution.SolutionState.Main.EncorePaletteExists = true;
                         if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode)
                         {
                             Instance.EditorToolbar.EncorePaletteButton.IsChecked = true;
-                            Methods.Solution.SolutionState.UseEncoreColors = true;
+                            Methods.Solution.SolutionState.Main.UseEncoreColors = true;
                         }
                     }
                 }
@@ -514,7 +514,7 @@ namespace ManiacEditor.Methods.Solution
                 try
                 {
                     bool valid;
-                    if (Methods.Solution.SolutionState.UseEncoreColors == true && ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0] != "") valid = ManiacEditor.Methods.Solution.SolutionPaths.GetStageTiles(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0], ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsFullPath);
+                    if (Methods.Solution.SolutionState.Main.UseEncoreColors == true && ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0] != "") valid = ManiacEditor.Methods.Solution.SolutionPaths.GetStageTiles(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0], ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsFullPath);
                     else valid = ManiacEditor.Methods.Solution.SolutionPaths.GetStageTiles(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, null, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsFullPath);
                     if (valid == false)
                     {
@@ -591,7 +591,7 @@ namespace ManiacEditor.Methods.Solution
             Methods.Internal.UserInterface.Misc.UpdateStartScreen(false);
             Methods.Internal.UserInterface.Status.UpdateDataFolderLabel();
             Instance.EditorToolbar.SetupLayerButtons();
-            Methods.Solution.SolutionState.UpdateMultiLayerSelectMode();
+            Methods.Solution.SolutionState.Main.UpdateMultiLayerSelectMode();
             Methods.Internal.UserInterface.UpdateControls();
             Classes.Prefrences.SceneHistoryStorage.AddRecentFile(Classes.Prefrences.SceneHistoryStorage.GenerateNewEntry());
             ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.AddRecentFile(ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.GenerateNewEntry());
@@ -698,7 +698,7 @@ namespace ManiacEditor.Methods.Solution
                 }
                 else
                 {
-                    if (Methods.Solution.SolutionState.DataDirectoryReadOnlyMode && ManiacEditor.Methods.Solution.SolutionPaths.SceneFile_Source.SourceID == -1) return;
+                    if (Methods.Solution.SolutionState.Main.DataDirectoryReadOnlyMode && ManiacEditor.Methods.Solution.SolutionPaths.SceneFile_Source.SourceID == -1) return;
                     else Methods.Solution.CurrentSolution.CurrentScene.Save(ManiacEditor.Methods.Solution.SolutionPaths.SceneFile_Source.SourcePath);
                 }
 
@@ -719,7 +719,7 @@ namespace ManiacEditor.Methods.Solution
                 }
                 else
                 {
-                    if (Methods.Solution.SolutionState.DataDirectoryReadOnlyMode && ManiacEditor.Methods.Solution.SolutionPaths.StageConfig_Source.SourceID == -1) return;
+                    if (Methods.Solution.SolutionState.Main.DataDirectoryReadOnlyMode && ManiacEditor.Methods.Solution.SolutionPaths.StageConfig_Source.SourceID == -1) return;
                     else Methods.Solution.CurrentSolution.StageConfig?.Write(ManiacEditor.Methods.Solution.SolutionPaths.StageConfig_Source.SourcePath);
                 }
 

@@ -42,6 +42,13 @@ namespace ManiacEditor.Entity_Renders
 
             DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - offset_x, y - offset_y, Transparency, false, false, rotation);
 
+            Animation = LoadAnimation("HonkyTonk", d, 0, 3);
+
+            offset_x = (int)(Animation.RequestedFrame.Width / 2);
+            offset_y = (int)(Animation.RequestedFrame.Height / 2);
+
+            DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - offset_x, y - offset_y, Transparency, false, false, rotation);
+
 
         }
 

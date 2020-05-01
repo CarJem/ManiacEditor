@@ -326,6 +326,18 @@
                                     </Grid>
                                 </MenuItem.Header>
                             </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <wpfTool:ColorPicker ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="White" Name="EditorBGColor" SelectedColorChanged="EditorBGColor_SelectedColorChanged" ></wpfTool:ColorPicker>
+                                        <Label Content="Background Color" Grid.ColumnSpan="1"></Label>
+                                    </Grid>
+                                </MenuItem.Header>
+                            </MenuItem>
                             <MenuItem StaysOpenOnClick="True">
                                 <MenuItem.Header>
                                     <StackPanel Orientation="Vertical" Margin="0,1">

@@ -90,38 +90,38 @@ namespace ManiacEditor.Controls.Editor_Elements
         #region Global Tools
         private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) 
         { 
-           if (IsFullyInitialized) Methods.Solution.SolutionState.SelectionMode(); 
+           if (IsFullyInitialized) Methods.Solution.SolutionState.Main.SelectionMode(); 
         }
         private void TogglePointerToolEvent(object sender, RoutedEventArgs e) 
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.PointerMode(); 
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.PointerMode(); 
         }
         private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) 
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.DrawMode(); 
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.DrawMode(); 
         }
         private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) 
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.SplineMode(); 
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.SplineMode(); 
         }
         private void ToggleChunksToolEvent(object sender, RoutedEventArgs e) 
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.ChunksMode(true); 
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.ChunksMode(true); 
         }
         #endregion
 
         #region Spline Tool Events
         private void SplineShowLineCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.ShowLines, SplineShowLineCheckbox.IsChecked.Value);
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.ShowLines, SplineShowLineCheckbox.IsChecked.Value);
         }
         private void SplineShowPointsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.ShowPoints, SplineShowPointsCheckbox.IsChecked.Value);
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.ShowPoints, SplineShowPointsCheckbox.IsChecked.Value);
         }
         private void SplineShowObjectsCheckboxCheckChanged(object sender, RoutedEventArgs e)
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.ShowObjects, SplineShowObjectsCheckbox.IsChecked.Value);
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.ShowObjects, SplineShowObjectsCheckbox.IsChecked.Value);
         }
 
         bool AllowSplineFreqeunceUpdate = true;
@@ -143,12 +143,12 @@ namespace ManiacEditor.Controls.Editor_Elements
             if (IsFullyInitialized)
             {
                 AllowSplineUpdateEvent = false;
-                Methods.Solution.SolutionState.AllowSplineOptionsUpdate = false;
+                Methods.Solution.SolutionState.Main.AllowSplineOptionsUpdate = false;
                 SplineGroupID.Value = value;
-                Methods.Solution.SolutionState.SelectedSplineID = value;
+                Methods.Solution.SolutionState.Main.SelectedSplineID = value;
                 SplineSpawnID.Value = value;
                 Methods.Internal.UserInterface.SplineControls.UpdateSplineSettings(value);
-                Methods.Solution.SolutionState.AllowSplineOptionsUpdate = true;
+                Methods.Solution.SolutionState.Main.AllowSplineOptionsUpdate = true;
                 AllowSplineUpdateEvent = true;
             }
 
@@ -157,13 +157,13 @@ namespace ManiacEditor.Controls.Editor_Elements
         {
             if (IsFullyInitialized)
             {
-                if (!Methods.Solution.SolutionState.AllowSplineOptionsUpdate) return;
+                if (!Methods.Solution.SolutionState.Main.AllowSplineOptionsUpdate) return;
                 if (SplinePointSeperationNUD != null && SplinePointSeperationSlider != null && AllowSplineFreqeunceUpdate)
                 {
                     AllowSplineFreqeunceUpdate = false;
                     int size = (int)SplinePointSeperationNUD.Value;
                     SplinePointSeperationSlider.Value = size;
-                    await Task.Run(() => Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.Size, size));
+                    await Task.Run(() => Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.Size, size));
                     AllowSplineFreqeunceUpdate = true;
                 }
             }
@@ -172,41 +172,41 @@ namespace ManiacEditor.Controls.Editor_Elements
         {
             if (IsFullyInitialized)
             {
-                if (!Methods.Solution.SolutionState.AllowSplineOptionsUpdate) return;
+                if (!Methods.Solution.SolutionState.Main.AllowSplineOptionsUpdate) return;
                 if (SplinePointSeperationSlider != null && SplinePointSeperationNUD != null && AllowSplineFreqeunceUpdate)
                 {
                     AllowSplineFreqeunceUpdate = false;
                     int size = (int)SplinePointSeperationSlider.Value;
                     SplinePointSeperationNUD.Value = size;
-                    await Task.Run(() => Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.Size, size));
+                    await Task.Run(() => Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.Size, size));
                     AllowSplineFreqeunceUpdate = true;
                 }
             }
         }
         private void SplineLineMode_Click(object sender, RoutedEventArgs e)
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.LineMode, SplineLineMode.IsChecked.Value);
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.LineMode, SplineLineMode.IsChecked.Value);
         }
         private void SplineOvalMode_Click(object sender, RoutedEventArgs e)
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.OvalMode, SplineOvalMode.IsChecked.Value);
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.OvalMode, SplineOvalMode.IsChecked.Value);
         }
         private void SplineSpawnRender_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!IsFullyInitialized) return;
-            if (Methods.Solution.CurrentSolution.Entities != null && Methods.Solution.SolutionState.AllowSplineOptionsUpdate)
+            if (Methods.Solution.CurrentSolution.Entities != null && Methods.Solution.SolutionState.Main.AllowSplineOptionsUpdate)
             {
                 var selectedItem = SelectedSplineRender.SelectedItem as TextBlock;
                 if (selectedItem.Tag == null) return;
                 if (selectedItem.Tag is RSDKv5.SceneObject)
                 {
                     var obj = selectedItem.Tag as RSDKv5.SceneObject;
-                    int splineID = Methods.Solution.SolutionState.SelectedSplineID;
-                    Methods.Solution.SolutionState.AdjustSplineGroupOptions(Methods.Solution.SolutionState.SplineOption.SpawnObject, Methods.Solution.CurrentSolution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
-                    Instance.EntitiesToolbar?.UpdateToolbar(new List<Classes.Scene.EditorEntity>() { Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
+                    int splineID = Methods.Solution.SolutionState.Main.SelectedSplineID;
+                    Methods.Solution.SolutionState.Main.AdjustSplineGroupOptions(Methods.Solution.SolutionState.StateModel.SplineOption.SpawnObject, Methods.Solution.CurrentSolution.Entities.GenerateEditorEntity(new RSDKv5.SceneEntity(obj, 0)));
+                    Instance.EntitiesToolbar?.UpdateToolbar(new List<Classes.Scene.EditorEntity>() { Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate });
 
-                    if (Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
-                        SplineRenderObjectName.Content = Methods.Solution.SolutionState.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Object.Name.Name;
+                    if (Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
+                        SplineRenderObjectName.Content = Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate.Object.Name.Name;
                     else
                         SplineRenderObjectName.Content = "None";
 
@@ -223,9 +223,9 @@ namespace ManiacEditor.Controls.Editor_Elements
         private async void RenderSelectedSpline_Click(object sender, RoutedEventArgs e)
         {
             if (!IsFullyInitialized) return;
-            if (Methods.Solution.SolutionState.SplineOptionsGroup[Methods.Solution.SolutionState.SelectedSplineID].SplineObjectRenderingTemplate != null && Methods.Solution.SolutionState.SplineOptionsGroup[Methods.Solution.SolutionState.SelectedSplineID].SplineTotalNumberOfObjects >= 2)
+            if (Methods.Solution.SolutionState.Main.SplineOptionsGroup[Methods.Solution.SolutionState.Main.SelectedSplineID].SplineObjectRenderingTemplate != null && Methods.Solution.SolutionState.Main.SplineOptionsGroup[Methods.Solution.SolutionState.Main.SelectedSplineID].SplineTotalNumberOfObjects >= 2)
             {
-                await Task.Run(() => Methods.Entities.SplineSpawning.RenderSplineByID(Methods.Solution.SolutionState.SelectedSplineID));
+                await Task.Run(() => Methods.Entities.SplineSpawning.RenderSplineByID(Methods.Solution.SolutionState.Main.SelectedSplineID));
                 Methods.Internal.UserInterface.SplineControls.UpdateSplineToolbox();
                 Methods.Internal.UserInterface.UpdateControls();
             }
@@ -250,7 +250,7 @@ namespace ManiacEditor.Controls.Editor_Elements
                     int size = (wasSlider ? (int)DrawTileSizeSlider.Value : (int)DrawTileSizeNUD.Value);
                     DrawTileSizeSlider.Value = size;
                     DrawTileSizeNUD.Value = size;
-                    Methods.Solution.SolutionState.DrawBrushSize = size;
+                    Methods.Solution.SolutionState.Main.DrawBrushSize = size;
                     AllowDrawBrushSizeChange = true;
                 }
             }
@@ -263,11 +263,11 @@ namespace ManiacEditor.Controls.Editor_Elements
         #endregion
 
         #region Collision Events
-        public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.ShowCollisionA ^= true; }
-        public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.ShowCollisionB ^= true; }
-        private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.CollisionPreset = 0; }
-        private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.CollisionPreset = 1; }
-        private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.CollisionPreset = 2; }
+        public void ShowCollisionAEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ShowCollisionA ^= true; }
+        public void ShowCollisionBEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ShowCollisionB ^= true; }
+        private void UseNormalCollisionEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.CollisionPreset = 0; }
+        private void UseInvertedCollisionEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.CollisionPreset = 1; }
+        private void UseCustomCollisionEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.CollisionPreset = 2; }
         private void CollisionOpacitySliderValueChangedEvent(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
@@ -276,38 +276,38 @@ namespace ManiacEditor.Controls.Editor_Elements
 
         #region Magnet Events
 
-        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.UseMagnetMode ^= true; }
-        private void Magnet8x8Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.MagnetSize = 8; }
-        private void Magnet16x16Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.MagnetSize = 16; }
-        private void Magnet32x32Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.MagnetSize = 32; }
-        private void Magnet64x64Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.MagnetSize = 64; }
-        private void MagnetCustomEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.MagnetSize = -1; }
+        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.UseMagnetMode ^= true; }
+        private void Magnet8x8Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 8; }
+        private void Magnet16x16Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 16; }
+        private void Magnet32x32Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 32; }
+        private void Magnet64x64Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 64; }
+        private void MagnetCustomEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = -1; }
         private void CustomMagnetSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (IsFullyInitialized && AllowNUDUpdate)
             {
-                Methods.Solution.SolutionState.CustomMagnetSize = CustomMagnetSizeAdjuster.Value.Value;
+                Methods.Solution.SolutionState.Main.CustomMagnetSize = CustomMagnetSizeAdjuster.Value.Value;
             }
         }
 
-        private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.UseMagnetXAxis ^= true; }
-        private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.UseMagnetYAxis ^= true; }
+        private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.UseMagnetXAxis ^= true; }
+        private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.UseMagnetYAxis ^= true; }
 
         #endregion
 
         #region Grid Events
-        public void ToggleGridEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.ShowGrid ^= true; }
-        private void SetGrid16x16Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.GridSize = 16; }
-        private void SetGrid128x128Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.GridSize = 128; }
-        private void SetGrid256x256Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.GridSize = 256; }
-        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.GridSize = -1; }
+        public void ToggleGridEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ShowGrid ^= true; }
+        private void SetGrid16x16Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.GridSize = 16; }
+        private void SetGrid128x128Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.GridSize = 128; }
+        private void SetGrid256x256Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.GridSize = 256; }
+        private void SetGridCustomSizeEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.GridSize = -1; }
 
         private void CustomGridSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (IsFullyInitialized && AllowNUDUpdate)
             {
-                Methods.Solution.SolutionState.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
-                Methods.Solution.SolutionState.GridSize = -1;
+                Methods.Solution.SolutionState.Main.GridCustomSize = CustomGridSizeAdjuster.Value.Value;
+                Methods.Solution.SolutionState.Main.GridSize = -1;
             }
 
         }
@@ -316,10 +316,10 @@ namespace ManiacEditor.Controls.Editor_Elements
         #region Misc Events
 
         public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(); }
-        public void ToggleShowTileIDEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.ShowTileID ^= true; }
-        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Methods.Solution.SolutionState.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
-        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.ShowFlippedTileHelper ^= true; }
-        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.UseEncoreColors ^= true; }
+        public void ToggleShowTileIDEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ShowTileID ^= true; }
+        private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Methods.Solution.SolutionState.Main.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
+        private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ShowFlippedTileHelper ^= true; }
+        public void EnableEncorePaletteEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.UseEncoreColors ^= true; }
         private void RunSceneEvent(object sender, RoutedEventArgs e) { ManiacEditor.Methods.Runtime.GameHandler.RunScene(); }
 
         #endregion
@@ -730,8 +730,8 @@ namespace ManiacEditor.Controls.Editor_Elements
         {
             MenuItem newItem = new MenuItem()
             {
-                Header = ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigsNames[i],
-                Tag = ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs[i]
+                Header = Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigsNames[i],
+                Tag = Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs[i]
             };
             newItem.Click += ModConfigItemClicked;
             if (newItem.Tag.ToString() == ManiacEditor.Properties.Settings.MySettings.LastModConfig) newItem.IsChecked = true;
@@ -750,8 +750,8 @@ namespace ManiacEditor.Controls.Editor_Elements
             configManager.ShowDialog();
 
             selectConfigToolStripMenuItem.Items.Clear();
-            if (ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs == null) ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs = new StringCollection();
-            for (int i = 0; i < ManiacEditor.Properties.Settings.MySettings.ModLoaderConfigs.Count; i++)
+            if (Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs == null) Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs = new StringCollection();
+            for (int i = 0; i < Classes.Prefrences.CommonPathsStorage.Collection.ModLoaderConfigs.Count; i++)
             {
                 selectConfigToolStripMenuItem.Items.Add(CreateModConfigMenuItem(i));
             }
@@ -774,7 +774,7 @@ namespace ManiacEditor.Controls.Editor_Elements
             if (!IsFullyInitialized) return;
             if (e != null && e.NewValue.Value != null)
             {
-                Methods.Solution.SolutionState.GridColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Methods.Solution.SolutionState.Main.GridColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
         private void comboBox7_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
@@ -782,7 +782,7 @@ namespace ManiacEditor.Controls.Editor_Elements
             if (!IsFullyInitialized) return;
             if (e != null && e.NewValue.Value != null)
             {
-                Methods.Solution.SolutionState.waterColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Methods.Solution.SolutionState.Main.waterColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
             }
         }
         private void comboBox6_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
@@ -790,8 +790,8 @@ namespace ManiacEditor.Controls.Editor_Elements
             if (!IsFullyInitialized) return;
             if (e != null && e.NewValue.Value != null && Instance != null)
             {
-                Methods.Solution.SolutionState.Custom_CollisionTopOnlySolid_Color = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Methods.Solution.SolutionState.RefreshCollisionColours();
+                Methods.Solution.SolutionState.Main.Custom_CollisionTopOnlySolid_Color = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Methods.Solution.SolutionState.Main.RefreshCollisionColours();
             }
         }
         private void comboBox5_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
@@ -799,8 +799,8 @@ namespace ManiacEditor.Controls.Editor_Elements
             if (!IsFullyInitialized) return;
             if (e != null && e.NewValue.Value != null && Instance != null)
             {
-                Methods.Solution.SolutionState.Custom_CollisionLRDSolid_Color = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Methods.Solution.SolutionState.RefreshCollisionColours();
+                Methods.Solution.SolutionState.Main.Custom_CollisionLRDSolid_Color = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Methods.Solution.SolutionState.Main.RefreshCollisionColours();
             }
         }
         private void comboBox4_DropDown(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
@@ -808,14 +808,14 @@ namespace ManiacEditor.Controls.Editor_Elements
             if (!IsFullyInitialized) return;
             if (e != null && e.NewValue.Value != null && Instance != null)
             {
-                Methods.Solution.SolutionState.Custom_CollisionAllSolid_Color = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
-                Methods.Solution.SolutionState.RefreshCollisionColours();
+                Methods.Solution.SolutionState.Main.Custom_CollisionAllSolid_Color = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
+                Methods.Solution.SolutionState.Main.RefreshCollisionColours();
             }
         }
         private void CollisionColorPickerClosed(object sender, RoutedEventArgs e)
         {
             if (!IsFullyInitialized) return;
-            Methods.Solution.SolutionState.RefreshCollisionColours();
+            Methods.Solution.SolutionState.Main.RefreshCollisionColours();
         }
 
 
@@ -872,10 +872,10 @@ namespace ManiacEditor.Controls.Editor_Elements
 
                 SetLayerEditButtonsState(enabled);
 
-                MagnetMode.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
-                MagnetMode.IsChecked = Methods.Solution.SolutionState.UseMagnetMode && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
-                MagnetModeSplitButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
-                Methods.Solution.SolutionState.UseMagnetMode = ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit() && MagnetMode.IsChecked.Value;
+                MagnetMode.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
+                MagnetMode.IsChecked = Methods.Solution.SolutionState.Main.UseMagnetMode && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
+                MagnetModeSplitButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
+                Methods.Solution.SolutionState.Main.UseMagnetMode = ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && MagnetMode.IsChecked.Value;
 
 
 
@@ -885,17 +885,17 @@ namespace ManiacEditor.Controls.Editor_Elements
 
 
                 PointerToolButton.IsEnabled = enabled;
-                SelectToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit();
+                SelectToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
 
-                DrawToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit() || ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
-                DrawToolDropdown.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit() || ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
+                DrawToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() || ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
+                DrawToolDropdown.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() || ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
 
-                ChunksToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsTilesEdit();
+                ChunksToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
 
-                SplineToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
-                SplineToolDropdown.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
+                SplineToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
+                SplineToolDropdown.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
 
-                SplineToolButton.IsChecked = SplineToolButton.IsChecked.Value && ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
+                SplineToolButton.IsChecked = SplineToolButton.IsChecked.Value && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
 
                 bool isAnyOtherToolChecked()
                 {
@@ -904,7 +904,7 @@ namespace ManiacEditor.Controls.Editor_Elements
                     bool isDraw = (bool)DrawToolButton.IsChecked.Value;
                     bool isSpline = (bool)SplineToolButton.IsChecked.Value;
 
-                    if (ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit())
+                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
                     {
                         if (isDraw || isSpline)
                         {
@@ -930,7 +930,7 @@ namespace ManiacEditor.Controls.Editor_Elements
 
 
                 PointerToolButton.IsChecked = isAnyOtherToolChecked();
-                ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !ManiacEditor.Methods.Solution.SolutionState.IsEntitiesEdit();
+                ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
                 if (Instance.TilesToolbar != null)
                 {
                     if (ChunksToolButton.IsChecked.Value) Instance.TilesToolbar.TabControl.SelectedIndex = 1;
@@ -941,7 +941,7 @@ namespace ManiacEditor.Controls.Editor_Elements
                 ShowCollisionAButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.TileConfig != null;
                 ShowCollisionBButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.TileConfig != null;
                 ShowTileIDButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
-                EncorePaletteButton.IsEnabled = enabled && Methods.Solution.SolutionState.EncorePaletteExists;
+                EncorePaletteButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.EncorePaletteExists;
                 FlipAssistButton.IsEnabled = enabled;
             }));
         }
@@ -1005,13 +1005,13 @@ namespace ManiacEditor.Controls.Editor_Elements
 
                 if (Properties.Settings.MyPerformance.ReduceZoom)
                 {
-                    ZoomInButton.IsEnabled = enabled && Methods.Solution.SolutionState.ZoomLevel < 5;
-                    ZoomOutButton.IsEnabled = enabled && Methods.Solution.SolutionState.ZoomLevel > -2;
+                    ZoomInButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel < 5;
+                    ZoomOutButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel > -2;
                 }
                 else
                 {
-                    ZoomInButton.IsEnabled = enabled && Methods.Solution.SolutionState.ZoomLevel < 5;
-                    ZoomOutButton.IsEnabled = enabled && Methods.Solution.SolutionState.ZoomLevel > -5;
+                    ZoomInButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel < 5;
+                    ZoomOutButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel > -5;
                 }
             }));
             UpdateGameRunningButton(enabled);
@@ -1107,8 +1107,16 @@ namespace ManiacEditor.Controls.Editor_Elements
 
             }
         }
+
         #endregion
 
+        private void EditorBGColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            if (e.NewValue.HasValue && IsFullyInitialized && Instance != null)
+            {
+                Instance.ViewPanel.SharpPanel.GraphicPanel.DeviceBackColor = Extensions.Extensions.ColorConvertToDrawing(e.NewValue.Value);
+            }
 
+        }
     }
 }

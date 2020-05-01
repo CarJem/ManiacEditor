@@ -640,8 +640,8 @@ namespace ManiacEditor.Controls.Toolbox
 		private void CopyLayerToClipboard(Classes.Scene.EditorLayer layerToCopy)
 		{
 			Classes.Scene.EditorLayer copyData = layerToCopy.Clone();
-			Clipboard.SetDataObject(new DataObject("ManiacLayer", copyData), true);
-			Methods.Solution.SolutionClipboard.LayerClipboard = new Methods.Solution.SolutionClipboard.LayerClipboardEntry(copyData);
+
+			Methods.Solution.SolutionClipboard.SetLayerClipboard(new Methods.Solution.SolutionClipboard.LayerClipboardEntry(copyData));
 
 		}
 		public void PasteLayerFromClipboard()

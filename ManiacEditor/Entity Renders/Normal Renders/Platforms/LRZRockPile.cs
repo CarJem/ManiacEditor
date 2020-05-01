@@ -1,60 +1,55 @@
 ﻿using RSDKv5;
+using System.Linq;
 
 namespace ManiacEditor.Entity_Renders
 {
     public class LRZRockPile : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            int type = (int)entity.attributesMap["type"].ValueUInt8;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LRZRockPile", d.DevicePanel, type, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[0];
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+            int type = (int)e.attributesMap["type"].ValueUInt8;
+            if (type > 1) type = 1;
+
+            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "LRZRockPile", type, 0);
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(type, 0)))
+            {
+                var Frame = Animation.Animation.Animations[type].Frames[0];
+                d.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency);
             }
-            bool knux = entity.attributesMap["onlyKnux"].ValueBool;
-            bool mighty = entity.attributesMap.ContainsKey("onlyMighty") && entity.attributesMap["onlyMighty"].ValueBool;
+
+            bool knux = e.attributesMap["onlyKnux"].ValueBool;
+            bool mighty = e.attributesMap.ContainsKey("onlyMighty") && e.attributesMap["onlyMighty"].ValueBool;
 
             // draw Knuckles icon
             if (knux)
             {
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 2, false, false, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "HUD");
+                if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 2)))
                 {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x - frame.Frame.Width / (mighty ? 1 : 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    var frame = Animation.Animation.Animations[2].Frames[2];
+                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - frame.Width / (mighty ? 1 : 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
 
             // draw Mighty icon
             if (mighty)
             {
-                editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("HUD", d.DevicePanel, 2, 3, false, false, false);
-                if (editorAnim != null && editorAnim.Frames.Count != 0)
+                Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "HUD");
+                if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 3)))
                 {
-                    var frame = editorAnim.Frames[Animation.index];
-                    Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x - (knux ? 0 : frame.Frame.Width / 2), y - frame.Frame.Height / 2, frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                    var frame = Animation.Animation.Animations[2].Frames[3];
+                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - (knux ? 0 : frame.Width / 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
         }
