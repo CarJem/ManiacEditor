@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Drawing;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -7,14 +8,14 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.LinkedEntityRenderProp properties)
         {
-            ushort slotID = properties.Object.SlotID;
-            ushort targetSlotID = (ushort)(properties.Object.SlotID + 1);
-            Int32 bezCtrlAngle = properties.Object.attributesMap["bezCtrlAngle"].ValueInt32;
-            Int32 bezCtrlLength = properties.Object.attributesMap["bezCtrlLength"].ValueInt32;
+            ushort slotID = properties.EditorObject.SlotID;
+            ushort targetSlotID = (ushort)(properties.EditorObject.SlotID + 1);
+            Int32 bezCtrlAngle = properties.EditorObject.attributesMap["bezCtrlAngle"].ValueInt32;
+            Int32 bezCtrlLength = properties.EditorObject.attributesMap["bezCtrlLength"].ValueInt32;
 
-            properties.EditorObject.DrawBase(properties.Graphics);
+            var currentEntity = properties.EditorObject;
 
-            var beanstalkPaths = properties.Object.Object.Entities.Where(e => e.SlotID == targetSlotID);
+            var beanstalkPaths = properties.EditorObject.Entities.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (beanstalkPaths != null && beanstalkPaths.Any())
             {
@@ -22,42 +23,16 @@ namespace ManiacEditor.Entity_Renders
                 foreach (var tp in beanstalkPaths)
                 {
                     if (tp.Object.Name.ToString() == "Beanstalk")
-                    {
-                        //Int32 bezCtrlAngle2 = tp.attributesMap["bezCtrlAngle"].ValueInt32;
-                        //Int32 bezCtrlLength2 = tp.attributesMap["bezCtrlLength"].ValueInt32;
-
-                        /*
+                    {              
                         Point Start = new Point(currentEntity.Position.X.High, currentEntity.Position.Y.High);
                         Point End = new Point(tp.Position.X.High, tp.Position.Y.High);
 
-                        int cx = (Start.X > End.X ? Start.X : End.X);
-                        int cy = (Start.Y > End.Y ? Start.Y : End.Y);
-
-                        Point p1 = new Point(End.X, Start.Y);
-                        Point p2 = new Point(Start.X, End.Y);
-
-                        float[] x = { Start.X, p2.X, End.X };
-                        float[] y = { Start.Y, p2.Y, End.Y };
-
-                        float[] xs, ys;
-                        TestMySpline.CubicSpline.FitParametric(x, y, 100, out xs, out ys);
-                        Point lastPoint = new Point(-1, -1);
-                        foreach (var p in Extensions.CreateDataPoints(xs, ys))
-                        {
-                            if (lastPoint.X != -1)
-                            {
-                                d.DrawLine(p.X, p.Y, lastPoint.X, lastPoint.Y, Color.Red);
-                            }
-                            d.DrawRectangle(p.X, p.Y, p.X + 2, p.Y + 2, Color.Red);
-                            lastPoint = new Point(p.X, p.Y);
-                        }*/
-                        //d.DrawRectangle(Middle.X, Middle.Y, Middle.X + 2, Middle.Y + 2, Color.Pink);
-                        //d.DrawRectangle(Middle2.X, Middle2.Y, Middle2.X + 2, Middle2.Y + 2, Color.Pink);
-                        //d.DrawRectangle(Middle3.X, Middle3.Y, Middle3.X + 2, Middle3.Y + 2, Color.Pink);
-
+                        properties.Graphics.DrawLine(Start.X, Start.Y, End.X, End.Y, Color.ForestGreen, 4);
                     }
                 }
             }
+
+            properties.EditorObject.DrawBase(properties.Graphics);
         }
 
         public override string GetObjectName()

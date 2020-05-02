@@ -5,57 +5,40 @@ namespace ManiacEditor.Entity_Renders
     public class GiantPistol : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+
+
+
+
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
             if (direction == 1)
             {
                 fliph = true;
             }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 0, 1, fliph, flipv, false);
-            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 4, 0, fliph, flipv, false);
-            var editorAnim4 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 5, 0, fliph, flipv, false);
-            var editorAnim5 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Pistol", d.DevicePanel, 6, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0 && editorAnim4 != null && editorAnim4.Frames.Count != 0 && editorAnim5 != null && editorAnim5.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[0];
-                var frame2 = editorAnim2.Frames[0];
-                var frame3 = editorAnim3.Frames[0];
-                var frame4 = editorAnim4.Frames[0];
-                var frame5 = editorAnim5.Frames[0];
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    x + frame2.Frame.PivotX - (fliph ? 76 : 0),
-                    y + frame2.Frame.PivotY,
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-                    x + frame3.Frame.PivotX - (fliph ? 59 : 0),
-                    y + frame3.Frame.PivotY,
-                    frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame5),
-                    x + frame5.Frame.PivotX - (fliph ? frame.Frame.Width + 4: 0),
-                    y + frame5.Frame.PivotY,
-                    frame5.Frame.Width, frame5.Frame.Height, false, Transparency);
+            var Animation = LoadAnimation("Pistol", d, 0, 1);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? 76 : 0), y, Transparency, fliph, flipv);
 
-            }
+            Animation = LoadAnimation("Pistol", d, 0, 0);
+            int width = Animation.RequestedFrame.Width;
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+
+            Animation = LoadAnimation("Pistol", d, 4, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? 59 : 0), y, Transparency, fliph, flipv);
+
+            Animation = LoadAnimation("Pistol", d, 6, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? width + 4 : 0), y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

@@ -5,41 +5,24 @@ namespace ManiacEditor.Entity_Renders
     public class FlowerPod : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlowerPod", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimHead = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlowerPod", d.DevicePanel, 1, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHead != null && editorAnimHead.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[0];
-                var frameHead = editorAnimHead.Frames[0];
 
-                //Animation Currently Doesn't work
-                //Animation.ProcessAnimation(frameHead.Entry.SpeedMultiplyer, frameHead.Entry.Frames.Count, frameHead.Frame.Delay);
+            var Animation = LoadAnimation("FlowerPod", d, 1, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            Animation = LoadAnimation("FlowerPod", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameHead),
-                    x + frameHead.Frame.PivotX,
-                    y + frameHead.Frame.PivotY,
-                    frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-            }
         }
 
         public override string GetObjectName()

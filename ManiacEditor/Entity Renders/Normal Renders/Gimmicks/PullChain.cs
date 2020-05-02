@@ -5,51 +5,39 @@ namespace ManiacEditor.Entity_Renders
     public class PullChain : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
-            bool decorMode = entity.attributesMap["decorMode"].ValueBool;
-            int length = (int)entity.attributesMap["length"].ValueUInt32;
-            int frameID = 0;
-            if (decorMode == true)
-            {
-                frameID = 1;
-            }
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PullChain", d.DevicePanel, 0, frameID, fliph, flipv, false);
-            var editorAnimChain = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PullChain", d.DevicePanel, 1, frameID, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimChain != null && editorAnimChain.Frames.Count != 0)
+
+
+
+
+            int type = (int)e.attributesMap["type"].ValueEnum;
+            bool decorMode = e.attributesMap["decorMode"].ValueBool;
+            int length = (int)e.attributesMap["length"].ValueUInt32;
+            int frameID = 0;
+            if (decorMode == true) frameID = 1;
+
+
+
+
+
+            var Animation = LoadAnimation("PullChain", d, 0, frameID);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            if (length != 0)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                var frameChain = editorAnimChain.Frames[0];
-
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                if (length != 0)
+                for (int i = 0; i < length; i++)
                 {
-                    for (int i = 0; i < length; i++)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameChain),
-                        x + frameChain.Frame.PivotX,
-                        y + frameChain.Frame.PivotY - frameChain.Frame.Height * i,
-                        frameChain.Frame.Width, frameChain.Frame.Height, false, Transparency);
-                    }
+                    Animation = LoadAnimation("PullChain", d, 1, frameID);
+                    DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - Animation.RequestedFrame.Height * i, Transparency, fliph, flipv);
                 }
             }
         }

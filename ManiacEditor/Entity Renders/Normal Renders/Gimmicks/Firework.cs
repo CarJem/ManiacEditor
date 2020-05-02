@@ -6,36 +6,23 @@ namespace ManiacEditor.Entity_Renders
     public class Firework : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int distance = (int)entity.attributesMap["distance"].ValueInt32;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Firework", d.DevicePanel, 0, -1, false, false, false);
-            if (distance != 0)
-            {
-                d.DrawArrow(x, y, x, y - distance, SystemColors.Yellow);
-            }
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
+            DevicePanel d = Properties.Graphics;
 
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
+            bool fliph = false;
+            bool flipv = false;
+
+            int distance = (int)e.attributesMap["distance"].ValueInt32;
+            if (distance != 0) d.DrawArrow(x, y, x, y - distance, SystemColors.Yellow, 2);
+
+            var Animation = LoadAnimation("Firework", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

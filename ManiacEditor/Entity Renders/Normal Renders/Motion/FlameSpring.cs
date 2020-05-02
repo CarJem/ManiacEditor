@@ -5,22 +5,22 @@ namespace ManiacEditor.Entity_Renders
     public class FlameSpring : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
+
+
+
+
+            int type = (int)e.attributesMap["type"].ValueEnum;
             int valveType;
             int animID;
             switch (type)
@@ -54,36 +54,19 @@ namespace ManiacEditor.Entity_Renders
                     valveType = 0;
                     break;
             }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 0, animID, fliph, flipv, false);
-            var nozzelA = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 1, 0, fliph, flipv, false);
-            var nozzelB = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("FlameSpring", d.DevicePanel, 1, 1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && nozzelA != null && nozzelA.Frames.Count != 0 && nozzelB != null && nozzelB.Frames.Count != 0)
+
+            var Animation = LoadAnimation("FlameSpring", d, 0, animID);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+
+            if (valveType == 2 || valveType == 0)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                var headA = nozzelA.Frames[0];
-                var headB = nozzelB.Frames[0];
-
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                if (valveType == 2 || valveType == 0)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(headA),
-                        x - 21 - headA.Frame.PivotX,
-                        y - 12 - headA.Frame.PivotY,
-                        headA.Frame.Width, headA.Frame.Height, false, Transparency);
-                }
-                if (valveType == 1 || valveType == 0)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(headB),
-                        x + 12 + headB.Frame.PivotX,
-                        y - 12 - headB.Frame.PivotY,
-                        headB.Frame.Width, headB.Frame.Height, false, Transparency);
-                }
+                Animation = LoadAnimation("FlameSpring", d, 1, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 14, y - 4, Transparency, fliph, flipv);
+            }
+            if (valveType == 1 || valveType == 0)
+            {
+                Animation = LoadAnimation("FlameSpring", d, 1, 1);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 13, y - 4, Transparency, fliph, flipv);
             }
         }
 

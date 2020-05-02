@@ -5,24 +5,23 @@ namespace ManiacEditor.Entity_Renders
     public class Beanstalk : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
-            int type = (int)entity.attributesMap["type"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            bool fliph = false;
+            bool flipv = false;
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            int type = (int)e.attributesMap["type"].ValueUInt8;
             int animID = 0;
             int frameID = 0;
-            bool plantType = false;
+            int offset_x = 0;
             switch (type)
             {
                 case 0:
@@ -35,45 +34,24 @@ namespace ManiacEditor.Entity_Renders
                     break;
                 case 2:
                     animID = 2;
-                    frameID = 2;
+                    frameID = 0;
+                    offset_x = -54;
                     break;
                 case 3:
                     animID = 3;
-                    frameID = -1;
-                    plantType = true;
+                    frameID = 0;
+                    offset_x = -24;
                     break;
             }
-            bool fliph = false;
-            bool flipv = false;
-            if (direction == 1)
-            {
-                fliph = true;
-            }
-            var editorAnimNode = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimType = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Beanstalk", d.DevicePanel, animID, frameID, fliph, flipv, false);
-            if (editorAnimNode != null && editorAnimNode.Frames.Count != 0 && editorAnimType != null && editorAnimType.Frames.Count != 0)
-            {
-                var frame = editorAnimNode.Frames[0];
-                var frameHead = editorAnimType.Frames[0];
 
-                if (plantType == true)
-                {
-                    frameHead = editorAnimType.Frames[Animation.index];
-                    Animation.ProcessAnimation(frameHead.Entry.SpeedMultiplyer, frameHead.Entry.Frames.Count, frameHead.Frame.Delay);
-                }
+            if (direction == 1) fliph = true;
+
+            var Animation = LoadAnimation("Beanstalk", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            Animation = LoadAnimation("Beanstalk", d, animID, frameID);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? offset_x : 0), y, Transparency, fliph, flipv);
 
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnimNode.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnimNode.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameHead),
-                    x + (plantType ? (fliph ? frameHead.Frame.PivotX*2 : frameHead.Frame.PivotX) : (fliph ? -frameHead.Frame.Width : frameHead.Frame.PivotX)),
-                    y + frameHead.Frame.PivotY,
-                    frameHead.Frame.Width, frameHead.Frame.Height, false, Transparency);
-
-
-            }
         }
 
         public override string GetObjectName()

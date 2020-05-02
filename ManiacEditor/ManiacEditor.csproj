@@ -279,11 +279,14 @@
     <Compile Include="Controls\Misc\Dev\ManiacConsole.xaml.cs">
       <DependentUpon>ManiacConsole.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedBeanstalk.cs" />
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\CaterkillerJr.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Chopper.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Clucker.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Dango.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Dragonfly.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\HotaruHiWatt.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Iwamodoki.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Splats.cs" />
     <Compile Include="Entity Renders\Normal Renders\Badniks\Vultron.cs" />
@@ -294,12 +297,33 @@
     <Compile Include="Entity Renders\Normal Renders\Bounded\LRZSpiral.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\BarStool.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Beanstalk.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\ElectroMagnet.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Firework.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\FlowerPod.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Funnel.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Grabber.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangConveyor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangGlider.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangPoint.cs" />
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\LRZFireball.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Pinata.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\PullChain.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\Clapperboard.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\Fan.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\FBZFan.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\FlameSpring.cs" />
     <Compile Include="Entity Renders\Normal Renders\Motion\FlingRamp.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\GiantPistol.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\HandLauncher.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Motion\LaunchSpring.cs" />
     <Compile Include="Entity Renders\Normal Renders\Platforms\EncoreRoute.cs" />
     <Compile Include="Entity Renders\Normal Renders\Generic\HUD.cs" />
     <Compile Include="Entity Renders\Normal Renders\Platforms\GasPlatform.cs" />
     <Compile Include="Entity Renders\Normal Renders\Platforms\LRZRockPile.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\MagPlatform.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Platforms\UncurlPlant.cs" />
     <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_ItemBox.cs" />
     <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Player.cs" />
     <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Ring.cs" />

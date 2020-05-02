@@ -18,7 +18,7 @@ namespace ManiacEditor.Controls.Misc.Dev
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string newLine = "    ";
+            string newLine = ";";
             string contents = "";
             if (DevInt1.IsChecked.Value) contents += Properties.Settings.MyDevSettings.DevInt1.ToString() + newLine;
             if (DevInt2.IsChecked.Value) contents += Properties.Settings.MyDevSettings.DevInt2.ToString() + newLine;

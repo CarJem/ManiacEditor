@@ -562,7 +562,7 @@ namespace ManiacEditor
             DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
             //}
         }
-        public void DrawArrow(int x0, int y0, int x1, int y1, Color color)
+        public void DrawArrow(int x0, int y0, int x1, int y1, Color color, float thickness = 1)
         {
             int x2, y2, x3, y3;
 
@@ -573,9 +573,9 @@ namespace ManiacEditor
             x3 = (int)(x1 + 10 * Math.Cos(angle + Math.PI / 8));
             y3 = (int)(y1 + 10 * Math.Sin(angle + Math.PI / 8));
 
-            DrawLine(x1, y1, x0, y0, color);
-            DrawLine(x1, y1, x2, y2, color);
-            DrawLine(x1, y1, x3, y3, color);
+            DrawLine(x1, y1, x0, y0, color, thickness);
+            DrawLine(x1, y1, x2, y2, color, thickness);
+            DrawLine(x1, y1, x3, y3, color, thickness);
         }
         public void DrawBézierSplineCubic(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color color)
         {
