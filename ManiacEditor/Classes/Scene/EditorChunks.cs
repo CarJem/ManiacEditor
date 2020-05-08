@@ -490,8 +490,8 @@ namespace ManiacEditor.Classes.Scene
 		public void ConvertClipboardtoMultiLayerChunk(Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry data)
 		{
 			var points = data.GetData();
-			var pointsA = points.Item1;
-			var pointsB = points.Item2;
+			var pointsA = points[0];
+			var pointsB = points[1];
 
 
 			if (pointsB == null || pointsB.Count == 0)
@@ -569,7 +569,7 @@ namespace ManiacEditor.Classes.Scene
 
 			EditLayerA?.PasteClipboardData(TileCoord, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(ConvertedChunkA));
 			EditLayerB?.PasteClipboardData(TileCoord, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(ConvertedChunkB));
-			Actions.UndoRedoModel.UpdateEditLayerActions();
+			Actions.UndoRedoModel.UpdateEditLayersActions();
 			EditLayerA?.DeselectAll();
 			EditLayerB?.DeselectAll();
 		}

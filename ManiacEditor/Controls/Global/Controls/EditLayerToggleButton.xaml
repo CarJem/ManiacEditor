@@ -29,12 +29,16 @@
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     <MenuItem Header="Set as EditLayerA... (Right Click)" x:Name="SetAsEditLayerA" Click="SetAsEditLayerA_Click" Foreground="{DynamicResource EditLayerASelectedColor}"/>
                     <MenuItem Header="Set as EditLayerB... (Left Click)" x:Name="SetAsEditLayerB" Click="SetAsEditLayerB_Click" Foreground="{DynamicResource EditLayerBSelectedColor}"/>
+                    <MenuItem Header="Set as EditLayerC..." x:Name="SetAsEditLayerC" Click="SetAsEditLayerC_Click" Foreground="{DynamicResource EditLayerCSelectedColor}"/>
+                    <MenuItem Header="Set as EditLayerD..." x:Name="SetAsEditLayerD" Click="SetAsEditLayerD_Click" Foreground="{DynamicResource EditLayerDSelectedColor}"/>
                 </StackPanel>
             </xctk:DropDownButton.DropDownContent>
         </xctk:DropDownButton>
         <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerToggle" IsChecked="{Binding IsCheckedN}"/>
         <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerAToggle" IsChecked="{Binding IsCheckedA}"/>
         <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerBToggle" IsChecked="{Binding IsCheckedB}"/>
+        <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerCToggle" IsChecked="{Binding IsCheckedC}"/>
+        <ToggleButton Checked="LayerToggle_Checked" Unchecked="LayerToggle_Unchecked" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="LayerDToggle" IsChecked="{Binding IsCheckedD}"/>
     </Grid>
     <UserControl.Resources>
         <ResourceDictionary>
@@ -46,6 +50,28 @@
                                 <ContentPresenter x:Name="contentPresenter"/>
                             </Border>
                             <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsKeyboardFocused" Value="True"/>
+                                        <Condition Property="IsEnabled" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource ContextMenuSelectedColor}"/>
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource ContextMenuSelectedColorBack}"/>
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource ContextMenuSelectedColorBack}"/>
+                                    <Setter Property="Opacity" TargetName="border" Value="0.7"/>
+                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="0.7"/>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsKeyboardFocused" Value="True"/>
+                                        <Condition Property="IsEnabled" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource ContextMenuSelectedColor}"/>
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource ContextMenuSelectedColorBack}"/>
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource ContextMenuSelectedColorBack}"/>
+                                    <Setter Property="Opacity" TargetName="border" Value="0.7"/>
+                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="0.7"/>
+                                </MultiTrigger>
                                 <Trigger Property="IsEnabled" Value="false">
                                     <Setter Property="Opacity" TargetName="border" Value="0.5"/>
                                     <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"/>
@@ -153,6 +179,10 @@
                                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="true">
                                     <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
                                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
                                 </Trigger>

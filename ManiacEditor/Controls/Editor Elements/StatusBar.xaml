@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="5">
+            <StackPanel Orientation="Horizontal" Margin="5" Focusable="False">
                 <Label x:Name="positionLabel" Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator1" Visibility="Collapsed"  Style="{DynamicResource VerticalSeparatorStyle}"/>
                 <Label x:Name="selectedPositionLabel" Foreground="{DynamicResource NormalText}"/>
@@ -36,20 +36,16 @@
                 <Separator x:Name="seperator9" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
             </StackPanel>
 
-            <StatusBarItem Margin="0" Grid.Column="1" x:Name="StatusBarQuickButtons">
+            <StatusBarItem Margin="0" Grid.Column="1" x:Name="StatusBarQuickButtons" Focusable="True" IsTabStop="True">
                 <StackPanel Orientation="Horizontal">
-                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="EnablePixelModeButton" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="5"/>
-                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="nudgeFasterButton" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="5"/>
-                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
-                    <ToggleButton Foreground="{DynamicResource NormalText}" Style="{DynamicResource StatusBarToggleButton}" x:Name="scrollLockButton" Content="Scroll Lock" Click="ToggleScrollLockEvent" Padding="5"/>
-                    <Separator Style="{DynamicResource VerticalSeparatorStyle}"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" x:Name="EnablePixelModeButton" Margin="5,0,0,0" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="3,5"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" x:Name="nudgeFasterButton" Margin="5,0,0,0" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="3,5"/>
+                    <ToggleButton Foreground="{DynamicResource NormalText}" x:Name="scrollLockButton" Margin="5,0,0,0" Content="Scroll Lock" Click="ToggleScrollLockEvent" Padding="3,5"/>
                 </StackPanel>
             </StatusBarItem>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="5">
-                <wpfTool:SplitButton Style="{DynamicResource StatusBarSplitButton}" x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2">
+                <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2">
                     <wpfTool:SplitButton.Content>
                         <ContentPresenter Content="{DynamicResource Gear}" ></ContentPresenter>
                     </wpfTool:SplitButton.Content>
@@ -63,7 +59,7 @@
                 </wpfTool:SplitButton>
                 <Button Name="FilterButton" Margin="4,-2,0,-2" Width="30" Content="{DynamicResource Invert}" Padding="2" Click="FilterButtonOpenContextMenuEvent">
                     <Button.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Foreground="{DynamicResource Maniac_ManiaFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="maniaFilterCheck" Header="Mania (000000)" StaysOpenOnClick="True" IsCheckable="True"></MenuItem>
                             <MenuItem IsChecked="{maniac:DefaultSettingsBinding ShowBothEntities}" Foreground="{DynamicResource Maniac_BothFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="bothFilterCheck" Header="Common (000000)" StaysOpenOnClick="True" IsCheckable="True"></MenuItem>
                             <MenuItem IsChecked="{maniac:DefaultSettingsBinding ShowPinballEntities}" Foreground="{DynamicResource Maniac_OtherFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="pinballFilterCheck" Header="All (000000)" StaysOpenOnClick="True" IsCheckable="True"></MenuItem>

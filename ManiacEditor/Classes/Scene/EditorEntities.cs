@@ -54,9 +54,10 @@ namespace ManiacEditor.Classes.Scene
         }
         private void SetSelectedEntities(IList<Classes.Scene.EditorEntity> SelectedObj)
         {
-            foreach (var entity in SelectedObj)
+            for (int i = 0; i < Entities.Count; i++)
             {
-                Entities[entity.SlotID].Selected = entity.Selected;
+               if (SelectedObj.Contains(Entities[i])) Entities[i].Selected = true;
+               else Entities[i].Selected = false;
             }
         }
         private List<Classes.Scene.EditorEntity> GetSelectedEntities()
@@ -131,16 +132,15 @@ namespace ManiacEditor.Classes.Scene
         }
         private void SelectEverything()
         {
-            foreach (var entity in Entities)
+            for (int i = 0; i < Entities.Count; i++)
             {
-                entity.Selected = true;
+                Entities[i].Selected = true;
             }
 
-            foreach (var entity in InternalEntities)
+            for (int i = 0; i < InternalEntities.Count; i++)
             {
-                entity.Selected = true;
+                InternalEntities[i].Selected = true;
             }
-
         }
         public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
@@ -150,15 +150,16 @@ namespace ManiacEditor.Classes.Scene
 
             void SelectNormal()
             {
-                foreach (var entity in Entities)
+                for (int i = 0; i < Entities.Count; i++)
                 {
+                    var entity = Entities[i];
                     if (entity.IsInArea(area))
                     {
                         if (deselectIfSelected)
                         {
                             if (entity.Selected)
                             {
-                                SelectedEntities.Remove(entity);
+                                //SelectedEntities.Remove(entity);
                                 entity.Selected = false;
                             }
                             else
@@ -168,7 +169,7 @@ namespace ManiacEditor.Classes.Scene
                         }
                         else
                         {
-                            SelectedEntities.Add(entity);
+                            //SelectedEntities.Add(entity);
                             entity.Selected = true;
                         }
                     }
@@ -176,15 +177,16 @@ namespace ManiacEditor.Classes.Scene
             }
             void SelectInternal()
             {
-                foreach (var entity in InternalEntities)
+                for (int i = 0; i < InternalEntities.Count; i++)
                 {
+                    var entity = InternalEntities[i];
                     if (entity.IsInArea(area))
                     {
                         if (deselectIfSelected)
                         {
                             if (entity.Selected)
                             {
-                                SelectedInternalEntities.Remove(entity);
+                                //SelectedInternalEntities.Remove(entity);
                                 entity.Selected = false;
                             }
                             else
@@ -194,7 +196,7 @@ namespace ManiacEditor.Classes.Scene
                         }
                         else
                         {
-                            SelectedInternalEntities.Add(entity);
+                            //SelectedInternalEntities.Add(entity);
                             entity.Selected = true;
                         }
                     }
@@ -218,12 +220,12 @@ namespace ManiacEditor.Classes.Scene
                     {
                         if (deselectIfSelected && SelectedEntities.Contains(entity))
                         {
-                            SelectedEntities.Remove(entity);
+                            //SelectedEntities.Remove(entity);
                             entity.Selected = false;
                         }
                         else
                         {
-                            SelectedEntities.Add(entity);
+                            //SelectedEntities.Add(entity);
                             entity.Selected = true;
                         }
                         // Only the top
@@ -282,7 +284,7 @@ namespace ManiacEditor.Classes.Scene
             ClearSelection();
             if (Entities.Exists(x => x.SlotID == (ushort)slot))
             {
-                SelectedEntities.Add(Entities[(ushort)slot]);
+                //SelectedEntities.Add(Entities[(ushort)slot]);
                 Entities[(ushort)slot].Selected = true;
             }
             ObjectRefreshNeeded = true;
@@ -300,7 +302,7 @@ namespace ManiacEditor.Classes.Scene
                     entity.InTempSelection = false;
                     entity.TempSelected = false;
                 }
-                SelectedEntities.Clear();
+                //SelectedEntities.Clear();
             }
 
             void DeselectInternal()
@@ -311,7 +313,7 @@ namespace ManiacEditor.Classes.Scene
                     entity.InTempSelection = false;
                     entity.TempSelected = false;
                 }
-                SelectedInternalEntities.Clear();
+                //SelectedInternalEntities.Clear();
             }
         }
         public void EndTempSelection()
@@ -346,9 +348,10 @@ namespace ManiacEditor.Classes.Scene
         public void UpdateSelectedIndexForEntities()
         {
             int index = 0;
-            foreach (var entity in SelectedEntities.OrderBy(x => x.TimeWhenSelected))
+            var orderedList = SelectedEntities.OrderBy(x => x.TimeWhenSelected).ToList();
+            for (int i = 0; i < orderedList.Count; i++)
             {
-                entity.SelectedIndex = index;
+                orderedList[i].SelectedIndex = index;
                 index++;
             }
         }
@@ -389,7 +392,7 @@ namespace ManiacEditor.Classes.Scene
             AddEntities(newEntities);
             ClearSelection();
             editorEntity.Selected = true;
-            SelectedEntities.Add(editorEntity);
+            //SelectedEntities.Add(editorEntity);
         }
         public void SpawnMultiple(List<KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>> sceneObjects)
         {
@@ -410,7 +413,7 @@ namespace ManiacEditor.Classes.Scene
             foreach (var editorEntity in newEntities)
             {
                 editorEntity.Selected = true;
-                SelectedEntities.Add(editorEntity);
+                //SelectedEntities.Add(editorEntity);
             }
 
         }
@@ -433,7 +436,7 @@ namespace ManiacEditor.Classes.Scene
             foreach (var entity in entities) DeleteEntity(entity, isInternal);
 
             EvaluteSlotIDOrder();
-            Methods.Entities.EntityDrawing.RequestEntityVisiblityRefresh(true);
+            Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
         }
         public void DeleteSelected(bool isInternal = false)
         {
@@ -617,10 +620,12 @@ namespace ManiacEditor.Classes.Scene
             }
 
             ClearSelection();
+            /*
             if (isInternal)
             {
                 foreach (var entity in new_entities)
                 {
+                    entity.Selected = true;
                     SelectedInternalEntities.Add(entity);
                 }
             }
@@ -628,9 +633,10 @@ namespace ManiacEditor.Classes.Scene
             {
                 foreach (var entity in new_entities)
                 {
+                    entity.Selected = true;
                     SelectedEntities.Add(entity);
                 }
-            }
+            }*/
             foreach (var entity in new_entities)
                 entity.Selected = true;
         }
@@ -675,40 +681,43 @@ namespace ManiacEditor.Classes.Scene
         }
         public static void Paste()
         {
+            bool IsWindowsClipboard = false;
+            // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
+            if (System.Windows.Clipboard.ContainsData("ManiacEntities")) IsWindowsClipboard = WindowsPaste();
+            // if there's none, use the internal clipboard
+            if (Methods.Solution.SolutionClipboard.ObjectsClipboard != null && !IsWindowsClipboard) ManiacPaste();
+        }
+        public static void ManiacPaste()
+        {
+            Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), Methods.Solution.SolutionClipboard.ObjectsClipboard);
+            Actions.UndoRedoModel.UpdateEditEntityActions();
+        }
+        public static bool WindowsPaste()
+        {
             try
             {
 
-                // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
-                if (System.Windows.Clipboard.ContainsData("ManiacEntities"))
-                {
-                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), GetClipboardData());
-                    Actions.UndoRedoModel.UpdateEditEntityActions();
-                }
-
-                // if there's none, use the internal clipboard
-                else if (Methods.Solution.SolutionClipboard.ObjectsClipboard != null)
-                {
-                    Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), Methods.Solution.SolutionClipboard.ObjectsClipboard);
-                    Actions.UndoRedoModel.UpdateEditEntityActions();
-                }
+                Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), GetClipboardData());
+                Actions.UndoRedoModel.UpdateEditEntityActions();
+                return true;
             }
             catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
             {
-                System.Windows.MessageBox.Show("Too many Classes.Edit.Scene.EditorSolution.Entities! (limit: 2048)");
-                return;
+                System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+                return true;
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("There was a problem with pasting the content provided: " + Environment.NewLine + ex.Message);
-                return;
+                return false;
             }
-
 
             Methods.Solution.SolutionClipboard.ObjectsClipboardEntry GetClipboardData()
             {
-                return (Methods.Solution.SolutionClipboard.ObjectsClipboardEntry)System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities");
+                var data = System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities");
+                if (data != null) return (Methods.Solution.SolutionClipboard.ObjectsClipboardEntry)data;
+                else return null;
             }
-            
         }
         public static void Copy()
         {
@@ -726,6 +735,11 @@ namespace ManiacEditor.Classes.Scene
             catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
             {
                 System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+                return;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("There was a problem with duplicating the content provided: " + Environment.NewLine + ex.Message);
                 return;
             }
 
@@ -869,7 +883,7 @@ namespace ManiacEditor.Classes.Scene
                 foreach (var entity in SelectedInternalEntities) entity.Move(diff);
             }
 
-            ManiacEditor.Methods.Entities.EntityDrawing.RequestEntityVisiblityRefresh(true);
+            ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
         }
 
         private Dictionary<Classes.Scene.EditorEntity, Point> GetSelectedMovePositions()
@@ -961,8 +975,8 @@ namespace ManiacEditor.Classes.Scene
 
             if (d != null)
             {
-                Methods.Entities.EntityDrawing.UpdateVisibleEntities(d, Entities);
-                Methods.Entities.EntityDrawing.UpdateVisibleEntities(d, InternalEntities);
+                Methods.Draw.ObjectDrawing.UpdateVisibleEntities(d, Entities);
+                Methods.Draw.ObjectDrawing.UpdateVisibleEntities(d, InternalEntities);
             }
         }
         #endregion
@@ -982,7 +996,7 @@ namespace ManiacEditor.Classes.Scene
             }
             foreach (var entity in Entities.Where(x => x.IsVisible == true))
             {
-                Methods.Entities.EntityDrawing.DrawSelectionBox(d, entity);
+                Methods.Draw.ObjectDrawing.DrawSelectionBox(d, entity);
             }
         }
         public void DrawInternal(DevicePanel d)
@@ -993,7 +1007,7 @@ namespace ManiacEditor.Classes.Scene
 
             foreach (var entity in InternalEntities.Where(x => x.IsVisible == true))
             {
-                Methods.Entities.EntityDrawing.DrawInternal(d, entity);
+                Methods.Draw.ObjectDrawing.DrawInternal(d, entity);
                 if (entity.Name == "Spline")
                 {
                     int id = entity.attributesMap["SplineID"].ValueInt32;
@@ -1034,9 +1048,9 @@ namespace ManiacEditor.Classes.Scene
                         if (selectedOptions.SplineToolShowPoints) d.DrawRectangle(p.X, p.Y, p.X + 2, p.Y + 2, System.Drawing.Color.Red);
                         if (selectedOptions.SplineToolShowObject && selectedOptions.SplineObjectRenderingTemplate != null)
                         {
-                            if (Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Object.Name.Name))
+                            if (Methods.Draw.ObjectDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Object.Name.Name))
                             {
-                                Methods.Entities.EntityDrawing.DrawDedicatedRender(d, selectedOptions.SplineObjectRenderingTemplate);
+                                Methods.Draw.ObjectDrawing.DrawDedicatedRender(d, selectedOptions.SplineObjectRenderingTemplate);
                             }
                         }
                         lastPoint = new Point(p.X, p.Y);

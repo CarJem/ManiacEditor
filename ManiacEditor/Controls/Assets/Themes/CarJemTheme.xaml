@@ -20,6 +20,10 @@
     <SolidColorBrush x:Key="EditLayerASelectedColorBack" Color="#9090FF00"/>
     <SolidColorBrush x:Key="EditLayerBSelectedColor" Color="#C900FF"/>
     <SolidColorBrush x:Key="EditLayerBSelectedColorBack" Color="#90C900FF"/>
+    <SolidColorBrush x:Key="EditLayerCSelectedColor" Color="#FAFF00"/>
+    <SolidColorBrush x:Key="EditLayerCSelectedColorBack" Color="#90FFE400"/>
+    <SolidColorBrush x:Key="EditLayerDSelectedColor" Color="#FFB300"/>
+    <SolidColorBrush x:Key="EditLayerDSelectedColorBack" Color="#90FF9200"/>
 
     <SolidColorBrush x:Key="Maniac_OtherFilter" Color="Gold"/>
     <SolidColorBrush x:Key="Maniac_BothFilter" Color="LightBlue"/>

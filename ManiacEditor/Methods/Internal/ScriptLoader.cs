@@ -10,7 +10,7 @@ using Microsoft.CSharp;
 using System.Reflection;
 using ManiacEditor.Entity_Renders;
 
-namespace ManiacEditor.Methods.Entities
+namespace ManiacEditor.Methods.Internal
 {
     public static class ScriptLoader
     {
@@ -20,7 +20,7 @@ namespace ManiacEditor.Methods.Entities
         {
             CompilerResults compilationResults = null;
             List<EntityRenderer> validRenders = new List<EntityRenderer>();
-            CSharpCodeProvider codeProvider = GetCSharpCodeProvider();
+            CodeDomProvider codeProvider = GetCodeDomProvider();
 
             try
             {
@@ -43,6 +43,7 @@ namespace ManiacEditor.Methods.Entities
             catch (Exception ex)
             {
                 InterpretException(ex, compilationResults, codeProvider);
+                codeProvider.Dispose();
                 return validRenders;
             }
 
@@ -52,7 +53,7 @@ namespace ManiacEditor.Methods.Entities
         {
             CompilerResults compilationResults = null;
             List<LinkedRenderer> validRenders = new List<LinkedRenderer>();
-            CSharpCodeProvider codeProvider = GetCSharpCodeProvider();
+            CodeDomProvider codeProvider = GetCodeDomProvider();
 
             try
             {
@@ -74,6 +75,7 @@ namespace ManiacEditor.Methods.Entities
             catch (Exception ex)
             {
                 InterpretException(ex, compilationResults, codeProvider);
+                codeProvider.Dispose();
                 return validRenders;
             }
 
@@ -83,11 +85,9 @@ namespace ManiacEditor.Methods.Entities
 
         #region Helpers
 
-        private static CSharpCodeProvider GetCSharpCodeProvider()
+        private static CodeDomProvider GetCodeDomProvider()
         {
-            Dictionary<string, string> provOptions = new Dictionary<string, string>();
-            provOptions.Add("CompilerVersion", "v4.0");
-            CSharpCodeProvider codeProvider = new CSharpCodeProvider(provOptions);
+            CodeDomProvider codeProvider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
             return codeProvider;
         }
         public static IEnumerable<string> GetAssemblyFiles(Assembly assembly)
@@ -109,7 +109,7 @@ namespace ManiacEditor.Methods.Entities
             parms.ReferencedAssemblies.Add(Assembly.GetExecutingAssembly().Location);
             return parms;
         }
-        private static void InterpretException(Exception ex, CompilerResults compilationResults, CSharpCodeProvider codeProvider)
+        private static void InterpretException(Exception ex, CompilerResults compilationResults, CodeDomProvider codeProvider)
         {
             if (compilationResults != null && compilationResults.Errors.HasErrors)
             {

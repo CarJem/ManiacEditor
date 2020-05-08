@@ -5,23 +5,20 @@ namespace ManiacEditor.Entity_Renders
     public class Sol : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
-            bool fireOrbs = entity.attributesMap["fireOrbs"].ValueBool;
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            bool fireOrbs = e.attributesMap["fireOrbs"].ValueBool;
 
             switch (direction)
             {
@@ -35,45 +32,28 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Sol", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Sol", d.DevicePanel, 1, -1, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0)
+            var Animation = LoadAnimation("Sol", d, 0, 0);
+
+            if (!fireOrbs)
             {
-                var frame = editorAnim.Frames[0];
-                var frame2 = editorAnim2.Frames[Animation.index];
+                Animation = LoadAnimation("Sol", d, 1, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 16, y, Transparency - 100, fliph, flipv);
 
-                Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
-
-                if (!fireOrbs)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                        x + frame2.Frame.PivotX + 16,
-                        y + frame2.Frame.PivotY,
-                        frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                        x - frame2.Frame.PivotX - 30,
-                        y + frame2.Frame.PivotY,
-                        frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                }
-                else
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                        x + frame2.Frame.PivotX + 16,
-                        y + frame2.Frame.PivotY,
-                        frame2.Frame.Width, frame2.Frame.Height, false, Transparency-100);
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                        x - frame2.Frame.PivotX - 30,
-                        y + frame2.Frame.PivotY,
-                        frame2.Frame.Width, frame2.Frame.Height, false, Transparency-100);
-                }
-
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
+                Animation = LoadAnimation("Sol", d, 1, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 30, y, Transparency - 100, fliph, flipv);
             }
+            else
+            {
+                Animation = LoadAnimation("Sol", d, 1, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 16, y, Transparency, fliph, flipv);
+
+                Animation = LoadAnimation("Sol", d, 1, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 30, y, Transparency, fliph, flipv);
+            }
+
+
+            Animation = LoadAnimation("Sol", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

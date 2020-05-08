@@ -11,100 +11,49 @@ namespace ManiacEditor.Entity_Renders
         static System.Drawing.Color color3default = ColorTranslator.FromHtml("#9C7973");
         static System.Drawing.Color color4default = ColorTranslator.FromHtml("#5A696B");
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int length = (int)entity.attributesMap["length"].ValueEnum;
-            int angle = (int)entity.attributesMap["angle"].ValueEnum;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PaperRoller", d.DevicePanel, 0, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+
+            int length = (int)e.attributesMap["length"].ValueEnum;
+            int angle = (int)e.attributesMap["angle"].ValueEnum;
+
+            var Animation = LoadAnimation("PaperRoller", d, 0, 0);
+
+            int[] newPos = RotatePoints(x - (length / 2), y, x, y, -angle);
+            int[] newPos2 = RotatePoints(x + (length / 2), y, x, y, -angle);
+
+
+            if (length >= 1)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                int[] newPos = RotatePoints(x - (length / 2), y, x, y, -angle);
-                int[] newPos2 = RotatePoints(x + (length / 2), y, x, y, -angle);
+                int[] newPosAngle = RotatePoints(newPos[0] - 21, newPos[1], newPos[0], newPos[1], -angle + 64);
+                int[] newPosAngle2 = RotatePoints(newPos[0] + 21, newPos[1], newPos[0], newPos[1], -angle + 64);
+                int[] newPos2Angle = RotatePoints(newPos2[0] - 21, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
+                int[] newPos2Angle2 = RotatePoints(newPos2[0] + 21, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
 
+                d.DrawLine(newPosAngle[0], newPosAngle[1], newPos2Angle[0], newPos2Angle[1], color1default, 2);
+                d.DrawLine(newPosAngle2[0], newPosAngle2[1], newPos2Angle2[0], newPos2Angle2[1], color1default, 2);
 
-                if (length >= 1)
-                {
-                    System.Drawing.Color[] RollerColors = new System.Drawing.Color[4];
-                    Animation.ProcessPaperRollerRotatingColors();
-
-                        switch (Animation.PaperRollerIndex)
-                        {
-                            case 0:
-                                RollerColors[0] = color1default;
-                                RollerColors[1] = color2default;
-                                RollerColors[2] = color3default;
-                                RollerColors[3] = color4default;
-                                break;
-                            case 1:
-                                RollerColors[1] = color1default;
-                                RollerColors[2] = color2default;
-                                RollerColors[3] = color3default;
-                                RollerColors[0] = color4default;
-                                break;
-                            case 2:
-                                RollerColors[2] = color1default;
-                                RollerColors[3] = color2default;
-                                RollerColors[0] = color3default;
-                                RollerColors[1] = color4default;
-                                break;
-                            case 3:
-                                RollerColors[3] = color1default;
-                                RollerColors[0] = color2default;
-                                RollerColors[1] = color3default;
-                                RollerColors[2] = color4default;
-                                break;
-                        }
-
-
-                    int[] newPosAngle = RotatePoints(newPos[0] - 21, newPos[1], newPos[0], newPos[1], -angle + 64);
-                    int[] newPosAngle2 = RotatePoints(newPos[0] + 21, newPos[1], newPos[0], newPos[1], -angle + 64);
-                    int[] newPos2Angle = RotatePoints(newPos2[0] - 21, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
-                    int[] newPos2Angle2 = RotatePoints(newPos2[0] + 21, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
-
-                    d.DrawLine(newPosAngle[0], newPosAngle[1], newPos2Angle[0], newPos2Angle[1], RollerColors[0]);
-                    d.DrawLine(newPosAngle2[0], newPosAngle2[1], newPos2Angle2[0], newPos2Angle2[1], RollerColors[0]);
-
-                    newPosAngle = RotatePoints(newPos[0] - 22, newPos[1], newPos[0], newPos[1], -angle + 64);
-                    newPosAngle2 = RotatePoints(newPos[0] + 22, newPos[1], newPos[0], newPos[1], -angle + 64);
-                    newPos2Angle = RotatePoints(newPos2[0] - 22, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
-                    newPos2Angle2 = RotatePoints(newPos2[0] + 22, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
-                    d.DrawLinePaperRoller(newPosAngle[0], newPosAngle[1], newPos2Angle[0], newPos2Angle[1], RollerColors[0], RollerColors[1], RollerColors[2], RollerColors[3]);
-                    d.DrawLinePaperRoller(newPosAngle2[0], newPosAngle2[1], newPos2Angle2[0], newPos2Angle2[1], RollerColors[0], RollerColors[1], RollerColors[2], RollerColors[3]);
-
-
-
-                }
-
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    newPos[0] + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    newPos[1] + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    newPos2[0] + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    newPos2[1] + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-
-
+                newPosAngle = RotatePoints(newPos[0] - 22, newPos[1], newPos[0], newPos[1], -angle + 64);
+                newPosAngle2 = RotatePoints(newPos[0] + 22, newPos[1], newPos[0], newPos[1], -angle + 64);
+                newPos2Angle = RotatePoints(newPos2[0] - 22, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
+                newPos2Angle2 = RotatePoints(newPos2[0] + 22, newPos2[1], newPos2[0], newPos2[1], -angle + 64);
+                d.DrawLine(newPosAngle[0], newPosAngle[1], newPos2Angle[0], newPos2Angle[1], color2default, 2);
+                d.DrawLine(newPosAngle2[0], newPosAngle2[1], newPos2Angle2[0], newPos2Angle2[1], color2default, 2);
+                //d.DrawDashedLine(newPosAngle[0], newPosAngle[1], newPos2Angle[0], newPos2Angle[1], RollerColors[0], RollerColors[1], RollerColors[2], RollerColors[3], 2);
+                //d.DrawDashedLine(newPosAngle2[0], newPosAngle2[1], newPos2Angle2[0], newPos2Angle2[1], RollerColors[0], RollerColors[1], RollerColors[2], RollerColors[3], 2);
             }
+
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, newPos[0], newPos[1], Transparency, fliph, flipv);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, newPos2[0], newPos2[1], Transparency, fliph, flipv);        
         }
 
         private static int[] RotatePoints(double initX, double initY, double centerX, double centerY, int angle)

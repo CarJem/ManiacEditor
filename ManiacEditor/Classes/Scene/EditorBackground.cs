@@ -9,19 +9,10 @@ namespace ManiacEditor.Classes.Scene
 
         public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
 
-		int width;
-		int height;
-
 		public EditorBackground(ManiacEditor.Controls.Editor.MainEditor instance)
         {
             EditorInstance = instance;
         }
-
-		public EditorBackground(ManiacEditor.Controls.Editor.MainEditor instance, int width, int height)
-		{
-			this.width = width;
-			this.height = height;
-		}
 
 
 		static int DivideRoundUp(int number, int by)
@@ -127,6 +118,7 @@ namespace ManiacEditor.Classes.Scene
                 }
             }
         }
+
 
 
 	}

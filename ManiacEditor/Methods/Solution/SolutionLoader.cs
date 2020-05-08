@@ -19,7 +19,7 @@ namespace ManiacEditor.Methods.Solution
             {
                 return false;
             }
-            Methods.Entities.EntityDrawing.ReleaseResources();
+            Methods.Draw.ObjectDrawing.ReleaseResources();
             return true;
         }
 
@@ -577,7 +577,7 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void PostLoad()
         {
-            Methods.Entities.EntityDrawing.RefreshRenderLists();
+            Methods.Draw.ObjectDrawing.RefreshRenderLists();
             SetupObjectsList();
             SetupDiscordRP(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath);
             var StageStamps = ManiacEditor.Methods.Solution.SolutionPaths.GetEditorStamps(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone);
@@ -591,7 +591,6 @@ namespace ManiacEditor.Methods.Solution
             Methods.Internal.UserInterface.Misc.UpdateStartScreen(false);
             Methods.Internal.UserInterface.Status.UpdateDataFolderLabel();
             Instance.EditorToolbar.SetupLayerButtons();
-            Methods.Solution.SolutionState.Main.UpdateMultiLayerSelectMode();
             Methods.Internal.UserInterface.UpdateControls();
             Classes.Prefrences.SceneHistoryStorage.AddRecentFile(Classes.Prefrences.SceneHistoryStorage.GenerateNewEntry());
             ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.AddRecentFile(ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.GenerateNewEntry());

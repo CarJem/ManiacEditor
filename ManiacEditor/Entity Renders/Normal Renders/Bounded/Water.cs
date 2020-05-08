@@ -64,9 +64,17 @@ namespace ManiacEditor.Entity_Renders
 
 
             // HCZ Big Bubbles
-            else if (HCZBubbles == true)
+            if (type == 5)
             {
                 editorAnim = LoadAnimation("BigBubble", d, 7, 0);
+                DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
+            }
+
+
+
+            if (type == 3)
+            {
+                editorAnim = LoadAnimation("Water", d, 0, 0);
                 DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
             }
 
@@ -74,7 +82,7 @@ namespace ManiacEditor.Entity_Renders
             if (width != 0 && height != 0 && showBounds == true && HCZBubbles == false)
             {
                 //Draw Icon
-                editorAnim = LoadAnimation("EditorIcons2", d, 0, 8);
+                editorAnim = LoadAnimation("Water", d, 0, 0);
                 DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
 
                 int x1 = x + widthPixels / -2;
@@ -95,7 +103,7 @@ namespace ManiacEditor.Entity_Renders
 
                                 d.DrawRectangle(startX, heightX, endX, Methods.Solution.CurrentSolution.SceneHeight, Methods.Solution.SolutionState.Main.waterColor);
                                 d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
-                                for (int i = startX; i < endX; i = i + 16)
+                                for (int i = startX; i < endX; i = i + 32)
                                 {
                                     DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, i, heightX, Transparency);
                                 }

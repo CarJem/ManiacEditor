@@ -43,20 +43,24 @@ namespace ManiacEditor.Classes.Scene
             }        
             set
             {
-                if (value == true)
+                if (value != IsSelected)
                 {
-                    if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Methods.Internal.UserInterface.EditorToolbars.ChangeSplineSelectedID(_entity.attributesMap["SplineID"].ValueInt32);
-                    IsSelected = value;
-                    TimeWhenSelected = DateTimeOffset.Now;
-                }
-                else
-                {
-                    IsSelected = value;
-                    TimeWhenSelected = null;
-                    SelectedIndex = -1;
-                }
+                    if (value == true)
+                    {
+                        if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Methods.Internal.UserInterface.EditorToolbars.ChangeSplineSelectedID(_entity.attributesMap["SplineID"].ValueInt32);
+                        IsSelected = value;
+                        TimeWhenSelected = DateTimeOffset.Now;
+                    }
+                    else
+                    {
+                        IsSelected = value;
+                        TimeWhenSelected = null;
+                        SelectedIndex = -1;
+                    }
 
-                Methods.Solution.CurrentSolution.Entities.UpdateSelectedIndexForEntities();
+                    Methods.Solution.CurrentSolution.Entities.UpdateSelectedIndexForEntities();
+                }
+                else if (value == true) TimeWhenSelected = DateTimeOffset.Now;
             }
         }
         public bool InTempSelection { get; set; } = false;
@@ -358,12 +362,12 @@ namespace ManiacEditor.Classes.Scene
         public virtual void Draw(DevicePanel d)
         {
             if (FilteredOut) return;
-            if (Methods.Entities.EntityDrawing.CanDrawLinked(_entity.Object.Name.Name)) Methods.Entities.EntityDrawing.DrawLinked(d, this);
-            else Methods.Entities.EntityDrawing.DrawNormal(d, this);
+            if (Methods.Draw.ObjectDrawing.CanDrawLinked(_entity.Object.Name.Name)) Methods.Draw.ObjectDrawing.DrawLinked(d, this);
+            else Methods.Draw.ObjectDrawing.DrawNormal(d, this);
         }
         public virtual void DrawBase(DevicePanel d)
         {
-            Methods.Entities.EntityDrawing.DrawNormal(d, this);
+            Methods.Draw.ObjectDrawing.DrawNormal(d, this);
         }
 
 

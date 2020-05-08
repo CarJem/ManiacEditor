@@ -17,9 +17,9 @@
             <RowDefinition Height="82"></RowDefinition>
         </Grid.RowDefinitions>
         <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1" Background="{DynamicResource ToolbarBackground}" IsLocked="True" x:Name="ToolbarTray">
-            <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}">
-                <Button x:Name="New" Style="{DynamicResource ToolbarButton}"  Click="NewSceneEvent" IsEnabled="True" Content="{DynamicResource AddFile}"></Button>
-                <Button x:Name="Open" Style="{DynamicResource ToolbarButton}" Click="OpenSceneEvent" >
+            <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}" KeyboardNavigation.TabNavigation="Continue">
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="New" Click="NewSceneEvent" IsEnabled="True" Content="{DynamicResource AddFile}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="Open" Click="OpenSceneEvent" >
                     <Button.Content>
                         <DockPanel Width="26" Height="36">
                             <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg318" Width="24" Height="24">
@@ -35,12 +35,12 @@
                         </DockPanel>
                     </Button.Content>
                 </Button>
-                <Button x:Name="Save" Style="{DynamicResource ToolbarButton}"  Click="SaveSceneEvent" Content="{DynamicResource SaveFloppy}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="Save" Click="SaveSceneEvent" Content="{DynamicResource SaveFloppy}"></Button>
                 <Separator/>
-                <Button x:Name="ZoomInButton" Style="{DynamicResource ToolbarButton}"  Click="ZoomInEvent" Content="{DynamicResource ZoomIn}"></Button>
-                <Button x:Name="ZoomOutButton" Style="{DynamicResource ToolbarButton}"  Click="ZoomOutEvent" Content="{DynamicResource ZoomOut}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomInButton"   Click="ZoomInEvent" Content="{DynamicResource ZoomIn}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomOutButton"   Click="ZoomOutEvent" Content="{DynamicResource ZoomOut}"></Button>
                 <Separator/>
-                <Button Style="{DynamicResource ToolbarButton}" x:Name="RunSceneButton" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Style="{DynamicResource ToolbarButton}"  x:Name="RunSceneButton" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg128" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -55,7 +55,7 @@
                         </DockPanel>
                     </Button.Content>
                 </Button>
-                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" x:Name="RunSceneDropDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  x:Name="RunSceneDropDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -86,15 +86,15 @@
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <Button x:Name="UndoButton"  Click="UndoEvent" Tag="Undo {0} (Ctrl + Z)" Content="{DynamicResource UndoIcon}" Style="{DynamicResource ToolbarButton}"></Button>
-                <Button x:Name="RedoButton"  Click="RedoEvent" Tag="Redo {0} (Ctrl + Y)" Content="{DynamicResource RedoIcon}" Style="{DynamicResource ToolbarButton}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="UndoButton"  Click="UndoEvent" Tag="Undo {0} (Ctrl + Z)" Content="{DynamicResource UndoIcon}" ></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="RedoButton"  Click="RedoEvent" Tag="Redo {0} (Ctrl + Y)" Content="{DynamicResource RedoIcon}" ></Button>
                 <Separator/>
-                <Button x:Name="ReloadButton"  Click="ReloadToolStripButton_Click" Content="{DynamicResource Refresh}" Style="{DynamicResource ToolbarButton}"></Button>
+                <Button x:Name="ReloadButton"  Click="ReloadToolStripButton_Click" Content="{DynamicResource Refresh}" ></Button>
                 <Separator/>
-                <ToggleButton x:Name="PointerToolButton" Content="{DynamicResource Pointer}"  Click="TogglePointerToolEvent" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <ToggleButton x:Name="SelectToolButton"   Click="ToggleSelectToolEvent" Content="{DynamicResource Select}" Foreground="Red" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <ToggleButton x:Name="DrawToolButton"  Click="ToggleDrawToolEvent" Content="{DynamicResource Draw}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Name="DrawToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="PointerToolButton" Content="{DynamicResource Pointer}"  Click="TogglePointerToolEvent" ></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}"  x:Name="SelectToolButton"   Click="ToggleSelectToolEvent" Content="{DynamicResource Select}" Foreground="Red" ></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}"  x:Name="DrawToolButton"  Click="ToggleDrawToolEvent" Content="{DynamicResource Draw}" ></ToggleButton>
+                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  Name="DrawToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -103,13 +103,13 @@
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <Label Content="Brush Size (Tiles Edit Only)" x:Name="DrawTileSizeLabel"></Label>
-                            <Slider Width="128" Value="1" Minimum="1" Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
+                            <Slider Width="128" Value="1" Minimum="1" SmallChange="1" LargeChange="25"  Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
                             <wpfTool:IntegerUpDown x:Name="DrawTileSizeNUD" Value="1" Minimum="1" Maximum="16" ValueChanged="DrawToolSizeChanged"></wpfTool:IntegerUpDown>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <ToggleButton x:Name="SplineToolButton"  Click="ToggleSplineToolEvent" Content="{DynamicResource Shapes}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
-                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Name="SplineToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="SplineToolButton"  Click="ToggleSplineToolEvent" Content="{DynamicResource Shapes}" ></ToggleButton>
+                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  Name="SplineToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -160,9 +160,9 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <ToggleButton x:Name="MagnetMode" Click="ToggleMagnetToolEvent" Content="{DynamicResource Magnet}" Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="MagnetMode" Click="ToggleMagnetToolEvent" Content="{DynamicResource Magnet}" ></ToggleButton>
 
-                <Button IsEnabled="False" Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
+                <Button Style="{DynamicResource ToolbarButton}" IsEnabled="False" Click="ContextMenuButton_Click"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -196,14 +196,14 @@
                     </Button.ContextMenu>
                 </Button>
 
-                <ToggleButton x:Name="ChunksToolButton" Style="{DynamicResource ToolbarToggleButton}" Click="ToggleChunksToolEvent" Content="{DynamicResource Stamp}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ChunksToolButton"  Click="ToggleChunksToolEvent" Content="{DynamicResource Stamp}"></ToggleButton>
                 <Separator/>
-                <ToggleButton x:Name="EncorePaletteButton" Style="{DynamicResource ToolbarToggleButton}"  Click="EnableEncorePaletteEvent" Content="{DynamicResource PaletteWheel}"></ToggleButton>
-                <ToggleButton x:Name="ShowTileIDButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ToggleShowTileIDEvent" Content="{DynamicResource Info}"></ToggleButton>
-                <ToggleButton x:Name="FlipAssistButton" Style="{DynamicResource ToolbarToggleButton}"  Click="ShowFlippedTileHelperEvent" Content="{DynamicResource RotateFlip}"></ToggleButton>
-                <ToggleButton x:Name="ShowGridToggleButton" Click="ToggleGridEvent" Content="{StaticResource Grid}"  Style="{DynamicResource ToolbarToggleButton}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="EncorePaletteButton"   Click="EnableEncorePaletteEvent" Content="{DynamicResource PaletteWheel}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowTileIDButton"   Click="ToggleShowTileIDEvent" Content="{DynamicResource Info}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="FlipAssistButton"   Click="ShowFlippedTileHelperEvent" Content="{DynamicResource RotateFlip}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowGridToggleButton" Click="ToggleGridEvent" Content="{StaticResource Grid}"  ></ToggleButton>
 
-                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton" >
+                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton" >
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -228,30 +228,24 @@
                                 </MenuItem.Header>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem>
-                                <MenuItem.Header>
-                                    <StackPanel>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Label VerticalAlignment="Center" Content="Grid Color"></Label>
-                                            <wpfTool:ColorPicker  VerticalAlignment="Center"  ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
-                                        </Grid>
-                                        <Separator/>
-                                        <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
-                                        <Slider x:Name="gridOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch"></Slider>
-                                    </StackPanel>
-                                </MenuItem.Header>
-                            </MenuItem>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label VerticalAlignment="Center" HorizontalAlignment="Left" Content="Grid Color"></Label>
+                                <wpfTool:ColorPicker VerticalAlignment="Center"  ShowTabHeaders="False" Width="60" Grid.Column="1" HorizontalAlignment="Right" SelectedColor="Black" x:Name="GDC" SelectedColorChanged="comboBox8_DropDown"></wpfTool:ColorPicker>
+                            </Grid>
+                            <Separator/>
+                            <TextBlock HorizontalAlignment="Left">Opacity</TextBlock>
+                            <Slider x:Name="gridOpacitySlider" Width="128" SmallChange="1" LargeChange="25" Value="255" Maximum="255" HorizontalAlignment="Stretch"></Slider>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <ToggleButton x:Name="ShowCollisionAButton"  Click="ShowCollisionAEvent" Style="{DynamicResource ToolbarToggleButton}" Content="{DynamicResource PathA}"></ToggleButton>
-                <ToggleButton x:Name="ShowCollisionBButton"  Click="ShowCollisionBEvent" Style="{DynamicResource ToolbarToggleButton}" Content="{StaticResource PathB}"></ToggleButton>
-                <Button Name="CollisionSettingsDropdown" Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowCollisionAButton"  Click="ShowCollisionAEvent"  Content="{DynamicResource PathA}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowCollisionBButton"  Click="ShowCollisionBEvent"  Content="{StaticResource PathB}"></ToggleButton>
+                <Button Style="{DynamicResource ToolbarButton}" Name="CollisionSettingsDropdown"  Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
                             <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
@@ -259,9 +253,9 @@
                     </Button.Content>
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ToolbarBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
-                            <MenuItem x:Name="CollisionDefaultMenuItem" IsTabStop="False" Focusable="False" Header="Default (Mania)" Click="UseNormalCollisionEvent"/>
-                            <MenuItem x:Name="CollisionInvertedMenuItem" IsTabStop="False" Focusable="False"  Header="Inverted" Click="UseInvertedCollisionEvent"/>
-                            <MenuItem x:Name="CollisionCustomMenuItem" IsTabStop="False" Focusable="False"  Header="Custom" Click="UseCustomCollisionEvent"/>
+                            <MenuItem x:Name="CollisionDefaultMenuItem" Header="Default (Mania)" Click="UseNormalCollisionEvent"/>
+                            <MenuItem x:Name="CollisionInvertedMenuItem" Header="Inverted" Click="UseInvertedCollisionEvent"/>
+                            <MenuItem x:Name="CollisionCustomMenuItem" Header="Custom" Click="UseCustomCollisionEvent"/>
                             <MenuItem Header="Custom Values..." IsTabStop="False" IsEnabled="False" Focusable="False" Foreground="{DynamicResource DisabledText}"></MenuItem>
                             <MenuItem>
                                 <MenuItem.Header>
@@ -271,7 +265,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Label Content="All" Grid.Column="1"></Label>
-                                        <wpfTool:ColorPicker IsTabStop="False"  Focusable="False" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="True"  Focusable="True" ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="White" x:Name="CSAC" SelectedColorChanged="comboBox4_DropDown"></wpfTool:ColorPicker>
                                     </Grid>
                                 </MenuItem.Header>
                             </MenuItem>
@@ -282,7 +276,7 @@
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker IsTabStop="False"  Focusable="False"  ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="True"  Focusable="True"  ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Yellow" x:Name="SSTOC" SelectedColorChanged="comboBox6_DropDown"></wpfTool:ColorPicker>
                                         <Label Content="Top Only" Grid.Column="1"></Label>
                                     </Grid>
                                 </MenuItem.Header>
@@ -294,24 +288,18 @@
                                             <ColumnDefinition></ColumnDefinition>
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <wpfTool:ColorPicker IsTabStop="False" Focusable="False"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
+                                        <wpfTool:ColorPicker IsTabStop="True" Focusable="True"   ShowTabHeaders="False" wpfTool:ColorPicker.Closed="CollisionColorPickerClosed" Width="60" HorizontalAlignment="Right" SelectedColor="Red" x:Name="CSLRDC" SelectedColorChanged="comboBox5_DropDown"></wpfTool:ColorPicker>
                                         <Label Content="LRD" Grid.Column="1"></Label>
                                     </Grid>
                                 </MenuItem.Header>
                             </MenuItem>
-                            <MenuItem>
-                                <MenuItem.Header>
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
-                                        <Slider x:Name="CollisionOpacitySlider" Width="128" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
-                                    </StackPanel>
-                                </MenuItem.Header>
-                            </MenuItem>
+                            <Label Foreground="{DynamicResource NormalText}" HorizontalAlignment="Left">Opacity</Label>
+                            <Slider x:Name="CollisionOpacitySlider" SmallChange="1" LargeChange="25"  Width="128" Value="255" Maximum="255" HorizontalAlignment="Stretch" ValueChanged="CollisionOpacitySliderValueChangedEvent"></Slider>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <Button Click="ContextMenuButton_Click" Style="{DynamicResource ToolbarButton}" Name="OtherDropdown" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
+                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click" Foreground="{DynamicResource NormalText}" Name="OtherDropdown" Content="Other Options..." VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="0" Padding="6">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ToolbarBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem>
@@ -357,8 +345,7 @@
                     </Style>
                 </ToolBar.Resources>
             </ToolBar>
-
-            <ToolBar x:Name="LayerToolbar" Band="1" VerticalAlignment="Stretch" BandIndex="0" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}" Margin="0,0,-4,0" >
+            <ToolBar x:Name="LayerToolbar" Band="1" VerticalAlignment="Stretch" BandIndex="0" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}" Margin="0,0,-4,0" KeyboardNavigation.TabNavigation="Continue">
                 <Grid MinWidth="50" MaxWidth="90" HorizontalAlignment="Left">
                     <Grid x:Name="LayerHint" Grid.Row="1" Margin="0,0,5,0" VerticalAlignment="Center">
                         <Grid.RowDefinitions>
@@ -376,10 +363,10 @@
 
                 <Separator Margin="0,2" Visibility="Collapsed"/>
                 <Separator x:Name="extraViewLayersSeperator" Margin="0,2" Visibility="Visible"/>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLower" Text="FG Lower" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLower_Click" RightClick="EditFGLower_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGLow" Text="FG Low" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigh" Text="FG High" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></maniac:EditLayerToggleButton>
-                <maniac:EditLayerToggleButton IsLayerOptionsEnabled="True" x:Name="EditFGHigher" Text="FG Higher" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGHigher_Click" RightClick="EditFGHigher_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton DualSelect="True" IsLayerOptionsEnabled="True" x:Name="EditFGLower" Text="FG Lower" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLower_Click" RightClick="EditFGLower_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton DualSelect="True" IsLayerOptionsEnabled="True" x:Name="EditFGLow" Text="FG Low" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGLow_Click" RightClick="EditFGLow_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton DualSelect="True" IsLayerOptionsEnabled="True" x:Name="EditFGHigh" Text="FG High" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGHigh_Click" RightClick="EditFGHigh_RightClick"></maniac:EditLayerToggleButton>
+                <maniac:EditLayerToggleButton DualSelect="True" IsLayerOptionsEnabled="True" x:Name="EditFGHigher" Text="FG Higher" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditFGHigher_Click" RightClick="EditFGHigher_RightClick"></maniac:EditLayerToggleButton>
                 <maniac:EditLayerToggleButton IsLayerControlsHidden="True" IsLayerOptionsEnabled="False" x:Name="EditEntities" Text="Entities" TextForeground="{DynamicResource Maniac_EditLayer_LabelText}" Click="EditEntities_Click"/>
 
 
@@ -390,20 +377,87 @@
                 </ToolBar.Resources>
             </ToolBar>
         </ToolBarTray>
-
-        <wpfTool:SplitButton x:Name="FutureAddonButton" Visibility="Collapsed" Grid.RowSpan="2" Margin="5,0,0,0" Width="19" Grid.Column="1">
-            <wpfTool:SplitButton.DropDownContent>
-                <StackPanel Background="{DynamicResource ContextMenuBackground}">
-                    <MenuItem Header="Swap Current Edit Layers"></MenuItem>
-                </StackPanel>
-            </wpfTool:SplitButton.DropDownContent>
-        </wpfTool:SplitButton>
     </Grid>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ManiacEditor;component/Controls/Editor/BaseStyles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="ToolbarButton" TargetType="{x:Type Button}">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                <Setter Property="Foreground" Value="{StaticResource NormalText}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button.MouseOver.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.MouseOver.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button.MouseOver.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.MouseOver.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button.Pressed.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource Button.Disabled.Foreground}"/>
+                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ToolbarToggleButton" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Foreground" Value="{DynamicResource NormalText}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button.MouseOver.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.MouseOver.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button.MouseOver.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.MouseOver.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button.Pressed.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource Button.Disabled.Foreground}"/>
+                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 </UserControl>

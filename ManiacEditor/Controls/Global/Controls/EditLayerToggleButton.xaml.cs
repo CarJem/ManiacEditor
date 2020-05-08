@@ -104,6 +104,34 @@ namespace ManiacEditor.Controls.Global
 			}
 		}
 
+
+
+		public void SetGlobalCheckedState(bool state)
+		{
+			IsCheckedN = state;
+			IsCheckedA = state;
+			IsCheckedB = state;
+			IsCheckedC = state;
+			IsCheckedD = state;
+		}
+
+		public bool? GetCheckState(char layer)
+		{
+			switch (layer)
+			{
+				case 'A':
+					return IsCheckedA;
+				case 'B':
+					return IsCheckedB;
+				case 'C':
+					return IsCheckedC;
+				case 'D':
+					return IsCheckedD;
+				default:
+					return IsCheckedN;
+			}
+		}
+
 		public bool? IsCheckedN
 		{
 			get { return LayerToggle.IsChecked; }
@@ -120,6 +148,18 @@ namespace ManiacEditor.Controls.Global
 		{
 			get { return LayerBToggle.IsChecked; }
 			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) LayerBToggle.IsChecked = value; }
+		}
+
+		public bool? IsCheckedC
+		{
+			get { return LayerCToggle.IsChecked; }
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) LayerCToggle.IsChecked = value; }
+		}
+
+		public bool? IsCheckedD
+		{
+			get { return LayerDToggle.IsChecked; }
+			set { if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) LayerDToggle.IsChecked = value; }
 		}
 
 		public static readonly Brush DefaultForeText = Brushes.White;
@@ -141,6 +181,12 @@ DependencyProperty.Register("IsCheckedA", typeof(bool), typeof(EditLayerToggleBu
 
 		public static readonly DependencyProperty ToggleBChecked =
 DependencyProperty.Register("IsCheckedB", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
+
+		public static readonly DependencyProperty ToggleCChecked =
+DependencyProperty.Register("IsCheckedC", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
+
+		public static readonly DependencyProperty ToggleDChecked =
+DependencyProperty.Register("IsCheckedD", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
 
 		public static readonly DependencyProperty DualSelectMode =
 DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLayerToggleButton), new UIPropertyMetadata(false));
@@ -206,6 +252,8 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 			if (LayerToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 1);
 			else if (LayerAToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 2);
 			else if (LayerBToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 3);
+			else if (LayerCToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 4);
+			else if (LayerDToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 5);
 			else SetLayerSelectedButtonColors(ToggleButton, 0);
 		}
 
@@ -226,6 +274,16 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 				SetLayerSelectedButtonColors(ToggleButton, 3);
 				SetLayerSelectedCheckState(3);
 			}
+			else if (LayerCToggle.IsChecked.Value)
+			{
+				SetLayerSelectedButtonColors(ToggleButton, 4);
+				SetLayerSelectedCheckState(4);
+			}
+			else if (LayerDToggle.IsChecked.Value)
+			{
+				SetLayerSelectedButtonColors(ToggleButton, 5);
+				SetLayerSelectedCheckState(5);
+			}
 			else
 			{
 				SetLayerSelectedButtonColors(ToggleButton, 0);
@@ -239,24 +297,46 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 			// 1 - Checked
 			// 2 - Checked (Edit Layer A)
 			// 3 - Checked (Edit Layer B)
+			// 4 - Checked (Edit Layer C)
+			// 5 - Checked (Edit Layer D)
 
 			switch (mode)
 			{
 				case 0:
 					SetAsEditLayerA.IsChecked = false;
 					SetAsEditLayerB.IsChecked = false;
+					SetAsEditLayerC.IsChecked = false;
+					SetAsEditLayerD.IsChecked = false;
 					break;
 				case 1:
 					SetAsEditLayerA.IsChecked = false;
 					SetAsEditLayerB.IsChecked = false;
+					SetAsEditLayerC.IsChecked = false;
+					SetAsEditLayerD.IsChecked = false;
 					break;
 				case 2:
 					SetAsEditLayerA.IsChecked = true;
 					SetAsEditLayerB.IsChecked = false;
+					SetAsEditLayerC.IsChecked = false;
+					SetAsEditLayerD.IsChecked = false;
 					break;
 				case 3:
 					SetAsEditLayerA.IsChecked = false;
 					SetAsEditLayerB.IsChecked = true;
+					SetAsEditLayerC.IsChecked = false;
+					SetAsEditLayerD.IsChecked = false;
+					break;
+				case 4:
+					SetAsEditLayerA.IsChecked = false;
+					SetAsEditLayerB.IsChecked = false;
+					SetAsEditLayerC.IsChecked = true;
+					SetAsEditLayerD.IsChecked = false;
+					break;
+				case 5:
+					SetAsEditLayerA.IsChecked = false;
+					SetAsEditLayerB.IsChecked = false;
+					SetAsEditLayerC.IsChecked = false;
+					SetAsEditLayerD.IsChecked = true;
 					break;
 			}
 		}
@@ -267,6 +347,8 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 			// 1 - Checked
 			// 2 - Checked (Edit Layer A)
 			// 3 - Checked (Edit Layer B)
+			// 4 - Checked (Edit Layer C)
+			// 5 - Checked (Edit Layer D)
 
 			switch (mode)
 			{
@@ -286,6 +368,14 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 					toggle.Background = (SolidColorBrush)FindResource("EditLayerBSelectedColorBack");
 					toggle.BorderBrush = (SolidColorBrush)FindResource("EditLayerBSelectedColor");
 					break;
+				case 4:
+					toggle.Background = (SolidColorBrush)FindResource("EditLayerCSelectedColorBack");
+					toggle.BorderBrush = (SolidColorBrush)FindResource("EditLayerCSelectedColor");
+					break;
+				case 5:
+					toggle.Background = (SolidColorBrush)FindResource("EditLayerDSelectedColorBack");
+					toggle.BorderBrush = (SolidColorBrush)FindResource("EditLayerDSelectedColor");
+					break;
 			}
 		}
 
@@ -297,12 +387,16 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 				{
 					LayerAToggle.IsChecked = !LayerAToggle.IsChecked.Value;
 					if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
+					if (LayerCToggle.IsChecked.Value) LayerCToggle.IsChecked = false;
+					if (LayerDToggle.IsChecked.Value) LayerDToggle.IsChecked = false;
 					this.Click(this, e);
 				}
 				else if (e.ChangedButton == MouseButton.Right)
 				{
 					LayerBToggle.IsChecked = !LayerBToggle.IsChecked.Value;
 					if (LayerAToggle.IsChecked.Value) LayerAToggle.IsChecked = false;
+					if (LayerCToggle.IsChecked.Value) LayerCToggle.IsChecked = false;
+					if (LayerDToggle.IsChecked.Value) LayerDToggle.IsChecked = false;
 					this.RightClick(this, e);
 				}
             }
@@ -324,6 +418,8 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 			{
 				LayerAToggle.IsChecked = !LayerAToggle.IsChecked.Value;
 				if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
+				if (LayerCToggle.IsChecked.Value) LayerCToggle.IsChecked = false;
+				if (LayerDToggle.IsChecked.Value) LayerDToggle.IsChecked = false;
 				if (this.Click != null) this.Click(this, e);
 			}
             else if (!Keyboard.IsKeyDown(Key.LeftCtrl))
@@ -340,6 +436,8 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
             if (LayerToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 1);
 			else if (LayerAToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 2);
 			else if (LayerBToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 3);
+			else if (LayerCToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 4);
+			else if (LayerDToggle.IsChecked.Value) SetLayerSelectedButtonColors(ToggleButton, 5);
 			else SetLayerSelectedButtonColors(ToggleButton, 0);
 
 		}
@@ -361,18 +459,38 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
         }
 
 
-		private void SetEditLayerState(bool isLayerB, RoutedEventArgs e)
+		private void SetEditLayerState(char Layer, RoutedEventArgs e)
 		{
-			if (!isLayerB)
+			if (Layer == 'A')
 			{
 				LayerAToggle.IsChecked = !LayerAToggle.IsChecked.Value;
 				if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
+				if (LayerCToggle.IsChecked.Value) LayerCToggle.IsChecked = false;
+				if (LayerDToggle.IsChecked.Value) LayerDToggle.IsChecked = false;
+				if (this.Click != null) this.Click(this, e);
+			}
+			else if (Layer == 'B')
+			{
+				LayerBToggle.IsChecked = !LayerBToggle.IsChecked.Value;
+				if (LayerAToggle.IsChecked.Value) LayerAToggle.IsChecked = false;
+				if (LayerCToggle.IsChecked.Value) LayerCToggle.IsChecked = false;
+				if (LayerDToggle.IsChecked.Value) LayerDToggle.IsChecked = false;
+				if (this.Click != null) this.Click(this, e);
+			}
+			else if (Layer == 'C')
+			{
+				LayerCToggle.IsChecked = !LayerCToggle.IsChecked.Value;
+				if (LayerAToggle.IsChecked.Value) LayerAToggle.IsChecked = false;
+				if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
+				if (LayerDToggle.IsChecked.Value) LayerDToggle.IsChecked = false;
 				if (this.Click != null) this.Click(this, e);
 			}
 			else
 			{
-				LayerBToggle.IsChecked = !LayerBToggle.IsChecked.Value;
+				LayerDToggle.IsChecked = !LayerDToggle.IsChecked.Value;
 				if (LayerAToggle.IsChecked.Value) LayerAToggle.IsChecked = false;
+				if (LayerCToggle.IsChecked.Value) LayerCToggle.IsChecked = false;
+				if (LayerBToggle.IsChecked.Value) LayerBToggle.IsChecked = false;
 				if (this.Click != null) this.Click(this, e);
 			}
 			LayerToggle_Unchecked(null, null);
@@ -382,12 +500,22 @@ DependencyProperty.Register("DualSelectModeEnabled", typeof(bool), typeof(EditLa
 
 		private void SetAsEditLayerA_Click(object sender, RoutedEventArgs e)
 		{
-			SetEditLayerState(false, e);
+			SetEditLayerState('A', e);
 		}
 
 		private void SetAsEditLayerB_Click(object sender, RoutedEventArgs e)
 		{
-			SetEditLayerState(true, e);
+			SetEditLayerState('B', e);
+		}
+
+		private void SetAsEditLayerC_Click(object sender, RoutedEventArgs e)
+		{
+			SetEditLayerState('C', e);
+		}
+
+		private void SetAsEditLayerD_Click(object sender, RoutedEventArgs e)
+		{
+			SetEditLayerState('D', e);
 		}
 	}
 

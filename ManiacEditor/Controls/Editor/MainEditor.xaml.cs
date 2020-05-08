@@ -61,7 +61,6 @@ namespace ManiacEditor.Controls.Editor
         #region Controls
         public ManiacEditor.Controls.Editor_Toolbars.TilesToolbar TilesToolbar = null;
         public ManiacEditor.Controls.Editor_Toolbars.EntitiesToolbar EntitiesToolbar = null;
-        public ManiacEditor.Controls.Editor_Elements.StartScreen StartScreen { get; set; }
         #endregion
 
         #endregion
@@ -113,8 +112,6 @@ namespace ManiacEditor.Controls.Editor
         }
         private void InitilizeControls()
         {
-            StartScreen = new Editor_Elements.StartScreen();
-
             ViewPanel.UpdateInstance(this);
             ViewPanel.InfoHUD.UpdateInstance(this);
             ViewPanel.SplitContainer.UpdateInstance(this);
@@ -143,7 +140,7 @@ namespace ManiacEditor.Controls.Editor
             Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
             Methods.Solution.SolutionState.Main.UpdateInstance(this);
             Editor_Elements.Toolbar.UpdateInstance(this);
-            Methods.Entities.EntityDrawing.UpdateInstance(this);
+            Methods.Draw.ObjectDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
             Methods.Solution.SolutionPaths.UpdateInstance(this);
             Classes.Prefrences.SceneCurrentSettings.UpdateInstance(this);

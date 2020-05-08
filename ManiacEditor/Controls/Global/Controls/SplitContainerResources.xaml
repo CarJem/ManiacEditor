@@ -6,7 +6,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SplitContainer">
-                    <Grid>
+                    <Grid KeyboardNavigation.IsTabStop="False" Focusable="False">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="ToolbarLeft" Width="0" MaxWidth="0" MinWidth="0"/>
                             <ColumnDefinition x:Name="SplitterLeft" Width="6" MaxWidth="0" MinWidth="0"/>
@@ -14,8 +14,8 @@
                             <ColumnDefinition x:Name="SplitterRight" Width="6" MinWidth="0" MaxWidth="0"/>
                             <ColumnDefinition x:Name="ToolbarRight" Width="0" MinWidth="0" MaxWidth="0"/>
                         </Grid.ColumnDefinitions>
-                        <ContentPresenter x:Name="PanelLeft" Grid.Column="0" Content="{TemplateBinding LeftContainer}"></ContentPresenter>
-                        <GridSplitter x:Name="SpliterLeft" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Grid.RowSpan="2">
+                        <ContentPresenter Focusable="False" x:Name="PanelLeft" Grid.Column="0" Content="{TemplateBinding LeftContainer}"></ContentPresenter>
+                        <GridSplitter Focusable="False" x:Name="SpliterLeft" Background="{DynamicResource ScrollBarBackground}" ResizeDirection="Columns" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Grid.RowSpan="2">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="DragDelta">
                                     <i:InvokeCommandAction Command="{Binding Path=DragDelta, Mode=OneWay}"/>
@@ -25,8 +25,8 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </GridSplitter>
-                        <ContentPresenter Grid.Column="2" x:Name="CenterPanel" Content="{TemplateBinding CenterContainer}"></ContentPresenter>
-                        <GridSplitter x:Name="SpliterRight" Background="{DynamicResource NormalBackground}" ResizeDirection="Columns" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Grid.RowSpan="2">
+                        <ContentPresenter Focusable="False" Grid.Column="2" x:Name="CenterPanel" Content="{TemplateBinding CenterContainer}"></ContentPresenter>
+                        <GridSplitter Focusable="False" x:Name="SpliterRight" Background="{DynamicResource ScrollBarBackground}" ResizeDirection="Columns" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Grid.RowSpan="2">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="DragDelta">
                                     <i:InvokeCommandAction Command="{Binding Path=SizeChanged, Mode=OneWay}"/>
@@ -36,7 +36,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </GridSplitter>
-                        <ContentPresenter x:Name="ToolBarPanelRight" Grid.Column="4" Content="{TemplateBinding RightContainer}"></ContentPresenter>
+                        <ContentPresenter Focusable="False" x:Name="ToolBarPanelRight" Grid.Column="4" Content="{TemplateBinding RightContainer}"></ContentPresenter>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

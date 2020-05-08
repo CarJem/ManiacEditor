@@ -5,23 +5,20 @@ namespace ManiacEditor.Entity_Renders
     public class ButtonDoor : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int length = (int)(entity.attributesMap["length"].ValueEnum) - 1;
-            int orientation = (int)(entity.attributesMap["orientation"].ValueUInt8);
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
+
+            int length = (int)(e.attributesMap["length"].ValueEnum) - 1;
+            int orientation = (int)(e.attributesMap["orientation"].ValueUInt8);
             int width = 0;
             int height = 0;
             switch (orientation)
@@ -43,22 +40,18 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ButtonDoor", d.DevicePanel, 0, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+
+            var Animation = LoadAnimation("ButtonDoor", d, 0, 0);
+            bool wEven = width % 2 == 0;
+            bool hEven = height % 2 == 0;
+            for (int xx = 0; xx <= width; ++xx)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                bool wEven = width % 2 == 0;
-                bool hEven = height % 2 == 0;
-                for (int xx = 0; xx <= width; ++xx)
+                for (int yy = 0; yy <= height; ++yy)
                 {
-                    for (int yy = 0; yy <= height; ++yy)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                            x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + xx) * frame.Frame.Width,
-                            y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + yy) * frame.Frame.Height,
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
+                    int pos_x = x + (wEven ? Animation.RequestedFrame.PivotX : -Animation.RequestedFrame.Width) + (-width / 2 + xx) * Animation.RequestedFrame.Width;
+                    int pos_y = y + (hEven ? Animation.RequestedFrame.PivotY : -Animation.RequestedFrame.Height) + (-height / 2 + yy) * Animation.RequestedFrame.Height;
+
+                    DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, pos_x, pos_y, Transparency, fliph, flipv);
                 }
             }
         }

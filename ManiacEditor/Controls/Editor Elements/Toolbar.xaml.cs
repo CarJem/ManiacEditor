@@ -416,25 +416,15 @@ namespace ManiacEditor.Controls.Editor_Elements
 
                     EditEntities.IsCheckedN = true;
 
-                    EditFGLow.IsCheckedN = false;
-                    EditFGHigh.IsCheckedN = false;
-                    EditFGLower.IsCheckedN = false;
-                    EditFGHigher.IsCheckedN = false;
-                    EditFGLow.IsCheckedA = false;
-                    EditFGHigh.IsCheckedA = false;
-                    EditFGLower.IsCheckedA = false;
-                    EditFGHigher.IsCheckedA = false;
-                    EditFGLow.IsCheckedB = false;
-                    EditFGHigh.IsCheckedB = false;
-                    EditFGLower.IsCheckedB = false;
-                    EditFGHigher.IsCheckedB = false;
+                    EditFGLow.SetGlobalCheckedState(false);
+                    EditFGHigh.SetGlobalCheckedState(false);
+                    EditFGLower.SetGlobalCheckedState(false);
+                    EditFGHigher.SetGlobalCheckedState(false);
                 }
 
                 foreach (var elb in ExtraLayerEditViewButtons.Values)
                 {
-                    elb.IsCheckedN = false;
-                    elb.IsCheckedA = false;
-                    elb.IsCheckedB = false;
+                    elb.SetGlobalCheckedState(false);
                 }
 
             }
@@ -842,6 +832,17 @@ namespace ManiacEditor.Controls.Editor_Elements
             }));
 
         }
+
+        public void UpdateUndoRedoButtons(bool enabled)
+        {
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                UndoButton.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
+                RedoButton.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
+            }));
+        }
+
+
         public void SetEditButtonsState(bool enabled)
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -877,12 +878,7 @@ namespace ManiacEditor.Controls.Editor_Elements
                 MagnetModeSplitButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
                 Methods.Solution.SolutionState.Main.UseMagnetMode = ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && MagnetMode.IsChecked.Value;
 
-
-
-                UndoButton.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
-                RedoButton.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
-
-
+                UpdateUndoRedoButtons(enabled);
 
                 PointerToolButton.IsEnabled = enabled;
                 SelectToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
@@ -947,40 +943,27 @@ namespace ManiacEditor.Controls.Editor_Elements
         }
         private void SetLayerEditButtonsState(bool enabled)
         {
-            SetEditLayerA();
-            SetEditLayerB();
+            Methods.Solution.CurrentSolution.EditLayerA = SetEditLayer('A');
+            Methods.Solution.CurrentSolution.EditLayerB = SetEditLayer('B');
+            Methods.Solution.CurrentSolution.EditLayerC = SetEditLayer('C');
+            Methods.Solution.CurrentSolution.EditLayerD = SetEditLayer('D');
 
-            void SetEditLayerA()
+            Classes.Scene.EditorLayer SetEditLayer(char layer)
             {
-                if (enabled && EditFGLow.IsCheckedA.Value) Methods.Solution.CurrentSolution.EditLayerA = Methods.Solution.CurrentSolution.FGLow;
-                else if (enabled && EditFGHigh.IsCheckedA.Value) Methods.Solution.CurrentSolution.EditLayerA = Methods.Solution.CurrentSolution.FGHigh;
-                else if (enabled && EditFGHigher.IsCheckedA.Value) Methods.Solution.CurrentSolution.EditLayerA = Methods.Solution.CurrentSolution.FGHigher;
-                else if (enabled && EditFGLower.IsCheckedA.Value) Methods.Solution.CurrentSolution.EditLayerA = Methods.Solution.CurrentSolution.FGLower;
-                else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedA.Value))
+                if (enabled && EditFGLow.GetCheckState(layer).Value) return Methods.Solution.CurrentSolution.FGLow;
+                else if (enabled && EditFGHigh.GetCheckState(layer).Value) return Methods.Solution.CurrentSolution.FGHigh;
+                else if (enabled && EditFGHigher.GetCheckState(layer).Value) return Methods.Solution.CurrentSolution.FGHigher;
+                else if (enabled && EditFGLower.GetCheckState(layer).Value) return Methods.Solution.CurrentSolution.FGLower;
+                else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.GetCheckState(layer).Value))
                 {
 
-                    var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedA.Value);
+                    var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.GetCheckState(layer).Value);
                     int index = ExtraLayerEditViewButtons.IndexOf(selectedExtraLayerButton);
                     var editorLayer = Methods.Solution.CurrentSolution.CurrentScene.OtherLayers.ElementAt(index);
 
-                    Methods.Solution.CurrentSolution.EditLayerA = editorLayer;
+                    return editorLayer;
                 }
-                else Methods.Solution.CurrentSolution.EditLayerA = null;
-            }
-            void SetEditLayerB()
-            {
-                if (enabled && EditFGLow.IsCheckedB.Value) Methods.Solution.CurrentSolution.EditLayerB = Methods.Solution.CurrentSolution.FGLow;
-                else if (enabled && EditFGHigh.IsCheckedB.Value) Methods.Solution.CurrentSolution.EditLayerB = Methods.Solution.CurrentSolution.FGHigh;
-                else if (enabled && EditFGHigher.IsCheckedB.Value) Methods.Solution.CurrentSolution.EditLayerB = Methods.Solution.CurrentSolution.FGHigher;
-                else if (enabled && EditFGLower.IsCheckedB.Value) Methods.Solution.CurrentSolution.EditLayerB = Methods.Solution.CurrentSolution.FGLower;
-                else if (enabled && ExtraLayerEditViewButtons.Any(elb => elb.Value.IsCheckedB.Value))
-                {
-                    var selectedExtraLayerButton = ExtraLayerEditViewButtons.Single(elb => elb.Value.IsCheckedB.Value);
-                    var editorLayer = Methods.Solution.CurrentSolution.CurrentScene.OtherLayers.Single(el => el.Name.Equals(selectedExtraLayerButton.Value.Text));
-
-                    Methods.Solution.CurrentSolution.EditLayerB = editorLayer;
-                }
-                else Methods.Solution.CurrentSolution.EditLayerB = null;
+                else return null;
             }
 
         }
@@ -1020,74 +1003,26 @@ namespace ManiacEditor.Controls.Editor_Elements
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                New.ToolTip = "New Scene" + KeyBindPraser("New", true);
-                Open.ToolTip = "Open Scene" + KeyBindPraser("Open", true);
-                Save.ToolTip = "Save Scene" + KeyBindPraser("_Save", true);
-                RunSceneButton.ToolTip = "Run Scene" + KeyBindPraser("RunScene", true, true);
-                ReloadButton.ToolTip = "Reload Tiles and Sprites" + KeyBindPraser("RefreshResources", true, true);
-                PointerToolButton.ToolTip = "Pointer Tool" + KeyBindPraser("PointerTool", true);
-                MagnetMode.ToolTip = "Magnet Mode" + KeyBindPraser("MagnetTool", true);
+                New.ToolTip = "New Scene" + "(Ctrl + N)";
+                Open.ToolTip = "Open Scene" + "(Ctrl + O)";
+                Save.ToolTip = "Save Scene" + "(Ctrl + S)";
+                RunSceneButton.ToolTip = "Run Scene" + "(Ctrl + R)";
+                ReloadButton.ToolTip = "Reload Tiles and Sprites" + "(F5)";
+                PointerToolButton.ToolTip = "Pointer Tool" + "(1)";
+                MagnetMode.ToolTip = "Magnet Mode" + "(6)";
                 ZoomInButton.ToolTip = "Zoom In (Ctrl + Wheel Up)";
                 ZoomOutButton.ToolTip = "Zoom In (Ctrl + Wheel Down)";
-                SelectToolButton.ToolTip = "Selection Tool" + KeyBindPraser("SelectTool", true);
-                DrawToolButton.ToolTip = "Draw Tool" + KeyBindPraser("DrawTool", true);
-                ShowCollisionAButton.ToolTip = "Show Collision Layer A" + KeyBindPraser("ShowPathA", true, true);
-                ShowCollisionBButton.ToolTip = "Show Collision Layer B" + KeyBindPraser("ShowPathB", true, true);
+                SelectToolButton.ToolTip = "Selection Tool" + "(2)";
+                DrawToolButton.ToolTip = "Draw Tool" + "(3)";
+                ShowCollisionAButton.ToolTip = "Show Collision Layer A" + "(Ctrl + 1)";
+                ShowCollisionBButton.ToolTip = "Show Collision Layer B" + "(Ctrl + 2)";
                 FlipAssistButton.ToolTip = "Show Flipped Tile Helper";
-                ChunksToolButton.ToolTip = "Stamp Tool" + KeyBindPraser("StampTool", true);
-                SplineToolButton.ToolTip = "Spline Tool" + KeyBindPraser("SplineTool", true);
+                ChunksToolButton.ToolTip = "Stamp Tool" + "(5)";
+                SplineToolButton.ToolTip = "Spline Tool" + "(4)";
                 EncorePaletteButton.ToolTip = "Show Encore Colors";
-                ShowTileIDButton.ToolTip = "Toggle Tile ID Visibility" + KeyBindPraser("ShowTileID", true, true);
-                ShowGridButton.ToolTip = "Toggle Grid Visibility" + KeyBindPraser("ShowGrid", true, true);
+                ShowTileIDButton.ToolTip = "Toggle Tile ID Visibility" + "(Shift + 3)";
+                ShowGridButton.ToolTip = "Toggle Grid Visibility" + "(Ctrl + G)";
             }));
-
-        }
-        public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
-        {
-            string nullString = (nonRequiredBinding ? "" : "N/A");
-            if (nonRequiredBinding && tooltip) nullString = "None";
-            List<string> keyBindList = new List<string>();
-            List<string> keyBindModList = new List<string>();
-
-            if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
-
-            if (Properties.Settings.MyKeyBinds == null) return nullString;
-
-            var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
-            if (keybindDict != null)
-            {
-                keyBindList = keybindDict.Cast<string>().ToList();
-            }
-            else
-            {
-                return nullString;
-            }
-
-            if (keyBindList == null)
-            {
-                return nullString;
-            }
-
-            if (keyBindList.Count > 1)
-            {
-                string keyBindLister = "";
-                foreach (string key in keyBindList)
-                {
-                    keyBindLister += String.Format("({0}) ", key);
-                }
-                if (tooltip) return String.Format(" ({0})", keyBindLister);
-                else return keyBindLister;
-            }
-            else if ((keyBindList.Count == 1) && keyBindList[0] != "None")
-            {
-                if (tooltip) return String.Format(" ({0})", keyBindList[0]);
-                else return keyBindList[0];
-            }
-            else
-            {
-                return nullString;
-            }
-
 
         }
 

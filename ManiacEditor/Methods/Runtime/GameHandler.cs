@@ -215,7 +215,7 @@ namespace ManiacEditor.Methods.Runtime
             }
             return Y;
         }
-        public static void MovePlayer(Point p, double Zoom, int player)
+        public static void MovePlayer(Point p, int player)
         {
             if (GameRunning)
             {
@@ -223,20 +223,20 @@ namespace ManiacEditor.Methods.Runtime
                 switch (player)
                 {
                     case 0:
-                        Player1_X = (short)(p.X / Zoom);
-                        Player1_Y = (short)(p.Y / Zoom);
+                        Player1_X = (short)(p.X);
+                        Player1_Y = (short)(p.Y);
                         break;
                     case 1:
-                        Player2_X = (short)(p.X / Zoom);
-                        Player2_Y = (short)(p.Y / Zoom);
+                        Player2_X = (short)(p.X);
+                        Player2_Y = (short)(p.Y);
                         break;
                     case 2:
-                        Player3_X = (short)(p.X / Zoom);
-                        Player3_Y = (short)(p.Y / Zoom);
+                        Player3_X = (short)(p.X);
+                        Player3_Y = (short)(p.Y);
                         break;
                     case 3:
-                        Player4_X = (short)(p.X / Zoom);
-                        Player4_Y = (short)(p.Y / Zoom);
+                        Player4_X = (short)(p.X);
+                        Player4_Y = (short)(p.Y);
                         break;
                 }
 
@@ -644,8 +644,8 @@ namespace ManiacEditor.Methods.Runtime
             if (GameRunning)
             {
                 int ObjectAddress = PlayerBase[GameVersion.IndexOf(SelectedGameVersion)];
-                GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom));
-                GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom));
+                GameMemory.WriteInt16(ObjectAddress + 2, (short)(Methods.Solution.SolutionState.Main.LastX));
+                GameMemory.WriteInt16(ObjectAddress + 6, (short)(Methods.Solution.SolutionState.Main.LastY));
             }
         }
 

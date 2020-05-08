@@ -71,7 +71,7 @@ namespace ManiacEditor.Classes.Options
         {
             try
             {
-                string json = JsonConvert.SerializeObject(DefaultInstance);
+                string json = JsonConvert.SerializeObject(DefaultInstance, Formatting.Indented);
                 File.WriteAllText(Methods.ProgramPaths.DevelopmentStatesFilePath, json);
             }
             catch (Exception ex)

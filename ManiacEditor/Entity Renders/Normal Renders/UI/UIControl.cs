@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "EditorAssets", 0, 1);
+                    var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "EditorAssets", 0, 1);
                     DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID,
                         (x + widthPixels / (right ? 2 : -2)) - (right ? Animation.RequestedFrame.Width : 0),
                         (y + heightPixels / (bottom ? 2 : -2) - (bottom ? Animation.RequestedFrame.Height : 0)),

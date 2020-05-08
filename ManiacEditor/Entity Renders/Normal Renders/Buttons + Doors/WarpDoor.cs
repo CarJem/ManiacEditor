@@ -5,37 +5,31 @@ namespace ManiacEditor.Entity_Renders
     public class WarpDoor : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            var width = (int)(entity.attributesMap["width"].ValueUInt32) - 1;
-            var height = (int)(entity.attributesMap["height"].ValueUInt32) - 1;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PlaneSwitch", d.DevicePanel, 0, 0, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            bool fliph = false;
+            bool flipv = false;
+
+            var width = (int)(e.attributesMap["width"].ValueUInt32) - 1;
+            var height = (int)(e.attributesMap["height"].ValueUInt32) - 1;
+            var Animation = LoadAnimation("PlaneSwitch", d, 0, 0);
+            bool wEven = width % 2 == 0;
+            bool hEven = height % 2 == 0;
+            for (int xx = 0; xx <= width; ++xx)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                bool wEven = width % 2 == 0;
-                bool hEven = height % 2 == 0;
-                for (int xx = 0; xx <= width; ++xx)
+                for (int yy = 0; yy <= height; ++yy)
                 {
-                    for (int yy = 0; yy <= height; ++yy)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                            x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-width / 2 + xx) * frame.Frame.Width,
-                            y + (hEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-height / 2 + yy) * frame.Frame.Height,
-                            frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }
+                    int pos_x = x + (wEven ? Animation.RequestedFrame.PivotX : -Animation.RequestedFrame.Width) + (-width / 2 + xx) * Animation.RequestedFrame.Width;
+                    int pos_y = y + (hEven ? Animation.RequestedFrame.PivotY : -Animation.RequestedFrame.Height) + (-height / 2 + yy) * Animation.RequestedFrame.Height;
+
+                    DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, pos_x, pos_y, Transparency, fliph, flipv);
                 }
             }
         }

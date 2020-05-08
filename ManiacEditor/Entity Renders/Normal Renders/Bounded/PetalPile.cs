@@ -15,10 +15,10 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var widthPixels = (int)(e.attributesMap["pileSize"].ValueVector2.X.High) * 2;
-            var heightPixels = (int)(e.attributesMap["pileSize"].ValueVector2.Y.High) * 2;
-            var width = (int)widthPixels / 16;
-            var height = (int)heightPixels / 16;
+            var widthPixels = (int)(e.attributesMap["pileSize"].ValueVector2.X.High);
+            var heightPixels = (int)(e.attributesMap["pileSize"].ValueVector2.Y.High);
+            var width = (int)widthPixels;
+            var height = (int)heightPixels;
 
             DrawBounds(d, x, y, width, height, Transparency, SystemColors.White, SystemColors.Transparent);
 

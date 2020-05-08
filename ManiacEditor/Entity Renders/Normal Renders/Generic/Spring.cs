@@ -27,7 +27,7 @@ namespace ManiacEditor.Entity_Renders
             if ((flipFlag & 0x01) == 0x01)
                 fliph = true;
 
-            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "Springs");
+            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "Springs");
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(animID, 0)))
             {
                 var frame = Animation.Animation.Animations[animID].Frames[0];

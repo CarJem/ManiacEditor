@@ -27,7 +27,7 @@ namespace ManiacEditor.Entity_Renders
 
             int frameDist = (flags & LeftDist) > 0 ? 1 : 0;
             int framePlane = (flags & LeftPlane) > 0 ? 2 : 0;
-            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "PlaneSwitch");
+            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "PlaneSwitch");
 
             const int pivotOffsetX = -8, pivotOffsetY = 0;
             const int drawOffsetX = 0, drawOffsetY = -8;
@@ -50,7 +50,7 @@ namespace ManiacEditor.Entity_Renders
 
             frameDist = (flags & RightDist) > 0 ? 1 : 0;
             framePlane = (flags & RightPlane) > 0 ? 2 : 0;
-            Animation = Methods.Entities.EntityDrawing.LoadAnimation(d, "PlaneSwitch");
+            Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "PlaneSwitch");
 
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(0, frameDist + framePlane)))
             {

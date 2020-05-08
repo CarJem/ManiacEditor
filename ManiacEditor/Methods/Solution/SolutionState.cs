@@ -44,20 +44,10 @@ namespace ManiacEditor.Methods.Solution
             {
                 return Instance.EditorToolbar.EditEntities.IsCheckedN.Value || Instance.EditorToolbar.EditEntities.IsCheckedA.Value || Instance.EditorToolbar.EditEntities.IsCheckedB.Value;
             }
-            public bool IsSelected(bool dualModeSelect = false)
+            public bool IsSelected()
             {
-                if (IsTilesEdit())
-                {
-
-                    bool SelectedA = Methods.Solution.CurrentSolution.EditLayerA?.SelectedTiles.Count > 0 || Methods.Solution.CurrentSolution.EditLayerA?.TempSelectionTiles.Count > 0;
-                    bool SelectedB = Methods.Solution.CurrentSolution.EditLayerB?.SelectedTiles.Count > 0 || Methods.Solution.CurrentSolution.EditLayerB?.TempSelectionTiles.Count > 0;
-                    if (dualModeSelect) return SelectedA && SelectedB;
-                    else return SelectedA || SelectedB;
-                }
-                else if (IsEntitiesEdit())
-                {
-                    return Methods.Solution.CurrentSolution.Entities.IsAnythingSelected();
-                }
+                if (IsTilesEdit()) return Methods.Solution.SolutionMultiLayer.IsSelected();
+                else if (IsEntitiesEdit()) return Methods.Solution.CurrentSolution.Entities.IsAnythingSelected();
                 return false;
             }
 
@@ -81,6 +71,8 @@ namespace ManiacEditor.Methods.Solution
             private double _Zoom = 1;
             private int _ZoomLevel = 1;
             private bool _UnlockCamera = false;
+            private int _ViewPositionX = 0;
+            private int _ViewPositionY = 0;
 
             public int DraggedX
             {
@@ -186,8 +178,10 @@ namespace ManiacEditor.Methods.Solution
                 }
                 set
                 {
+                    
                     _Zoom = value;
                     OnPropertyChanged(nameof(Zoom));
+                    
                 }
             }
             public int ZoomLevel
@@ -198,58 +192,52 @@ namespace ManiacEditor.Methods.Solution
                 }
                 set
                 {
+                    
                     _ZoomLevel = value;
                     OnPropertyChanged(nameof(ZoomLevel));
+                    
                 }
             }
             public int ViewPositionX
             {
                 get
                 {
-                    if (Instance.ViewPanel.SharpPanel.hScrollBar1 != null)
-                    {
-                        int valueToReturn = 0;
-                        Instance.ViewPanel.SharpPanel.hScrollBar1.Dispatcher.Invoke(() =>
-                        {
-                            valueToReturn = (int)Instance.ViewPanel.SharpPanel.hScrollBar1.Value;
-                        });
-                        return valueToReturn;
-                    }
-                    else return 0;
+                    return _ViewPositionX;
                 }
-                set
+                private set
                 {
-                    if (Instance.ViewPanel.SharpPanel.hScrollBar1 != null)
-                    {
-                        Instance.ViewPanel.SharpPanel.hScrollBar1.Value = value;
-                        ManiacEditor.Methods.Entities.EntityDrawing.RequestEntityVisiblityRefresh(true);
-                        OnPropertyChanged(nameof(ViewPositionX));
-                    }
+                    SetViewPositionX(value);
                 }
+            }
+            public void SetViewPositionY(int value, bool UpdateScrollBars = false)
+            {
+                _ViewPositionY = value;
+                if (Instance.ViewPanel.SharpPanel != null && UpdateScrollBars)
+                {
+                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+                }
+                ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+                OnPropertyChanged(nameof(ViewPositionY));
+            }
+            public void SetViewPositionX(int value, bool UpdateScrollBars = false)
+            {
+                _ViewPositionX = value;
+                if (Instance.ViewPanel.SharpPanel != null && UpdateScrollBars)
+                {
+                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+                }
+                ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+                OnPropertyChanged(nameof(ViewPositionX));
             }
             public int ViewPositionY
             {
                 get
                 {
-                    if (Instance.ViewPanel.SharpPanel.vScrollBar1 != null)
-                    {
-                        int valueToReturn = 0;
-                        Instance.ViewPanel.SharpPanel.vScrollBar1.Dispatcher.Invoke(() =>
-                        {
-                            valueToReturn = (int)Instance.ViewPanel.SharpPanel.vScrollBar1.Value;
-                        });
-                        return valueToReturn;
-                    }
-                    else return 0;
+                    return _ViewPositionY;
                 }
-                set
+                private set
                 {
-                    if (Instance.ViewPanel.SharpPanel.vScrollBar1 != null)
-                    {
-                        Instance.ViewPanel.SharpPanel.vScrollBar1.Value = value;
-                        ManiacEditor.Methods.Entities.EntityDrawing.RequestEntityVisiblityRefresh(true);
-                        OnPropertyChanged(nameof(ViewPositionY));
-                    }
+                    SetViewPositionY(value);
                 }
             }
             public bool UnlockCamera
@@ -274,7 +262,13 @@ namespace ManiacEditor.Methods.Solution
             #region Not Ready Yet
             public Point GetLastXY()
             {
-                return new Point((int)(LastX / Zoom), (int)(LastY / Zoom));
+                return new Point((int)(LastX), (int)(LastY));
+            }
+
+            public void UpdateLastXY(int x, int y)
+            {
+                LastX = x;
+                LastY = y;
             }
 
             public int RegionX1 { get; set; } = -1;
@@ -1168,34 +1162,6 @@ namespace ManiacEditor.Methods.Solution
             private void SetDataDirectoryReadOnlyMode(bool value)
             {
                 _DataDirectoryReadOnlyMode = value;
-            }
-
-            #endregion
-
-            #region Unoptimized Multi Layer Edit Mode
-
-            public void UpdateMultiLayerSelectMode(bool updateControls = false)
-            {
-                bool enabled = true;
-                Instance.EditorToolbar.EditFGLower.DualSelect = enabled;
-                Instance.EditorToolbar.EditFGLow.DualSelect = enabled;
-                Instance.EditorToolbar.EditFGHigh.DualSelect = enabled;
-                Instance.EditorToolbar.EditFGHigher.DualSelect = enabled;
-
-                Instance.EditorToolbar.EditFGLower.SwapDefaultToA(!enabled);
-                Instance.EditorToolbar.EditFGLow.SwapDefaultToA(!enabled);
-                Instance.EditorToolbar.EditFGHigh.SwapDefaultToA(!enabled);
-                Instance.EditorToolbar.EditFGHigher.SwapDefaultToA(!enabled);
-
-                foreach (var elb in Instance.EditorToolbar.ExtraLayerEditViewButtons.Values)
-                {
-                    elb.DualSelect = enabled;
-                    elb.SwapDefaultToA(!enabled);
-                }
-
-                if (!enabled) Methods.Solution.CurrentSolution.EditLayerB = null;
-
-                if (updateControls) Methods.Internal.UserInterface.UpdateControls();
             }
 
             #endregion

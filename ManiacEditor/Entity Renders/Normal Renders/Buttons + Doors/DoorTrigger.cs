@@ -5,22 +5,20 @@ namespace ManiacEditor.Entity_Renders
     public class DoorTrigger : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int orientation = entity.attributesMap["orientation"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
+
+            int orientation = e.attributesMap["orientation"].ValueUInt8;
+
             int AnimID_2 = 1;
             int frameID = 0;
             int frameID_2 = 0;
@@ -57,25 +55,12 @@ namespace ManiacEditor.Entity_Renders
                     offsetY = 0;
                     break;
             }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("DoorTrigger", d.DevicePanel, 0, frameID, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("DoorTrigger", d.DevicePanel, AnimID_2, frameID_2, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && frameID >= 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && frameID >= 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
-                var frame2 = editorAnim2.Frames[Animation.index];
 
-                Animation.ProcessAnimation(frame2.Entry.SpeedMultiplyer, frame2.Entry.Frames.Count, frame2.Frame.Delay);
+            var Animation = LoadAnimation("DoorTrigger", d, 0, frameID);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offsetX, y + offsetY, Transparency, fliph, flipv);
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + (fliph ? -frame.Frame.PivotX : frame.Frame.PivotX) - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0) + offsetX,
-                    y + (flipv ? -frame.Frame.PivotY : frame.Frame.PivotY) + (flipv ? (frame.Frame.Height - frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0) + offsetY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    x + (fliph ? -frame2.Frame.PivotX : frame2.Frame.PivotX) - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0) + offsetX,
-                    y + (flipv ? -frame2.Frame.PivotY : frame2.Frame.PivotY) + (flipv ? (frame2.Frame.Height - frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0) + offsetY,
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-            }
+            Animation = LoadAnimation("DoorTrigger", d, AnimID_2, frameID_2);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offsetX, y + offsetY, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

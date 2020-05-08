@@ -5,49 +5,40 @@ namespace ManiacEditor.Entity_Renders
     public class BreakBar : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            var length = (short)(entity.attributesMap["length"].ValueUInt16);
-            var orientation = entity.attributesMap["orientation"].ValueUInt8;
-            if (orientation >= 2)
-            {
-                orientation = 0;
-            }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BreakBar", d.DevicePanel, orientation, -1, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-            {
-                var frameTop = editorAnim.Frames[0];
-                var frameBase = editorAnim.Frames[1];
-                var frameBottom = editorAnim.Frames[2];
-                for (int i = -length / 2; i <= length / 2; ++i)
-                {
-                    if (orientation == 1)
-                    {
+            DevicePanel d = Properties.Graphics;
 
-                    }
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBase), x + frameBase.Frame.PivotX + (orientation == 1 ? i * frameBase.Frame.Width : 0),
-                        y + frameBase.Frame.PivotY + (orientation == 0 ? i * frameBase.Frame.Height  : 0),
-                        frameBase.Frame.Width, frameBase.Frame.Height, false, Transparency);
-                }
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameTop), x + frameTop.Frame.PivotX - (orientation == 1 ? (length / 2 + 1) * frameBase.Frame.Width : 0) + (orientation == 1 ? 4 : 0),
-                    y + frameTop.Frame.PivotY - (orientation == 0 ? (length / 2 + 1) * frameBase.Frame.Height : 0) + (orientation == 0 ? 4 : 0),
-                    frameTop.Frame.Width, frameTop.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameBottom), x + frameBottom.Frame.PivotX + (orientation == 1 ? (length / 2 + 1) * frameBase.Frame.Width : 0) - (orientation == 1 ? 4 : 0),
-                    y + frameBottom.Frame.PivotY + (orientation == 0 ? (length / 2 + 1) * frameBase.Frame.Height : 0) - (orientation == 0 ? 4 : 0),
-                    frameBottom.Frame.Width, frameBottom.Frame.Height, false, Transparency);
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
 
+            bool fliph = false;
+            bool flipv = false;
+
+            var length = (short)(e.attributesMap["length"].ValueUInt16);
+            var orientation = e.attributesMap["orientation"].ValueUInt8;
+            if (orientation >= 2) orientation = 0;
+
+
+
+            var Animation = LoadAnimation("BreakBar", d, orientation, 1);
+            int baseWidth = Animation.RequestedFrame.Width;
+            int baseHeight = Animation.RequestedFrame.Height;
+
+
+            for (int i = -length / 2; i <= length / 2; ++i)
+            {
+                Animation = LoadAnimation("BreakBar", d, orientation, 1);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (orientation == 1 ? i * baseWidth : 0), y + (orientation == 0 ? i * baseHeight : 0), Transparency, fliph, flipv);
             }
+
+            Animation = LoadAnimation("BreakBar", d, orientation, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (orientation == 1 ? (length / 2 + 1) * baseWidth : 0) + (orientation == 1 ? 4 : 0), y - (orientation == 0 ? (length / 2 + 1) * baseHeight : 0) + (orientation == 0 ? 4 : 0), Transparency, fliph, flipv);
+
+            Animation = LoadAnimation("BreakBar", d, orientation, 2);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (orientation == 1 ? (length / 2 + 1) * baseWidth : 0) - (orientation == 1 ? 4 : 0), y + (orientation == 0 ? (length / 2 + 1) * baseHeight : 0) - (orientation == 0 ? 4 : 0), Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

@@ -55,8 +55,8 @@ namespace ManiacEditor.Controls.Editor_Elements
                     else e = new System.Drawing.Point(0, 0);
 
                     string text;
-                    if (!Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels) text = "X: " + (int)(e.X / Methods.Solution.SolutionState.Main.Zoom) + " Y: " + (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom);
-                    else text = "X: " + (int)((e.X / Methods.Solution.SolutionState.Main.Zoom) / 16) + " Y: " + (int)((e.Y / Methods.Solution.SolutionState.Main.Zoom) / 16);
+                    if (!Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels) text = "X: " + (int)(e.X)  + " Y: " + (int)(e.Y);
+                    else text = "X: " + (int)(e.X / 16) + " Y: " + (int)(e.Y / 16);
                     positionLabel.Content = text;
                 });
                 CurrentPositionUpdateOperation = positionLabel.Dispatcher.InvokeAsync(action, DispatcherPriority.SystemIdle);
@@ -157,7 +157,18 @@ namespace ManiacEditor.Controls.Editor_Elements
             }
 
         }
-        private void FilterButtonOpenContextMenuEvent(object sender, RoutedEventArgs e) { FilterButton.ContextMenu.IsOpen = true; }
+        private void FilterButtonOpenContextMenuEvent(object sender, RoutedEventArgs e) 
+        {
+            var btn = (sender as Button);
+            if (!btn.ContextMenu.IsOpen)
+            {
+                //Open the Context menu when Button is clicked
+                btn.ContextMenu.IsEnabled = true;
+                btn.ContextMenu.PlacementTarget = (sender as Button);
+                btn.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                btn.ContextMenu.IsOpen = true;
+            }
+        }
         private void FilterCheckChangedEvent(object sender, RoutedEventArgs e)
         {
             if (Methods.Solution.CurrentSolution.Entities != null) Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
@@ -183,59 +194,10 @@ namespace ManiacEditor.Controls.Editor_Elements
                 selectedPositionLabel.ToolTip = "The Position of the Selected Tile";
                 selectionBoxSizeLabel.ToolTip = "The Size of the Selection Box";
                 EnablePixelModeButton.ToolTip = "Change the Positional/Selection Values to Pixel or Tile Based Values";
-                nudgeFasterButton.ToolTip = "Move entities/tiles in a larger increment. (Configurable in Options)\r\nShortcut Key: " + KeyBindPraser("NudgeFaster");
-                scrollLockButton.ToolTip = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key: " + KeyBindPraser("ScrollLock");
-                QuickSwapScrollDirection.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
+                nudgeFasterButton.ToolTip = "Move entities/tiles in a larger increment. (Configurable in Options)\r\nShortcut Key: " + "Ctrl + F1";
+                scrollLockButton.ToolTip = "Prevent the Mouse Wheel from Scrolling with the vertical scroll bar\r\nShortcut Key: " + "Ctrl + F2";
+                QuickSwapScrollDirection.InputGestureText = ("Ctrl + F3");
             }));
-
-        }
-
-        public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
-        {
-            string nullString = (nonRequiredBinding ? "" : "N/A");
-            if (nonRequiredBinding && tooltip) nullString = "None";
-            List<string> keyBindList = new List<string>();
-            List<string> keyBindModList = new List<string>();
-
-            if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
-           
-            if (Properties.Settings.MyKeyBinds == null) return nullString;
-
-            var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
-            if (keybindDict != null)
-            {
-                keyBindList = keybindDict.Cast<string>().ToList();
-            }
-            else
-            {
-                return nullString;
-            }
-
-            if (keyBindList == null)
-            {
-                return nullString;
-            }
-
-            if (keyBindList.Count > 1)
-            {
-                string keyBindLister = "";
-                foreach (string key in keyBindList)
-                {
-                    keyBindLister += String.Format("({0}) ", key);
-                }
-                if (tooltip) return String.Format(" ({0})", keyBindLister);
-                else return keyBindLister;
-            }
-            else if ((keyBindList.Count == 1) && keyBindList[0] != "None")
-            {
-                if (tooltip) return String.Format(" ({0})", keyBindList[0]);
-                else return keyBindList[0];
-            }
-            else
-            {
-                return nullString;
-            }
-
 
         }
 

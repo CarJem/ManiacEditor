@@ -9,7 +9,7 @@
              xmlns:myControls="clr-namespace:ManiacEditor.Controls.Editor_ViewPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="OverlayPanel" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource ButtonBorder}">
+    <Grid x:Name="OverlayPanel" KeyboardNavigation.TabNavigation="Contained" KeyboardNavigation.ControlTabNavigation="Contained" KeyboardNavigation.DirectionalNavigation="Contained" Grid.RowSpan="6" Grid.ColumnSpan="6" Background="{DynamicResource ButtonBorder}">
         <myControls:ScrollGrid x:Name="ScrollGrid"></myControls:ScrollGrid>
         <global:SplitContainer x:Name="SplitContainer" Margin="3">
             <global:SplitContainer.LeftContainer>
@@ -18,10 +18,10 @@
             <global:SplitContainer.CenterContainer>
                 <Grid Background="{DynamicResource ButtonBorder}">
                     <Grid x:Name="CenterPanel">
-                        <myControls:DebugHUD x:Name="InfoHUD" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:DebugHUD>
-                        <myControls:SharpPanel x:Name="SharpPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:SharpPanel>
+                        <myControls:DebugHUD Focusable="False" x:Name="InfoHUD" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:DebugHUD>
+                        <myControls:SharpPanel Focusable="False" x:Name="SharpPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></myControls:SharpPanel>
                     </Grid>
-                    <myControls:WaitingPanel x:Name="WaitingPanel" Visibility="Collapsed"></myControls:WaitingPanel>
+                    <myControls:WaitingPanel Focusable="False" x:Name="WaitingPanel" Visibility="Collapsed"></myControls:WaitingPanel>
                 </Grid>
             </global:SplitContainer.CenterContainer>
             <global:SplitContainer.RightContainer>

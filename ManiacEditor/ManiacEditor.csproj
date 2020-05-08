@@ -150,7 +150,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Experiment|AnyCPU'">
@@ -276,60 +276,326 @@
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
     <Compile Include="Classes\General\SceneSelectDirectoriesCollection.cs" />
     <Compile Include="Classes\General\SceneSelectCategoriesCollection.cs" />
+    <Compile Include="Methods\Solution\SolutionMultiLayer.cs" />
     <Compile Include="Controls\Misc\Dev\ManiacConsole.xaml.cs">
       <DependentUpon>ManiacConsole.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedBeanstalk.cs" />
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedButton.cs" />
+    <Compile Include="Entity Renders\Linked Entity Renders\LinkedCableWarp.cs" />
     <Compile Include="Entity Renders\Linked Entity Renders\LinkedPullChain.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\CaterkillerJr.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\Chopper.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\Clucker.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\Dango.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\Dragonfly.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\HotaruHiWatt.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\Iwamodoki.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\Splats.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Badniks\Vultron.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Cutscenes\ControlPanel.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Decor\RubyFX.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Generic\DCEvent.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Generic\ZoneSetup.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\CaterkillerJr.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Chopper.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Clucker.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Dango.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Dragonfly.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\HotaruHiWatt.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\IceBomba.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Iwamodoki.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\JuggleSaw.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\MicDrop.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\MonkeyDude.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Sol.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Spiny.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Splats.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Technosqueek.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Tubinaut.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\TurboSpiker.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Vultron.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Woodrow.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\Cylinder.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\ButtonDoor.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\DoorTrigger.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\Hatch.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\WarpDoor.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Cutscenes\ControlPanel.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\EggPrison.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\GenericTrigger.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\RubyFX.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\DCEvent.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\RubyPortal.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\SpinBooster.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\ZoneSetup.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\Bounded\LRZSpiral.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\BarStool.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Beanstalk.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\ElectroMagnet.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Firework.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\FlowerPod.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Funnel.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Grabber.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangConveyor.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangGlider.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangPoint.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LRZFireball.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Pinata.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\PullChain.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\Clapperboard.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\Fan.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\FBZFan.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\FlameSpring.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\FlingRamp.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\GiantPistol.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\HandLauncher.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Motion\LaunchSpring.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Platforms\EncoreRoute.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Generic\HUD.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Platforms\GasPlatform.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Platforms\LRZRockPile.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Platforms\MagPlatform.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Platforms\UncurlPlant.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_ItemBox.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Player.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Ring.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Sphere.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Springboard.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\BarStool.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Beanstalk.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\BouncePlant.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\BreakBar.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Crane.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\DashLift.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\DirectorChair.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\DNARiser.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\ElectroMagnet.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\FBZMissile.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\FBZTrash.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Firework.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\FlowerPod.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Funnel.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Grabber.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangConveyor.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangGlider.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangPoint.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Ice.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LEDPanel.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Letterboard.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LottoBall.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LottoMachine.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LRZFireball.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Newspaper.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\PaintingEyes.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\PaperRoller.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Pinata.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\PrintBlock.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\PullChain.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\RockemSockem.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Spear.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SpikeCrusher.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SSZSpikeBall.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Syringe.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\TetherBall.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Tuesday.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Turbine.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Turntable.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\TVPole.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\TVVan.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\TwistingSlide.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\BallCannon.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\CableWarp.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\Clapperboard.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\Fan.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\FBZFan.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\FlameSpring.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\FlingRamp.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\Flipper.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\GiantPistol.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\HandLauncher.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\IceSpring.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\Launcher.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\LaunchSpring.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\PimPom.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\PSZLauncher.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\PushSpring.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Motion\SeeSaw.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Platforms\EncoreRoute.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Generic\HUD.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Platforms\GasPlatform.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Platforms\LRZRockPile.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Platforms\MagPlatform.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Platforms\UncurlPlant.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_ItemBox.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Player.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Ring.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Sphere.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Special Stages\UFO_Springboard.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Extensions\ExternalExtensions.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="Methods\Draw\CommonGraphics.cs" />
     <Compile Include="Settings\Prefrences\CommonPathsStorage.cs" />
     <Compile Include="Settings\Prefrences\RecentsRefrenceState.cs" />
     <Compile Include="Classes\Rendering\Graphing.cs" />
@@ -339,11 +605,21 @@
     <Compile Include="Controls\Graphics\DevicePanel.designer.cs">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Honkytonk.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SeltzerBottle.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Platforms\AIZRockPile.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Bounded\CollapsingSand.cs" />
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SwingRope.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Honkytonk.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SeltzerBottle.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Platforms\AIZRockPile.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bounded\CollapsingSand.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\SwingRope.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Methods\Draw\GraphicsTileDrawing.cs" />
     <Compile Include="Classes\Rendering\LayerRenderer.cs" />
     <Compile Include="Methods\Draw\LayerTileProvider.cs" />
@@ -475,13 +751,13 @@
     <Compile Include="Entity Renders\Normal Renders\Generic\SpecialRing.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Decor\Constellation.cs">
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Constellation.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Bounded\EggTV.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Decor\Valve.cs">
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Valve.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Motion\TransportTube.cs">
@@ -523,7 +799,7 @@
     <Compile Include="Entity Renders\Normal Renders\Motion\CircleBumper.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Motion\Flipper.cs">
+    <Compile Include="Entity Renders\Normal Renders\Motion\SpringBoard.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Templates\Template.cs">
@@ -544,7 +820,7 @@
     <Compile Include="Entity Renders\Normal Renders\UI\UIText.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Decor\Animals.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\Animals.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Bounded\BGSwitch.cs">
@@ -568,7 +844,7 @@
     <Compile Include="Entity Renders\Normal Renders\Bounded\Current.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Decor\Decoration.cs">
+    <Compile Include="Entity Renders\Normal Renders\Generic\Decoration.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Generic\InvisibleBlock.cs">
@@ -632,7 +908,7 @@
       <DependentUpon>RenderedTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Global\Controls\SplitContainer.cs" />
-    <Compile Include="Methods\Entities\ScriptLoader.cs" />
+    <Compile Include="Methods\Internal\ScriptLoader.cs" />
     <Compile Include="Methods\Entities\SplineSpawning.cs" />
     <Compile Include="Settings\Options\DevelopmentStates.cs" />
     <Compile Include="Settings\Options\DefaultPrefrences.cs" />
@@ -817,7 +1093,7 @@
     <Compile Include="Methods\Solution\SolutionState.cs" />
     <Compile Include="Enums\Axis.cs" />
     <Compile Include="Classes\Scene\EditorBackground.cs" />
-    <Compile Include="Methods\Entities\EntityDrawing.cs" />
+    <Compile Include="Methods\Draw\ObjectDrawing.cs" />
     <Compile Include="Controls\TileManiac\TileManiac.xaml.cs">
       <DependentUpon>TileManiac.xaml</DependentUpon>
     </Compile>
@@ -1372,9 +1648,15 @@
     <None Include="Properties\PreBuild\AlwaysClean.bat" />
     <None Include="Properties\PreBuild\UpdateVersion.bat" />
     <None Include="Properties\PreBuild\MainScript.bat" />
-    <Resource Include="Resources\Fonts\sonic-1-hud-font.ttf" />
-    <Resource Include="Resources\Fonts\sonic2system.ttf" />
-    <Resource Include="Resources\Fonts\sonic-hud-font.ttf" />
+    <Content Include="Resources\Fonts\sonic-1-hud-font.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\sonic2system.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\sonic-hud-font.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Fonts\Roboto\Roboto-Black.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1898,6 +2180,9 @@
     <PackageReference Include="MathNet.Numerics">
       <Version>4.9.1</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <Version>2.0.1</Version>
+    </PackageReference>
     <PackageReference Include="nrtftree-library">
       <Version>0.4.0</Version>
     </PackageReference>
@@ -1922,9 +2207,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>start cmd.exe /c "call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PreBuildEvent>
+    <PreBuildEvent>start /min cmd.exe /c "call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>start cmd.exe /c "call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PostBuildEvent>
+    <PostBuildEvent>start /min cmd.exe /c "call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PostBuildEvent>
   </PropertyGroup>
 </Project>

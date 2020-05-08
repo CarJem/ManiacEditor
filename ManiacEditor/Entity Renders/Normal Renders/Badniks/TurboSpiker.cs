@@ -5,46 +5,27 @@ namespace ManiacEditor.Entity_Renders
     public class TurboSpiker : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
-            if (direction == 1)
-            {
-                fliph = true;
-            }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TurboSpiker", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimShell = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TurboSpiker", d.DevicePanel, 3, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimShell != null && editorAnimShell.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
-                var frameShell = editorAnimShell.Frames[0];
 
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
+            int type = (int)e.attributesMap["type"].ValueEnum;
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            if (direction == 1) fliph = true;
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameShell),
-                    x + frameShell.Frame.PivotX - (fliph ? (frameShell.Frame.Width - editorAnimShell.Frames[0].Frame.Width) : 0),
-                    y + frameShell.Frame.PivotY + (flipv ? (frameShell.Frame.Height - editorAnimShell.Frames[0].Frame.Height) : 0),
-                    frameShell.Frame.Width, frameShell.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
 
-            }
+            var Animation = LoadAnimation("TurboSpiker", d, 3, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            Animation = LoadAnimation("TurboSpiker", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

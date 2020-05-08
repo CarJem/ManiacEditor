@@ -16,9 +16,9 @@ using SFML.Graphics;
 using System.CodeDom;
 
 
-namespace ManiacEditor.Methods.Entities
+namespace ManiacEditor.Methods.Draw
 {
-    public static class EntityDrawing
+    public static class ObjectDrawing
     {
         #region Definitions
 
@@ -103,7 +103,7 @@ namespace ManiacEditor.Methods.Entities
                 Bitmap SpriteSheetBMP;
                 string TargetFile;
 
-                if (Methods.Entities.EntityDrawing.RenderingSettings.SpecialObjectRenders.Contains(Name)) TargetFile = GetEditorStaticBitmapPath(Name);
+                if (Methods.Draw.ObjectDrawing.RenderingSettings.SpecialObjectRenders.Contains(Name)) TargetFile = GetEditorStaticBitmapPath(Name);
                 else TargetFile = Path.Combine(SourceDirectory, "Sprites", spriteSheetName.Replace('/', '\\'));
 
 
@@ -508,15 +508,9 @@ namespace ManiacEditor.Methods.Entities
                 d.DrawLine(x, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
                 d.DrawLine(x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y, x + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, y + Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_HEIGHT, System.Drawing.Color.FromArgb(Transparency, BorderBoxColor));
 
-                if (Methods.Solution.SolutionState.Main.Zoom >= 2)
-                {
-                    d.DrawText(string.Format("{0}", e.Object.Name), x + 2, y + 2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
-                    d.DrawText(string.Format("(ID: {0})", e.SlotID), x + 2, y + 10, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true, 4, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White));
-                }
-
                 if (e.SelectedIndex != -1)
                 {
-                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 1, y + 1, System.Drawing.Color.Black, true, 6, System.Drawing.Color.Red);
+                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 2, y + 2, System.Drawing.Color.Black, true, 6, System.Drawing.Color.Red);
                 }
             }
         }
@@ -529,11 +523,11 @@ namespace ManiacEditor.Methods.Entities
         {
             if (e.InTempSelection)
             {
-                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x20, color);
             }
             else
             {
-                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x00, color);
+                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x20, color);
             }
         }
         public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
@@ -601,18 +595,31 @@ namespace ManiacEditor.Methods.Entities
         }
         public static bool CanDraw(string Name)
         {
-            return Methods.Entities.EntityDrawing.RenderingSettings.ObjectToRender.Contains(Name);
+            return Methods.Draw.ObjectDrawing.RenderingSettings.ObjectToRender.Contains(Name);
         }
         public static bool CanDrawLinked(string Name)
         {
-            return Methods.Entities.EntityDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name);
+            return Methods.Draw.ObjectDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name);
         }
         #endregion
 
         #region Object Render Templates
 
-        private static bool UseBuiltIn { get; set; } = true;
-        private static bool CanCompile { get; set; } = false;
+        private static bool UseBuiltIn
+        {
+            get
+            {
+                return Properties.Settings.MyPerformance.UseEditableObjectRenders == false;
+            }
+        }
+        private static bool CanCompile
+        {
+            get
+            {
+                return Properties.Settings.MyPerformance.UseEditableObjectRenders == true;
+            }
+        }
+
         public static void RefreshRenderLists()
         {
 
@@ -625,16 +632,16 @@ namespace ManiacEditor.Methods.Entities
                 }
             }
 
-            Methods.Entities.EntityDrawing.EntityRenderers.Clear();
-            Methods.Entities.EntityDrawing.LinkedEntityRenderers.Clear();
+            Methods.Draw.ObjectDrawing.EntityRenderers.Clear();
+            Methods.Draw.ObjectDrawing.LinkedEntityRenderers.Clear();
 
-            if (Methods.Entities.EntityDrawing.EntityRenderers.Count == 0)
+            if (Methods.Draw.ObjectDrawing.EntityRenderers.Count == 0)
             {
                 if (UseBuiltIn)
                 {
                     var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
                     foreach (var type in types)
-                        Methods.Entities.EntityDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
+                        Methods.Draw.ObjectDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
                 }
 
                 if (CanCompile)
@@ -642,29 +649,36 @@ namespace ManiacEditor.Methods.Entities
                     var list = Directory.EnumerateFiles(Methods.ProgramPaths.EntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
                     if (list.Count != 0)
                     {
-                        var render = ScriptLoader.LoadRenderers(list);
-                        Methods.Entities.EntityDrawing.EntityRenderers.AddRange(render);
+                        var render = Methods.Internal.ScriptLoader.LoadRenderers(list);
+                        Methods.Draw.ObjectDrawing.EntityRenderers.AddRange(render);
                     }
                 }
             }
 
-            if (Methods.Entities.EntityDrawing.LinkedEntityRenderers.Count == 0)
+            if (Methods.Draw.ObjectDrawing.LinkedEntityRenderers.Count == 0)
             {
                 if (UseBuiltIn)
                 {
                     var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
                     foreach (var type in types)
-                        Methods.Entities.EntityDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
+                        Methods.Draw.ObjectDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
                 }
                 if (CanCompile)
                 {
                     var list = Directory.EnumerateFiles(Methods.ProgramPaths.LinkedEntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
                     if (list.Count != 0)
                     {
-                        var render = ScriptLoader.LoadLinkedRenderers(list);
-                        Methods.Entities.EntityDrawing.LinkedEntityRenderers.AddRange(render);
+                        var render = Methods.Internal.ScriptLoader.LoadLinkedRenderers(list);
+                        Methods.Draw.ObjectDrawing.LinkedEntityRenderers.AddRange(render);
                     }
                 }
+            }
+
+
+            if (CanCompile)
+            {
+                var process = System.Diagnostics.Process.GetProcessesByName("VBCSCompiler").FirstOrDefault();
+                if (process != null) process.Kill();
             }
         }
         #endregion

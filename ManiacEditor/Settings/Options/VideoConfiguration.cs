@@ -11,6 +11,8 @@ namespace ManiacEditor.Classes.Options
 {
     public class VideoConfiguration
     {
+        public System.Boolean UseConnectedTileSelections { get; set; } = false;
+        public System.Boolean UseEditableObjectRenders { get; set; } = false;
         public System.Boolean ReduceZoom { get; set; } = false;
         public System.Boolean DisableEntityRendering { get; set; } = false;
         public System.Boolean DisableEntitySelectionBoxText { get; set; } = true;
@@ -40,7 +42,7 @@ namespace ManiacEditor.Classes.Options
         {
             try
             {
-                string json = JsonConvert.SerializeObject(DefaultInstance);
+                string json = JsonConvert.SerializeObject(DefaultInstance, Formatting.Indented);
                 File.WriteAllText(Methods.ProgramPaths.VideoConfigurationFilePath, json);
             }
             catch (Exception ex)

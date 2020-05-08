@@ -104,16 +104,13 @@
                                     <ColumnDefinition></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-
                                 <StackPanel Grid.Column="0">
                                     <controls:SettingsHeader HeaderName="Editor Settings"></controls:SettingsHeader>
-                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ShowEditLayerBackground}"  Content="Enable Edit Layer Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding HideNormalBackground}"  Content="Disable Normal Checkered Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                    <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
                                     <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
                                     <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence"  Margin="0,10,0,0"  IsChecked="{maniac:SettingBinding ShowDiscordRPC}"/>
                                     <CheckBox x:Name="UnhandledExcpetionsCheckBox" Content="Show Unhandled Exceptions" IsChecked="{maniac:SettingBinding ShowUnhandledExceptions}" Margin="0,0"/>
                                 </StackPanel>
+
 
                                 <StackPanel Grid.Column="1">
                                     <controls:SettingsHeader HeaderName="Experimental Options" Margin="0,0,0,0"></controls:SettingsHeader>
@@ -319,276 +316,88 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="Controls" Name="Controls" Foreground="{DynamicResource NormalText}">
+            <TabItem Header="Technical" Name="GraphicsTab" Foreground="{DynamicResource NormalText}">
+                <Grid>
+                    <ScrollViewer>
+                        <StackPanel Margin="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <controls:SettingsHeader HeaderName="Visual Settings"></controls:SettingsHeader>
+                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding ShowEditLayerBackground}"  Content="Enable Edit Layer Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding HideNormalBackground}"  Content="Disable Normal Checkered Background" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                    <CheckBox Content="Keep Main Layers on when Editing Extra Layers" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding KeepLayersVisible}"/>
+                                    <CheckBox Content="Use Connected Tile Selections" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" IsChecked="{maniac:PerformanceSettingsBinding UseConnectedTileSelections}"/>
+                                    <CheckBox IsChecked=    "{maniac:PerformanceSettingsBinding ReduceZoom}" Content="Reduce Zoom" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <controls:SettingsHeader HeaderName="Render Settings"></controls:SettingsHeader>
+                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding NeverLoadEntityTextures}" Content="Disable Object Rendering" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseEditableObjectRenders}" Content="Use Editable Object Renders (Increased Wait Times)" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+                <TabItem Header="Controls" Name="Controls" Foreground="{DynamicResource NormalText}">
                 <Grid>
                     <ScrollViewer>
                         <StackPanel x:Name="ControlsPage">
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="File"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacFileControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="New" Height="10" KeybindTag="New"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open" Height="10" KeybindTag="Open"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Data Directory" Height="10" KeybindTag="OpenDataDir"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save" Height="10" KeybindTag="_Save"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save As" Height="10" KeybindTag="SaveAs"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Unload Scene" Height="10" KeybindTag="UnloadScene"></globcontrols:RemapEntry>
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Edit"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacEditControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Cut" Height="10" KeybindTag="Cut"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Copy" Height="10" KeybindTag="Copy"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Paste" Height="10" KeybindTag="Paste"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Paste as New Chunk" Height="10" KeybindTag="PasteToChunk"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Delete" Height="10" KeybindTag="Delete"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Duplicate" Height="10" KeybindTag="Duplicate"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Select All" Height="10" KeybindTag="SelectAll"></globcontrols:RemapEntry>
-
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Vertical" Height="10" KeybindTag="FlipV"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Horizontal" Height="10" KeybindTag="FlipH"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Vertical (Tiles)" Height="10" KeybindTag="FlipVTiles"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Horizontal (Tiles)" Height="10" KeybindTag="FlipHTiles"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Tiles Vertical (Indv.)" Height="10" KeybindTag="FlipVIndv"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Tiles Horizontal (Indv.)" Height="10" KeybindTag="FlipHIndv"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Undo" Height="10" KeybindTag="Undo"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Redo" Height="10" KeybindTag="Redo"></globcontrols:RemapEntry>
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="View"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacViewControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Editor HUD" Height="10" KeybindTag="StatusBoxToggle"></globcontrols:RemapEntry>
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Tools"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacToolControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Scroll Lock" Height="10" KeybindTag="ScrollLock"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Swap Scroll Lock Axis" Height="10" KeybindTag="ScrollLockTypeSwitch"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Reset Zoom Level" Height="10" KeybindTag="ResetZoomLevel"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Faster Nudge" Height="10" KeybindTag="NudgeFaster"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Copy Air Tiles" Height="10" KeybindTag="CopyAirTiles"></globcontrols:RemapEntry>
-                                </StackPanel>
-                            </Expander>
-                            <Expander Visibility="Collapsed">
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Scene"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacSceneControls" Margin="20,0,0,0">
-
-                                </StackPanel>
-                            </Expander>
-                            <Expander  Visibility="Collapsed">
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Folders"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacFolderControls" Margin="20,0,0,0">
-
-                                </StackPanel>
-                            </Expander>
-                            <Expander  Visibility="Collapsed">
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Apps"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacAppControls" Margin="20,0,0,0">
-
-                                </StackPanel>
-                            </Expander>
-                            <Expander  Visibility="Collapsed">
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Other"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacOtherControls" Margin="20,0,0,0">
-
-                                </StackPanel>
-                            </Expander>
-                            <Expander  Visibility="Collapsed">
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Layers"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacLayerControls" Margin="20,0,0,0">
-
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Menu Items"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacMenuItemControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Reload Tiles/Sprites" Height="10" KeybindTag="RefreshResources"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Run Scene" Height="10" KeybindTag="RunScene"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Tile ID" Height="10" KeybindTag="ShowTileID"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Grid" Height="10" KeybindTag="ShowGrid"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Collision (A)" Height="10" KeybindTag="ShowPathA"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Collision (B)" Height="10" KeybindTag="ShowPathB"></globcontrols:RemapEntry>
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Toolbox Items"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel x:Name="ManiacToolboxControls" Margin="20,0,0,0">
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Pointer Tool" Height="10" KeybindTag="PointerTool"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Select Tool" Height="10" KeybindTag="SelectTool"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Draw Tool" Height="10" KeybindTag="DrawTool"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Spline Tool" Height="10" KeybindTag="SplineTool"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Magnet Mode" Height="10" KeybindTag="MagnetTool"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Stamp Tool" Height="10" KeybindTag="StampTool"></globcontrols:RemapEntry>
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Tile Maniac"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel Margin="20,0,0,0">
-                                    <Expander>
-                                        <Expander.Header>
-                                            <controls:SettingsHeader HeaderName="File"></controls:SettingsHeader>
-                                        </Expander.Header>
-                                        <StackPanel  Visibility="Visible" x:Name="TileManiacOptions1">
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="New Instance" KeybindTag="TileManiacNewInstance"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open" KeybindTag="TileManiacOpen"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save" KeybindTag="TileManiacSave"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save As" KeybindTag="TileManiacSaveAs"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save (Uncompressed)" KeybindTag="TileManiacSaveUncompressed"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save As (Uncompressed)" KeybindTag="TileManiacSaveAsUncompressed"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Single Collision Mask" KeybindTag="TileManiacOpenSingleColMask"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Export Current Collision Mask" KeybindTag="TileManiacExportColMask"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Import from older RSDK Version" KeybindTag="TileManiacImportFromOlderRSDK"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Backup TileConfig" KeybindTag="TileManiacbackupConfig"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Backup 16x16Tiles Image" KeybindTag="TileManiacbackupImage"></globcontrols:RemapEntry>
-                                        </StackPanel>
-                                    </Expander>
-                                    <Expander>
-                                        <Expander.Header>
-                                            <controls:SettingsHeader HeaderName="Edit"></controls:SettingsHeader>
-                                        </Expander.Header>
-                                        <StackPanel x:Name="TileManiacOptions2">
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Cut" KeybindTag="TileManiacCut"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Copy" KeybindTag="TileManiacCopy"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Paste" KeybindTag="TileManiacPaste"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Paste to Other Path" KeybindTag="TileManiacPastetoOther"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Mirror Mode" KeybindTag="TileManiacMirrorMode"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Restore Mask (Path A)" KeybindTag="TileManiacRestorePathA"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Restore Mask (Path B)" KeybindTag="TileManiacRestorePathB"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Restore Mask (Both)" KeybindTag="TileManiacRestorePaths"></globcontrols:RemapEntry>
-                                        </StackPanel>
-                                    </Expander>
-                                    <Expander>
-                                        <Expander.Header>
-                                            <controls:SettingsHeader HeaderName="View"></controls:SettingsHeader>
-                                        </Expander.Header>
-                                        <StackPanel x:Name="TileManiacOptions3">
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Path B" KeybindTag="TileManiacShowPathB"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Show Grid" KeybindTag="TileManiacShowGrid"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Classic View Mode" KeybindTag="TileManiacClassicMode"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Toggle Window Always On Top" KeybindTag="TileManiacWindowAlwaysOnTop"></globcontrols:RemapEntry>
-                                        </StackPanel>
-                                    </Expander>
-                                    <Expander>
-                                        <Expander.Header>
-                                            <controls:SettingsHeader HeaderName="Tools"></controls:SettingsHeader>
-                                        </Expander.Header>
-                                        <StackPanel x:Name="TileManiacOptions4">
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Split File" KeybindTag="TileManiacSplitFile"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Tile Horizontally" KeybindTag="TileManiacFlipTileH"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Flip Tile Vertically" KeybindTag="TileManiacFlipTileV"></globcontrols:RemapEntry>
-                                        </StackPanel>
-                                    </Expander>
-                                    <Expander>
-                                        <Expander.Header>
-                                            <controls:SettingsHeader HeaderName="Folders"></controls:SettingsHeader>
-                                        </Expander.Header>
-                                        <StackPanel x:Name="TileManiacOptions5">
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Collision Home Folder" KeybindTag="TileManiacHomeFolderOpen"></globcontrols:RemapEntry>
-                                        </StackPanel>
-                                    </Expander>
-                                    <Expander>
-                                        <Expander.Header>
-                                            <controls:SettingsHeader HeaderName="Other"></controls:SettingsHeader>
-                                        </Expander.Header>
-                                        <StackPanel x:Name="TileManiacOptions6">
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Settings" KeybindTag="TileManiacSettings"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="About" KeybindTag="TileManiacAbout"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Title" KeybindTag="NULL"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Cycle Editor View Mode" KeybindTag="TileManiacCycleEditorViewMode"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Cycle List View Mode" KeybindTag="TileManiacCycleListViewMode"></globcontrols:RemapEntry>
-                                            <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Cycle Viewer Mode" KeybindTag="TileManiacCycleMainViewerMode"></globcontrols:RemapEntry>
-                                        </StackPanel>
-                                    </Expander>
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Misc"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Open Developer Interface" KeybindTag="DeveloperInterface"></globcontrols:RemapEntry>
-                                    <globcontrols:RemapEntry Click="EditKeyCombo" HeaderName="Save For Force Open On Startup" KeybindTag="ForceOpenOnStartup"></globcontrols:RemapEntry>
-                                </StackPanel>
-                            </Expander>
-                            <Expander>
-                                <Expander.Header>
-                                    <controls:SettingsHeader HeaderName="Non-Rebindable"></controls:SettingsHeader>
-                                </Expander.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel  Visibility="Visible">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="LOCK"></Button>
-                                                <Label>
-                                                    <TextBlock Text="Toggle Scroller (While Mouse within Editor View)"></TextBlock>
-                                                </Label>
-                                            </StackPanel>
-                                            <controls:SettingsHeader HeaderName="Settings: " Margin="105,0,0,0"></controls:SettingsHeader>
-                                            <CheckBox Margin="109,5,0,0" Content="Auto Center on Toggle" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
-                                            <StackPanel Margin="105,0,0,0" Orientation="Horizontal">
-                                                <Label Content="Toggle Mode:"></Label>
-                                                <RadioButton Name="ScrollerToggleModePressReleaseButton" Click="ScrollerToggleTypeClickEvent" VerticalAlignment="Center" Content="Press/Release"></RadioButton>
-                                                <RadioButton Name="ScrollerToggleModeClickButton" Click="ScrollerToggleTypeClickEvent" VerticalAlignment="Center" Margin="5,0,0,0" Content="Click"></RadioButton>
-                                            </StackPanel>
-                                            <controls:SettingsHeader Margin="105,0,0,0"></controls:SettingsHeader>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Right Click" Height="26" Tag="LOCK" VerticalAlignment="Top"></Button>
+                            <StackPanel Orientation="Horizontal" Margin="10">
+                                <StackPanel  Visibility="Visible">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button IsEnabled="False" Content="Mouse Middle" Width="100" Click="EditKeyCombo" Tag="LOCK"></Button>
                                             <Label>
-                                                <TextBlock Text="Draw Tool / Stamp Tool Mode: Remove Tiles&#x0d;Selection Tool Mode: Select Tiles&#x0d;Interaction Tool Mode: Show Tool Context Menu &#x0d;Tiles Toolbar Tile: Show Tile Context Menu &#x0d;Chunk Panel: Show Chunk Context Menu"></TextBlock>
+                                                <TextBlock Text="Toggle Scroller (While Mouse within Editor View)"></TextBlock>
                                             </Label>
                                         </StackPanel>
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Left Click" Height="26" Tag="LOCK" VerticalAlignment="Top"></Button>
-                                            <Label>
-                                                <TextBlock Text="Place Tiles Tool / Stamp Tool Mode: Place Tiles&#x0d;Selection Tool Mode: Select Tiles/Entities&#x0d;Pointer Tool Mode: Select Tiles/Entities"></TextBlock>
-                                            </Label>
+                                        <controls:SettingsHeader HeaderName="Settings: " Margin="105,0,0,0"></controls:SettingsHeader>
+                                        <CheckBox Margin="109,5,0,0" Content="Auto Center on Toggle" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{maniac:SettingBinding ScrollerAutoCenters}"/>
+                                        <StackPanel Margin="105,0,0,0" Orientation="Horizontal">
+                                            <Label Content="Toggle Mode:"></Label>
+                                            <RadioButton Name="ScrollerToggleModePressReleaseButton" Click="ScrollerToggleTypeClickEvent" VerticalAlignment="Center" Content="Press/Release"></RadioButton>
+                                            <RadioButton Name="ScrollerToggleModeClickButton" Click="ScrollerToggleTypeClickEvent" VerticalAlignment="Center" Margin="5,0,0,0" Content="Click"></RadioButton>
                                         </StackPanel>
-                                        <Label Content="Selection Tool Controls:"></Label>
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Content="Right Click + Ctrl&#x0d;(While Dragging)" Height="52" Tag="LOCK" VerticalAlignment="Top"></Button>
-                                            <Label>
-                                                <TextBlock Text="Tiles Edit: Deselect Tiles&#x0d;Entities Edit: Deselect Objects&#x0d;(Both will not deselect your current selection if you already have objects selected)"></TextBlock>
-                                            </Label>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Height="52" Tag="LOCK" VerticalAlignment="Top">
-                                                <TextBlock IsEnabled="False" Foreground="{DynamicResource DisabledText}" TextAlignment="Center" Text="Right Click + Ctrl&#x0d;(Over Selected Item(s))"></TextBlock>
-                                            </Button>
-                                            <Label>
-                                                <TextBlock Text="Tiles Edit: Duplicate Selected Tiles&#x0d;Entities Edit: Duplicate Selected Objects&#x0d;(Both will deselect your current selection and select the duplicated objects)"></TextBlock>
-                                            </Label>
-                                        </StackPanel>
+                                        <controls:SettingsHeader Margin="105,0,0,0"></controls:SettingsHeader>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Right Click" Height="26" Tag="LOCK" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Draw Tool / Stamp Tool Mode: Remove Tiles&#x0d;Selection Tool Mode: Select Tiles&#x0d;Interaction Tool Mode: Show Tool Context Menu &#x0d;Tiles Toolbar Tile: Show Tile Context Menu &#x0d;Chunk Panel: Show Chunk Context Menu"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="100" Click="EditKeyCombo" Content="Left Click" Height="26" Tag="LOCK" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Place Tiles Tool / Stamp Tool Mode: Place Tiles&#x0d;Selection Tool Mode: Select Tiles/Entities&#x0d;Pointer Tool Mode: Select Tiles/Entities"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <Label Content="Selection Tool Controls:"></Label>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Content="Right Click + Ctrl&#x0d;(While Dragging)" Height="52" Tag="LOCK" VerticalAlignment="Top"></Button>
+                                        <Label>
+                                            <TextBlock Text="Tiles Edit: Deselect Tiles&#x0d;Entities Edit: Deselect Objects&#x0d;(Both will not deselect your current selection if you already have objects selected)"></TextBlock>
+                                        </Label>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button IsEnabled="False" Width="130" Click="EditKeyCombo" Height="52" Tag="LOCK" VerticalAlignment="Top">
+                                            <TextBlock IsEnabled="False" Foreground="{DynamicResource DisabledText}" TextAlignment="Center" Text="Right Click + Ctrl&#x0d;(Over Selected Item(s))"></TextBlock>
+                                        </Button>
+                                        <Label>
+                                            <TextBlock Text="Tiles Edit: Duplicate Selected Tiles&#x0d;Entities Edit: Duplicate Selected Objects&#x0d;(Both will deselect your current selection and select the duplicated objects)"></TextBlock>
+                                        </Label>
                                     </StackPanel>
                                 </StackPanel>
-                            </Expander>
+                            </StackPanel>
                             <controls:SettingsHeader HeaderName="Layers" Visibility="Collapsed"></controls:SettingsHeader>
                             <StackPanel Orientation="Horizontal" >
                                 <Button Width="100" Click="EditKeyCombo" Visibility="Collapsed" Tag="NULL" IsEnabled="False"></Button>

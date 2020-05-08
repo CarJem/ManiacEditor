@@ -6,25 +6,22 @@ namespace ManiacEditor.Entity_Renders
     public class TetherBall : EntityRenderer
     {
         //TODO: Get the Angle Calculations Correct
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int type = (int)entity.attributesMap["type"].ValueUInt8;
-            double angleStart = entity.attributesMap["angleStart"].ValueEnum; //Because they used values over the int limit
-            double angleEnd = entity.attributesMap["angleEnd"].ValueEnum; //Because they used values over the int limit
-            int chainCount = (int)entity.attributesMap["chainCount"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
+
+            int type = (int)e.attributesMap["type"].ValueUInt8;
+            double angleStart = e.attributesMap["angleStart"].ValueEnum; //Because they used values over the int limit
+            double angleEnd = e.attributesMap["angleEnd"].ValueEnum; //Because they used values over the int limit
+            int chainCount = (int)e.attributesMap["chainCount"].ValueUInt8;
             bool drawType = true;
 
 
@@ -66,52 +63,34 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, animID, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, 2, fliph, flipv, false);
-            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TetherBall", d.DevicePanel, 0, 3, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
-            {
+            var Animation = LoadAnimation("TetherBall", d, 0, 0);
+            double angleStartInt = (-angleStart / 4);
 
-                var frame = editorAnim.Frames[Animation.index];
-                var frame2 = editorAnim2.Frames[Animation.index];
-                var frame3 = editorAnim3.Frames[Animation.index];
-
-                double angleStartInt = (-angleStart / 4);
-
-                // TetherBall Line
+            // TetherBall Line
                 
-                for (int i = 0; i < chainCount; i++)
-                {
-                    int x_alt = x + 6;
-                    int[] linePoints = RotatePoints(x_alt + (frame2.Frame.Width) * i, y, x, y, angleStartInt);
-                    
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                        linePoints[0] + frame2.Frame.PivotX,
-                        linePoints[1] + frame2.Frame.PivotY,
-                        frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                }
+            for (int i = 0; i < chainCount; i++)
+            {
+                Animation = LoadAnimation("TetherBall", d, 0, 2);
+                int x_alt = x + 6;
+                int[] linePoints = RotatePoints(x_alt + (Animation.RequestedFrame.Width) * i, y, x, y, angleStartInt);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, linePoints[0], linePoints[1], Transparency, fliph, flipv);
+            }
 
 
 
-                //TetherBall Ball
-                int length = (16 * chainCount) + 16;
-                int[] processPoints;
-                processPoints = RotatePoints(x + length, y, x, y, angleStartInt);
+            //TetherBall Ball
+            int length = (16 * chainCount) + 16;
+            int[] processPoints;
+            processPoints = RotatePoints(x + length, y, x, y, angleStartInt);
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-                    processPoints[0] + frame3.Frame.PivotX,
-                    processPoints[1] + frame3.Frame.PivotY,
-                    frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
+            Animation = LoadAnimation("TetherBall", d, 0, 3);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, processPoints[0], processPoints[1], Transparency, fliph, flipv);
 
-                // TetherBall Center
-                if (drawType == true)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + frame.Frame.PivotX - (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width) : 0),
-                        y + frame.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim2.Frames[0].Frame.Height) : 0),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
-
+            // TetherBall Center
+            if (drawType == true) 
+            {
+                Animation = LoadAnimation("TetherBall", d, 0, animID);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }
         private static int[] RotatePoints(double initX, double initY, double centerX, double centerY, double angle)

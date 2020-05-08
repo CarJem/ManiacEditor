@@ -5,25 +5,24 @@ namespace ManiacEditor.Entity_Renders
     public class BallCannon : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            bool fliph = false;
+            bool flipv = false;
+
+            bool selected = true;
+
             int x2 = x;
             int y2 = y;
-            bool flipv = false;
-            bool fliph = false;
-            int angle = (int)entity.attributesMap["angle"].ValueEnum;
-            int type = (int)entity.attributesMap["type"].ValueUInt8;
+            int angle = (int)e.attributesMap["angle"].ValueEnum;
+            int type = (int)e.attributesMap["type"].ValueUInt8;
             int rotation = 0;
             int rotation2 = 0;
             int CorkState = 0;
@@ -117,49 +116,27 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation);
-            var editorAnimHolo = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, 0, -1, fliph, flipv, true, rotation2);
-            var editorAnimCork = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("BallCannon", d.DevicePanel, CorkState, 0, fliph, flipv, true);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimHolo != null && editorAnimHolo.Frames.Count != 0 && editorAnimCork != null && editorAnimCork.Frames.Count != 0)
+            var Animation = LoadAnimation("BallCannon", d, 1, 0);
+            if (type == 1)
             {
-                if (type == 1)
+                Animation = LoadAnimation("BallCannon", d, CorkState, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            }
+            else if (type == 2)
+            {
+                Animation = LoadAnimation("BallCannon", d, 1, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            }
+            else
+            {
+                if (selected)
                 {
-                    var frame = editorAnimCork.Frames[0];
-
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + frame.Frame.PivotX,
-                        y + frame.Frame.PivotY,
-                        frame.Frame.Height, frame.Frame.Height, false, Transparency);
-                }
-                else if (type == 2)
-                {
-                    var frame = editorAnimCork.Frames[0];
-
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + frame.Frame.PivotX,
-                        y + frame.Frame.PivotY,
-                        frame.Frame.Height, frame.Frame.Height, false, Transparency);
-                }
-                else
-                {
-                    var frame = editorAnim.Frames[Animation.index];
-                    var frame3 = editorAnimHolo.Frames[Animation.index];
-
-                    if (selected)
-                    {
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-                            x2 + frame3.Frame.PivotX,
-                            y2 + frame3.Frame.PivotY,
-                            frame3.Frame.Height, frame3.Frame.Height, false, Transparency - 125);
-                    }
-
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + frame.Frame.PivotX,
-                        y + frame.Frame.PivotY,
-                        frame.Frame.Height, frame.Frame.Height, false, Transparency);
+                    Animation = LoadAnimation("BallCannon", d, 0, 0);
+                    DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x2, y2, Transparency - 125, fliph, flipv, rotation2);
                 }
 
-
+                Animation = LoadAnimation("BallCannon", d, 0, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv, rotation);
             }
         }
 

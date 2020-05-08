@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
 
             DrawTileMap(d, x, y, offsetX, offsetY, Width, Height);
 
-            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "EditorIcons2", 0, 7);
+            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons2", 0, 7);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, RenderingTransparency);
         }
         private void DrawTileMap(DevicePanel d, int x, int y, int offsetX, int offsetY, int width, int height)
@@ -75,13 +75,12 @@ namespace ManiacEditor.Entity_Renders
         {
             int Aligned_X = (x / 16) * 16;
             int Aligned_Y = (y / 16) * 16;
-            int Aligned_W = (int)((Width * 16) * Methods.Solution.SolutionState.Main.Zoom);
-            int Aligned_H = (int)((Height * 16) * Methods.Solution.SolutionState.Main.Zoom);
+            int Aligned_W = (int)((Width * 16));
+            int Aligned_H = (int)((Height * 16));
 
             if (LayerRenderer == null) return;
             LayerRenderer.Position = new SFML.System.Vector2f(Aligned_X, Aligned_Y);
             LayerRenderer.Size = new SFML.System.Vector2f(Aligned_W, Aligned_H);
-            LayerRenderer.Zoom = Methods.Solution.SolutionState.Main.Zoom;
             LayerRenderer.Refresh();
             d.RenderWindow.Draw(LayerRenderer);
         }
@@ -106,7 +105,7 @@ namespace ManiacEditor.Entity_Renders
             if (x > layerWidth || y > layerHeight) return 0xffff;
             else return ScatchLayer.Tiles[y][x];
         }
-        private void TileProvider(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        private void TileProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
             {

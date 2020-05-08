@@ -127,6 +127,13 @@ namespace ManiacEditor.Methods.Internal
                 return GetSCBResource("NormalText");
             }
         }
+        public static SolidColorBrush DisabledText
+        {
+            get
+            {
+                return GetSCBResource("DisabledText");
+            }
+        }
 
         public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor _instance)
         {

@@ -7,8 +7,8 @@
              xmlns:maniac="clr-namespace:ManiacEditor"
              xmlns:update="clr-namespace:ManiacEditor.Controls.Updater"
              mc:Ignorable="d" 
-             d:DesignHeight="493" d:DesignWidth="1000"  Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded">
-    <Border BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="2">
+             d:DesignHeight="493" d:DesignWidth="1000"  Background="{DynamicResource NormalBackground}" Loaded="UserControl_Loaded" IsTabStop="False" KeyboardNavigation.ControlTabNavigation="Contained" KeyboardNavigation.DirectionalNavigation="Contained">
+    <Border BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="0">
         <Grid MinWidth="1000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <TabControl>
                 <TabItem Header="HOME">
@@ -48,23 +48,15 @@
                                         <RowDefinition></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <Label Background="{DynamicResource StatusBarBackground}" FontWeight="Bold"  Grid.Row="2" Content="Recent Data Folders / Packs"></Label>
-                                    <ScrollViewer Grid.Row="3" Background="{DynamicResource NormalBackground}" IsDeferredScrollingEnabled="False">
-                                        <StackPanel>
-                                            <Label Content="No Recent Data Folders / Packs" Name="NoRecentsLabel2" IsEnabled="False"></Label>
-                                            <StackPanel x:Name="RecentDataContextList">
+                                    <ListBox KeyboardNavigation.IsTabStop="True" SelectionMode="Single" Grid.Row="3" Background="{DynamicResource NormalBackground}" x:Name="RecentDataContextList">
+                                    </ListBox>
+                                    <Label Grid.Row="3" Content="No Recent Data Folders / Packs" Foreground="{DynamicResource NormalText}" Name="NoRecentsLabel2" IsEnabled="False"></Label>
 
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </ScrollViewer>
                                     <Label Background="{DynamicResource StatusBarBackground}" FontWeight="Bold"  Grid.Row="0" Content="Recent Scenes"></Label>
-                                    <ScrollViewer Background="{DynamicResource NormalBackground}" Grid.Row="1" IsDeferredScrollingEnabled="False">
-                                        <StackPanel>
-                                            <Label Content="No Recent Scenes" Name="NoRecentsLabel1" IsEnabled="False"></Label>
-                                            <StackPanel x:Name="RecentScenesList">
+                                    <ListBox KeyboardNavigation.IsTabStop="True" SelectionMode="Single" x:Name="RecentScenesList" Background="{DynamicResource NormalBackground}" Grid.Row="1">
+                                    </ListBox>
+                                    <Label Content="No Recent Scenes" Foreground="{DynamicResource NormalText}" Name="NoRecentsLabel1" IsEnabled="False" Grid.Row="1"></Label>
 
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </ScrollViewer>
                                 </Grid>
 
                                 <Grid Background="{DynamicResource StatusBarBackground}" Grid.Row="1">
@@ -84,22 +76,22 @@
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <StackPanel>
-                                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel4_LinkClicked" ><Run Text="About"/></Hyperlink></TextBlock>
-                                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel5_LinkClicked"><Run Text="Settings"/></Hyperlink></TextBlock>
-                                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink Click="linkLabel6_LinkClicked"><Run Text="Wiki"/></Hyperlink></TextBlock>
+                                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink KeyboardNavigation.IsTabStop="True"  Click="linkLabel4_LinkClicked" ><Run Text="About"/></Hyperlink></TextBlock>
+                                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink KeyboardNavigation.IsTabStop="True" Click="linkLabel5_LinkClicked"><Run Text="Settings"/></Hyperlink></TextBlock>
+                                            <TextBlock Width="Auto" Height="17"><TextBlock Text="● "/><Hyperlink KeyboardNavigation.IsTabStop="True" Click="linkLabel6_LinkClicked"><Run Text="Wiki"/></Hyperlink></TextBlock>
                                         </StackPanel>
 
 
 
                                         <StackPanel Margin="4" Grid.Column="2" Grid.ColumnSpan="2">
-                                            <TextBlock Width="Auto" Height="17" x:Name="devLink"><TextBlock Text="● "/><Hyperlink Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
-                                            <TextBlock Width="Auto" Height="17" x:Name="devCheck"><TextBlock Text="         "/><CheckBox IsChecked="{bindings:DevSettingsBinding UseAutoForcefulStartup}" Click="CheckBox_Click"><TextBlock ><Hyperlink><Run Text="Auto Launch"/></Hyperlink></TextBlock></CheckBox></TextBlock>
+                                            <TextBlock Width="Auto" Height="17" x:Name="devLink"><TextBlock Text="● "/><Hyperlink KeyboardNavigation.IsTabStop="True" Click="linkLabel3_LinkClicked"><Run Text="Developer Force Open"/></Hyperlink></TextBlock>
+                                            <TextBlock KeyboardNavigation.IsTabStop="True" Width="Auto" Height="17" x:Name="devCheck"><TextBlock Text="         "/><CheckBox IsChecked="{bindings:DevSettingsBinding UseAutoForcefulStartup}" Click="CheckBox_Click"><TextBlock ><Hyperlink><Run Text="Auto Launch"/></Hyperlink></TextBlock></CheckBox></TextBlock>
                                         </StackPanel>
                                     </Grid>
                                     <TextBlock VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text=" Resources / Support CarJem Generations:"></TextBlock>
                                     <StackPanel Orientation="Horizontal" Height="40" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Grid.Row="1" Background="{DynamicResource NormalBackground}">
                                         <ToolBarTray Background="{DynamicResource NormalBackground}" IsLocked="True">
-                                            <ToolBar Background="{DynamicResource NormalBackground}" VerticalContentAlignment="Center">
+                                            <ToolBar Background="{DynamicResource NormalBackground}" KeyboardNavigation.DirectionalNavigation="Continue" KeyboardNavigation.TabNavigation="Continue" KeyboardNavigation.ControlTabNavigation="Continue" VerticalContentAlignment="Center">
                                                 <Button x:Name="PatreonButton" ToolTip="Support me on Patreon" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Patreon}" Style="{StaticResource DisabledState2}" Click="PatreonButton_Click" Visibility="Collapsed"></Button>
                                                 <Button x:Name="YoutubeButton" ToolTip="Subscribe to my Youtube" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Youtube}" Style="{StaticResource DisabledState2}" Click="YoutubeButton_Click"></Button>
                                                 <Button x:Name="TwitterButton" ToolTip="Find me on Twitter" Width="32" Margin="0,0,0,0" Padding="0,0,0,0" Content="{StaticResource Twitter}" Style="{StaticResource DisabledState2}" Click="TwitterButton_Click"></Button>

@@ -60,83 +60,42 @@ namespace ManiacEditor.Controls.Editor_Elements
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                newToolStripMenuItem.InputGestureText = KeyBindPraser("New");
-                openToolStripMenuItem.InputGestureText = KeyBindPraser("Open");
-                openDataDirectoryToolStripMenuItem.InputGestureText = KeyBindPraser("OpenDataDir");
-                saveToolStripMenuItem.InputGestureText = KeyBindPraser("_Save");
-                saveAsToolStripMenuItem.InputGestureText = KeyBindPraser("SaveAs");
-                undoToolStripMenuItem.InputGestureText = KeyBindPraser("Undo");
-                redoToolStripMenuItem.InputGestureText = KeyBindPraser("Redo");
-                cutToolStripMenuItem.InputGestureText = KeyBindPraser("Cut");
-                copyToolStripMenuItem.InputGestureText = KeyBindPraser("Copy");
-                pasteToolStripMenuItem.InputGestureText = KeyBindPraser("Paste");
-                duplicateToolStripMenuItem.InputGestureText = KeyBindPraser("Duplicate");
-                selectAllToolStripMenuItem.InputGestureText = KeyBindPraser("SelectAll");
-                deleteToolStripMenuItem.InputGestureText = KeyBindPraser("Delete");
-                statusNAToolStripMenuItem.InputGestureText = KeyBindPraser("ScrollLock");
-                nudgeSelectionFasterToolStripMenuItem.InputGestureText = KeyBindPraser("NudgeFaster", false, true);
-                swapScrollLockDirMenuToolstripButton.InputGestureText = KeyBindPraser("ScrollLockTypeSwitch", false, true);
-                resetZoomLevelToolstripMenuItem.InputGestureText = KeyBindPraser("ResetZoomLevel");
-                unloadSceneToolStripMenuItem.InputGestureText = KeyBindPraser("UnloadScene", false, true);
-                flipVerticalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipVIndv");
-                flipHorizontalIndvidualToolStripMenuItem.InputGestureText = KeyBindPraser("FlipHIndv");
-                flipHorizontalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipH");
-                flipVerticalToolStripMenuItem.InputGestureText = KeyBindPraser("FlipV");
-                pasteTochunkToolStripMenuItem.InputGestureText = KeyBindPraser("PasteToChunk", false, true);
-                developerInterfaceToolStripMenuItem.InputGestureText = KeyBindPraser("DeveloperInterface", false, true);
-                saveForForceOpenOnStartupToolStripMenuItem.InputGestureText = KeyBindPraser("ForceOpenOnStartup", false, true);
-                copyAirToggle.InputGestureText = KeyBindPraser("CopyAirTiles", false, true);
+                newToolStripMenuItem.InputGestureText = "Ctrl + N";
+                openToolStripMenuItem.InputGestureText = "Ctrl + O";
+                openDataDirectoryToolStripMenuItem.InputGestureText = "Ctrl + Alt + O";
+                saveToolStripMenuItem.InputGestureText = "Ctrl + S";
+                saveAsToolStripMenuItem.InputGestureText = "Ctrl + Alt + S";
+                undoToolStripMenuItem.InputGestureText = "Ctrl + Z";
+                redoToolStripMenuItem.InputGestureText = "Ctrl + Y";
+                cutToolStripMenuItem.InputGestureText = "Ctrl + X";
+                copyToolStripMenuItem.InputGestureText = "Ctrl + C";
+                pasteToolStripMenuItem.InputGestureText = "Ctrl + V";
+                duplicateToolStripMenuItem.InputGestureText = "Ctrl + D";
+                selectAllToolStripMenuItem.InputGestureText = "Ctrl + A";
+                deleteToolStripMenuItem.InputGestureText = "Delete";
+                statusNAToolStripMenuItem.InputGestureText = "F3";
+                nudgeSelectionFasterToolStripMenuItem.InputGestureText = "Ctrl + F1";
+                swapScrollLockDirMenuToolstripButton.InputGestureText = "Ctrl + F3";
+                resetZoomLevelToolstripMenuItem.InputGestureText = "Ctrl + 0";
+                unloadSceneToolStripMenuItem.InputGestureText = "Ctrl + U";
+                flipVerticalIndvidualToolStripMenuItem.InputGestureText = "Ctrl + F";
+                flipHorizontalIndvidualToolStripMenuItem.InputGestureText = "Ctrl + M";
+                flipHorizontalToolStripMenuItem.InputGestureText = "M";
+                flipVerticalToolStripMenuItem.InputGestureText = "F";
+                pasteTochunkToolStripMenuItem.InputGestureText = "Ctrl + Shift + V";
             }));
 
         }
 
-        public string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
+        public void UpdateUndoRedoButtons(bool enabled)
         {
-            string nullString = (nonRequiredBinding ? "" : "N/A");
-            if (nonRequiredBinding && tooltip) nullString = "None";
-            List<string> keyBindList = new List<string>();
-            List<string> keyBindModList = new List<string>();
+            undoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
+            redoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
 
-            if (!Extensions.Extensions.KeyBindsSettingExists(keyRefrence)) return nullString;
-
-            if (Properties.Settings.MyKeyBinds == null) return nullString;
-
-            var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keyRefrence) as List<string>;
-            if (keybindDict != null)
-            {
-                keyBindList = keybindDict.Cast<string>().ToList();
-            }
-            else
-            {
-                return nullString;
-            }
-
-            if (keyBindList == null)
-            {
-                return nullString;
-            }
-
-            if (keyBindList.Count > 1)
-            {
-                string keyBindLister = "";
-                foreach (string key in keyBindList)
-                {
-                    keyBindLister += String.Format("({0}) ", key);
-                }
-                if (tooltip) return String.Format(" ({0})", keyBindLister);
-                else return keyBindLister;
-            }
-            else if ((keyBindList.Count == 1) && keyBindList[0] != "None")
-            {
-                if (tooltip) return String.Format(" ({0})", keyBindList[0]);
-                else return keyBindList[0];
-            }
-            else
-            {
-                return nullString;
-            }
-
-
+            if (undoToolStripMenuItem.IsEnabled) undoToolStripMenuItem.Foreground = Methods.Internal.Theming.NormalText;
+            else undoToolStripMenuItem.Foreground = Methods.Internal.Theming.DisabledText;
+            if (redoToolStripMenuItem.IsEnabled) redoToolStripMenuItem.Foreground = Methods.Internal.Theming.NormalText;
+            else redoToolStripMenuItem.Foreground = Methods.Internal.Theming.DisabledText;
         }
 
         public void SetEditButtonsState(bool enabled)
@@ -146,8 +105,7 @@ namespace ManiacEditor.Controls.Editor_Elements
             layerManagerToolStripMenuItem.IsEnabled = enabled;
             editBackgroundColorsToolStripMenuItem.IsEnabled = enabled;
 
-            undoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
-            redoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
+            UpdateUndoRedoButtons(enabled);
 
             //findAndReplaceToolStripMenuItem.IsEnabled = enabled && Methods.Editor.Solution.EditLayerA != null;
         }
@@ -428,12 +386,12 @@ namespace ManiacEditor.Controls.Editor_Elements
 
         private void OverlayImageMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Instance.ViewPanel.SharpPanel.SelectOverlayImage();
+            Methods.Draw.CommonGraphics.SelectOverlayImage();
         }
 
         private void ClearImageMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Instance.ViewPanel.SharpPanel.ClearOverlayImage();
+            Methods.Draw.CommonGraphics.ClearOverlayImage();
         }
 
         #endregion

@@ -109,22 +109,25 @@ namespace ManiacEditor.Controls.Editor_Elements
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 
-			if (!Properties.Settings.MySettings.NeverShowThisAgain)
+			if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
 			{
-				DeveloperNoteOverlay.Visibility = Visibility.Visible;
-			}
+				if (!Properties.Settings.MySettings.NeverShowThisAgain)
+				{
+					DeveloperNoteOverlay.Visibility = Visibility.Visible;
+				}
 
-			if (!Properties.Settings.MyDevSettings.DevAutoStart)
-			{
-				devCheck.Visibility = Visibility.Hidden;
-				devLink.Visibility = Visibility.Hidden;
-			}
+				if (!Properties.Settings.MyDevSettings.DevAutoStart)
+				{
+					devCheck.Visibility = Visibility.Hidden;
+					devLink.Visibility = Visibility.Hidden;
+				}
 
-			//if (Core.Settings.MySettings.ShowFirstTimeSetup)
-			//{
-			//	FirstTimeOverlay.Visibility = Visibility.Visible;
-			//	SceneSelectHost.Visibility = Visibility.Hidden;
-			//}
+				//if (Core.Settings.MySettings.ShowFirstTimeSetup)
+				//{
+				//	FirstTimeOverlay.Visibility = Visibility.Visible;
+				//	SceneSelectHost.Visibility = Visibility.Hidden;
+				//}
+			}
 		}
 
 		private void DeveloperNoteAcceptedButton_Click(object sender, RoutedEventArgs e)

@@ -122,8 +122,8 @@ namespace ManiacEditor.Classes.Prefrences
 
 
             SceneHistoryCollection.SaveState section = new SceneHistoryCollection.SaveState();
-            int x1 = (short)(Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom);
-            int y1 = (short)(Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom);
+            int x1 = (short)(Methods.Solution.SolutionState.Main.ViewPositionX);
+            int y1 = (short)(Methods.Solution.SolutionState.Main.ViewPositionY);
             section.EntryName = Title;
             section.RealEntryName = Name;
             section.SceneState = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData;

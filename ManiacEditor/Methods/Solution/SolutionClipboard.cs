@@ -61,9 +61,10 @@ namespace ManiacEditor.Methods.Solution
                 {
                     System.Windows.Forms.Clipboard.SetDataObject(new System.Windows.Forms.DataObject("ManiacTiles", value.GetData()), true);
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    System.Windows.MessageBox.Show("There was a problem with setting the clipboard: " + Environment.NewLine + ex.Message);
+                    return;
                 }
             }
             public void SetObjectClipboard(ObjectsClipboardEntry value, bool add = false)
@@ -83,9 +84,10 @@ namespace ManiacEditor.Methods.Solution
                 {
                     System.Windows.Forms.Clipboard.SetDataObject(new System.Windows.Forms.DataObject("ManiacEntities", value), true);
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    System.Windows.MessageBox.Show("There was a problem with setting the clipboard: " + Environment.NewLine + ex.Message);
+                    return;
                 }
             }
             public void SetLayerClipboard(LayerClipboardEntry value, bool add = false)
@@ -104,9 +106,10 @@ namespace ManiacEditor.Methods.Solution
                 {
                     System.Windows.Forms.Clipboard.SetDataObject(new System.Windows.Forms.DataObject("ManiacLayer", value), true);
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    System.Windows.MessageBox.Show("There was a problem with setting the clipboard: " + Environment.NewLine + ex.Message);
+                    return;
                 }
             }
 
@@ -119,7 +122,7 @@ namespace ManiacEditor.Methods.Solution
             private void AddToObjectsHistory(ObjectsClipboardEntry value)
             {
                 var list = _ObjectsClipboardHistory;
-                list.Add(value);
+                list.Add(value.Clone() as ObjectsClipboardEntry);
                 ObjectsClipboardHistory = list;
             }
             private void AddToLayerHistory(LayerClipboardEntry value)
@@ -353,33 +356,43 @@ namespace ManiacEditor.Methods.Solution
             public MultiTilesClipboardEntry() : base()
             {
                 Type = ContentType.MultiTiles;
-                Content = new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(new Dictionary<Point, ushort>(), new Dictionary<Point, ushort>());
+                Content = new List<Dictionary<Point, ushort>>() { new Dictionary<Point, ushort>(), new Dictionary<Point, ushort>(), new Dictionary<Point, ushort>(), new Dictionary<Point, ushort>() };
             }
-            public MultiTilesClipboardEntry(TilesClipboardEntry EntryA, TilesClipboardEntry EntryB) : base()
+            public MultiTilesClipboardEntry(TilesClipboardEntry EntryA, TilesClipboardEntry EntryB, TilesClipboardEntry EntryC, TilesClipboardEntry EntryD) : base()
             {
                 Type = ContentType.MultiTiles;
                 var dataA = (EntryA != null ? EntryA.GetData() : new Dictionary<Point, ushort>());
                 var dataB = (EntryB != null ? EntryB.GetData() : new Dictionary<Point, ushort>());
-                Content = new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(dataA, dataB);
+                var dataC = (EntryC != null ? EntryC.GetData() : new Dictionary<Point, ushort>());
+                var dataD = (EntryD != null ? EntryD.GetData() : new Dictionary<Point, ushort>());
+                Content = new List<Dictionary<Point, ushort>>() { dataA, dataB, dataC, dataD };
             }
-            public MultiTilesClipboardEntry(Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> _Content) : base()
+            public MultiTilesClipboardEntry(List<Dictionary<Point, ushort>> _Content) : base()
             {
                 Type = ContentType.MultiTiles;
                 Content = _Content;
             }
 
-            public Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>> GetData()
+            public List<Dictionary<Point, ushort>> GetData()
             {
-                return (Content as Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>);
+                return (Content as List<Dictionary<Point, ushort>>);
             }
 
             public TilesClipboardEntry GetDataA()
             {
-                return new TilesClipboardEntry((Content as Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>).Item1);
+                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[0]);
             }
             public TilesClipboardEntry GetDataB()
             {
-                return new TilesClipboardEntry((Content as Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>).Item2);
+                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[1]);
+            }
+            public TilesClipboardEntry GetDataC()
+            {
+                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[2]);
+            }
+            public TilesClipboardEntry GetDataD()
+            {
+                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[3]);
             }
         }
 
@@ -405,9 +418,12 @@ namespace ManiacEditor.Methods.Solution
         }
 
         [Serializable]
-        public class ObjectsClipboardEntry : ClipboardEntry
+        public class ObjectsClipboardEntry : ClipboardEntry, ICloneable
         {
-
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
             public ObjectsClipboardEntry(List<Classes.Scene.EditorEntity> _Content) : base()
             {
                 Type = ContentType.Entities;
@@ -417,7 +433,15 @@ namespace ManiacEditor.Methods.Solution
 
             public List<Classes.Scene.EditorEntity> GetData()
             {
-                return (Content as List<Classes.Scene.EditorEntity>);
+                var content = (Content as List<Classes.Scene.EditorEntity>);
+                if (content != null)
+                {
+                    foreach (var entry in content)
+                    {
+                       if (entry != null && entry.attributesMap != null) entry.attributesMap.DefaultValue = new RSDKv5.AttributeValue(RSDKv5.AttributeTypes.ENUM);
+                    }
+                }
+                return content;
             }
         }
 

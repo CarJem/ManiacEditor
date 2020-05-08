@@ -136,6 +136,7 @@ namespace ManiacEditor.Methods.Solution
                 System.Windows.MessageBox.Show("There was a problem with pasting the content provided: " + Environment.NewLine + ex.Message);
             }
 
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Deselect(bool UpdateControls = true)
@@ -198,14 +199,14 @@ namespace ManiacEditor.Methods.Solution
             }
             else
             {*/
-            int ResultX = (int)(x * Methods.Solution.SolutionState.Main.Zoom);
-            int ResultY = (int)(y * Methods.Solution.SolutionState.Main.Zoom);
+            int ResultX = (int)(x);
+            int ResultY = (int)(y);
 
             if ((ResultX <= 0)) ResultX = 0;
             if ((ResultY <= 0)) ResultY = 0;
 
-            Methods.Solution.SolutionState.Main.ViewPositionX = ResultX;
-            Methods.Solution.SolutionState.Main.ViewPositionY = ResultY;
+            Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX, true);
+            Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY, true);
             //}
         }
 
@@ -283,8 +284,8 @@ namespace ManiacEditor.Methods.Solution
         {
             Properties.Settings.MyDevSettings.DevForceRestartData = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory;
             Properties.Settings.MyDevSettings.DevForceRestartScene = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath;
-            Properties.Settings.MyDevSettings.DevForceRestartX = (short)(Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom);
-            Properties.Settings.MyDevSettings.DevForceRestartY = (short)(Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom);
+            Properties.Settings.MyDevSettings.DevForceRestartX = (short)(Methods.Solution.SolutionState.Main.ViewPositionX);
+            Properties.Settings.MyDevSettings.DevForceRestartY = (short)(Methods.Solution.SolutionState.Main.ViewPositionY);
             Properties.Settings.MyDevSettings.DevForceRestartZoomLevel = Methods.Solution.SolutionState.Main.ZoomLevel;
             Properties.Settings.MyDevSettings.DevForceRestartIsEncore = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode;
             Properties.Settings.MyDevSettings.DevForceRestartID = Methods.Solution.CurrentSolution.LevelID;

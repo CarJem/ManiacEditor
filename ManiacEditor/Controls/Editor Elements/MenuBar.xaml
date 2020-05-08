@@ -44,18 +44,26 @@
             <MenuItem x:Name="editToolStripMenuItem" Header="Edit">
                 <MenuItem x:Name="undoToolStripMenuItem" Click="UndoEvent">
                     <MenuItem.Header>
-                        <StackPanel Background="Transparent">
-                            <TextBlock Text="Undo"></TextBlock>
-                            <TextBlock Name="UndoMenuItemInfo" Visibility="Collapsed"></TextBlock>
-                        </StackPanel>
+                        <Grid HorizontalAlignment="Left" Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock VerticalAlignment="Center" Text="Undo" Padding="0" Foreground="{Binding Foreground, ElementName=undoToolStripMenuItem}"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Name="UndoMenuItemInfo" Foreground="{Binding Foreground, ElementName=undoToolStripMenuItem}" Padding="0"  Height="22" Grid.Row="1" Visibility="Collapsed"></TextBlock>
+                        </Grid>
                     </MenuItem.Header>
                 </MenuItem>
                 <MenuItem x:Name="redoToolStripMenuItem" Click="RedoEvent">
                     <MenuItem.Header>
-                        <StackPanel Background="Transparent">
-                            <TextBlock Text="Redo"></TextBlock>
-                            <TextBlock Name="RedoMenuItemInfo" Visibility="Collapsed"></TextBlock>
-                        </StackPanel>
+                        <Grid HorizontalAlignment="Left" Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock VerticalAlignment="Center" Text="Redo" Padding="0" Foreground="{Binding Foreground, ElementName=redoToolStripMenuItem}"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Name="RedoMenuItemInfo" Foreground="{Binding Foreground, ElementName=redoToolStripMenuItem}" Padding="0" Height="22" Visibility="Collapsed" Grid.Row="1"></TextBlock>
+                        </Grid>
                     </MenuItem.Header>
                 </MenuItem>
                 <Separator></Separator>
@@ -73,7 +81,6 @@
                 <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualEvent"/>
                 <Separator></Separator>
                 <MenuItem x:Name="ClipboardManagerMenuItem" Header="Clipboard Manager..." Click="ClipboardManagerMenuItem_Click"></MenuItem>
-                <Separator></Separator>
             </MenuItem>
             <MenuItem x:Name="viewToolStripMenuItem" Header="View" Margin="0,0,0,0">
                 <MenuItem x:Name="EnablePixelModeMenuItem" Header="Enable Pixel Count Mode" Click="TogglePixelModeEvent"></MenuItem>
@@ -101,7 +108,7 @@
                     <MenuItem StaysOpenOnClick="True" IsEnabled="False" x:Name="ImageOpacityLabel" Header="Image Opacity:"></MenuItem>
                     <MenuItem StaysOpenOnClick="True">
                         <MenuItem.Header>
-                            <Slider x:Name="OverlayImageOpacitySlider" Value="255" Maximum="255" HorizontalAlignment="Stretch" Width="156"></Slider>
+                            <Slider x:Name="OverlayImageOpacitySlider" SmallChange="1" LargeChange="25" Value="255" Maximum="255" HorizontalAlignment="Stretch" Width="156"></Slider>
                         </MenuItem.Header>
                     </MenuItem>
                 </MenuItem>

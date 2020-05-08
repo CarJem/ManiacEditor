@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
-            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "EditorAssets", 0, 1);
+            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorAssets", 0, 1);
 
             if (width != 0 && height != 0)
             {

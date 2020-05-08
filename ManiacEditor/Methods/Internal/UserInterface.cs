@@ -21,8 +21,11 @@ namespace ManiacEditor.Methods.Internal
         {
             MouseMoved = 0,
             MouseClick = 1,
-            MouseHeld = 2
+            MouseHeld = 2,
+            UndoRedoButtons = 3
         }
+
+        private static bool RefreshInProgress { get; set; } = false;
 
         private static bool _LockUserInterface = false;
         public static bool LockUserInterface
@@ -56,6 +59,7 @@ namespace ManiacEditor.Methods.Internal
         #region Main UI Refresh
         public static void UpdateControls()
         {
+            RefreshInProgress = true;
             if (Instance != null)
             {
                 bool isSceneLoaded = IsSceneLoaded();
@@ -65,9 +69,11 @@ namespace ManiacEditor.Methods.Internal
                 SetSelectOnlyButtonsState(isSceneLoaded);
                 UpdateStatusState(isSceneLoaded);
             }
+            RefreshInProgress = false;
         }
         public static void UpdateControls(UpdateType updateType)
         {
+            RefreshInProgress = true;
             if (Instance != null)
             {
                 bool isSceneLoaded = IsSceneLoaded();
@@ -88,11 +94,18 @@ namespace ManiacEditor.Methods.Internal
                         SetSelectOnlyButtonsState(isSceneLoaded);
                         UpdateStatusState(isSceneLoaded);
                         break;
+                    case UpdateType.UndoRedoButtons:
+                        Tooltips.UpdateTooltips();
+                        Instance.MenuBar.UpdateUndoRedoButtons(isSceneLoaded);
+                        Instance.EditorToolbar.UpdateUndoRedoButtons(isSceneLoaded);
+                        Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+                        break;
                     default:
                         UpdateControls();
                         break;
                 }
             }
+            RefreshInProgress = false;
         }
         public static void SetLockUIState()
         {
@@ -118,7 +131,7 @@ namespace ManiacEditor.Methods.Internal
         public static void SetSceneOnlyButtonsState(bool enabled)
         {
             SplineControls.UpdateSplineToolbox();
-            Methods.Entities.EntityDrawing.RequestEntityVisiblityRefresh(true);
+            Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
             Instance.MenuBar.SetSceneOnlyButtonsState(enabled);
             Instance.EditorToolbar.SetSceneOnlyButtonsState(enabled);
             Instance.EditorStatusBar.SetSceneOnlyButtonsState(enabled);
@@ -164,38 +177,19 @@ namespace ManiacEditor.Methods.Internal
             {
                 CollisionEditor.Instance.InvokeIfRequired(() =>
                 {
-                    CollisionEditor.Instance.newInstanceMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("NewInstance");
-                    CollisionEditor.Instance.openMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacOpen");
-                    CollisionEditor.Instance.saveMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSave");
-                    CollisionEditor.Instance.saveAsMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSaveAs");
-                    CollisionEditor.Instance.saveAsUncompressedMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSaveAsUncompressed");
-                    CollisionEditor.Instance.saveUncompressedMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSaveUncompressed");
-                    CollisionEditor.Instance.backupTilesConfigMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacbackupConfig", false, true);
-                    CollisionEditor.Instance.backupTilesMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacbackupImage", false, true);
-                    CollisionEditor.Instance.importMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacImportFromOlderRSDK", false, true);
-                    CollisionEditor.Instance.OpenSingleColMaskMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacOpenSingleColMask", false, true);
-                    CollisionEditor.Instance.exportCurrentMaskMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacExportColMask", false, true);
+                    CollisionEditor.Instance.newInstanceMenuItem.InputGestureText = "Ctrl + N";
+                    CollisionEditor.Instance.openMenuItem.InputGestureText = "Ctrl + O";
+                    CollisionEditor.Instance.saveMenuItem.InputGestureText = "Ctrl + S";
+                    CollisionEditor.Instance.saveAsMenuItem.InputGestureText = "Ctrl + Alt + S";
 
-                    CollisionEditor.Instance.copyMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacCopy");
-                    CollisionEditor.Instance.copyToOtherPathMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacPastetoOther");
-                    CollisionEditor.Instance.pasteMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacPaste");
-                    CollisionEditor.Instance.mirrorPathsToolStripMenuItem1.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacMirrorMode");
-                    CollisionEditor.Instance.restorePathAMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacRestorePathA", false, true);
-                    CollisionEditor.Instance.restorePathBMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacRestorePathB", false, true);
-                    CollisionEditor.Instance.restoreBothMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacRestorePaths", false, true);
+                    CollisionEditor.Instance.copyMenuItem.InputGestureText = "Ctrl + C";
+                    CollisionEditor.Instance.copyToOtherPathMenuItem.InputGestureText = "Ctrl + Alt + V";
+                    CollisionEditor.Instance.pasteMenuItem.InputGestureText = "Ctrl + V";
+                    CollisionEditor.Instance.mirrorPathsToolStripMenuItem1.InputGestureText = "";
 
-                    CollisionEditor.Instance.showPathBToolStripMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacShowPathB");
-                    CollisionEditor.Instance.showGridToolStripMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacShowGrid");
+                    CollisionEditor.Instance.showPathBToolStripMenuItem.InputGestureText = "Ctrl + B";
+                    CollisionEditor.Instance.showGridToolStripMenuItem.InputGestureText = "Ctrl + G";
 
-
-                    CollisionEditor.Instance.splitFileMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSplitFile", false, true);
-                    CollisionEditor.Instance.flipTileHMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacFlipTileH", false, true);
-                    CollisionEditor.Instance.flipTileVMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacFlipTileV", false, true);
-
-                    CollisionEditor.Instance.openCollisionHomeFolderToolStripMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacHomeFolderOpen", false, true);
-
-                    CollisionEditor.Instance.aboutMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacAbout", false, true);
-                    CollisionEditor.Instance.settingsMenuItem.InputGestureText = Extensions.KeyEventExts.KeyBindPraser("TileManiacSettings", false, true);
                 }, System.Windows.Threading.DispatcherPriority.Background);
 
             }
@@ -206,8 +200,8 @@ namespace ManiacEditor.Methods.Internal
             {
                 // release all our resources, and force a reload of the tiles
                 // Entities should take care of themselves
-                Methods.Entities.EntityDrawing.ReleaseResources();
-                Methods.Entities.EntityDrawing.RefreshRenderLists();
+                Methods.Draw.ObjectDrawing.ReleaseResources();
+                Methods.Draw.ObjectDrawing.RefreshRenderLists();
 
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (Methods.Solution.SolutionState.Main.UseEncoreColors == true) Methods.Solution.CurrentSolution.CurrentTiles?.Reload(ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]);
@@ -245,27 +239,30 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (firstLoad)
                 {
-                    Instance.ViewPanel.OverlayPanel.Children.Add(Instance.StartScreen);
                     if (Instance.StartScreen.SelectScreen != null) Instance.StartScreen.SelectScreen.UpdateRecentsTree();
-                    Instance.ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
+                    Instance.EditorTabControl.SelectedIndex = 1;
+                    Instance.MainPageTab.Visibility = Visibility.Collapsed;
+                    Instance.StartPageTab.Visibility = Visibility.Visible;
                     Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                     Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
                     Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
                 }
                 if (visible)
                 {
-                    Instance.StartScreen.Visibility = Visibility.Visible;
                     if (Instance.StartScreen.SelectScreen != null) Instance.StartScreen.SelectScreen.UpdateRecentsTree();
-                    Instance.ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
+                    Instance.EditorTabControl.SelectedIndex = 1;
+                    Instance.MainPageTab.Visibility = Visibility.Collapsed;
+                    Instance.StartPageTab.Visibility = Visibility.Visible;
                     Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                     Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
                     Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
                 }
                 else
                 {
-                    Instance.StartScreen.Visibility = Visibility.Hidden;
                     if (Instance.StartScreen.SelectScreen != null) Instance.StartScreen.SelectScreen.UpdateRecentsTree();
-                    Instance.ViewPanel.SharpPanel.Visibility = Visibility.Visible;
+                    Instance.EditorTabControl.SelectedIndex = 0;
+                    Instance.MainPageTab.Visibility = Visibility.Visible;
+                    Instance.StartPageTab.Visibility = Visibility.Collapsed;
                     Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                 }
 
@@ -459,9 +456,11 @@ namespace ManiacEditor.Methods.Internal
 
             private static void DisposeTilesToolbar()
             {
+                /*
                 Instance.TilesToolbar.Dispose();
                 Instance.TilesToolbar = null;
                 Instance.Focus();
+                */
             }
             private static void CreateTilesToolbar()
             {
@@ -475,30 +474,37 @@ namespace ManiacEditor.Methods.Internal
                 Instance.TilesToolbar.MultiTileDoubleClick = new Action<Tuple<List<ushort>, int[]>>(x => { TilesToolbar_MultiTileDoubleClick(x); });
                 Instance.TilesToolbar.TileOptionChanged = new Action<int, bool>((option, state) => { TilesToolbar_TileOptionChanged(option, state); });
 
-                Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
-                Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.TilesToolbar);
-                Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
+                AttachTilesToolbar();
+
                 Instance.Focus();
             }
+
+            private static void AttachTilesToolbar()
+            {
+                if (!Instance.ViewPanel.ToolBarPanelRight.Children.Contains(Instance.TilesToolbar))
+                {
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.TilesToolbar);
+                    Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
+                }
+            }
+
             private static void TilesToolbar_TileDoubleClick(ushort tile)
             {
-                Methods.Solution.CurrentSolution.EditLayerA.PlaceTile(new System.Drawing.Point((int)(Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1, (int)(Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1), tile);
+                Methods.Solution.CurrentSolution.EditLayerA.PlaceTile(new System.Drawing.Point((int)(Methods.Solution.SolutionState.Main.ViewPositionX) + Methods.Solution.SolutionConstants.TILE_SIZE - 1, (int)(Methods.Solution.SolutionState.Main.ViewPositionY) + Methods.Solution.SolutionConstants.TILE_SIZE - 1), tile);
             }
             private static void TilesToolbar_MultiTileDoubleClick(Tuple<List<ushort>, int[]> tiles)
             {
-                Methods.Solution.CurrentSolution.EditLayerA.PlaceTiles(new System.Drawing.Point((int)(Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1, (int)(Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1), tiles.Item1, tiles.Item2[0], tiles.Item2[1]);
+                Methods.Solution.CurrentSolution.EditLayerA.PlaceTiles(new System.Drawing.Point((int)(Methods.Solution.SolutionState.Main.ViewPositionX) + Methods.Solution.SolutionConstants.TILE_SIZE - 1, (int)(Methods.Solution.SolutionState.Main.ViewPositionY) + Methods.Solution.SolutionConstants.TILE_SIZE - 1), tiles.Item1, tiles.Item2[0], tiles.Item2[1]);
 
             }
             private static void TilesToolbar_TileOptionChanged(int option, bool state)
             {
-                Methods.Solution.CurrentSolution.EditLayerA?.SetPropertySelected(option + 10, state);
-                Methods.Solution.CurrentSolution.EditLayerB?.SetPropertySelected(option + 10, state);
+                Methods.Solution.SolutionMultiLayer.SetPropertySelected(option + 10, state);
             }
             private static void UpdateTilesOptions()
             {
-                List<ushort> values = Methods.Solution.CurrentSolution.EditLayerA?.GetSelectedValues();
-                List<ushort> valuesB = Methods.Solution.CurrentSolution.EditLayerB?.GetSelectedValues();
-                if (valuesB != null) values.AddRange(valuesB);
+                List<ushort> values = Methods.Solution.SolutionMultiLayer.GetSelectedValues();
 
                 if (values.Count > 0)
                 {
@@ -541,8 +547,10 @@ namespace ManiacEditor.Methods.Internal
 
             private static void DisposeEntitiesToolbar()
             {
+                /*
                 Instance.EntitiesToolbar.Dispose();
                 Instance.EntitiesToolbar = null;
+                */
             }
             private static void CreateEntitiesToolbar()
             {
@@ -552,10 +560,20 @@ namespace ManiacEditor.Methods.Internal
                     AddAction = new Action<ManiacEditor.Actions.IAction>(x => { EntitiesToolbar_ActionAdded(x); }),
                     Spawn = new Action<SceneObject>(x => { EntitiesToolbar_ObjectSpawned(x); })
                 };
-                Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
-                Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.EntitiesToolbar);
-                Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
+                AttachEntitiesToolbar();
             }
+
+
+            private static void AttachEntitiesToolbar()
+            {
+                if (!Instance.ViewPanel.ToolBarPanelRight.Children.Contains(Instance.EntitiesToolbar))
+                {
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
+                    Instance.ViewPanel.ToolBarPanelRight.Children.Add(Instance.EntitiesToolbar);
+                    Instance.ViewPanel.SplitContainer.UpdateToolbars(true, true);
+                }
+            }
+
             private static void EntitiesToolbar_ObjectSpawned(SceneObject sceneObject)
             {
                 Methods.Solution.CurrentSolution.Entities.Spawn(sceneObject, GetEntitySpawnPoint());
@@ -567,8 +585,8 @@ namespace ManiacEditor.Methods.Internal
                 {
                     if (Methods.Solution.SolutionState.Main.IsDrawMode())
                     {
-                        short x = (short)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom);
-                        short y = (short)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom);
+                        short x = (short)(Methods.Solution.SolutionState.Main.LastX);
+                        short y = (short)(Methods.Solution.SolutionState.Main.LastY);
                         if (Methods.Solution.SolutionState.Main.UseMagnetMode)
                         {
                             short alignedX = (short)(Methods.Solution.SolutionState.Main.MagnetSize * (x / Methods.Solution.SolutionState.Main.MagnetSize));
@@ -583,7 +601,7 @@ namespace ManiacEditor.Methods.Internal
                     }
                     else
                     {
-                        return new Position((short)(Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom), (short)(Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom));
+                        return new Position((short)(Methods.Solution.SolutionState.Main.ViewPositionX), (short)(Methods.Solution.SolutionState.Main.ViewPositionY));
                     }
 
                 }
@@ -617,12 +635,15 @@ namespace ManiacEditor.Methods.Internal
 
             public static void ValidateEditorToolbars()
             {
+                UpdateEditorToolbars();
+                /*
                 bool missingToolbar1 = ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Instance.TilesToolbar == null;
                 bool missingToolbar2 = ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar == null;
                 bool misplacedToolbar1 = !ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Instance.TilesToolbar != null;
                 bool misplacedToolbar2 = !ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar != null;
 
                 if (missingToolbar1 || missingToolbar2 || misplacedToolbar1 || misplacedToolbar2) UpdateEditorToolbars();
+                */
             }
 
             public static void UpdateEditorToolbars()
@@ -630,6 +651,7 @@ namespace ManiacEditor.Methods.Internal
                 if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
                 {
                     if (Instance.TilesToolbar == null) CreateTilesToolbar();
+                    AttachTilesToolbar();
                     RefreshTilesToolbar();
                 }
                 else if (Instance.TilesToolbar != null) DisposeTilesToolbar();
@@ -637,6 +659,7 @@ namespace ManiacEditor.Methods.Internal
                 if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
                 {
                     if (Instance.EntitiesToolbar == null) CreateEntitiesToolbar();
+                    AttachEntitiesToolbar();
                     RefreshEntitiesToolbar();
                 }
                 else
@@ -653,7 +676,7 @@ namespace ManiacEditor.Methods.Internal
 
 
                 }
-                if (Instance.TilesToolbar == null && Instance.EntitiesToolbar == null && (Instance.ViewPanel.ToolBarPanelRight.Children.Count != 0))
+                if (!ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && (Instance.ViewPanel.ToolBarPanelRight.Children.Count != 0))
                 {
                     Instance.ViewPanel.ToolBarPanelRight.Children.Clear();
                     Instance.ViewPanel.SplitContainer.UpdateToolbars(true, false);

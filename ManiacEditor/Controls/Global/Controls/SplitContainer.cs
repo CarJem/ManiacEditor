@@ -30,6 +30,8 @@ namespace ManiacEditor.Controls.Global.Controls
 
         public SplitContainer()
         {
+            this.Focusable = false;
+
             this.DefaultStyleKey = typeof(SplitContainer);
 
             this.CommandBindings.Add(new CommandBinding(Commands.SizeChanged, Spliter_SizeChanged));

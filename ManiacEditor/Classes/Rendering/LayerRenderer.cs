@@ -9,7 +9,7 @@ namespace ManiacEditor.Classes.Rendering
     /// <summary>
     /// Functions that provides color/texture rectangle data from tile map (or other source)
     /// </summary>
-    public delegate void TileProvider(int x, int y, int layer, double zoom, out Color color, out IntRect rec);
+    public delegate void TileProvider(int x, int y, int layer, out Color color, out IntRect rec);
 
     /// <summary>
     /// Fast and universal renderer of tilemaps
@@ -18,8 +18,6 @@ namespace ManiacEditor.Classes.Rendering
     {
         private readonly float TileSize;
         public readonly int Layers;
-
-        public double Zoom;
 
         private int height;
         private int width;
@@ -72,7 +70,7 @@ namespace ManiacEditor.Classes.Rendering
             for (var y = top; y < bottom; y++)
                 for (var x = left; x < right; x++)
                 {
-                    Refresh(x + (int)(offset.X / Zoom), y + (int)(offset.Y / Zoom));
+                    Refresh((int)(x + offset.X), (int)(y + offset.Y));
                 }
         }
 
@@ -82,8 +80,8 @@ namespace ManiacEditor.Classes.Rendering
         /// <param name="v">Size of the visible area</param>
         private void SetSize(Vector2f v)
         {
-            var w = (int)((v.X / Zoom) / TileSize) + 2;
-            var h = (int)((v.Y / Zoom) / TileSize) + 2;
+            var w = (int)((v.X) / TileSize);
+            var h = (int)((v.Y) / TileSize);
             if (w == width && h == height) return;
 
             width = w;
@@ -113,10 +111,10 @@ namespace ManiacEditor.Classes.Rendering
 
             //Refresh only tiles that appeared since last update
 
-            if (dif.X > 0) RefreshLocal(width - dif.X, 0, width, height);
+            if (dif.X > 0) RefreshLocal((int)(width) - dif.X, 0, width, height);
             else RefreshLocal(0, 0, -dif.X, height);
 
-            if (dif.Y > 0) RefreshLocal(0, height - dif.Y, width, height);
+            if (dif.Y > 0) RefreshLocal(0, (int)(height) - dif.Y, width, height);
             else RefreshLocal(0, 0, width, -dif.Y);
         }
 
@@ -139,7 +137,7 @@ namespace ManiacEditor.Classes.Rendering
         /// <param name="y">Y coord of the tile</param>
         public void Refresh(int x, int y)
         {
-            if (x < (int)(offset.X / Zoom) || x >= (int)(offset.X / Zoom) + (int)(width) || y < (int)(offset.Y / Zoom) || y >= (int)(offset.Y / Zoom) + (int)(height)) return; //check if tile is visible
+            if (x < (int)(offset.X) || x >= (int)(offset.X) + (int)(width) || y < (int)(offset.Y) || y >= (int)(offset.Y) + (int)(height)) return; //check if tile is visible
 
             //vertices works like 2d ring buffer
             var vx = x % width;
@@ -154,7 +152,7 @@ namespace ManiacEditor.Classes.Rendering
             {
                 Color color;
                 IntRect src;
-                provider(x, y, i, Zoom, out color, out src);
+                provider(x, y, i, out color, out src);
 
                 Draw(index, rec, src, color);
                 index += 4;
@@ -171,8 +169,6 @@ namespace ManiacEditor.Classes.Rendering
             float rec_width = (float)(rec.Width);
             float rec_height = (float)(rec.Height);
 
-            float zoom = (float)Zoom;
-
             int src_left = src.Left;
             int src_top = src.Top;
             int src_width = src.Width;
@@ -185,29 +181,29 @@ namespace ManiacEditor.Classes.Rendering
 
                 var ptr = fptr + index;
 
-                ptr->Position.X = rec_left * zoom;
-                ptr->Position.Y = rec_top * zoom;
+                ptr->Position.X = rec_left;
+                ptr->Position.Y = rec_top;
                 ptr->TexCoords.X = src_left;
                 ptr->TexCoords.Y = src_top;
                 ptr->Color = color;
                 ptr++;
 
-                ptr->Position.X = (rec_left + rec_width) * zoom;
-                ptr->Position.Y = (rec_top) * zoom;
+                ptr->Position.X = (rec_left + rec_width);
+                ptr->Position.Y = (rec_top);
                 ptr->TexCoords.X = (src_left + src_width);
                 ptr->TexCoords.Y = (src_top);
                 ptr->Color = color;
                 ptr++;
 
-                ptr->Position.X = (rec_left + rec_width) * zoom;
-                ptr->Position.Y = (rec_top + rec_height) * zoom;
+                ptr->Position.X = (rec_left + rec_width);
+                ptr->Position.Y = (rec_top + rec_height);
                 ptr->TexCoords.X = (src_left + src_width);
                 ptr->TexCoords.Y = (src_top + src_height);
                 ptr->Color = color;
                 ptr++;
 
-                ptr->Position.X = (rec_left) * zoom;
-                ptr->Position.Y = (rec_top + rec_height) * zoom;
+                ptr->Position.X = (rec_left);
+                ptr->Position.Y = (rec_top + rec_height);
                 ptr->TexCoords.X = (src_left);
                 ptr->TexCoords.Y = (src_top + src_height);
                 ptr->Color = color;
@@ -221,6 +217,7 @@ namespace ManiacEditor.Classes.Rendering
         {
             if (Position.X == 0 && Position.Y == 0)
             {
+
                 var view = rt.GetView();
                 SetSize(view.Size);
                 SetCorner(rt.MapPixelToCoords(new Vector2i()));

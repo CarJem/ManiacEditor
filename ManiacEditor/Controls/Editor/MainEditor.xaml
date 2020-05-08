@@ -11,7 +11,8 @@
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:genTools="clr-namespace:GenerationsLib.WPF;assembly=GenerationsLib.WPF"
         mc:Ignorable="d"
-        Title="Maniac Editor - Generations Editon" Height="780" Width="1050" Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1050" MinHeight="780" PreviewKeyDown="Editor_KeyDown" PreviewKeyUp="Editor_KeyUp" Activated="Editor_Activated">
+        Title="Maniac Editor - Generations Editon" Height="780" Width="1050" Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1050" MinHeight="780" Activated="Editor_Activated">
+    <!--PreviewKeyDown="Editor_KeyDown" PreviewKeyUp="Editor_KeyUp"-->
     <Grid x:Name="ParentGrid" SizeChanged="Editor_Resize" Background="{DynamicResource NormalBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -31,18 +32,21 @@
 
         <!--Status Bar-->
 
-        <editorControls:StatusBar x:Name="EditorStatusBar" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="3"></editorControls:StatusBar>
+        <editorControls:StatusBar TabIndex="2" x:Name="EditorStatusBar" KeyboardNavigation.IsTabStop="True" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="3"></editorControls:StatusBar>
         <!--End of Status Bar-->
 
         <!--Main View-->
-        <Grid Panel.ZIndex="1" Grid.ColumnSpan="4" Grid.RowSpan="2" Grid.Row="1"  Background="{DynamicResource ToolbarBackground}" Margin="0,85,0,0">
-            <TabControl Name="EditorTabControl" BorderThickness="0 1 0 0" Background="{DynamicResource ToolbarBackground}">
-                <TabItem Header="Maniac Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
+        <Grid KeyboardNavigation.IsTabStop="False" Focusable="False" KeyboardNavigation.ControlTabNavigation="None" KeyboardNavigation.TabNavigation="None" KeyboardNavigation.DirectionalNavigation="None" Grid.ColumnSpan="4" Panel.ZIndex="1" Grid.RowSpan="1" Grid.Row="2"  Background="{DynamicResource ToolbarBackground}" Margin="0,0,0,0">
+            <TabControl KeyboardNavigation.IsTabStop="False" Name="EditorTabControl" BorderThickness="0 1 0 0" Background="{DynamicResource ToolbarBackground}">
+                <TabItem KeyboardNavigation.IsTabStop="False" x:Name="MainPageTab" KeyboardNavigation.ControlTabNavigation="Contained" KeyboardNavigation.DirectionalNavigation="Contained" Header="Maniac Editor" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
                     <Grid>
                         <Border Grid.ColumnSpan="5" Margin="10" BorderBrush="Transparent" BorderThickness="1">
-                            <editorControls:ViewPanel x:Name="ViewPanel"></editorControls:ViewPanel>
+                            <editorControls:ViewPanel KeyboardNavigation.IsTabStop="False" x:Name="ViewPanel"></editorControls:ViewPanel>
                         </Border>
                     </Grid>
+                </TabItem>
+                <TabItem KeyboardNavigation.IsTabStop="False" x:Name="StartPageTab" Header="Start Page" Foreground="{DynamicResource NormalText}" HorizontalAlignment="Right">
+                    <editorControls:StartScreen x:Name="StartScreen"></editorControls:StartScreen>
                 </TabItem>
                 <TabControl.Resources>
                     <Style TargetType="TabPanel">
@@ -54,11 +58,11 @@
         <!--End of Main View-->
 
         <!--Menu Bar-->
-        <editorControls:Menu x:Name="MenuBar" Grid.ColumnSpan="4" Panel.ZIndex="2"></editorControls:Menu>
+        <editorControls:Menu x:Name="MenuBar" Grid.ColumnSpan="4" IsTabStop="True" TabIndex="0"></editorControls:Menu>
         <!--End of Menu Bar-->
 
         <!--Toolbar-->
-        <editorControls:Toolbar Grid.ColumnSpan="4" Grid.Row="1" x:Name="EditorToolbar"></editorControls:Toolbar>
+        <editorControls:Toolbar Grid.ColumnSpan="4" Grid.Row="1" x:Name="EditorToolbar" IsTabStop="True"  TabIndex="1"></editorControls:Toolbar>
         <!--End of Toolbar-->
 
     </Grid>
@@ -70,5 +74,6 @@
         </ResourceDictionary>
     </Window.Resources>
 </Window>
+
     
     

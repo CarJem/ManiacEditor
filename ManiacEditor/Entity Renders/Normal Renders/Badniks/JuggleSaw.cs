@@ -5,23 +5,20 @@ namespace ManiacEditor.Entity_Renders
     public class JuggleSaw : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
-            bool hasSaw = entity.attributesMap["hasSaw"].ValueBool;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            bool hasSaw = e.attributesMap["hasSaw"].ValueBool;
             int animID;
             if (direction == 2)
             {
@@ -63,18 +60,10 @@ namespace ManiacEditor.Entity_Renders
             {
                 flipv = true;
             }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("JuggleSaw", d.DevicePanel, animID, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
 
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width + (hasSaw ? (38) : 16)) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height + (hasSaw ? (37) : 15)) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
+            var Animation = LoadAnimation("JuggleSaw", d, animID, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? (hasSaw ? (38) : 16) : 0), y + (flipv ? (hasSaw ? (37) : 15) : 0), Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

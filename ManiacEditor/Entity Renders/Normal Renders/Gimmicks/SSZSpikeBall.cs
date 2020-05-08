@@ -5,23 +5,20 @@ namespace ManiacEditor.Entity_Renders
     public class SSZSpikeBall : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
-            int type = (int)entity.attributesMap["type"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
+
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            int type = (int)e.attributesMap["type"].ValueUInt8;
             int animID = 0;
             switch (direction)
             {
@@ -37,30 +34,18 @@ namespace ManiacEditor.Entity_Renders
                 case 3:
                     animID = 3;
                     break;
-            } 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 0, animID, fliph, flipv, false);
-            var editorAnimSpikeBall = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("SpikeBall", d.DevicePanel, 1, 0, fliph, flipv, false);
-            if (editorAnim != null && editorAnimSpikeBall != null && editorAnim.Frames.Count != 0 && editorAnimSpikeBall.Frames.Count != 0)
+            }
+
+
+            if (type == 0)
             {
-                var frame = editorAnim.Frames[0];
-                var frameSpike = editorAnimSpikeBall.Frames[0];
-
-                if (type == 0)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                       x + frame.Frame.PivotX,
-                       y + frame.Frame.PivotY,
-                       frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
-                else
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameSpike),
-                       x + frameSpike.Frame.PivotX,
-                       y + frameSpike.Frame.PivotY,
-                       frameSpike.Frame.Width, frameSpike.Frame.Height, false, Transparency);
-                }
-
-
+                var Animation = LoadAnimation("SpikeBall", d, 0, animID);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            }
+            else
+            {
+                var Animation = LoadAnimation("SpikeBall", d, 1, 0);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }
 

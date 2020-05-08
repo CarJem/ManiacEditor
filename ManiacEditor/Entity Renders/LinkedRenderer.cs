@@ -91,7 +91,7 @@ namespace ManiacEditor.Entity_Renders
                         startY + offsetY,
                         end.Position.X.High + offsetDestinationX,
                         end.Position.Y.High + offsetDestinationY,
-                        color);
+                        color, 2);
         }
         public void DrawCenteredSpline(DevicePanel d, EditorEntity start, EditorEntity end, Int32 length1, Int32 angle1, Int32 length2, Int32 angle2)
         {

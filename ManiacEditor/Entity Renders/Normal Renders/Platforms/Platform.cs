@@ -146,7 +146,7 @@ namespace ManiacEditor.Entity_Renders
 
         #region Other
 
-        private void UpdateRealAttributeFrameID(Methods.Entities.EntityDrawing.EditorAnimation Animation, int AttributeFrameID)
+        private void UpdateRealAttributeFrameID(Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AttributeFrameID)
         {
             var frames = Animation.Animation.Animations.Take<Animation.AnimationEntry>(Animation.Animation.Animations.Count).SelectMany(x => x.Frames).ToList();
             if (frames.Count - 1 > AttributeFrameID && AttributeFrameID >= 0)

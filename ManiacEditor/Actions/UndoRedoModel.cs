@@ -38,7 +38,7 @@ namespace ManiacEditor.Actions
                     Actions.UndoRedoModel.RedoStack.Push(act.Redo());
                 }
             }
-            Methods.Internal.UserInterface.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls(Methods.Internal.UserInterface.UpdateType.UndoRedoButtons);
         }
         public static void Redo()
         {
@@ -50,7 +50,7 @@ namespace ManiacEditor.Actions
                 act.Undo();
                 Actions.UndoRedoModel.UndoStack.Push(act.Redo());
             }
-            Methods.Internal.UserInterface.UpdateControls();
+            Methods.Internal.UserInterface.UpdateControls(Methods.Internal.UserInterface.UpdateType.UndoRedoButtons);
         }
         public static void ClearStacks()
         {
@@ -70,7 +70,7 @@ namespace ManiacEditor.Actions
                 Actions.UndoRedoModel.UndoStack.Push(Methods.Solution.CurrentSolution.Entities.LastActionInternal);
                 Methods.Solution.CurrentSolution.Entities.LastActionInternal = null;
             }
-            Methods.Entities.EntityDrawing.UpdateVisibleEntities(Methods.Solution.CurrentSolution.Entities.Entities);
+            Methods.Draw.ObjectDrawing.UpdateVisibleEntities(Methods.Solution.CurrentSolution.Entities.Entities);
 
         }
         public static void UpdateEditEntitiesActions()
@@ -111,34 +111,17 @@ namespace ManiacEditor.Actions
                 }
             }
         }
-        public static void UpdateEditLayerActions()
+        public static void UpdateEditLayersActions()
         {
-            if (Methods.Solution.CurrentSolution.EditLayerA != null)
+            if (Methods.Solution.CurrentSolution.EditLayerA != null) UpdateEditLayerActions(Methods.Solution.CurrentSolution.EditLayerA);
+            if (Methods.Solution.CurrentSolution.EditLayerB != null) UpdateEditLayerActions(Methods.Solution.CurrentSolution.EditLayerB);
+            if (Methods.Solution.CurrentSolution.EditLayerC != null) UpdateEditLayerActions(Methods.Solution.CurrentSolution.EditLayerC);
+            if (Methods.Solution.CurrentSolution.EditLayerD != null) UpdateEditLayerActions(Methods.Solution.CurrentSolution.EditLayerD);
+
+
+            void UpdateEditLayerActions(Classes.Scene.EditorLayer layer)
             {
-                List<IAction> actions = Methods.Solution.CurrentSolution.EditLayerA?.Actions;
-                if (actions.Count > 0) Actions.UndoRedoModel.RedoStack.Clear();
-                while (actions.Count > 0)
-                {
-                    bool create_new = false;
-                    if (Actions.UndoRedoModel.UndoStack.Count == 0 || !(Actions.UndoRedoModel.UndoStack.Peek() is ActionsGroup))
-                    {
-                        create_new = true;
-                    }
-                    else
-                    {
-                        create_new = (Actions.UndoRedoModel.UndoStack.Peek() as ActionsGroup).IsClosed;
-                    }
-                    if (create_new)
-                    {
-                        Actions.UndoRedoModel.UndoStack.Push(new ActionsGroup());
-                    }
-                    (Actions.UndoRedoModel.UndoStack.Peek() as ActionsGroup).AddAction(actions[0]);
-                    actions.RemoveAt(0);
-                }
-            }
-            if (Methods.Solution.CurrentSolution.EditLayerB != null)
-            {
-                List<IAction> actions = Methods.Solution.CurrentSolution.EditLayerB?.Actions;
+                List<IAction> actions = layer.Actions;
                 if (actions.Count > 0) Actions.UndoRedoModel.RedoStack.Clear();
                 while (actions.Count > 0)
                 {

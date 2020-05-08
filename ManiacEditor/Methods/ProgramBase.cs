@@ -205,7 +205,7 @@ namespace ManiacEditor.Methods
 
         public static void SetupRenderingOptions()
         {
-            EntityRenderingOptions.GetExternalData(ref ManiacEditor.Methods.Entities.EntityDrawing.RenderingSettings);
+            EntityRenderingOptions.GetExternalData(ref ManiacEditor.Methods.Draw.ObjectDrawing.RenderingSettings);
         }
 
         public static void DisableDPIScaling()

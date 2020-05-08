@@ -15,6 +15,8 @@ using Bitmap = System.Drawing.Bitmap;
 using ManiacEditor.Events;
 using System.Diagnostics;
 using Texture = SFML.Graphics.Texture;
+using System.Collections.Generic;
+using ManiacEditor.Extensions;
 
 
 namespace ManiacEditor
@@ -33,8 +35,6 @@ namespace ManiacEditor
         public event CreateDeviceEventHandler OnCreateDevice;
 
         public SFML.Graphics.RenderWindow RenderWindow { get; set; }
-
-        public float[] Zoom = { 4.0f, 3.0f, 2.5f, 2.0f, 1.5f, 1.0f, 0.8f, 0.6f, 0.4f, 0.2f, 0.1f };
 
         public IDrawArea _parent = null;
 
@@ -131,7 +131,7 @@ namespace ManiacEditor
                     OnMouseMove(LastEvent);
                     MouseMoved = false;
                 }
-                Application.DoEvents();
+                    Application.DoEvents();
             });
         }
 
@@ -139,8 +139,8 @@ namespace ManiacEditor
         {
             FPS_Clock = Stopwatch.StartNew();
 
-            RenderingFont = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "Roboto", "Roboto-Regular.ttf"));
-            RenderingFontBold = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "Roboto", "Roboto-Bold.ttf"));
+            RenderingFont = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "sonic2system.ttf"));
+            RenderingFontBold = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "sonic2system.ttf"));
         }
 
         #endregion
@@ -173,8 +173,15 @@ namespace ManiacEditor
             AllowLoopToRender = false;
             RenderWindow.DispatchEvents();
             RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
-            RenderWindow.Size = GetWindowSize();
-            RenderWindow.SetView(GetCurrentView());
+            var windowSize = GetWindowSize();
+            RenderWindow.Size = windowSize;
+            var view = GetCurrentView();
+            var currentView = view;
+            var sizeA = view.Size;
+            currentView.Zoom(GetZoom());
+            var offset = currentView.Size / 2 - sizeA / 2;
+            currentView.Move(offset);
+            RenderWindow.SetView(currentView);
 
 
             // Render of Scene Here
@@ -234,37 +241,64 @@ namespace ManiacEditor
         {
             return this.AutoScrollPosition;
         }
+
+        private Point GetMousePoint(System.Windows.Forms.MouseEventArgs e)
+        {
+            var position = GetParentScreen();
+            var pixelPos = SFML.Window.Mouse.GetPosition(RenderWindow);
+            var mousePos = RenderWindow.MapPixelToCoords(pixelPos, RenderWindow.GetView());
+            return new Point((int)(mousePos.X), (int)(mousePos.Y));
+            /*
+            var position = GetParentScreen();
+            var Zoom = GetZoom();
+            var coords = RenderWindow.MapPixelToCoords(new SFML.System.Vector2i());
+            var diff = coords + RenderWindow.MapPixelToCoords(new SFML.System.Vector2i((int)(position.X), (int)(position.Y)));
+            return new Point((int)(diff.X - e.X), (int)(diff.Y - e.Y));
+            */
+        }
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
             if (_parent != null)
             {
                 LastEvent = e;
                 var screen = _parent.GetScreen();
-                base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
+                var point = GetMousePoint(e);
+                base.OnMouseMove(new MouseEventArgs(e.Button, e.Clicks, point.X, point.Y, e.Delta));
             }
         }
         protected override void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
+            var Zoom = GetZoom();
+            var point = GetMousePoint(e);
+            base.OnMouseWheel(new MouseEventArgs(e.Button, e.Clicks, point.X, point.Y, e.Delta));
         }
         protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
+            var Zoom = GetZoom();
+            var point = GetMousePoint(e);
+            base.OnMouseClick(new MouseEventArgs(e.Button, e.Clicks, point.X, point.Y, e.Delta));
         }
         protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
+            var Zoom = GetZoom();
+            var point = GetMousePoint(e);
+            base.OnMouseDoubleClick(new MouseEventArgs(e.Button, e.Clicks, point.X, point.Y, e.Delta));
         }
         protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
+            var Zoom = GetZoom();
+            var point = GetMousePoint(e);
+            base.OnMouseDown(new MouseEventArgs(e.Button, e.Clicks, point.X, point.Y, e.Delta));
         }
         protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, e.X + GetParentScreen().X, e.Y + GetParentScreen().Y, e.Delta));
+            var Zoom = GetZoom();
+                            var point = GetMousePoint(e);
+            base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, point.X, point.Y, e.Delta));
         }
         public void OnMouseMoveEventCreate()
         {
+            var Zoom = GetZoom();
             System.Windows.Forms.Cursor.Position = new Point(System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y);
         }
 
@@ -279,15 +313,9 @@ namespace ManiacEditor
         public Rectangle GetScreen()
         {
             if (_parent == null) return new Rectangle(0, 0, 10, 10);
-            Rectangle screen = GetParentScreen();
+            Rectangle screen = _parent.GetScreen();
             double zoom = GetZoom();
-            if (zoom == 1.0)
-                return screen;
-            else
-                return new Rectangle((int)Math.Floor(screen.X / zoom),
-                    (int)Math.Floor(screen.Y / zoom),
-                    (int)Math.Ceiling(screen.Width / zoom),
-                    (int)Math.Ceiling(screen.Height / zoom));
+            return screen;
         }
 
         private SFML.System.Vector2i GetPosition()
@@ -305,6 +333,7 @@ namespace ManiacEditor
         
         private float GetZoom()
         {
+            
             if (_parent == null) return 1;
             return _parent.GetZoom();
         }
@@ -337,10 +366,10 @@ namespace ManiacEditor
             float zoom = GetZoom();
 
 
-            bool x1 = x * zoom > screen.Left + screen.Width;
-            bool x2 = (x + width) * zoom < screen.Left;
-            bool y1 = y * zoom > screen.Top + screen.Height;
-            bool y2 = (y + height) * zoom < screen.Top;
+            bool x1 = x > screen.Left + screen.Width * zoom;
+            bool x2 = (x + width) < screen.Left;
+            bool y1 = y > screen.Top + screen.Height * zoom;
+            bool y2 = (y + height) < screen.Top;
 
             return !(x1 || y1 || x2 || y2);
 
@@ -390,7 +419,8 @@ namespace ManiacEditor
         {
             if (!IsObjectOnScreen(x, y, width, height) || image == null) return;
 
-            var zoom = GetZoom();
+            //var zoom = GetZoom();
+            var zoom = 1f;
 
             int real_x = (int)(x * zoom);
             int real_y = (int)(y * zoom);
@@ -452,7 +482,8 @@ namespace ManiacEditor
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
 
-            var zoom = GetZoom();
+            //var zoom = GetZoom();
+            var zoom = 1f;
 
             int real_x1 = (int)(x1 * zoom);
             int real_x2 = (int)(x2 * zoom);
@@ -474,7 +505,8 @@ namespace ManiacEditor
 
         public void DrawEllipse(int x1, int y1, int radiusX, int radiusY, Color color, float thickness = 1)
         {
-            var zoom = GetZoom();
+            //var zoom = GetZoom();
+            var zoom = 1f;
 
             int real_x = (int)(x1 * zoom);
             int real_y = (int)(y1 * zoom);
@@ -498,7 +530,8 @@ namespace ManiacEditor
         {
             if (!ArePointsOnScreen(x1, y1, x2, y2)) return;
 
-            var zoom = GetZoom();
+            //var zoom = GetZoom();
+            var zoom = 1f;
 
             int real_x1 = (int)(x1 * zoom);
             int real_x2 = (int)(x2 * zoom);
@@ -517,7 +550,8 @@ namespace ManiacEditor
         {
             if (!ArePointsOnScreen(x1, y1, x2, y2)) return;
 
-            var zoom = GetZoom();
+            //var zoom = GetZoom();
+            var zoom = 1f;
 
             int real_x1 = (int)(x1 * zoom);
             int real_x2 = (int)(x2 * zoom);
@@ -535,32 +569,68 @@ namespace ManiacEditor
         #endregion
 
         #region Extra
-        public void DrawLinePaperRoller(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4)
+        public void DrawDashedLine(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4, float thickness = 1, int dashLength = 5)
         {
             Rectangle screen = GetParentScreen();
-            double zoom = GetZoom();
+
+            //var zoom = GetZoom();
+            var zoom = 1f;
+
             int width = Math.Abs(X2 - X1);
             int height = Math.Abs(Y2 - Y1);
             int x = Math.Min(X1, X2);
             int y = Math.Min(Y1, Y2);
-            int pixel_width = Math.Max((int)zoom, 1);
 
             if (!IsObjectOnScreen(x, y, width, height)) return;
 
+            Point first = new Point(X1, Y1);
+            Point last = new Point(X2, Y2);
 
-            /*
-            if (width == 0 || height == 0)
+            Point currentA = first;
+            int segment = 0;
+            Color currentColor = color;
+            int currentDashPoint = 0;
+
+            List<Point> points = GetPoints(first, last, dashLength);
+            points.Add(last);
+
+            foreach (var currentB in points)
             {
-                if (width == 0) width = pixel_width;
-                else width = (int)(width * zoom);
-                if (height == 0) height = pixel_width;
-                else height = (int)(height * zoom);
-                DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x - (int)(screen.X / zoom)) * zoom), (int)((y - (int)(screen.Y / zoom)) * zoom), 0), color);
+                if (currentDashPoint == dashLength)
+                {
+                    if (segment == 0) currentColor = color;
+                    else if (segment == 1) currentColor = color2;
+                    else if (segment == 2) currentColor = color3;
+                    else if (segment == 3) currentColor = color4;
+
+                    DrawLine(currentA.X, currentA.Y, currentB.X, currentB.Y, currentColor, thickness);
+                    segment++;
+                    if (segment >= 3) segment = 0;
+                    currentA = currentB;
+                    currentDashPoint = 0;
+                }
+                else
+                {
+                    currentDashPoint++;
+                }
             }
-            else
-            {*/
-            DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
-            //}
+        }
+        public List<Point> GetPoints(Point p1, Point p2, int dashLength)
+        {
+            List<Point> points = new System.Collections.Generic.List<Point>();
+
+            int length = (int)Math.Sqrt(Math.Pow((p2.Y - p1.Y), 2) + Math.Pow((p2.X - p1.X), 2));
+            int count = length / dashLength;
+
+            for (int i = 1; i <= count; i++)
+            {
+                var point = new Point();
+                point.X = (Math.Abs(p1.X - p2.X) / count) * i + p2.X;
+                point.Y = (Math.Abs(p1.Y - p2.Y) / count) * i + p2.Y;
+                points.Add(point);
+            }
+
+            return points;
         }
         public void DrawArrow(int x0, int y0, int x1, int y1, Color color, float thickness = 1)
         {
@@ -577,201 +647,6 @@ namespace ManiacEditor
             DrawLine(x1, y1, x2, y2, color, thickness);
             DrawLine(x1, y1, x3, y3, color, thickness);
         }
-        public void DrawBézierSplineCubic(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color color)
-        {
-            for (double i = 0; i < 1; i += 0.01)
-            {
-                // The Green Lines
-                int xa = getPt(x1, x2, i);
-                int ya = getPt(y1, y2, i);
-                int xb = getPt(x2, x3, i);
-                int yb = getPt(y2, y3, i);
-                int xc = getPt(x3, x4, i);
-                int yc = getPt(y3, y4, i);
-
-                // The Blue Line
-                int xm = getPt(xa, xb, i);
-                int ym = getPt(ya, yb, i);
-                int xn = getPt(xb, xc, i);
-                int yn = getPt(yb, yc, i);
-
-                // The Black Dot
-                int x = getPt(xm, xn, i);
-                int y = getPt(ym, yn, i);
-
-                DrawLinePBP(x, y, x, y, color);
-            }
-
-            int getPt(int n1, int n2, double perc)
-            {
-                int diff = n2 - n1;
-
-                return (int)(n1 + (diff * perc));
-            }
-        }
-        public void DrawBézierSplineQuadratic(int x1, int y1, int x2, int y2, int x3, int y3, Color color)
-        {
-            for (double i = 0; i < 1; i += 0.01)
-            {
-                // The Green Line
-                int xa = getPt(x1, x2, i);
-                int ya = getPt(y1, y2, i);
-                int xb = getPt(x2, x3, i);
-                int yb = getPt(y2, y3, i);
-
-                // The Black Dot
-                int x = getPt(xa, xb, i);
-                int y = getPt(ya, yb, i);
-
-                DrawLinePBP(x, y, x, y, color);
-            }
-
-
-            int getPt(int n1, int n2, double perc)
-            {
-                int diff = n2 - n1;
-
-                return (int)(n1 + (diff * perc));
-            }
-        }
-        public void DrawLinePBP(int x0, int y0, int x1, int y1, Color color)
-        {
-            /*
-            Rectangle screen = GetParentScreen();
-            double zoom = GetZoom();
-            int dx, dy, inx, iny, e;
-            int pixel_width = (int)Math.Ceiling(zoom);
-
-            dx = x1 - x0;
-            dy = y1 - y0;
-            inx = dx > 0 ? 1 : -1;
-            iny = dy > 0 ? 1 : -1;
-
-            dx = Math.Abs(dx);
-            dy = Math.Abs(dy);
-
-            if (dx >= dy)
-            {
-                dy <<= 1;
-                e = dy - dx;
-                dx <<= 1;
-                while (x0 != x1)
-                {
-                    DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
-                    if (e >= 0)
-                    {
-                        y0 += iny;
-                        e -= dx;
-                    }
-                    e += dy; x0 += inx;
-                }
-            }
-            else
-            {
-                dx <<= 1;
-                e = dx - dy;
-                dy <<= 1;
-                while (y0 != y1)
-                {
-                    DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
-                    if (e >= 0)
-                    {
-                        x0 += inx;
-                        e -= dy;
-                    }
-                    e += dx; y0 += iny;
-                }
-            }
-            DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
-            */
-        }
-        public void DrawLinePBPDoted(int x0, int y0, int x1, int y1, Color color, Color color2, Color color3, Color color4)
-        {
-            /*
-            Rectangle screen = GetParentScreen();
-            double zoom = GetZoom();
-            int dx, dy, inx, iny, e;
-            int pixel_width = (int)(Math.Ceiling(zoom + 0.3));
-
-            dx = x1 - x0;
-            dy = y1 - y0;
-            inx = dx > 0 ? 1 : -1;
-            iny = dy > 0 ? 1 : -1;
-
-            dx = Math.Abs(dx);
-            dy = Math.Abs(dy);
-
-            Color currentColor = color;
-            int iterations = 0;
-
-            if (dx >= dy)
-            {
-                dy <<= 1;
-                e = dy - dx;
-                dx <<= 1;
-                while (x0 != x1)
-                {
-                    if (iterations >= 5)
-                    {
-                        if (currentColor == color4) currentColor = color;
-                        else if (currentColor == color3) currentColor = color4;
-                        else if (currentColor == color2) currentColor = color3;
-                        else if (currentColor == color) currentColor = color2;
-
-                        iterations = 0;
-                    }
-
-
-                    DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), currentColor);
-                    if (e >= 0)
-                    {
-                        y0 += iny;
-                        e -= dx;
-                    }
-                    e += dy; x0 += inx; iterations++;
-
-                }
-            }
-            else
-            {
-                dx <<= 1;
-                e = dx - dy;
-                dy <<= 1;
-                while (y0 != y1)
-                {
-                    if (iterations >= 5)
-                    {
-                        if (currentColor == color4) currentColor = color;
-                        else if (currentColor == color3) currentColor = color4;
-                        else if (currentColor == color2) currentColor = color3;
-                        else if (currentColor == color) currentColor = color2;
-
-                        iterations = 0;
-                    }
-
-                    DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), currentColor);
-                    if (e >= 0)
-                    {
-                        x0 += inx;
-                        e -= dy;
-                    }
-                    e += dx; y0 += iny; iterations++;
-                }
-            }
-            DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
-            */
-        }
-
-        public void DrawQuad(int x1, int y1, int x2, int y2, Color color)
-        {
-            /*
-            if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
-            Rectangle screen = GetParentScreen();
-            double zoom = GetZoom();
-
-            DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
-            */
-        }
         public void DrawText(string text, int x, int y, Color color, bool bold, int size = 4)
         {
             DrawText(text, x, y, color, bold, size, System.Drawing.Color.Transparent);
@@ -783,26 +658,16 @@ namespace ManiacEditor
             else textObject.Font = RenderingFont;
 
             textObject.DisplayedString = text;
-            float zoom = GetZoom();
+
+            //var zoom = GetZoom();
+            var zoom = 1f;
+
             textObject.CharacterSize = (uint)(size * zoom);
             textObject.OutlineThickness = 1;
             textObject.OutlineColor = new SFML.Graphics.Color(bordercolor.R, bordercolor.G, bordercolor.B, bordercolor.A);
             textObject.Position = new SFML.System.Vector2f(x * zoom, y * zoom);
             textObject.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
             RenderWindow.Draw(textObject);
-        }
-        public void Draw2DCursor(int x, int y)
-        {
-
-
-        }
-        public void DrawHorizCursor(int x, int y)
-        {
-
-        }
-        public void DrawVertCursor(int x, int y)
-        {
-
         }
 
         #endregion

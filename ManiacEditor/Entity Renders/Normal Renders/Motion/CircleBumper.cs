@@ -28,7 +28,7 @@ namespace ManiacEditor.Entity_Renders
             else DrawCircleBumperNormal(d, Animation, x, y, Transparency, amplitudeX, amplitudeY, angle);
         }
 
-        private void DrawCircleBumperNormal(DevicePanel d, Methods.Entities.EntityDrawing.EditorAnimation Animation, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle)
+        private void DrawCircleBumperNormal(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle)
         {
             if ((amplitudeX != 0 || amplitudeY != 0))
             {
@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
             }
             else DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
-        private void DrawCircleBumperAlt(DevicePanel d, Methods.Entities.EntityDrawing.EditorAnimation Animation, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle)
+        private void DrawCircleBumperAlt(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle)
         {
             int[] position = new int[2] { 0, 0 };
             int posX = amplitudeX;

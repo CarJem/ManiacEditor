@@ -621,7 +621,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 					attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
 					break;
 			}
-			if (CurrentEntity != null) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
+			if (CurrentEntity != null && UpdateUI) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
 			if (UpdateUI) UpdateToolbar(new List<EditorEntity>() { entity });
 		}
 
@@ -1053,8 +1053,10 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		}
 		private void EntitiesList_Click(object sender, RoutedEventArgs e)
 		{
+
 			if (TabControl.SelectedIndex != 2)
 			{
+				UpdateEntitiesList();
 				TabControl.SelectedIndex = 2;
 				if (CurrentEntity != null && ObjectList.ToList().Exists(x => x != null && x.Tag.ToString() == CurrentEntity.SlotID.ToString()))
 				{

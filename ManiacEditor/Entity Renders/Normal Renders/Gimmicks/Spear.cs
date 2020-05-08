@@ -5,22 +5,19 @@ namespace ManiacEditor.Entity_Renders
     public class Spear : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            bool fliph = false; 
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
+            bool fliph = false;
             bool flipv = false;
-            int orientation = (int)entity.attributesMap["orientation"].ValueUInt8;
+
+            int orientation = (int)e.attributesMap["orientation"].ValueUInt8;
             int animID = 0;
             switch (orientation)
             {
@@ -36,23 +33,10 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spear", d.DevicePanel, animID, 0, fliph, flipv, false);
-            var editorAnimSpear = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spear", d.DevicePanel, animID, 1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimSpear != null && editorAnimSpear.Frames.Count != 0 && animID >= 0)
-            {
-                var frame = editorAnim.Frames[0];
-                var frameSpear = editorAnimSpear.Frames[0];
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameSpear),
-                    x + (fliph ? -frameSpear.Frame.PivotX - frameSpear.Frame.Width : frameSpear.Frame.PivotX),
-                    y + (flipv ? -frameSpear.Frame.PivotY - frameSpear.Frame.Height : frameSpear.Frame.PivotY),
-                    frameSpear.Frame.Width, frameSpear.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + (fliph ? -frame.Frame.PivotX - frame.Frame.Width : frame.Frame.PivotX),
-                    y + (flipv ? -frame.Frame.PivotY - frame.Frame.Height : frame.Frame.PivotY),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-            }
+            var Animation = LoadAnimation("Spear", d, animID, 1);
+            DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? -Animation.RequestedFrame.PivotX - Animation.RequestedFrame.Width : Animation.RequestedFrame.PivotX), y + (flipv ? -Animation.RequestedFrame.PivotY - Animation.RequestedFrame.Height : Animation.RequestedFrame.PivotY), Transparency, fliph, flipv);
+            Animation = LoadAnimation("Spear", d, animID, 0);
+            DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? -Animation.RequestedFrame.PivotX - Animation.RequestedFrame.Width : Animation.RequestedFrame.PivotX), y + (flipv ? -Animation.RequestedFrame.PivotY - Animation.RequestedFrame.Height : Animation.RequestedFrame.PivotY), Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

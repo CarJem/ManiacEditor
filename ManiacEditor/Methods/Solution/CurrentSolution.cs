@@ -71,7 +71,9 @@ namespace ManiacEditor.Methods.Solution
         public static Classes.Scene.EditorLayer FGLower => CurrentScene?.LowDetails;
         public static Classes.Scene.EditorLayer ScratchLayer => CurrentScene?.Scratch;
 
+        #endregion
 
+        #region Edit Layers
         public static List<Classes.Scene.EditorLayer> EditLayers
         {
             get
@@ -79,12 +81,18 @@ namespace ManiacEditor.Methods.Solution
                 var layersInEditMode = new List<Classes.Scene.EditorLayer>();
                 if (EditLayerA != null) layersInEditMode.Add(EditLayerA);
                 if (EditLayerB != null) layersInEditMode.Add(EditLayerB);
+                if (EditLayerC != null) layersInEditMode.Add(EditLayerC);
+                if (EditLayerD != null) layersInEditMode.Add(EditLayerD);
                 return layersInEditMode;
             }
         }
 
 
         private static Classes.Scene.EditorLayer _EditLayerA;
+        private static Classes.Scene.EditorLayer _EditLayerB;
+        private static Classes.Scene.EditorLayer _EditLayerC;
+        private static Classes.Scene.EditorLayer _EditLayerD;
+
         public static Classes.Scene.EditorLayer EditLayerA
         {
             get
@@ -97,7 +105,6 @@ namespace ManiacEditor.Methods.Solution
                 Methods.Internal.UserInterface.EditorToolbars.ValidateEditorToolbars();
             }
         }
-        private static Classes.Scene.EditorLayer _EditLayerB;
         public static Classes.Scene.EditorLayer EditLayerB
         {
             get
@@ -110,6 +117,31 @@ namespace ManiacEditor.Methods.Solution
                 Methods.Internal.UserInterface.EditorToolbars.ValidateEditorToolbars();
             }
         }
+        public static Classes.Scene.EditorLayer EditLayerC
+        {
+            get
+            {
+                return _EditLayerC;
+            }
+            set
+            {
+                _EditLayerC = value;
+                Methods.Internal.UserInterface.EditorToolbars.ValidateEditorToolbars();
+            }
+        }
+        public static Classes.Scene.EditorLayer EditLayerD
+        {
+            get
+            {
+                return _EditLayerD;
+            }
+            set
+            {
+                _EditLayerD = value;
+                Methods.Internal.UserInterface.EditorToolbars.ValidateEditorToolbars();
+            }
+        }
+
         #endregion
 
         #region Screen Size
@@ -142,6 +174,9 @@ namespace ManiacEditor.Methods.Solution
             Instance.Background = null;
             Instance.Chunks = null;
 
+            Instance.TilesToolbar = null;
+            Instance.EntitiesToolbar = null;
+
             Methods.Solution.SolutionState.Main.Zoom = 1;
             Methods.Solution.SolutionState.Main.ZoomLevel = 0;
 
@@ -158,7 +193,7 @@ namespace ManiacEditor.Methods.Solution
             Methods.Internal.UserInterface.UpdateControls();
 
             // clear memory a little more aggressively 
-            Methods.Entities.EntityDrawing.ReleaseResources();
+            Methods.Draw.ObjectDrawing.ReleaseResources();
             GC.Collect();
             Methods.Solution.CurrentSolution.TileConfig = null;
 

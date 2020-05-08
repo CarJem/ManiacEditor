@@ -154,7 +154,7 @@ namespace ManiacEditor.Methods.Draw
 
         #region Tile Providers
 
-        public void TileIDProvider(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileIDProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
             {
@@ -165,7 +165,7 @@ namespace ManiacEditor.Methods.Draw
 
                 if (NotAir)
                 {
-                    rec = GetTileRectNoFlip(tile, Zoom);
+                    rec = GetTileRectNoFlip(tile);
                     color = GetNormalColors(new Point(x, y), tile);
                 }
                 else
@@ -180,7 +180,7 @@ namespace ManiacEditor.Methods.Draw
                 color = GetNullTileProviderColor();
             }
         }
-        public void FlippedTileProvider(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        public void FlippedTileProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
             {
@@ -191,7 +191,7 @@ namespace ManiacEditor.Methods.Draw
 
                 if (NotAir)
                 {
-                    rec = GetTileRect(tile, Zoom, true);
+                    rec = GetTileRect(tile, true);
                     color = GetNormalColors(new Point(x, y), tile);
                 }
                 else
@@ -207,7 +207,7 @@ namespace ManiacEditor.Methods.Draw
             }
 
         }
-        public void TileProvider(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
             {
@@ -218,7 +218,7 @@ namespace ManiacEditor.Methods.Draw
 
                 if (NotAir)
                 {
-                    rec = GetTileRect(tile, Zoom);
+                    rec = GetTileRect(tile);
                     color = GetNormalColors(new Point(x, y), tile);
                 }
                 else
@@ -237,7 +237,7 @@ namespace ManiacEditor.Methods.Draw
 
 
         }
-        public void TileSelectedProvider(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileSelectedProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
             {
@@ -264,7 +264,7 @@ namespace ManiacEditor.Methods.Draw
 
 
         }
-        public void TileCollisionProviderA(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileCollisionProviderA(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
             {
@@ -273,7 +273,7 @@ namespace ManiacEditor.Methods.Draw
 
                 if (NotAir)
                 {
-                    rec = GetTileRect(tile, Zoom);
+                    rec = GetTileRect(tile);
                     color = GetCollisionColors(new Point(x, y), tile, true);
                 }
                 else
@@ -289,7 +289,7 @@ namespace ManiacEditor.Methods.Draw
             }
 
         }
-        public void TileCollisionProviderB(int x, int y, int layer, double Zoom, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileCollisionProviderB(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
         {
             if (IsTileWithinRange(x, y))
             {
@@ -298,7 +298,7 @@ namespace ManiacEditor.Methods.Draw
 
                 if (NotAir)
                 {
-                    rec = GetTileRect(tile, Zoom);
+                    rec = GetTileRect(tile);
                     color = GetCollisionColors(new Point(x, y), tile, false);
                 }
                 else
@@ -325,8 +325,11 @@ namespace ManiacEditor.Methods.Draw
         }
         private IntRect GetTileSelectedRect(Point point)
         {
+            int connection_id = 0;
+            if (Properties.Settings.MyPerformance.UseConnectedTileSelections) connection_id = ConnectedTexturesLogic.GetConnectionID(point);
+
             int tile_size = Methods.Solution.SolutionConstants.TILE_SIZE;
-            int tile_texture_y = ConnectedTexturesLogic.GetConnectionID(point) * tile_size;
+            int tile_texture_y = connection_id * tile_size;
             int rect_x = 0;
             int rect_y = tile_texture_y;
             int rect_width = tile_size;
@@ -334,7 +337,7 @@ namespace ManiacEditor.Methods.Draw
 
             return new IntRect(rect_x, rect_y, rect_width, rect_height);
         }
-        private IntRect GetTileRectNoFlip(ushort tile, double zoom)
+        private IntRect GetTileRectNoFlip(ushort tile)
         {
             int index = (tile & 0x3ff);
 
@@ -354,7 +357,7 @@ namespace ManiacEditor.Methods.Draw
 
             return new IntRect(rect_x, rect_y, rect_width, rect_height);
         }
-        private IntRect GetTileRect(ushort tile, double zoom, bool FlipGuideMode = false)
+        private IntRect GetTileRect(ushort tile, bool FlipGuideMode = false)
         {
             int index = (tile & 0x3ff);
 

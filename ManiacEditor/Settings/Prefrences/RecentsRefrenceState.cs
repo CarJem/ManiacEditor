@@ -29,6 +29,7 @@ using MenuItem = System.Windows.Controls.MenuItem;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
+using ListBoxItem = System.Windows.Controls.ListBoxItem;
 using ManiacEditor.Controls.Global;
 using ManiacEditor.Enums;
 using ManiacEditor.Events;
@@ -40,8 +41,8 @@ namespace ManiacEditor.Classes.Prefrences
     public static class RecentsRefrenceState
     {
         #region Collections
-        public static IList<Tuple<MenuItem, MenuItem>> RecentSceneItems;
-        public static IList<Tuple<MenuItem, MenuItem>> RecentDataSourceItems;
+        public static IList<Tuple<MenuItem, ListBoxItem>> RecentSceneItems;
+        public static IList<Tuple<MenuItem, ListBoxItem>> RecentDataSourceItems;
         #endregion
 
         #region Init
@@ -53,8 +54,8 @@ namespace ManiacEditor.Classes.Prefrences
         {
             Instance = _instance;
 
-            RecentSceneItems = new List<Tuple<MenuItem, MenuItem>>();
-            RecentDataSourceItems = new List<Tuple<MenuItem, MenuItem>>();
+            RecentSceneItems = new List<Tuple<MenuItem, ListBoxItem>>();
+            RecentDataSourceItems = new List<Tuple<MenuItem, ListBoxItem>>();
         }
 
         #endregion
@@ -72,13 +73,13 @@ namespace ManiacEditor.Classes.Prefrences
 
                 foreach (var RecentItem in Classes.Prefrences.SceneHistoryStorage.Collection.List)
                 {
-                    RecentSceneItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentScenesMenuLink(RecentItem.EntryName), CreateRecentScenesMenuLink(RecentItem.EntryName, true)));
+                    RecentSceneItems.Add(new Tuple<MenuItem, ListBoxItem>(CreateRecentScenesMenuLink(RecentItem.EntryName), CreateRecentScenesItem(RecentItem.EntryName, true)));
                 }
 
                 foreach (var menuItem in RecentSceneItems.Reverse())
                 {
                     Instance.MenuBar.RecentScenes.Items.Insert(0, menuItem.Item1);
-                    Instance.StartScreen.RecentScenesList.Children.Insert(0, menuItem.Item2);
+                    Instance.StartScreen.RecentScenesList.Items.Insert(0, menuItem.Item2);
                 }
             }
             else
@@ -95,27 +96,68 @@ namespace ManiacEditor.Classes.Prefrences
             label.Text = target.Replace("/n/n", Environment.NewLine);
             newItem.Tag = target;
             newItem.Header = label;
-            newItem.Click += RecentSceneEntryClicked;
+            newItem.Click += RecentSceneEntryActivate;
             return newItem;
         }
-        public static void RecentSceneEntryClicked(object sender, RoutedEventArgs e)
+        private static ListBoxItem CreateRecentScenesItem(string target, bool startScreenEntry = false)
+        {
+            ListBoxItem newItem = new ListBoxItem();
+            TextBlock label = new TextBlock();
+
+            label.Text = target.Replace("/n/n", Environment.NewLine);
+            newItem.Tag = target;
+            newItem.Content = label;
+            newItem.PreviewMouseLeftButtonUp += RecentSceneEntryClicked;
+            newItem.KeyUp += RecentSceneEntryPressed;
+            return newItem;
+        }
+
+        private static void RecentSceneEntryPressed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                RecentSceneEntryActivate(sender, null);
+            }
+        }
+        private static void RecentSceneEntryClicked(object sender, MouseButtonEventArgs e)
+        {
+            RecentSceneEntryActivate(sender, null);
+        }
+
+
+        private static void RecentSceneEntryActivate(object sender, EventArgs e)
         {
             if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
             Methods.Solution.CurrentSolution.UnloadScene();
-            var menuItem = sender as MenuItem;
-            string entryName = menuItem.Tag.ToString();
+
+            string entryName;
+
+            if (sender is MenuItem)
+            {
+                var menuItem = sender as MenuItem;
+                entryName = menuItem.Tag.ToString();
+            }
+            else
+            {
+                var menuItem = sender as ListBoxItem;
+                entryName = menuItem.Tag.ToString();
+            }
+
             var item = Classes.Prefrences.SceneHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
             ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneFromSaveState(item);
             Classes.Prefrences.SceneHistoryStorage.AddRecentFile(item);
         }
+
+
         private static void CleanUpRecentScenesList()
         {
             foreach (var menuItem in RecentSceneItems)
             {
-                menuItem.Item1.Click -= RecentSceneEntryClicked;
-                menuItem.Item2.Click -= RecentSceneEntryClicked;
+                menuItem.Item1.Click -= RecentSceneEntryActivate;
+                menuItem.Item2.PreviewMouseLeftButtonUp -= RecentSceneEntryClicked;
+                menuItem.Item2.KeyUp -= RecentSceneEntryPressed;
                 Instance.MenuBar.RecentScenes.Items.Remove(menuItem.Item1);
-                Instance.StartScreen.RecentScenesList.Children.Remove(menuItem.Item2);
+                Instance.StartScreen.RecentScenesList.Items.Remove(menuItem.Item2);
             }
             RecentSceneItems.Clear();
         }
@@ -136,13 +178,13 @@ namespace ManiacEditor.Classes.Prefrences
 
                 foreach (var RecentItem in ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.Collection.List)
                 {
-                    RecentDataSourceItems.Add(new Tuple<MenuItem, MenuItem>(CreateRecentDataSourceMenuLink(RecentItem.EntryName), CreateRecentDataSourceMenuLink(RecentItem.EntryName, true)));
+                    RecentDataSourceItems.Add(new Tuple<MenuItem, ListBoxItem>(CreateRecentDataSourceMenuLink(RecentItem.EntryName), CreateRecentDataSourceItem(RecentItem.EntryName, true)));
                 }
 
                 foreach (var menuItem in RecentDataSourceItems.Reverse())
                 {
                     Instance.MenuBar.RecentDataSources.Items.Insert(0, menuItem.Item1);
-                    Instance.StartScreen.RecentDataContextList.Children.Insert(0, menuItem.Item2);
+                    Instance.StartScreen.RecentDataContextList.Items.Insert(0, menuItem.Item2);
                 }
             }
             else
@@ -159,27 +201,64 @@ namespace ManiacEditor.Classes.Prefrences
             if (wrapText) label.TextWrapping = TextWrapping.Wrap;
             newItem.Header = label;
             newItem.Tag = target;
-            newItem.Click += RecentDataSourceEntryClicked;
+            newItem.Click += RecentDataSourceActivate;
             return newItem;
         }
-        public static void RecentDataSourceEntryClicked(object sender, RoutedEventArgs e)
+        private static ListBoxItem CreateRecentDataSourceItem(string target, bool wrapText = false)
+        {
+            ListBoxItem newItem = new ListBoxItem();
+            TextBlock label = new TextBlock();
+            label.Text = target.Replace("/n/n", Environment.NewLine);
+            if (wrapText) label.TextWrapping = TextWrapping.Wrap;
+            newItem.Content = label;
+            newItem.Tag = target;
+            newItem.PreviewMouseLeftButtonUp += RecentDataSourceClicked;
+            newItem.KeyUp += RecentDataSourcePressed;
+            return newItem;
+        }
+        public static void RecentDataSourceActivate(object sender, RoutedEventArgs e)
         {
             if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
             Methods.Solution.CurrentSolution.UnloadScene();
-            var menuItem = sender as MenuItem;
-            string entryName = menuItem.Tag.ToString();
+
+            string entryName;
+
+            if (sender is MenuItem)
+            {
+                var menuItem = sender as MenuItem;
+                entryName = menuItem.Tag.ToString();
+            }
+            else
+            {
+                var menuItem = sender as ListBoxItem;
+                entryName = menuItem.Tag.ToString();
+            }
+
+
             var item = ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.Collection.List.Where(x => x.EntryName == entryName).FirstOrDefault();
             ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneSelectSaveState(item);
             ManiacEditor.Classes.Prefrences.DataStateHistoryStorage.AddRecentFile(item);
+        }
+        private static void RecentDataSourcePressed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                RecentSceneEntryActivate(sender, null);
+            }
+        }
+        private static void RecentDataSourceClicked(object sender, MouseButtonEventArgs e)
+        {
+            RecentSceneEntryActivate(sender, null);
         }
         private static void CleanUpDataSourcesList()
         {
             foreach (var menuItem in RecentDataSourceItems)
             {
-                menuItem.Item1.Click -= RecentDataSourceEntryClicked;
-                menuItem.Item2.Click -= RecentDataSourceEntryClicked;
+                menuItem.Item1.Click -= RecentDataSourceActivate;
+                menuItem.Item2.PreviewMouseLeftButtonUp -= RecentDataSourceClicked;
+                menuItem.Item2.KeyUp -= RecentDataSourcePressed;
                 Instance.MenuBar.RecentDataSources.Items.Remove(menuItem.Item1);
-                Instance.StartScreen.RecentDataContextList.Children.Remove(menuItem.Item2);
+                Instance.StartScreen.RecentDataContextList.Items.Remove(menuItem.Item2);
             }
             RecentDataSourceItems.Clear();
 

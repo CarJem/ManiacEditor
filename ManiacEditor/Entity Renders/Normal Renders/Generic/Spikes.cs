@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
             bool extra = false;
             count *= 2; // I made all this with an incorrect assumption so here's a cheap fix
             int count2 = count >> 2;
-            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "Spikes", animID, 0);
+            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "Spikes", animID, 0);
 
             if (Animation.RequestedFrame.Width == 0 || Animation.RequestedFrame.Height == 0) return;
 
@@ -113,20 +113,10 @@ namespace ManiacEditor.Entity_Renders
         }
 
 
-        public void IceDraw()
+        public void IceDraw(DevicePanel d, int x, int y, int Transparency)
         {
-            /*
-            //(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Spikes", d.DevicePanel, 0, 0, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[0];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-            */           
+            var Animation = LoadAnimation("Spikes", d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, false);
         }
 
         public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)

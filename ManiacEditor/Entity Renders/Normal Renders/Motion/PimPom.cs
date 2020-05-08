@@ -6,27 +6,24 @@ namespace ManiacEditor.Entity_Renders
     public class PimPom : EntityRenderer
     {
         Boolean boolState = true;
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            int type = (int)entity.attributesMap["type"].ValueEnum;
-            int color = (int)entity.attributesMap["color"].ValueUInt8;
-            int direction = (int)entity.attributesMap["direction"].ValueUInt8;
-            int angle = (int)entity.attributesMap["angle"].ValueInt32;
-            int length = (int)entity.attributesMap["length"].ValueUInt8;
-            int gap = (int)entity.attributesMap["gap"].ValueUInt8;
+            DevicePanel d = Properties.Graphics;
+
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+
             bool fliph = false;
             bool flipv = false;
+
+            int type = (int)e.attributesMap["type"].ValueEnum;
+            int color = (int)e.attributesMap["color"].ValueUInt8;
+            int direction = (int)e.attributesMap["direction"].ValueUInt8;
+            int angle = (int)e.attributesMap["angle"].ValueInt32;
+            int length = (int)e.attributesMap["length"].ValueUInt8;
+            int gap = (int)e.attributesMap["gap"].ValueUInt8;
             int animID;
             int frameID;
             switch (type)
@@ -91,85 +88,66 @@ namespace ManiacEditor.Entity_Renders
                 default:
                     break;
             }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("PimPom", d.DevicePanel, animID, frameID, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && animID >= 0)
+            var Animation = LoadAnimation("PimPom", d, animID, frameID);
+            if (length != 0 && angle == 0) DrawAngle0(d, Animation, x, y, Transparency, fliph, flipv, length, gap);
+            else if (length != 0 && angle == 3) DrawAngle3(d, Animation, x, y, Transparency, fliph, flipv, length);
+            else if (length != 0 && angle == 1) DrawAngle1(d, Animation, x, y, Transparency, fliph, flipv, length);
+            else if (length != 0 && angle == 2) DrawAngle2(d, Animation, x, y, Transparency, fliph, flipv, length, gap);
+            else DrawDefault(d, Animation, x, y, Transparency, fliph, flipv);
+        }
+
+
+        private void DrawDefault(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv)
+        {
+            DrawTexturePivotNormal(d, Frame, Frame.RequestedAnimID, Frame.RequestedFrameID, x, y, Transparency, fliph, flipv);
+        }
+
+        private void DrawAngle0(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value, int gap)
+        {
+            bool wEven = value % 2 == 0;
+            for (int xx = 0; xx <= value; ++xx)
             {
-                var frame = editorAnim.Frames[Animation.index];
-
-                //Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                if (length != 0 && angle == 0)
-                {
-                    var value = entity.attributesMap["length"].ValueUInt8;
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        bool wEven = value % 2 == 0;
-                        for (int xx = 0; xx <= value; ++xx)
-                        {
-                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                                (x - 3) + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-value / 2 + xx) * (frame.Frame.Width + (gap*2)),
-                                y + frame.Frame.PivotY,
-                                frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                        }
-                    }
-                }
-                else if (length != 0 && angle == 3)
-                {
-                    var value = entity.attributesMap["length"].ValueUInt8;
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        bool wEven = value % 2 == 0;
-                        for (int xx = 0; xx <= value; ++xx)
-                        {
-                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                                x + (wEven ? frame.Frame.PivotX : -frame.Frame.Width) + (-value / 2 + xx) * (frame.Frame.Width),
-                                y + (wEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-value / 2 + xx) * (frame.Frame.Height),
-                                frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                        }
-                    }
-                }
-                else if (length != 0 && angle == 1)
-                {
-                    var value = entity.attributesMap["length"].ValueUInt8;
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        bool wEven = value % 2 == 0;
-                        for (int xx = 0; xx <= value; ++xx)
-                        {
-                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                                (x - frame.Frame.Width) - (wEven ? frame.Frame.PivotX : -frame.Frame.Width) - (-value / 2 + xx) * (frame.Frame.Width),
-                                y + (wEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-value / 2 + xx) * (frame.Frame.Height - 2),
-                                frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                        }
-                    }
-                }
-                else if (length != 0 && angle == 2)
-                {
-                    var value = entity.attributesMap["length"].ValueUInt8;
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        bool wEven = value % 2 == 0;
-                        wEven = boolState;
-                        for (int xx = 0; xx <= value; ++xx)
-                        {
-                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                                (x + 3) + frame.Frame.PivotX,
-                                y + (wEven ? frame.Frame.PivotY : -frame.Frame.Height) + (-value / 2 + xx) * (frame.Frame.Height + (gap * 2)),
-                                frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                        }
-                    }
-                }
-                else {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                        x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                        y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
-
-
+                int posX = (x - 3) + (wEven ? Frame.RequestedFrame.PivotX : -Frame.RequestedFrame.Width) + (-value / 2 + xx) * (Frame.RequestedFrame.Width + (gap * 2));
+                int posY = y + Frame.RequestedFrame.PivotY;
+                DrawTexture(d, Frame, Frame.RequestedAnimID, Frame.RequestedFrameID, posX, posY, Transparency, fliph, flipv);
             }
         }
 
-        public override bool isObjectOnScreen(Methods.Draw.GraphicsHandler d, SceneEntity entity, Classes.Scene.Sets.EditorEntity e, int x, int y, int Transparency)
+        private void DrawAngle1(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value)
+        {
+            bool wEven = value % 2 == 0;
+            for (int xx = 0; xx <= value; ++xx)
+            {
+                int posX = (x - Frame.RequestedFrame.Width) - (wEven ? Frame.RequestedFrame.PivotX : -Frame.RequestedFrame.Width) - (-value / 2 + xx) * (Frame.RequestedFrame.Width);
+                int posY = y + (wEven ? Frame.RequestedFrame.PivotY : -Frame.RequestedFrame.Height) + (-value / 2 + xx) * (Frame.RequestedFrame.Height - 2);
+                DrawTexture(d, Frame, Frame.RequestedAnimID, Frame.RequestedFrameID, posX, posY, Transparency, fliph, flipv);
+            }
+        }
+
+        private void DrawAngle2(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value, int gap)
+        {
+            bool wEven = value % 2 == 0;
+            wEven = boolState;
+            for (int xx = 0; xx <= value; ++xx)
+            {
+                int posX = (x + 3) + Frame.RequestedFrame.PivotX;
+                int posY = y + (wEven ? Frame.RequestedFrame.PivotY : -Frame.RequestedFrame.Height) + (-value / 2 + xx) * (Frame.RequestedFrame.Height + (gap * 2));
+                DrawTexture(d, Frame, Frame.RequestedAnimID, Frame.RequestedFrameID, posX, posY, Transparency, fliph, flipv);
+            }
+        }
+
+        private void DrawAngle3(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value)
+        {
+            bool wEven = value % 2 == 0;
+            for (int xx = 0; xx <= value; ++xx)
+            {
+                int posX = x + (wEven ? Frame.RequestedFrame.PivotX : -Frame.RequestedFrame.Width) + (-value / 2 + xx) * (Frame.RequestedFrame.Width);
+                int posY = y + (wEven ? Frame.RequestedFrame.PivotY : -Frame.RequestedFrame.Height) + (-value / 2 + xx) * (Frame.RequestedFrame.Height);
+                DrawTexture(d, Frame, Frame.RequestedAnimID, Frame.RequestedFrameID, posX, posY, Transparency, fliph, flipv);
+            }
+        }
+
+        public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             int length = (int)entity.attributesMap["length"].ValueUInt8 + 1;
             int gap = (int)entity.attributesMap["gap"].ValueUInt8;

@@ -4,6 +4,9 @@ SET SolutionDir=%~2
 SET TargetDir=%~3
 SET ProjectDir=%~4
 
+taskkill /F /IM VBCSCompiler.exe
+
+rmdir "%TargetDir%bin/roslyn " /s /q
 rmdir "%TargetDir%Lib\ " /s /q
 
 SET COPYCMD=/Y
@@ -13,6 +16,8 @@ move  "%TargetDir%*.dll" "%TargetDir%/Lib"
 move  "%TargetDir%*.pdb" "%TargetDir%/Lib"
 move  "%TargetDir%*.pdb" "%TargetDir%/Lib"
 
+robocopy  "%TargetDir%roslyn" "%TargetDir%bin/roslyn" /S /Move /is
+robocopy  "%TargetDir%cs-CZ" "%TargetDir%Lib/cs-CZ" /S /Move /is
 robocopy  "%TargetDir%cs-CZ" "%TargetDir%Lib/cs-CZ" /S /Move /is
 robocopy  "%TargetDir%de" "%TargetDir%Lib/de" /S /Move /is
 robocopy  "%TargetDir%es" "%TargetDir%Lib/es" /S /Move /is

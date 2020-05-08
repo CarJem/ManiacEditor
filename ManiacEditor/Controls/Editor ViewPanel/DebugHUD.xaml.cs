@@ -97,7 +97,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
                 if (HUDItemNeedsUpdate(SetupObject.Text, GetSetupObject())) SetupObject.Text = GetSetupObject();
                 if (HUDItemNeedsUpdate(SelectedZone.Text, GetSelectedZone())) SelectedZone.Text = GetSelectedZone();
 
-                string infoToggle = string.Format("Use {0} to Toggle this Information", Extensions.KeyEventExts.KeyBindPraser("StatusBoxToggle"));
+                string infoToggle = string.Format("Use {0} to Toggle this Information", "F3");
                 if (HUDItemNeedsUpdate(InfoToggle.Text, infoToggle)) InfoToggle.Text = infoToggle;
             }
         }
@@ -217,8 +217,8 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
         public string GetPosition()
         {
-            int x = (int)((Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom) / 16);
-            int y = (int)((Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom) / 16);
+            int x = (int)((Methods.Solution.SolutionState.Main.ViewPositionX) / 16);
+            int y = (int)((Methods.Solution.SolutionState.Main.ViewPositionY) / 16);
             return string.Format("Position: {0}, {1}", x, y);
         }
 

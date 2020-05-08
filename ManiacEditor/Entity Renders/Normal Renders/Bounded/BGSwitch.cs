@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "EditorIcons");
+            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons");
             DrawTexturePivotNormal(d, Animation, 0, 5, x, y, Transparency);
 
 
@@ -24,31 +24,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
-            var Animation2 = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "EditorAssets");
-
-            if (width != 0 && height != 0)
-            {
-                int x1 = x + widthPixels / -2;
-                int x2 = x + widthPixels / 2 - 1;
-                int y1 = y + heightPixels / -2;
-                int y2 = y + heightPixels / 2 - 1;
-
-
-                d.DrawLine(x1, y1, x1, y2, SystemColors.White);
-                d.DrawLine(x1, y1, x2, y1, SystemColors.White);
-                d.DrawLine(x2, y2, x1, y2, SystemColors.White);
-                d.DrawLine(x2, y2, x2, y1, SystemColors.White);
-
-                // draw corners
-                for (int i = 0; i < 4; i++)
-                {
-                    bool right = (i & 1) > 0;
-                    bool bottom = (i & 2) > 0;
-
-                    Animation = Methods.Entities.EntityDrawing.LoadAnimation(Properties.Graphics, "EditorAssets", 0, 1);
-                    DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, (x + widthPixels / (right ? 2 : -2)) - (right ? Animation.RequestedFrame.Width : 0), (y + heightPixels / (bottom ? 2 : -2) - (bottom ? Animation.RequestedFrame.Height : 0)), Transparency);
-                }
-            }
+            DrawBounds(d, x, y, widthPixels, heightPixels, Transparency, SystemColors.White, SystemColors.Transparent);
         }
 
         public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)

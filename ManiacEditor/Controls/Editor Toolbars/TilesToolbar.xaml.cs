@@ -222,8 +222,8 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 		{
 			if (Show)
 			{
-				PlacedTileOptionFlipX.Content = "Flip X - " + Extensions.KeyEventExts.KeyBindPraser("FlipHTiles", true);
-				PlacedTileOptionFlipY.Content = "Flip Y - " + Extensions.KeyEventExts.KeyBindPraser("FlipVTiles", true);
+				PlacedTileOptionFlipX.Content = "Flip X - " + "ControlKey";
+				PlacedTileOptionFlipY.Content = "Flip Y - " + "ShiftKey";
 			}
 			else
 			{

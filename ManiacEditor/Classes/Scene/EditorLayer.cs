@@ -237,7 +237,7 @@ namespace ManiacEditor.Classes.Scene
         {
             public Dictionary<Point, ushort> Values { get; set; } = new Dictionary<Point, ushort>();
             HashSet<Point>[][] PointsChunks;
-            HashSet<Point> OutOfBoundsPoints = new HashSet<Point>();
+            public HashSet<Point> OutOfBoundsPoints { get; private set; } = new HashSet<Point>();
             public int Count = 0;
 
             public PointsMap(int width, int height)
@@ -442,7 +442,7 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-        #region Get Chunk Details
+        #region Get Tile/Chunk Details
         public static Point GetChunkCoordinatesTopEdge(int x, int y)
         {
             Point ChunkCoordinate = new Point();
@@ -529,6 +529,27 @@ namespace ManiacEditor.Classes.Scene
         private Rectangle GetChunkArea(int x, int y)
         {
             return new Rectangle(x, y, 128, 128);
+        }
+        public bool IsPointOutOfBounds(int x, int y)
+        {
+            bool OutOfBoundsPositive = (Height - 1 < y || Width - 1 < x);
+            bool OutOfBoundsNegative = (0 > y || 0 > x);
+            return (OutOfBoundsPositive || OutOfBoundsNegative);
+        }
+        public bool IsPixelOutOfBounds(int x, int y)
+        {
+            bool OutOfBoundsPositive = (PixelHeight - 1 < y || PixelWidth - 1 < x);
+            bool OutOfBoundsNegative = (0 > y || 0 > x);
+            return (OutOfBoundsPositive || OutOfBoundsNegative);
+        }
+
+        public bool IsPointOutOfBounds(Point p)
+        {
+            return IsPointOutOfBounds(p.X, p.Y);
+        }
+        public bool IsPixelOutOfBounds(Point p)
+        {
+            return IsPixelOutOfBounds(p.X, p.Y);
         }
 
         #endregion
@@ -762,21 +783,21 @@ namespace ManiacEditor.Classes.Scene
                 FirstDrag = false;
                 Dictionary<Point, ushort> newDict = new Dictionary<Point, ushort>();
                 List<Point> newPoints = new List<Point>(SelectedTiles.Count);
-                foreach (Point point in SelectedTiles.PopAll())
+                var points = SelectedTiles.PopAll();
+                for (int i = 0; i < points.Count; i++)
                 {
+                    var point = points[i];
                     Point newPoint = new Point(point.X + (newPos.X - oldPos.X), point.Y + (newPos.Y - oldPos.Y));
                     newPoints.Add(newPoint);
-                    if (SelectedTiles.Values.ContainsKey(point))
+                    if (SelectedTiles.Values.TryGetValue(point, out ushort selectedTile))
                     {
                         newDict[newPoint] = SelectedTiles.Values[point];
-
                     }
                     else
                     {
                         // Not moved yet
                         newDict[newPoint] = _layer.Tiles[point.Y][point.X];
                         if (!duplicate) RemoveTile(point);
-
                     }
                 }
                 if (duplicate)
@@ -784,7 +805,6 @@ namespace ManiacEditor.Classes.Scene
                     DeselectAll();
                     // Create new actions group
                     Actions.Add(new ActionDummy());
-
                 }
                 SelectedTiles.Values = newDict;
                 SelectedTiles.AddPoints(newPoints);
@@ -863,7 +883,9 @@ namespace ManiacEditor.Classes.Scene
                 DeselectAll();
                 foreach (KeyValuePair<Point, ushort> point in points)
                 {
+
                     Point tilePos = new Point(point.Key.X + newPos.X, point.Key.Y + newPos.Y);
+                    if (IsPointOutOfBounds(tilePos)) continue;
                     if (point.Value != _layer.Tiles[tilePos.Y][tilePos.X])
                     {
                         SelectedTiles.Add(tilePos);
@@ -1062,101 +1084,64 @@ namespace ManiacEditor.Classes.Scene
 
         public static void Copy()
         {
-            bool hasMultipleValidLayers = Methods.Solution.CurrentSolution.EditLayerA != null && Methods.Solution.CurrentSolution.EditLayerB != null;
-            if (hasMultipleValidLayers)
-            {
-                var copyData = Classes.Scene.EditorLayer.GetClipboardData(Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB);
-
-                // Make a DataObject for the copied data and send it to the Windows clipboard for cross-instance copying
-
-
-                // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
-                Methods.Solution.SolutionClipboard.SetTileClipboard(copyData);
-            }
-            else
-            {
-                var copyDataA = Methods.Solution.CurrentSolution.EditLayerA?.GetClipboardData();
-                var copyDataB = Methods.Solution.CurrentSolution.EditLayerB?.GetClipboardData();
-                var copyData = new Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry(copyDataA, copyDataB);
-
-                // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
-                Methods.Solution.SolutionClipboard.SetTileClipboard(copyData);
-            }
+            Methods.Solution.SolutionMultiLayer.Copy();
         }
         public static void Paste()
         {
-            // check if there are tiles on the Windows clipboard; if so, use those
-            if (System.Windows.Clipboard.ContainsData("ManiacTiles"))
-            {
-                var pasteData = (Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>)System.Windows.Clipboard.GetDataObject().GetData("ManiacTiles");
-                Point pastePoint = GetPastePoint();
-                if (Methods.Solution.CurrentSolution.EditLayerA != null) Methods.Solution.CurrentSolution.EditLayerA.PasteClipboardData(pastePoint, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(pasteData.Item1));
-                if (Methods.Solution.CurrentSolution.EditLayerB != null) Methods.Solution.CurrentSolution.EditLayerB.PasteClipboardData(pastePoint, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(pasteData.Item2));
-
-                ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
-            }
-
-            // if there's none, use the internal clipboard
-            else if (Methods.Solution.SolutionClipboard.TilesClipboard != null)
-            {
-                Point pastePoint = GetPastePoint();
-                if (Methods.Solution.CurrentSolution.EditLayerA != null) Methods.Solution.CurrentSolution.EditLayerA.PasteClipboardData(pastePoint, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(Methods.Solution.SolutionClipboard.TilesClipboard.GetData().Item1));
-                if (Methods.Solution.CurrentSolution.EditLayerB != null) Methods.Solution.CurrentSolution.EditLayerB.PasteClipboardData(pastePoint, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(Methods.Solution.SolutionClipboard.TilesClipboard.GetData().Item2));
-                ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
-            }
-
-
-            Point GetPastePoint()
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
-                {
-
-                    Point p = Methods.Solution.SolutionState.Main.GetLastXY();
-                    return Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
-                }
-                else
-                {
-                    return new Point((int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1, (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom) + Methods.Solution.SolutionConstants.TILE_SIZE - 1);
-                }
-            }
+            Methods.Solution.SolutionMultiLayer.Paste();
         }
         public static void Cut()
         {
             Copy();
             Methods.Solution.CurrentSolution.EditLayerA?.DeleteSelected();
             Methods.Solution.CurrentSolution.EditLayerB?.DeleteSelected();
-            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
+            Methods.Solution.CurrentSolution.EditLayerC?.DeleteSelected();
+            Methods.Solution.CurrentSolution.EditLayerD?.DeleteSelected();
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
         }
         public static void Duplicate()
         {
-            Copy();
-            Methods.Solution.CurrentSolution.EditLayerA?.PasteClipboardData(new Point(16, 16), Methods.Solution.CurrentSolution.EditLayerA?.GetClipboardData(true));
-            Methods.Solution.CurrentSolution.EditLayerB?.PasteClipboardData(new Point(16, 16), Methods.Solution.CurrentSolution.EditLayerB?.GetClipboardData(true));
-            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
+            var copyDataA = Methods.Solution.CurrentSolution.EditLayerA?.GetClipboardData();
+            var copyDataB = Methods.Solution.CurrentSolution.EditLayerB?.GetClipboardData();
+            var copyDataC = Methods.Solution.CurrentSolution.EditLayerC?.GetClipboardData();
+            var copyDataD = Methods.Solution.CurrentSolution.EditLayerD?.GetClipboardData();
+            Methods.Solution.CurrentSolution.EditLayerA?.PasteClipboardData(new Point(16, 16), copyDataA);
+            Methods.Solution.CurrentSolution.EditLayerB?.PasteClipboardData(new Point(16, 16), copyDataB);
+            Methods.Solution.CurrentSolution.EditLayerC?.PasteClipboardData(new Point(16, 16), copyDataC);
+            Methods.Solution.CurrentSolution.EditLayerD?.PasteClipboardData(new Point(16, 16), copyDataD);
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
         }
         public static void Delete()
         {
             Methods.Solution.CurrentSolution.EditLayerA?.DeleteSelected();
             Methods.Solution.CurrentSolution.EditLayerB?.DeleteSelected();
-            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
+            Methods.Solution.CurrentSolution.EditLayerC?.DeleteSelected();
+            Methods.Solution.CurrentSolution.EditLayerD?.DeleteSelected();
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
         }
         public static void Deselect()
         {
             Methods.Solution.CurrentSolution.EditLayerA?.DeselectAll();
             Methods.Solution.CurrentSolution.EditLayerB?.DeselectAll();
-            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
+            Methods.Solution.CurrentSolution.EditLayerC?.DeselectAll();
+            Methods.Solution.CurrentSolution.EditLayerD?.DeselectAll();
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
         }
         public static void SelectAll()
         {
             if (Methods.Solution.CurrentSolution.EditLayerA != null) Methods.Solution.CurrentSolution.EditLayerA?.SelectEverything();
             if (Methods.Solution.CurrentSolution.EditLayerB != null) Methods.Solution.CurrentSolution.EditLayerB?.SelectEverything();
-            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
+            if (Methods.Solution.CurrentSolution.EditLayerC != null) Methods.Solution.CurrentSolution.EditLayerC?.SelectEverything();
+            if (Methods.Solution.CurrentSolution.EditLayerD != null) Methods.Solution.CurrentSolution.EditLayerD?.SelectEverything();
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
         }
         public static void FlipTiles(bool Individual, FlipDirection Direction)
         {
             Methods.Solution.CurrentSolution.EditLayerA?.FlipPropertySelected(Direction, Individual);
             Methods.Solution.CurrentSolution.EditLayerB?.FlipPropertySelected(Direction, Individual);
-            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
+            Methods.Solution.CurrentSolution.EditLayerC?.FlipPropertySelected(Direction, Individual);
+            Methods.Solution.CurrentSolution.EditLayerD?.FlipPropertySelected(Direction, Individual);
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
         }
         public static void MoveTiles(System.Windows.Forms.KeyEventArgs e)
         {
@@ -1223,8 +1208,10 @@ namespace ManiacEditor.Classes.Scene
             }
             Methods.Solution.CurrentSolution.EditLayerA?.MoveSelectedQuonta(new Point(x, y));
             Methods.Solution.CurrentSolution.EditLayerB?.MoveSelectedQuonta(new Point(x, y));
+            Methods.Solution.CurrentSolution.EditLayerC?.MoveSelectedQuonta(new Point(x, y));
+            Methods.Solution.CurrentSolution.EditLayerD?.MoveSelectedQuonta(new Point(x, y));
 
-            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayerActions();
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
         }
 
         #endregion
@@ -1232,42 +1219,26 @@ namespace ManiacEditor.Classes.Scene
         #region Clipboard Data Retrival
 
         private static bool AvoidWindowsClipboard = false;
-
-        public static Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry GetClipboardData(EditorLayer LayerA, EditorLayer LayerB, bool KeepPosition = false)
+        public Dictionary<Point, ushort> GetClipboardDataRaw(bool KeepPosition = false)
         {
-            if (LayerA.SelectedTiles.Count == 0 && LayerB.SelectedTiles.Count == 0) return null;
+            if (SelectedTiles.Count == 0) return null;
             int minX = 0, minY = 0;
 
-            Dictionary<Point, ushort> copiedTilesA = new Dictionary<Point, ushort>(LayerA.SelectedTiles.Values);
-            Dictionary<Point, ushort> copiedTilesB = new Dictionary<Point, ushort>(LayerB.SelectedTiles.Values);
-            foreach (Point point in LayerA.SelectedTiles.GetAll())
+            Dictionary<Point, ushort> copiedTiles = new Dictionary<Point, ushort>(SelectedTiles.Values); ;
+            foreach (Point point in SelectedTiles.GetAll())
             {
-                if (!copiedTilesA.ContainsKey(point))
+                if (!copiedTiles.ContainsKey(point))
                 {
                     // Not moved yet
-                    copiedTilesA[point] = LayerA.GetTile(point);
-                }
-            }
-            foreach (Point point in LayerB.SelectedTiles.GetAll())
-            {
-                if (!copiedTilesB.ContainsKey(point))
-                {
-                    // Not moved yet
-                    copiedTilesB[point] = LayerB.GetTile(point);
+                    copiedTiles[point] = GetTile(point);
                 }
             }
             if (!KeepPosition)
             {
-                int minX_A = (copiedTilesA.Count != 0 ? copiedTilesA.Keys.Min(x => x.X) : 0);
-                int minY_A = (copiedTilesA.Count != 0 ? copiedTilesA.Keys.Min(x => x.Y) : 0);
-                int minX_B = (copiedTilesB.Count != 0 ? copiedTilesB.Keys.Min(x => x.X) : 0);
-                int minY_B = (copiedTilesB.Count != 0 ? copiedTilesB.Keys.Min(x => x.Y) : 0);
-                minX = Math.Min(minX_A, minX_B);
-                minY = Math.Min(minY_A, minY_B);
+                minX = copiedTiles.Keys.Min(x => x.X);
+                minY = copiedTiles.Keys.Min(x => x.Y);
             }
-            copiedTilesA = copiedTilesA.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
-            copiedTilesB = copiedTilesB.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
-            return new Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry(new Tuple<Dictionary<Point, ushort>, Dictionary<Point, ushort>>(copiedTilesA, copiedTilesB));
+            return copiedTiles.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value);
         }
         public Methods.Solution.SolutionClipboard.TilesClipboardEntry GetClipboardData(bool KeepPosition = false)
         {
@@ -1289,6 +1260,54 @@ namespace ManiacEditor.Classes.Scene
                 minY = copiedTiles.Keys.Min(x => x.Y);
             }
             return new Methods.Solution.SolutionClipboard.TilesClipboardEntry(copiedTiles.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value));
+        }
+        public static Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry GetMultiClipboardData(bool KeepPosition = false)
+        {
+            int minX = 0, minY = 0;
+
+            var copyDataA = Methods.Solution.CurrentSolution.EditLayerA?.GetClipboardDataRaw(true) ?? new Dictionary<Point, ushort>();
+            var copyDataB = Methods.Solution.CurrentSolution.EditLayerB?.GetClipboardDataRaw(true) ?? new Dictionary<Point, ushort>();
+            var copyDataC = Methods.Solution.CurrentSolution.EditLayerC?.GetClipboardDataRaw(true) ?? new Dictionary<Point, ushort>();
+            var copyDataD = Methods.Solution.CurrentSolution.EditLayerD?.GetClipboardDataRaw(true) ?? new Dictionary<Point, ushort>();
+
+            if (!KeepPosition)
+            {
+                int minX_A = (copyDataA.Keys.Count != 0 ? copyDataA.Keys.Min(x => x.X) : -1);
+                int minY_A = (copyDataA.Keys.Count != 0 ? copyDataA.Keys.Min(x => x.Y) : -1);
+
+                int minX_B = (copyDataB.Keys.Count != 0 ? copyDataB.Keys.Min(x => x.X) : -1);
+                int minY_B = (copyDataB.Keys.Count != 0 ? copyDataB.Keys.Min(x => x.Y) : -1);
+
+                int minX_C = (copyDataC.Keys.Count != 0 ? copyDataC.Keys.Min(x => x.X) : -1);
+                int minY_C = (copyDataC.Keys.Count != 0 ? copyDataC.Keys.Min(x => x.Y) : -1);
+
+                int minX_D = (copyDataD.Keys.Count != 0 ? copyDataD.Keys.Min(x => x.X) : -1);
+                int minY_D = (copyDataD.Keys.Count != 0 ? copyDataD.Keys.Min(x => x.Y) : -1);
+
+                List<int> minX_array = new List<int>();
+                if (minX_A != -1) minX_array.Add(minX_A);
+                if (minX_B != -1) minX_array.Add(minX_B);
+                if (minX_C != -1) minX_array.Add(minX_C);
+                if (minX_D != -1) minX_array.Add(minX_D);
+
+                List<int> minY_array = new List<int>();
+                if (minY_A != -1) minY_array.Add(minY_A);
+                if (minY_B != -1) minY_array.Add(minY_B);
+                if (minY_C != -1) minY_array.Add(minY_C);
+                if (minY_D != -1) minY_array.Add(minY_D);
+
+
+                minX = minX_array.Min();
+                minY = minY_array.Min();
+            }
+
+            var resultA = new Methods.Solution.SolutionClipboard.TilesClipboardEntry(copyDataA.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value));
+            var resultB = new Methods.Solution.SolutionClipboard.TilesClipboardEntry(copyDataB.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value));
+            var resultC = new Methods.Solution.SolutionClipboard.TilesClipboardEntry(copyDataC.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value));
+            var resultD = new Methods.Solution.SolutionClipboard.TilesClipboardEntry(copyDataD.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value));
+
+
+            return new Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry(resultA, resultB, resultC, resultD);
         }
         public void PasteClipboardData(Point newPos, Methods.Solution.SolutionClipboard.TilesClipboardEntry data, bool UpdateActions = true)
         {
@@ -1343,9 +1362,9 @@ namespace ManiacEditor.Classes.Scene
                 return;
             }
 
-            if (Methods.Solution.CurrentSolution.EditLayerA != null && (Methods.Solution.CurrentSolution.EditLayerA != this && Methods.Solution.CurrentSolution.EditLayerB != this))
+            if (!AreWeAnEditLayer() && Methods.Solution.SolutionState.Main.IsTilesEdit())
                 RenderingTransparency = 0x32;
-            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.CurrentSolution.EditLayerA == null && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency)
+            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency)
                 RenderingTransparency = 0x32;
             else
                 RenderingTransparency = 0xFF;
@@ -1362,10 +1381,19 @@ namespace ManiacEditor.Classes.Scene
             {
                 if (vbo == null) return;
                 vbo.Refresh();
-                vbo.Zoom = Methods.Solution.SolutionState.Main.Zoom;
                 d.RenderWindow.Draw(vbo);
             }
 
+
+            bool AreWeAnEditLayer()
+            {
+                bool isEditA = this == Methods.Solution.CurrentSolution.EditLayerA;
+                bool isEditB = this == Methods.Solution.CurrentSolution.EditLayerB;
+                bool isEditC = this == Methods.Solution.CurrentSolution.EditLayerC;
+                bool isEditD = this == Methods.Solution.CurrentSolution.EditLayerD;
+
+                return (isEditA || isEditB || isEditC || isEditD);
+            }
         }
         private void InitalizeRender()
         {

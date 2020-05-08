@@ -110,6 +110,7 @@ namespace ManiacEditor.Extensions
             }
 
         }
+        /*
         public static string KeyBindPraser(string keyRefrence, bool tooltip = false, bool nonRequiredBinding = false)
         {
             string nullString = (nonRequiredBinding ? "" : "N/A");
@@ -158,7 +159,7 @@ namespace ManiacEditor.Extensions
 
 
         }
-
+        */
 
     }
 }

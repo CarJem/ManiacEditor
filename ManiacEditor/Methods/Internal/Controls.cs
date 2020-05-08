@@ -20,6 +20,7 @@ namespace ManiacEditor.Methods.Internal
 {
     public static class Controls
     {
+        #region Definitions
         private static MainEditor Instance;
         public static void UpdateInstance(MainEditor _instance)
         {
@@ -30,7 +31,41 @@ namespace ManiacEditor.Methods.Internal
         private static bool ShiftPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Shift); }
         private static bool AltPressed() { return System.Windows.Forms.Control.ModifierKeys.HasFlag(System.Windows.Forms.Keys.Alt); }
 
-        #region Mouse Controls
+        private static Timer RepeatTimer { get; set; } = new Timer() { Interval = 100 };
+        private static bool CanHandleKeyDown { get; set; } = true;
+        private static Keys LastKeyDown { get; set; }
+        private static bool InitilizedKeyDefinitions { get; set; } = false;
+        #endregion
+
+        #region Constructors
+
+        private static void InitilizeKeyDefinitions()
+        {
+            RepeatTimer.Tick += EndRepeat;
+            InitilizedKeyDefinitions = true;
+        }
+
+        #endregion
+
+        #region Key Repeat Methods
+        private static void StartRepeat(KeyEventArgs e)
+        {
+            if (!InitilizedKeyDefinitions) InitilizeKeyDefinitions();
+            LastKeyDown = e.KeyCode;
+            RepeatTimer.Start();
+            CanHandleKeyDown = false;
+
+        }
+        private static void EndRepeat(object sender, EventArgs e) { EndRepeat(); }
+        private static void EndRepeat()
+        {
+            if (!InitilizedKeyDefinitions) InitilizeKeyDefinitions();
+            LastKeyDown = Keys.None;
+            RepeatTimer.Stop();
+            CanHandleKeyDown = true;
+        }
+
+        #endregion
 
         #region Mouse Auto-Scrolling Methods
         private static AutoScrollDirection LastAutoScrollDirection { get; set; } = AutoScrollDirection.NONE;
@@ -86,7 +121,6 @@ namespace ManiacEditor.Methods.Internal
                 Instance.ViewPanel.ScrollGrid.ScrollBorderNE.InvalidateVisual();
             }
         }
-
         public static void ToggleAutoScrollerMode(System.Windows.Forms.MouseEventArgs e, bool isRelease = false)
         {
             if (Properties.Settings.MySettings.ScrollerPressReleaseMode)
@@ -176,12 +210,10 @@ namespace ManiacEditor.Methods.Internal
 
         #endregion
 
-
         #region General Mouse Methods
         public static void SetClickedXY(System.Windows.Forms.MouseEventArgs e) { Methods.Solution.SolutionState.Main.RegionX1 = e.X; Methods.Solution.SolutionState.Main.RegionY1 = e.Y; }
         public static void SetClickedXY(Point e) { Methods.Solution.SolutionState.Main.RegionX1 = e.X; Methods.Solution.SolutionState.Main.RegionY1 = e.Y; }
         #endregion
-
 
         #region Mouse Move Events
         public static void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -204,8 +236,7 @@ namespace ManiacEditor.Methods.Internal
 
             MouseMovementControls(e);
 
-            Methods.Solution.SolutionState.Main.LastX = e.X;
-            Methods.Solution.SolutionState.Main.LastY = e.Y;
+            Methods.Solution.SolutionState.Main.UpdateLastXY(e.X, e.Y);
         }
 
         #endregion
@@ -219,55 +250,43 @@ namespace ManiacEditor.Methods.Internal
         }
         private static void MouseMove_DragMoveItems(System.Windows.Forms.MouseEventArgs e)
         {
-            int oldGridX = (int)((Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
-            int oldGridY = (int)((Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
-            int newGridX = (int)((e.X / Methods.Solution.SolutionState.Main.Zoom) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
-            int newGridY = (int)((e.Y / Methods.Solution.SolutionState.Main.Zoom) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
-            Point oldPointGrid = new Point(0, 0);
-            Point newPointGrid = new Point(0, 0);
-            if (Methods.Solution.SolutionState.Main.UseMagnetMode && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
-            {
-                if (Methods.Solution.SolutionState.Main.UseMagnetXAxis == true && Methods.Solution.SolutionState.Main.UseMagnetYAxis == true)
-                {
-                    oldPointGrid = new Point(oldGridX, oldGridY);
-                    newPointGrid = new Point(newGridX, newGridY);
-                }
-                if (Methods.Solution.SolutionState.Main.UseMagnetXAxis && !Methods.Solution.SolutionState.Main.UseMagnetYAxis)
-                {
-                    oldPointGrid = new Point(oldGridX, (int)(Methods.Solution.SolutionState.Main.LastY / Methods.Solution.SolutionState.Main.Zoom));
-                    newPointGrid = new Point(newGridX, (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
-                }
-                if (!Methods.Solution.SolutionState.Main.UseMagnetXAxis && Methods.Solution.SolutionState.Main.UseMagnetYAxis)
-                {
-                    oldPointGrid = new Point((int)(Methods.Solution.SolutionState.Main.LastX / Methods.Solution.SolutionState.Main.Zoom), oldGridY);
-                    newPointGrid = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), newGridY);
-                }
-                if (!Methods.Solution.SolutionState.Main.UseMagnetXAxis && !Methods.Solution.SolutionState.Main.UseMagnetYAxis)
-                {
-                    oldPointGrid = Methods.Solution.SolutionState.Main.GetLastXY();
-                    newPointGrid = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
-                }
-            }
-            Point oldPoint = Methods.Solution.SolutionState.Main.GetLastXY();
-            Point newPoint = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
-
-
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
-            {
-                Point OldPointA = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(oldPoint.X, oldPoint.Y);
-                Point NewPointA = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(newPoint.X, newPoint.Y);
-                Methods.Solution.CurrentSolution.EditLayerA?.MoveSelected(OldPointA, NewPointA, AltPressed());
-                Methods.Solution.CurrentSolution.EditLayerB?.MoveSelected(OldPointA, NewPointA, AltPressed());
-            }
-            else
-            {
-                Methods.Solution.CurrentSolution.EditLayerA?.MoveSelected(oldPoint, newPoint, AltPressed());
-                Methods.Solution.CurrentSolution.EditLayerB?.MoveSelected(oldPoint, newPoint, AltPressed());
-            }
-
-            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
             {
+                int oldGridX = (int)((Methods.Solution.SolutionState.Main.LastX) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
+                int oldGridY = (int)((Methods.Solution.SolutionState.Main.LastY) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
+                int newGridX = (int)((e.X) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
+                int newGridY = (int)((e.Y) / Methods.Solution.SolutionState.Main.MagnetSize) * Methods.Solution.SolutionState.Main.MagnetSize;
+                Point oldPointGrid = new Point(0, 0);
+                Point newPointGrid = new Point(0, 0);
+
+
+                if (Methods.Solution.SolutionState.Main.UseMagnetMode)
+                {
+                    if (Methods.Solution.SolutionState.Main.UseMagnetXAxis == true && Methods.Solution.SolutionState.Main.UseMagnetYAxis == true)
+                    {
+                        oldPointGrid = new Point(oldGridX, oldGridY);
+                        newPointGrid = new Point(newGridX, newGridY);
+                    }
+                    if (Methods.Solution.SolutionState.Main.UseMagnetXAxis && !Methods.Solution.SolutionState.Main.UseMagnetYAxis)
+                    {
+                        oldPointGrid = new Point(oldGridX, (int)(Methods.Solution.SolutionState.Main.LastY));
+                        newPointGrid = new Point(newGridX, (int)(e.Y));
+                    }
+                    if (!Methods.Solution.SolutionState.Main.UseMagnetXAxis && Methods.Solution.SolutionState.Main.UseMagnetYAxis)
+                    {
+                        oldPointGrid = new Point((int)(Methods.Solution.SolutionState.Main.LastX), oldGridY);
+                        newPointGrid = new Point((int)(e.X), newGridY);
+                    }
+                    if (!Methods.Solution.SolutionState.Main.UseMagnetXAxis && !Methods.Solution.SolutionState.Main.UseMagnetYAxis)
+                    {
+                        oldPointGrid = Methods.Solution.SolutionState.Main.GetLastXY();
+                        newPointGrid = new Point((int)(e.X), (int)(e.Y));
+                    }
+                }
+
+                Point oldPoint = Methods.Solution.SolutionState.Main.GetLastXY();
+                Point newPoint = new Point((int)(e.X), (int)(e.Y));
+
                 if (Methods.Solution.SolutionState.Main.UseMagnetMode)
                 {
                     int x = Methods.Solution.CurrentSolution.Entities.GetSelectedEntity().Position.X.High;
@@ -315,40 +334,58 @@ namespace ManiacEditor.Methods.Internal
                     Methods.Solution.SolutionState.Main.DraggedX += newPoint.X - oldPoint.X;
                     Methods.Solution.SolutionState.Main.DraggedY += newPoint.Y - oldPoint.Y;
                 }
-                Instance.EntitiesToolbar.UpdateSelectedProperties();
+                
+            }
+            else
+            {
+                Point oldPoint = Methods.Solution.SolutionState.Main.GetLastXY();
+                Point newPoint = new Point((int)(e.X), (int)(e.Y));
+
+
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
+                {
+                    Point OldPointA = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(oldPoint.X, oldPoint.Y);
+                    Point NewPointA = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(newPoint.X, newPoint.Y);
+                    Methods.Solution.SolutionMultiLayer.MoveSelected(OldPointA, NewPointA, AltPressed());
+                }
+                else
+                {
+                    Methods.Solution.SolutionMultiLayer.MoveSelected(oldPoint, newPoint, AltPressed());
+                }
+
+                if (Instance.ViewPanel.SharpPanel.GraphicPanel.AllowLoopToRender) Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             }
             Methods.Solution.SolutionState.Main.StartDragged = false;
+
         }
         private static void MouseMove_SetSelectionBounds(System.Windows.Forms.MouseEventArgs e)
         {
             if (Methods.Solution.SolutionState.Main.RegionX2 != e.X && Methods.Solution.SolutionState.Main.RegionY2 != e.Y)
             {
-                Methods.Solution.SolutionState.Main.TempSelectX1 = (int)(Methods.Solution.SolutionState.Main.RegionX2 / Methods.Solution.SolutionState.Main.Zoom);
-                Methods.Solution.SolutionState.Main.TempSelectX2 = (int)(e.X / Methods.Solution.SolutionState.Main.Zoom);
-                Methods.Solution.SolutionState.Main.TempSelectY1 = (int)(Methods.Solution.SolutionState.Main.RegionY2 / Methods.Solution.SolutionState.Main.Zoom);
-                Methods.Solution.SolutionState.Main.TempSelectY2 = (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom);
+                Methods.Solution.SolutionState.Main.TempSelectX1 = (int)(Methods.Solution.SolutionState.Main.RegionX2);
+                Methods.Solution.SolutionState.Main.TempSelectX2 = (int)(e.X);
+                Methods.Solution.SolutionState.Main.TempSelectY1 = (int)(Methods.Solution.SolutionState.Main.RegionY2);
+                Methods.Solution.SolutionState.Main.TempSelectY2 = (int)(e.Y);
                 if (Methods.Solution.SolutionState.Main.TempSelectX1 > Methods.Solution.SolutionState.Main.TempSelectX2)
                 {
-                    Methods.Solution.SolutionState.Main.TempSelectX1 = (int)(e.X / Methods.Solution.SolutionState.Main.Zoom);
-                    Methods.Solution.SolutionState.Main.TempSelectX2 = (int)(Methods.Solution.SolutionState.Main.RegionX2 / Methods.Solution.SolutionState.Main.Zoom);
+                    Methods.Solution.SolutionState.Main.TempSelectX1 = (int)(e.X);
+                    Methods.Solution.SolutionState.Main.TempSelectX2 = (int)(Methods.Solution.SolutionState.Main.RegionX2);
                 }
                 if (Methods.Solution.SolutionState.Main.TempSelectY1 > Methods.Solution.SolutionState.Main.TempSelectY2)
                 {
-                    Methods.Solution.SolutionState.Main.TempSelectY1 = (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom);
-                    Methods.Solution.SolutionState.Main.TempSelectY2 = (int)(Methods.Solution.SolutionState.Main.RegionY2 / Methods.Solution.SolutionState.Main.Zoom);
+                    Methods.Solution.SolutionState.Main.TempSelectY1 = (int)(e.Y);
+                    Methods.Solution.SolutionState.Main.TempSelectY2 = (int)(Methods.Solution.SolutionState.Main.RegionY2);
                 }
 
                 if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
                 {
                     Point selectStart = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY1);
                     Point selectEnd = Classes.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(Methods.Solution.SolutionState.Main.TempSelectX2, Methods.Solution.SolutionState.Main.TempSelectY2);
-                    Methods.Solution.CurrentSolution.EditLayerA?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
-                    Methods.Solution.CurrentSolution.EditLayerB?.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
+                    Methods.Solution.SolutionMultiLayer.TempSelection(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), CtrlPressed());
                 }
                 else
                 {
-                    Methods.Solution.CurrentSolution.EditLayerA?.TempSelection(new Rectangle(Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY1, Methods.Solution.SolutionState.Main.TempSelectX2 - Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY2 - Methods.Solution.SolutionState.Main.TempSelectY1), CtrlPressed());
-                    Methods.Solution.CurrentSolution.EditLayerB?.TempSelection(new Rectangle(Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY1, Methods.Solution.SolutionState.Main.TempSelectX2 - Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY2 - Methods.Solution.SolutionState.Main.TempSelectY1), CtrlPressed());
+                    Methods.Solution.SolutionMultiLayer.TempSelection(new Rectangle(Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY1, Methods.Solution.SolutionState.Main.TempSelectX2 - Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY2 - Methods.Solution.SolutionState.Main.TempSelectY1), CtrlPressed());
                 }
 
                 if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Methods.Solution.CurrentSolution.Entities.TempSelection(new Rectangle(Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY1, Methods.Solution.SolutionState.Main.TempSelectX2 - Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY2 - Methods.Solution.SolutionState.Main.TempSelectY1), CtrlPressed());
@@ -358,8 +395,8 @@ namespace ManiacEditor.Methods.Internal
         {
             Point CurrentPos = new Point(Methods.Solution.SolutionState.Main.ViewPositionX, Methods.Solution.SolutionState.Main.ViewPositionY);
 
-            double ScreenMaxX = CurrentPos.X + (int)Instance.ViewPanel.SharpPanel.ActualWidth;
-            double ScreenMaxY = CurrentPos.Y + (int)Instance.ViewPanel.SharpPanel.ActualHeight;
+            double ScreenMaxX = CurrentPos.X + (int)Instance.ViewPanel.SharpPanel.ActualWidth * Methods.Solution.SolutionState.Main.Zoom;
+            double ScreenMaxY = CurrentPos.Y + (int)Instance.ViewPanel.SharpPanel.ActualHeight * Methods.Solution.SolutionState.Main.Zoom;
             double ScreenMinX = CurrentPos.X;
             double ScreenMinY = CurrentPos.Y;
 
@@ -398,32 +435,20 @@ namespace ManiacEditor.Methods.Internal
         {
             // There was just a click now we can determine that this click is dragging
 
-            int x = (int)(Methods.Solution.SolutionState.Main.RegionX1 / Methods.Solution.SolutionState.Main.Zoom);
-            int y = (int)(Methods.Solution.SolutionState.Main.RegionY1 / Methods.Solution.SolutionState.Main.Zoom);
+            int x = (int)(Methods.Solution.SolutionState.Main.RegionX1);
+            int y = (int)(Methods.Solution.SolutionState.Main.RegionY1);
 
             Point clicked_point = new Point(x, y);
             Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(clicked_point.X, clicked_point.Y);
 
-            bool PointASelected = false;
-            bool PointBSelected = false;
+            bool CanDragSelected;
 
-            bool HasTileAtA = Methods.Solution.CurrentSolution.EditLayerA?.HasTileAt(clicked_point) ?? false;
-            bool HasTileAtB = Methods.Solution.CurrentSolution.EditLayerB?.HasTileAt(clicked_point) ?? false;
+            bool HasTileAt = Methods.Solution.SolutionMultiLayer.HasTileAt(clicked_point);
 
-            if (Methods.Solution.SolutionState.Main.IsChunksEdit())
-            {
-                PointASelected = Methods.Solution.CurrentSolution.EditLayerA?.DoesChunkContainASelectedTile(chunk_point) ?? false;
-                PointBSelected = Methods.Solution.CurrentSolution.EditLayerB?.DoesChunkContainASelectedTile(chunk_point) ?? false;
-            }
-            else
-            {
-                PointASelected = Methods.Solution.CurrentSolution.EditLayerA?.IsPointSelected(clicked_point) ?? false;
-                PointBSelected = Methods.Solution.CurrentSolution.EditLayerB?.IsPointSelected(clicked_point) ?? false;
-            }
+            if (Methods.Solution.SolutionState.Main.IsChunksEdit()) CanDragSelected = Methods.Solution.SolutionMultiLayer.DoesChunkContainASelectedTile(chunk_point);
+            else CanDragSelected = Methods.Solution.SolutionMultiLayer.IsPointSelected(clicked_point);
 
-
-            bool CanDragSelected = (PointASelected || PointBSelected);
-            bool CanDragNonSelected = !Methods.Solution.SolutionState.Main.IsSelectMode() && !ShiftPressed() && !CtrlPressed() && (HasTileAtA || HasTileAtB);
+            bool CanDragNonSelected = !Methods.Solution.SolutionState.Main.IsSelectMode() && !ShiftPressed() && !CtrlPressed() && HasTileAt;
 
 
             if (CanDragSelected)
@@ -431,35 +456,24 @@ namespace ManiacEditor.Methods.Internal
                 // Start dragging the tiles
                 Methods.Solution.SolutionState.Main.Dragged = true;
                 Methods.Solution.SolutionState.Main.StartDragged = true;
-                Methods.Solution.CurrentSolution.EditLayerA?.StartDrag();
-                Methods.Solution.CurrentSolution.EditLayerB?.StartDrag();
+                Methods.Solution.SolutionMultiLayer.StartDrag();
             }
 
             else if (CanDragNonSelected)
             {
                 // Start dragging the single selected tile
 
-                if (Methods.Solution.SolutionState.Main.IsChunksEdit())
-                {
-                    Methods.Solution.CurrentSolution.EditLayerA?.SelectChunk(clicked_point);
-                    Methods.Solution.CurrentSolution.EditLayerB?.SelectChunk(clicked_point);
-                }
-                else
-                {
-                    Methods.Solution.CurrentSolution.EditLayerA?.Select(clicked_point);
-                    Methods.Solution.CurrentSolution.EditLayerB?.Select(clicked_point);
-                }
+                if (Methods.Solution.SolutionState.Main.IsChunksEdit()) Methods.Solution.SolutionMultiLayer.SelectChunk(clicked_point);
+                else Methods.Solution.SolutionMultiLayer.Select(clicked_point);
                 Methods.Solution.SolutionState.Main.Dragged = true;
                 Methods.Solution.SolutionState.Main.StartDragged = true;
-                Methods.Solution.CurrentSolution.EditLayerA?.StartDrag();
-                Methods.Solution.CurrentSolution.EditLayerB?.StartDrag();
+                Methods.Solution.SolutionMultiLayer.StartDrag();
             }
 
             else
             {
                 // Start drag selection
-                Methods.Solution.CurrentSolution.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-                Methods.Solution.CurrentSolution.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
+                Methods.Solution.SolutionMultiLayer.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
                 if (!ShiftPressed() && !CtrlPressed()) ManiacEditor.Methods.Solution.SolutionActions.Deselect();
 
                 Methods.Solution.SolutionState.Main.DraggingSelection = true;
@@ -474,7 +488,7 @@ namespace ManiacEditor.Methods.Internal
         public static void EntitiesEditMouseMoveDraggingStarted(System.Windows.Forms.MouseEventArgs e)
         {
             // There was just a click now we can determine that this click is dragging
-            Point clicked_point = new Point((int)(Methods.Solution.SolutionState.Main.RegionX1 / Methods.Solution.SolutionState.Main.Zoom), (int)(Methods.Solution.SolutionState.Main.RegionY1 / Methods.Solution.SolutionState.Main.Zoom));
+            Point clicked_point = new Point((int)(Methods.Solution.SolutionState.Main.RegionX1), (int)(Methods.Solution.SolutionState.Main.RegionY1));
             if (Methods.Solution.CurrentSolution.Entities.GetEntityAt(clicked_point)?.Selected ?? false)
             {
                 SetClickedXY(e);
@@ -502,7 +516,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 Task.Run(() =>
                 {
-                    Methods.Runtime.GameHandler.MovePlayer(new Point(e.X, e.Y), Methods.Solution.SolutionState.Main.Zoom, Methods.Runtime.GameHandler.SelectedPlayer);
+                    Methods.Runtime.GameHandler.MovePlayer(new Point(e.X, e.Y), Methods.Runtime.GameHandler.SelectedPlayer);
                 });
             }
 
@@ -510,13 +524,12 @@ namespace ManiacEditor.Methods.Internal
             {
                 Task.Run(() =>
                 {
-                    Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                    Point clicked_point = new Point((int)(e.X), (int)(e.Y));
                     Methods.Runtime.GameHandler.UpdateCheckpoint(clicked_point, true);
                 });
             }
         }
         #endregion
-
 
         #region Mouse Up Events
         public static void MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -535,7 +548,7 @@ namespace ManiacEditor.Methods.Internal
                 Methods.Solution.SolutionState.Main.DraggingSelection = false;
                 Methods.Solution.SolutionState.Main.Dragged = false;
             }
-            Actions.UndoRedoModel.UpdateEditLayerActions();
+            Actions.UndoRedoModel.UpdateEditLayersActions();
             Methods.Internal.UserInterface.UpdateControls(UserInterface.UpdateType.MouseClick);
 
 
@@ -544,41 +557,36 @@ namespace ManiacEditor.Methods.Internal
         {
             if (Methods.Solution.SolutionState.Main.RegionX2 != e.X && Methods.Solution.SolutionState.Main.RegionY2 != e.Y)
             {
-                int x1 = (int)(Methods.Solution.SolutionState.Main.RegionX2 / Methods.Solution.SolutionState.Main.Zoom), x2 = (int)(e.X / Methods.Solution.SolutionState.Main.Zoom);
-                int y1 = (int)(Methods.Solution.SolutionState.Main.RegionY2 / Methods.Solution.SolutionState.Main.Zoom), y2 = (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom);
+                int x1 = (int)(Methods.Solution.SolutionState.Main.RegionX2), x2 = (int)(e.X);
+                int y1 = (int)(Methods.Solution.SolutionState.Main.RegionY2), y2 = (int)(e.Y);
                 if (x1 > x2)
                 {
-                    x1 = (int)(e.X / Methods.Solution.SolutionState.Main.Zoom);
-                    x2 = (int)(Methods.Solution.SolutionState.Main.RegionX2 / Methods.Solution.SolutionState.Main.Zoom);
+                    x1 = (int)(e.X);
+                    x2 = (int)(Methods.Solution.SolutionState.Main.RegionX2);
                 }
                 if (y1 > y2)
                 {
-                    y1 = (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom);
-                    y2 = (int)(Methods.Solution.SolutionState.Main.RegionY2 / Methods.Solution.SolutionState.Main.Zoom);
+                    y1 = (int)(e.Y);
+                    y2 = (int)(Methods.Solution.SolutionState.Main.RegionY2);
                 }
 
                 if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
                 {
                     Point selectStart = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(Methods.Solution.SolutionState.Main.TempSelectX1, Methods.Solution.SolutionState.Main.TempSelectY1);
                     Point selectEnd = Classes.Scene.EditorLayer.GetChunkCoordinatesBottomEdge(Methods.Solution.SolutionState.Main.TempSelectX2, Methods.Solution.SolutionState.Main.TempSelectY2);
-
-                    Methods.Solution.CurrentSolution.EditLayerA?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
-                    Methods.Solution.CurrentSolution.EditLayerB?.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
+                    Methods.Solution.SolutionMultiLayer.Select(new Rectangle(selectStart.X, selectStart.Y, selectEnd.X - selectStart.X, selectEnd.Y - selectStart.Y), ShiftPressed() || CtrlPressed(), CtrlPressed());
                 }
                 else
                 {
-                    Methods.Solution.CurrentSolution.EditLayerA?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
-                    Methods.Solution.CurrentSolution.EditLayerB?.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
-
+                    Methods.Solution.SolutionMultiLayer.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
                     if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Methods.Solution.CurrentSolution.Entities.Select(new Rectangle(x1, y1, x2 - x1, y2 - y1), ShiftPressed() || CtrlPressed(), CtrlPressed());
                 }
                 Methods.Internal.UserInterface.UpdateControls(UserInterface.UpdateType.MouseClick);
-                Actions.UndoRedoModel.UpdateEditLayerActions();
+                Actions.UndoRedoModel.UpdateEditLayersActions();
 
             }
             Methods.Solution.SolutionState.Main.DraggingSelection = false;
-            Methods.Solution.CurrentSolution.EditLayerA?.EndTempSelection();
-            Methods.Solution.CurrentSolution.EditLayerB?.EndTempSelection();
+            Methods.Solution.SolutionMultiLayer.EndTempSelection();
 
             if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Methods.Solution.CurrentSolution.Entities.EndTempSelection();
         }
@@ -587,25 +595,17 @@ namespace ManiacEditor.Methods.Internal
         #region Mouse Up Methods
         public static void TilesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+            Point clicked_point = new Point((int)(e.X), (int)(e.Y));
 
             if (!Methods.Solution.SolutionState.Main.DraggingSelection)
             {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
-                {
-                    Methods.Solution.CurrentSolution.EditLayerA?.SelectChunk(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-                    Methods.Solution.CurrentSolution.EditLayerB?.SelectChunk(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-                }
-                else
-                {
-                    Methods.Solution.CurrentSolution.EditLayerA?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-                    Methods.Solution.CurrentSolution.EditLayerB?.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
-                }
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) Methods.Solution.SolutionMultiLayer.SelectChunk(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
+                else Methods.Solution.SolutionMultiLayer.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
             }
         }
         public static void EntitiesEditMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+            Point clicked_point = new Point((int)(e.X), (int)(e.Y));
             if (e.Button == MouseButtons.Left)
             {
                 Methods.Solution.CurrentSolution.Entities.Select(clicked_point, ShiftPressed() || CtrlPressed(), CtrlPressed());
@@ -614,6 +614,8 @@ namespace ManiacEditor.Methods.Internal
             {
 
             }
+
+            if (Instance.EntitiesToolbar != null) Instance.EntitiesToolbar.UpdateSelectedProperties();
         }
 
         public static void InteractiveMouseUp(System.Windows.Forms.MouseEventArgs e)
@@ -622,7 +624,6 @@ namespace ManiacEditor.Methods.Internal
         }
 
         #endregion
-
 
         #region Mouse Down Events
         public static void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -658,11 +659,10 @@ namespace ManiacEditor.Methods.Internal
         {
             if (e.Button == MouseButtons.Left)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                Point clicked_point = new Point((int)(e.X), (int)(e.Y));
                 if (Methods.Solution.SolutionState.Main.IsDrawMode())
                 {
-                    Methods.Solution.CurrentSolution.EditLayerA?.StartDraw();
-                    Methods.Solution.CurrentSolution.EditLayerB?.StartDraw();
+                    Methods.Solution.SolutionMultiLayer.StartDraw();
                     TilesEditDrawTool(e, true);
                 }
                 else SetClickedXY(e);
@@ -671,8 +671,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Methods.Solution.SolutionState.Main.IsDrawMode())
                 {
-                    Methods.Solution.CurrentSolution.EditLayerA?.StartDraw();
-                    Methods.Solution.CurrentSolution.EditLayerB?.StartDraw();
+                    Methods.Solution.SolutionMultiLayer.StartDraw();
                     TilesEditDrawTool(e, true);
                 }
             }
@@ -683,7 +682,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (!Methods.Solution.SolutionState.Main.IsDrawMode())
                 {
-                    Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                    Point clicked_point = new Point((int)(e.X), (int)(e.Y));
                     if (Methods.Solution.CurrentSolution.Entities.GetEntityAt(clicked_point)?.Selected ?? false)
                     {
                         // We will have to check if this dragging or clicking
@@ -729,48 +728,20 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Methods.Solution.SolutionState.Main.IsDrawMode())
                 {
-                    Point p = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
-                    Point pC = Classes.Scene.EditorLayer.GetChunkCoordinates(p.X, p.Y);
-
-                    if (Methods.Solution.SolutionState.Main.IsDrawMode())
-                    {
-                        int selectedIndex = Instance.TilesToolbar.ChunkList.SelectedIndex;
-                        // Place Stamp
-                        if (selectedIndex != -1)
-                        {
-                            if (!Instance.Chunks.DoesChunkMatch(pC, Instance.Chunks.GetStamp(selectedIndex), Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB))
-                            {
-                                Instance.Chunks.PasteStamp(pC, selectedIndex, Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB);
-                            }
-
-                        }
-                    }
-                    else
-                    {
-                        SetClickedXY(e);
-                    }
+                    if (Methods.Solution.SolutionState.Main.IsDrawMode()) Methods.Solution.SolutionMultiLayer.StampPlace(Instance, e);
+                    else SetClickedXY(e);
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (Methods.Solution.SolutionState.Main.IsDrawMode())
-                {
-                    Point p = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
-                    Point chunk_point = Classes.Scene.EditorLayer.GetChunkCoordinatesTopEdge(p.X, p.Y);
-                    Rectangle clicked_chunk = new Rectangle(chunk_point.X, chunk_point.Y, 128, 128);
-
-                    // Remove Stamp Sized Area
-                    if (!Methods.Solution.CurrentSolution.EditLayerA.DoesChunkContainASelectedTile(p)) Methods.Solution.CurrentSolution.EditLayerA?.Select(clicked_chunk);
-                    if (Methods.Solution.CurrentSolution.EditLayerB != null && !Methods.Solution.CurrentSolution.EditLayerB.DoesChunkContainASelectedTile(p)) Methods.Solution.CurrentSolution.EditLayerB?.Select(clicked_chunk);
-                    ManiacEditor.Methods.Solution.SolutionActions.Delete();
-                }
+                if (Methods.Solution.SolutionState.Main.IsDrawMode()) Methods.Solution.SolutionMultiLayer.StampRemove(e);
             }
         }
         public static void SplineToolMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                Point clicked_point = new Point((int)(e.X), (int)(e.Y));
                 if (Methods.Solution.CurrentSolution.Entities.IsEntityAt(clicked_point) == true)
                 {
                     ManiacEditor.Methods.Solution.SolutionActions.Deselect();
@@ -785,7 +756,7 @@ namespace ManiacEditor.Methods.Internal
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                Point clicked_point = new Point((int)(e.X), (int)(e.Y));
                 Classes.Scene.EditorEntity atPoint = Methods.Solution.CurrentSolution.Entities.GetEntityAt(clicked_point);
                 if (atPoint != null && atPoint.Object.Name.Name == "Spline")
                 {
@@ -796,7 +767,6 @@ namespace ManiacEditor.Methods.Internal
             }
         }
         #endregion
-
 
         #region Mouse Wheel Events
         public static void MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -824,7 +794,7 @@ namespace ManiacEditor.Methods.Internal
             if (Methods.Solution.SolutionState.Main.ZoomLevel > maxZoom) Methods.Solution.SolutionState.Main.ZoomLevel = maxZoom;
             if (Methods.Solution.SolutionState.Main.ZoomLevel < minZoom) Methods.Solution.SolutionState.Main.ZoomLevel = minZoom;
 
-            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.Main.ZoomLevel, new Point(e.X - Methods.Solution.SolutionState.Main.ViewPositionX, e.Y - Methods.Solution.SolutionState.Main.ViewPositionY));
+            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.Main.ZoomLevel, new Point(Methods.Solution.SolutionState.Main.ViewPositionX - e.X, Methods.Solution.SolutionState.Main.ViewPositionY - e.Y));
         }
         private static void MouseWheelScrolling(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -882,7 +852,6 @@ namespace ManiacEditor.Methods.Internal
         }
         #endregion
 
-
         #region Mouse Click Events/Methods
         public static void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -909,7 +878,7 @@ namespace ManiacEditor.Methods.Internal
         public static void TilesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
             string newLine = Environment.NewLine;
-            Point chunkPos = Classes.Scene.EditorLayer.GetChunkCoordinates((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+            Point chunkPos = Classes.Scene.EditorLayer.GetChunkCoordinates((int)(e.X), (int)(e.Y));
             Point tilePos;
             if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
             else tilePos = new Point(e.X / 16, e.Y / 16);
@@ -919,17 +888,8 @@ namespace ManiacEditor.Methods.Internal
             Instance.EditorStatusBar.TilePositionMenuItem.Header = "Tile Position:" + newLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
 
 
-            Point clicked_point_tile = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
-            int tile;
-            int tileA = (ushort)(Methods.Solution.CurrentSolution.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
-            int tileB = 0;
-            if (Methods.Solution.CurrentSolution.EditLayerB != null)
-            {
-                tileB = (ushort)(Methods.Solution.CurrentSolution.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
-                if (tileA > 1023 && tileB < 1023) tile = tileB;
-                else tile = tileA;
-            }
-            else tile = tileA;
+            Point clicked_point_tile = new Point((int)(e.X), (int)(e.Y));
+            int tile = (ushort)(Methods.Solution.SolutionMultiLayer.GetTileAt(clicked_point_tile) & 0x3ff);
 
             Methods.Solution.SolutionState.Main.LastSelectedTileID = tile;
             Instance.EditorStatusBar.TileManiacIntergrationItem.IsEnabled = (tile < 1023);
@@ -946,7 +906,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void EntitiesEditContextMenu(System.Windows.Forms.MouseEventArgs e)
         {
-            Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+            Point clicked_point = new Point((int)(e.X), (int)(e.Y));
             string newLine = Environment.NewLine;
             if (Methods.Solution.CurrentSolution.Entities.GetEntityAt(clicked_point) != null)
             {
@@ -975,17 +935,8 @@ namespace ManiacEditor.Methods.Internal
         {
             if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
             {
-                Point clicked_point_tile = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
-                int tile;
-                int tileA = (ushort)(Methods.Solution.CurrentSolution.EditLayerA?.GetTileAt(clicked_point_tile) & 0x3ff);
-                int tileB = 0;
-                if (Methods.Solution.CurrentSolution.EditLayerB != null)
-                {
-                    tileB = (ushort)(Methods.Solution.CurrentSolution.EditLayerB?.GetTileAt(clicked_point_tile) & 0x3ff);
-                    if (tileA > 1023 && tileB < 1023) tile = tileB;
-                    else tile = tileA;
-                }
-                else tile = tileA;
+                Point clicked_point_tile = new Point((int)(e.X), (int)(e.Y));
+                int tile = (ushort)(Methods.Solution.SolutionMultiLayer.GetTileAt(clicked_point_tile) & 0x3ff);
 
 
                 Methods.Solution.SolutionState.Main.LastSelectedTileID = tile;
@@ -1004,7 +955,7 @@ namespace ManiacEditor.Methods.Internal
             }
             else
             {
-                Point clicked_point_tile = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                Point clicked_point_tile = new Point((int)(e.X), (int)(e.Y));
                 string tile = "N/A";
                 Instance.ViewPanel.SharpPanel.editTile0WithTileManiacToolStripMenuItem.IsEnabled = false;
                 Instance.ViewPanel.SharpPanel.moveThePlayerToHereToolStripMenuItem.IsEnabled = Methods.Runtime.GameHandler.GameRunning;
@@ -1024,31 +975,29 @@ namespace ManiacEditor.Methods.Internal
         }
         #endregion
 
-
         #region Draw Tool Events/Methods
         public static void EndTileDraw()
         {
             Methods.Solution.SolutionState.Main.isTileDrawing = false;
-            Methods.Solution.CurrentSolution.EditLayerA?.EndDraw();
-            Methods.Solution.CurrentSolution.EditLayerB?.EndDraw();
+            Methods.Solution.SolutionMultiLayer.EndDraw();
         }
         public static void TilesEditDrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
         {
-            Point p = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+            Point p = new Point((int)(e.X), (int)(e.Y));
             Point pC = Classes.Scene.EditorLayer.GetChunkCoordinates(p.X, p.Y);
             if (click)
             {
                 if (e.Button == MouseButtons.Left)
                 {
                     Methods.Solution.SolutionState.Main.isTileDrawing = true;
-                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) PlaceChunk();
-                    else PlaceTile();
+                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) Methods.Solution.SolutionMultiLayer.PlaceChunk(Instance, pC);
+                    else Methods.Solution.SolutionMultiLayer.PlaceTile(Instance, p);
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
                     Methods.Solution.SolutionState.Main.isTileDrawing = true;
-                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) RemoveChunk();
-                    else RemoveTile();
+                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) Methods.Solution.SolutionMultiLayer.RemoveChunk(Instance, pC);
+                    else Methods.Solution.SolutionMultiLayer.RemoveTile(Instance, p);
                 }
             }
             else
@@ -1056,81 +1005,28 @@ namespace ManiacEditor.Methods.Internal
                 if (e.Button == MouseButtons.Left)
                 {
                     Methods.Solution.SolutionState.Main.isTileDrawing = true;
-                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) PlaceChunk();
-                    else PlaceTile();
+                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) Methods.Solution.SolutionMultiLayer.PlaceChunk(Instance, pC);
+                    else Methods.Solution.SolutionMultiLayer.PlaceTile(Instance, p);
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
                     Methods.Solution.SolutionState.Main.isTileDrawing = true;
-                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) RemoveChunk();
-                    else RemoveTile();
+                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) Methods.Solution.SolutionMultiLayer.RemoveChunk(Instance, pC);
+                    else Methods.Solution.SolutionMultiLayer.RemoveTile(Instance, p);
                 }
             }
 
-            void RemoveChunk()
-            {
-                if (!Instance.Chunks.IsChunkEmpty(pC, Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB))
-                {
-                    // Remove Stamp Sized Area
-                    Instance.Chunks.PasteStamp(pC, 0, Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB, true);
-                }
-            }
 
-            void PlaceChunk()
-            {
-                int selectedIndex = Instance.TilesToolbar.ChunkList.SelectedIndex;
-                // Place Stamp
-                if (selectedIndex != -1)
-                {
-                    if (!Instance.Chunks.DoesChunkMatch(pC, Instance.Chunks.GetStamp(selectedIndex), Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB))
-                    {
-                        Instance.Chunks.PasteStamp(pC, selectedIndex, Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB);
-                    }
-                }
-            }
-
-            void RemoveTile()
-            {
-                // Remove tile
-                if (Methods.Solution.SolutionState.Main.DrawBrushSize == 1)
-                {
-                    Methods.Solution.CurrentSolution.EditLayerA?.EraseTiles(p);
-                    Methods.Solution.CurrentSolution.EditLayerB?.EraseTiles(p);
-                }
-                else
-                {
-                    double size = (Methods.Solution.SolutionState.Main.DrawBrushSize / 2) * Methods.Solution.SolutionConstants.TILE_SIZE;
-                    Methods.Solution.CurrentSolution.EditLayerA?.EraseTiles(new Rectangle((int)(p.X - size), (int)(p.Y - size), Methods.Solution.SolutionState.Main.DrawBrushSize * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionState.Main.DrawBrushSize * Methods.Solution.SolutionConstants.TILE_SIZE));
-                    Methods.Solution.CurrentSolution.EditLayerB?.EraseTiles(new Rectangle((int)(p.X - size), (int)(p.Y - size), Methods.Solution.SolutionState.Main.DrawBrushSize * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionState.Main.DrawBrushSize * Methods.Solution.SolutionConstants.TILE_SIZE));
-                }
-            }
-
-            void PlaceTile()
-            {
-                if (Methods.Solution.SolutionState.Main.DrawBrushSize == 1)
-                {
-                    if (Instance.TilesToolbar.SelectedTileIndex != -1)
-                    {
-                        if (Methods.Solution.CurrentSolution.EditLayerA.GetTileAt(p) != Instance.TilesToolbar.SelectedTileIndex) Methods.Solution.CurrentSolution.EditLayerA.PlaceTile(p, Instance.TilesToolbar.SelectedTile);
-                        else if (!Methods.Solution.CurrentSolution.EditLayerA.IsPointSelected(p)) Methods.Solution.CurrentSolution.EditLayerA.Select(p);
-                    }
-                }
-                else
-                {
-                    if (Instance.TilesToolbar.SelectedTileIndex != -1) Methods.Solution.CurrentSolution.EditLayerA.PlaceTile(p, Instance.TilesToolbar.SelectedTile, true);
-                }
-            }
         }
         public static void EntitiesEditDrawTool(System.Windows.Forms.MouseEventArgs e, bool click = false)
         {
             if (click)
             {
-                Methods.Solution.SolutionState.Main.LastX = e.X;
-                Methods.Solution.SolutionState.Main.LastY = e.Y;
+                Methods.Solution.SolutionState.Main.UpdateLastXY(e.X, e.Y);
             }
             if (e.Button == MouseButtons.Left)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                Point clicked_point = new Point((int)(e.X), (int)(e.Y));
                 if (Methods.Solution.CurrentSolution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
                     ManiacEditor.Methods.Solution.SolutionActions.Deselect();
@@ -1143,7 +1039,7 @@ namespace ManiacEditor.Methods.Internal
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Point clicked_point = new Point((int)(e.X / Methods.Solution.SolutionState.Main.Zoom), (int)(e.Y / Methods.Solution.SolutionState.Main.Zoom));
+                Point clicked_point = new Point((int)(e.X), (int)(e.Y));
                 if (Methods.Solution.CurrentSolution.Entities.IsEntityAt(clicked_point, true) == true)
                 {
                     ManiacEditor.Methods.Solution.SolutionActions.Deselect();
@@ -1154,371 +1050,131 @@ namespace ManiacEditor.Methods.Internal
         }
         #endregion
 
-        #endregion
-
-        #region Keyboard Controls
-
         #region Keyboard Inputs
         public static void GraphicPanel_OnKeyUp(object sender, KeyEventArgs e)
         {
+            EndRepeat();
+
             // Tiles Toolbar Flip Horizontal
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipHTiles, true))
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode())
-                    Instance.TilesToolbar.SetSelectTileOption(0, false);
-            }
+            if ((e.KeyCode == Keys.M) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, false);
             // Tiles Toolbar Flip Vertical
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipVTiles, true))
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode())
-                    Instance.TilesToolbar.SetSelectTileOption(1, false);
-            }
+            else if ((e.KeyCode == Keys.F) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(1, false);
         }
         public static void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {
+            if (CanHandleKeyDown || LastKeyDown != e.KeyCode) StartRepeat(e);
+            else return;
+
             // Faster Nudge Toggle
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.NudgeFaster))
-            {
-                Methods.Solution.SolutionState.Main.EnableFasterNudge ^= true;
-            }
+            if (e.Control && e.KeyCode == Keys.F1) Methods.Solution.SolutionState.Main.EnableFasterNudge ^= true;
             // Scroll Lock Toggle
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ScrollLock))
-            {
-                Methods.Solution.SolutionState.Main.ScrollLocked ^= true;
-            }
+            else if (e.Control && e.KeyCode == Keys.F2) Methods.Solution.SolutionActions.SetScrollLockDirection();
             // Switch Scroll Lock Type
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ScrollLockTypeSwitch))
-            {
-                Methods.Solution.SolutionActions.SetScrollLockDirection();
-
-            }
+            else if (e.Control && e.KeyCode == Keys.F3) Methods.Solution.SolutionActions.SetScrollLockDirection();
             // Tiles Toolbar Flip Vertical
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipVTiles, true))
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode())
-                    Instance.TilesToolbar.SetSelectTileOption(1, true);
-            }
+            else if ((e.KeyCode == Keys.ShiftKey) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(1, true);
             // Tiles Toolbar Flip Horizontal
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipHTiles, true))
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode())
-                    Instance.TilesToolbar.SetSelectTileOption(0, true);
-            }
-            // Open Click (Alt: Open Data Dir)
-            else if ((Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.OpenDataDir)))
-            {
-                ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneSelect();
-            }
-            else if ((Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Open)))
-            {
-                ManiacEditor.Methods.Solution.SolutionLoader.OpenScene();
-            }
+            else if ((e.KeyCode == Keys.ControlKey) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, true);
+            // Open Scene Select
+            else if (e.Control && e.Alt && e.KeyCode == Keys.O) ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneSelect();
+            // Open Scene
+            else if (e.Control && e.KeyCode == Keys.O) ManiacEditor.Methods.Solution.SolutionLoader.OpenScene();
+
             // New Click
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.New))
-            {
-                //ManiacEditor.Methods.Editor.SolutionLoader.NewScene();
-            }
+            //else if (e.Control && e.KeyCode == Keys.N) ManiacEditor.Methods.Editor.SolutionLoader.NewScene();
+
             // Save Click (Alt: Save As)
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.SaveAs))
-            {
-                ManiacEditor.Methods.Solution.SolutionLoader.Save();
-            }
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds._Save))
-            {
-                ManiacEditor.Methods.Solution.SolutionLoader.SaveAs();
-            }
+            else if (e.Control && e.Alt && e.KeyCode == Keys.S) ManiacEditor.Methods.Solution.SolutionLoader.Save();
+            else if (e.Control && e.KeyCode == Keys.S) ManiacEditor.Methods.Solution.SolutionLoader.SaveAs();
             // Undo
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Undo))
-            {
-                ManiacEditor.Actions.UndoRedoModel.Undo();
-            }
+            else if (e.Control && e.KeyCode == Keys.Z) ManiacEditor.Actions.UndoRedoModel.Undo();
             // Redo
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Redo))
-            {
-                ManiacEditor.Actions.UndoRedoModel.Redo();
-            }
-            // Developer Interface
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.DeveloperInterface))
-            {
-
-            }
-            // Save for Force Open on Startup
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ForceOpenOnStartup))
-            {
-
-            }
-            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsSceneLoaded())
-            {
-                GraphicPanel_OnKeyDownLoaded(sender, e);
-            }
-            // Editing Key Shortcuts
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEditing())
-            {
-                GraphicPanel_OnKeyDownEditing(sender, e);
-            }
-            OnKeyDownTools(sender, e);
-        }
-        public static void GraphicPanel_OnKeyDownLoaded(object sender, KeyEventArgs e)
-        {
+            else if (e.Control && e.KeyCode == Keys.Y) ManiacEditor.Actions.UndoRedoModel.Redo();
             // Reset Zoom Level
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ResetZoomLevel))
-            {
-                Instance.ViewPanel.SharpPanel.UpdateZoomLevel(0, new Point(0, 0));
-            }
+            else if ((e.Control && e.KeyCode == Keys.D0) || (e.Control && e.KeyCode == Keys.NumPad0)) Instance.ViewPanel.SharpPanel.UpdateZoomLevel(0, new Point(0, 0));
             //Refresh Tiles and Sprites
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.RefreshResources))
-            {
-                Methods.Internal.UserInterface.ReloadSpritesAndTextures();
-            }
+            else if (e.KeyCode == Keys.F5) Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             //Run Scene
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.RunScene))
-            {
-                Methods.Runtime.GameHandler.RunScene();
-            }
-            //Show Path A
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ShowPathA) && ManiacEditor.Methods.Solution.SolutionState.Main.IsSceneLoaded())
-            {
-                Methods.Solution.SolutionState.Main.ShowCollisionA ^= true;
-            }
-            //Show Path B
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ShowPathB))
-            {
-                Methods.Solution.SolutionState.Main.ShowCollisionB ^= true;
-            }
+            else if (e.Control && e.KeyCode == Keys.R) Methods.Runtime.GameHandler.RunScene();
             //Unload Scene
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.UnloadScene))
-            {
-                ManiacEditor.Methods.Solution.SolutionLoader.UnloadScene();
-            }
+            else if (e.Control && e.KeyCode == Keys.U) ManiacEditor.Methods.Solution.SolutionLoader.UnloadScene();
             //Toggle Grid Visibility
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ShowGrid))
-            {
-                Methods.Solution.SolutionState.Main.ShowGrid ^= true;
-            }
+            else if (e.Control && e.KeyCode == Keys.G) Methods.Solution.SolutionState.Main.ShowGrid ^= true;
             //Toggle Tile ID Visibility
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.ShowTileID))
-            {
-                Methods.Solution.SolutionState.Main.ShowTileID ^= true;
-            }
+            else if (e.Shift && e.KeyCode == Keys.D3) Methods.Solution.SolutionState.Main.ShowTileID ^= true;
             //Status Box Toggle
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.StatusBoxToggle))
+            else if (e.KeyCode == Keys.F3)
             {
                 Methods.Solution.SolutionState.Main.DebugStatsVisibleOnPanel ^= true;
                 Instance.ViewPanel.InfoHUD.UpdatePopupSize();
             }
-        }
-        public static void GraphicPanel_OnKeyDownEditing(object sender, KeyEventArgs e)
-        {
-            //Paste
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Paste))
-            {
-                Methods.Solution.SolutionActions.Paste();
-            }
-            //Paste to Chunk
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.PasteToChunk))
-            {
-                Methods.Solution.SolutionActions.PasteToChunks();
-            }
-            //Select All
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.SelectAll))
-            {
-                Methods.Solution.SolutionActions.SelectAll();
-            }
-            // Selected Key Shortcuts   
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsSelected())
-            {
-                GraphicPanel_OnKeyDownSelectedEditing(sender, e);
-            }
-        }
-        public static void GraphicPanel_OnKeyDownSelectedEditing(object sender, KeyEventArgs e)
-        {
-            // Delete
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Delete))
-            {
-                ManiacEditor.Methods.Solution.SolutionActions.Delete();
-            }
+
+            //Show Path A
+            else if (e.Control && e.KeyCode == Keys.D1) Methods.Solution.SolutionState.Main.ShowCollisionA ^= true;
+            //Show Path B
+            else if (e.Control && e.KeyCode == Keys.D2) Methods.Solution.SolutionState.Main.ShowCollisionB ^= true;
+
+            //Toolbox Tool Switch
+            else if ((e.KeyCode == Keys.D1) && Instance.EditorToolbar.PointerToolButton.IsEnabled) Methods.Solution.SolutionState.Main.PointerMode(true);
+            else if ((e.KeyCode == Keys.D2) && Instance.EditorToolbar.SelectToolButton.IsEnabled) Methods.Solution.SolutionState.Main.SelectionMode(true);
+            else if ((e.KeyCode == Keys.D3) && Instance.EditorToolbar.DrawToolButton.IsEnabled) Methods.Solution.SolutionState.Main.DrawMode(true);
+            else if ((e.KeyCode == Keys.D6) && Instance.EditorToolbar.MagnetMode.IsEnabled) Methods.Solution.SolutionState.Main.UseMagnetMode ^= true;
+            else if ((e.KeyCode == Keys.D4) && Instance.EditorToolbar.SplineToolButton.IsEnabled) Methods.Solution.SolutionState.Main.SplineMode(true);
+            else if ((e.KeyCode == Keys.D5) && Instance.EditorToolbar.ChunksToolButton.IsEnabled) Methods.Solution.SolutionState.Main.ChunksMode();
 
             // Moving
-            else if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Left || e.KeyData == Keys.Right)
-            {
-                ManiacEditor.Methods.Solution.SolutionActions.Move(e);
-            }
-
+            else if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down || e.KeyCode == Keys.Left || e.KeyCode == Keys.Right) ManiacEditor.Methods.Solution.SolutionActions.Move(e); 
             //Cut 
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Cut))
-            {
-                Methods.Solution.SolutionActions.Cut();
-            }
+            else if (e.Control && e.KeyCode == Keys.X) Methods.Solution.SolutionActions.Cut(); 
+            //Paste to Chunk
+            else if (e.Control && e.Shift && e.KeyCode == Keys.V) Methods.Solution.SolutionActions.PasteToChunks(); 
+            //Paste
+            else if (e.Control && e.KeyCode == Keys.V) Methods.Solution.SolutionActions.Paste();
+            //Select All
+            else if (e.Control && e.KeyCode == Keys.A) Methods.Solution.SolutionActions.SelectAll(); 
             //Copy
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Copy))
-            {
-                Methods.Solution.SolutionActions.Copy();
-            }
+            else if (e.Control && e.KeyCode == Keys.C) Methods.Solution.SolutionActions.Copy();
             //Duplicate
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Duplicate))
-            {
-                Methods.Solution.SolutionActions.Duplicate();
-            }
+            else if (e.Control && e.KeyCode == Keys.D) Methods.Solution.SolutionActions.Duplicate();
             //Delete
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.Delete))
-            {
-                Methods.Solution.SolutionActions.Delete();
-            }
+            else if (e.KeyCode == Keys.Delete) ManiacEditor.Methods.Solution.SolutionActions.Delete();
             // Flip Vertical Individual
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipVIndv))
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
-                    Methods.Solution.SolutionActions.FlipVerticalIndividual();
-            }
+            else if ((e.Control && e.KeyCode == Keys.F) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Methods.Solution.SolutionActions.FlipVerticalIndividual();
             // Flip Horizontal Individual
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipHIndv))
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
-                    Methods.Solution.SolutionActions.FlipHorizontalIndividual();
-            }
+            else if ((e.Control && e.KeyCode == Keys.M) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Methods.Solution.SolutionActions.FlipHorizontalIndividual();
             // Flip Vertical
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipV))
-            {
-                Methods.Solution.SolutionActions.FlipVertical();
-            }
-
+            else if (e.KeyCode == Keys.F) Methods.Solution.SolutionActions.FlipVertical();
             // Flip Horizontal
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.FlipH))
-            {
-                Methods.Solution.SolutionActions.FlipHorizontal();
-            }
-        }
-        public static void OnKeyDownTools(object sender, KeyEventArgs e)
-        {
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.PointerTool) && Instance.EditorToolbar.PointerToolButton.IsEnabled) Methods.Solution.SolutionState.Main.PointerMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.SelectTool) && Instance.EditorToolbar.SelectToolButton.IsEnabled) Methods.Solution.SolutionState.Main.SelectionMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.DrawTool) && Instance.EditorToolbar.DrawToolButton.IsEnabled) Methods.Solution.SolutionState.Main.DrawMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.MagnetTool) && Instance.EditorToolbar.MagnetMode.IsEnabled) Methods.Solution.SolutionState.Main.UseMagnetMode ^= true;
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.SplineTool) && Instance.EditorToolbar.SplineToolButton.IsEnabled) Methods.Solution.SolutionState.Main.SplineMode(true);
-            else if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.StampTool) && Instance.EditorToolbar.ChunksToolButton.IsEnabled) Methods.Solution.SolutionState.Main.ChunksMode();
+            else if (e.KeyCode == Keys.M) Methods.Solution.SolutionActions.FlipHorizontal();
         }
         #endregion
 
         #region Tile Maniac Keyboard Inputs
         public static void TileManiac_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacNewInstance))
-            {
-                CollisionEditor.Instance.newInstanceToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacOpen))
-            {
-                CollisionEditor.Instance.OpenCollision();
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSave))
-            {
-                CollisionEditor.Instance.saveToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSaveAs))
-            {
-                CollisionEditor.Instance.saveAsToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSaveUncompressed))
-            {
-                CollisionEditor.Instance.saveUncompressedToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSaveAsUncompressed))
-            {
-                CollisionEditor.Instance.saveAsUncompressedToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacbackupConfig))
-            {
-                CollisionEditor.Instance.tileConfigbinToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacbackupImage))
-            {
-                CollisionEditor.Instance.x16TilesgifToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacExportColMask))
-            {
-                CollisionEditor.Instance.exportCurrentCollisionMaskAsToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacOpenSingleColMask))
-            {
-                CollisionEditor.Instance.openSingleCollisionMaskToolStripMenuItem_Click_1(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacImportFromOlderRSDK))
-            {
-                CollisionEditor.Instance.importFromOlderRSDKVersionToolStripMenuItem_Click(null, null);
-            }
-
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacCopy))
-            {
-                CollisionEditor.Instance.copyToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacPastetoOther))
-            {
-                CollisionEditor.Instance.copyToOtherPathToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacPaste))
-            {
-                CollisionEditor.Instance.pasteToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacMirrorMode))
+            if (e.Control && e.KeyCode == Keys.N) CollisionEditor.Instance.newInstanceToolStripMenuItem_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.O) CollisionEditor.Instance.OpenCollision();
+            else if (e.Control && e.Alt && e.KeyCode == Keys.S) CollisionEditor.Instance.saveAsToolStripMenuItem_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.S) CollisionEditor.Instance.saveToolStripMenuItem_Click(null, null);
+            else if (e.Control && e.Alt && e.KeyCode == Keys.V) CollisionEditor.Instance.copyToOtherPathToolStripMenuItem_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.C) CollisionEditor.Instance.copyToolStripMenuItem_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.V) CollisionEditor.Instance.pasteToolStripMenuItem_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.M)
             {
                 CollisionEditor.Instance.mirrorPathsToolStripMenuItem1.IsChecked = !CollisionEditor.Instance.mirrorPathsToolStripMenuItem1.IsChecked;
                 CollisionEditor.Instance.mirrorPathsToolStripMenuItem_Click(null, null);
             }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacRestorePathA))
-            {
-                CollisionEditor.Instance.pathAToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacRestorePathB))
-            {
-                CollisionEditor.Instance.pathBToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacRestorePaths))
-            {
-                CollisionEditor.Instance.bothToolStripMenuItem_Click(null, null);
-            }
-
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacShowPathB))
-            {
-                CollisionEditor.Instance.showPathBToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacShowGrid))
+            else if (e.Control && e.KeyCode == Keys.B) CollisionEditor.Instance.showPathBToolStripMenuItem_Click(null, null);
+            else if (e.Control && e.KeyCode == Keys.G)
             {
                 CollisionEditor.Instance.showGridToolStripMenuItem.IsChecked = !CollisionEditor.Instance.showGridToolStripMenuItem.IsChecked;
                 CollisionEditor.Instance.showGridToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSplitFile))
-            {
-                CollisionEditor.Instance.splitFileToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacFlipTileH))
-            {
-                CollisionEditor.Instance.flipTileHorizontallyToolStripMenuItem_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacFlipTileV))
-            {
-                CollisionEditor.Instance.flipTileVerticallyToolStripMenuItem_Click(null, null);
-            }
-
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacHomeFolderOpen))
-            {
-                CollisionEditor.Instance.openCollisionHomeFolderToolStripMenuItem_Click(null, null);
-            }
-
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacAbout))
-            {
-                CollisionEditor.Instance.aboutToolStripMenuItem1_Click(null, null);
-            }
-            if (Extensions.KeyEventExts.isCombo(e, Properties.Settings.MyKeyBinds.TileManiacSettings))
-            {
-                CollisionEditor.Instance.settingsToolStripMenuItem_Click(null, null);
             }
         }
         public static void TileManiac_OnKeyUp(object sender, KeyEventArgs e)
         {
 
         }
-        #endregion
-
         #endregion
     }
 }
