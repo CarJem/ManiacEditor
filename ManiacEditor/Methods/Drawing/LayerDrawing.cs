@@ -16,122 +16,123 @@ using ManiacEditor.Extensions;
 using SFML.System;
 using SFML.Graphics;
 
-namespace ManiacEditor.Methods.Draw
+namespace ManiacEditor.Methods.Drawing
 {
 
-    public class ConnectedTexturesLogic
+    public class LayerDrawing
     {
 
-        public Dictionary<int, int> Map = new Dictionary<int, int>();
+        #region Connected Textures Logic Class
 
-        private LayerTileProvider Parent { get; set; }
-
-        public ConnectedTexturesLogic(LayerTileProvider _Parent)
+        public class ConnectedTexturesLogic
         {
-            Parent = _Parent;
-            InitTileMap();
-        }
 
-        private int GetKeyCode(bool top, bool bottom, bool left, bool right)
-        {
-            int value = 0;
-            if (top) value += 1000;
-            if (bottom) value += 100;
-            if (left) value += 10;
-            if (right) value += 1;
-            return value;
-        }
+            public Dictionary<int, int> Map = new Dictionary<int, int>();
 
-        private void InitTileMap()
-        {
-            // ↑  ↓  ←  →  ↗  ↙  ↘  ↖
+            private LayerDrawing Parent { get; set; }
 
-            //Base
-            AddMap(00, "");
-
-            //Horizontal
-            AddMap(01, "→");
-            AddMap(02, "← →");
-            AddMap(03, "←");
-
-            //Vertical
-            AddMap(12, "↓");
-            AddMap(24, "↓ ↑");
-            AddMap(36, "↑");
-
-            //Box A
-            AddMap(13, "↓ →");
-            AddMap(15, "← ↓");
-            AddMap(37, "→ ↑");
-            AddMap(39, "← ↑");
-
-            //Box  B 
-            AddMap(25, "→ ↑ ↓");
-            AddMap(14, "← → ↓");
-            AddMap(38, "← → ↑");
-            AddMap(27, "← ↑ ↓");
-
-            //All Sides
-            AddMap(26, "← → ↑ ↓");
-
-
-            void AddMap(int value, string tempkey)
+            public ConnectedTexturesLogic(LayerDrawing _Parent)
             {
-
-                bool _isTop = false;
-                bool _isBottom = false;
-                bool _isLeft = false;
-                bool _isRight = false;
-
-                if (tempkey.Contains("↑")) _isTop = true;
-                if (tempkey.Contains("↓")) _isBottom = true;
-                if (tempkey.Contains("←")) _isLeft = true;
-                if (tempkey.Contains("→")) _isRight = true;
-
-
-                var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
-
-                Map.Add(key, value);
+                Parent = _Parent;
+                InitTileMap();
             }
+
+            private int GetKeyCode(bool top, bool bottom, bool left, bool right)
+            {
+                int value = 0;
+                if (top) value += 1000;
+                if (bottom) value += 100;
+                if (left) value += 10;
+                if (right) value += 1;
+                return value;
+            }
+
+            private void InitTileMap()
+            {
+                // ↑  ↓  ←  →  ↗  ↙  ↘  ↖
+
+                //Base
+                AddMap(00, "");
+
+                //Horizontal
+                AddMap(01, "→");
+                AddMap(02, "← →");
+                AddMap(03, "←");
+
+                //Vertical
+                AddMap(12, "↓");
+                AddMap(24, "↓ ↑");
+                AddMap(36, "↑");
+
+                //Box A
+                AddMap(13, "↓ →");
+                AddMap(15, "← ↓");
+                AddMap(37, "→ ↑");
+                AddMap(39, "← ↑");
+
+                //Box  B 
+                AddMap(25, "→ ↑ ↓");
+                AddMap(14, "← → ↓");
+                AddMap(38, "← → ↑");
+                AddMap(27, "← ↑ ↓");
+
+                //All Sides
+                AddMap(26, "← → ↑ ↓");
+
+
+                void AddMap(int value, string tempkey)
+                {
+
+                    bool _isTop = false;
+                    bool _isBottom = false;
+                    bool _isLeft = false;
+                    bool _isRight = false;
+
+                    if (tempkey.Contains("↑")) _isTop = true;
+                    if (tempkey.Contains("↓")) _isBottom = true;
+                    if (tempkey.Contains("←")) _isLeft = true;
+                    if (tempkey.Contains("→")) _isRight = true;
+
+
+                    var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
+
+                    Map.Add(key, value);
+                }
+            }
+
+            public int GetConnectionID(Point point)
+            {
+                bool _isTop = IsTop(point);
+                bool _isBottom = IsBottom(point);
+                bool _isLeft = IsLeft(point);
+                bool _isRight = IsRight(point);
+                var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
+                return Map[key];
+            }
+
+            public bool IsTop(Point point)
+            {
+                return Parent.IsTileSelected(new Point(point.X, point.Y - 1));
+            }
+            public bool IsBottom(Point point)
+            {
+                return Parent.IsTileSelected(new Point(point.X, point.Y + 1));
+            }
+            public bool IsLeft(Point point)
+            {
+                return Parent.IsTileSelected(new Point(point.X - 1, point.Y));
+            }
+            public bool IsRight(Point point)
+            {
+                return Parent.IsTileSelected(new Point(point.X + 1, point.Y));
+            }
+
         }
 
-        public int GetConnectionID(Point point)
-        {
-            bool _isTop = IsTop(point);
-            bool _isBottom = IsBottom(point);
-            bool _isLeft = IsLeft(point);
-            bool _isRight = IsRight(point);
-            var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
-            return Map[key];
-        }
+        #endregion
 
-        public bool IsTop(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X, point.Y - 1));
-        }
-        public bool IsBottom(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X, point.Y + 1));
-        }
-        public bool IsLeft(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X - 1, point.Y));
-        }
-        public bool IsRight(Point point)
-        {
-            return Parent.IsTileSelected(new Point(point.X + 1, point.Y));
-        }
-
-    }
-
-    public class LayerTileProvider
-    {
-
-        private ConnectedTexturesLogic ConnectedTexturesLogic { get; set; }
-
-
-        #region Layer Renders
-
+        #region Definitions
+        private ConnectedTexturesLogic CTLogic { get; set; }
         public Classes.Scene.EditorLayer ParentLayer { get; set; }
         public LayerRenderer MapRender { get; set; }
         public LayerRenderer MapRenderEditor { get; set; }
@@ -144,10 +145,10 @@ namespace ManiacEditor.Methods.Draw
 
         #region Init
 
-        public LayerTileProvider(Classes.Scene.EditorLayer _ParentLayer)
+        public LayerDrawing(Classes.Scene.EditorLayer _ParentLayer)
         {
             ParentLayer = _ParentLayer;
-            ConnectedTexturesLogic = new ConnectedTexturesLogic(this);
+            CTLogic = new ConnectedTexturesLogic(this);
         }
 
         #endregion
@@ -326,7 +327,7 @@ namespace ManiacEditor.Methods.Draw
         private IntRect GetTileSelectedRect(Point point)
         {
             int connection_id = 0;
-            if (Properties.Settings.MyPerformance.UseConnectedTileSelections) connection_id = ConnectedTexturesLogic.GetConnectionID(point);
+            if (Properties.Settings.MyPerformance.UseConnectedTileSelections) connection_id = CTLogic.GetConnectionID(point);
 
             int tile_size = Methods.Solution.SolutionConstants.TILE_SIZE;
             int tile_texture_y = connection_id * tile_size;

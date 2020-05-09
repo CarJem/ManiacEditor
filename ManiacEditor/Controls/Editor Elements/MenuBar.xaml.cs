@@ -386,12 +386,12 @@ namespace ManiacEditor.Controls.Editor_Elements
 
         private void OverlayImageMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Methods.Draw.CommonGraphics.SelectOverlayImage();
+            Methods.Drawing.CommonDrawing.SelectOverlayImage();
         }
 
         private void ClearImageMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Methods.Draw.CommonGraphics.ClearOverlayImage();
+            Methods.Drawing.CommonDrawing.ClearOverlayImage();
         }
 
         #endregion

@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
             int type = (int)e.attributesMap["type"].ValueEnum;
-            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "Animals", type, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Animals", type, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

@@ -203,11 +203,6 @@ namespace ManiacEditor.Methods
             MessageBox.Show(message, "Unable to start.", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        public static void SetupRenderingOptions()
-        {
-            EntityRenderingOptions.GetExternalData(ref ManiacEditor.Methods.Draw.ObjectDrawing.RenderingSettings);
-        }
-
         public static void DisableDPIScaling()
         {
             /*

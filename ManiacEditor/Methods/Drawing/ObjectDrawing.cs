@@ -16,7 +16,7 @@ using SFML.Graphics;
 using System.CodeDom;
 
 
-namespace ManiacEditor.Methods.Draw
+namespace ManiacEditor.Methods.Drawing
 {
     public static class ObjectDrawing
     {
@@ -25,12 +25,20 @@ namespace ManiacEditor.Methods.Draw
         private static int LastViewPositionX { get; set; } = -1;
         private static int LastViewPositionY { get; set; } = -1;
 
+        public static List<string> SpecialObjectRenders { get; private set; } = new List<string>() {
+            "EditorAssets",
+            "HUDEditorText",
+            "SuperSpecialRing",
+            "EditorIcons2",
+            "TransportTubes",
+            "EditorUIRender"
+        };
+
         // Object Render List
         public static List<EntityRenderer> EntityRenderers { get; set; } = new List<EntityRenderer>();
         public static List<LinkedRenderer> LinkedEntityRenderers { get; set; } = new List<LinkedRenderer>();
 
         // Object List for initilizing the if statement
-        public static Classes.General.EntityRenderingOptions RenderingSettings;
         public static List<string> RendersWithErrors = new List<string>();
         public static List<string> LinkedRendersWithErrors = new List<string>();
 
@@ -103,7 +111,7 @@ namespace ManiacEditor.Methods.Draw
                 Bitmap SpriteSheetBMP;
                 string TargetFile;
 
-                if (Methods.Draw.ObjectDrawing.RenderingSettings.SpecialObjectRenders.Contains(Name)) TargetFile = GetEditorStaticBitmapPath(Name);
+                if (SpecialObjectRenders.Contains(Name)) TargetFile = GetEditorStaticBitmapPath(Name);
                 else TargetFile = Path.Combine(SourceDirectory, "Sprites", spriteSheetName.Replace('/', '\\'));
 
 
@@ -130,7 +138,7 @@ namespace ManiacEditor.Methods.Draw
 
                 if (SpriteSheetBMP != null)
                 {
-                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), Methods.Draw.TextureHelper.FromBitmap(SpriteSheetBMP));
+                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), Methods.Drawing.CommonDrawing.FromBitmap(SpriteSheetBMP));
                 }
                 else
                 {
@@ -595,11 +603,11 @@ namespace ManiacEditor.Methods.Draw
         }
         public static bool CanDraw(string Name)
         {
-            return Methods.Draw.ObjectDrawing.RenderingSettings.ObjectToRender.Contains(Name);
+            return EntityRenderers.Exists(t => t.GetObjectName() == Name);
         }
         public static bool CanDrawLinked(string Name)
         {
-            return Methods.Draw.ObjectDrawing.RenderingSettings.LinkedObjectsToRender.Contains(Name);
+            return LinkedEntityRenderers.Exists(t => t.GetObjectName() == Name);
         }
         #endregion
 
@@ -632,16 +640,16 @@ namespace ManiacEditor.Methods.Draw
                 }
             }
 
-            Methods.Draw.ObjectDrawing.EntityRenderers.Clear();
-            Methods.Draw.ObjectDrawing.LinkedEntityRenderers.Clear();
+            Methods.Drawing.ObjectDrawing.EntityRenderers.Clear();
+            Methods.Drawing.ObjectDrawing.LinkedEntityRenderers.Clear();
 
-            if (Methods.Draw.ObjectDrawing.EntityRenderers.Count == 0)
+            if (Methods.Drawing.ObjectDrawing.EntityRenderers.Count == 0)
             {
                 if (UseBuiltIn)
                 {
                     var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(EntityRenderer)).ToList();
                     foreach (var type in types)
-                        Methods.Draw.ObjectDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
+                        Methods.Drawing.ObjectDrawing.EntityRenderers.Add((EntityRenderer)Activator.CreateInstance(type));
                 }
 
                 if (CanCompile)
@@ -649,27 +657,27 @@ namespace ManiacEditor.Methods.Draw
                     var list = Directory.EnumerateFiles(Methods.ProgramPaths.EntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
                     if (list.Count != 0)
                     {
-                        var render = Methods.Internal.ScriptLoader.LoadRenderers(list);
-                        Methods.Draw.ObjectDrawing.EntityRenderers.AddRange(render);
+                        var render = Methods.Runtime.ScriptLoader.LoadRenderers(list);
+                        Methods.Drawing.ObjectDrawing.EntityRenderers.AddRange(render);
                     }
                 }
             }
 
-            if (Methods.Draw.ObjectDrawing.LinkedEntityRenderers.Count == 0)
+            if (Methods.Drawing.ObjectDrawing.LinkedEntityRenderers.Count == 0)
             {
                 if (UseBuiltIn)
                 {
                     var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.BaseType == typeof(LinkedRenderer)).ToList();
                     foreach (var type in types)
-                        Methods.Draw.ObjectDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
+                        Methods.Drawing.ObjectDrawing.LinkedEntityRenderers.Add((LinkedRenderer)Activator.CreateInstance(type));
                 }
                 if (CanCompile)
                 {
                     var list = Directory.EnumerateFiles(Methods.ProgramPaths.LinkedEntityRendersDirectory, "*.cs", SearchOption.AllDirectories).ToList();
                     if (list.Count != 0)
                     {
-                        var render = Methods.Internal.ScriptLoader.LoadLinkedRenderers(list);
-                        Methods.Draw.ObjectDrawing.LinkedEntityRenderers.AddRange(render);
+                        var render = Methods.Runtime.ScriptLoader.LoadLinkedRenderers(list);
+                        Methods.Drawing.ObjectDrawing.LinkedEntityRenderers.AddRange(render);
                     }
                 }
             }
@@ -699,7 +707,6 @@ namespace ManiacEditor.Methods.Draw
                 entity.IsVisible = IsObjectOnScreen(d, entity);
             }
         }
-
         public static void RequestEntityVisiblityRefresh(bool force = false)
         {
             if (Methods.Solution.CurrentSolution.Entities != null)

@@ -46,7 +46,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "Decoration", type, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Decoration", type, 0);
 
             for (int yy = 0; yy <= repeatY; yy++)
             {

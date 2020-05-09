@@ -97,12 +97,12 @@ namespace ManiacEditor.Entity_Renders
         }
 
 
-        private void DrawDefault(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv)
+        private void DrawDefault(DevicePanel d, Methods.Drawing.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv)
         {
             DrawTexturePivotNormal(d, Frame, Frame.RequestedAnimID, Frame.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
-        private void DrawAngle0(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value, int gap)
+        private void DrawAngle0(DevicePanel d, Methods.Drawing.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value, int gap)
         {
             bool wEven = value % 2 == 0;
             for (int xx = 0; xx <= value; ++xx)
@@ -113,7 +113,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        private void DrawAngle1(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value)
+        private void DrawAngle1(DevicePanel d, Methods.Drawing.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value)
         {
             bool wEven = value % 2 == 0;
             for (int xx = 0; xx <= value; ++xx)
@@ -124,7 +124,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        private void DrawAngle2(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value, int gap)
+        private void DrawAngle2(DevicePanel d, Methods.Drawing.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value, int gap)
         {
             bool wEven = value % 2 == 0;
             wEven = boolState;
@@ -136,7 +136,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        private void DrawAngle3(DevicePanel d, Methods.Draw.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value)
+        private void DrawAngle3(DevicePanel d, Methods.Drawing.ObjectDrawing.EditorAnimation Frame, int x, int y, int Transparency, bool fliph, bool flipv, int value)
         {
             bool wEven = value % 2 == 0;
             for (int xx = 0; xx <= value; ++xx)

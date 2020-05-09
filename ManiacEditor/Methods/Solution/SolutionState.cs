@@ -216,7 +216,7 @@ namespace ManiacEditor.Methods.Solution
                 {
                     Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
                 }
-                ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+                ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionY));
             }
             public void SetViewPositionX(int value, bool UpdateScrollBars = false)
@@ -226,7 +226,7 @@ namespace ManiacEditor.Methods.Solution
                 {
                     Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
                 }
-                ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+                ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionX));
             }
             public int ViewPositionY

@@ -20,7 +20,7 @@ namespace ManiacEditor.Entity_Renders
                 e.attributesMap["characterID"].ValueEnum = 7;
             }
 
-            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "PlayerIcons", 0, id);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "PlayerIcons", 0, id);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

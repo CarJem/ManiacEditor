@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
             bool extra = false;
             count *= 2; // I made all this with an incorrect assumption so here's a cheap fix
             int count2 = count >> 2;
-            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "Spikes", animID, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Spikes", animID, 0);
 
             if (Animation.RequestedFrame.Width == 0 || Animation.RequestedFrame.Height == 0) return;
 

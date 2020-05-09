@@ -131,7 +131,7 @@ namespace ManiacEditor.Methods.Internal
         public static void SetSceneOnlyButtonsState(bool enabled)
         {
             SplineControls.UpdateSplineToolbox();
-            Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+            Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
             Instance.MenuBar.SetSceneOnlyButtonsState(enabled);
             Instance.EditorToolbar.SetSceneOnlyButtonsState(enabled);
             Instance.EditorStatusBar.SetSceneOnlyButtonsState(enabled);
@@ -200,8 +200,8 @@ namespace ManiacEditor.Methods.Internal
             {
                 // release all our resources, and force a reload of the tiles
                 // Entities should take care of themselves
-                Methods.Draw.ObjectDrawing.ReleaseResources();
-                Methods.Draw.ObjectDrawing.RefreshRenderLists();
+                Methods.Drawing.ObjectDrawing.ReleaseResources();
+                Methods.Drawing.ObjectDrawing.RefreshRenderLists();
 
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (Methods.Solution.SolutionState.Main.UseEncoreColors == true) Methods.Solution.CurrentSolution.CurrentTiles?.Reload(ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]);

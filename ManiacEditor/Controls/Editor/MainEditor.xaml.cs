@@ -140,7 +140,7 @@ namespace ManiacEditor.Controls.Editor
             Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
             Methods.Solution.SolutionState.Main.UpdateInstance(this);
             Editor_Elements.Toolbar.UpdateInstance(this);
-            Methods.Draw.ObjectDrawing.UpdateInstance(this);
+            Methods.Drawing.ObjectDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
             Methods.Solution.SolutionPaths.UpdateInstance(this);
             Classes.Prefrences.SceneCurrentSettings.UpdateInstance(this);
@@ -150,7 +150,7 @@ namespace ManiacEditor.Controls.Editor
             Methods.ProgramLauncher.UpdateInstance(this);
             Methods.Runtime.GameHandler.UpdateInstance(this);
             Methods.Solution.SolutionActions.UpdateInstance(this);
-            Methods.Draw.GraphicsTileDrawing.UpdateInstance(this);
+            Methods.Drawing.CommonDrawing.UpdateInstance(this);
             Methods.Layers.TileFindReplace.UpdateInstance(this);
         }
         private void InitalizeSettings()

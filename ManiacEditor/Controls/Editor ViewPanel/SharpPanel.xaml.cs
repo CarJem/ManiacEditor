@@ -35,7 +35,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ManiacEditor.Methods.Draw;
+using ManiacEditor.Methods.Drawing;
 
 
 namespace ManiacEditor.Controls.Editor_ViewPanel
@@ -468,7 +468,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }
-            ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh();
+            ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh();
         }
         public void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
@@ -477,7 +477,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             {
                 GraphicPanel.OnMouseMoveEventCreate();
             }
-            ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh();
+            ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh();
         }
         public void HScrollBar1_Entered(object sender, EventArgs e)
         {
@@ -561,27 +561,27 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             if (Instance.EntitiesToolbar?.NeedRefresh ?? false) Instance.EntitiesToolbar.PropertiesRefresh();
             if (Methods.Solution.CurrentSolution.CurrentScene != null)
             {
-                CommonGraphics.DrawBackground(Instance, GraphicPanel);
+                CommonDrawing.DrawBackground(GraphicPanel);
 
                 if (Methods.Solution.CurrentSolution.CurrentScene.OtherLayers.Contains(Methods.Solution.CurrentSolution.EditLayerA)) Methods.Solution.CurrentSolution.EditLayerA.Draw(GraphicPanel);
 
-                if (!Methods.Solution.SolutionState.Main.ExtraLayersMoveToFront) CommonGraphics.DrawExtraLayers(Instance, GraphicPanel);
+                if (!Methods.Solution.SolutionState.Main.ExtraLayersMoveToFront) CommonDrawing.DrawExtraLayers(GraphicPanel);
 
-                CommonGraphics.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGLower.IsChecked.Value, Instance.EditorToolbar.EditFGLower.IsCheckedAll, Methods.Solution.CurrentSolution.FGLower);
+                CommonDrawing.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGLower.IsChecked.Value, Instance.EditorToolbar.EditFGLower.IsCheckedAll, Methods.Solution.CurrentSolution.FGLower);
 
-                CommonGraphics.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGLow.IsChecked.Value, Instance.EditorToolbar.EditFGLow.IsCheckedAll, Methods.Solution.CurrentSolution.FGLow);
+                CommonDrawing.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGLow.IsChecked.Value, Instance.EditorToolbar.EditFGLow.IsCheckedAll, Methods.Solution.CurrentSolution.FGLow);
 
                 if (showEntities && !AboveAllMode) Methods.Solution.CurrentSolution.Entities.Draw(GraphicPanel);
 
-                CommonGraphics.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGHigh.IsChecked.Value, Instance.EditorToolbar.EditFGHigh.IsCheckedAll, Methods.Solution.CurrentSolution.FGHigh);
+                CommonDrawing.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGHigh.IsChecked.Value, Instance.EditorToolbar.EditFGHigh.IsCheckedAll, Methods.Solution.CurrentSolution.FGHigh);
 
-                CommonGraphics.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGHigher.IsChecked.Value, Instance.EditorToolbar.EditFGHigher.IsCheckedAll, Methods.Solution.CurrentSolution.FGHigher);
+                CommonDrawing.DrawLayer(GraphicPanel, Instance.EditorToolbar.ShowFGHigher.IsChecked.Value, Instance.EditorToolbar.EditFGHigher.IsCheckedAll, Methods.Solution.CurrentSolution.FGHigher);
 
                 if (showEntities && AboveAllMode) Methods.Solution.CurrentSolution.Entities.Draw(GraphicPanel);
 
-                if (Methods.Solution.SolutionState.Main.ExtraLayersMoveToFront) CommonGraphics.DrawExtraLayers(Instance, GraphicPanel);
+                if (Methods.Solution.SolutionState.Main.ExtraLayersMoveToFront) CommonDrawing.DrawExtraLayers(GraphicPanel);
 
-                if (CommonGraphics.CanOverlayImage(Instance)) CommonGraphics.DrawOverlayImage(Instance, GraphicPanel);
+                if (CommonDrawing.CanOverlayImage(Instance)) CommonDrawing.DrawOverlayImage(GraphicPanel);
 
                 if (showEntitiesEditing) Methods.Solution.CurrentSolution.Entities.Draw(GraphicPanel);
 
@@ -589,18 +589,18 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
 
             }
 
-            if (Methods.Solution.SolutionState.Main.DraggingSelection) CommonGraphics.DrawSelectionBox(GraphicPanel);
-            else CommonGraphics.DrawSelectionBox(GraphicPanel, true);
+            if (Methods.Solution.SolutionState.Main.DraggingSelection) CommonDrawing.DrawSelectionBox(GraphicPanel);
+            else CommonDrawing.DrawSelectionBox(GraphicPanel, true);
 
-            if (Methods.Solution.SolutionState.Main.IsDrawMode() && Methods.Solution.SolutionState.Main.IsTilesEdit()) CommonGraphics.DrawBrushBox(GraphicPanel, true);
+            if (Methods.Solution.SolutionState.Main.IsDrawMode() && Methods.Solution.SolutionState.Main.IsTilesEdit()) CommonDrawing.DrawBrushBox(GraphicPanel, true);
 
-            if (Methods.Solution.SolutionState.Main.isTileDrawing && Methods.Solution.SolutionState.Main.DrawBrushSize != 1) CommonGraphics.DrawBrushBox(GraphicPanel);
+            if (Methods.Solution.SolutionState.Main.isTileDrawing && Methods.Solution.SolutionState.Main.DrawBrushSize != 1) CommonDrawing.DrawBrushBox(GraphicPanel);
 
             if (Methods.Solution.SolutionState.Main.ShowGrid && Methods.Solution.CurrentSolution.CurrentScene != null) Instance.EditBackground.DrawGrid(GraphicPanel);
 
-            if (Methods.Solution.SolutionState.Main.UnlockCamera) CommonGraphics.DrawSceneBounds(GraphicPanel);
+            if (Methods.Solution.SolutionState.Main.UnlockCamera) CommonDrawing.DrawSceneBounds(GraphicPanel);
 
-            if (Methods.Runtime.GameHandler.GameRunning) CommonGraphics.DrawGameElements(GraphicPanel);
+            if (Methods.Runtime.GameHandler.GameRunning) CommonDrawing.DrawGameElements(GraphicPanel);
         }
 
         #endregion

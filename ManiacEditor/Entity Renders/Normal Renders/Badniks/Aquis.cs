@@ -13,10 +13,10 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "Aquis", 1, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Aquis", 1, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
 
-            Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "Aquis", 3, 0);
+            Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Aquis", 3, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

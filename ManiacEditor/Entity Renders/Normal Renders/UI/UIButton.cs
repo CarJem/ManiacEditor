@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int height = (int)e.attributesMap["size"].ValueVector2.Y.High;
             bool invisible = e.attributesMap["invisible"].ValueBool;
             double alignmentVal = 0;
-            var editorAnim = Methods.Draw.ObjectDrawing.LoadAnimation(d, text, listID, frameID);
+            var editorAnim = Methods.Drawing.ObjectDrawing.LoadAnimation(d, text, listID, frameID);
             switch (align)
             {
                 case 0:

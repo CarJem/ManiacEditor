@@ -10,6 +10,7 @@ using SFML.Graphics;
 using RSDKv5;
 using SystemColor = System.Drawing.Color;
 using ImageSource = System.Windows.Media.ImageSource;
+using GenerationsLib.Core;
 
 namespace ManiacEditor.Classes.Rendering
 {
@@ -75,7 +76,7 @@ namespace ManiacEditor.Classes.Rendering
         #region Creation
         private void CreateTextureImage()
         {
-            this.TextureBitmap = Methods.Draw.TextureHelper.FromBitmap(StandardBitmap);
+            this.TextureBitmap = Methods.Drawing.CommonDrawing.FromBitmap(StandardBitmap);
         }
         private void CreateTransparentImage()
         {
@@ -88,14 +89,14 @@ namespace ManiacEditor.Classes.Rendering
         }
         private void CreateStandardImage(string PaletteDataPath)
         {
-            StandardBitmap = SetPaletteColors(new Bitmap(Filename), PaletteDataPath);
+            StandardBitmap = SetPaletteColors(BitmapExtensions.LoadBitmap(Filename), PaletteDataPath);
             if (StandardBitmap.Palette != null && StandardBitmap.Palette.Entries.Length > 0) StandardBitmap.MakeTransparent(StandardBitmap.Palette.Entries[0]);
             else StandardBitmap.MakeTransparent(SystemColor.FromArgb(0xff00ff));
         }
 
         private void CreateIndexedImage()
         {
-            IndexedBitmap = new Bitmap(Filename);
+            IndexedBitmap = BitmapExtensions.LoadBitmap(Filename);
             OriginalPalette = IndexedBitmap.Palette;
             Width = IndexedBitmap.Width;
             Height = IndexedBitmap.Height;
@@ -191,7 +192,7 @@ namespace ManiacEditor.Classes.Rendering
                 bmp = CropImage(StandardBitmap, section);
                 if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
                 if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                texture = Methods.Draw.TextureHelper.FromBitmap(bmp);
+                texture = Methods.Drawing.CommonDrawing.FromBitmap(bmp);
 
                 TextureCache.Add(new CacheKey(section, flipX, flipY), texture);
                 return texture;
@@ -303,7 +304,7 @@ namespace ManiacEditor.Classes.Rendering
             this.StandardBitmap = new Bitmap(_Bitmap);
             this.TransparentBitmap = this.StandardBitmap.Clone(new Rectangle(0, 0, StandardBitmap.Width, StandardBitmap.Height), PixelFormat.Format32bppArgb);
             this.TransparentBitmap = SetImageOpacity(TransparentBitmap, SemiOpacity);
-            this.TextureBitmap = Methods.Draw.TextureHelper.FromBitmap(StandardBitmap);
+            this.TextureBitmap = Methods.Drawing.CommonDrawing.FromBitmap(StandardBitmap);
 
             Width = StandardBitmap.Width;
             Height = StandardBitmap.Height;

@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
 			var height = (int)(e.attributesMap["size"].ValueVector2.Y.High) - 1;
 
 
-            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "EditorAssets");
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "EditorAssets");
 
             if (width != -1 && height != -1)
             {
@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "EditorAssets");
+                    Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "EditorAssets");
                     if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(0, 1)))
                     {
                         var frame = Animation.Animation.Animations[0].Frames[1];
@@ -62,7 +62,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Knuckles icon
             if (knux)
             {
-                Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "HUD");
+                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "HUD");
                 if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 2)))
                 {
                     var frame = Animation.Animation.Animations[2].Frames[2];
@@ -73,7 +73,7 @@ namespace ManiacEditor.Entity_Renders
             // draw Mighty icon
             if (mighty)
             {
-                Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "HUD");
+                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "HUD");
                 if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 3)))
                 {
                     var frame = Animation.Animation.Animations[2].Frames[3];

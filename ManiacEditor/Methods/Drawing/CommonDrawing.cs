@@ -25,21 +25,22 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Drawing;
 
-namespace ManiacEditor.Methods.Draw
+namespace ManiacEditor.Methods.Drawing
 {
-    public static class CommonGraphics
+    public static class CommonDrawing
     {
+        #region Definitions
+
+        private static ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
+        public static void UpdateInstance(ManiacEditor.Controls.Editor.MainEditor _Instance)
+        {
+            Instance = _Instance;
+        }
+
+        #endregion
+
         #region Rendering Definitions
 
         private static SFML.Graphics.Texture OverlayImage { get; set; }
@@ -112,7 +113,7 @@ namespace ManiacEditor.Methods.Draw
 
         #region Render Loop Methods
 
-        public static void DrawOverlayImage(ManiacEditor.Controls.Editor.MainEditor Instance, DevicePanel GraphicPanel)
+        public static void DrawOverlayImage(DevicePanel GraphicPanel)
         {
             int x = 0;
             int y = 0;
@@ -123,13 +124,13 @@ namespace ManiacEditor.Methods.Draw
             GraphicPanel.DrawTexture(OverlayImage, x, y, rec_x, rec_y, width, height, false, GetOverlayImageOpacity(Instance));
         }
 
-        public static void DrawBackground(ManiacEditor.Controls.Editor.MainEditor Instance, DevicePanel GraphicPanel)
+        public static void DrawBackground(DevicePanel GraphicPanel)
         {
             if (!ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.HideNormalBackground == false) Instance.EditBackground.Draw(GraphicPanel);
             if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) if (ManiacEditor.Properties.Settings.MyPerformance.ShowEditLayerBackground == true) Instance.EditBackground.Draw(GraphicPanel, true);
         }
 
-        public static void DrawExtraLayers(ManiacEditor.Controls.Editor.MainEditor Instance, DevicePanel GraphicPanel)
+        public static void DrawExtraLayers(DevicePanel GraphicPanel)
         {
             for (int i = 0; i < Instance.EditorToolbar.ExtraLayerEditViewButtons.Count; i++)
             {
@@ -253,6 +254,106 @@ namespace ManiacEditor.Methods.Draw
                 System.Drawing.Point clicked_point = new System.Drawing.Point((int)(Methods.Solution.SolutionState.Main.LastX), (int)(Methods.Solution.SolutionState.Main.LastY));
                 Methods.Runtime.GameHandler.UpdateCheckpoint(clicked_point);
             }
+        }
+
+        #endregion
+
+        #region Extensions
+
+        public static SFML.Graphics.Texture FromBitmap(Bitmap bitmap)
+        {
+            MemoryStream stm = new MemoryStream();
+            bitmap.Save(stm, System.Drawing.Imaging.ImageFormat.Png);
+            return new SFML.Graphics.Texture(stm);
+        }
+
+        #endregion
+
+        #region Tile Drawning (System.Drawing.Graphics)
+
+        private static int TILE_SIZE
+        {
+            get
+            {
+                return Methods.Solution.SolutionConstants.TILE_SIZE;
+            }
+        }
+
+
+
+        public static void DrawTile(Graphics g, ushort tile, int x, int y, bool SemiTransparent = false)
+        {
+            DrawTile(g, tile, x, y, false, SemiTransparent);
+        }
+
+        public static void DrawTile(Graphics g, ushort tile, int x, int y, bool ChunkDraw, bool SemiTransparent)
+        {
+            ushort TileIndex = (ushort)(tile & 0x3ff);
+            int TileIndexInt = (int)TileIndex;
+            bool flipX = ((tile >> 10) & 1) == 1;
+            bool flipY = ((tile >> 11) & 1) == 1;
+            bool SolidTopA = ((tile >> 12) & 1) == 1;
+            bool SolidLrbA = ((tile >> 13) & 1) == 1;
+            bool SolidTopB = ((tile >> 14) & 1) == 1;
+            bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
+
+            int CollisionOpacity = (int)Instance.EditorToolbar.CollisionOpacitySlider.Value;
+            var CollisionAllSolidColor = Methods.Solution.SolutionState.Main.CollisionAllSolid_Color;
+            var CollisionLRDSolidColor = Methods.Solution.SolutionState.Main.CollisionLRDSolid_Color;
+            var CollisionTopOnlyColor = Methods.Solution.SolutionState.Main.CollisionTopOnlySolid_Color;
+
+
+            System.Drawing.Color AllSolid = System.Drawing.Color.FromArgb(CollisionOpacity, CollisionAllSolidColor.R, CollisionAllSolidColor.G, CollisionAllSolidColor.B);
+            System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb(CollisionOpacity, CollisionLRDSolidColor.R, CollisionLRDSolidColor.G, CollisionLRDSolidColor.B);
+            System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb(CollisionOpacity, CollisionTopOnlyColor.R, CollisionTopOnlyColor.G, CollisionTopOnlyColor.B);
+
+            g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY, SemiTransparent), new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+
+            if (ChunkDraw) return;
+
+            if (Methods.Solution.SolutionState.Main.ShowCollisionA)
+            {
+                if (SolidLrbA || SolidTopA)
+                {
+                    if (SolidTopA && SolidLrbA) DrawCollision(true, AllSolid);
+                    if (SolidTopA && !SolidLrbA) DrawCollision(true, TopOnlySolid);
+                    if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid);
+                }
+            }
+            if (Methods.Solution.SolutionState.Main.ShowCollisionB)
+            {
+                if (SolidLrbB || SolidTopB)
+                {
+                    if (SolidTopB && SolidLrbB) DrawCollision(false, AllSolid);
+                    if (SolidTopB && !SolidLrbB) DrawCollision(false, TopOnlySolid);
+                    if (SolidLrbB && !SolidTopB) DrawCollision(false, LRDSolid);
+                }
+            }
+
+            if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper == true)
+            {
+                g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false, SemiTransparent),
+                            new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+            }
+            if (Methods.Solution.SolutionState.Main.ShowTileID == true)
+            {
+                g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false, SemiTransparent),
+                            new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+            }
+
+            void DrawCollision(bool drawA, System.Drawing.Color colur)
+            {
+                Bitmap Map;
+                if (drawA) Map = Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY, SemiTransparent);
+                else Map = Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY, SemiTransparent);
+
+                Map = Extensions.Extensions.ChangeImageColor(Map, System.Drawing.Color.White, colur);
+
+                g.DrawImage(Map, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            }
+
+
         }
 
         #endregion

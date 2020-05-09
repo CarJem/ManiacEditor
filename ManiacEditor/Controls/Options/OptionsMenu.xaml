@@ -107,8 +107,7 @@
                                 <StackPanel Grid.Column="0">
                                     <controls:SettingsHeader HeaderName="Editor Settings"></controls:SettingsHeader>
                                     <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
-                                    <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence"  Margin="0,10,0,0"  IsChecked="{maniac:SettingBinding ShowDiscordRPC}"/>
-                                    <CheckBox x:Name="UnhandledExcpetionsCheckBox" Content="Show Unhandled Exceptions" IsChecked="{maniac:SettingBinding ShowUnhandledExceptions}" Margin="0,0"/>
+                                    <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence"  Margin="0,0,0,0"  IsChecked="{maniac:SettingBinding ShowDiscordRPC}"/>
                                 </StackPanel>
 
 
@@ -337,7 +336,7 @@
                                 <StackPanel Grid.Column="1">
                                     <controls:SettingsHeader HeaderName="Render Settings"></controls:SettingsHeader>
                                     <CheckBox IsChecked="{maniac:PerformanceSettingsBinding NeverLoadEntityTextures}" Content="Disable Object Rendering" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseEditableObjectRenders}" Content="Use Editable Object Renders (Increased Wait Times)" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                    <CheckBox IsChecked="{maniac:PerformanceSettingsBinding UseEditableObjectRenders}" Content="Use Editable Object Renders (Increased Wait Times)" Foreground="{DynamicResource Maniac_WarningTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
 
                                 </StackPanel>

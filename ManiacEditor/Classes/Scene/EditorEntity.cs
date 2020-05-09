@@ -362,12 +362,12 @@ namespace ManiacEditor.Classes.Scene
         public virtual void Draw(DevicePanel d)
         {
             if (FilteredOut) return;
-            if (Methods.Draw.ObjectDrawing.CanDrawLinked(_entity.Object.Name.Name)) Methods.Draw.ObjectDrawing.DrawLinked(d, this);
-            else Methods.Draw.ObjectDrawing.DrawNormal(d, this);
+            if (Methods.Drawing.ObjectDrawing.CanDrawLinked(_entity.Object.Name.Name)) Methods.Drawing.ObjectDrawing.DrawLinked(d, this);
+            else Methods.Drawing.ObjectDrawing.DrawNormal(d, this);
         }
         public virtual void DrawBase(DevicePanel d)
         {
-            Methods.Draw.ObjectDrawing.DrawNormal(d, this);
+            Methods.Drawing.ObjectDrawing.DrawNormal(d, this);
         }
 
 

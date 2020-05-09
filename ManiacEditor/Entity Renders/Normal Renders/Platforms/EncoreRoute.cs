@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
 
             DrawTileMap(d, x, y, offsetX, offsetY, Width, Height);
 
-            var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons2", 0, 7);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons2", 0, 7);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, RenderingTransparency);
         }
         private void DrawTileMap(DevicePanel d, int x, int y, int offsetX, int offsetY, int width, int height)

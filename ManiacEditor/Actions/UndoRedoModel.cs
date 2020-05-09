@@ -70,7 +70,7 @@ namespace ManiacEditor.Actions
                 Actions.UndoRedoModel.UndoStack.Push(Methods.Solution.CurrentSolution.Entities.LastActionInternal);
                 Methods.Solution.CurrentSolution.Entities.LastActionInternal = null;
             }
-            Methods.Draw.ObjectDrawing.UpdateVisibleEntities(Methods.Solution.CurrentSolution.Entities.Entities);
+            Methods.Drawing.ObjectDrawing.UpdateVisibleEntities(Methods.Solution.CurrentSolution.Entities.Entities);
 
         }
         public static void UpdateEditEntitiesActions()

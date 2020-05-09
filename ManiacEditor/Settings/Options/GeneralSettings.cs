@@ -23,9 +23,6 @@ namespace ManiacEditor.Classes.Options
         public bool ShowFirstTimeSetup { get; set; } = true;
         public Skin UserTheme { get; set; } = Skin.Light;
         public string LastModConfig { get; set; }
-        public bool ScrollerAutoCenters { get; set; } = false;
-        public bool ShowUnhandledExceptions { get; set; } = false;
-        public bool SaveStates { get; set; } = false;
         public bool ScrollerPressReleaseMode { get; set; } = false;
 
         #region Accessors

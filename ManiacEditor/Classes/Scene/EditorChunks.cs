@@ -83,11 +83,11 @@ namespace ManiacEditor.Classes.Scene
 							{
 								if (this.TileMapA[tx][ty] != 0xffff)
 								{
-									Methods.Draw.GraphicsTileDrawing.DrawTile(g, this.TileMapA[tx][ty], tx - rect.X, ty - rect.Y, true, false);
+									Methods.Drawing.CommonDrawing.DrawTile(g, this.TileMapA[tx][ty], tx - rect.X, ty - rect.Y, true, false);
 								}
 								if (this.TileMapB[tx][ty] != 0xffff)
 								{
-									Methods.Draw.GraphicsTileDrawing.DrawTile(g, this.TileMapB[tx][ty], tx - rect.X, ty - rect.Y, true, isPathAB);
+									Methods.Drawing.CommonDrawing.DrawTile(g, this.TileMapB[tx][ty], tx - rect.X, ty - rect.Y, true, isPathAB);
 								}
 							}
 						}

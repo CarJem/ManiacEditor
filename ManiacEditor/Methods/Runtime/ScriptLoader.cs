@@ -10,11 +10,10 @@ using Microsoft.CSharp;
 using System.Reflection;
 using ManiacEditor.Entity_Renders;
 
-namespace ManiacEditor.Methods.Internal
+namespace ManiacEditor.Methods.Runtime
 {
     public static class ScriptLoader
     {
-
         #region Compilation
         public static List<EntityRenderer> LoadRenderers(List<string> filepaths)
         {
@@ -124,7 +123,5 @@ namespace ManiacEditor.Methods.Internal
         }
 
         #endregion
-
-
     }
 }

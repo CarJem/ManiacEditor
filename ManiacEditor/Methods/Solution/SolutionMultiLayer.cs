@@ -16,7 +16,6 @@ namespace ManiacEditor.Methods.Solution
             // Also copy to Maniac's clipboard in case it gets overwritten elsewhere
             Methods.Solution.SolutionClipboard.SetTileClipboard(copyData);
         }
-
         public static void Paste()
         {
             // check if there are tiles on the Windows clipboard; if so, use those
@@ -97,7 +96,6 @@ namespace ManiacEditor.Methods.Solution
                 Instance.Chunks.PasteStamp(pC, 0, Methods.Solution.CurrentSolution.EditLayerA, Methods.Solution.CurrentSolution.EditLayerB, true);
             }
         }
-
         public static void PlaceChunk(Controls.Editor.MainEditor Instance, Point pC)
         {
             int selectedIndex = Instance.TilesToolbar.ChunkList.SelectedIndex;
@@ -110,7 +108,6 @@ namespace ManiacEditor.Methods.Solution
                 }
             }
         }
-
         public static void RemoveTile(Controls.Editor.MainEditor Instance, Point p)
         {
             // Remove tile
@@ -140,7 +137,6 @@ namespace ManiacEditor.Methods.Solution
                 Methods.Solution.CurrentSolution.EditLayerB?.EraseTiles(new Rectangle(x1, y1, width, height));
             }
         }
-
         public static void PlaceTile(Controls.Editor.MainEditor Instance, Point p)
         {
             if (Methods.Solution.SolutionState.Main.DrawBrushSize == 1)
@@ -156,7 +152,6 @@ namespace ManiacEditor.Methods.Solution
                 if (Instance.TilesToolbar.SelectedTileIndex != -1) Methods.Solution.CurrentSolution.EditLayerA.PlaceTile(p, Instance.TilesToolbar.SelectedTile, true);
             }
         }
-
         public static ushort GetTileAt(Point point)
         {
             ushort tileA = (ushort)(Methods.Solution.CurrentSolution.EditLayerA?.GetTileAt(point) ?? 0xffff);
@@ -279,7 +274,6 @@ namespace ManiacEditor.Methods.Solution
             Methods.Solution.CurrentSolution.EditLayerC?.MoveSelected(oldPos, newPos, duplicate);
             Methods.Solution.CurrentSolution.EditLayerD?.MoveSelected(oldPos, newPos, duplicate);
         }
-
         public static void TempSelection(Rectangle area, bool deselectIfSelected)
         {
             Methods.Solution.CurrentSolution.EditLayerA?.TempSelection(area, deselectIfSelected);

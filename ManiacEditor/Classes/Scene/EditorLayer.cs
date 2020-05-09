@@ -332,7 +332,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Rendering Values
 
-        private Methods.Draw.LayerTileProvider RenderingProvider { get; set; }
+        private Methods.Drawing.LayerDrawing RenderingProvider { get; set; }
         private bool isMapRenderInitalized { get; set; } = false;
         public int RenderingTransparency { get; private set; }
         public bool RequireRefresh { get; set; } = false;
@@ -347,7 +347,7 @@ namespace ManiacEditor.Classes.Scene
         {
             Instance = instance;
             _layer = layer;
-            RenderingProvider = new Methods.Draw.LayerTileProvider(this);
+            RenderingProvider = new Methods.Drawing.LayerDrawing(this);
 
             SelectedTiles = new PointsMap(Width, Height);
             TempSelectionTiles = new PointsMap(Width, Height);
@@ -1345,7 +1345,7 @@ namespace ManiacEditor.Classes.Scene
                 {
                     if (this._layer.Tiles[y][x] != 0xffff)
                     {
-                        Methods.Draw.GraphicsTileDrawing.DrawTile(g, _layer.Tiles[y][x], x, y);
+                        Methods.Drawing.CommonDrawing.DrawTile(g, _layer.Tiles[y][x], x, y);
                     }
                 }
             }

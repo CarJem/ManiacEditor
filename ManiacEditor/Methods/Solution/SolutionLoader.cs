@@ -19,7 +19,7 @@ namespace ManiacEditor.Methods.Solution
             {
                 return false;
             }
-            Methods.Draw.ObjectDrawing.ReleaseResources();
+            Methods.Drawing.ObjectDrawing.ReleaseResources();
             return true;
         }
 
@@ -577,7 +577,7 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void PostLoad()
         {
-            Methods.Draw.ObjectDrawing.RefreshRenderLists();
+            Methods.Drawing.ObjectDrawing.RefreshRenderLists();
             SetupObjectsList();
             SetupDiscordRP(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath);
             var StageStamps = ManiacEditor.Methods.Solution.SolutionPaths.GetEditorStamps(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone);

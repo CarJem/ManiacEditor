@@ -24,15 +24,15 @@ namespace ManiacEditor.Entity_Renders
         #endregion
 
         #region Universal
-        public static Methods.Draw.ObjectDrawing.EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimID = 0, int FrameID = 0)
+        public static Methods.Drawing.ObjectDrawing.EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimID = 0, int FrameID = 0)
         {
-            return Methods.Draw.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
+            return Methods.Drawing.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
         }
-        public static Methods.Draw.ObjectDrawing.EditorAnimation LoadAnimation(DevicePanel d, string name, int AnimID = 0, int FrameID = 0)
+        public static Methods.Drawing.ObjectDrawing.EditorAnimation LoadAnimation(DevicePanel d, string name, int AnimID = 0, int FrameID = 0)
         {
-            return Methods.Draw.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
+            return Methods.Drawing.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
         }
-        public static bool IsValidated(Methods.Draw.ObjectDrawing.EditorAnimation Animation, Tuple<int,int> AnimPos = null)
+        public static bool IsValidated(Methods.Drawing.ObjectDrawing.EditorAnimation Animation, Tuple<int,int> AnimPos = null)
         {
             if (Animation != null)
             {
@@ -59,7 +59,7 @@ namespace ManiacEditor.Entity_Renders
             return false;
         }
 
-        public static void DrawTexturePivotPlus(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexturePivotPlus(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -68,7 +68,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawTexturePivotMultiply(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexturePivotMultiply(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -88,7 +88,7 @@ namespace ManiacEditor.Entity_Renders
 
                 d.DrawRectangle(x1, y1, x2, y2, fill, outline, 2);
 
-                var Animation = Methods.Draw.ObjectDrawing.LoadAnimation(d, "EditorAssets", 0, 1);
+                var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "EditorAssets", 0, 1);
 
                 // draw corners
                 for (int i = 0; i < 4; i++)
@@ -105,7 +105,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawTexturePivotNormal(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexturePivotNormal(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -114,7 +114,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawTexturePivotFlip(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexturePivotFlip(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -123,7 +123,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawTexturePivotLengthLimit(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, int Height)
+        public static void DrawTexturePivotLengthLimit(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, int Height)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -132,7 +132,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawTexturePivotForced(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexturePivotForced(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -141,7 +141,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawHitbox(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, string HitboxName, System.Drawing.Color color, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0)
+        public static void DrawHitbox(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, string HitboxName, System.Drawing.Color color, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -160,7 +160,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawTexture(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexture(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
@@ -169,7 +169,7 @@ namespace ManiacEditor.Entity_Renders
             }
         }
 
-        public static void DrawTexture(DevicePanel Graphics, Methods.Draw.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int width, int height, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexture(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int width, int height, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {

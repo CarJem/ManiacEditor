@@ -104,16 +104,21 @@ namespace ManiacEditor.Extensions
 
 		public static void ToggleManiacConsole()
 		{
-			if (ManiacConsole == null)
-			{
-				ManiacConsole = new Controls.Misc.Dev.ManiacConsole(ManiacConsoleContext);
-				ManiacConsole.Show();
-			}
-			else
-			{
-				ManiacConsole.Close();
-				ManiacConsole = null;
-			}
+			if (ManiacConsole == null) ShowManiacConsole();
+			else CloseManiacConsole();
+		}
+
+		public static void ShowManiacConsole(bool WaitForClose = false)
+		{
+			ManiacConsole = new Controls.Misc.Dev.ManiacConsole(ManiacConsoleContext);
+			if (!WaitForClose) ManiacConsole.Show();
+			else ManiacConsole.ShowDialog();
+		}
+
+		public static void CloseManiacConsole()
+		{
+			ManiacConsole.Close();
+			ManiacConsole = null;
 		}
 
 		public static void PrintManiacOutput(string value)
@@ -162,6 +167,11 @@ namespace ManiacEditor.Extensions
 		public static void Print(object value)
 		{
 			//if (UseConsoleOutput) Console.WriteLine(value);
+		}
+		public static void PrintWithLog(string value)
+		{
+			Print(value);
+			ManiacEditor.Methods.ProgramBase.Log.InfoFormat(value);
 		}
 		public static void Print(string value) 
 		{

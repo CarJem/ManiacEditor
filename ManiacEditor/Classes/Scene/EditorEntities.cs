@@ -436,7 +436,7 @@ namespace ManiacEditor.Classes.Scene
             foreach (var entity in entities) DeleteEntity(entity, isInternal);
 
             EvaluteSlotIDOrder();
-            Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+            Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
         }
         public void DeleteSelected(bool isInternal = false)
         {
@@ -883,7 +883,7 @@ namespace ManiacEditor.Classes.Scene
                 foreach (var entity in SelectedInternalEntities) entity.Move(diff);
             }
 
-            ManiacEditor.Methods.Draw.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+            ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
         }
 
         private Dictionary<Classes.Scene.EditorEntity, Point> GetSelectedMovePositions()
@@ -975,8 +975,8 @@ namespace ManiacEditor.Classes.Scene
 
             if (d != null)
             {
-                Methods.Draw.ObjectDrawing.UpdateVisibleEntities(d, Entities);
-                Methods.Draw.ObjectDrawing.UpdateVisibleEntities(d, InternalEntities);
+                Methods.Drawing.ObjectDrawing.UpdateVisibleEntities(d, Entities);
+                Methods.Drawing.ObjectDrawing.UpdateVisibleEntities(d, InternalEntities);
             }
         }
         #endregion
@@ -996,7 +996,7 @@ namespace ManiacEditor.Classes.Scene
             }
             foreach (var entity in Entities.Where(x => x.IsVisible == true))
             {
-                Methods.Draw.ObjectDrawing.DrawSelectionBox(d, entity);
+                Methods.Drawing.ObjectDrawing.DrawSelectionBox(d, entity);
             }
         }
         public void DrawInternal(DevicePanel d)
@@ -1007,7 +1007,7 @@ namespace ManiacEditor.Classes.Scene
 
             foreach (var entity in InternalEntities.Where(x => x.IsVisible == true))
             {
-                Methods.Draw.ObjectDrawing.DrawInternal(d, entity);
+                Methods.Drawing.ObjectDrawing.DrawInternal(d, entity);
                 if (entity.Name == "Spline")
                 {
                     int id = entity.attributesMap["SplineID"].ValueInt32;
@@ -1048,9 +1048,9 @@ namespace ManiacEditor.Classes.Scene
                         if (selectedOptions.SplineToolShowPoints) d.DrawRectangle(p.X, p.Y, p.X + 2, p.Y + 2, System.Drawing.Color.Red);
                         if (selectedOptions.SplineToolShowObject && selectedOptions.SplineObjectRenderingTemplate != null)
                         {
-                            if (Methods.Draw.ObjectDrawing.RenderingSettings.ObjectToRender.Contains(selectedOptions.SplineObjectRenderingTemplate.Object.Name.Name))
+                            if (Methods.Drawing.ObjectDrawing.CanDraw(selectedOptions.SplineObjectRenderingTemplate.Object.Name.Name))
                             {
-                                Methods.Draw.ObjectDrawing.DrawDedicatedRender(d, selectedOptions.SplineObjectRenderingTemplate);
+                                Methods.Drawing.ObjectDrawing.DrawDedicatedRender(d, selectedOptions.SplineObjectRenderingTemplate);
                             }
                         }
                         lastPoint = new Point(p.X, p.Y);
