@@ -229,10 +229,6 @@ namespace ManiacEditor.Methods.Solution
             form.Owner = Instance as Window;
             form.ShowDialog();
         }
-        public static void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         public static void MD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ManiacEditor.Controls.Misc.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Misc.Dev.MD5HashGen(Instance);

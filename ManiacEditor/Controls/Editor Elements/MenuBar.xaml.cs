@@ -638,10 +638,6 @@ namespace ManiacEditor.Controls.Editor_Elements
         {
             ManiacEditor.Methods.Solution.SolutionActions.EnableAllButtonsToolStripMenuItem_Click(sender, e);
         }
-        private void SoundLooperToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ManiacEditor.Methods.Solution.SolutionActions.SoundLooperToolStripMenuItem_Click(sender, e);
-        }
         private void TestingDeveloperMenuItem_Click(object sender, RoutedEventArgs e)
         {
 

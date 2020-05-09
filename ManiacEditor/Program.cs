@@ -53,6 +53,7 @@ namespace ManiacEditor
             catch (Exception ex)
             {
                 Extensions.ConsoleExtensions.PrintWithLog(ex.Message);
+                Extensions.ConsoleExtensions.CloseManiacConsole();
                 Extensions.ConsoleExtensions.ShowManiacConsole(true);
             }
 

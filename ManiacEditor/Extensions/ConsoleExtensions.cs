@@ -54,7 +54,7 @@ namespace ManiacEditor.Extensions
 		public class ConsoleContent : INotifyPropertyChanged
 		{
 			string consoleInput = string.Empty;
-			ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "Console Emulation Sample..." };
+			ObservableCollection<string> consoleOutput = new ObservableCollection<string>();
 
 			public string ConsoleInput
 			{

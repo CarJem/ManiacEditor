@@ -240,16 +240,15 @@
             </MenuItem>
             <MenuItem x:Name="developerToolStripMenuItem1" Header="Dev">
                 <MenuItem x:Name="developerInterfaceToolStripMenuItem" Header="Developer Interface" Click="DeveloperTerminalEvent"/>
-                <MenuItem x:Name="soundLooperToolStripMenuItem" Header="Sound Looper" Click="SoundLooperToolStripMenuItem_Click"/>
                 <MenuItem x:Name="mD5GeneratorToolStripMenuItem" Header="MD5 Generator" Click="MD5GeneratorToolStripMenuItem_Click"/>
                 <MenuItem x:Name="consoleWindowToolStripMenuItem" Header="Console Window" Click="ConsoleWindowToolStripMenuItem_Click"/>
-                <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Header="Save for Force Open on Startup" Click="SaveForForceOpenOnStartupToolStripMenuItem_Click"/>
-                <MenuItem x:Name="enableAllButtonsToolStripMenuItem" Header="Enable all Main Toolstrip Buttons" Click="EnableAllButtonsToolStripMenuItem_Click"/>
-                <MenuItem Header="Force Toolbars to Open/Close">
+                <MenuItem x:Name="saveForForceOpenOnStartupToolStripMenuItem" Visibility="Collapsed" Header="Save for Force Open on Startup" Click="SaveForForceOpenOnStartupToolStripMenuItem_Click"/>
+                <MenuItem x:Name="enableAllButtonsToolStripMenuItem" Visibility="Collapsed" Header="Enable all Main Toolstrip Buttons" Click="EnableAllButtonsToolStripMenuItem_Click"/>
+                <MenuItem Header="Force Toolbars to Open/Close" Visibility="Collapsed">
                     <MenuItem Header="Right Toolbar" x:Name="rightToolbarToggleDev" Click="RightToolbarToggleDev_Click"></MenuItem>
                     <MenuItem Header="Left Toolbar" x:Name="leftToolbarToggleDev" Click="LeftToolbarToggleDev_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem x:Name="TestingDeveloperMenuItem" Header="Testing Button" Click="TestingDeveloperMenuItem_Click"></MenuItem>
+                <MenuItem x:Name="TestingDeveloperMenuItem" Visibility="Collapsed" Header="Testing Button" Click="TestingDeveloperMenuItem_Click"></MenuItem>
             </MenuItem>
         </Menu>
     </Grid>

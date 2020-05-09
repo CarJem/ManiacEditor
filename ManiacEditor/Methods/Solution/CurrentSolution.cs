@@ -160,7 +160,6 @@ namespace ManiacEditor.Methods.Solution
             Methods.Solution.SolutionState.Main.EncorePaletteExists = false;
             Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
             Classes.Prefrences.SceneCurrentSettings.ClearSettings();
-            Instance.userDefinedEntityRenderSwaps = new Dictionary<string, string>();
             Instance.userDefinedSpritePaths = new List<string>();
             Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
 			SolutionPaths.UnloadScene();

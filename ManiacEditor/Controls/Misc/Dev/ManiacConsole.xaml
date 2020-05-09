@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManiacEditor.Controls.Misc.Dev"
         mc:Ignorable="d"
-        Title="ManiacConsole" MinHeight="350" MinWidth="525" Height="350" Width="525">
+        Title="Maniac Console" MinHeight="350" MinWidth="525" Height="350" Width="525">
     <Grid>
         <ScrollViewer Name="Scroller" Margin="0" Background="Black">
             <StackPanel>

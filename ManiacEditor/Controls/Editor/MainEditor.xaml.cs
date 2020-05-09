@@ -48,7 +48,6 @@ namespace ManiacEditor.Controls.Editor
         #region Editor Collections
         public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
         public List<string> userDefinedSpritePaths = new List<string>();
-        public Dictionary<string, string> userDefinedEntityRenderSwaps = new Dictionary<string, string>();
         public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
         #endregion
 
@@ -75,7 +74,7 @@ namespace ManiacEditor.Controls.Editor
         }
         private void PreInitalization()
         {
-            ManiacEditor.Methods.ProgramBase.Log.InfoFormat("Setting Up the Map Editor...");
+            Extensions.ConsoleExtensions.PrintWithLog("Setting Up the Map Editor...");
             Instance = this;
             InitalizeInstances();
         }
@@ -186,7 +185,7 @@ namespace ManiacEditor.Controls.Editor
             }
             catch (Exception ex)
             {
-                Debug.Write("Failed to write settings: " + ex);
+                Extensions.ConsoleExtensions.Print("Failed to write settings: " + ex);
             }
 
             ViewPanel.SharpPanel.Dispose();
