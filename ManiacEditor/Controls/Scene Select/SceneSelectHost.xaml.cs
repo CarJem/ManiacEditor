@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ManiacEditor.Classes.General;
+using ManiacEditor.Structures;
 using ImageList = System.Windows.Forms.ImageList;
 using MouseButtons = System.Windows.Forms.MouseButtons;
 using TreeNode = System.Windows.Forms.TreeNode;
@@ -83,7 +83,7 @@ namespace ManiacEditor.Controls.SceneSelect
         public GameConfig _GameConfig { get; set; }
         public SceneSelectWindow Window { get; set; }
         private Controls.Editor.MainEditor Instance { get; set; }
-        public Classes.General.SceneState SceneState { get; set; } = new Classes.General.SceneState();
+        public Structures.SceneState SceneState { get; set; } = new Structures.SceneState();
         #endregion
 
         #region Legacy WinForms Stuff
@@ -1067,7 +1067,7 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 SceneState.FilePath = open.FileName;
                 SceneState.SceneDirectory = System.IO.Path.GetDirectoryName(open.FileName);
-                SceneState.LoadType = Classes.General.SceneState.LoadMethod.FullPath;
+                SceneState.LoadType = Structures.SceneState.LoadMethod.FullPath;
                 CloseHostEvent();
             }
         }
@@ -1085,7 +1085,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 SceneState.IsEncoreMode = false;
                 SceneState.SceneID = "N/A";
                 SceneState.Zone = "N/A";
-                SceneState.LoadType = Classes.General.SceneState.LoadMethod.FullPath;
+                SceneState.LoadType = Structures.SceneState.LoadMethod.FullPath;
                 SceneState.Name = "N/A";
                 SceneState.MasterDataDirectory = Methods.Solution.SolutionPaths.DefaultMasterDataDirectory;
                 CloseHostEvent();

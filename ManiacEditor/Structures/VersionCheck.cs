@@ -7,7 +7,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace ManiacEditor.Classes.General
+namespace ManiacEditor.Structures
 {
     public class VersionCheck
     {

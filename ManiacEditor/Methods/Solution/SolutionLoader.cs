@@ -296,7 +296,7 @@ namespace ManiacEditor.Methods.Solution
             if (open.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
             {
                 if (PreLoad() == false) return;
-                var state = new Classes.General.SceneState()
+                var state = new Structures.SceneState()
                 {
                     FilePath = open.FileName,
                     LevelID = -1,
@@ -304,7 +304,7 @@ namespace ManiacEditor.Methods.Solution
                     SceneID = "N/A",
                     SceneDirectory = System.IO.Path.GetDirectoryName(open.FileName),
                     Zone = "N/A",
-                    LoadType = Classes.General.SceneState.LoadMethod.SelfLoaded,
+                    LoadType = Structures.SceneState.LoadMethod.SelfLoaded,
                     Name = "N/A",
                     MasterDataDirectory = SolutionPaths.DefaultMasterDataDirectory
                 };
@@ -420,10 +420,10 @@ namespace ManiacEditor.Methods.Solution
                 }
             }
         }
-        public static void SetPathData(Classes.General.SceneState sceneState)
+        public static void SetPathData(Structures.SceneState sceneState)
         {
-            if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData == null) ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData = new Classes.General.SceneState();
-            ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData = new Classes.General.SceneState()
+            if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData == null) ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData = new Structures.SceneState();
+            ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData = new Structures.SceneState()
             {
                 FilePath = sceneState.FilePath,
                 LevelID = sceneState.LevelID,

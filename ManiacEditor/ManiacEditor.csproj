@@ -274,8 +274,8 @@
     <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />
     <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
-    <Compile Include="Classes\General\SceneSelectDirectoriesCollection.cs" />
-    <Compile Include="Classes\General\SceneSelectCategoriesCollection.cs" />
+    <Compile Include="Structures\SceneSelectDirectoriesCollection.cs" />
+    <Compile Include="Structures\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Methods\Solution\SolutionMultiLayer.cs" />
     <Compile Include="Controls\Misc\Dev\ManiacConsole.xaml.cs">
       <DependentUpon>ManiacConsole.xaml</DependentUpon>
@@ -887,7 +887,7 @@
     <Compile Include="Classes\Scene\EditorScene.cs" />
     <Compile Include="Methods\Solution\SolutionClipboard.cs" />
     <Compile Include="Methods\Solution\SolutionPaths.cs" />
-    <Compile Include="Classes\General\SceneState.cs" />
+    <Compile Include="Structures\SceneState.cs" />
     <Compile Include="Controls\Editor ViewPanel\DebugHUD.xaml.cs">
       <DependentUpon>DebugHUD.xaml</DependentUpon>
     </Compile>
@@ -931,7 +931,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Structures\EntityRenderProp.cs" />
-    <Compile Include="Classes\General\VersionCheck.cs" />
+    <Compile Include="Structures\VersionCheck.cs" />
     <Compile Include="Converters\RemoveTabConverter.cs" />
     <Compile Include="Converters\TilePixelConverter.cs" />
     <Compile Include="Entity Renders\EntityRenderer.cs" />
@@ -1109,7 +1109,7 @@
     <Compile Include="Interfaces\IDrawable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Classes\General\EntityDefinitions.cs" />
+    <Compile Include="Structures\EntityDefinitions.cs" />
     <Compile Include="Structures\LinkedEntityRenderProp.cs" />
     <Content Include="Resources\Tile Overlays\16x16Tiles_Selection.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

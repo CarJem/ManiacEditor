@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Linq;
 using System.Collections.Generic;
-using ManiacEditor.Classes.General;
+using ManiacEditor.Structures;
 
 namespace ManiacEditor
 {

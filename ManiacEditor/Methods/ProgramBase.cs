@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
 using System.Windows;
-using ManiacEditor.Classes.General;
+using ManiacEditor.Structures;
 
 
 namespace ManiacEditor.Methods

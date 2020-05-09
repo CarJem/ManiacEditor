@@ -149,7 +149,7 @@ namespace ManiacEditor.Controls.Updater
             }
         }
 
-        private void UpdateUpdaterText(int state, Classes.General.VersionCheck versionCheck = null)
+        private void UpdateUpdaterText(int state, Structures.VersionCheck versionCheck = null)
         {
             if (state == 0)
             {
@@ -202,7 +202,7 @@ namespace ManiacEditor.Controls.Updater
         {
             try
             {
-                Classes.General.VersionCheck versionCheck = new Classes.General.VersionCheck(new FileInfo(System.IO.Path.Combine(Methods.ProgramPaths.DownloadRequestsFolder, VersionCheckFileName)));
+                Structures.VersionCheck versionCheck = new Structures.VersionCheck(new FileInfo(System.IO.Path.Combine(Methods.ProgramPaths.DownloadRequestsFolder, VersionCheckFileName)));
 
                 var current = Methods.ProgramBase.GetVersion();
                 var remote = versionCheck.Version;

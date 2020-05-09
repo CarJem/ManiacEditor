@@ -9,7 +9,7 @@ using ManiacEditor.Actions;
 using SharpDX.Direct3D9;
 using System.Drawing;
 using System.Drawing.Imaging;
-using ManiacEditor.Classes.General;
+using ManiacEditor.Structures;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 

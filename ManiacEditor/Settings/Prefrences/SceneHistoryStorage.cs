@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
-using ManiacEditor.Classes.General;
+using ManiacEditor.Structures;
 
 namespace ManiacEditor.Classes.Prefrences
 {

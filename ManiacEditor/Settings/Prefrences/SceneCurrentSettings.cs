@@ -4,7 +4,7 @@ using System.Linq;
 using System.IO;
 using IniParser;
 using IniParser.Model;
-using ManiacEditor.Classes.General;
+using ManiacEditor.Structures;
 using Newtonsoft.Json;
 
 namespace ManiacEditor.Classes.Prefrences

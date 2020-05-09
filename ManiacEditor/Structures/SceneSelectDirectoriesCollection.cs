@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RSDKv5;
 
-namespace ManiacEditor.Classes.General
+namespace ManiacEditor.Structures
 {
     public struct SceneSelectDirectory
     {
