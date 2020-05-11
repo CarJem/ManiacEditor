@@ -15,10 +15,7 @@ namespace ManiacEditor.Methods.Solution
     {
         private static bool EditorLoad()
         {
-            if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory == null)
-            {
-                return false;
-            }
+            if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory == null) return false;
             Methods.Drawing.ObjectDrawing.ReleaseResources();
             return true;
         }
@@ -35,8 +32,7 @@ namespace ManiacEditor.Methods.Solution
 
         public static void NewScene()
         {
-            if (AllowSceneUnloading() != true) return;
-            Methods.Solution.CurrentSolution.UnloadScene();
+            if (UnloadScene() != true) return;
             ManiacEditor.Controls.SceneSelect.NewSceneWindow makerDialog = new ManiacEditor.Controls.SceneSelect.NewSceneWindow();
             makerDialog.Owner = Controls.Editor.MainEditor.GetWindow(Instance);
             if (makerDialog.ShowDialog() == true)
@@ -76,28 +72,22 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void OpenScene()
         {
-            if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
-            UnloadScene(true);
-
+            if (UnloadScene() != true) return;
             OpenSceneByItself();
         }
         public static void OpenDataDirectory()
         {
-            if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
-            UnloadScene(true);
-
+            if (UnloadScene() != true) return;
             OpenSceneFromDataDirectory();
         }
         public static void OpenSceneSelect()
         {
-            if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
-            UnloadScene(true);
-
+            if (UnloadScene() != true) return;
             OpenSceneUsingSceneSelect();
         }
         public static void OpenSceneForceFully()
         {
-            Methods.Solution.CurrentSolution.UnloadScene();
+            Methods.Solution.SolutionLoader.UnloadScene(true);
             var item = ManiacEditor.Classes.Prefrences.SceneHistoryStorage.Collection.List.FirstOrDefault();
             if (item != null)
             {
@@ -136,14 +126,20 @@ namespace ManiacEditor.Methods.Solution
 
             }
         }
-        public static void UnloadScene(bool SkipCheck = false)
+        public static bool UnloadScene(bool SkipCheck = false)
         {
-            if (AllowSceneUnloading(SkipCheck) != true) return;
-            Methods.Solution.CurrentSolution.UnloadScene();
+            if (SkipCheck) return AllowUnload();
+            else if (AllowSceneUnloadingDialog() == false) return false;
+            else return AllowUnload();
+
+            bool AllowUnload()
+            {
+                Methods.Solution.CurrentSolution.UnloadScene();
+                return true;
+            }
         }
-        public static bool AllowSceneUnloading(bool SkipCheck = false)
+        private static bool AllowSceneUnloadingDialog()
         {
-            if (SkipCheck) return true;
             bool AllowSceneChange = false;
             if (ManiacEditor.Methods.Solution.SolutionState.Main.IsSceneLoaded() == false)
             {
@@ -153,7 +149,7 @@ namespace ManiacEditor.Methods.Solution
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsSceneLoaded() == true && ManiacEditor.Properties.Settings.MySettings.DisableSaveWarnings == false)
             {
 
-                if ((Actions.UndoRedoModel.UndoStack.Count != 0 || Actions.UndoRedoModel.RedoStack.Count != 0) || Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired == true)
+                if ((Actions.UndoRedoModel.UndoStack.Count != 0 || Actions.UndoRedoModel.RedoStack.Count != 0))
                 {
                     var exitBox = new Controls.Dialog.UnloadingSceneWarning();
                     exitBox.Owner = Window.GetWindow(Instance);
@@ -443,7 +439,7 @@ namespace ManiacEditor.Methods.Solution
         {
             try
             {
-                Methods.Solution.CurrentSolution.UnloadScene();
+                UnloadScene(true);
                 Methods.Internal.Settings.UseDefaultPrefrences();
                 ManiacEditor.Methods.Solution.SolutionPaths.SetGameConfig();
                 return true;

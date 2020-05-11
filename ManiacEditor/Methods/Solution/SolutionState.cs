@@ -1072,10 +1072,6 @@ namespace ManiacEditor.Methods.Solution
 
             #endregion
 
-            #region Save Warning Variables
-            public bool QuitWithoutSavingWarningRequired { get; set; } = false;
-            #endregion
-
             #region Unoptimized Spline Options
             public class SplineOptions
             {

@@ -616,7 +616,6 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
             }
-            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ManiacINIEditor(object sender, RoutedEventArgs e)
@@ -647,7 +646,6 @@ namespace ManiacEditor.Methods
             Editor.EditorToolbar.SetupLayerButtons();
             Editor.ViewPanel.SharpPanel.ResetZoomLevel();
             Methods.Internal.UserInterface.UpdateControls();
-            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void ExportGUI(object sender, RoutedEventArgs e)
@@ -662,7 +660,6 @@ namespace ManiacEditor.Methods
             var objectManager = new ObjectManager(Methods.Solution.CurrentSolution.Entities.SceneObjects, Methods.Solution.CurrentSolution.StageConfig, Editor);
             objectManager.Owner = Window.GetWindow(Editor);
             objectManager.ShowDialog();
-            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = true;
         }
 
         public static void AboutScreen()

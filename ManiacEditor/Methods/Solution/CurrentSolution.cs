@@ -163,7 +163,6 @@ namespace ManiacEditor.Methods.Solution
             Instance.userDefinedSpritePaths = new List<string>();
             Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
 			SolutionPaths.UnloadScene();
-            Methods.Solution.SolutionState.Main.QuitWithoutSavingWarningRequired = false;
 
             if (Methods.Solution.CurrentSolution.CurrentTiles != null) Methods.Solution.CurrentSolution.CurrentTiles.Dispose();
             Methods.Solution.CurrentSolution.CurrentTiles = null;

@@ -127,8 +127,7 @@ namespace ManiacEditor.Classes.Prefrences
 
         private static void RecentSceneEntryActivate(object sender, EventArgs e)
         {
-            if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
-            Methods.Solution.CurrentSolution.UnloadScene();
+            if (ManiacEditor.Methods.Solution.SolutionLoader.UnloadScene() != true) return;
 
             string entryName;
 
@@ -218,8 +217,7 @@ namespace ManiacEditor.Classes.Prefrences
         }
         public static void RecentDataSourceActivate(object sender, RoutedEventArgs e)
         {
-            if (ManiacEditor.Methods.Solution.SolutionLoader.AllowSceneUnloading() != true) return;
-            Methods.Solution.CurrentSolution.UnloadScene();
+            if (ManiacEditor.Methods.Solution.SolutionLoader.UnloadScene() != true) return;
 
             string entryName;
 
