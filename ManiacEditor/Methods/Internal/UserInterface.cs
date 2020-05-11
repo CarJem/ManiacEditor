@@ -9,6 +9,8 @@ using ManiacEditor.Controls.Editor;
 using ManiacEditor.Controls.Editor_Toolbars;
 using ManiacEditor.Controls.TileManiac;
 using GenerationsLib.WPF;
+using System.Threading;
+using ManiacEditor.Extensions;
 
 namespace ManiacEditor.Methods.Internal
 {
@@ -27,21 +29,6 @@ namespace ManiacEditor.Methods.Internal
 
         private static bool RefreshInProgress { get; set; } = false;
 
-        private static bool _LockUserInterface = false;
-        public static bool LockUserInterface
-        {
-            get
-            {
-                return _LockUserInterface;
-            }
-            set
-            {
-                _LockUserInterface = value;
-                SetLockUIState();
-            }
-        }
-        public static bool ShowWaitScreen { get; set; } = false;
-
         public static void UpdateInstance(MainEditor _instance)
         {
             Instance = _instance;
@@ -49,10 +36,6 @@ namespace ManiacEditor.Methods.Internal
         private static bool IsSceneLoaded()
         {
             return Methods.Solution.CurrentSolution.CurrentScene != null;
-        }
-        private static bool IsStartScreenVisible()
-        {
-            return Instance.StartScreen.Visibility == Visibility.Visible;
         }
         #endregion
 
@@ -107,21 +90,11 @@ namespace ManiacEditor.Methods.Internal
             }
             RefreshInProgress = false;
         }
-        public static void SetLockUIState()
-        {
-            Instance.MenuBar.MenuBar.IsEnabled = !LockUserInterface;
-            Instance.EditorToolbar.LayerToolbar.IsEnabled = !LockUserInterface;
-            Instance.EditorToolbar.MainToolbarButtons.IsEnabled = !LockUserInterface;
-            Instance.EditorStatusBar.StatusBar1.IsEnabled = !LockUserInterface;
-            Instance.EditorStatusBar.StatusBar2.IsEnabled = !LockUserInterface;
-        }
+
         public static void SetGlobalControlsState(bool enabled)
         {
-            if (LockUserInterface) SetLockUIState();
-
             Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
 
-            Misc.UpdateWaitingScreen(ShowWaitScreen);
             Misc.UpdateCameraUnlockControls();
             UpdateStylesState(enabled);
 
@@ -150,13 +123,6 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void UpdateStatusState(bool enabled)
         {
-            /*
-            Instance.EditorToolbar.CSAC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Editor.SolutionState.Main.CollisionSAColour.A, Methods.Editor.SolutionState.Main.CollisionSAColour.R, Methods.Editor.SolutionState.Main.CollisionSAColour.G, Methods.Editor.SolutionState.Main.CollisionSAColour.B));
-            Instance.EditorToolbar.SSTOC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Editor.SolutionState.Main.CollisionTOColour.A, Methods.Editor.SolutionState.Main.CollisionTOColour.R, Methods.Editor.SolutionState.Main.CollisionTOColour.G, Methods.Editor.SolutionState.Main.CollisionTOColour.B));
-            Instance.EditorToolbar.CSLRDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Editor.SolutionState.Main.CollisionLRDColour.A, Methods.Editor.SolutionState.Main.CollisionLRDColour.R, Methods.Editor.SolutionState.Main.CollisionLRDColour.G, Methods.Editor.SolutionState.Main.CollisionLRDColour.B));
-            Instance.EditorToolbar.WLC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Editor.SolutionState.Main.waterColor.A, Methods.Editor.SolutionState.Main.waterColor.R, Methods.Editor.SolutionState.Main.waterColor.G, Methods.Editor.SolutionState.Main.waterColor.B));
-            Instance.EditorToolbar.GDC.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(Methods.Editor.SolutionState.Main.GridColor.A, Methods.Editor.SolutionState.Main.GridColor.R, Methods.Editor.SolutionState.Main.GridColor.G, Methods.Editor.SolutionState.Main.GridColor.B));*/
-
             Instance.EditorStatusBar.UpdateStatusPanel();
             Instance.EditorToolbar.CustomGridSizeLabel.Text = string.Format(Instance.EditorToolbar.CustomGridSizeLabel.Tag.ToString(), Properties.Settings.MyDefaults.CustomGridSizeValue);
         }
@@ -222,17 +188,6 @@ namespace ManiacEditor.Methods.Internal
         #endregion
 
         #region Subsections
-        public static class Status
-        {
-            public static void UpdateDataFolderLabel(string dataDirectory = null)
-            {
-                string dataFolderTag_Normal = "Data Directory: {0}";
-                Instance.EditorStatusBar._baseDataDirectoryLabel.Tag = dataFolderTag_Normal;
-
-                if (dataDirectory != null) Instance.EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(Instance.EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), dataDirectory);
-                else Instance.EditorStatusBar._baseDataDirectoryLabel.Content = string.Format(Instance.EditorStatusBar._baseDataDirectoryLabel.Tag.ToString(), ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.DataDirectory);
-            }
-        }
         public static class Misc
         {
             public static void UpdateStartScreen(bool visible, bool firstLoad = false)
@@ -268,19 +223,6 @@ namespace ManiacEditor.Methods.Internal
 
             }
 
-            public static void UpdateWaitingScreen(bool show)
-            {
-                if (show)
-                {
-                    Instance.ViewPanel.SharpPanel.Visibility = Visibility.Hidden;
-                    Instance.ViewPanel.WaitingPanel.Source.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    if (!IsStartScreenVisible()) Instance.ViewPanel.SharpPanel.Visibility = Visibility.Visible;
-                    Instance.ViewPanel.WaitingPanel.Source.Visibility = Visibility.Collapsed;
-                }
-            }
             public static void UpdateCameraUnlockControls()
             {
                 if (Methods.Solution.SolutionState.Main.UnlockCamera)
@@ -685,6 +627,26 @@ namespace ManiacEditor.Methods.Internal
 
             }
         }
+        #endregion
+
+        #region Async Message Box
+
+        private static ManiacEditor.Controls.Dialog.AsyncWaitingBox AsyncWaiter { get; set; }
+
+        public static void ShowWaitingBox()
+        {
+            Instance.Dispatcher.Invoke(new Action(() => Panel.SetZIndex(Instance.WaitingPanel, 40)));
+            Instance.Dispatcher.Invoke(new Action(() => Instance.ViewPanel.SharpPanel.Visibility = Visibility.Collapsed));
+            Instance.Dispatcher.Invoke(new Action(() => Instance.WaitingPanel.IsBusy = true));
+        }
+
+        public static void CloseWaitingBox()
+        {
+            Instance.Dispatcher.Invoke(new Action(() => Panel.SetZIndex(Instance.WaitingPanel, 0)));
+            Instance.Dispatcher.Invoke(new Action(() => Instance.ViewPanel.SharpPanel.Visibility = Visibility.Visible));
+            Instance.Dispatcher.Invoke(new Action(() => Instance.WaitingPanel.IsBusy = false));
+        }
+
         #endregion
     }
 

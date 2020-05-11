@@ -4,6 +4,20 @@
 	using System.Runtime.InteropServices;
 	using System.Windows;
 	using System.Windows.Interop;
+	using System.Threading.Tasks;
+
+	public static class AsyncWindowExtension
+	{
+		public static Task<bool?> ShowDialogAsync(this Window self)
+		{
+			if (self == null) throw new ArgumentNullException("self");
+
+			TaskCompletionSource<bool?> completion = new TaskCompletionSource<bool?>();
+			self.Dispatcher.BeginInvoke(new Action(() => completion.SetResult(self.ShowDialog())));
+
+			return completion.Task;
+		}
+	}
 
 	public static class WindowHelper
 	{

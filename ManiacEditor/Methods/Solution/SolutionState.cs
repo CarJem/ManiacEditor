@@ -73,7 +73,40 @@ namespace ManiacEditor.Methods.Solution
             private bool _UnlockCamera = false;
             private int _ViewPositionX = 0;
             private int _ViewPositionY = 0;
+            private int _LastX = 0;
+            private int _LastY = 0;
+            private int _TempSelectX1 = 0;
+            private int _TempSelectX2 = 0;
+            private int _TempSelectY1 = 0;
+            private int _TempSelectY2 = 0;
 
+
+            public int LastX
+            {
+                get
+                {
+                    return _LastX;
+                }
+                set
+                {
+                    _LastX = value;
+                    OnPropertyChanged(nameof(LastX));
+                    UpdateStatusLabels();
+                }
+            }
+            public int LastY
+            {
+                get
+                {
+                    return _LastY;
+                }
+                set
+                {
+                    _LastY = value;
+                    OnPropertyChanged(nameof(LastY));
+                    UpdateStatusLabels();
+                }
+            }
             public int DraggedX
             {
                 get
@@ -181,7 +214,8 @@ namespace ManiacEditor.Methods.Solution
                     
                     _Zoom = value;
                     OnPropertyChanged(nameof(Zoom));
-                    
+                    UpdateStatusLabels();
+
                 }
             }
             public int ZoomLevel
@@ -196,6 +230,63 @@ namespace ManiacEditor.Methods.Solution
                     _ZoomLevel = value;
                     OnPropertyChanged(nameof(ZoomLevel));
                     
+                }
+            }
+            public int TempSelectX1
+            {
+                get
+                {
+                    return _TempSelectX1;
+                }
+                set
+                {
+
+                    _TempSelectX1 = value;
+                    OnPropertyChanged(nameof(TempSelectX1));
+                    UpdateStatusLabels();
+                }
+            }
+            public int TempSelectX2
+            {
+                get
+                {
+                    return _TempSelectX2;
+                }
+                set
+                {
+
+                    _TempSelectX2 = value;
+                    OnPropertyChanged(nameof(TempSelectX2));
+                    UpdateStatusLabels();
+                }
+            }
+            public int TempSelectY1
+            {
+                get
+                {
+                    return _TempSelectY1;
+                }
+                set
+                {
+
+                    _TempSelectY1 = value;
+                    OnPropertyChanged(nameof(TempSelectY1));
+                    UpdateStatusLabels();
+
+                }
+            }
+            public int TempSelectY2
+            {
+                get
+                {
+                    return _TempSelectY2;
+                }
+                set
+                {
+
+                    _TempSelectY2 = value;
+                    OnPropertyChanged(nameof(TempSelectY2));
+                    UpdateStatusLabels();
                 }
             }
             public int ViewPositionX
@@ -276,14 +367,154 @@ namespace ManiacEditor.Methods.Solution
             public int RegionX2 { get; set; }
             public int RegionY2 { get; set; }
 
-            public int TempSelectX1 { get; set; }
-            public int TempSelectX2 { get; set; }
-            public int TempSelectY1 { get; set; }
-            public int TempSelectY2 { get; set; }
 
-            public int LastX { get; set; }
-            public int LastY { get; set; }
+
+
             #endregion
+
+            #endregion
+
+            #region Status Bar Labels
+
+            private void UpdateStatusLabels()
+            {
+                OnPropertyChanged(nameof(MousePositionString));
+                OnPropertyChanged(nameof(ZoomLevelString));
+                OnPropertyChanged(nameof(SelectionSizeString));
+                OnPropertyChanged(nameof(SelectionSizeTooltipString));
+                OnPropertyChanged(nameof(SelectionBoxSizeString));
+                OnPropertyChanged(nameof(SelectedTilePositionString));
+                OnPropertyChanged(nameof(SelectedTilePositionTooltipString));
+                OnPropertyChanged(nameof(ScrollDirectionString));
+            }
+
+
+            public string MousePositionString
+            {
+                get
+                {
+                    string text = "";
+                    if (CountTilesSelectedInPixels) text = "X: " + (int)(LastX) + " Y: " + (int)(LastY);
+                    else text = "X: " + (int)(LastX / 16) + " Y: " + (int)(LastY / 16);
+                    return text;
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(MousePositionString));
+                }
+            }
+
+            public string ZoomLevelString
+            {
+                get
+                {
+                    return "Zoom Value: " + Zoom.ToString();
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(ZoomLevelString));
+                }
+            }
+
+            public string ScrollDirectionString
+            {
+                get
+                {
+                    return "Scroll Direction: " + (ScrollDirection == (int)Enums.Axis.X ? "X" : "Y") + (ScrollLocked ? " (Locked)" : "");
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(ScrollDirectionString));
+                }
+            }
+
+            public string SelectionSizeTooltipString
+            {
+                get
+                {
+                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
+                    {
+                        return "The Size of the Selection";
+                    }
+                    else
+                    {
+                        return "The Length of all the Tiles (by Pixels) in the Selection";
+                    }
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(SelectionSizeTooltipString));
+                }
+            }
+
+            public string SelectionSizeString
+            {
+                get
+                {
+                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
+                    {
+                        return "Amount of Tiles in Selection: " + (Methods.Solution.SolutionState.Main.SelectedTilesCount);
+                    }
+                    else
+                    {
+                        return  "Length of Pixels in Selection: " + Methods.Solution.SolutionState.Main.SelectedTilesCount * 16;
+                    }
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(SelectionSizeString));
+                }
+            }
+
+            public string SelectionBoxSizeString
+            {
+                get 
+                { 
+                    return "Selection Box Size: X: " + (TempSelectX2 - TempSelectX1) + ", Y: " + (TempSelectY2 - TempSelectY1);
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(SelectionBoxSizeString));
+                }
+            }
+
+            public string SelectedTilePositionString
+            {
+                get
+                {
+                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
+                    {
+                        return "Selected Tile Position: X: " + (int)SelectedTileX + ", Y: " + (int)SelectedTileY;
+                    }
+                    else
+                    {
+                        return "Selected Tile Pixel Position: " + "X: " + (int)SelectedTileX * 16 + ", Y: " + (int)SelectedTileY * 16;
+                    }
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(SelectedTilePositionString));
+                }
+            }
+
+            public string SelectedTilePositionTooltipString
+            {
+                get
+                {
+                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
+                    {
+                        return "The Position of the Selected Tile";
+                    }
+                    else
+                    {
+                        return "The Pixel Position of the Selected Tile";
+                    }
+                }
+                set
+                {
+                    OnPropertyChanged(nameof(SelectedTilePositionTooltipString));
+                }
+            }
 
             #endregion
 

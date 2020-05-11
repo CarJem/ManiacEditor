@@ -17,9 +17,7 @@ namespace ManiacEditor.Methods.Layers
         #region Find Unused Tiles
         public static void FindUnusedTiles()
         {
-            Methods.Internal.UserInterface.LockUserInterface = true;
-            Methods.Internal.UserInterface.ShowWaitScreen = true;
-            Methods.Internal.UserInterface.UpdateControls();
+            Methods.Internal.UserInterface.ShowWaitingBox();
             List<int> UnusedTiles = new List<int> { };
 
 
@@ -27,7 +25,7 @@ namespace ManiacEditor.Methods.Layers
             {
                 for (int i = 0; i < 1024; i++)
                 {
-                    if (Instance.TilesToolbar != null) Instance.TilesToolbar.SelectedTileLabel.Text = "Selected Tile: " + i;
+                    if (Instance.TilesToolbar != null) Instance.Dispatcher.Invoke(new Action(() => { Instance.TilesToolbar.SelectedTileLabel.Text = "Selected Tile: " + i; }));
                     bool Unusued = IsTileUnused(i);
                     if (Unusued) UnusedTiles.Add(i);
                 }
@@ -59,6 +57,7 @@ namespace ManiacEditor.Methods.Layers
         }
         public static void ShowUnusedTiles(List<int> UnusedTiles)
         {
+            Methods.Internal.UserInterface.CloseWaitingBox();
             if (UnusedTiles.Count != 0)
             {
                 var message = "";
@@ -98,9 +97,7 @@ namespace ManiacEditor.Methods.Layers
             {
                 System.Windows.MessageBox.Show("Found Nothing", "Results", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
-            Methods.Internal.UserInterface.LockUserInterface = false;
-            Methods.Internal.UserInterface.ShowWaitScreen = false;
-            Methods.Internal.UserInterface.UpdateControls();
+            Methods.Internal.UserInterface.CloseWaitingBox();
         }
         #endregion
 

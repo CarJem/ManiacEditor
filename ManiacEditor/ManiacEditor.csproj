@@ -274,6 +274,9 @@
     <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />
     <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
+    <Compile Include="Controls\Dialog\AsyncWaitingBox.xaml.cs">
+      <DependentUpon>AsyncWaitingBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Structures\SceneSelectDirectoriesCollection.cs" />
     <Compile Include="Structures\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Methods\Solution\SolutionMultiLayer.cs" />
@@ -1876,6 +1879,10 @@
     <Page Include="Controls\Assets\Themes\ShardTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialog\AsyncWaitingBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Editor ViewPanel\DebugHUD.xaml">
       <SubType>Designer</SubType>

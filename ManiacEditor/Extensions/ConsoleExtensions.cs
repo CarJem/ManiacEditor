@@ -117,7 +117,7 @@ namespace ManiacEditor.Extensions
 
 		public static void CloseManiacConsole()
 		{
-			ManiacConsole.Close();
+			if (ManiacConsole != null) ManiacConsole.Close();
 			ManiacConsole = null;
 		}
 

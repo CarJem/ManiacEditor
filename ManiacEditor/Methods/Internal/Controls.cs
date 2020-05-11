@@ -219,7 +219,6 @@ namespace ManiacEditor.Methods.Internal
         public static void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (Methods.Solution.SolutionState.Main.AutoScrolling) ScrollerMouseMove(e);
-            Instance.EditorStatusBar.UpdatePositionLabel(e);
             if (Methods.Runtime.GameHandler.GameRunning) InteractiveMouseMove(e);
 
             if (Methods.Solution.SolutionState.Main.RegionX1 != -1)
@@ -235,7 +234,6 @@ namespace ManiacEditor.Methods.Internal
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) EntitiesEditMouseMove(e);
 
             MouseMovementControls(e);
-
             Methods.Solution.SolutionState.Main.UpdateLastXY(e.X, e.Y);
         }
 

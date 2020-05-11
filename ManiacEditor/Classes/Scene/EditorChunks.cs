@@ -114,14 +114,14 @@ namespace ManiacEditor.Classes.Scene
 				{
 					get
 					{
-						return GetTexture();
+						return GetTexture(true);
 					}
 				}
 				public ImageSource MultiImage
 				{
 					get
 					{
-						return GetTexture(true);
+						return GetTexture();
 					}
 				}
 				public void Dispose()
@@ -280,93 +280,97 @@ namespace ManiacEditor.Classes.Scene
 		}
 		public void AutoGenerateChunks(Classes.Scene.EditorLayer LayerA)
 		{
+			Methods.Internal.UserInterface.ShowWaitingBox();
 
-			Methods.Internal.UserInterface.LockUserInterface = true;
-			Methods.Internal.UserInterface.ShowWaitScreen = true;
-			Methods.Internal.UserInterface.UpdateControls();
-
-			int width = LayerA.Width;
-			int height = LayerA.Height;
-			int ChunkWidth = width / 8;
-			int ChunkHeight = height / 8;
-
-			for (int i = 0; i < ChunkHeight; ++i)
+			System.Threading.Thread thread = new System.Threading.Thread(() =>
 			{
-				for (int j = 0; j < ChunkWidth; ++j)
+				int width = LayerA.Width;
+				int height = LayerA.Height;
+				int ChunkWidth = width / 8;
+				int ChunkHeight = height / 8;
+
+				for (int i = 0; i < ChunkHeight; ++i)
 				{
-					int tileX = j * 8;
-					int tileY = i * 8;
-
-					int x1 = j * 8;
-					int x2 = x1 + 8;
-					int y1 = i * 8;
-					int y2 = y1 + 8;
-					ushort[][] ChunkMapA = new ushort[8][];
-					ushort[][] ChunkMapB = new ushort[8][];
-					for (int x = 0; x < 8; x++)
+					for (int j = 0; j < ChunkWidth; ++j)
 					{
-						ChunkMapA[x] = new ushort[8];
-						ChunkMapB[x] = new ushort[8];
-						for (int y = 0; y < 8; y++)
-						{
-							ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
-							ChunkMapB[x][y] = 0xffff;
-						}
-					}
-					var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
-					var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
-					if (duplicate == false) AddChunk(newChunk);
-				}
-			}
+						int tileX = j * 8;
+						int tileY = i * 8;
 
-			Methods.Internal.UserInterface.LockUserInterface = false;
-			Methods.Internal.UserInterface.ShowWaitScreen = false;
-			Methods.Internal.UserInterface.UpdateControls();
+						int x1 = j * 8;
+						int x2 = x1 + 8;
+						int y1 = i * 8;
+						int y2 = y1 + 8;
+						ushort[][] ChunkMapA = new ushort[8][];
+						ushort[][] ChunkMapB = new ushort[8][];
+						for (int x = 0; x < 8; x++)
+						{
+							ChunkMapA[x] = new ushort[8];
+							ChunkMapB[x] = new ushort[8];
+							for (int y = 0; y < 8; y++)
+							{
+								ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
+								ChunkMapB[x][y] = 0xffff;
+							}
+						}
+						var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
+						var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
+						if (duplicate == false) AddChunk(newChunk);
+					}
+				}
+
+				Methods.Internal.UserInterface.CloseWaitingBox();
+			})
+			{ IsBackground = true };
+			thread.Start();
+
+
 
 		}
 		public void AutoGenerateChunks(Classes.Scene.EditorLayer LayerA, Classes.Scene.EditorLayer LayerB)
 		{
-			Methods.Internal.UserInterface.LockUserInterface = true;
-			Methods.Internal.UserInterface.ShowWaitScreen = true;
-			Methods.Internal.UserInterface.UpdateControls();
+			Methods.Internal.UserInterface.ShowWaitingBox();
 
-			int width = (LayerA.Width > LayerB.Width ? LayerA.Width : LayerB.Width);
-			int height = (LayerA.Height > LayerB.Height ? LayerA.Height : LayerB.Height);
-			int ChunkWidth = width / 8;
-			int ChunkHeight = height / 8;
-
-			for (int i = 0; i < ChunkHeight; ++i)
+			System.Threading.Thread thread = new System.Threading.Thread(() =>
 			{
-				for (int j = 0; j < ChunkWidth; ++j)
+				int width = (LayerA.Width > LayerB.Width ? LayerA.Width : LayerB.Width);
+				int height = (LayerA.Height > LayerB.Height ? LayerA.Height : LayerB.Height);
+				int ChunkWidth = width / 8;
+				int ChunkHeight = height / 8;
+
+				for (int i = 0; i < ChunkHeight; ++i)
 				{
-					int tileX = j * 8;
-					int tileY = i * 8;
-
-					int x1 = j * 8;
-					int x2 = x1 + 8;
-					int y1 = i * 8;
-					int y2 = y1 + 8;
-					ushort[][] ChunkMapA = new ushort[8][];
-					ushort[][] ChunkMapB = new ushort[8][];
-					for (int x = 0; x < 8; x++)
+					for (int j = 0; j < ChunkWidth; ++j)
 					{
-						ChunkMapA[x] = new ushort[8];
-						ChunkMapB[x] = new ushort[8];
-						for (int y = 0; y < 8; y++)
-						{
-							ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
-							ChunkMapB[x][y] = LayerB.GetTileAt(tileX + x, tileY + y);
-						}
-					}
-					var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
-					var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
-					if (duplicate == false) AddChunk(newChunk);
-				}
-			}
+						int tileX = j * 8;
+						int tileY = i * 8;
 
-			Methods.Internal.UserInterface.LockUserInterface = false;
-			Methods.Internal.UserInterface.ShowWaitScreen = false;
-			Methods.Internal.UserInterface.UpdateControls();
+						int x1 = j * 8;
+						int x2 = x1 + 8;
+						int y1 = i * 8;
+						int y2 = y1 + 8;
+						ushort[][] ChunkMapA = new ushort[8][];
+						ushort[][] ChunkMapB = new ushort[8][];
+						for (int x = 0; x < 8; x++)
+						{
+							ChunkMapA[x] = new ushort[8];
+							ChunkMapB[x] = new ushort[8];
+							for (int y = 0; y < 8; y++)
+							{
+								ChunkMapA[x][y] = LayerA.GetTileAt(tileX + x, tileY + y);
+								ChunkMapB[x][y] = LayerB.GetTileAt(tileX + x, tileY + y);
+							}
+						}
+						var newChunk = new TexturedStamps.TexturedTileChunk(ChunkMapA, ChunkMapB, 8);
+						var duplicate = StageStamps.StampList.Exists(x => x.TileMapCodeA == newChunk.TileMapCodeA && x.TileMapCodeB == newChunk.TileMapCodeB);
+						if (duplicate == false) AddChunk(newChunk);
+					}
+				}
+
+				Methods.Internal.UserInterface.CloseWaitingBox();
+			})
+			{ IsBackground = true };
+			thread.Start();
+
 		}
 
 		#endregion

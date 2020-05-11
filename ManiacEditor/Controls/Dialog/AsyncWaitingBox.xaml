@@ -1,0 +1,13 @@
+﻿<Window x:Class="ManiacEditor.Controls.Dialog.AsyncWaitingBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManiacEditor.Controls.Dialog"
+        mc:Ignorable="d"
+        Title="Working..." Height="143.333" Width="342" Background="{DynamicResource NormalBackground}" ResizeMode="NoResize" ShowInTaskbar="False" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
+    <StackPanel VerticalAlignment="Center">
+        <TextBlock Text="Please Wait..." VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource NormalText}"></TextBlock>
+        <ProgressBar IsIndeterminate="True" Height="20" Margin="10" VerticalAlignment="Bottom"></ProgressBar>
+    </StackPanel>
+</Window>

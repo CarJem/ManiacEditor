@@ -20,20 +20,16 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Margin="5" Focusable="False">
-                <Label x:Name="positionLabel" Foreground="{DynamicResource NormalText}"/>
+                <Label x:Name="positionLabel" Content="{Binding MousePositionString, Delay=500}" Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator1" Visibility="Collapsed"  Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="selectedPositionLabel" Foreground="{DynamicResource NormalText}"/>
+                <Label x:Name="SelectedTilePositionLabel" ToolTip="{Binding SelectedTilePositionTooltipString, Delay=500}" Content="{Binding SelectedTilePositionString, Delay=500}" Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator2" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="selectionSizeLabel"  Foreground="{DynamicResource NormalText}"/>
+                <Label x:Name="SelectionSizeLabel" ToolTip="{Binding SelectionSizeTooltipString, Delay=500}" Content="{Binding SelectionSizeString, Delay=500}"  Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator3" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="selectionBoxSizeLabel"  Foreground="{DynamicResource NormalText}"/>
+                <Label x:Name="SelectionBoxSizeLabel" Content="{Binding SelectionBoxSizeString, Delay=500}"  Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator4" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="hVScrollBarXYLabel" Foreground="{DynamicResource NormalText}"/>
+                <Label x:Name="ZoomValueLabel" Content="{Binding ZoomLevelString, Delay=500}" Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator6"  Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="hScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
-                <Separator x:Name="seperator8" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="vScrollBarValueLabel" Foreground="{DynamicResource NormalText}"/>
-                <Separator x:Name="seperator9" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
             </StackPanel>
 
             <StatusBarItem Margin="0" Grid.Column="1" x:Name="StatusBarQuickButtons" Focusable="True" IsTabStop="True">
@@ -49,7 +45,7 @@
                     <wpfTool:SplitButton.Content>
                         <ContentPresenter Content="{DynamicResource Gear}" ></ContentPresenter>
                     </wpfTool:SplitButton.Content>
-                <wpfTool:SplitButton.DropDownContent>
+                    <wpfTool:SplitButton.DropDownContent>
                         <StackPanel Background="{DynamicResource ContextMenuBackground}">
                             <MenuItem x:Name="QuickEditEntitiesTransparentLayers" Header="Edit Entites Transparency" Click="QuickButtonClickEvent"></MenuItem>
                             <MenuItem x:Name="QuickSwapEncoreManiaEntitVisibility" Header="Toggle Encore/Mania Entities" Click="QuickButtonClickEvent"></MenuItem>
@@ -93,15 +89,15 @@
             </Grid.ColumnDefinitions>
             <StatusBarItem Margin="0">
                 <StackPanel Orientation="Horizontal">
-                    <Label x:Name="LevelID_Label" Foreground="{DynamicResource NormalText}"/>
+                    <Label x:Name="LevelIdentifierLabel" Foreground="{DynamicResource NormalText}"/>
                     <Separator x:Name="seperator7" Visibility="Collapsed"/>
-                    <Label x:Name="_baseDataDirectoryLabel" Tag=" " Foreground="{DynamicResource NormalText}"/>
+                    <Label x:Name="DataDirectoryLabel" Tag=" " Foreground="{DynamicResource NormalText}"/>
                 </StackPanel>
             </StatusBarItem>
             <StatusBarItem Margin="0" Grid.Column="2">
                 <StackPanel Orientation="Horizontal">
                     <Separator x:Name="seperator5" Visibility="Collapsed"/>
-                    <Label x:Name="scrollLockDirLabel" Foreground="{DynamicResource NormalText}"/>
+                    <Label x:Name="ScrollLockDirectionLabel" Content="{Binding ScrollDirectionString}" Foreground="{DynamicResource NormalText}"/>
                 </StackPanel>
             </StatusBarItem>
         </Grid>

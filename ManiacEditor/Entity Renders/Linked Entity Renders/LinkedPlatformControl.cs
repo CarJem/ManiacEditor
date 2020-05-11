@@ -26,10 +26,15 @@ namespace ManiacEditor.Entity_Renders
             ushort CurrentTargetSlotID = (ushort)(TargetSlotID + 1);
             for (int i = 0; i < ChildCount; i++)
             {
-                var Target = Properties.EditorObject.Entities.Entities.ToList().Where(e => e.SlotID == CurrentTargetSlotID).First();
+                bool DoesTargetExist = Properties.EditorObject.Entities.Entities.Exists(x => x.SlotID == TargetSlotID && x.Name == "Platform");
 
-                ChildPoints.Add(Target);
-                CurrentTargetSlotID = (ushort)(CurrentTargetSlotID + 1);
+                if (DoesTargetExist)
+                {
+                    var Target1 = Properties.EditorObject.Entities.Entities.Where(x => x.SlotID == TargetSlotID && x.Name == "Platform").First();
+                    ChildPoints.Add(Target1);
+                }
+
+                TargetSlotID = (ushort)(TargetSlotID + 1);
             }
 
             if (ChildPoints != null && ChildPoints.Any())
@@ -63,7 +68,7 @@ namespace ManiacEditor.Entity_Renders
 
                 int Remainder = (NodeCount % 2 == 1 ? 1 : 0);
 
-                for (int i = 0; i < NodeCount; i++)
+                for (int i = 0; i < NodeCount;)
                 {
                     bool DoesTarget1Exist = Properties.EditorObject.Entities.Entities.Exists(x => x.SlotID == TargetSlotID && x.Name == "PlatformNode");
                     bool DoesTarget2Exist = Properties.EditorObject.Entities.Entities.Exists(x => x.SlotID == TargetSlotIDNext && x.Name == "PlatformNode");
@@ -74,6 +79,7 @@ namespace ManiacEditor.Entity_Renders
                         var Target2 = Properties.EditorObject.Entities.Entities.Where(x => x.SlotID == TargetSlotIDNext && x.Name == "PlatformNode").First();
 
                         NodePairPoints.Add(new Tuple<Classes.Scene.EditorEntity, Classes.Scene.EditorEntity>(Target1, Target2));
+                        i++;
                     }
 
                     TargetSlotID = (ushort)(TargetSlotID + 1);

@@ -155,7 +155,7 @@ namespace ManiacEditor.Methods.Solution
             Methods.Solution.CurrentSolution.CurrentScene?.Dispose();
             Methods.Solution.CurrentSolution.CurrentScene = null;
             Methods.Solution.CurrentSolution.StageConfig = null;
-            Instance.EditorStatusBar.LevelID_Label.Content = "Level ID: NULL";
+            Instance.EditorStatusBar.LevelIdentifierLabel.Content = "Level ID: NULL";
             Methods.Solution.CurrentSolution.LevelID = -1;
             Methods.Solution.SolutionState.Main.EncorePaletteExists = false;
             Methods.Solution.SolutionState.Main.EncoreSetupType = 0;

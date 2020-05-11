@@ -40,7 +40,7 @@ namespace ManiacEditor.Controls.Global.Controls
             private int _ItemRows { get; set; }
 
             private Orientation _Orientation { get; set; }
-
+            private double _RenderB_Opacity { get; set; }
             private int _ForcedItemHeight { get; set; }
 
             public Transform CurrentTransform
@@ -55,6 +55,21 @@ namespace ManiacEditor.Controls.Global.Controls
                     NotifyPropertyChanged("CurrentTransform");
                 }
             }
+
+
+            public double RenderB_Opacity
+            {
+                get
+                {
+                    return _RenderB_Opacity;
+                }
+                set
+                {
+                    _RenderB_Opacity = value;
+                    NotifyPropertyChanged("RenderB_Opacity");
+                }
+            }
+
             public Orientation Orientation
             {
                 get

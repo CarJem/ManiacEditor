@@ -1006,7 +1006,7 @@ namespace ManiacEditor.Controls.SceneSelect
                     {
                         Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
                         Classes.Prefrences.CommonPathsStorage.AddSavedDataFolder(DataDirectory);
-                        Methods.Internal.UserInterface.Status.UpdateDataFolderLabel(DataDirectory);
+                        Methods.Internal.UserInterface.UpdateControls();
                         UpdateRecentsTree();
                         UpdateScenesTree(ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(returnDataDirectory));
                     }

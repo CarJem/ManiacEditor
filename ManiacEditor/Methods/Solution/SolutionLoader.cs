@@ -62,8 +62,6 @@ namespace ManiacEditor.Methods.Solution
                 Methods.Solution.CurrentSolution.CurrentTiles.Write(ImagePath);
 
 
-                Methods.Internal.UserInterface.Status.UpdateDataFolderLabel();
-
                 Instance.EditorToolbar.SetupLayerButtons();
 
 
@@ -589,7 +587,6 @@ namespace ManiacEditor.Methods.Solution
 
             SetupManiacINIPrefs();
             Methods.Internal.UserInterface.Misc.UpdateStartScreen(false);
-            Methods.Internal.UserInterface.Status.UpdateDataFolderLabel();
             Instance.EditorToolbar.SetupLayerButtons();
             Methods.Internal.UserInterface.UpdateControls();
             Classes.Prefrences.SceneHistoryStorage.AddRecentFile(Classes.Prefrences.SceneHistoryStorage.GenerateNewEntry());

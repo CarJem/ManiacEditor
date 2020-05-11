@@ -320,7 +320,7 @@ namespace ManiacEditor.Controls.Editor_Toolbars
 				ChunkList.Images.Clear();
 				ChunkList.Images = new List<System.Windows.Media.ImageSource>(chunksList);
 				ChunkList.SelectedIndex = LastIndex;
-				TilesList.Invalidate(true);
+				ChunkList.Invalidate(true);
 			}
 
 		}

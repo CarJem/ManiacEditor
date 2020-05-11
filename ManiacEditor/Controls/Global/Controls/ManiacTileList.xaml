@@ -8,25 +8,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" SizeChanged="TileList_Resize">
     <Grid>
-        <ListView ScrollViewer.IsDeferredScrollingEnabled="True" SelectionChanged="TileList_SelectionChanged" SelectionMode="Single" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="TileList" MouseDown="TileList_MouseDown" MouseUp="TileList_MouseUp" MouseWheel="TileList_MouseWheel" MouseMove="TileList_MouseMove" KeyDown="TileList_KeyDown" PreviewKeyDown="TileList_PreviewKeyDown"  ItemContainerStyle="{DynamicResource TileListViewItemStyle}">
+        <ListView ScrollViewer.IsDeferredScrollingEnabled="False" SelectionChanged="TileList_SelectionChanged" SelectionMode="Single" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="TileList" MouseDown="TileList_MouseDown" MouseUp="TileList_MouseUp" MouseWheel="TileList_MouseWheel" MouseMove="TileList_MouseMove" KeyDown="TileList_KeyDown" PreviewKeyDown="TileList_PreviewKeyDown"  ItemContainerStyle="{DynamicResource TileListViewItemStyle}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <genLib:UniformGridPanel 
-                                 Orientation="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.Orientation}"
-                                 Columns="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ItemColumns}"
-                                 Rows="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ItemRows}"
-                                 HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.HorizontalAlignment}" 
-                                 VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.VerticalAlignment}" 
-                                 IsItemsHost="True">
-                    </genLib:UniformGridPanel>
+                    <genLib:VirtualizingTilePanel x:Name="TilePanel"
+                        ChildSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ImageSize}" 
+                        VirtualizingPanel.VirtualizationMode="Recycling"  
+                        IsItemsHost="True"></genLib:VirtualizingTilePanel>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Image Source="{Binding .}" 
-                        RenderOptions.BitmapScalingMode="NearestNeighbor" 
-                        Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ImageSize}" 
-                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ImageSize}" 
+                        RenderOptions.BitmapScalingMode="NearestNeighbor"
                         RenderTransform="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.CurrentTransform}" 
                         RenderTransformOrigin="0.5,0.5"></Image>
                 </DataTemplate>

@@ -16,13 +16,13 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="17"></RowDefinition>
             </Grid.RowDefinitions>
-            <ScrollBar x:Name="vScrollBar1" Width="15" Orientation="Vertical" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1"></ScrollBar>
-            <ScrollBar x:Name="hScrollBar1" Height="15" Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0"></ScrollBar>
+            <ScrollBar x:Name="vScrollBar1" Width="15" ScrollViewer.IsDeferredScrollingEnabled="True" Orientation="Vertical" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1"></ScrollBar>
+            <ScrollBar x:Name="hScrollBar1" Height="15" ScrollViewer.IsDeferredScrollingEnabled="True" Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0"></ScrollBar>
             <Grid Background="{DynamicResource ScrollBarBackground}" Grid.Column="1" Grid.Row="1"></Grid>
             <WindowsFormsHost x:Name="Host" Background="Transparent" DpiChanged="Host_DpiChanged" SizeChanged="SharpPanel_SizeChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0"></WindowsFormsHost>
         </Grid>
         <Grid.ContextMenu>
-            <ContextMenu x:Name="ViewPanelContextMenu">
+            <ContextMenu x:Name="ViewPanelContextMenu" Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                 <MenuItem x:Name="editTile0WithTileManiacToolStripMenuItem" Header="Edit Collision of Tile {0} with Tile Maniac" Click="TileManiacEditTileEvent"></MenuItem>
                 <MenuItem x:Name="moveThePlayerToHereToolStripMenuItem" Header="Move the Player to Here" Click="MoveThePlayerToHere"></MenuItem>
                 <MenuItem x:Name="setPlayerRespawnToHereToolStripMenuItem" Header="Set Checkpoint to Current Position" Click="SetPlayerRespawnToHere"></MenuItem>

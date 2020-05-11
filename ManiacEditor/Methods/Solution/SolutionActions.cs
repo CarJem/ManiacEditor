@@ -221,7 +221,7 @@ namespace ManiacEditor.Methods.Solution
             string inputValue = GenerationsLib.WPF.TextPrompt2.ShowDialog("Change Level ID", "This is only temporary and will reset when you reload the scene.", Methods.Solution.CurrentSolution.LevelID.ToString());
             int.TryParse(inputValue.ToString(), out int output);
             Methods.Solution.CurrentSolution.LevelID = output;
-            Instance.EditorStatusBar.LevelID_Label.Content = "Level ID: " + Methods.Solution.CurrentSolution.LevelID.ToString();
+            Instance.EditorStatusBar.LevelIdentifierLabel.Content = "Level ID: " + Methods.Solution.CurrentSolution.LevelID.ToString();
         }
         public static void GoToPosition(object sender, RoutedEventArgs e)
         {

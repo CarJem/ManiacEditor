@@ -452,17 +452,19 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         #region ScrollBar Events
         public void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
+            vScrollBar1.Refresh();
             //if (!DevicePanel.isRendering && !GraphicPanel.mouseMoved) GraphicPanel.Render();
             //TODO - Determine if we Rather Responsive Over Smooth Transitions
         }
         public void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
+            hScrollBar1.Refresh();
             //if (!DevicePanel.isRendering && !GraphicPanel.mouseMoved) GraphicPanel.Render();
             //TODO - Determine if we Rather Responsive Over Smooth Transitions
         }
         public void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
-
+            vScrollBar1.Refresh();
             Methods.Solution.SolutionState.Main.SetViewPositionY((int)(vScrollBar1.Value), false);
             if (Methods.Solution.SolutionState.Main.AnyDragged())
             {
@@ -472,6 +474,7 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
         }
         public void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
+            hScrollBar1.Refresh();
             Methods.Solution.SolutionState.Main.SetViewPositionX((int)(hScrollBar1.Value), false);
             if (Methods.Solution.SolutionState.Main.AnyDragged())
             {
@@ -516,11 +519,13 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             if (vScrollBar1.Visibility != nvscrollbar) vScrollBar1.Visibility = nvscrollbar;
             if (hScrollBar1.Visibility != nhscrollbar) hScrollBar1.Visibility = nhscrollbar;
 
+            /*
             if (vScrollBar1.LargeChange != v_large) vScrollBar1.LargeChange = v_large;
             if (hScrollBar1.LargeChange != h_large) hScrollBar1.LargeChange = h_large;
 
             if (vScrollBar1.SmallChange != v_small) vScrollBar1.SmallChange = v_small;
             if (hScrollBar1.SmallChange != h_small) hScrollBar1.SmallChange = h_small;
+            */
 
             if (Methods.Solution.SolutionState.Main.IsSceneLoaded() && this.vScrollBar1.Track != null && this.hScrollBar1.Track != null)
             {
