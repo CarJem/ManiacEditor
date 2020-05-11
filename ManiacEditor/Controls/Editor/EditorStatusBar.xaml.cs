@@ -16,7 +16,7 @@ using System.Collections.Specialized;
 using ManiacEditor.Enums;
 using System.Windows.Threading;
 
-namespace ManiacEditor.Controls.Editor_Elements
+namespace ManiacEditor.Controls.Editor
 {
     /// <summary>
     /// Interaction logic for StatusBar.xaml

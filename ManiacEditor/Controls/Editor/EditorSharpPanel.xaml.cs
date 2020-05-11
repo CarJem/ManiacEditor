@@ -38,7 +38,7 @@ using System.Windows.Shapes;
 using ManiacEditor.Methods.Drawing;
 
 
-namespace ManiacEditor.Controls.Editor_ViewPanel
+namespace ManiacEditor.Controls.Editor
 {
     /// <summary>
     /// Interaction logic for SharpPanel.xaml
@@ -67,9 +67,6 @@ namespace ManiacEditor.Controls.Editor_ViewPanel
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-                this.ViewPanelContextMenu.Foreground = (SolidColorBrush)FindResource("NormalText");
-                this.ViewPanelContextMenu.Background = (SolidColorBrush)FindResource("NormalBackground");
-
                 SetupScrollBarEvents();
                 SetupGraphicsPanel();
                 SetupOtherEvents();

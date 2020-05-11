@@ -58,8 +58,8 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region Controls
-        public ManiacEditor.Controls.Editor_Toolbars.TilesToolbar TilesToolbar = null;
-        public ManiacEditor.Controls.Editor_Toolbars.EntitiesToolbar EntitiesToolbar = null;
+        public ManiacEditor.Controls.Toolbox.TilesToolbar TilesToolbar = null;
+        public ManiacEditor.Controls.Toolbox.EntitiesToolbar EntitiesToolbar = null;
         #endregion
 
         #endregion
@@ -138,7 +138,7 @@ namespace ManiacEditor.Controls.Editor
             Global.Controls.RetroEDTileList.UpdateInstance(this);
             Classes.Prefrences.RecentsRefrenceState.UpdateInstance(this);
             Methods.Solution.SolutionState.Main.UpdateInstance(this);
-            Editor_Elements.Toolbar.UpdateInstance(this);
+            Editor.Toolbar.UpdateInstance(this);
             Methods.Drawing.ObjectDrawing.UpdateInstance(this);
             Methods.Entities.SplineSpawning.UpdateInstance(this);
             Methods.Solution.SolutionPaths.UpdateInstance(this);

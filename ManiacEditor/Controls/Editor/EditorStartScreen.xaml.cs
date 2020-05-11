@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ManiacEditor.Extensions;
 
-namespace ManiacEditor.Controls.Editor_Elements
+namespace ManiacEditor.Controls.Editor
 {
     public partial class StartScreen : UserControl
 	{

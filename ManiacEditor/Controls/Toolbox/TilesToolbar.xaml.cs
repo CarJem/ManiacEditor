@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ManiacEditor.Controls.Editor_Toolbars
+namespace ManiacEditor.Controls.Toolbox
 {
 	public partial class TilesToolbar : UserControl
 	{

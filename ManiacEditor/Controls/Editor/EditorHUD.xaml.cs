@@ -18,7 +18,7 @@ using System.Windows.Interop;
 using System.Diagnostics;
 using ManiacEditor.Controls.Editor;
 
-namespace ManiacEditor.Controls.Editor_ViewPanel
+namespace ManiacEditor.Controls.Editor
 {
     /// <summary>
     /// Interaction logic for DebugHUD.xaml

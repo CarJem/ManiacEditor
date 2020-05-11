@@ -24,7 +24,7 @@ using System.ComponentModel;
 
 
 
-namespace ManiacEditor.Controls.Editor_Elements
+namespace ManiacEditor.Controls.Editor
 {
     /// <summary>
     /// Interaction logic for Toolbar.xaml

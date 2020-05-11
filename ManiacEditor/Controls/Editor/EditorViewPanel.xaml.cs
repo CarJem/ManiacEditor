@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using ManiacEditor.Controls.Editor;
 
-namespace ManiacEditor.Controls.Editor_Elements
+namespace ManiacEditor.Controls.Editor
 {
     /// <summary>
     /// Interaction logic for ViewPanel.xaml

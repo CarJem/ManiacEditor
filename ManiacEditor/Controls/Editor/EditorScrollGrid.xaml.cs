@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ManiacEditor.Controls.Editor_ViewPanel
+namespace ManiacEditor.Controls.Editor
 {
     /// <summary>
-    /// Interaction logic for WaitingPanel.xaml
+    /// Interaction logic for ScrollGrid.xaml
     /// </summary>
-    public partial class WaitingPanel : UserControl
+    public partial class ScrollGrid : UserControl
     {
-        public WaitingPanel()
+        public ScrollGrid()
         {
             InitializeComponent();
         }

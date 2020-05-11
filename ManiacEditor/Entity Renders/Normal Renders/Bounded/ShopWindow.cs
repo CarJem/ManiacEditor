@@ -19,8 +19,6 @@ namespace ManiacEditor.Entity_Renders
             var heightPixels = (int)(e.attributesMap["size"].ValueVector2.Y.High) * 2;
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
-            var Animation = LoadAnimation("EditorAssets", d, 0, 1);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, false);
             DrawBounds(d, x, y, widthPixels, heightPixels, Transparency, SystemColors.White, SystemColors.FromArgb(128, SystemColors.MediumPurple));
         }
 
