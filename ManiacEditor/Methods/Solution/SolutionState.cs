@@ -309,6 +309,7 @@ namespace ManiacEditor.Methods.Solution
                 }
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionY));
+                UpdateStatusLabels();
             }
             public void SetViewPositionX(int value, bool UpdateScrollBars = false)
             {
@@ -319,6 +320,7 @@ namespace ManiacEditor.Methods.Solution
                 }
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionX));
+                UpdateStatusLabels();
             }
             public int ViewPositionY
             {
@@ -394,8 +396,8 @@ namespace ManiacEditor.Methods.Solution
                 get
                 {
                     string text = "";
-                    if (CountTilesSelectedInPixels) text = "X: " + (int)(LastX) + " Y: " + (int)(LastY);
-                    else text = "X: " + (int)(LastX / 16) + " Y: " + (int)(LastY / 16);
+                    if (CountTilesSelectedInPixels) text = "X: " + (int)(ViewPositionX + LastX) + " Y: " + (int)(ViewPositionY + LastY);
+                    else text = "X: " + (int)((ViewPositionX + LastX) / 16) + " Y: " + (int)((ViewPositionY + LastY) / 16);
                     return text;
                 }
                 set

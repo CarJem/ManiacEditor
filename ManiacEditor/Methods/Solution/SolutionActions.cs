@@ -180,34 +180,31 @@ namespace ManiacEditor.Methods.Solution
         {
             if (Methods.Solution.SolutionState.Main.UnlockCamera) CenterCoords = true;
 
-            /*
+            
             if (CenterCoords)
             {
-                Rectangle r = Instance.ViewPanel.SharpPanel.GraphicPanel.GetScreen();
-                int x2 = (int)(r.Width * Methods.Editor.SolutionState.Main.Zoom);
-                int y2 = (int)(r.Height * Methods.Editor.SolutionState.Main.Zoom);
+                double ScreenMaxX = (int)Instance.ViewPanel.SharpPanel.ActualWidth * Methods.Solution.SolutionState.Main.Zoom;
+                double ScreenMaxY = (int)Instance.ViewPanel.SharpPanel.ActualHeight * Methods.Solution.SolutionState.Main.Zoom;
+                int ResultX = (int)(x) - ((int)ScreenMaxX / 2);
+                int ResultY = (int)(y) - ((int)ScreenMaxY / 2);
 
-                int ResultX = (int)(x * Methods.Editor.SolutionState.Main.Zoom) - x2 / 2;
-                int ResultY = (int)(y * Methods.Editor.SolutionState.Main.Zoom) - y2 / 2;
+                if ((ResultX <= 0)) ResultX = 0;
+                if ((ResultY <= 0)) ResultY = 0;
 
-                if ((ResultX <= 0 && !Methods.Editor.SolutionState.Main.UnlockCamera)) ResultX = 0;
-                if ((ResultY <= 0 && !Methods.Editor.SolutionState.Main.UnlockCamera)) ResultY = 0;
-
-
-                Methods.Editor.SolutionState.Main.SetViewPositionX(ResultX);
-                Methods.Editor.SolutionState.Main.SetViewPositionY(ResultY);
+                Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX, true);
+                Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY, true);
             }
             else
-            {*/
-            int ResultX = (int)(x);
-            int ResultY = (int)(y);
+            {
+                int ResultX = (int)(x);
+                int ResultY = (int)(y);
 
-            if ((ResultX <= 0)) ResultX = 0;
-            if ((ResultY <= 0)) ResultY = 0;
+                if ((ResultX <= 0)) ResultX = 0;
+                if ((ResultY <= 0)) ResultY = 0;
 
-            Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX, true);
-            Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY, true);
-            //}
+                Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX, true);
+                Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY, true);
+            }
         }
 
         #endregion

@@ -40,7 +40,7 @@
                 <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomInButton"   Click="ZoomInEvent" Content="{DynamicResource ZoomIn}"></Button>
                 <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomOutButton"   Click="ZoomOutEvent" Content="{DynamicResource ZoomOut}"></Button>
                 <Separator/>
-                <Button Style="{DynamicResource ToolbarButton}"  x:Name="RunSceneButton" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                <Button Style="{DynamicResource ToolbarButton}"  x:Name="RunSceneButton" Click="RunSceneEvent" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.Content>
                         <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg128" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">

@@ -75,10 +75,11 @@
                 <MenuItem x:Name="selectAllToolStripMenuItem" Header="Select All" Click="SelectAllEvent"></MenuItem>
                 <MenuItem x:Name="deleteToolStripMenuItem" Header="Delete" Click="DeleteEvent"></MenuItem>
                 <Separator></Separator>
-                <MenuItem x:Name="flipHorizontalToolStripMenuItem" Header="Flip Horizontal" Click="FlipHorizontalEvent"></MenuItem>
-                <MenuItem x:Name="flipVerticalToolStripMenuItem" Header="Flip Vertical" Click="FlipVerticalEvent"></MenuItem>
-                <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horizontal Individual" Click="FlipHorizontalIndividualEvent"/>
-                <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vertical Individual" Click="FlipVerticalIndividualEvent"/>
+                <MenuItem x:Name="flipHorizontalToolStripMenuItem" Header="Flip Horiz." Click="FlipHorizontalEvent"></MenuItem>
+                <MenuItem x:Name="flipVerticalToolStripMenuItem" Header="Flip Vert." Click="FlipVerticalEvent"></MenuItem>
+                <Separator></Separator>
+                <MenuItem x:Name="flipHorizontalIndvidualToolStripMenuItem" Header="Flip Horiz. (Indv.)" Click="FlipHorizontalIndividualEvent"/>
+                <MenuItem x:Name="flipVerticalIndvidualToolStripMenuItem" Header="Flip Vert. (Indv.)" Click="FlipVerticalIndividualEvent"/>
                 <Separator></Separator>
                 <MenuItem x:Name="ClipboardManagerMenuItem" Header="Clipboard Manager..." Click="ClipboardManagerMenuItem_Click"></MenuItem>
             </MenuItem>
@@ -182,7 +183,7 @@
                 </MenuItem>
                 <MenuItem x:Name="changeLevelIDToolStripMenuItem" Header="Change Level ID... (Temporary)" Click="ChangeLevelIDEvent"/>
                 <MenuItem x:Name="editBackgroundColorsToolStripMenuItem" Header="Edit BG Colors..." Click="ChangeEditorBGColorEvent"></MenuItem>
-                    <Separator></Separator>
+                <Separator></Separator>
                 <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Collision Editor..." Click="TileManiacNormal"/>
                 <MenuItem x:Name="tilemanagerToolStripMenuItem" Header="Tile Manager..." Click="TileManagerEvent"/>
                 <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager..." Click="ObjectManagerEvent"/>

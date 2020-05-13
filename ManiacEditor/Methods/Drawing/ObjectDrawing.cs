@@ -628,8 +628,14 @@ namespace ManiacEditor.Methods.Drawing
             }
         }
 
-        public static void RefreshRenderLists()
+        public static void RefreshRenderLists(bool Promptable = false)
         {
+            if (Promptable && CanCompile)
+            {
+                var result = MessageBox.Show("Recompile Object Renders?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result != DialogResult.Yes) return;
+            }
+
 
             if (Methods.Solution.CurrentSolution.Entities != null)
             {

@@ -75,7 +75,15 @@ namespace ManiacEditor.Methods.Runtime
         #endregion
 
         public static Methods.Runtime.ProcessMemory GameMemory { get; set; } = new Methods.Runtime.ProcessMemory(); //Allows us to write hex codes like cheats, etc.
-
+        enum Character : int
+        {
+            Character_None = 0b00000,
+            Character_Sonic = 0b00001, // 1 << 0 ( 1)
+            Character_Tails = 0b00010, // 1 << 1 ( 2)
+            Character_Knux = 0b00100, // 1 << 2 ( 4)
+            Character_Mighty = 0b01000, // 1 << 3 ( 8)
+            Character_Ray = 0b10000  // 1 << 4 (16)
+        };
 
         public static bool GameRunning = false; //Tells us if the game is running
         public static string GamePath = ""; //Tells us where the game is located
@@ -124,19 +132,19 @@ namespace ManiacEditor.Methods.Runtime
         public static IList<byte> DisableBackgroundPausing_Values = new List<byte> { 0xEB, 0xEB, 0xEB, 0x00 };
 
         #region Addresses
-        public static short Player1_State { get { return GameMemory.ReadShort(Player1Base + 0xC0); } set { GameMemory.WriteShort(Player1Base + 0xC0, value); } }
+        public static int Player1_State { get { return GameMemory.ReadInteger(Player1Base + 0xC0); } set { GameMemory.WriteInteger(Player1Base + 0xC0, value); } }
         public static short Player1_X { get { return GameMemory.ReadShort(Player1Base + 0x02); } set { GameMemory.WriteShort(Player1Base + 0x02, value); } }
         public static short Player1_Y { get { return GameMemory.ReadShort(Player1Base + 0x06); } set { GameMemory.WriteShort(Player1Base + 0x06, value); } }
 
-        public static short Player4_State { get { return GameMemory.ReadShort(Player4Base + 0xC0); } set { GameMemory.WriteShort(Player4Base + 0xC0, value); } }
+        public static int Player4_State { get { return GameMemory.ReadInteger(Player4Base + 0xC0); } set { GameMemory.WriteInteger(Player4Base + 0xC0, value); } }
         public static short Player4_X { get { return GameMemory.ReadShort(Player4Base + 0x02); } set { GameMemory.WriteShort(Player4Base + 0x02, value); } }
         public static short Player4_Y { get { return GameMemory.ReadShort(Player4Base + 0x06); } set { GameMemory.WriteShort(Player4Base + 0x06, value); } }
 
-        public static short Player3_State { get { return GameMemory.ReadShort(Player3Base + 0xC0); } set { GameMemory.WriteShort(Player3Base + 0xC0, value); } }
+        public static int Player3_State { get { return GameMemory.ReadInteger(Player3Base + 0xC0); } set { GameMemory.WriteInteger(Player3Base + 0xC0, value); } }
         public static short Player3_X { get { return GameMemory.ReadShort(Player3Base + 0x02); } set { GameMemory.WriteShort(Player3Base + 0x02, value); } }
         public static short Player3_Y { get { return GameMemory.ReadShort(Player3Base + 0x06); } set { GameMemory.WriteShort(Player3Base + 0x06, value); } }
 
-        public static short Player2_State { get { return GameMemory.ReadShort(Player2Base + 0xC0); } set { GameMemory.WriteShort(Player2Base + 0xC0, value); } }
+        public static int Player2_State { get { return GameMemory.ReadInteger(Player2Base + 0xC0); } set { GameMemory.WriteInteger(Player2Base + 0xC0, value); } }
         public static short Player2_X { get { return GameMemory.ReadShort(Player2Base + 0x02); } set { GameMemory.WriteShort(Player2Base + 0x02, value); } }
         public static short Player2_Y { get { return GameMemory.ReadShort(Player2Base + 0x06); } set { GameMemory.WriteShort(Player2Base + 0x06, value); } }
 
@@ -281,7 +289,7 @@ namespace ManiacEditor.Methods.Runtime
 
             }
 
-            if (playerID <= 0 || playerID >= 5) return;
+            if (playerID <= 0 || playerID >= 5 || ID == 0) return;
 
             if (playerID == Methods.Solution.SolutionState.Main.CurrentPlayerBeingTracked) Methods.Solution.SolutionActions.GoToPosition(x, y);
 
@@ -294,25 +302,30 @@ namespace ManiacEditor.Methods.Runtime
 
             switch (ID)
             {
-                case 1:
+                case (int)Character.Character_Sonic:
                     color2 = System.Drawing.Color.SkyBlue;
                     frameID = 0;
                     break;
-                case 2:
+                case (int)Character.Character_Tails:
                     color2 = System.Drawing.Color.Orange;
                     frameID = 1;
                     break;
-                case 4:
+                case (int)Character.Character_Knux:
                     color2 = System.Drawing.Color.Red;
                     frameID = 2;
                     break;
-                case 8:
+                case (int)Character.Character_Ray:
                     color2 = System.Drawing.Color.Yellow;
                     frameID = 3;
                     break;
-                case 16:
+                case (int)Character.Character_Mighty:
                     color2 = System.Drawing.Color.DarkRed;
                     frameID = 4;
+                    break;
+                case (int)Character.Character_None:
+                    color2 = System.Drawing.Color.White;
+                    frameID = 0;
+                    showFrame = true;
                     break;
                 default:
                     color2 = System.Drawing.Color.White;
@@ -338,13 +351,8 @@ namespace ManiacEditor.Methods.Runtime
                 }
                 else
                 {
-                    /*
-                    var editorAnim = Editor.EntityDrawing.LoadAnimation2("HUD", d, 2, frameID, false, false, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0 && ID != 0)
-                    {
-                        var frame = editorAnim.Frames[0];
-                        d.DrawBitmap(frame.Texture, x, y, frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }*/
+                    var editorAnim = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "HUD", 2, frameID);
+                    Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
                 }
 
 
@@ -411,13 +419,8 @@ namespace ManiacEditor.Methods.Runtime
                 }
                 else
                 {
-                    /*
-                    var editorAnim = Editor.EntityDrawing.LoadAnimation2("StarPost", d, 1, 0, false, false, false);
-                    if (editorAnim != null && editorAnim.Frames.Count != 0)
-                    {
-                        var frame = editorAnim.Frames[0];
-                        d.DrawBitmap(frame.Texture, x, y, frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    }*/
+                    var editorAnim = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "StarPost", 1, 0);
+                    Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
                 }
 
 

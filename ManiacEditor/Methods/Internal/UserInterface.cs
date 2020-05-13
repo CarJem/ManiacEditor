@@ -160,14 +160,14 @@ namespace ManiacEditor.Methods.Internal
 
             }
         }
-        public static void ReloadSpritesAndTextures()
+        public static void ReloadSpritesAndTextures(bool UserPrompted = false)
         {
             try
             {
                 // release all our resources, and force a reload of the tiles
                 // Entities should take care of themselves
                 Methods.Drawing.ObjectDrawing.ReleaseResources();
-                Methods.Drawing.ObjectDrawing.RefreshRenderLists();
+                if (UserPrompted) Methods.Drawing.ObjectDrawing.RefreshRenderLists(true);
 
                 //Reload for Encore Palletes, otherwise reload the image normally
                 if (Methods.Solution.SolutionState.Main.UseEncoreColors == true) Methods.Solution.CurrentSolution.CurrentTiles?.Reload(ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]);

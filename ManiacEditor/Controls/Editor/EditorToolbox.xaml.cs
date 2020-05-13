@@ -315,7 +315,7 @@ namespace ManiacEditor.Controls.Editor
 
         #region Misc Events
 
-        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(); }
+        public void ReloadToolStripButton_Click(object sender, RoutedEventArgs e) { Methods.Internal.UserInterface.ReloadSpritesAndTextures(true); }
         public void ToggleShowTileIDEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ShowTileID ^= true; }
         private void FasterNudgeValueNUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) { if (FasterNudgeValueNUD.Value != null) { Methods.Solution.SolutionState.Main.FasterNudgeAmount = FasterNudgeValueNUD.Value.Value; } }
         private void ShowFlippedTileHelperEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ShowFlippedTileHelper ^= true; }
