@@ -277,6 +277,7 @@
     <Compile Include="Controls\Dialog\AsyncWaitingBox.xaml.cs">
       <DependentUpon>AsyncWaitingBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\UI\UIInfoLabel.cs" />
     <Compile Include="Structures\SceneSelectDirectoriesCollection.cs" />
     <Compile Include="Structures\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Methods\Solution\SolutionMultiLayer.cs" />

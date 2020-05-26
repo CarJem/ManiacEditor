@@ -396,8 +396,9 @@ namespace ManiacEditor.Methods.Solution
                 get
                 {
                     string text = "";
-                    if (CountTilesSelectedInPixels) text = "X: " + (int)(ViewPositionX + LastX) + " Y: " + (int)(ViewPositionY + LastY);
-                    else text = "X: " + (int)((ViewPositionX + LastX) / 16) + " Y: " + (int)((ViewPositionY + LastY) / 16);
+                    text = "X: " + (int)(LastX) + " Y: " + (int)(LastY);
+                    //if (CountTilesSelectedInPixels) text = "X: " + (int)(LastX) + " Y: " + (int)(LastY);
+                    //else text = "X: " + (int)((LastX) / 16) + " Y: " + (int)((LastY) / 16);
                     return text;
                 }
                 set

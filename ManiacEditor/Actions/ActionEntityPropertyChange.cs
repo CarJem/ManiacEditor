@@ -12,11 +12,11 @@ namespace ManiacEditor.Actions
         string tag;
         object oldValue;
         object newValue;
-        Action<EditorEntity, string, object, object> setValue;
+        Action<EditorEntity, string, object, object, bool, bool> setValue;
 
         public string Description => $"Changing {tag} on {entity.Object.Name} from {(oldValue == null ? "UNKNOWN" : oldValue)} to {newValue}";
 
-        public ActionEntityPropertyChange(EditorEntity entity, string tag, object oldValue, object newValue, Action<EditorEntity, string, object, object> setValue)
+        public ActionEntityPropertyChange(EditorEntity entity, string tag, object oldValue, object newValue, Action<EditorEntity, string, object, object, bool, bool> setValue)
         {
             this.entity = entity;
             this.tag = tag;
@@ -27,7 +27,7 @@ namespace ManiacEditor.Actions
 
         public void Undo()
         {
-            setValue.Invoke(entity, tag, oldValue, newValue);
+            setValue.Invoke(entity, tag, oldValue, newValue, true, true);
         }
 
         public IAction Redo()
@@ -68,10 +68,10 @@ namespace ManiacEditor.Actions
     {
         string tag;
         List<EntityMultiplePropertyChanges> values;
-        Action<string, List<EntityMultiplePropertyChanges>> setValue;
+        Action<string, List<EntityMultiplePropertyChanges>, bool> setValue;
         public string Description => $"Changing {tag} on {values.Count} Entities";
 
-        public ActionEntityMultiplePropertyChange(string tag, List<EntityMultiplePropertyChanges> values, Action<string, List<EntityMultiplePropertyChanges>> setValue)
+        public ActionEntityMultiplePropertyChange(string tag, List<EntityMultiplePropertyChanges> values, Action<string, List<EntityMultiplePropertyChanges>, bool> setValue)
         {
             this.values = values;
             this.tag = tag;
@@ -80,7 +80,7 @@ namespace ManiacEditor.Actions
 
         public void Undo()
         {
-            setValue.Invoke(tag, values.ConvertAll(x => x.GetUndoChange()));
+            setValue.Invoke(tag, values.ConvertAll(x => x.GetUndoChange()), true);
         }
 
         public IAction Redo()

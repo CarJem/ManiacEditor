@@ -392,26 +392,23 @@ namespace ManiacEditor.Controls.Toolbox
 		}
 		#endregion
 
-		#region Property Grid (Set) 
+		#region Property Grid (Set)
+
 		private void SetSelectedProperties(EditorEntity entity, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
 		{
-			SetSelectedProperties(entity, e.Property, e.NewValue, e.OldValue, true);
+			SetSelectedProperties(entity, e.Property, e.NewValue, e.OldValue, true, false);
 		}
-		private void SetSelectedProperties(EditorEntity entity, string Property, object NewValue, object OldValue)
-		{
-			SetSelectedProperties(entity, Property, NewValue, OldValue, true);
-		}
-		private void SetSelectedProperties(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		private void SetSelectedProperties(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
 		{
 			string Category = Property.Split(',')[0];
 			string Name = Property.Split(',')[1];
 
 
-			if (Category == "position") UpdatePositionProperty(entity, Property, NewValue, OldValue, UpdateUI);
+			if (Category == "position") UpdatePositionProperty(entity, Property, NewValue, OldValue, UpdateUI, isUndo);
 			else if (Category == "object")
 			{
-				if (Name == "name" && OldValue != NewValue) UpdateNameProperty(entity, Property, NewValue, OldValue, UpdateUI);
-				else if (Name == "entitySlot" && OldValue != NewValue) UpdateEntitySlotProperty(entity, Property, NewValue, OldValue, UpdateUI);
+				if (Name == "name" && OldValue != NewValue) UpdateNameProperty(entity, Property, NewValue, OldValue, UpdateUI, isUndo);
+				else if (Name == "entitySlot" && OldValue != NewValue) UpdateEntitySlotProperty(entity, Property, NewValue, OldValue, UpdateUI, isUndo);
 
 				if (entity == CurrentEntity) UpdateSelectedProperties();
 				else
@@ -421,9 +418,9 @@ namespace ManiacEditor.Controls.Toolbox
 				}
 				UpdateEntitiesList();
 			}
-			else UpdateAttributeProperty(entity, Property, NewValue, OldValue, UpdateUI);
+			else UpdateAttributeProperty(entity, Property, NewValue, OldValue, UpdateUI, isUndo);
 		}
-		private void SetMultiSelectedProperties(string Property, List<Actions.EntityMultiplePropertyChanges> values)
+		private void SetMultiSelectedProperties(string Property, List<Actions.EntityMultiplePropertyChanges> values, bool isUndo = false)
 		{
 			string Category = Property.Split(',')[0];
 			string Name = Property.Split(',')[1];
@@ -433,13 +430,9 @@ namespace ManiacEditor.Controls.Toolbox
 				if (values[i].NewValue != null && values[i].OldValue != null) UpdateAttributeProperty(values[i].Entity, Property, values[i].NewValue, values[i].OldValue, false);
 			}
 
-			AddAction?.Invoke(new Actions.ActionEntityMultiplePropertyChange(Property, values, new Action<string, List<Actions.EntityMultiplePropertyChanges>>(SetMultiSelectedProperties)));
+			if (!isUndo) AddAction?.Invoke(new Actions.ActionEntityMultiplePropertyChange(Property, values, new Action<string, List<Actions.EntityMultiplePropertyChanges>, bool>(SetMultiSelectedProperties)));
 
 			UpdateToolbar(values.ConvertAll(x => x.Entity).ToList());
-		}
-		private void UndoPositionProperty(EditorEntity entity, string Property, object NewValue, object OldValue)
-		{
-			UpdatePositionProperty(entity, Property, NewValue, OldValue, false, true);
 		}
 		private void UpdatePositionProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
 		{
@@ -464,10 +457,10 @@ namespace ManiacEditor.Controls.Toolbox
 			if (entity == CurrentEntity) UpdateSelectedProperties();
 
 
-			if (CurrentEntity != null && !isUndo) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(UndoPositionProperty)));
+			if (CurrentEntity != null && !isUndo) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object, bool, bool>(UpdatePositionProperty)));
 			if (UpdateUI) UpdateToolbar(new List<EditorEntity>() { entity });
 		}
-		private void UpdateNameProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		private void UpdateNameProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
 		{
 			return;
 			//TO-FIX: Broken
@@ -520,9 +513,15 @@ namespace ManiacEditor.Controls.Toolbox
 			AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
 			*/
 		}
-		private void UpdateEntitySlotProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		private void UpdateEntitySlotProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
 		{
 			ushort newSlot = (ushort)NewValue;
+			if (newSlot > 2048)
+			{
+				MessageBox.Show("Slot " + newSlot + " is bigger than the maximum amount of objects allowed!",
+					"Slot is too big!", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
 			// Check if slot has been used
 			if (_Entities.Any(t => t.SlotID == newSlot))
 			{
@@ -531,38 +530,30 @@ namespace ManiacEditor.Controls.Toolbox
 				var result = MessageBox.Show(message, "Slot in use!", MessageBoxButton.YesNo, MessageBoxImage.Error);
 				if (result == MessageBoxResult.Yes)
 				{
-					AddAction?.Invoke(new Actions.ActionSwapSlotIDs(_Entities[conflictIndex], entity, new Action<EditorEntity, EditorEntity>(SwapSelectedObjectIDs)));
 					SwapSelectedObjectIDs(entity, _Entities[conflictIndex]);
 					return;
 				}
 				else return;
 			}
-			if (newSlot > 2048)
-			{
-				MessageBox.Show("Slot " + newSlot + " is bigger than the maximum amount of objects allowed!",
-					"Slot is too big!", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
 			// Passed
 			entity.SlotID = newSlot;
-			AddAction?.Invoke(new Actions.ActionEntityPropertyChange(entity, Property, NewValue, OldValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
+			if (!isUndo) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(entity, Property, NewValue, OldValue, new Action<EditorEntity, string, object, object, bool, bool>(SetSelectedProperties)));
 			UpdateEntitiesList();
 		}
-		private void SwapSelectedObjectIDs(EditorEntity entityA, EditorEntity entityB)
+		private void SwapSelectedObjectIDs(EditorEntity entityA, EditorEntity entityB, bool isUndo = false)
 		{
 			var temp = entityA.SlotID;
 			entityA.SlotID = entityB.SlotID;
 			entityB.SlotID = temp;
 
+			if (!isUndo) AddAction?.Invoke(new Actions.ActionSwapSlotIDs(entityB, entityA, new Action<EditorEntity, EditorEntity, bool>(SwapSelectedObjectIDs)));
+
 			SelectedEntities = Methods.Solution.CurrentSolution.Entities.SelectedEntities;
 			UpdateEntitiesList();
-			if (entityA == CurrentEntity || entityB == CurrentEntity)
-			{
-				UpdateSelectedProperties();
-			}
+			if (entityA == CurrentEntity || entityB == CurrentEntity) UpdateSelectedProperties();
 
 		}
-		private void UpdateAttributeProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true)
+		private void UpdateAttributeProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
 		{
 			string Category = Property.Split(',')[0];
 			string Name = Property.Split(',')[1];
@@ -613,19 +604,18 @@ namespace ManiacEditor.Controls.Toolbox
 						pos.Y.Low = (ushort)(fvalue * 0x10000);
 					}
 					attribute.ValueVector2 = pos;
-					if (entity == CurrentEntity)
-						UpdateSelectedProperties();
 					break;
 				case RSDKv5.AttributeTypes.COLOR:
 					System.Drawing.Color c = (System.Drawing.Color)NewValue;
 					attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
 					break;
 			}
-			if (CurrentEntity != null && UpdateUI) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object>(SetSelectedProperties)));
+			if (CurrentEntity != null && !isUndo) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object, bool, bool>(SetSelectedProperties)));
 			if (UpdateUI) UpdateToolbar(new List<EditorEntity>() { entity });
 		}
 
 		#endregion
+
 
 		#region Property Grid (Get)
 
@@ -980,7 +970,6 @@ namespace ManiacEditor.Controls.Toolbox
 			if (Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID == targetSlot))
 			{
 				var TargetObject = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID == targetSlot).FirstOrDefault();
-				AddAction?.Invoke(new Actions.ActionSwapSlotIDs(SelectedObject, TargetObject, new Action<EditorEntity, EditorEntity>(SwapSelectedObjectIDs)));
 				SwapSelectedObjectIDs(TargetObject, SelectedObject);
 			}
 			TabControl.SelectedIndex = 2;
@@ -993,7 +982,6 @@ namespace ManiacEditor.Controls.Toolbox
 			if (Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID == targetSlot))
 			{
 				var TargetObject = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID == targetSlot).FirstOrDefault();
-				AddAction?.Invoke(new Actions.ActionSwapSlotIDs(TargetObject, SelectedObject, new Action<EditorEntity, EditorEntity>(SwapSelectedObjectIDs)));
 				SwapSelectedObjectIDs(TargetObject, SelectedObject);
 			}
 			TabControl.SelectedIndex = 2;

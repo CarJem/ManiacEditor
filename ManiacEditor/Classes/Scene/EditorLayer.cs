@@ -715,9 +715,6 @@ namespace ManiacEditor.Classes.Scene
                         {
                             TempSelectionDeselectTiles.Add(new Point(x, y));
                         }
-
-
-
                     }
                 }
             }
@@ -1297,8 +1294,8 @@ namespace ManiacEditor.Classes.Scene
                 if (minY_D != -1) minY_array.Add(minY_D);
 
 
-                minX = minX_array.Min();
-                minY = minY_array.Min();
+                if (minX_array.Count != 0) minX = minX_array.Min();
+                if (minY_array.Count != 0) minY = minY_array.Min();
             }
 
             var resultA = new Methods.Solution.SolutionClipboard.TilesClipboardEntry(copyDataA.ToDictionary(x => new Point(x.Key.X - minX, x.Key.Y - minY), x => x.Value));
@@ -1363,18 +1360,22 @@ namespace ManiacEditor.Classes.Scene
             }
 
             if (!AreWeAnEditLayer() && Methods.Solution.SolutionState.Main.IsTilesEdit())
-                RenderingTransparency = 0x32;
+                RenderingTransparency = 0x52;
             else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency)
                 RenderingTransparency = 0x32;
             else
                 RenderingTransparency = 0xFF;
 
             RenderSection(RenderingProvider.MapRender);
-            if (Methods.Solution.SolutionState.Main.ShowTileID) RenderSection(RenderingProvider.MapRenderTileID);
-            if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
-            if (Methods.Solution.SolutionState.Main.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
-            if (Methods.Solution.SolutionState.Main.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
-            RenderSection(RenderingProvider.MapRenderSelected);
+            //if ((AreWeAnEditLayer() && Methods.Solution.SolutionState.Main.IsTilesEdit()) || (!Methods.Solution.SolutionState.Main.IsTilesEdit()))
+            //{
+                if (Methods.Solution.SolutionState.Main.ShowTileID) RenderSection(RenderingProvider.MapRenderTileID);
+                if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
+                if (Methods.Solution.SolutionState.Main.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
+                if (Methods.Solution.SolutionState.Main.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
+                RenderSection(RenderingProvider.MapRenderSelected);
+            //}
+
 
 
             void RenderSection(LayerRenderer vbo)

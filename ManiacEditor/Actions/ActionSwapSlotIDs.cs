@@ -24,11 +24,11 @@ namespace ManiacEditor.Actions
             }
         }
 
-        Action<EditorEntity, EditorEntity> setValue;
+        Action<EditorEntity, EditorEntity, bool> setValue;
 
         public string Description => $"Swap SlotID's of {EntityA.Object.Name.Name} ({SlotA}) and {EntityB.Object.Name.Name} ({SlotB})";
 
-        public ActionSwapSlotIDs(EditorEntity entityA, EditorEntity entityB, Action<EditorEntity, EditorEntity> setValue)
+        public ActionSwapSlotIDs(EditorEntity entityA, EditorEntity entityB, Action<EditorEntity, EditorEntity, bool> setValue)
         {
             this.EntityA = entityA;
             this.EntityB = entityB;
@@ -37,7 +37,7 @@ namespace ManiacEditor.Actions
 
         public void Undo()
         {
-            setValue(EntityA, EntityB);
+            setValue(EntityA, EntityB, true);
         }
 
         public IAction Redo()

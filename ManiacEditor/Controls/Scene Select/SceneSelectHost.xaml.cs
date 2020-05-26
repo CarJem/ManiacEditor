@@ -750,7 +750,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void UpdateSelectedSceneInfo()
         {
-            if (ScenesTree.SelectedNode != null)
+            if (ScenesTree.SelectedNode != null && _GameConfig != null)
             {
                 if (ScenesTree.SelectedNode.Parent != null)
                 {
