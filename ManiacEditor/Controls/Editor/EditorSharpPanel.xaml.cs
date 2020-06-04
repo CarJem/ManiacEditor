@@ -507,6 +507,9 @@ namespace ManiacEditor.Controls.Editor
             double maxY = scene_height - (v_height * GetZoom());
             double maxX = scene_width - (h_width * GetZoom());
 
+            if (maxX < 0) maxX = 0;
+            if (maxY < 0) maxY = 0;
+
             Visibility nvscrollbar = Visibility.Visible;
             Visibility nhscrollbar = Visibility.Visible;
 
