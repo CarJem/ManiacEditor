@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor"
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              xmlns:maniac="clr-namespace:ManiacEditor.Controls.Global"
+             xmlns:globControls="clr-namespace:ManiacEditor.Controls.Global.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="1200">
     <Grid Background="{DynamicResource ToolbarBackground}">
@@ -105,6 +106,59 @@
                             <Label Content="Brush Size (Tiles Edit Only)" x:Name="DrawTileSizeLabel"></Label>
                             <Slider Width="128" Value="1" Minimum="1" SmallChange="1" LargeChange="25"  Maximum="16" TickPlacement="Both" IsSnapToTickEnabled="True" x:Name="DrawTileSizeSlider" ValueChanged="DrawToolSizeChanged"></Slider>
                             <wpfTool:IntegerUpDown x:Name="DrawTileSizeNUD" Value="1" Minimum="1" Maximum="16" ValueChanged="DrawToolSizeChanged"></wpfTool:IntegerUpDown>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}"  x:Name="WandToolButton"  Click="ToggleDrawToolEvent" Content="{DynamicResource Interaction}" ></ToggleButton>
+                <Button Style="{DynamicResource ToolbarButton}" Click="ToggleWandToolButton_Click"  Name="WandToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
+                    <Button.Content>
+                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+                        </Grid>
+                    </Button.Content>
+                    <Button.ContextMenu>
+                        <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
+                            <MenuItem IsHitTestVisible="False" Header="Selectable Tiles: "></MenuItem>
+                            <Separator></Separator>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <StackPanel Margin="0,10,10,10" Background="{DynamicResource ContextMenuBackground}">
+                                        <globControls:ManiacTileList IsHitTestVisible="True" x:Name="WandSelectTileList" Width="256" Height="512"></globControls:ManiacTileList>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator></Separator>
+                            <MenuItem IsCheckable="False" StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <CheckBox x:Name="WandFlipXCheckbox" IsThreeState="True" IsChecked="{x:Null}" Content="Flip X" Foreground="{DynamicResource NormalText}"></CheckBox>                                
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem IsCheckable="False" StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <CheckBox x:Name="WandFlipYCheckbox" IsThreeState="True" IsChecked="{x:Null}" Content="Flip Y" Foreground="{DynamicResource NormalText}"></CheckBox>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator></Separator>
+                            <MenuItem IsCheckable="False" StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <CheckBox x:Name="WandFlipSolidTopACheckbox" IsThreeState="True" IsChecked="{x:Null}" Content="Solid (Top - A)" Foreground="{DynamicResource NormalText}"></CheckBox>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem IsCheckable="False" StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <CheckBox x:Name="WandFlipSolidTopBCheckbox" IsThreeState="True" IsChecked="{x:Null}" Content="Solid (Top - B)" Foreground="{DynamicResource NormalText}"></CheckBox>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem IsCheckable="False" StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <CheckBox x:Name="WandFlipSolidLrbACheckbox" IsThreeState="True" IsChecked="{x:Null}" Content="Solid (LRB - A)" Foreground="{DynamicResource NormalText}"></CheckBox>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem IsCheckable="False" StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <CheckBox x:Name="WandFlipSolidLrbBCheckbox" IsThreeState="True" IsChecked="{x:Null}" Content="Solid (LRB - B)" Foreground="{DynamicResource NormalText}"></CheckBox>
+                                </MenuItem.Header>
+                            </MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>

@@ -622,17 +622,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 for (int x = 0; x < _layer.Tiles[y].Length; x += 1)
                 {
-                    if (_layer.Tiles[y][x] != 0xffff)
-                    {
-                        SelectedTiles.Add(new Point(x, y));
-
-                    }
-                    else if (_layer.Tiles[y][x] == 0xffff && Methods.Solution.SolutionState.Main.CopyAir)
-                    {
-                        SelectedTiles.Add(new Point(x, y));
-
-                    }
-
+                    if (CanSelectTile(_layer.Tiles[y][x])) SelectedTiles.Add(new Point(x, y));
                 }
             }
 
@@ -659,16 +649,9 @@ namespace ManiacEditor.Classes.Scene
                             continue;
                         }
                     }
-                    if (_layer.Tiles[y][x] != 0xffff)
-                    {
-                        SelectedTiles.Add(new Point(x, y));
 
-                    }
-                    else if (_layer.Tiles[y][x] == 0xffff && Methods.Solution.SolutionState.Main.CopyAir)
-                    {
-                        SelectedTiles.Add(new Point(x, y));
+                    if (CanSelectTile(_layer.Tiles[y][x])) SelectedTiles.Add(new Point(x, y));
 
-                    }
                 }
             }
 
@@ -690,7 +673,7 @@ namespace ManiacEditor.Classes.Scene
                     DeselectPoint(point);
 
                 }
-                else if (this._layer.Tiles[point.Y][point.X] != 0xffff || Methods.Solution.SolutionState.Main.CopyAir)
+                else if (CanSelectTile(this._layer.Tiles[point.Y][point.X]))
                 {
                     // Just add the point
                     SelectedTiles.Add(point);
@@ -708,7 +691,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 for (int x = Math.Max(area.X / Methods.Solution.SolutionConstants.TILE_SIZE, 0); x < Math.Min(DivideRoundUp(area.X + area.Width, Methods.Solution.SolutionConstants.TILE_SIZE), _layer.Width); ++x)
                 {
-                    if (SelectedTiles.Contains(new Point(x, y)) || (_layer.Tiles[y][x] != 0xffff || Methods.Solution.SolutionState.Main.CopyAir))
+                    if (SelectedTiles.Contains(new Point(x, y)) || CanSelectTile(_layer.Tiles[y][x]))
                     {
                         TempSelectionTiles.Add(new Point(x, y));
                         if (SelectedTiles.Contains(new Point(x, y)) && TempSelectionTiles.Contains(new Point(x, y)))
@@ -718,6 +701,23 @@ namespace ManiacEditor.Classes.Scene
                     }
                 }
             }
+        }
+        private bool CanSelectTile(ushort tile)
+        {
+            if (Methods.Solution.SolutionState.Main.UseMagicSelectWand)
+            {
+                Structures.TileSelectSpecifics tileSelect = Methods.Solution.SolutionState.Main.GetMagicWandSelectSpecifics();
+                bool isMatch = tileSelect.IsMatch(tile);
+                if (isMatch) return true;
+                else return false;
+            }
+            else
+            {
+                if (tile != 0xffff) return true;
+                else if (tile == 0xffff && Methods.Solution.SolutionState.Main.CopyAir) return true;
+                else return false;
+            }
+
         }
 
         #endregion

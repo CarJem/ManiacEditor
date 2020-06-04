@@ -638,87 +638,6 @@ namespace ManiacEditor.Methods.Solution
             private void SetGridColor(Color value) { _GridColor = value; }
             #endregion
 
-            #region Magnet Mode Variables
-
-            public int MagnetSize
-            {
-                get
-                {
-                    return _MagnetSize;
-                }
-                set
-                {
-                    bool isCustom = false;
-                    Instance.EditorToolbar.Magnet8x8ModeMenuItem.IsChecked = false;
-                    Instance.EditorToolbar.Magnet16x16ModeMenuItem.IsChecked = false;
-                    Instance.EditorToolbar.Magnet32x32ModeMenuItem.IsChecked = false;
-                    Instance.EditorToolbar.Magnet64x64ModeMenuItem.IsChecked = false;
-                    Instance.EditorToolbar.MagnetCustomModeMenuItem.IsChecked = false;
-
-                    if (value == 8) Instance.EditorToolbar.Magnet8x8ModeMenuItem.IsChecked = true;
-                    else if (value == 16) Instance.EditorToolbar.Magnet16x16ModeMenuItem.IsChecked = true;
-                    else if (value == 32) Instance.EditorToolbar.Magnet32x32ModeMenuItem.IsChecked = true;
-                    else if (value == 64) Instance.EditorToolbar.Magnet64x64ModeMenuItem.IsChecked = true;
-                    else if (value == -1)
-                    {
-                        isCustom = true;
-                        Instance.EditorToolbar.MagnetCustomModeMenuItem.IsChecked = true;
-                    }
-
-                    Instance.EditorToolbar.CustomMagnetSizeLabel.Text = string.Format(Instance.EditorToolbar.CustomMagnetSizeLabel.Tag.ToString(), _CustomMagnetSize);
-
-                    if (!isCustom) _MagnetSize = value;
-                    else _MagnetSize = _CustomMagnetSize;
-                }
-            }
-            private int _MagnetSize = 16;
-            public int CustomMagnetSize
-            {
-                get
-                {
-                    return _CustomMagnetSize;
-                }
-                set
-                {
-                    if (Instance != null)
-                    {
-                        _CustomMagnetSize = value;
-                        MagnetSize = -1;
-                        Instance.EditorToolbar.AllowNUDUpdate = false;
-                        Instance.EditorToolbar.CustomMagnetSizeAdjuster.Value = _CustomMagnetSize;
-                        Instance.EditorToolbar.AllowNUDUpdate = true;
-                    }
-                }
-            }
-            private int _CustomMagnetSize = 16;
-
-
-            public bool UseMagnetXAxis
-            {
-                get { return _UseMagnetXAxis; }
-                set
-                {
-                    _UseMagnetXAxis = value;
-                    Instance.EditorToolbar.MagnetXAxisLockMenuItem.IsChecked = value;
-                }
-            }
-            private bool _UseMagnetXAxis = true;
-
-            public bool UseMagnetYAxis
-            {
-                get { return _UseMagnetYAxis; }
-                set
-                {
-                    _UseMagnetYAxis = value;
-                    Instance.EditorToolbar.MagnetYAxisLockMenuItem.IsChecked = value;
-                }
-            }
-            private bool _UseMagnetYAxis = true;
-
-
-
-            #endregion
-
             #region General Options Variables
             public bool CopyAir
             {
@@ -747,16 +666,7 @@ namespace ManiacEditor.Methods.Solution
             }
             private int _FasterNudgeAmount = 5;
 
-            public bool UseMagnetMode
-            {
-                get { return _UseMagnetMode; }
-                set
-                {
-                    _UseMagnetMode = value;
-                    Instance.EditorToolbar.MagnetMode.IsChecked = value;
-                }
-            }
-            private bool _UseMagnetMode = false;
+
 
             public bool EnableFasterNudge
             {
@@ -863,6 +773,182 @@ namespace ManiacEditor.Methods.Solution
             {
                 return Instance.EditorToolbar.DrawToolButton.IsChecked.Value;
             }
+
+            #endregion
+
+            #region Magnet Mode Methods
+
+            public int MagnetSize
+            {
+                get
+                {
+                    return _MagnetSize;
+                }
+                set
+                {
+                    bool isCustom = false;
+                    Instance.EditorToolbar.Magnet8x8ModeMenuItem.IsChecked = false;
+                    Instance.EditorToolbar.Magnet16x16ModeMenuItem.IsChecked = false;
+                    Instance.EditorToolbar.Magnet32x32ModeMenuItem.IsChecked = false;
+                    Instance.EditorToolbar.Magnet64x64ModeMenuItem.IsChecked = false;
+                    Instance.EditorToolbar.MagnetCustomModeMenuItem.IsChecked = false;
+
+                    if (value == 8) Instance.EditorToolbar.Magnet8x8ModeMenuItem.IsChecked = true;
+                    else if (value == 16) Instance.EditorToolbar.Magnet16x16ModeMenuItem.IsChecked = true;
+                    else if (value == 32) Instance.EditorToolbar.Magnet32x32ModeMenuItem.IsChecked = true;
+                    else if (value == 64) Instance.EditorToolbar.Magnet64x64ModeMenuItem.IsChecked = true;
+                    else if (value == -1)
+                    {
+                        isCustom = true;
+                        Instance.EditorToolbar.MagnetCustomModeMenuItem.IsChecked = true;
+                    }
+
+                    Instance.EditorToolbar.CustomMagnetSizeLabel.Text = string.Format(Instance.EditorToolbar.CustomMagnetSizeLabel.Tag.ToString(), _CustomMagnetSize);
+
+                    if (!isCustom) _MagnetSize = value;
+                    else _MagnetSize = _CustomMagnetSize;
+                }
+            }
+            private int _MagnetSize = 16;
+            public int CustomMagnetSize
+            {
+                get
+                {
+                    return _CustomMagnetSize;
+                }
+                set
+                {
+                    if (Instance != null)
+                    {
+                        _CustomMagnetSize = value;
+                        MagnetSize = -1;
+                        Instance.EditorToolbar.AllowNUDUpdate = false;
+                        Instance.EditorToolbar.CustomMagnetSizeAdjuster.Value = _CustomMagnetSize;
+                        Instance.EditorToolbar.AllowNUDUpdate = true;
+                    }
+                }
+            }
+            private int _CustomMagnetSize = 16;
+            public bool UseMagnetXAxis
+            {
+                get 
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.MagnetXAxisLockMenuItem.IsChecked; 
+                }
+                set
+                {
+                    Instance.EditorToolbar.MagnetXAxisLockMenuItem.IsChecked = value;
+                }
+            }
+            public bool UseMagnetYAxis
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.MagnetXAxisLockMenuItem.IsChecked;
+                }
+                set
+                {
+                    if (Instance == null) return;
+                    Instance.EditorToolbar.MagnetXAxisLockMenuItem.IsChecked = value;
+                }
+            }
+            public bool UseMagnetMode
+            {
+                get 
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.MagnetMode.IsChecked.Value; 
+                }
+                set
+                {
+                    if (Instance == null) return;
+                    if (value == Instance.EditorToolbar.MagnetMode.IsChecked.Value) return;
+                    Instance.EditorToolbar.MagnetMode.IsChecked = value;
+                }
+            }
+
+            #endregion
+
+            #region Wand Mode Methods
+
+            public bool UseMagicSelectWand
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.WandToolButton.IsChecked.Value;
+                }
+                set
+                {
+                    if (Instance == null) return;
+                    if (value == Instance.EditorToolbar.WandToolButton.IsChecked.Value) return;
+                    Instance.EditorToolbar.WandToolButton.IsChecked = value;
+                }
+            }
+            public bool? MagicSelectWand_SolidTop_A
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.WandFlipSolidTopACheckbox.IsChecked;
+                }
+            }
+            public bool? MagicSelectWand_SolidTop_B
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.WandFlipSolidTopBCheckbox.IsChecked;
+                }
+            }
+            public bool? MagicSelectWand_SolidLRB_A
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.WandFlipSolidLrbACheckbox.IsChecked;
+                }
+            }
+            public bool? MagicSelectWand_SolidLRB_B
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.WandFlipSolidLrbBCheckbox.IsChecked;
+                }
+            }
+            public bool? MagicSelectWand_FlipX
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.WandFlipXCheckbox.IsChecked;
+                }
+            }
+            public bool? MagicSelectWand_FlipY
+            {
+                get
+                {
+                    if (Instance == null) return false;
+                    return Instance.EditorToolbar.WandFlipYCheckbox.IsChecked;
+                }
+            }
+            public int? MagicSelectWand_Index
+            {
+                get
+                {
+                    if (Instance == null) return 0;
+                    return Instance.EditorToolbar.WandSelectTileList.SelectedIndex;
+                }
+            }
+
+            public Structures.TileSelectSpecifics GetMagicWandSelectSpecifics()
+            {
+                return new Structures.TileSelectSpecifics(MagicSelectWand_Index, MagicSelectWand_FlipX, MagicSelectWand_FlipY, MagicSelectWand_SolidTop_A, MagicSelectWand_SolidTop_B, MagicSelectWand_SolidLRB_A, MagicSelectWand_SolidLRB_B);
+            }
+
             #endregion
 
             #region Collision View Variables

@@ -293,7 +293,7 @@ namespace ManiacEditor
         protected override void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
             var Zoom = GetZoom();
-                            var point = GetMousePoint(e);
+            var point = GetMousePoint(e);
             base.OnMouseUp(new MouseEventArgs(e.Button, e.Clicks, point.X, point.Y, e.Delta));
         }
         public void OnMouseMoveEventCreate()

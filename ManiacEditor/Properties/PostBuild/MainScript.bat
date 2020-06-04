@@ -7,6 +7,6 @@ SET ProjectDir=%~4
 SET CurrentDir=%~dp0
 
 :: if not %ConfigurationName% == "Quick Debug"
-CALL "%CurrentDir%\MoveBinaries.bat" %ConfigurationName% %SolutionDir% %TargetDir% %ProjectDir%
-CALL "%CurrentDir%\PublishStep.bat" %ConfigurationName% %SolutionDir% %TargetDir% %ProjectDir%
+CALL "%CurrentDir%\MoveBinaries.bat" "%ConfigurationName%" "%SolutionDir%" "%TargetDir%" "%ProjectDir%"
+CALL "%CurrentDir%\PublishStep.bat" "%ConfigurationName%" "%SolutionDir%" "%TargetDir%" "%ProjectDir%"
 	

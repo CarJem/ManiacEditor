@@ -28,7 +28,10 @@ namespace ManiacEditor.Controls.Global.Controls
 		public Global.Controls.VScrollBar vScrollBar1Host;
 
         private bool isPaintable { get; set; } = false;
-		private System.Windows.Controls.Primitives.ScrollBar vScrollBar1 { get => vScrollBar1Host.scroller; }
+		private System.Windows.Controls.Primitives.ScrollBar vScrollBar1 
+        { 
+            get => vScrollBar1Host.scroller; 
+        }
 
 		[Browsable(false)]
         public int SelectedIndex

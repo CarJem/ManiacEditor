@@ -932,6 +932,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Structures\EntityRenderProp.cs" />
+    <Compile Include="Structures\TileSelectSpecifics.cs" />
     <Compile Include="Structures\VersionCheck.cs" />
     <Compile Include="Converters\RemoveTabConverter.cs" />
     <Compile Include="Converters\TilePixelConverter.cs" />

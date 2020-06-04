@@ -276,12 +276,30 @@ namespace ManiacEditor.Controls.Editor
 
         #region Magnet Events
 
-        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.UseMagnetMode ^= true; }
-        private void Magnet8x8Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 8; }
-        private void Magnet16x16Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 16; }
-        private void Magnet32x32Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 32; }
-        private void Magnet64x64Event(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = 64; }
-        private void MagnetCustomEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.MagnetSize = -1; }
+        private void ToggleMagnetToolEvent(object sender, RoutedEventArgs e) 
+        { 
+
+        }
+        private void Magnet8x8Event(object sender, RoutedEventArgs e) 
+        { 
+            Methods.Solution.SolutionState.Main.MagnetSize = 8; 
+        }
+        private void Magnet16x16Event(object sender, RoutedEventArgs e) 
+        { 
+            Methods.Solution.SolutionState.Main.MagnetSize = 16; 
+        }
+        private void Magnet32x32Event(object sender, RoutedEventArgs e) 
+        { 
+            Methods.Solution.SolutionState.Main.MagnetSize = 32; 
+        }
+        private void Magnet64x64Event(object sender, RoutedEventArgs e) 
+        { 
+            Methods.Solution.SolutionState.Main.MagnetSize = 64;
+        }
+        private void MagnetCustomEvent(object sender, RoutedEventArgs e) 
+        { 
+            Methods.Solution.SolutionState.Main.MagnetSize = -1; 
+        }
         private void CustomMagnetSizeAdjuster_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (IsFullyInitialized && AllowNUDUpdate)
@@ -290,8 +308,61 @@ namespace ManiacEditor.Controls.Editor
             }
         }
 
-        private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.UseMagnetXAxis ^= true; }
-        private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.UseMagnetYAxis ^= true; }
+        private void EnableMagnetXAxisLockEvent(object sender, RoutedEventArgs e) 
+        { 
+
+        }
+        private void EnableMagnetYAxisLockEvent(object sender, RoutedEventArgs e) 
+        {  
+
+        }
+
+        #endregion
+
+        #region Wand Events/Methods
+        private void ToggleWandToolEvent(object sender, RoutedEventArgs e)
+        {
+
+        }
+        public void TilesReload()
+        {
+            if (!IsFullyInitialized) return;
+            WandSelectTileList.Images.Clear();
+
+            var tilesList = GetCurrentTileImages();
+            WandSelectTileList.Images.Clear();
+            WandSelectTileList.Images = new List<System.Windows.Media.ImageSource>(tilesList);
+
+            int indexStorage = WandSelectTileList.SelectedIndex;
+            WandSelectTileList.SelectedIndex = -1;
+            WandSelectTileList.SelectedIndex = indexStorage;
+            WandSelectTileList.Invalidate(true);
+
+            List<System.Windows.Media.ImageSource> GetCurrentTileImages()
+            {
+                List<System.Windows.Media.ImageSource> TilesList = new List<System.Windows.Media.ImageSource>();
+                for (int i = 0; i < 1024; i++)
+                {
+                    TilesList.Add(Methods.Solution.CurrentSolution.CurrentTiles?.Image.GetImageSource(new System.Drawing.Rectangle(0, 16 * i, 16, 16), false, false));
+                }
+                return TilesList;
+            }
+
+        }
+        private void ToggleWandToolButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = (sender as Button);
+            if (!btn.ContextMenu.IsOpen)
+            {
+                //Open the Context menu when Button is clicked
+                btn.ContextMenu.IsEnabled = true;
+                btn.ContextMenu.PlacementTarget = (sender as Button);
+                btn.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                btn.ContextMenu.IsOpen = true;
+                WandSelectTileList.ImageSize = 32;
+                TilesReload();
+            }
+        }
 
         #endregion
 
@@ -873,65 +944,9 @@ namespace ManiacEditor.Controls.Editor
 
                 SetLayerEditButtonsState(enabled);
 
-                MagnetMode.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-                MagnetMode.IsChecked = Methods.Solution.SolutionState.Main.UseMagnetMode && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-                MagnetModeSplitButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-                Methods.Solution.SolutionState.Main.UseMagnetMode = ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && MagnetMode.IsChecked.Value;
-
                 UpdateUndoRedoButtons(enabled);
 
-                PointerToolButton.IsEnabled = enabled;
-                SelectToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
-
-                DrawToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() || ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-                DrawToolDropdown.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() || ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-
-                ChunksToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
-
-                SplineToolButton.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-                SplineToolDropdown.IsEnabled = enabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-
-                SplineToolButton.IsChecked = SplineToolButton.IsChecked.Value && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-
-                bool isAnyOtherToolChecked()
-                {
-                    bool isPointer = (bool)PointerToolButton.IsChecked.Value;
-                    bool isSelect = (bool)SelectToolButton.IsChecked.Value;
-                    bool isDraw = (bool)DrawToolButton.IsChecked.Value;
-                    bool isSpline = (bool)SplineToolButton.IsChecked.Value;
-
-                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
-                    {
-                        if (isDraw || isSpline)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (isDraw || isSelect)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-
-                PointerToolButton.IsChecked = isAnyOtherToolChecked();
-                ChunksToolButton.IsChecked = (bool)ChunksToolButton.IsChecked && !ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-                if (Instance.TilesToolbar != null)
-                {
-                    if (ChunksToolButton.IsChecked.Value) Instance.TilesToolbar.TabControl.SelectedIndex = 1;
-                    else Instance.TilesToolbar.TabControl.SelectedIndex = 0;
-                }
+                SetEditToolsState(enabled);
 
                 ShowGridButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
                 ShowCollisionAButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.TileConfig != null;
@@ -939,6 +954,73 @@ namespace ManiacEditor.Controls.Editor
                 ShowTileIDButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
                 EncorePaletteButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.EncorePaletteExists;
                 FlipAssistButton.IsEnabled = enabled;
+            }));
+        }
+
+        public void SetEditToolsState(bool enabled)
+        {
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                bool isEntitiesEdit = ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
+                bool isTilesEdit = ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
+
+                //IsEnabled
+                PointerToolButton.IsEnabled = enabled;
+                SelectToolButton.IsEnabled = enabled && isTilesEdit;
+                DrawToolButton.IsEnabled = enabled && isTilesEdit || isEntitiesEdit;
+                DrawToolDropdown.IsEnabled = enabled && isTilesEdit || isEntitiesEdit;
+                ChunksToolButton.IsEnabled = enabled && isTilesEdit;
+                SplineToolButton.IsEnabled = enabled && isEntitiesEdit;
+                SplineToolDropdown.IsEnabled = enabled && isEntitiesEdit;
+                MagnetMode.IsEnabled = enabled && isEntitiesEdit;
+                MagnetModeSplitButton.IsEnabled = enabled && isEntitiesEdit;
+                WandToolButton.IsEnabled = enabled && !isEntitiesEdit;
+                WandToolDropdown.IsEnabled = enabled && !isEntitiesEdit;
+
+                //IsChecked
+                WandToolButton.IsChecked = WandToolButton.IsChecked.Value && isTilesEdit;
+                SplineToolButton.IsChecked = SplineToolButton.IsChecked.Value && isEntitiesEdit;
+                MagnetMode.IsChecked = MagnetMode.IsChecked.Value && isEntitiesEdit;
+                ChunksToolButton.IsChecked = ChunksToolButton.IsChecked.Value && !isEntitiesEdit;
+                PointerToolButton.IsChecked = isAnyOtherToolChecked();
+
+
+                //Visibility
+                PointerToolButton.Visibility = Visibility.Visible;
+                SelectToolButton.Visibility = (isTilesEdit ? Visibility.Visible : Visibility.Collapsed);
+                DrawToolButton.Visibility = (isTilesEdit || isEntitiesEdit ? Visibility.Visible : Visibility.Collapsed);
+                DrawToolDropdown.Visibility = (isTilesEdit || isEntitiesEdit ? Visibility.Visible : Visibility.Collapsed);
+                ChunksToolButton.Visibility = (isTilesEdit ? Visibility.Visible : Visibility.Collapsed);
+                SplineToolButton.Visibility = (isEntitiesEdit ? Visibility.Visible : Visibility.Collapsed);
+                SplineToolDropdown.Visibility = (isEntitiesEdit ? Visibility.Visible : Visibility.Collapsed);
+                MagnetMode.Visibility = (isEntitiesEdit ? Visibility.Visible : Visibility.Collapsed);
+                MagnetModeSplitButton.Visibility = (isEntitiesEdit ? Visibility.Visible : Visibility.Collapsed);
+                WandToolButton.Visibility = (isTilesEdit ? Visibility.Visible : Visibility.Collapsed);
+                WandToolDropdown.Visibility = (isTilesEdit ? Visibility.Visible : Visibility.Collapsed);
+
+                //Tiles Toolbar Selected Index
+                if (Instance.TilesToolbar != null)
+                {
+                    bool isChunks = (bool)ChunksToolButton.IsChecked;
+                    if (isChunks) Instance.TilesToolbar.TabControl.SelectedIndex = 1;
+                    else Instance.TilesToolbar.TabControl.SelectedIndex = 0;
+                }
+
+                bool isAnyOtherToolChecked()
+                {
+                    bool isPointer = (bool)PointerToolButton.IsChecked;
+                    bool isSelect = (bool)SelectToolButton.IsChecked;
+                    bool isDraw = (bool)DrawToolButton.IsChecked;
+                    bool isSpline = (bool)SplineToolButton.IsChecked;
+                    bool isChunks = (bool)ChunksToolButton.IsChecked;
+
+                    if (isEntitiesEdit)
+                        if (isDraw || isSpline) return false;
+                        else return true;          
+                    else
+                        if (isDraw || isSelect) return false;
+                        else return true;   
+                }
             }));
         }
         private void SetLayerEditButtonsState(bool enabled)
@@ -1019,6 +1101,7 @@ namespace ManiacEditor.Controls.Editor
                 FlipAssistButton.ToolTip = "Show Flipped Tile Helper";
                 ChunksToolButton.ToolTip = "Stamp Tool" + "(5)";
                 SplineToolButton.ToolTip = "Spline Tool" + "(4)";
+                WandToolButton.ToolTip = "Wand Tool";
                 EncorePaletteButton.ToolTip = "Show Encore Colors";
                 ShowTileIDButton.ToolTip = "Toggle Tile ID Visibility" + "(Shift + 3)";
                 ShowGridButton.ToolTip = "Toggle Grid Visibility" + "(Ctrl + G)";
