@@ -98,7 +98,9 @@ namespace ManiacEditor
             var context = new ContextSettings { };
             this.RenderWindow = new RenderWindow(this.Handle, context);
 
-            RenderWindow.SetFramerateLimit(60);
+
+
+            //RenderWindow.SetFramerateLimit(60);
 
             this.RenderWindow.SetActive(true);
         }

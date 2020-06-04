@@ -26,13 +26,13 @@ namespace ManiacEditor.Controls.Editor
     public partial class DebugHUD : UserControl
     {
         private MainEditor Instance { get; set; }
-        private System.Windows.Forms.Timer t { get; set; }
+        private System.Windows.Threading.DispatcherTimer t { get; set; }  
         public DebugHUD()
         {
             InitializeComponent();
             if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
-                t = new System.Windows.Forms.Timer();
+                t = new System.Windows.Threading.DispatcherTimer();
                 t.Tick += T_Tick;
             }
 

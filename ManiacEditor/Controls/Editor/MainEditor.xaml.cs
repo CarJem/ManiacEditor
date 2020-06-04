@@ -229,18 +229,12 @@ namespace ManiacEditor.Controls.Editor
         }
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
-
-        }
-        private void Editor_Resize(object sender, SizeChangedEventArgs e)
-        {
-
-        }
-        public void Editor_Run()
-        {
-            Show();
             Focus();
             ViewPanel.SharpPanel.GraphicPanel.Show();
             ViewPanel.SharpPanel.GraphicPanel.Run();
+        }
+        private void Editor_Resize(object sender, SizeChangedEventArgs e)
+        {
 
         }
         #endregion

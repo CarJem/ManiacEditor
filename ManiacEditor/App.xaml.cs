@@ -39,7 +39,7 @@ namespace ManiacEditor
 		public void Load()
         {
 			var UI = new ManiacEditor.Controls.Editor.MainEditor();
-            UI.Editor_Run();
+            UI.Show();
         }
 	}
 }

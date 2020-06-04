@@ -11,7 +11,7 @@
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:genTools="clr-namespace:GenerationsLib.WPF;assembly=GenerationsLib.WPF"
         mc:Ignorable="d"
-        Title="Maniac Editor - Generations Editon" Height="780" Width="1050" Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1050" MinHeight="780" Activated="Editor_Activated" KeyDown="Editor_KeyDown" KeyUp="Editor_KeyUp">
+        Title="Maniac Editor - Generations Editon" Height="780" Width="1050"  Loaded="Editor_Loaded" Closing="Editor_FormClosing" SizeChanged="Editor_Resize" MinWidth="1050" MinHeight="780" Activated="Editor_Activated" KeyDown="Editor_KeyDown" KeyUp="Editor_KeyUp">
     <!--PreviewKeyDown="Editor_KeyDown" PreviewKeyUp="Editor_KeyUp"-->
     <Grid x:Name="ParentGrid" SizeChanged="Editor_Resize" Background="{DynamicResource NormalBackground}">
         <Grid.RowDefinitions>
