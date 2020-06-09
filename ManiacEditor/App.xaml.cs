@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ManiacEditor.Controls.Editor;
 
 namespace ManiacEditor
 {
@@ -28,18 +29,10 @@ namespace ManiacEditor
             }
         }
 
-
         public App()
         {
             SkinResourceDictionary.ChangeSkin(Skin.Dark, ManiacEditor.App.Current.Resources.MergedDictionaries);
             this.InitializeComponent();
-        }
-
-
-		public void Load()
-        {
-			MainWindow = new ManiacEditor.Controls.Editor.MainEditor();
-            MainWindow.ShowDialog();
         }
 	}
 }

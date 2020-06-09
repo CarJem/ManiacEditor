@@ -5,12 +5,19 @@ using System.Windows;
 using System.Linq;
 using System.Collections.Generic;
 using ManiacEditor.Structures;
+using System.Diagnostics;
 
 namespace ManiacEditor
 {
     static class Program
     {
-
+        private static bool UseDebuggerForErrors
+        {
+            get
+            {
+                return Debugger.IsAttached;
+            }
+        }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -46,22 +53,32 @@ namespace ManiacEditor
         private static void StartApp()
         {
             Extensions.ConsoleExtensions.PrintWithLog("Launching the Map Editor...");
-            try
+            if (UseDebuggerForErrors) Load();
+            else
             {
-                Load();
+                try
+                {
+                    Load();
+                }
+                catch (Exception ex)
+                {
+                    Extensions.ConsoleExtensions.PrintWithLog(ex.Message);
+                    Extensions.ConsoleExtensions.CloseManiacConsole();
+                    Extensions.ConsoleExtensions.ShowManiacConsole(true);
+                }
             }
-            catch (Exception ex)
-            {
-                Extensions.ConsoleExtensions.PrintWithLog(ex.Message);
-                Extensions.ConsoleExtensions.CloseManiacConsole();
-                Extensions.ConsoleExtensions.ShowManiacConsole(true);
-            }
+
+
+
 
 
             void Load()
             {
                 var application = new ManiacEditor.App();
-                application.Load();
+                var mainWindow = new Controls.Editor.MainEditor();
+                application.MainWindow = mainWindow;
+                application.ShutdownMode = ShutdownMode.OnMainWindowClose;
+                application.Run(mainWindow);
             }
 
         }

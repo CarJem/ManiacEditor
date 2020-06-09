@@ -192,7 +192,6 @@ namespace ManiacEditor.Controls.Editor
             ViewPanel.SharpPanel.Host.Child.Dispose();
 
 
-
         }
 
         private bool IsViewPanelFocused()

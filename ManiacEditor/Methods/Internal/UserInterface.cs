@@ -608,6 +608,7 @@ namespace ManiacEditor.Methods.Internal
 
             public static void UpdateEditorToolbars()
             {
+                Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Editor Toolbars...");
                 if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
                 {
                     if (Instance.TilesToolbar == null) CreateTilesToolbar();

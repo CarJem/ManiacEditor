@@ -5,8 +5,9 @@
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=Xceed.Wpf.Toolkit"     
              xmlns:skin="clr-namespace:GenerationsLib.WPF.Themes;assembly=GenerationsLib.WPF"
              xmlns:local="clr-namespace:ManiacEditor"
+             xmlns:editor="clr-namespace:ManiacEditor.Controls.Editor"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="ManiacEditor.App"
-             ShutdownMode="OnLastWindowClose">
+             ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

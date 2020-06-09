@@ -318,7 +318,7 @@ namespace ManiacEditor.Methods.Internal
                 }
                 catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
                 {
-                    System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+                    System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
                     Methods.Solution.SolutionState.Main.Dragged = false;
                     return;
                 }

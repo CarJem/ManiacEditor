@@ -37,10 +37,11 @@ namespace ManiacEditor.Controls.Toolbox
 				return Methods.Solution.CurrentSolution.Entities.Entities.OrderBy(x => x.SlotID).ToList();
 			}
 		}
-		private EntitiesListEntry[] ObjectList { get; set; } = new EntitiesListEntry[2301];
+		private EntitiesListEntry[] ObjectList { get; set; } = new EntitiesListEntry[ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT];
 		private List<int> _SelectedEntitySlots { get; set; } = new List<int>();
 		private BindingList<TextBlock> _BindingSceneObjectsSource { get; set; } = new BindingList<TextBlock>();
 		private EditorEntity CurrentEntity { get; set; }
+		private bool SelectionUpdating { get; set; } = false;
 		public List<EditorEntity> SelectedEntities
 		{
 			get
@@ -49,6 +50,8 @@ namespace ManiacEditor.Controls.Toolbox
 			}
 			set
 			{
+				Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Setting SelectedEntities..");
+				SelectionUpdating = true;
 				int splineID = Methods.Solution.SolutionState.Main.SelectedSplineID;
 				if (ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.SplineToolButton.IsChecked.Value && Methods.Solution.SolutionState.Main.SplineOptionsGroup.ContainsKey(splineID) && Methods.Solution.SolutionState.Main.SplineOptionsGroup[splineID].SplineObjectRenderingTemplate != null)
 				{
@@ -58,12 +61,12 @@ namespace ManiacEditor.Controls.Toolbox
 				{
 					UpdateToolbar(value);
 				}
+				SelectionUpdating = false;
 			}
 
 		}
 		private List<EditorEntity> _SelectedEntities { get; set; }
 		public bool NeedRefresh { get; set; }
-		private bool DisableMultiAttributeEditing { get; set; } = true;
 		#endregion
 
 		#region Init
@@ -122,7 +125,6 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				SetSelectedProperties(CurrentEntity, e);
 			}
-
 		}
 
 		#endregion
@@ -277,6 +279,7 @@ namespace ManiacEditor.Controls.Toolbox
 		#region Property Grid (Update) 
 		public void UpdateSelectedProperties()
 		{
+			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Updating Selected Properties...");
 			if (MultipleObjectsSelected) UpdateMultiSelectedProperties();
 			else if (CurrentEntity != null) UpdateSingleSelectedProperties();
 		}
@@ -396,6 +399,7 @@ namespace ManiacEditor.Controls.Toolbox
 
 		private void SetSelectedProperties(EditorEntity entity, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
 		{
+			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Setting Selected Properties...");
 			SetSelectedProperties(entity, e.Property, e.NewValue, e.OldValue, true, false);
 		}
 		private void SetSelectedProperties(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
@@ -516,7 +520,7 @@ namespace ManiacEditor.Controls.Toolbox
 		private void UpdateEntitySlotProperty(EditorEntity entity, string Property, object NewValue, object OldValue, bool UpdateUI = true, bool isUndo = false)
 		{
 			ushort newSlot = (ushort)NewValue;
-			if (newSlot > 2048)
+			if (newSlot > ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT)
 			{
 				MessageBox.Show("Slot " + newSlot + " is bigger than the maximum amount of objects allowed!",
 					"Slot is too big!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -590,27 +594,49 @@ namespace ManiacEditor.Controls.Toolbox
 					break;
 				case RSDKv5.AttributeTypes.VECTOR2:
 					if (NewValue == null) return;
-					float fvalue = (float)NewValue;
-					if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
-					var pos = attribute.ValueVector2;
-					if (Name == "x")
+					float fvalue = 0;
+					bool isFlotable = true;
+
+					try
 					{
-						pos.X.High = (short)fvalue;
-						pos.X.Low = (ushort)(fvalue * 0x10000);
+						fvalue = Convert.ToSingle(NewValue);
 					}
-					else if (Name == "y")
+					catch
 					{
-						pos.Y.High = (short)fvalue;
-						pos.Y.Low = (ushort)(fvalue * 0x10000);
+						isFlotable = false;
 					}
-					attribute.ValueVector2 = pos;
+
+
+
+					if (isFlotable)
+					{
+						if (fvalue < Int16.MinValue || fvalue > Int16.MaxValue) return; // Invalid
+						var pos = attribute.ValueVector2;
+						if (Name == "x")
+						{
+							pos.X.High = (short)fvalue;
+							pos.X.Low = (ushort)(fvalue * 0x10000);
+						}
+						else if (Name == "y")
+						{
+							pos.Y.High = (short)fvalue;
+							pos.Y.Low = (ushort)(fvalue * 0x10000);
+						}
+						attribute.ValueVector2 = pos;
+					}
+					else
+					{
+						var pos = (Position)NewValue;
+						attribute.ValueVector2 = pos;
+					}
+
 					break;
 				case RSDKv5.AttributeTypes.COLOR:
 					System.Drawing.Color c = (System.Drawing.Color)NewValue;
 					attribute.ValueColor = new RSDKv5.Color(c.R, c.G, c.B, c.A);
 					break;
 			}
-			if (CurrentEntity != null && !isUndo) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(CurrentEntity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object, bool, bool>(SetSelectedProperties)));
+			if (CurrentEntity != null && !isUndo) AddAction?.Invoke(new Actions.ActionEntityPropertyChange(entity, Property, OldValue, NewValue, new Action<EditorEntity, string, object, object, bool, bool>(SetSelectedProperties)));
 			if (UpdateUI) UpdateToolbar(new List<EditorEntity>() { entity });
 		}
 
@@ -667,6 +693,10 @@ namespace ManiacEditor.Controls.Toolbox
 		#region UI Refresh
 		public void UpdateToolbar(List<EditorEntity> SelectedEntities)
 		{
+
+			if (_SelectedEntities == SelectedEntities) return;
+
+			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Updating Toolbar...");
 			// Reset the List Item if the Current Entity is nothing or if it's a multi-selection
 			if (CurrentEntity == null)
 			{
@@ -686,7 +716,7 @@ namespace ManiacEditor.Controls.Toolbox
 				_SelectedEntitySlots.Clear();
 				if (SelectedEntities.Count > 1)
 				{
-
+					Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Setting Multi Entity Select..");
 					// Then we are selecting multiple objects				
 					isCommonObjects = true;
 					MultipleObjectsSelected = true;
@@ -741,6 +771,7 @@ namespace ManiacEditor.Controls.Toolbox
 
 			void SetSingleSelect()
 			{
+				Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Setting Single Entity Select..");
 				_SelectedEntities = SelectedEntities;
 				if (SelectedEntities.Count == 0)
 				{
@@ -768,10 +799,11 @@ namespace ManiacEditor.Controls.Toolbox
 
 		public void UpdateEntitiesList(bool FirstLoad = false)
 		{
+			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Updating List Entries...");
 			//This if statement Triggers when the toolbar opens for the first time
 			SceneEntitiesList.Items.Clear();
 
-			int count = (2301 > _Entities.Count() ? _Entities.Count() : 2031);
+			int count = (ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT > _Entities.Count() ? _Entities.Count() : ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT);
 
 			for (int i = 0; i < count; i++)
 			{
@@ -844,9 +876,19 @@ namespace ManiacEditor.Controls.Toolbox
 
 		public void UpdateEntitySelectionBox(EditorEntity entity)
 		{
+			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Updating Entity Selection Box...");
 			if (ObjectList != null)
 			{
-				if (entity != null && ObjectList.ToList().Exists(x => x.Tag != null && x.Tag.ToString() == entity.SlotID.ToString()))
+				bool valid;
+				try
+				{
+					valid = ObjectList.ToList().Exists(x => x.Tag != null && x.Tag.ToString() == entity.SlotID.ToString());
+				}
+				catch
+				{
+					valid = false;
+				}
+				if (entity != null && valid)
 				{
 					var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
 					entitiesList.Content = entry.ItemContent;

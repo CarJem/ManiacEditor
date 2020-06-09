@@ -385,36 +385,49 @@ namespace ManiacEditor.Classes.Scene
         }
         public void Spawn(RSDKv5.SceneObject sceneObject, RSDKv5.Position position)
         {
-            var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(0)));
-            editorEntity.Position = position;
-            var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
-            LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
-            AddEntities(newEntities);
-            ClearSelection();
-            editorEntity.Selected = true;
-            //SelectedEntities.Add(editorEntity);
+            try
+            {
+                var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot()));
+                editorEntity.Position = position;
+                var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
+                LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
+                AddEntities(newEntities);
+                ClearSelection();
+                editorEntity.Selected = true;
+            }
+            catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
+            {
+                System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
+            }
         }
         public void SpawnMultiple(List<KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>> sceneObjects)
         {
-            var newEntities = new List<Classes.Scene.EditorEntity> { };
-            foreach (var keyPair in sceneObjects)
+            try
             {
-                var sceneObject = keyPair.Key;
-                var position = keyPair.Value;
-                var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot(0)));
-                editorEntity.Position = position;
-                newEntities.Add(editorEntity);
-            }
+                var newEntities = new List<Classes.Scene.EditorEntity> { };
+                foreach (var keyPair in sceneObjects)
+                {
+                    var sceneObject = keyPair.Key;
+                    var position = keyPair.Value;
+                    var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot()));
+                    editorEntity.Position = position;
+                    newEntities.Add(editorEntity);
+                }
 
 
-            LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
-            AddEntities(newEntities);
-            ClearSelection();
-            foreach (var editorEntity in newEntities)
-            {
-                editorEntity.Selected = true;
-                //SelectedEntities.Add(editorEntity);
+                LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
+                AddEntities(newEntities);
+                ClearSelection();
+                foreach (var editorEntity in newEntities)
+                {
+                    editorEntity.Selected = true;
+                }
             }
+            catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
+            {
+                System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
+            }
+
 
         }
 
@@ -514,15 +527,22 @@ namespace ManiacEditor.Classes.Scene
         }
         public void SpawnInternalSplineObject(RSDKv5.Position position, int value)
         {
-            var editorEntity = GenerateSplineObject(value);
-            editorEntity.SlotID = GetFreeSlot(0, true);
-            editorEntity.Position = position;
-            var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
-            LastActionInternal = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x, true), x => DeleteEntities(x, false, true));
-            AddEntities(newEntities, true);
-            ClearSelection();
-            editorEntity.Selected = true;
-            SelectedInternalEntities.Add(editorEntity);
+            try
+            {
+                var editorEntity = GenerateSplineObject(value);
+                editorEntity.SlotID = GetFreeSlot(true);
+                editorEntity.Position = position;
+                var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
+                LastActionInternal = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x, true), x => DeleteEntities(x, false, true));
+                AddEntities(newEntities, true);
+                ClearSelection();
+                editorEntity.Selected = true;
+                SelectedInternalEntities.Add(editorEntity);
+            }
+            catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
+            {
+                System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
+            }
         }
         public Classes.Scene.EditorEntity GenerateEditorEntity(RSDKv5.SceneEntity sceneEntity)
         {
@@ -554,11 +574,11 @@ namespace ManiacEditor.Classes.Scene
             List<string> strings = sceneObjects.Select(s => s.Name.Name).ToList();
             return strings;
         }
-        private ushort GetFreeSlot(ushort SlotID, bool isInternal = false)
+        private ushort GetFreeSlot(bool isInternal = false)
         {
             if (isInternal)
             {
-                if (InternalEntities.Count > 2048)
+                if (InternalEntities.Count > ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT)
                 {
                     throw new TooManyEntitiesException();
                 }
@@ -570,7 +590,7 @@ namespace ManiacEditor.Classes.Scene
             }
             else
             {
-                if (Entities.Count > 2048)
+                if (Entities.Count > ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT)
                 {
                     throw new TooManyEntitiesException();
                 }
@@ -580,7 +600,6 @@ namespace ManiacEditor.Classes.Scene
                 }
                 return (ushort)(Entities.Count + 1);
             }
-
         }
 
 
@@ -594,51 +613,43 @@ namespace ManiacEditor.Classes.Scene
             // work out a slot for each entity, and add it in turn
             // this should prevent generating the same ID for each member of the list
             var new_entities = new List<Classes.Scene.EditorEntity>();
-            foreach (var entity in entities)
+
+            try
             {
-                ushort slot = GetFreeSlot(entity.SlotID, isInternal);
-
-                SceneEntity sceneEntity;
-                // If this is pasted from another Scene, we need to reassign its Object
-                if (entity.IsExternal)
-                    sceneEntity = SceneEntity.FromExternal(entity.Entity, Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects, slot);
-                // If it's from this Scene, we can use the existing Object
-                else
-                    sceneEntity = new SceneEntity(entity.Entity, slot);
-
-                // Make sure it was created properly
-                if (sceneEntity != null)
+                foreach (var entity in entities)
                 {
-                    var editorEntity = GenerateEditorEntity(sceneEntity);
-                    AddEntity(editorEntity);
-                    new_entities.Add(editorEntity);
+                    ushort slot = GetFreeSlot(isInternal);
+
+                    SceneEntity sceneEntity;
+                    // If this is pasted from another Scene, we need to reassign its Object
+                    if (entity.IsExternal)
+                        sceneEntity = SceneEntity.FromExternal(entity.Entity, Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects, slot);
+                    // If it's from this Scene, we can use the existing Object
+                    else
+                        sceneEntity = new SceneEntity(entity.Entity, slot);
+
+                    // Make sure it was created properly
+                    if (sceneEntity != null)
+                    {
+                        var editorEntity = GenerateEditorEntity(sceneEntity);
+                        AddEntity(editorEntity);
+                        new_entities.Add(editorEntity);
+                    }
+                }
+                if (new_entities.Count > 0)
+                {
+                    LastAction = new Actions.ActionAddDeleteEntities(new_entities.ToList(), true, x => AddEntities(x, isInternal), x => DeleteEntities(x, false, isInternal));
                 }
             }
-            if (new_entities.Count > 0)
+            catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
             {
-                LastAction = new Actions.ActionAddDeleteEntities(new_entities.ToList(), true, x => AddEntities(x, isInternal), x => DeleteEntities(x, false, isInternal));
+                System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
             }
+
+
 
             ClearSelection();
-            /*
-            if (isInternal)
-            {
-                foreach (var entity in new_entities)
-                {
-                    entity.Selected = true;
-                    SelectedInternalEntities.Add(entity);
-                }
-            }
-            else
-            {
-                foreach (var entity in new_entities)
-                {
-                    entity.Selected = true;
-                    SelectedEntities.Add(entity);
-                }
-            }*/
-            foreach (var entity in new_entities)
-                entity.Selected = true;
+            foreach (var entity in new_entities) entity.Selected = true;
         }
 
         #endregion
@@ -703,7 +714,7 @@ namespace ManiacEditor.Classes.Scene
             }
             catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
             {
-                System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+                System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
                 return true;
             }
             catch (Exception ex)
@@ -734,7 +745,7 @@ namespace ManiacEditor.Classes.Scene
             }
             catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
             {
-                System.Windows.MessageBox.Show("Too many entities! (limit: 2048)");
+                System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
                 return;
             }
             catch (Exception ex)
