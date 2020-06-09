@@ -150,7 +150,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Experiment|AnyCPU'">
@@ -278,6 +278,9 @@
       <DependentUpon>AsyncWaitingBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\UI\UIInfoLabel.cs" />
+    <Compile Include="Methods\Entities\ImportableZoneObject.cs" />
+    <Compile Include="Methods\Entities\ObjectCollection.cs" />
+    <Compile Include="Methods\Entities\ObjectSearchPair.cs" />
     <Compile Include="Structures\SceneSelectDirectoriesCollection.cs" />
     <Compile Include="Structures\SceneSelectCategoriesCollection.cs" />
     <Compile Include="Methods\Solution\SolutionMultiLayer.cs" />

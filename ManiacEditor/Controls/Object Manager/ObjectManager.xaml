@@ -17,7 +17,7 @@
             </Grid.RowDefinitions>
             <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.Row="0" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
                 <MenuItem x:Name="fileTab" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0" >
-                    <MenuItem Header="Import Objects">
+                    <MenuItem Header="Import Objects...">
                         <MenuItem Header="Using Existing Scene..." Click="ImportObjectsUsingExistingEvent"></MenuItem>
                         <MenuItem Header="Using Megalist..." Click="ImportObjectsUsingMegalistEvent"></MenuItem>
                     </MenuItem>
@@ -31,6 +31,10 @@
                 </MenuItem>
                 <MenuItem x:Name="toolsTab" Header="Tools" VerticalContentAlignment="Center" Margin="7,2,0,0" >
                     <MenuItem Header="MD5 Generator" Click="mD5GeneratorToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Export Objects...">
+                        <MenuItem Header="Using Existing Scene..." Click="ExportObjectsUsingExistingEvent"></MenuItem>
+                        <MenuItem Header="Using Megalist..." Click="ExportObjectsUsingMegalistEvent"></MenuItem>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
             <Grid Grid.Row="1">
@@ -63,8 +67,7 @@
                         </ListView.View>
                     </ListView>
                 </Grid>
-                <ListBox Style="{DynamicResource BaseListBoxStyle}" SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="lvObjectsViewer" Grid.Column="0" Grid.Row="1" Margin="10">
-                </ListBox>
+                <ListBox Style="{DynamicResource BaseListBoxStyle}" SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="lvObjectsViewer" Grid.Column="0" Grid.Row="1" Margin="10"></ListBox>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
                     <Button Content="Add" Click="addAttributeBtn_Click" Width="72" Height="30" Margin="10,0,10,0"></Button>
                     <Button Content="Remove" Click="removeAttributeBtn_Click" Width="72" Height="30" Margin="0,0,10,0"></Button>

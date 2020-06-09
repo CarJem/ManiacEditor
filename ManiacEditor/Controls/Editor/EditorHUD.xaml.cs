@@ -23,6 +23,10 @@ namespace ManiacEditor.Controls.Editor
     /// <summary>
     /// Interaction logic for DebugHUD.xaml
     /// </summary>
+    /// 
+
+
+    /// TODO: HUGE PROBLEMS in HUD!
     public partial class DebugHUD : UserControl
     {
         private MainEditor Instance { get; set; }
@@ -81,7 +85,7 @@ namespace ManiacEditor.Controls.Editor
             else return true;
         }
 
-        private void UpdateHUDInfo()
+        public void UpdateHUDInfo()
         {
             if (Instance != null && !System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {

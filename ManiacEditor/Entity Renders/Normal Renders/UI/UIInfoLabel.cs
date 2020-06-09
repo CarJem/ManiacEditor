@@ -18,30 +18,48 @@ namespace ManiacEditor.Entity_Renders
             int width = (int)e.attributesMap["size"].ValueVector2.X.High;
             int height = (int)e.attributesMap["size"].ValueVector2.Y.High;
             int spacingAmount = 0;
-            //e.DrawUIButtonBack(d, x, y, width, height, width, height, Transparency);
+            int fullWidth = 0;
+
             if (width == 0) width = 1;
-            int x2 = x - (width / 4);
             foreach (char symb in text)
             {
-                int frameID = GetFrameID(symb, Methods.Solution.SolutionState.Main.MenuChar_Small);
-                var editorAnim = LoadAnimation("UIElements", d, 4, frameID);
-                DrawTexture(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x2 + spacingAmount, y, Transparency);
+                var editorAnim = GetFrameID(d, symb);
+                fullWidth = fullWidth + editorAnim.RequestedFrame.Width;
+            }
+
+            int x2 = x - (fullWidth / 2);
+            int y2 = y - 5;
+
+            d.DrawQuad(x - (width / 2) - 4, y - (height / 2), width + height + 8, height, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
+
+            foreach (char symb in text)
+            {
+                var editorAnim = GetFrameID(d, symb);
+                DrawTexture(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x2 + spacingAmount, y2, Transparency);
                 spacingAmount = spacingAmount + editorAnim.RequestedFrame.Width;
             }
 
             
         }
 
-        public int GetFrameID(char letter, char[] arry)
+        public Methods.Drawing.ObjectDrawing.EditorAnimation GetFrameID(DevicePanel d, char letter)
         {
-            char[] symArray = arry;
-            int position = 0;
-            foreach (char sym in symArray)
+            var editorAnim = LoadAnimation("UIElements", d, 4, 0);
+            for (int i = 0; i < editorAnim.RequestedAnimation.Frames.Count; i++)
             {
-                if (sym == letter) return position;
-                position++;
+                editorAnim = LoadAnimation("UIElements", d, 4, i);
+                if ((double)editorAnim.RequestedFrame.ID == (double)letter) return editorAnim;
             }
-            return position;
+
+            editorAnim = LoadAnimation("SmallFont", d, 0, 0);
+            for (int i = 0; i < editorAnim.RequestedAnimation.Frames.Count; i++)
+            {
+                editorAnim = LoadAnimation("SmallFont", d, 0, i);
+                if ((double)editorAnim.RequestedFrame.ID == (double)letter) return editorAnim;
+            }
+
+            return editorAnim;
+
         }
 
         public override string GetObjectName()

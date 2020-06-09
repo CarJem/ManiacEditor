@@ -28,31 +28,28 @@ namespace ManiacEditor.Entity_Renders
             int spacingAmount = 0;
             foreach(char symb in text)
             {
-                int frameID = GetFrameID(symb, Methods.Solution.SolutionState.Main.LevelSelectChar);
                 int animID = (highlighted ? 1 : 0);
+                var Animation = GetFrameID(d, symb, animID);
+                if (Animation != null)
+                {
+                    DrawTexturePivotPlus(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, spacingAmount, 0, Transparency, fliph, flipv);
+                    spacingAmount = spacingAmount + Animation.RequestedFrame.Width;
+                }
 
-                var Animation = LoadAnimation("Text", d, animID, frameID);
-                DrawTexturePivotPlus(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, spacingAmount, 0, Transparency, fliph, flipv);
-                spacingAmount = spacingAmount + Animation.RequestedFrame.Width;
             }
 
             
         }
 
-        public int GetFrameID(char letter, char[] arry)
+        public Methods.Drawing.ObjectDrawing.EditorAnimation GetFrameID(DevicePanel d, char letter, int animID)
         {
-            char[] symArray = arry;
-            int position = 0;
-            foreach (char sym in symArray)
+            var editorAnim = LoadAnimation("Text", d, animID, 0);
+            for (int i = 0; i < editorAnim.RequestedAnimation.Frames.Count; i++)
             {
-                if (sym.ToString().Equals(letter.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    //MessageBox.Show(String.Format("Sym: {0} Letter: {1} Pos: {2}", sym, letter, position));
-                    return position;
-                }
-                position++;
+                editorAnim = LoadAnimation("Text", d, animID, i);
+                if ((double)editorAnim.RequestedFrame.ID == (double)letter) return editorAnim;
             }
-            return position;
+            return null;
         }
 
         public override string GetObjectName()

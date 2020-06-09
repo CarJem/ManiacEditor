@@ -11,7 +11,7 @@
     <Border BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="0">
         <Grid MinWidth="1000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <TabControl>
-                <TabItem Header="HOME">
+                <TabItem x:Name="HomeTab" Header="HOME" Visibility="Collapsed" IsEnabled="False">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="200"></RowDefinition>
@@ -108,12 +108,17 @@
                         </Border>
                     </Grid>
                 </TabItem>
-                <TabItem Header="SCENE SELECT">
+                <TabItem x:Name="SceneSelectTab" Header="SCENE SELECT" Visibility="Collapsed" IsEnabled="False">
                     <Border Margin="4" BorderBrush="{DynamicResource ButtonBorder}" BorderThickness="1" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
                         <Grid>
                             <Grid Background="{DynamicResource StartScreenBackground}" x:Name="SceneSelectHost"/>
                         </Grid>
                     </Border>
+                </TabItem>
+                <TabItem x:Name="ClassicHomeTab" Header="CLASSIC HOME" IsSelected="True" Visibility="Collapsed">
+                    <Grid Background="{DynamicResource NormalBackground}" MaxHeight="200" VerticalAlignment="Center">
+                        <Image Source="pack://application:,,,/Resources/Images/MELogo.png" Opacity="0.25" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform" HorizontalAlignment="Center"></Image>
+                    </Grid>
                 </TabItem>
             </TabControl>
             <Grid x:Name="FirstTimeOverlay"  Visibility="Collapsed" Background="#4D000000">

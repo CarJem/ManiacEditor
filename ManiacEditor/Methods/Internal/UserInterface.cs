@@ -190,27 +190,45 @@ namespace ManiacEditor.Methods.Internal
         #region Subsections
         public static class Misc
         {
-            public static void UpdateStartScreen(bool visible, bool firstLoad = false)
+            private static bool UseClassicStartScreen { get; set; } = true;
+            //TODO : Unhardcode
+            public static void UpdateStartScreen(bool visible)
             {
-                if (firstLoad)
-                {
-                    if (Instance.StartScreen.SelectScreen != null) Instance.StartScreen.SelectScreen.UpdateRecentsTree();
-                    Instance.EditorTabControl.SelectedIndex = 1;
-                    Instance.MainPageTab.Visibility = Visibility.Collapsed;
-                    Instance.StartPageTab.Visibility = Visibility.Visible;
-                    Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
-                    Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
-                    Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
-                }
                 if (visible)
                 {
+                    if (UseClassicStartScreen)
+                    {
+                        Instance.StartScreen.ClassicHomeTab.Visibility = Visibility.Visible;
+                        Instance.StartScreen.HomeTab.Visibility = Visibility.Collapsed;
+                        Instance.StartScreen.SceneSelectTab.Visibility = Visibility.Collapsed;
+
+                        Instance.StartScreen.ClassicHomeTab.IsEnabled = true;
+                        Instance.StartScreen.HomeTab.IsEnabled = false;
+                        Instance.StartScreen.SceneSelectTab.IsEnabled = false;
+
+                        if (!Instance.StartScreen.ClassicHomeTab.IsSelected) Instance.StartScreen.ClassicHomeTab.IsSelected = true;
+                    }
+                    else
+                    {
+                        Instance.StartScreen.ClassicHomeTab.Visibility = Visibility.Collapsed;
+                        Instance.StartScreen.HomeTab.Visibility = Visibility.Visible;
+                        Instance.StartScreen.SceneSelectTab.Visibility = Visibility.Visible;
+
+                        Instance.StartScreen.ClassicHomeTab.IsEnabled = false;
+                        Instance.StartScreen.HomeTab.IsEnabled = true;
+                        Instance.StartScreen.SceneSelectTab.IsEnabled = true;
+
+                        if (Instance.StartScreen.ClassicHomeTab.IsSelected) Instance.StartScreen.HomeTab.IsSelected = true;
+                    }
+
                     if (Instance.StartScreen.SelectScreen != null) Instance.StartScreen.SelectScreen.UpdateRecentsTree();
+                    Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
+                    Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
+
                     Instance.EditorTabControl.SelectedIndex = 1;
                     Instance.MainPageTab.Visibility = Visibility.Collapsed;
                     Instance.StartPageTab.Visibility = Visibility.Visible;
-                    Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
-                    Classes.Prefrences.RecentsRefrenceState.RefreshRecentScenes();
-                    Classes.Prefrences.RecentsRefrenceState.RefreshDataSources();
+
                 }
                 else
                 {
@@ -218,11 +236,11 @@ namespace ManiacEditor.Methods.Internal
                     Instance.EditorTabControl.SelectedIndex = 0;
                     Instance.MainPageTab.Visibility = Visibility.Visible;
                     Instance.StartPageTab.Visibility = Visibility.Collapsed;
-                    Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
                 }
 
-            }
+                Instance.ViewPanel.SplitContainer.UpdateToolbars(false, false);
 
+            }
             public static void UpdateCameraUnlockControls()
             {
                 if (Methods.Solution.SolutionState.Main.UnlockCamera)

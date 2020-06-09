@@ -450,14 +450,10 @@ namespace ManiacEditor.Controls.Editor
         public void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
             vScrollBar1.Refresh();
-            //if (!DevicePanel.isRendering && !GraphicPanel.mouseMoved) GraphicPanel.Render();
-            //TODO - Determine if we Rather Responsive Over Smooth Transitions
         }
         public void HScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
             hScrollBar1.Refresh();
-            //if (!DevicePanel.isRendering && !GraphicPanel.mouseMoved) GraphicPanel.Render();
-            //TODO - Determine if we Rather Responsive Over Smooth Transitions
         }
         public void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
         {
@@ -561,7 +557,8 @@ namespace ManiacEditor.Controls.Editor
 
             bool AboveAllMode = Methods.Solution.SolutionState.Main.EntitiesVisibileAboveAllLayers;
 
-            Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
+            //Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
+            //Instance.ViewPanel.InfoHUD.UpdateHUDInfo();
 
             if (Instance.EntitiesToolbar?.NeedRefresh ?? false) Instance.EntitiesToolbar.PropertiesRefresh();
             if (Methods.Solution.CurrentSolution.CurrentScene != null)

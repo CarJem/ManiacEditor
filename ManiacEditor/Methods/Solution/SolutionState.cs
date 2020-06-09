@@ -1500,7 +1500,6 @@ namespace ManiacEditor.Methods.Solution
 
             #region To-Improve Implementation Variables
             public bool AddStageConfigEntriesAllowed { get; set; } = true; //Self Explanatory
-            public bool isImportingObjects { get; set; } = false; //Determines if we are importing objects so we can disable all the other Scene Select Options
             public bool EncorePaletteExists { get; set; } = false; // Determines if an Encore Pallete Exists
 
             #endregion
@@ -1521,30 +1520,6 @@ namespace ManiacEditor.Methods.Solution
             #region Unoptimized Misc Stuff
             public int EncoreSetupType { get; set; } //Used to determine what kind of encore setup the stage uses
             public string ObjectFilter { get; set; } = ""; //Used to hide objects that don't match the discription
-            public string LevelSelectCharS { get; set; } = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*+,-./: \'\"";
-            public string MenuCharS { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!.";
-            public string MenuCharS_Small { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ?.:'\"!-,&¡<>¿"; //49 out of 121
-            public char[] MenuChar
-            {
-                get
-                {
-                    return MenuCharS.ToCharArray();
-                }
-            }
-            public char[] LevelSelectChar
-            {
-                get
-                {
-                    return LevelSelectCharS.ToCharArray();
-                }
-            }
-            public char[] MenuChar_Small
-            {
-                get
-                {
-                    return MenuCharS_Small.ToCharArray();
-                }
-            }
             #endregion
 
             #endregion

@@ -1054,9 +1054,9 @@ namespace ManiacEditor.Methods.Internal
             EndRepeat();
 
             // Tiles Toolbar Flip Horizontal
-            if ((e.KeyCode == Keys.M) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, false);
+            if (!e.Shift && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, false);
             // Tiles Toolbar Flip Vertical
-            else if ((e.KeyCode == Keys.F) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(1, false);
+            if (!e.Control && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(1, false);
         }
         public static void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -1070,9 +1070,9 @@ namespace ManiacEditor.Methods.Internal
             // Switch Scroll Lock Type
             else if (e.Control && e.KeyCode == Keys.F3) Methods.Solution.SolutionActions.SetScrollLockDirection();
             // Tiles Toolbar Flip Vertical
-            else if ((e.KeyCode == Keys.ShiftKey) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(1, true);
+            else if (e.Shift && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(1, true);
             // Tiles Toolbar Flip Horizontal
-            else if ((e.KeyCode == Keys.ControlKey) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, true);
+            else if (e.Control && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, true);
             // Open Scene Select
             else if (e.Control && e.Alt && e.KeyCode == Keys.O) ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneSelect();
             // Open Scene

@@ -1,7 +1,12 @@
 ﻿using IWshRuntimeLibrary;
 using ManiacEditor.Actions;
-using ManiacEditor.Entity_Renders;
 using ManiacEditor.Controls;
+using ManiacEditor.Controls.Editor;
+using ManiacEditor.Controls.Global;
+using ManiacEditor.Entity_Renders;
+using ManiacEditor.Enums;
+using ManiacEditor.Events;
+using ManiacEditor.Extensions;
 using Microsoft.Win32;
 using RSDKv5;
 using SharpDX.Direct3D9;
@@ -18,6 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
 using Clipboard = System.Windows.Clipboard;
@@ -29,12 +35,6 @@ using MenuItem = System.Windows.Controls.MenuItem;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
-using ManiacEditor.Controls.Global;
-using ManiacEditor.Enums;
-using ManiacEditor.Events;
-using ManiacEditor.Extensions;
-using System.Windows.Forms.Integration;
-using ManiacEditor.Controls.Editor;
 
 
 namespace ManiacEditor.Controls.Editor
@@ -125,7 +125,7 @@ namespace ManiacEditor.Controls.Editor
             StartScreen.UpdateInstance(this);
 
             Methods.Internal.UserInterface.UpdateControls();
-            Methods.Internal.UserInterface.Misc.UpdateStartScreen(true, true);
+            Methods.Internal.UserInterface.Misc.UpdateStartScreen(true);
 
             EditorStatusBar.UpdateFilterButtonApperance();
             Methods.Solution.SolutionState.Main.RefreshCollisionColours();
@@ -231,7 +231,7 @@ namespace ManiacEditor.Controls.Editor
         {
             Focus();
             ViewPanel.SharpPanel.GraphicPanel.Show();
-            ViewPanel.SharpPanel.GraphicPanel.Run();
+            ViewPanel.SharpPanel.Dispatcher.BeginInvoke(new Action(() => ViewPanel.SharpPanel.GraphicPanel.Run()));
         }
         private void Editor_Resize(object sender, SizeChangedEventArgs e)
         {

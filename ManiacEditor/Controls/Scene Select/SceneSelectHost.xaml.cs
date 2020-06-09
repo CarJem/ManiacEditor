@@ -72,7 +72,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 SceneState.ExtraDataDirectories.Add(value);
             }
         }
-
+        public bool CanLoadScene { get; private set; } = true;
         public string GetComboBoxItemString(object item)
         {
             return (item as ComboBoxItem).Content.ToString();
@@ -96,9 +96,12 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region Init
-        public SceneSelectHost(GameConfig _Config = null, Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null)
+        public SceneSelectHost(GameConfig _Config = null, Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null, bool IsSceneLoad = true)
         {
             InitializeComponent();
+
+            CanLoadScene = IsSceneLoad;
+
             Instance = _Instance;
             InitilizeBase();
             InitilizeHost(_Config, _Window);
@@ -134,13 +137,11 @@ namespace ManiacEditor.Controls.SceneSelect
             ScenesTree.Show();
             RecentsTree.Show();
         }
-
         private void InitilizeBase()
         {
             RemoveNullEntries();
             SetupWinFormControls();
         }
-
         private void InitilizeHost(GameConfig _Config, SceneSelectWindow _Window = null)
         {
             WithinAParentForm = (Window != null);
@@ -165,7 +166,6 @@ namespace ManiacEditor.Controls.SceneSelect
             }
 
         }
-
         private void InitilizeEvents()
         {
             MasterDataDirectorySelectorComboBox.SelectionChanged += MasterDataDirectorySelectorComboBox_SelectionChanged;
@@ -867,7 +867,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void CloseHostEvent()
         {
-            if (!Methods.Solution.SolutionState.Main.isImportingObjects)
+            if (CanLoadScene)
             {
                 ManiacEditor.Methods.Solution.SolutionLoader.OpenSceneUsingSceneSelect(this);
             }
@@ -880,7 +880,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void SelectButtonEvent(object sender, RoutedEventArgs e)
         {
-            Methods.Solution.CurrentSolution.LevelID = SceneState.LevelID;
+            if (CanLoadScene) Methods.Solution.CurrentSolution.LevelID = SceneState.LevelID;
             if (!isFilesView.IsChecked.Value)
             {
                 SceneState.FilePath = ScenesTree.SelectedNode.Tag as string;
@@ -952,7 +952,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void UniversalLoadMethod()
         {
-            if (Methods.Solution.SolutionState.Main.isImportingObjects == true)
+            if (!CanLoadScene)
             {
                 MessageBox.Show("You can't do that while importing objects!");
             }
@@ -991,7 +991,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void AddANewDataDirectory()
         {
-            if (Methods.Solution.SolutionState.Main.isImportingObjects == false)
+            if (CanLoadScene)
             {
                 string newDataDirectory = ManiacEditor.Methods.Solution.SolutionPaths.SelectDataDirectory();
                 string returnDataDirectory;

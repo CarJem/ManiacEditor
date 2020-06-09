@@ -38,8 +38,8 @@ namespace ManiacEditor
 
 		public void Load()
         {
-			var UI = new ManiacEditor.Controls.Editor.MainEditor();
-            UI.Show();
+			MainWindow = new ManiacEditor.Controls.Editor.MainEditor();
+            MainWindow.ShowDialog();
         }
 	}
 }

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ManiacEditor.Controls.Options;
+using ManiacEditor.Methods.Entities;
 
 namespace ManiacEditor.Controls.Object_Manager
 {
@@ -16,120 +17,52 @@ namespace ManiacEditor.Controls.Object_Manager
     /// </summary>
     public partial class ObjectImporter : Window
     {
-        private IList<SceneObject> _sourceSceneObjects;
-        private IList<SceneObject> _targetSceneObjects;
-        private StageConfig _stageConfig;
-        public Controls.Editor.MainEditor EditorInstance;
-        public IList<CheckBox> lvObjects = new List<CheckBox>();
+        #region Variables
+        private IList<SceneObject> SourceObjects;
+        private StageConfig TargetStageConfig;
+        private IList<SceneObject> TargetObjects;
 
-        public ObjectImporter(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
+        private IList<CheckBox> ListEntries = new List<CheckBox>();
+        private Controls.Editor.MainEditor Instance;
+        #endregion
+
+        #region Init
+        public ObjectImporter(IList<SceneObject> _SourceObjects, IList<SceneObject> _TargetObjects, StageConfig _TargetStageConfig, Controls.Editor.MainEditor Instance)
         {
             InitializeComponent();
-            EditorInstance = instance;
-            SetupWindow();
+            SetupWindow(Instance);
 
-            GenerateNormalList(sourceSceneObjects, targetSceneObjects, stageConfig);
+            SourceObjects = _SourceObjects;
+            TargetObjects = _TargetObjects;
+            TargetStageConfig = _TargetStageConfig;
+
+            GenerateNormalList();
         }
-
-        public void SetupWindow()
-        {
-            if (Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed) checkBox1.IsChecked = true;
-            //if (Methods.Internal.Theming.UseExtendedColors) SetRTFText(ManiacEditor.Properties.Resources.ObjectWarningDarkTheme);
-            //else SetRTFText(ManiacEditor.Properties.Resources.ObjectWarning);
-        }
-
-        public ObjectImporter(string dataFolderBase, GameConfig SourceConfig, IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
+        public ObjectImporter(string DataFolder, GameConfig SourceConfig, IList<SceneObject> _TargetObjects, StageConfig _TargetStageConfig, Controls.Editor.MainEditor Instance)
         {
             InitializeComponent();
-            EditorInstance = instance;
-            SetupWindow();
+            SetupWindow(Instance);
 
-            _targetSceneObjects = targetSceneObjects;
-            _stageConfig = stageConfig;
+            TargetObjects = _TargetObjects;
+            TargetStageConfig = _TargetStageConfig;
 
-            GenerateMegaList(dataFolderBase, SourceConfig, targetSceneObjects);
+            GenerateMegaList(DataFolder, SourceConfig);
 
         }
-
-        public class ImportableZoneObject
+        public void SetupWindow(Controls.Editor.MainEditor instance)
         {
-
-            public List<SceneObject> Objects = new List<SceneObject>();
-            public string Zone = "";
-
-            public ImportableZoneObject(string zone)
-            {
-                Zone = zone;
-            }
-
-            public ImportableZoneObject(string zone, List<SceneObject> objects)
-            {
-                Zone = zone;
-                Objects = objects;
-            }
+            Instance = instance;
+            if (Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed) AddToStageConfigCheckbox.IsChecked = true;
         }
 
-        public void GenerateMegaList(string dataFolderBase, GameConfig SourceConfig, IList<SceneObject> targetSceneObjects)
+        #endregion
+
+        #region List Generation
+        public void GenerateMegaList(string DataFolder, GameConfig SourceConfig)
         {
-            var targetNames = targetSceneObjects.Select(tso => tso.Name.ToString());
-            _sourceSceneObjects = new List<SceneObject>();
+            MultiZoneObjectSearchPair MegaList = Methods.Entities.ObjectCollection.GetObjectsFromDataFolder(DataFolder, SourceConfig, TargetObjects);
 
-            List<ImportableZoneObject> MegaList = new List<ImportableZoneObject>();
-            List<SceneObject> GlobalObjects = new List<SceneObject>();
-
-            foreach (var category in SourceConfig.Categories)
-            {
-                foreach (var scene in category.Scenes)
-                {
-                    string sceneLocation = scene.GetFilePath(dataFolderBase);
-                    if (File.Exists(sceneLocation))
-                    {
-                        Scene sourceScene = new Scene(sceneLocation);
-                        foreach (var sceneObj in sourceScene.Objects.Distinct())
-                        {
-                            if (!MegaList.Exists(x => x.Zone == scene.Zone))
-                            {
-                                ImportableZoneObject newZone = new ImportableZoneObject(scene.Zone);
-                                MegaList.Add(newZone);
-                            }
-                            var zoneEntry = MegaList.Where(x => x.Zone == scene.Zone).First();
-                            if (!zoneEntry.Objects.Exists(x => x.Name.Name == sceneObj.Name.Name))
-                            {
-                                if (!SourceConfig.ObjectsNames.Contains(sceneObj.Name.Name))
-                                {
-                                    zoneEntry.Objects.Add(sceneObj);
-                                    if (!_sourceSceneObjects.Contains(sceneObj)) _sourceSceneObjects.Add(sceneObj);
-                                }
-                                else
-                                {
-                                    if (!GlobalObjects.Exists(x => x.Name.Name == sceneObj.Name.Name))
-                                    {
-                                        GlobalObjects.Add(sceneObj);
-                                    }
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            MegaList.ForEach(x => x.Objects = x.Objects.Where(sso => !GlobalObjects.Contains(sso)).ToList());
-            MegaList.Insert(0, new ImportableZoneObject("Global", GlobalObjects));
-
-            foreach (var item in GlobalObjects)
-            {
-                _sourceSceneObjects.Insert(0, item);
-            }
-
-
-            if (Properties.Settings.MySettings.RemoveObjectImportLock == false)
-            {
-                MegaList.ForEach(x => x.Objects = x.Objects.Where(sso => !targetNames.Contains(sso.Name.Name)).ToList());
-            }
-
-            foreach (var Entry in MegaList)
+            foreach (var Entry in MegaList.SourceObjects)
             {
                 if (Entry.Objects.Count != 0)
                 {
@@ -147,7 +80,7 @@ namespace ManiacEditor.Controls.Object_Manager
                     zoneCheck.Checked += ZoneCheck_Checked;
                     zoneCheck.Unchecked += ZoneCheck_Checked;
 
-                    lvObjects.Add(zoneCheck);
+                    ListEntries.Add(zoneCheck);
 
                     foreach (var obj in Entry.Objects)
                     {
@@ -162,39 +95,20 @@ namespace ManiacEditor.Controls.Object_Manager
                             Margin = new Thickness(20, 0, 0, 0)
                         };
 
-                        if (targetNames.Contains(obj.Name.ToString())) objCheck.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                        if (MegaList.TargetNames.Contains(obj.Name.ToString())) objCheck.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Red);
 
-                        lvObjects.Add(objCheck);
+                        ListEntries.Add(objCheck);
                     }
                 }
             }
-            foreach (var item in lvObjects)
-            {
-                lvObjectsView.Children.Add(item);
-            }
+            foreach (var item in ListEntries) ImportObjectList.Children.Add(item);
 
         }
-
-        public void GenerateNormalList(IList<SceneObject> sourceSceneObjects, IList<SceneObject> targetSceneObjects, StageConfig stageConfig)
+        public void GenerateNormalList()
         {
-            _sourceSceneObjects = sourceSceneObjects;
-            _targetSceneObjects = targetSceneObjects;
-            _stageConfig = stageConfig;
+            ObjectSearchPair ImportList = Methods.Entities.ObjectCollection.GetObjectsFromScene(SourceObjects, TargetObjects);
 
-            var targetNames = targetSceneObjects.Select(tso => tso.Name.ToString());
-            var importableObjects = sourceSceneObjects.Where(sso => !targetNames.Contains(sso.Name.ToString()))
-                                                        .OrderBy(sso => sso.Name.ToString());
-            if (Properties.Settings.MySettings.RemoveObjectImportLock == true)
-            {
-                importableObjects = _sourceSceneObjects.OrderBy(sso => sso.Name.ToString());
-            }
-            else
-            {
-                importableObjects = sourceSceneObjects.Where(sso => !targetNames.Contains(sso.Name.ToString()))
-                                        .OrderBy(sso => sso.Name.ToString());
-            }
-
-            foreach (var io in importableObjects)
+            foreach (var io in ImportList.SourceObjects)
             {
                 var lvi = new CheckBox()
                 {
@@ -203,16 +117,65 @@ namespace ManiacEditor.Controls.Object_Manager
                     FontSize = 8.5
                 };
 
-                if (targetNames.Contains(io.Name.ToString())) lvi.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                if (ImportList.TargetNames.Contains(io.Name.ToString())) lvi.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Red);
 
-                lvObjects.Add(lvi);
+                ListEntries.Add(lvi);
             }
-            foreach (var item in lvObjects)
+            foreach (var item in ListEntries) ImportObjectList.Children.Add(item);
+        }
+        #endregion
+
+        #region Methods
+
+        private void ImportSelected()
+        {
+            try
             {
-                lvObjectsView.Children.Add(item);
+                var CheckedItems = ListEntries.Where(item => item.IsChecked.Value == true).ToList().Count;
+                IList<CheckBox> lvObjects_CheckedItems = ListEntries.Where(item => item.IsChecked.Value == true).ToList();
+
+                foreach (var lvci in lvObjects_CheckedItems)
+                {
+                    var item = lvci as CheckBox;
+                    if (!(item.Content is SettingsHeader))
+                    {
+                        SceneObject objectToImport = SourceObjects.Where(sso => sso.Name.ToString().Equals(item.Content.ToString())).FirstOrDefault();
+                        if (objectToImport != null)
+                        {
+                            objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
+                            TargetObjects.Add(objectToImport);
+
+                            if (Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed)
+                            {
+                                if (TargetStageConfig != null && !TargetStageConfig.ObjectsNames.Contains(item.Content.ToString()))
+                                {
+                                    TargetStageConfig.ObjectsNames.Add(item.Content.ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                DialogResult = true;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
+                DialogResult = false;
+                Close();
             }
         }
+        private void CancelImport()
+        {
+            DialogResult = false;
+            Close();
+        }
 
+        #endregion
+
+        #region Events
         private void ZoneCheck_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox item = sender as CheckBox;
@@ -220,7 +183,7 @@ namespace ManiacEditor.Controls.Object_Manager
             {
                 bool Collapsed = (item.IsChecked.Value ? false : true);
                 string Zone = item.Tag.ToString();
-                foreach (var listItem in lvObjects)
+                foreach (var listItem in ListEntries)
                 {
                     if (listItem != sender && listItem.Tag.ToString() == Zone)
                     {
@@ -230,75 +193,20 @@ namespace ManiacEditor.Controls.Object_Manager
                 }
             }
         }
-
-        public void SetRTFText(string text)
+		private void CancelButton_Clicked(object sender, RoutedEventArgs e)
 		{
-			MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(text));
-			this.rtbWarning.Selection.Load(stream, DataFormats.Rtf);
-		}
-
-		private void btnCancel_Click(object sender, RoutedEventArgs e)
+            CancelImport();
+        }
+		private void ImportButton_Clicked(object sender, RoutedEventArgs e)
 		{
-			DialogResult = false;
-			Close();
-
-		}
-
-		private void btnImport_Click(object sender, RoutedEventArgs e)
+            ImportSelected();
+        }
+		private void AddToStageConfigCheckbox_CheckChanged(object sender, RoutedEventArgs e)
 		{
-
-			try
-			{
-				var CheckedItems = lvObjects.Where(item => item.IsChecked.Value == true).ToList().Count;
-				IList<CheckBox> lvObjects_CheckedItems = lvObjects.Where(item => item.IsChecked.Value == true).ToList();
-
-				foreach (var lvci in lvObjects_CheckedItems)
-				{
-					var item = lvci as CheckBox;
-                    if (!(item.Content is SettingsHeader))
-                    {
-                        SceneObject objectToImport = _sourceSceneObjects.Where(sso => sso.Name.ToString().Equals(item.Content.ToString())).FirstOrDefault();
-                        if (objectToImport != null)
-                        {
-                            objectToImport.Entities.Clear(); // ditch instances of the object from the imported level
-                            _targetSceneObjects.Add(objectToImport);
-
-                            if (Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed)
-                            {
-                                if (_stageConfig != null && !_stageConfig.ObjectsNames.Contains(item.Content.ToString()))
-                                {
-                                    _stageConfig.ObjectsNames.Add(item.Content.ToString());
-                                }
-                            }
-                        }
-                    }
-				}
-
-				
-				DialogResult = true;
-				Close();
-			}
-			catch (Exception ex)
-			{
-                System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
-				DialogResult = false;
-				Close();
-			}
-
-
-		}
-
-		private void checkBox1_CheckedChanged(object sender, RoutedEventArgs e)
-		{
-			if (checkBox1.IsChecked.Value)
-			{
-				Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed = true;
-			}
-			else
-			{
-				Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed = false;
-			}
-		}
-	}
+			if (AddToStageConfigCheckbox.IsChecked.Value) Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed = true;
+            else Methods.Solution.SolutionState.Main.AddStageConfigEntriesAllowed = false;
+        }
+        #endregion
+    }
 
 }

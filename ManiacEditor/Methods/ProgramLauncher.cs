@@ -485,9 +485,8 @@ namespace ManiacEditor.Methods
         #region Scene Tools
 
         #region Scene Tab Buttons
-        public static void ImportObjectsToolStripMenuItem_Click(Window window = null)
+        public static void ImportObjectsFromScene(Window window = null)
         {
-            Methods.Solution.SolutionState.Main.isImportingObjects = true;
             try
             {
                 RSDKv5.Scene sourceScene = GetSceneForObjectImporting(window);
@@ -509,35 +508,9 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Methods.Solution.SolutionState.Main.isImportingObjects = false;
         }
-
-        public static Scene GetSceneForObjectImporting(Window window = null)
-        {
-            string selectedScene;
-
-            ManiacEditor.Controls.SceneSelect.SceneSelectWindow select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Methods.Solution.CurrentSolution.GameConfig, Editor);
-            select.Owner = Window.GetWindow(window);
-            select.ShowDialog();
-            if (select.SceneSelect.SceneState.FilePath == null)
-                return null;
-            selectedScene = select.SceneSelect.SceneState.FilePath;
-
-            if (!File.Exists(selectedScene))
-            {
-                string[] splitted = selectedScene.Split('\\');
-
-                string part1 = splitted[0];
-                string part2 = splitted[1];
-
-                selectedScene = Path.Combine(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Stages", part1, part2);
-            }
-            return new Scene(selectedScene);
-        }
-
         public static void ImportObjectsWithMegaList(Window window = null)
         {
-            Methods.Solution.SolutionState.Main.isImportingObjects = true;
             try
             {
                 GenerationsLib.Core.FolderSelectDialog ofd = new GenerationsLib.Core.FolderSelectDialog();
@@ -568,10 +541,84 @@ namespace ManiacEditor.Methods
             {
                 System.Windows.MessageBox.Show("Unable to import Objects. " + ex.Message);
             }
-            Methods.Solution.SolutionState.Main.isImportingObjects = false;
         }
+        public static void ExportObjectsFromScene(Window window = null)
+        {
+            try
+            {
+                RSDKv5.Scene sourceScene = GetSceneForObjectImporting(window);
+                if (sourceScene == null) return;
 
-        public static void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+                SaveFileDialog saveFileDialog = new SaveFileDialog()
+                {
+                    Filter = "Exported TXT | *.txt",
+                    Title = "Save Exported Results As..."
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Methods.Entities.ObjectCollection.ExportObjectsFromSceneToFile(saveFileDialog.FileName, sourceScene.Objects, Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Unable to export Objects. " + ex.Message);
+            }
+        }
+        public static void ExportObjectsWithMegaList(Window window = null)
+        {
+            try
+            {
+                GenerationsLib.Core.FolderSelectDialog ofd = new GenerationsLib.Core.FolderSelectDialog();
+                ofd.Title = "Select a clean Data Folder";
+                if (ofd.ShowDialog() == true)
+                {
+                    string gameConfigPath = System.IO.Path.Combine(ofd.FileName, "Game", "GameConfig.bin");
+                    if (File.Exists(gameConfigPath))
+                    {
+                        GameConfig SourceConfig = new GameConfig(gameConfigPath);
+                        SaveFileDialog saveFileDialog = new SaveFileDialog()
+                        {
+                            Filter = "Exported TXT | *.txt",
+                            Title = "Save Exported Results As..."
+                        };
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            Methods.Entities.ObjectCollection.ExportObjectsFromDataFolderToFile(saveFileDialog.FileName, ofd.FileName, SourceConfig, Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects);
+                        }
+
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Unable to export Objects. " + ex.Message);
+            }
+        }
+        public static Scene GetSceneForObjectImporting(Window window = null)
+        {
+            string selectedScene;
+
+            ManiacEditor.Controls.SceneSelect.SceneSelectWindow select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Methods.Solution.CurrentSolution.GameConfig, Editor, false, false);
+            select.Owner = Window.GetWindow(window);
+            select.ShowDialog();
+            if (select.SceneSelect.SceneState.FilePath == null)
+                return null;
+            selectedScene = select.SceneSelect.SceneState.FilePath;
+
+            if (!File.Exists(selectedScene))
+            {
+                string[] splitted = selectedScene.Split('\\');
+
+                string part1 = splitted[0];
+                string part2 = splitted[1];
+
+                selectedScene = Path.Combine(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Stages", part1, part2);
+            }
+            return new Scene(selectedScene);
+        }
+        public static void ImportSounds(object sender, RoutedEventArgs e)
         {
             ImportSounds(Window.GetWindow(Editor));
         }
@@ -617,7 +664,6 @@ namespace ManiacEditor.Methods
                 System.Windows.MessageBox.Show("Unable to import sounds. " + ex.Message);
             }
         }
-
         public static void ManiacINIEditor(object sender, RoutedEventArgs e)
         {
             ManiacINIEditor editor = new ManiacINIEditor(Editor);
@@ -633,7 +679,6 @@ namespace ManiacEditor.Methods
 
             Methods.Internal.UserInterface.UpdateControls();
         }
-
         public static void LayerManager(object sender, RoutedEventArgs e)
         {
             Methods.Solution.SolutionActions.Deselect(true);
@@ -647,14 +692,12 @@ namespace ManiacEditor.Methods
             Editor.ViewPanel.SharpPanel.ResetZoomLevel();
             Methods.Internal.UserInterface.UpdateControls();
         }
-
         public static void ExportGUI(object sender, RoutedEventArgs e)
         {
             var eG = new Controls.Toolbox.ExportAsImageGUI(Methods.Solution.CurrentSolution.CurrentScene);
             eG.Owner = Window.GetWindow(Editor);
             eG.ShowDialog();
         }
-
         public static void ObjectManager()
         {
             var objectManager = new ObjectManager(Methods.Solution.CurrentSolution.Entities.SceneObjects, Methods.Solution.CurrentSolution.StageConfig, Editor);

@@ -419,7 +419,7 @@ namespace ManiacEditor.Controls.Editor
 
         public void ImportSoundsEvent(object sender, RoutedEventArgs e) 
         { 
-            Methods.ProgramLauncher.ImportSoundsToolStripMenuItem_Click(sender, e); 
+            Methods.ProgramLauncher.ImportSounds(sender, e); 
         }
 
         private void ManiacINIEditorEvent(object sender, RoutedEventArgs e) 

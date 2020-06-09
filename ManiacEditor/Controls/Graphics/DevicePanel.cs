@@ -505,6 +505,36 @@ namespace ManiacEditor
 
         }
 
+        public void DrawQuad(int x, int y, int width, int height, Color color, Color color2, int thickness)
+        {
+
+            //var zoom = GetZoom();
+            var zoom = 1f;
+
+            int real_x = (int)(x * zoom);
+            int real_y = (int)(y * zoom);
+            int real_width = (int)(width * zoom);
+            int real_height = (int)(height * zoom);
+
+            SFML.System.Vector2f position = new SFML.System.Vector2f(x, y);
+            SFML.System.Vector2f size = new SFML.System.Vector2f(width, height);
+
+            float offset_x = 0;
+            float offset_y = 0;
+
+            SFML.Graphics.ConvexShape rect = new SFML.Graphics.ConvexShape(4);
+            rect.OutlineThickness = thickness;
+            rect.OutlineColor = new SFML.Graphics.Color(color2.R, color2.G, color2.B, color2.A);
+            rect.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
+            rect.Position = position;
+            rect.SetPoint(0, new SFML.System.Vector2f(offset_x, offset_y));
+            rect.SetPoint(1, new SFML.System.Vector2f(offset_x + size.X, offset_y));
+            rect.SetPoint(2, new SFML.System.Vector2f(offset_x + size.X - size.Y, offset_y + size.Y));
+            rect.SetPoint(3, new SFML.System.Vector2f(offset_x - size.Y, offset_y + size.Y));
+            RenderWindow.Draw(rect);
+
+        }
+
         public void DrawEllipse(int x1, int y1, int radiusX, int radiusY, Color color, float thickness = 1)
         {
             //var zoom = GetZoom();
