@@ -18,15 +18,10 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
 
             int length = (int)e.attributesMap["length"].ValueEnum;
-            int i = 0;
 
             var Animation = LoadAnimation("HangPoint", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + length, Transparency, fliph, flipv);
 
-
-            
-
-            int lengthMemory = length;
             int repeat = 0;
             int lengthLeft = length;
             bool finalLoop = false;
@@ -36,11 +31,7 @@ namespace ManiacEditor.Entity_Renders
                 lengthLeft = lengthLeft - 256;
             }
 
-            Animation = LoadAnimation("HangPoint", d, 0, 1);
-            DrawTexturePivotLengthLimit(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - (i * 256), Transparency, lengthMemory);
-
-
-            for (i = 1; i < repeat + 1; i++)
+            for (int i = 0; i < repeat + 1; i++)
             {
                 if (i == repeat) finalLoop = true;
                 int offset_y = y + (i * 256);

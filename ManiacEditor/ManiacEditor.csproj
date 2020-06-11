@@ -277,6 +277,7 @@
     <Compile Include="Controls\Dialog\AsyncWaitingBox.xaml.cs">
       <DependentUpon>AsyncWaitingBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Platforms\TilePlatform.cs" />
     <Compile Include="Entity Renders\Normal Renders\UI\UIInfoLabel.cs" />
     <Compile Include="Methods\Entities\ImportableZoneObject.cs" />
     <Compile Include="Methods\Entities\ObjectCollection.cs" />
@@ -1796,10 +1797,6 @@
       <Name>ManiacED-ManiaPal</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Retro-Engine-Animation-Editor\AnimationEditor\AnimationEditor.csproj">
-      <Project>{36174cf4-c09e-4e5f-9445-4dfe1072667b}</Project>
-      <Name>AnimationEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Retro-Engine-Animation-Editor\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj">
       <Project>{02c46a71-d578-4aad-b7f2-dbfe550bbb57}</Project>

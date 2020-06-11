@@ -203,7 +203,7 @@ namespace ManiacEditor.Methods
                 Process.Start(psi);
             }
             */
-            AnimationEditor.Program.MainMethod();
+            //AnimationEditor.Program.MainMethod();
         }
         public static void ManiaPal(object sender, RoutedEventArgs e)
         {

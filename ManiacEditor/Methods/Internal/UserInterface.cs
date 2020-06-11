@@ -42,6 +42,7 @@ namespace ManiacEditor.Methods.Internal
         #region Main UI Refresh
         public static void UpdateControls()
         {
+            Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Controls...");
             RefreshInProgress = true;
             if (Instance != null)
             {
@@ -63,27 +64,32 @@ namespace ManiacEditor.Methods.Internal
                 switch (updateType)
                 {
                     case UpdateType.MouseMoved:
+                        Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating MouseMoved Controls...");
                         Instance.EditorStatusBar.UpdateStatusPanel();
                         break;
                     case UpdateType.MouseClick:
+                        Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating MouseClick Controls...");
                         SetSceneOnlyButtonsState(isSceneLoaded);
                         SetEditButtonsState(isSceneLoaded);
                         SetSelectOnlyButtonsState(isSceneLoaded);
                         UpdateStatusState(isSceneLoaded);
                         break;
                     case UpdateType.MouseHeld:
+                        Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating MouseHeld Controls...");
                         SetSceneOnlyButtonsState(isSceneLoaded);
                         SetEditButtonsState(isSceneLoaded);
                         SetSelectOnlyButtonsState(isSceneLoaded);
                         UpdateStatusState(isSceneLoaded);
                         break;
                     case UpdateType.UndoRedoButtons:
+                        Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating UndoRedo Controls...");
                         Tooltips.UpdateTooltips();
                         Instance.MenuBar.UpdateUndoRedoButtons(isSceneLoaded);
                         Instance.EditorToolbar.UpdateUndoRedoButtons(isSceneLoaded);
                         Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                         break;
                     default:
+                        Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Failsafe Updating Controls...");
                         UpdateControls();
                         break;
                 }
@@ -112,22 +118,26 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void SetSelectOnlyButtonsState(bool enabled = true)
         {
+            Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Select Only Buttons...");
             bool isSelected = ManiacEditor.Methods.Solution.SolutionState.Main.IsSelected();
             Instance.MenuBar.SetPasteButtonsState(enabled);
             Instance.MenuBar.SetSelectOnlyButtonsState(enabled && isSelected);
         }
         private static void SetEditButtonsState(bool enabled)
         {
+            Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Edit Buttons...");
             Instance.EditorToolbar.SetEditButtonsState(enabled);
             Instance.MenuBar.SetEditButtonsState(enabled);
         }
         public static void UpdateStatusState(bool enabled)
         {
+            Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Status...");
             Instance.EditorStatusBar.UpdateStatusPanel();
             Instance.EditorToolbar.CustomGridSizeLabel.Text = string.Format(Instance.EditorToolbar.CustomGridSizeLabel.Tag.ToString(), Properties.Settings.MyDefaults.CustomGridSizeValue);
         }
         public static void UpdateStylesState(bool enabled)
         {
+            Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Styles...");
             Methods.Internal.Theming.UpdateThemeForItemsWaiting();
             Instance.EditorStatusBar.UpdateFilterButtonApperance();
             Methods.Internal.Theming.UpdateButtonColors();
@@ -594,16 +604,14 @@ namespace ManiacEditor.Methods.Internal
             #endregion
 
             public static void ValidateEditorToolbars()
-            {
-                UpdateEditorToolbars();
-                /*
-                bool missingToolbar1 = ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Instance.TilesToolbar == null;
-                bool missingToolbar2 = ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar == null;
-                bool misplacedToolbar1 = !ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Instance.TilesToolbar != null;
-                bool misplacedToolbar2 = !ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar != null;
+            {            
+                bool missingToolbar1 = ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && !Instance.ViewPanel.ToolBarPanelRight.Children.Contains(Instance.TilesToolbar);
+                bool missingToolbar2 = ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && !Instance.ViewPanel.ToolBarPanelRight.Children.Contains(Instance.EntitiesToolbar);
+                bool misplacedToolbar1 = !ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Instance.ViewPanel.ToolBarPanelRight.Children.Contains(Instance.TilesToolbar);
+                bool misplacedToolbar2 = !ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.ViewPanel.ToolBarPanelRight.Children.Contains(Instance.EntitiesToolbar);
 
                 if (missingToolbar1 || missingToolbar2 || misplacedToolbar1 || misplacedToolbar2) UpdateEditorToolbars();
-                */
+                
             }
 
             public static void UpdateEditorToolbars()

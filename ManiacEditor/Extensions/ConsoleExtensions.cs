@@ -121,9 +121,9 @@ namespace ManiacEditor.Extensions
 			ManiacConsole = null;
 		}
 
-		public static void PrintManiacOutput(string value)
+		public static void PrintManiacOutput(string value, bool ShowTimeStamp = true)
 		{
-			ManiacConsoleContext.ConsoleInput = value;
+			ManiacConsoleContext.ConsoleInput = (ShowTimeStamp ? string.Format("[{0}] {1}", DateTime.Now, value) : value);
 			ManiacConsoleContext.RunCommand();
 
 			if (ManiacConsole != null) ManiacConsole.Update();
@@ -142,7 +142,7 @@ namespace ManiacEditor.Extensions
 		{
 			if (UseDebugOutput) System.Diagnostics.Debug.Print(Environment.NewLine);
 			if (UseConsoleOutput) Console.WriteLine();
-			if (UseManiacConsole) PrintManiacOutput(Environment.NewLine);
+			if (UseManiacConsole) PrintManiacOutput(Environment.NewLine, false);
 		}
         public static void Print(float value)
 		{

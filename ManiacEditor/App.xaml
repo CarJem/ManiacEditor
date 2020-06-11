@@ -28,7 +28,6 @@
                     GammaSource="Controls/Assets/Themes/GammaTheme.xaml"
                     SparksSource="Controls/Assets/Themes/SparksTheme.xaml"/>
                 <ResourceDictionary Source="Controls/Assets/Icons.xaml"/>
-                <ResourceDictionary Source="/RSDKAnimEditor;Component/Pages/Resources/RSDK.AnimationEditor.Icons.xaml"/>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/IconLibrary.xaml"/>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="/GenerationsLib.WPF;Component/Styles/ItemContainerStyle.xaml"/>
