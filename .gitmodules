@@ -4,6 +4,3 @@
 [submodule "GenerationsLib"]
 	path = GenerationsLib
 	url = https://github.com/CarJem/GenerationsLib.git
-[submodule "Retro-Engine-Animation-Editor"]
-	path = Retro-Engine-Animation-Editor
-	url = https://github.com/Rubberduckycooly/Retro-Engine-Animation-Editor.git
