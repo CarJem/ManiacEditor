@@ -38,10 +38,6 @@ namespace ManiacEditor.Methods.Drawing
         public static List<EntityRenderer> EntityRenderers { get; set; } = new List<EntityRenderer>();
         public static List<LinkedRenderer> LinkedEntityRenderers { get; set; } = new List<LinkedRenderer>();
 
-        // Object List for initilizing the if statement
-        public static List<string> RendersWithErrors = new List<string>();
-        public static List<string> LinkedRendersWithErrors = new List<string>();
-
         public static Dictionary<string, EditorAnimation> AnimationCache = new Dictionary<string, EditorAnimation>();
 
         private static Controls.Editor.MainEditor Instance;
@@ -454,21 +450,32 @@ namespace ManiacEditor.Methods.Drawing
         }
         public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.EditorEntity e)
         {
-            int x = e.Position.X.High;
-            int y = e.Position.Y.High;
-            int Transparency = (Methods.Solution.CurrentSolution.EditLayerA == null) ? 0xff : 0x32;
-
-            Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, e, x, y, Transparency);
-
-            if (!RendersWithErrors.Contains(e.Object.Name.Name))
+            try
             {
-                if (e.CurrentRender == null)
+                int x = e.Position.X.High;
+                int y = e.Position.Y.High;
+                int Transparency = (Methods.Solution.CurrentSolution.EditLayerA == null) ? 0xff : 0x32;
+
+                Structures.EntityRenderProp properties = new Structures.EntityRenderProp(d, e, x, y, Transparency);
+
+                if (!e.DoesRenderHaveErrors)
                 {
-                    var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Object.Name.Name).FirstOrDefault();
-                    e.CurrentRender = RenderDrawing;
+                    if (e.CurrentRender == null)
+                    {
+                        var RenderDrawing = EntityRenderers.Where(t => t.GetObjectName() == e.Object.Name.Name).FirstOrDefault();
+                        e.CurrentRender = RenderDrawing;
+                    }
+                    if (e.CurrentRender != null) e.CurrentRender.Draw(properties);
                 }
-                if (e.CurrentRender != null) e.CurrentRender.Draw(properties);
             }
+            catch (Exception ex)
+            {
+                string note = "This object will no longer render until reloaded!";
+                string error = string.Format("Entity Rendering Error on Object {0}:{1}{2}{1}{3}{1}{1}{4})", e.Object.Name.Name, Environment.NewLine, ex.Message, ex.StackTrace, note);
+                MessageBox.Show(error);
+                e.DoesRenderHaveErrors = true;
+            }
+
 
 
         }
@@ -483,13 +490,27 @@ namespace ManiacEditor.Methods.Drawing
         }
         public static void DrawLinked(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
-            var structure = new Structures.LinkedEntityRenderProp(d, _entity);
-            if (_entity.CurrentLinkedRender == null)
+            try
             {
-                LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name.ToString()).FirstOrDefault();
-                _entity.CurrentLinkedRender = renderer;
+                if (!_entity.DoesLinkedRenderHaveErrors)
+                {
+                    var structure = new Structures.LinkedEntityRenderProp(d, _entity);
+                    if (_entity.CurrentLinkedRender == null)
+                    {
+                        LinkedRenderer renderer = LinkedEntityRenderers.Where(t => t.GetObjectName() == _entity.Object.Name.Name.ToString()).FirstOrDefault();
+                        _entity.CurrentLinkedRender = renderer;
+                    }
+                    if (_entity.CurrentLinkedRender != null) _entity.CurrentLinkedRender.Draw(structure);
+                }
             }
-            if (_entity.CurrentLinkedRender != null) _entity.CurrentLinkedRender.Draw(structure);
+            catch (Exception ex)
+            {
+                string note = "This object will no longer render it's linked render until reloaded!";
+                string error = string.Format("Linked Entity Rendering Error on Object {0}:{1}{2}{1}{3}{1}{1}{4})", _entity.Object.Name.Name, Environment.NewLine, ex.Message, ex.StackTrace, note);
+                MessageBox.Show(error);
+                _entity.DoesLinkedRenderHaveErrors = true;
+            }
+
         }
         public static void DrawInternal(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
@@ -641,6 +662,8 @@ namespace ManiacEditor.Methods.Drawing
             {
                 foreach (var entry in Methods.Solution.CurrentSolution.Entities.Entities)
                 {
+                    entry.DoesRenderHaveErrors = false;
+                    entry.DoesLinkedRenderHaveErrors = false;
                     entry.CurrentRender = null;
                     entry.CurrentLinkedRender = null;
                 }

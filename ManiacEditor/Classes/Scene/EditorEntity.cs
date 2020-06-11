@@ -29,6 +29,8 @@ namespace ManiacEditor.Classes.Scene
 
         public bool IsVisible { get; set; }
         public EntityRenderer CurrentRender { get; set; }
+        public bool DoesRenderHaveErrors { get; set; } = false;
+        public bool DoesLinkedRenderHaveErrors { get; set; } = false;
         public LinkedRenderer CurrentLinkedRender { get; set; }
 
         #endregion
