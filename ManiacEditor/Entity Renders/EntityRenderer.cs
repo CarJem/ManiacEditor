@@ -86,7 +86,7 @@ namespace ManiacEditor.Entity_Renders
                 int y1 = y + height / -2;
                 int y2 = y + height / 2 - 1;
 
-                d.DrawRectangle(x1, y1, x2, y2, fill, outline, 2);
+                d.DrawRectangle(x1, y1, x2, y2, fill, outline, 1);
 
                 var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "EditorAssets", 0, 1);
 

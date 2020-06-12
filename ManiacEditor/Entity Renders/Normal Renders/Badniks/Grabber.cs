@@ -26,7 +26,7 @@ namespace ManiacEditor.Entity_Renders
             var Animation = LoadAnimation("Grabber", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             Animation = LoadAnimation("Grabber", d, 1, 0);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? Animation.RequestedFrame.Width : 0), y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

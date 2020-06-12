@@ -15,7 +15,8 @@ namespace ManiacEditor.Entity_Renders
             int Transparency = Properties.Transparency;
 
             int type = (int)entity.attributesMap["type"].ValueEnum;
-            //int direction = (int)entity.attributesMap["direction"].ValueUInt8;
+            int amplitudeX = (int)(entity.attributesMap["amplitude"].ValueVector2.X.High);
+            int amplitudeY = (int)(entity.attributesMap["amplitude"].ValueVector2.Y.High);
             bool fliph = false;
             bool flipv = false;
             int animID = 0;
@@ -36,6 +37,13 @@ namespace ManiacEditor.Entity_Renders
                 default:
                     break;
             }
+
+            if (amplitudeX != 0 || amplitudeY != 0)
+            {
+                d.DrawArrow(x, y, x - amplitudeX, y - amplitudeY, System.Drawing.Color.YellowGreen, 2);
+                d.DrawArrow(x, y, x + amplitudeX, y + amplitudeY, System.Drawing.Color.YellowGreen, 2);
+            }
+
             var editorAnim = LoadAnimation("StickyPlatform", d, animID, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
 

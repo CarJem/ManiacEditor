@@ -23,9 +23,8 @@ namespace ManiacEditor.Entity_Renders
                 case 1:
                     flipv = true;
                     break;
-                    /*
-                case 2:
-                    flipv = true;
+                /*case 2:
+                    fliph = true;
                     break;
                 case 3:
                     flipv = true;
@@ -38,7 +37,7 @@ namespace ManiacEditor.Entity_Renders
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
             Animation = LoadAnimation("Toxomister", d, 1, 0);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + (flipv ? 45 : 0), Transparency, fliph, flipv);
 
         }
 

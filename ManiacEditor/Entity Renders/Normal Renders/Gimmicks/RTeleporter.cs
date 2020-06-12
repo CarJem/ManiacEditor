@@ -5,56 +5,22 @@ namespace ManiacEditor.Entity_Renders
     public class RTeleporter : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            bool fliph = false;
-            bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnimBottom = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 0, -1, false, true, false);
-            var editorAnimElectric = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("RGenerator", d.DevicePanel, 1, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimBottom != null && editorAnimBottom.Frames.Count != 0 && editorAnimElectric != null && editorAnimElectric.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
-                var frameB = editorAnimBottom.Frames[Animation.index];
-                var frameE = editorAnimElectric.Frames[Animation.index];
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
 
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                Animation.ProcessAnimation2(frameE.Entry.SpeedMultiplyer, frameE.Entry.Frames.Count, frameE.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameB),
-                    x + frameB.Frame.PivotX - (fliph ? (frameB.Frame.Width - editorAnimBottom.Frames[0].Frame.Width) : 0),
-                    y + frameE.Frame.Height/2,
-                    frameB.Frame.Width, frameB.Frame.Height, false, Transparency);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameE),
-                    x + frameE.Frame.PivotX - 22,
-                    y + frameE.Frame.PivotY,
-                    frameE.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameE),
-                    x + frameE.Frame.PivotX - 6,
-                    y + frameE.Frame.PivotY,
-                    frameE.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameE),
-                    x + frameE.Frame.PivotX + 10,
-                    y + frameE.Frame.PivotY,
-                    frameE.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
+            var editorAnim = LoadAnimation("RGenerator", d, 0, 0);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, false, false);
+            editorAnim = LoadAnimation("RGenerator", d, 0, 0);
+            DrawTexture(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x + editorAnim.RequestedFrame.PivotX, y + editorAnim.RequestedFrame.Height/2, Transparency, false, true);
+            editorAnim = LoadAnimation("RGenerator", d, 1, 0);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x - 22, y, Transparency, false, false);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x - 6, y, Transparency, false, false);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x + 10, y, Transparency, false, false);;
         }
 
         public override string GetObjectName()

@@ -38,7 +38,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSDKrU", "Retro-Engine-Anim
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{F4DD0D7B-6C0C-4DF3-AB95-0EA65FB2FF47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xe.Tools.Wpf", "Retro-Engine-Animation-Editor\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj", "{02C46A71-D578-4AAD-B7F2-DBFE550BBB57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xe.Tools.Wpf", "..\RSDK-Animation-Editor-Reloaded\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj", "{02C46A71-D578-4AAD-B7F2-DBFE550BBB57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

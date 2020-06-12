@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            int frameType = (int)entity.attributesMap["frame"].ValueUInt8;
+            byte frameType = entity.attributesMap["frame"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
             var Animation = LoadAnimation("SpikeLog", d, 0, frameType);

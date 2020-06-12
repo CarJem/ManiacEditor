@@ -631,6 +631,7 @@
     "angleOffset",
     "angleStart",
     "angleVel",
+    "autoOpen",
     "aniID",
     "arrowWidth",
     "assignsP1",

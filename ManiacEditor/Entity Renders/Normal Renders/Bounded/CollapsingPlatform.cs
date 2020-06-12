@@ -30,7 +30,7 @@ namespace ManiacEditor.Entity_Renders
                 int y2 = y + heightPixels / 2 - 1;
 
 
-                d.DrawRectangle(x1, y1, x2, y2, SystemColors.Transparent, SystemColors.White, 2);
+                d.DrawRectangle(x1, y1, x2, y2, SystemColors.Transparent, SystemColors.White, 1);
 
                 // draw corners
                 for (int i = 0; i < 4; i++)

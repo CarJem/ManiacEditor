@@ -277,6 +277,16 @@
     <Compile Include="Controls\Dialog\AsyncWaitingBox.xaml.cs">
       <DependentUpon>AsyncWaitingBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bosses\DERobot.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\LRZConvControl.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\LRZConvDropper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\RisingLava.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\HCZOneWayDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\OneWayDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\PSZDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\TwistingDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\PopcornMachine.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\RTeleporter.cs" />
     <Compile Include="Entity Renders\Normal Renders\Platforms\TilePlatform.cs" />
     <Compile Include="Entity Renders\Normal Renders\UI\UIInfoLabel.cs" />
     <Compile Include="Methods\Entities\ImportableZoneObject.cs" />
@@ -433,7 +443,7 @@
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\Funnel.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Grabber.cs">
+    <Compile Include="Entity Renders\Normal Renders\Badniks\Grabber.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\HangConveyor.cs">
@@ -1784,6 +1794,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\RSDK-Animation-Editor-Reloaded\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj">
+      <Project>{02c46a71-d578-4aad-b7f2-dbfe550bbb57}</Project>
+      <Name>Xe.Tools.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GenerationsLib\GenerationsLib.Core\GenerationsLib.Core.csproj">
       <Project>{51ca42a9-58f0-4f3d-a250-bc22d8a8540e}</Project>
       <Name>GenerationsLib.Core</Name>
@@ -1797,10 +1811,6 @@
       <Name>ManiacED-ManiaPal</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Retro-Engine-Animation-Editor\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj">
-      <Project>{02c46a71-d578-4aad-b7f2-dbfe550bbb57}</Project>
-      <Name>Xe.Tools.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\RSDK-Reverse\RSDKv1\RSDKv1.csproj">
       <Project>{e089db56-f8d4-434e-a9a8-c7efcc3278d8}</Project>
@@ -2148,9 +2158,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entity Renders\Normal Renders\Bosses\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker">
       <Version>1.7.2</Version>
