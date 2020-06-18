@@ -1,4 +1,5 @@
-﻿using RSDKv5;
+﻿using ManiacEditor.Structures;
+using RSDKv5;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ManiacEditor.Structures;
 using ImageList = System.Windows.Forms.ImageList;
 using MouseButtons = System.Windows.Forms.MouseButtons;
 using TreeNode = System.Windows.Forms.TreeNode;
@@ -495,10 +495,10 @@ namespace ManiacEditor.Controls.SceneSelect
         public void RefreshTheme()
         {
             ScenesTree.BackColor = Methods.Internal.Theming.ThemeBrush2;
-            ScenesTree.ForeColor = Methods.Internal.Theming.ThemeBrush4;
+            ScenesTree.ForeColor = Methods.Internal.Theming.ThemeBrushText;
 
             RecentsTree.BackColor = Methods.Internal.Theming.ThemeBrush2;
-            RecentsTree.ForeColor = Methods.Internal.Theming.ThemeBrush4;
+            RecentsTree.ForeColor = Methods.Internal.Theming.ThemeBrushText;
         }
         public void RecentsTreeOpenContextMenu(TreeNodeMouseClickEventArgs e)
         {

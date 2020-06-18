@@ -41,12 +41,12 @@
     <SolidColorBrush x:Key="LegacyThemeBrush1" Color="White"/>
     <SolidColorBrush x:Key="LegacyThemeBrush2" Color="#D6D6D6"/>
     <SolidColorBrush x:Key="LegacyThemeBrush3" Color="#B0B0B0"/>
-    <SolidColorBrush x:Key="LegacyThemeBrush4" Color="White"/>
-    <SolidColorBrush x:Key="LegacyThemeBrush5" Color="Black"/>
+    <SolidColorBrush x:Key="LegacyThemeBrush4" Color="Black"/>
+    <SolidColorBrush x:Key="LegacyThemeBrush5" Color="White"/>
     <SolidColorBrush x:Key="LegacyThemeBrush6" Color="Blue"/>
 
-    <SolidColorBrush x:Key="LegacyThemeBrushText" Color="White"/>
-    <SolidColorBrush x:Key="LegacyThemeBrushBG" Color="Black"/>
+    <SolidColorBrush x:Key="LegacyThemeBrushText" Color="Black"/>
+    <SolidColorBrush x:Key="LegacyThemeBrushBG" Color="White"/>
 
     <SolidColorBrush x:Key="Maniac_WarningTextColor" Color="Red"/>
 
