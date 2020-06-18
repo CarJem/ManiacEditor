@@ -296,3 +296,4 @@ __pycache__/
 /ManiacEditor/EntitiesToolbar.Designer.cs.bak
 /Installer/Setup.exe
 /Installer/Build.zip
+/ManiacEditor/Properties/PostBuild/Build.zip

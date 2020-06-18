@@ -1,5 +1,5 @@
 @ECHO OFF
-SET ConfigurationName=%1
+SET ConfigurationName=%~1
 SET SolutionDir=%~2
 SET TargetDir=%~3
 SET ProjectDir=%~4
@@ -11,6 +11,8 @@ SET SettingsFile="%ProjectDir%\bin\%ConfigurationName%\Settings\internal_switche
 
 :: Remove Settings File
 del /s /q %SettingsFile%
+
+echo %ConfigurationName%
 
 :: Generate Installer and Prepare to Publish
 if %ConfigurationName% == "Publish" (

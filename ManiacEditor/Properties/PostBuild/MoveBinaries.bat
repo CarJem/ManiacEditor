@@ -7,7 +7,7 @@ SET ProjectDir=%~4
 taskkill /F /IM VBCSCompiler.exe
 
 rmdir "%TargetDir%bin/roslyn " /s /q
-rmdir "%TargetDir%Lib\ " /s /q
+rmdir "%TargetDir%Lib " /s /q
 
 SET COPYCMD=/Y
 
@@ -23,6 +23,7 @@ robocopy  "%TargetDir%de" "%TargetDir%Lib/de" /S /Move /is
 robocopy  "%TargetDir%es" "%TargetDir%Lib/es" /S /Move /is
 robocopy  "%TargetDir%fr" "%TargetDir%Lib/fr" /S /Move /is
 robocopy  "%TargetDir%hu" "%TargetDir%Lib/hu" /S /Move /is
+robocopy  "%TargetDir%nl" "%TargetDir%Lib/nl" /S /Move /is
 robocopy  "%TargetDir%it" "%TargetDir%Lib/it" /S /Move /is
 robocopy  "%TargetDir%pt-BR" "%TargetDir%Lib/pt-BR" /S /Move /is
 robocopy  "%TargetDir%ro" "%TargetDir%Lib/ro" /S /Move /is
