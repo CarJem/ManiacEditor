@@ -328,6 +328,8 @@ namespace ManiacEditor.Controls.TileManiac
 			HostPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			HostPanel.Controls.Add(GraphicPanel);
 
+			System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(this);
+
 			this.HostGrid.Child = HostPanel;
 
 			this.GraphicPanel.OnRender += GraphicPanel_OnRender;
@@ -2357,6 +2359,7 @@ namespace ManiacEditor.Controls.TileManiac
 				TileConfig.CollisionPath2[CurrentCollisionMask].IsCeiling = TileConfig.CollisionPath1[CurrentCollisionMask].IsCeiling;
 				TileConfig.CollisionPath2[CurrentCollisionMask].FloorAngle = TileConfig.CollisionPath1[CurrentCollisionMask].FloorAngle;
 				TileConfig.CollisionPath2[CurrentCollisionMask].LWallAngle = TileConfig.CollisionPath1[CurrentCollisionMask].LWallAngle;
+				TileConfig.CollisionPath2[CurrentCollisionMask].RWallAngle = TileConfig.CollisionPath1[CurrentCollisionMask].RWallAngle;
 				TileConfig.CollisionPath2[CurrentCollisionMask].CeilingAngle = TileConfig.CollisionPath1[CurrentCollisionMask].CeilingAngle;
 				TileConfig.CollisionPath2[CurrentCollisionMask].Behaviour = TileConfig.CollisionPath1[CurrentCollisionMask].Behaviour;
 
@@ -2370,6 +2373,7 @@ namespace ManiacEditor.Controls.TileManiac
 				TileConfig.CollisionPath1[CurrentCollisionMask].IsCeiling = TileConfig.CollisionPath2[CurrentCollisionMask].IsCeiling;
 				TileConfig.CollisionPath1[CurrentCollisionMask].FloorAngle = TileConfig.CollisionPath2[CurrentCollisionMask].FloorAngle;
 				TileConfig.CollisionPath1[CurrentCollisionMask].LWallAngle = TileConfig.CollisionPath2[CurrentCollisionMask].LWallAngle;
+				TileConfig.CollisionPath1[CurrentCollisionMask].RWallAngle = TileConfig.CollisionPath2[CurrentCollisionMask].RWallAngle;
 				TileConfig.CollisionPath1[CurrentCollisionMask].CeilingAngle = TileConfig.CollisionPath2[CurrentCollisionMask].CeilingAngle;
 				TileConfig.CollisionPath1[CurrentCollisionMask].Behaviour = TileConfig.CollisionPath2[CurrentCollisionMask].Behaviour;
 

@@ -2214,6 +2214,6 @@
     <PreBuildEvent>start /min cmd.exe /c "call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>start /min cmd.exe /k "call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PostBuildEvent>
+    <PostBuildEvent>start /min cmd.exe /c "call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PostBuildEvent>
   </PropertyGroup>
 </Project>

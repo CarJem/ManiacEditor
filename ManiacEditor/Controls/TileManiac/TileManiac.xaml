@@ -82,7 +82,7 @@
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Collision Mask" VerticalContentAlignment="Center"></Label>
-                        <wpfTool:IntegerUpDown ValueChanged="GotoNUD_ValueChanged"  Minimum="0" Maximum="1023" x:Name="GotoNUD" DefaultValue="0" Value="0" Height="20" Width="50" IsEnabled="False"></wpfTool:IntegerUpDown>
+                        <wpfTool:IntegerUpDown ValueChanged="GotoNUD_ValueChanged"  Minimum="0" Maximum="1023" x:Name="GotoNUD" DefaultValue="0" Value="0" Height="20" Width="50" IsEnabled="False" ClipValueToMinMax="True"></wpfTool:IntegerUpDown>
                         <Label Content="of 1023" VerticalContentAlignment="Center"></Label>
                     </StackPanel>
                 </StackPanel>
@@ -469,31 +469,31 @@
                                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="2">
                                         <StackPanel Grid.Column="0" Margin="2" Width="63">
                                             <Label BorderThickness="1" BorderBrush="DarkRed" Background="Red" Foreground="#3B3B3B" Content="Floor Angle" FontSize="10" Margin="0,0,0,0"/>
-                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="FloorAngleNUD_ValueChanged" x:Name="FloorAngleNUD" DefaultValue="0" Value="0" Height="20" IsEnabled="False" Maximum="255" Minimum="0"></wpfTool:IntegerUpDown>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="FloorAngleNUD_ValueChanged" x:Name="FloorAngleNUD" DefaultValue="0" Value="0" Height="20" IsEnabled="False" Maximum="255" Minimum="0" ClipValueToMinMax="True"></wpfTool:IntegerUpDown>
                                             <TextBox x:Name="FloorAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                             <TextBox x:Name="FloorAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                         </StackPanel>
                                         <StackPanel Width="70" Grid.Column="1" Margin="2">
                                             <Label  BorderThickness="1" BorderBrush="DarkBlue" Background="Blue" Foreground="#3B3B3B" Content="Ceiling Angle" FontSize="10" Margin="0,0,0,0"/>
-                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="CeilingAngleNUD_ValueChanged" x:Name="CeilingAngleNUD"  DefaultValue="80" Value="80" Height="20" IsEnabled="False" Maximum="255" Minimum="0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="CeilingAngleNUD_ValueChanged" x:Name="CeilingAngleNUD"  DefaultValue="80" Value="80" Height="20" IsEnabled="False" Maximum="255" Minimum="0" ClipValueToMinMax="True"/>
                                             <TextBox x:Name="CeilingAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                             <TextBox x:Name="CeilingAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                         </StackPanel>
                                         <StackPanel Grid.Column="2"  Margin="2"  Width="65">
                                             <Label  BorderThickness="1" BorderBrush="DarkGreen" Background="Green" Foreground="#3B3B3B" Content="LWall Angle" FontSize="10" Margin="0,0,0,0"/>
-                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="LWallAngleNUD_ValueChanged" x:Name="LWallAngleNUD" DefaultValue="64" Value="64" Height="20" IsEnabled="False" Maximum="255" Minimum="0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="LWallAngleNUD_ValueChanged" x:Name="LWallAngleNUD" DefaultValue="64" Value="64" Height="20" IsEnabled="False" Maximum="255" Minimum="0" ClipValueToMinMax="True"/>
                                             <TextBox x:Name="LWallAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                             <TextBox x:Name="LWallAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                         </StackPanel>
                                         <StackPanel Grid.Column="3" Margin="2" Width="65">
                                             <Label  BorderThickness="1" BorderBrush="DarkGoldenrod" Background="Gold" Foreground="#3B3B3B" Content="RWall Angle" FontSize="10" Margin="0,0,0,0"/>
-                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="RWallAngleNUD_ValueChanged" x:Name="RWallAngleNUD" DefaultValue="192" Value="192" IsEnabled="False" Maximum="255" Minimum="0"/>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" ValueChanged="RWallAngleNUD_ValueChanged" x:Name="RWallAngleNUD" DefaultValue="192" Value="192" IsEnabled="False" Maximum="255" Minimum="0" ClipValueToMinMax="True"/>
                                             <TextBox x:Name="RWallAngleHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                             <TextBox x:Name="RWallAngleDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                         </StackPanel>
                                         <StackPanel Grid.Column="4" Margin="2" Width="56">
                                             <Label BorderThickness="1" BorderBrush="Gray" Background="White" Foreground="#3B3B3B" Content="Behaviour"  FontSize="10" Margin="0,0,0,0"/>
-                                            <wpfTool:IntegerUpDown AllowTextInput="True" x:Name="BehaviourNUD" ValueChanged="BehaviourNUD_ValueChanged" DefaultValue="0" Value="0" Height="20" IsEnabled="False" Maximum="255" Minimum="0"></wpfTool:IntegerUpDown>
+                                            <wpfTool:IntegerUpDown AllowTextInput="True" x:Name="BehaviourNUD" ValueChanged="BehaviourNUD_ValueChanged" DefaultValue="0" Value="0" Height="20" IsEnabled="False" Maximum="255" Minimum="0" ClipValueToMinMax="True"></wpfTool:IntegerUpDown>
                                             <TextBox x:Name="BehaviourHexBox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0x00" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                             <TextBox Visibility="Collapsed" x:Name="BehaviourDegreesNUD" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0º" Height="20" IsEnabled="True" IsReadOnly="True"></TextBox>
                                         </StackPanel>
