@@ -314,13 +314,13 @@ namespace ManiacEditor.Methods.Solution
 
             if (!EditorLoad())
             {
-                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(null, Instance, true);
+                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Instance, true);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
             else
             {
-                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Methods.Solution.CurrentSolution.GameConfig, Instance, true);
+                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Instance, true);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
@@ -340,13 +340,13 @@ namespace ManiacEditor.Methods.Solution
 
             if (!EditorLoad())
             {
-                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(null, Instance);
+                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
             else
             {
-                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Methods.Solution.CurrentSolution.GameConfig, Instance);
+                select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Instance);
                 select.Owner = Instance;
                 select.ShowDialog();
             }
@@ -385,7 +385,7 @@ namespace ManiacEditor.Methods.Solution
             ManiacEditor.Controls.SceneSelect.SceneSelectWindow select;
             ManiacEditor.Methods.Solution.SolutionPaths.SetGameConfig(SaveState.MasterDataDirectory);
 
-            select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow((EditorLoad() ? Methods.Solution.CurrentSolution.GameConfig : null), Instance);
+            select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Instance);
 
             select.Owner = Instance;
             select.SceneSelect.LoadSaveState(SaveState);

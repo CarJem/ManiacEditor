@@ -244,6 +244,13 @@ namespace ManiacEditor
             return this.AutoScrollPosition;
         }
 
+        public Point GetRelativeMousePosition()
+        {
+            var pixelPos = SFML.Window.Mouse.GetPosition(RenderWindow);
+            var mousePos = RenderWindow.MapPixelToCoords(pixelPos, RenderWindow.GetView());
+            return new Point((int)(mousePos.X), (int)(mousePos.Y));
+        }
+
         private Point GetMousePoint(System.Windows.Forms.MouseEventArgs e)
         {
             var position = GetParentScreen();

@@ -212,13 +212,19 @@ namespace ManiacEditor.Controls.Toolbox
 			this.TilesList.MouseMove += TilesList_MouseMove;
 			this.TilesList.MouseDoubleClick += TilesList_MouseDoubleClick;
 
+			this.TilesList.TileList.AllowDrop = true;
+            this.TilesList.TileList.MouseMove += TileList_MouseMove;
+            this.TilesList.TileList.PreviewMouseLeftButtonDown += TileList_PreviewMouseLeftButtonDown;
+
 			RefreshThemeColors();
 
 			TileViewer.Children.Add(TilesList);
 			ChunksPage.Children.Add(ChunkList);
 		}
 
-		private void UpdateShortcuts(bool Show = false)
+
+
+        private void UpdateShortcuts(bool Show = false)
 		{
 			if (Show)
 			{
@@ -291,6 +297,51 @@ namespace ManiacEditor.Controls.Toolbox
 			TilesList.Invalidate();
 		}
 
+
+		#endregion
+
+		#region Drag/Drop
+
+		private void TileList_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			DragStartPoint = e.GetPosition(null);
+		}
+
+		private void TileList_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			if (AllowMultiTileSelectMenuItem.IsChecked) return;
+
+			// Get the current mouse position
+			Point mousePos = e.GetPosition(null);
+			Vector diff = DragStartPoint - mousePos;
+
+			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed && (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+			{
+				// Get the dragged ListViewItem
+				ListView listView = sender as ListView;
+				ListViewItem listViewItem = FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
+				if (listViewItem == null) return;
+				DataObject dragData = new DataObject(typeof(Int32), this.TilesList.TileList.Items.IndexOf(listViewItem));
+				DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Copy | DragDropEffects.Move);
+			}
+		}
+
+		// Helper to search up the VisualTree
+		private static T FindAnchestor<T>(DependencyObject current) where T : DependencyObject 
+		{
+			do
+			{
+				if (current is T)
+				{
+					return (T)current;
+				}
+				current = System.Windows.Media.VisualTreeHelper.GetParent(current);
+			}
+			while (current != null);
+			return null;
+		}
+
+		private Point DragStartPoint { get; set; } = new Point();
 
 		#endregion
 

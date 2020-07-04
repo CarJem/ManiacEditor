@@ -80,7 +80,17 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region Classes
-        public GameConfig _GameConfig { get; set; }
+        public GameConfig _MasterGameConfig { get; set; }
+        public GameConfig _SecondaryGameConfig { get; set; }
+
+        public GameConfig _GameConfig
+        {
+            get
+            {
+                if (DataDirectory == string.Empty) return _MasterGameConfig;
+                else return _SecondaryGameConfig;
+            }
+        }
         public SceneSelectWindow Window { get; set; }
         private Controls.Editor.MainEditor Instance { get; set; }
         public Structures.SceneState SceneState { get; set; } = new Structures.SceneState();
@@ -96,7 +106,7 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region Init
-        public SceneSelectHost(GameConfig _Config = null, Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null, bool IsSceneLoad = true)
+        public SceneSelectHost(Controls.Editor.MainEditor _Instance = null, SceneSelectWindow _Window = null, bool IsSceneLoad = true)
         {
             InitializeComponent();
 
@@ -104,7 +114,7 @@ namespace ManiacEditor.Controls.SceneSelect
 
             Instance = _Instance;
             InitilizeBase();
-            InitilizeHost(_Config, _Window);
+            InitilizeHost(_Window);
         }
         public void SetupWinFormControls()
         {
@@ -142,7 +152,7 @@ namespace ManiacEditor.Controls.SceneSelect
             RemoveNullEntries();
             SetupWinFormControls();
         }
-        private void InitilizeHost(GameConfig _Config, SceneSelectWindow _Window = null)
+        private void InitilizeHost(SceneSelectWindow _Window = null)
         {
             WithinAParentForm = (Window != null);
             Window = _Window;
@@ -152,7 +162,10 @@ namespace ManiacEditor.Controls.SceneSelect
             ScenesTree.Visible = true;
 
             UpdateMasterDataDirectoryComboBox();
-            SetupGameConfig(_Config);
+
+            if (browse != null) browse.IsEnabled = true;
+            UpdateScenesTree();
+
             InitilizeEvents();
 
             if (Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories.Contains(Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory))
@@ -184,7 +197,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void SceneTreeUpdateRequiredEvent(object sender, RoutedEventArgs e)
         {
-            UpdateScenesTree();
+            UpdateScenesTreeFilter();
         }
         private void ScenesTreeAfterSelectEvent(object sender, TreeViewEventArgs e)
         {
@@ -472,7 +485,11 @@ namespace ManiacEditor.Controls.SceneSelect
                 if (result == false) return;
             }
             _GameConfig.Write(_GameConfig.FilePath);
-            LoadFromGameConfig(new GameConfig(_GameConfig.FilePath));
+
+
+            if (_GameConfig == _SecondaryGameConfig) _SecondaryGameConfig = new GameConfig(_GameConfig.FilePath);
+            else _MasterGameConfig = new GameConfig(_GameConfig.FilePath);
+            UpdateScenesTree();
         }
         private void UpdateGameConfigSceneIndexes(GameConfig config)
         {
@@ -525,6 +542,11 @@ namespace ManiacEditor.Controls.SceneSelect
                 MoveSceneInfoDownToolStripMenuItem.IsEnabled = false;
                 MoveSceneInfoUpToolStripMenuItem.IsEnabled = false;
             }
+        }
+        private void UpdateFilesViewCheckbox()
+        {
+            if (Properties.Settings.MyDefaults.SceneSelectFilesViewDefault) this.isFilesView.IsChecked = true;
+            else this.isFilesView.IsChecked = false;
         }
         public void UpdateSceneInfoContextMenu()
         {
@@ -653,13 +675,13 @@ namespace ManiacEditor.Controls.SceneSelect
             }
             UpdateMasterDataDirectoryComboBox();
         }
-        public void UpdateScenesTree(GameConfig config)
+        public void UpdateScenesTree()
         {
             Categories.Clear();
             Directories.Clear();
 
-            if (config == null) return;
-            foreach (GameConfig.Category category in config.Categories)
+            if (_GameConfig == null) return;
+            foreach (GameConfig.Category category in _GameConfig.Categories)
             {
                 List<SceneSelectScene> scenes = new List<SceneSelectScene>();
                 foreach (GameConfig.SceneInfo scene in category.Scenes)
@@ -684,9 +706,9 @@ namespace ManiacEditor.Controls.SceneSelect
             this.ScenesTree.ImageList.Images.Add("Folder", Properties.Resources.folder);
             this.ScenesTree.ImageList.Images.Add("File", Properties.Resources.file);
 
-            UpdateScenesTree();
+            UpdateScenesTreeFilter();
         }
-        private void UpdateScenesTree(string filter = "")
+        private void UpdateScenesTreeFilter(string filter = "")
         {
             if (filter == "") filter = FilterText.Text;
             ScenesTree.Nodes.Clear();
@@ -923,7 +945,7 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void FilterTextTextChangedEvent(object sender, TextChangedEventArgs e)
         {
-            UpdateScenesTree();
+            UpdateScenesTreeFilter();
         }
         #endregion
 
@@ -1008,7 +1030,6 @@ namespace ManiacEditor.Controls.SceneSelect
                         Classes.Prefrences.CommonPathsStorage.AddSavedDataFolder(DataDirectory);
                         Methods.Internal.UserInterface.UpdateControls();
                         UpdateRecentsTree();
-                        UpdateScenesTree(ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(returnDataDirectory));
                     }
 
                 }
@@ -1047,18 +1068,6 @@ namespace ManiacEditor.Controls.SceneSelect
             Classes.Prefrences.CommonPathsStorage.AddANewSavedPlace(savedFolder);
             UpdateRecentsTree();
         }
-        public void SetupGameConfig(GameConfig config)
-        {
-            if (config != null)
-            {
-                if (browse != null) browse.IsEnabled = true;
-                LoadFromGameConfig(config);
-            }
-            else
-            {
-                if (browse != null) browse.IsEnabled = false;
-            }
-        }
         public void BrowseForSceneFileFromSavedPlace(string initialDir)
         {
             System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog();
@@ -1095,13 +1104,15 @@ namespace ManiacEditor.Controls.SceneSelect
         public void LoadMasterDataDirectory(string SelectedDataDirectory)
         {
             UnloadDataDirectory();
+            UnloadMasterDataDirectory();
             if (SelectedDataDirectory != null)
             {
                 SceneState.MasterDataDirectory = SelectedDataDirectory;
                 GameConfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
                 if (GameConfig != null)
                 {
-                    LoadFromGameConfig(GameConfig);
+                    _MasterGameConfig = GameConfig;
+                    UpdateScenesTree();
                     Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
                     Classes.Prefrences.CommonPathsStorage.Collection.DefaultMasterDataDirectory = SceneState.MasterDataDirectory;
                 }
@@ -1119,11 +1130,13 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void LoadDataDirectory(string SelectedDataDirectory)
         {
+            UnloadDataDirectory();
             DataDirectory = SelectedDataDirectory;
             GameConfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
             if (GameConfig != null)
             {
-                LoadFromGameConfig(GameConfig);
+                _SecondaryGameConfig = GameConfig;
+                UpdateScenesTree();
                 Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
             }
             else
@@ -1137,19 +1150,19 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         public void UnloadDataDirectory()
         {
-            _GameConfig = null;
+            _SecondaryGameConfig = null;
             DataDirectory = string.Empty;
-            UpdateScenesTree(_GameConfig);
             UpdateScenesTree();
+            UpdateScenesTreeFilter();
             UpdateDataDirectoryLabel();
             UpdateMasterDataDirectoryComboBox();
         }
         public void UnloadMasterDataDirectory()
         {
-            _GameConfig = null;
+            _MasterGameConfig = null;
             SceneState.MasterDataDirectory = string.Empty;
-            UpdateScenesTree(_GameConfig);
             UpdateScenesTree();
+            UpdateScenesTreeFilter();
             UpdateDataDirectoryLabel();
             UpdateMasterDataDirectoryComboBox();
         }
@@ -1165,14 +1178,6 @@ namespace ManiacEditor.Controls.SceneSelect
 
             UpdateDataDirectoryLabel();
             UpdateMasterDataDirectoryComboBox();
-        }
-        public void LoadFromGameConfig(GameConfig config)
-        {
-            _GameConfig = null;
-            _GameConfig = config;
-            UpdateScenesTree(config);
-            if (Properties.Settings.MyDefaults.SceneSelectFilesViewDefault) this.isFilesView.IsChecked = true;
-            else this.isFilesView.IsChecked = false;
         }
         #endregion
 

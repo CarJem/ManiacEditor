@@ -137,6 +137,13 @@ namespace ManiacEditor.Methods.Solution
                 Methods.Solution.CurrentSolution.EditLayerB?.EraseTiles(new Rectangle(x1, y1, width, height));
             }
         }
+        public static void PlaceTile(int id, Point p)
+        {
+            if (id != -1)
+            {
+                if (Methods.Solution.CurrentSolution.EditLayerA.GetTileAt(p) != id) Methods.Solution.CurrentSolution.EditLayerA.PlaceTile(p, (ushort)id);
+            }
+        }
         public static void PlaceTile(Controls.Editor.MainEditor Instance, Point p)
         {
             if (Methods.Solution.SolutionState.Main.DrawBrushSize == 1)

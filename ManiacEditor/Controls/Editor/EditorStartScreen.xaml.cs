@@ -34,7 +34,7 @@ namespace ManiacEditor.Controls.Editor
 		{
 			if (!AlreadyLoaded)
 			{
-				SelectScreen = new ManiacEditor.Controls.SceneSelect.SceneSelectHost(null, Instance);
+				SelectScreen = new ManiacEditor.Controls.SceneSelect.SceneSelectHost(Instance);
 				AlreadyLoaded = true;
 				SceneSelectHost.Children.Add(SelectScreen);
 				SelectScreen.Refresh();

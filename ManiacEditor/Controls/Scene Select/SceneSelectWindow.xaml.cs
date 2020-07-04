@@ -8,10 +8,10 @@ namespace ManiacEditor.Controls.SceneSelect
     public partial class SceneSelectWindow : Window
 	{
 		public Controls.SceneSelect.SceneSelectHost SceneSelect;
-		public SceneSelectWindow(RSDKv5.GameConfig config = null, Controls.Editor.MainEditor instance = null, bool selectDirectory = false, bool isSceneLoad = true)
+		public SceneSelectWindow(Controls.Editor.MainEditor instance = null, bool selectDirectory = false, bool isSceneLoad = true)
 		{
 			InitializeComponent();
-			SceneSelect = new Controls.SceneSelect.SceneSelectHost(config, instance, this, isSceneLoad);
+			SceneSelect = new Controls.SceneSelect.SceneSelectHost(instance, this, isSceneLoad);
 			FrameHost.Children.Add(SceneSelect);
 			if (selectDirectory)
 			{

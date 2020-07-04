@@ -388,8 +388,7 @@ namespace ManiacEditor.Controls.Editor
         {
             if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
             {
-                System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
-                Methods.Solution.CurrentSolution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Solution.SolutionState.Main.ViewPositionX)), (int)(((e.Y - rel.Y) + Methods.Solution.SolutionState.Main.ViewPositionY))), (ushort)Instance.TilesToolbar.SelectedTileIndex);
+                Methods.Solution.CurrentSolution.EditLayerA?.DragOver(GraphicPanel.GetRelativeMousePosition(), (ushort)Instance.TilesToolbar.SelectedTileIndex);
                 GraphicPanel.Render();
 
             }
@@ -407,9 +406,8 @@ namespace ManiacEditor.Controls.Editor
         {
             if (e.Data.GetDataPresent(typeof(Int32)) && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
             {
-                System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 e.Effect = System.Windows.Forms.DragDropEffects.Move;
-                Methods.Solution.CurrentSolution.EditLayerA?.StartDragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Solution.SolutionState.Main.ViewPositionX)), (int)(((e.Y - rel.Y) + Methods.Solution.SolutionState.Main.ViewPositionY))), (ushort)Instance.TilesToolbar.SelectedTileIndex);
+                Methods.Solution.CurrentSolution.EditLayerA?.StartDragOver(GraphicPanel.GetRelativeMousePosition(), (ushort)Instance.TilesToolbar.SelectedTileIndex);
                 Actions.UndoRedoModel.UpdateEditLayersActions();
             }
             else
@@ -605,9 +603,8 @@ namespace ManiacEditor.Controls.Editor
             if (Methods.Runtime.GameHandler.GameRunning) CommonDrawing.DrawGameElements(GraphicPanel);
         }
 
+
+
         #endregion
-
-
-
     }
 }

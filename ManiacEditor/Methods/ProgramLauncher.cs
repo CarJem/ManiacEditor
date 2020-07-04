@@ -600,7 +600,7 @@ namespace ManiacEditor.Methods
         {
             string selectedScene;
 
-            ManiacEditor.Controls.SceneSelect.SceneSelectWindow select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Methods.Solution.CurrentSolution.GameConfig, Editor, false, false);
+            ManiacEditor.Controls.SceneSelect.SceneSelectWindow select = new ManiacEditor.Controls.SceneSelect.SceneSelectWindow(Editor, false, false);
             select.Owner = Window.GetWindow(window);
             select.ShowDialog();
             if (select.SceneSelect.SceneState.FilePath == null)
