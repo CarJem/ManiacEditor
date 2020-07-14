@@ -285,30 +285,33 @@ namespace ManiacEditor.Controls.Editor
             Methods.Solution.SolutionState.Main.ZoomLevel = zoom_level;
             switch (Methods.Solution.SolutionState.Main.ZoomLevel)
             {
-                case -5: Methods.Solution.SolutionState.Main.Zoom = 4; break;
-                case -4: Methods.Solution.SolutionState.Main.Zoom = 3; break;
-                case -3: Methods.Solution.SolutionState.Main.Zoom = 2; break;
-                case -2: Methods.Solution.SolutionState.Main.Zoom = 1.5; break;
-                case -1: Methods.Solution.SolutionState.Main.Zoom = 1.25; break;
+                case 5: Methods.Solution.SolutionState.Main.Zoom = 4; break;
+                case 4: Methods.Solution.SolutionState.Main.Zoom = 3; break;
+                case 3: Methods.Solution.SolutionState.Main.Zoom = 2; break;
+                case 2: Methods.Solution.SolutionState.Main.Zoom = 3 / 2.0; break;
+                case 1: Methods.Solution.SolutionState.Main.Zoom = 5 / 4.0; break;
                 case 0: Methods.Solution.SolutionState.Main.Zoom = 1; break;
-                case 1: Methods.Solution.SolutionState.Main.Zoom = 0.75; break;
-                case 2: Methods.Solution.SolutionState.Main.Zoom = 0.50; break;
-                case 3: Methods.Solution.SolutionState.Main.Zoom = 0.25; break;
-                case 4: Methods.Solution.SolutionState.Main.Zoom = 0.15; break;
-                case 5: Methods.Solution.SolutionState.Main.Zoom = 0.125; break;
+                case -1: Methods.Solution.SolutionState.Main.Zoom = 2 / 3.0; break;
+                case -2: Methods.Solution.SolutionState.Main.Zoom = 1 / 2.0; break;
+                case -3: Methods.Solution.SolutionState.Main.Zoom = 1 / 3.0; break;
+                case -4: Methods.Solution.SolutionState.Main.Zoom = 1 / 4.0; break;
+                case -5: Methods.Solution.SolutionState.Main.Zoom = 1 / 8.0; break;
             }
 
             Methods.Solution.SolutionState.Main.Zooming = true;
 
-            UpdateScrollPosXFromZoom(old_zoom, zoom_point, Methods.Solution.SolutionState.Main.ViewPositionX);
-            UpdateScrollPosYFromZoom(old_zoom, zoom_point, Methods.Solution.SolutionState.Main.ViewPositionY);
+            int oldShiftX = Methods.Solution.SolutionState.Main.ViewPositionX;
+            int oldShiftY = Methods.Solution.SolutionState.Main.ViewPositionY;
 
             if (Methods.Solution.CurrentSolution.CurrentScene != null) UpdateGraphicsPanelControls();
+
+            UpdateScrollPosXFromZoom(old_zoom, zoom_point, oldShiftX);
+            UpdateScrollPosYFromZoom(old_zoom, zoom_point, oldShiftY);
+
 
             Methods.Solution.SolutionState.Main.Zooming = false;
             Methods.Internal.UserInterface.UpdateControls();
         }
-
         public void ResetZoomLevel(bool resizeForm = true)
         {
             Methods.Solution.SolutionState.Main.ZoomLevel = 1;
@@ -318,19 +321,20 @@ namespace ManiacEditor.Controls.Editor
         {
             if (this.hScrollBar1.IsVisible)
             {
-                int value = (int)((zoom_point.X + oldShiftX) - zoom_point.X);
+                int value = (int)((zoom_point.X + oldShiftX) / old_zoom * Methods.Solution.SolutionState.Main.Zoom - zoom_point.X);
                 if (!Methods.Solution.SolutionState.Main.UnlockCamera) value = (int)Math.Min((this.hScrollBar1.Maximum), Math.Max(0, value));
                 Methods.Solution.SolutionState.Main.SetViewPositionX(value, true);
-
+                this.hScrollBar1.Value = value;
             }
         }
         private void UpdateScrollPosYFromZoom(double old_zoom, System.Drawing.Point zoom_point, int oldShiftY)
         {
             if (this.vScrollBar1.IsVisible)
             {
-                int value = (int)((zoom_point.Y + oldShiftY) - zoom_point.Y);
+                int value = (int)((zoom_point.Y + oldShiftY) / old_zoom * Methods.Solution.SolutionState.Main.Zoom - zoom_point.Y);
                 if (!Methods.Solution.SolutionState.Main.UnlockCamera) value = (int)Math.Min((this.vScrollBar1.Maximum), Math.Max(0, value));
                 Methods.Solution.SolutionState.Main.SetViewPositionY(value, true);
+                this.vScrollBar1.Value = value;
             }
         }
 
@@ -486,20 +490,22 @@ namespace ManiacEditor.Controls.Editor
         #region ScrollBar Update Methods
         private void UpdateScrollBars()
         {
+            double zoom = ManiacEditor.Methods.Solution.SolutionState.Main.Zoom;
+
             double h_width = !double.IsNaN(this.hScrollBar1.ActualWidth) ? this.hScrollBar1.ActualWidth : 0;
             double v_height = !double.IsNaN(this.vScrollBar1.ActualHeight) ? this.vScrollBar1.ActualHeight : 0;
 
-            int scene_width = ManiacEditor.Methods.Solution.CurrentSolution.SceneWidth;
-            int scene_height = ManiacEditor.Methods.Solution.CurrentSolution.SceneHeight;
+            int scene_width = (int)(ManiacEditor.Methods.Solution.CurrentSolution.SceneWidth * zoom);
+            int scene_height = (int)(ManiacEditor.Methods.Solution.CurrentSolution.SceneHeight * zoom);
 
-            int h_large = 5 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE;
-            int v_large = 5 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE;
+            int h_large = (int)(5 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE * zoom);
+            int v_large = (int)(5 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE * zoom);
 
-            int h_small = 1 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE;
-            int v_small = 1 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE;
+            int h_small = (int)(1 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE * zoom);
+            int v_small = (int)(1 * ManiacEditor.Methods.Solution.SolutionConstants.TILE_SIZE * zoom);
 
-            double maxY = scene_height - (v_height * GetZoom());
-            double maxX = scene_width - (h_width * GetZoom());
+            double maxY = scene_height - (v_height);
+            double maxX = scene_width - (h_width);
 
             if (maxX < 0) maxX = 0;
             if (maxY < 0) maxY = 0;

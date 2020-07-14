@@ -38,6 +38,9 @@ namespace ManiacEditor
 
         public IDrawArea _parent = null;
 
+        public SFML.System.Vector2f ZoomOffset { get; private set; } = new SFML.System.Vector2f(0, 0);
+
+
         SFML.Graphics.Font RenderingFont;
 
         SFML.Graphics.Font RenderingFontBold;
@@ -177,14 +180,7 @@ namespace ManiacEditor
             RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
             var windowSize = GetWindowSize();
             RenderWindow.Size = windowSize;
-            var view = GetCurrentView();
-            var currentView = view;
-            var sizeA = view.Size;
-            currentView.Zoom(GetZoom());
-            var offset = currentView.Size / 2 - sizeA / 2;
-            currentView.Move(offset);
-            RenderWindow.SetView(currentView);
-
+            RenderWindow.SetView(GetCurrentView());
 
             // Render of Scene Here
             if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
@@ -193,8 +189,6 @@ namespace ManiacEditor
             UpdateFPS();
             AllowLoopToRender = true;
         }
-
-
 
         private void UpdateFPS()
         {
@@ -247,23 +241,16 @@ namespace ManiacEditor
         public Point GetRelativeMousePosition()
         {
             var pixelPos = SFML.Window.Mouse.GetPosition(RenderWindow);
+            var zoom = GetZoom();
             var mousePos = RenderWindow.MapPixelToCoords(pixelPos, RenderWindow.GetView());
-            return new Point((int)(mousePos.X), (int)(mousePos.Y));
+            return new Point((int)(mousePos.X / zoom), (int)(mousePos.Y / zoom));
         }
 
         private Point GetMousePoint(System.Windows.Forms.MouseEventArgs e)
         {
             var position = GetParentScreen();
-            var pixelPos = SFML.Window.Mouse.GetPosition(RenderWindow);
-            var mousePos = RenderWindow.MapPixelToCoords(pixelPos, RenderWindow.GetView());
-            return new Point((int)(mousePos.X), (int)(mousePos.Y));
-            /*
-            var position = GetParentScreen();
-            var Zoom = GetZoom();
-            var coords = RenderWindow.MapPixelToCoords(new SFML.System.Vector2i());
-            var diff = coords + RenderWindow.MapPixelToCoords(new SFML.System.Vector2i((int)(position.X), (int)(position.Y)));
-            return new Point((int)(diff.X - e.X), (int)(diff.Y - e.Y));
-            */
+            var zoom = GetZoom();
+            return new Point((int)((e.X + position.X) / zoom), (int)((e.Y + position.Y) / zoom));
         }
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
@@ -322,9 +309,15 @@ namespace ManiacEditor
         public Rectangle GetScreen()
         {
             if (_parent == null) return new Rectangle(0, 0, 10, 10);
-            Rectangle screen = _parent.GetScreen();
+            Rectangle screen = GetParentScreen();
             double zoom = GetZoom();
-            return screen;
+            if (zoom == 1.0)
+                return screen;
+            else
+                return new Rectangle((int)Math.Floor(screen.X / zoom),
+                    (int)Math.Floor(screen.Y / zoom),
+                    (int)Math.Ceiling(screen.Width / zoom),
+                    (int)Math.Ceiling(screen.Height / zoom));
         }
 
         private SFML.System.Vector2i GetPosition()
@@ -341,13 +334,12 @@ namespace ManiacEditor
         }
         
         private float GetZoom()
-        {
-            
+        {       
             if (_parent == null) return 1;
             return _parent.GetZoom();
         }
 
-        private SFML.Graphics.View GetCurrentView()
+        public SFML.Graphics.View GetCurrentView()
         {
             var view = new SFML.Graphics.View(GetRectScreen());
             return view;
@@ -375,14 +367,12 @@ namespace ManiacEditor
             float zoom = GetZoom();
 
 
-            bool x1 = x > screen.Left + screen.Width * zoom;
-            bool x2 = (x + width) < screen.Left;
-            bool y1 = y > screen.Top + screen.Height * zoom;
-            bool y2 = (y + height) < screen.Top;
+            bool x1 = x * zoom > screen.Left + screen.Width;
+            bool x2 = (x + width) * zoom < screen.Left;
+            bool y1 = y * zoom > screen.Top + screen.Height;
+            bool y2 = (y + height) * zoom < screen.Top;
 
             return !(x1 || y1 || x2 || y2);
-
-
         }
 
         public bool ArePointsOnScreen(int x1, int y1, int x2, int y2)
@@ -428,8 +418,7 @@ namespace ManiacEditor
         {
             if (!IsObjectOnScreen(x, y, width, height) || image == null) return;
 
-            //var zoom = GetZoom();
-            var zoom = 1f;
+            var zoom = GetZoom();
 
             int real_x = (int)(x * zoom);
             int real_y = (int)(y * zoom);
@@ -491,8 +480,7 @@ namespace ManiacEditor
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
 
-            //var zoom = GetZoom();
-            var zoom = 1f;
+            var zoom = GetZoom();
 
             int real_x1 = (int)(x1 * zoom);
             int real_x2 = (int)(x2 * zoom);
@@ -515,8 +503,7 @@ namespace ManiacEditor
         public void DrawQuad(int x, int y, int width, int height, Color color, Color color2, int thickness)
         {
 
-            //var zoom = GetZoom();
-            var zoom = 1f;
+            var zoom = GetZoom();
 
             int real_x = (int)(x * zoom);
             int real_y = (int)(y * zoom);
@@ -544,8 +531,7 @@ namespace ManiacEditor
 
         public void DrawEllipse(int x1, int y1, int radiusX, int radiusY, Color color, float thickness = 1)
         {
-            //var zoom = GetZoom();
-            var zoom = 1f;
+            var zoom = GetZoom();
 
             int real_x = (int)(x1 * zoom);
             int real_y = (int)(y1 * zoom);
@@ -569,8 +555,7 @@ namespace ManiacEditor
         {
             if (!ArePointsOnScreen(x1, y1, x2, y2)) return;
 
-            //var zoom = GetZoom();
-            var zoom = 1f;
+            var zoom = GetZoom();
 
             int real_x1 = (int)(x1 * zoom);
             int real_x2 = (int)(x2 * zoom);
@@ -589,8 +574,7 @@ namespace ManiacEditor
         {
             if (!ArePointsOnScreen(x1, y1, x2, y2)) return;
 
-            //var zoom = GetZoom();
-            var zoom = 1f;
+            var zoom = GetZoom();
 
             int real_x1 = (int)(x1 * zoom);
             int real_x2 = (int)(x2 * zoom);
@@ -612,8 +596,7 @@ namespace ManiacEditor
         {
             Rectangle screen = GetParentScreen();
 
-            //var zoom = GetZoom();
-            var zoom = 1f;
+            var zoom = GetZoom();
 
             int width = Math.Abs(X2 - X1);
             int height = Math.Abs(Y2 - Y1);
@@ -697,10 +680,7 @@ namespace ManiacEditor
             else textObject.Font = RenderingFont;
 
             textObject.DisplayedString = text;
-
-            //var zoom = GetZoom();
-            var zoom = 1f;
-
+            float zoom = GetZoom();
             textObject.CharacterSize = (uint)(size * zoom);
             textObject.OutlineThickness = 1;
             textObject.OutlineColor = new SFML.Graphics.Color(bordercolor.R, bordercolor.G, bordercolor.B, bordercolor.A);

@@ -123,6 +123,9 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void ToggleAutoScrollerMode(System.Windows.Forms.MouseEventArgs e, bool isRelease = false)
         {
+            double zoom = ManiacEditor.Methods.Solution.SolutionState.Main.Zoom;
+            Point point = new Point((int)(e.X * zoom), (int)(e.Y * zoom));
+
             if (Properties.Settings.MySettings.ScrollerPressReleaseMode)
             {
                 if (isRelease) ScrollerModeOff();
@@ -134,13 +137,12 @@ namespace ManiacEditor.Methods.Internal
                 else ScrollerModeOff();
             }
 
-
-
             void ScrollerModeOn()
             {
+
                 //Turn Scroller Mode On
                 Methods.Solution.SolutionState.Main.AutoScrolling = true;
-                Methods.Solution.SolutionState.Main.AutoScrollPosition = new Point(e.X - Methods.Solution.SolutionState.Main.ViewPositionX, e.Y - Methods.Solution.SolutionState.Main.ViewPositionY);
+                Methods.Solution.SolutionState.Main.AutoScrollPosition = new Point((int)(point.X - Methods.Solution.SolutionState.Main.ViewPositionX), (int)(point.Y - Methods.Solution.SolutionState.Main.ViewPositionY));
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible && Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
                 else if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
                 else if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
@@ -157,8 +159,11 @@ namespace ManiacEditor.Methods.Internal
         #region Scroller Mode Events
         public static void ScrollerMouseMove(MouseEventArgs e)
         {
-            double xMove = (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) ? e.X - Methods.Solution.SolutionState.Main.ViewPositionX - Methods.Solution.SolutionState.Main.AutoScrollPosition.X : 0;
-            double yMove = (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) ? e.Y - Methods.Solution.SolutionState.Main.ViewPositionY - Methods.Solution.SolutionState.Main.AutoScrollPosition.Y : 0;
+            double zoom = ManiacEditor.Methods.Solution.SolutionState.Main.Zoom;
+            Point point = new Point((int)(e.X * zoom), (int)(e.Y * zoom));
+
+            double xMove = (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) ? point.X - Methods.Solution.SolutionState.Main.ViewPositionX - Methods.Solution.SolutionState.Main.AutoScrollPosition.X : 0;
+            double yMove = (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) ? point.Y - Methods.Solution.SolutionState.Main.ViewPositionY - Methods.Solution.SolutionState.Main.AutoScrollPosition.Y : 0;
 
             if (Math.Abs(xMove) < 15) xMove = 0;
             if (Math.Abs(yMove) < 15) yMove = 0;
@@ -187,10 +192,12 @@ namespace ManiacEditor.Methods.Internal
                 }
             }
 
+            
             System.Windows.Point position = new System.Windows.Point(Methods.Solution.SolutionState.Main.ViewPositionX, Methods.Solution.SolutionState.Main.ViewPositionY);
             double x = xMove / 10 + position.X;
             double y = yMove / 10 + position.Y;
-
+            
+            
             if (!Methods.Solution.SolutionState.Main.UnlockCamera)
             {
                 if (x < 0) x = 0;
@@ -198,6 +205,7 @@ namespace ManiacEditor.Methods.Internal
                 if (x > Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum) x = Instance.ViewPanel.SharpPanel.hScrollBar1.Maximum;
                 if (y > Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum) y = Instance.ViewPanel.SharpPanel.vScrollBar1.Maximum;
             }
+            
 
             if (x != position.X || y != position.Y)
             {
@@ -206,6 +214,7 @@ namespace ManiacEditor.Methods.Internal
                 Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
                 Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             }
+            
         }
 
         #endregion
@@ -391,20 +400,23 @@ namespace ManiacEditor.Methods.Internal
         }
         private static void MouseMove_EdgeMove(System.Windows.Forms.MouseEventArgs e)
         {
+            double zoom = ManiacEditor.Methods.Solution.SolutionState.Main.Zoom;
+            Point point = new Point((int)(e.X *zoom), (int)(e.Y * zoom));
+
             Point CurrentPos = new Point(Methods.Solution.SolutionState.Main.ViewPositionX, Methods.Solution.SolutionState.Main.ViewPositionY);
 
-            double ScreenMaxX = CurrentPos.X + (int)Instance.ViewPanel.SharpPanel.ActualWidth * Methods.Solution.SolutionState.Main.Zoom;
-            double ScreenMaxY = CurrentPos.Y + (int)Instance.ViewPanel.SharpPanel.ActualHeight * Methods.Solution.SolutionState.Main.Zoom;
+            double ScreenMaxX = CurrentPos.X + (int)Instance.ViewPanel.SharpPanel.ActualWidth;
+            double ScreenMaxY = CurrentPos.Y + (int)Instance.ViewPanel.SharpPanel.ActualHeight;
             double ScreenMinX = CurrentPos.X;
             double ScreenMinY = CurrentPos.Y;
 
             double x = CurrentPos.X;
             double y = CurrentPos.Y;
 
-            if (e.X > ScreenMaxX) x += (e.X - ScreenMaxX) / 10;
-            else if (e.X < ScreenMinX) x += (e.X - ScreenMinX) / 10;
-            if (e.Y > ScreenMaxY) y += (e.Y - ScreenMaxY) / 10;
-            else if (e.Y < ScreenMinY) y += (e.Y - ScreenMinY) / 10;
+            if (point.X > ScreenMaxX) x += (point.X - ScreenMaxX) / 10;
+            else if (point.X < ScreenMinX) x += (point.X - ScreenMinX) / 10;
+            if (point.Y > ScreenMaxY) y += (point.Y - ScreenMaxY) / 10;
+            else if (point.Y < ScreenMinY) y += (point.Y - ScreenMinY) / 10;
 
             if (!Methods.Solution.SolutionState.Main.UnlockCamera)
             {
@@ -792,7 +804,11 @@ namespace ManiacEditor.Methods.Internal
             if (Methods.Solution.SolutionState.Main.ZoomLevel > maxZoom) Methods.Solution.SolutionState.Main.ZoomLevel = maxZoom;
             if (Methods.Solution.SolutionState.Main.ZoomLevel < minZoom) Methods.Solution.SolutionState.Main.ZoomLevel = minZoom;
 
-            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.Main.ZoomLevel, new Point(Methods.Solution.SolutionState.Main.ViewPositionX - e.X, Methods.Solution.SolutionState.Main.ViewPositionY - e.Y));
+
+            double zoom = ManiacEditor.Methods.Solution.SolutionState.Main.Zoom;
+            Point point = new Point((int)(e.X * zoom), (int)(e.Y * zoom));
+
+            Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.Main.ZoomLevel, new Point(point.X - Methods.Solution.SolutionState.Main.ViewPositionX, point.Y - Methods.Solution.SolutionState.Main.ViewPositionY));
         }
         private static void MouseWheelScrolling(object sender, System.Windows.Forms.MouseEventArgs e)
         {

@@ -1367,14 +1367,11 @@ namespace ManiacEditor.Classes.Scene
                 RenderingTransparency = 0xFF;
 
             RenderSection(RenderingProvider.MapRender);
-            //if ((AreWeAnEditLayer() && Methods.Solution.SolutionState.Main.IsTilesEdit()) || (!Methods.Solution.SolutionState.Main.IsTilesEdit()))
-            //{
-                if (Methods.Solution.SolutionState.Main.ShowTileID) RenderSection(RenderingProvider.MapRenderTileID);
-                if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
-                if (Methods.Solution.SolutionState.Main.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
-                if (Methods.Solution.SolutionState.Main.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
-                RenderSection(RenderingProvider.MapRenderSelected);
-            //}
+            if (Methods.Solution.SolutionState.Main.ShowTileID) RenderSection(RenderingProvider.MapRenderTileID);
+            if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
+            if (Methods.Solution.SolutionState.Main.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
+            if (Methods.Solution.SolutionState.Main.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
+            RenderSection(RenderingProvider.MapRenderSelected);
 
 
 
