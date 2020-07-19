@@ -331,11 +331,8 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Rendering Values
-
-        private Methods.Drawing.LayerDrawing RenderingProvider { get; set; }
-        private bool isMapRenderInitalized { get; set; } = false;
-        public int RenderingTransparency { get; private set; }
-        public bool RequireRefresh { get; set; } = false;
+        public int RenderingTransparency { get; set; }
+        public bool Visible { get; set; }
 
         #endregion
 
@@ -347,7 +344,6 @@ namespace ManiacEditor.Classes.Scene
         {
             Instance = instance;
             _layer = layer;
-            RenderingProvider = new Methods.Drawing.LayerDrawing(this);
 
             SelectedTiles = new PointsMap(Width, Height);
             TempSelectionTiles = new PointsMap(Width, Height);
@@ -1350,60 +1346,10 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-        #region Rendering (SFML.Graphics)
+        #region Rendering (SFML.Graphics) (No Longer Exists Here)
         public void Draw(DevicePanel d)
         {
-            if (!isMapRenderInitalized || RequireRefresh)
-            {
-                InitalizeRender();
-                return;
-            }
 
-            if (!AreWeAnEditLayer() && Methods.Solution.SolutionState.Main.IsTilesEdit())
-                RenderingTransparency = 0x52;
-            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency)
-                RenderingTransparency = 0x32;
-            else
-                RenderingTransparency = 0xFF;
-
-            RenderSection(RenderingProvider.MapRender);
-            if (Methods.Solution.SolutionState.Main.ShowTileID) RenderSection(RenderingProvider.MapRenderTileID);
-            if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper) RenderSection(RenderingProvider.MapRenderEditor);
-            if (Methods.Solution.SolutionState.Main.ShowCollisionA) RenderSection(RenderingProvider.MapRenderCollisionMapA);
-            if (Methods.Solution.SolutionState.Main.ShowCollisionB) RenderSection(RenderingProvider.MapRenderCollisionMapB);
-            RenderSection(RenderingProvider.MapRenderSelected);
-
-
-
-            void RenderSection(LayerRenderer vbo)
-            {
-                if (vbo == null) return;
-                vbo.Refresh();
-                d.RenderWindow.Draw(vbo);
-            }
-
-
-            bool AreWeAnEditLayer()
-            {
-                bool isEditA = this == Methods.Solution.CurrentSolution.EditLayerA;
-                bool isEditB = this == Methods.Solution.CurrentSolution.EditLayerB;
-                bool isEditC = this == Methods.Solution.CurrentSolution.EditLayerC;
-                bool isEditD = this == Methods.Solution.CurrentSolution.EditLayerD;
-
-                return (isEditA || isEditB || isEditC || isEditD);
-            }
-        }
-        private void InitalizeRender()
-        {
-            RenderingProvider.MapRender = new LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.Image.GetTexture(), RenderingProvider.TileProvider, 16, 1);
-            RenderingProvider.MapRenderTileID = new LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.IDImage.GetTexture(), RenderingProvider.TileIDProvider, 16, 1);
-            RenderingProvider.MapRenderEditor = new LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.EditorImage.GetTexture(), RenderingProvider.FlippedTileProvider, 16, 1);
-            RenderingProvider.MapRenderSelected = new LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.SelectionImage.GetTexture(), RenderingProvider.TileSelectedProvider, 16, 1);
-            if (Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskA != null) RenderingProvider.MapRenderCollisionMapA = new LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskA.GetTexture(), RenderingProvider.TileCollisionProviderA, 16, 1);
-            if (Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskB != null) RenderingProvider.MapRenderCollisionMapB = new LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskB.GetTexture(), RenderingProvider.TileCollisionProviderB, 16, 1);
-
-            RequireRefresh = false;
-            isMapRenderInitalized = true;
         }
 
         #endregion

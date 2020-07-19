@@ -46,7 +46,7 @@ namespace ManiacEditor.Classes.Rendering
         /// <summary>
         /// Holds spritesheet
         /// </summary>
-        private Texture texture;
+        public Texture texture { get; set; }
 
         /// <param name="texture">Spritesheet</param>
         /// <param name="provider">Accesor to tilemap data</param>

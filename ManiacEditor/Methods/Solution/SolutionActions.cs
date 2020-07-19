@@ -180,7 +180,9 @@ namespace ManiacEditor.Methods.Solution
         {
             if (Methods.Solution.SolutionState.Main.UnlockCamera) CenterCoords = true;
 
-            
+            CenterCoords = false;
+
+
             if (CenterCoords)
             {
                 double ScreenMaxX = (int)Instance.ViewPanel.SharpPanel.ActualWidth * Methods.Solution.SolutionState.Main.Zoom;

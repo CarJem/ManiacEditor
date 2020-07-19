@@ -11,10 +11,14 @@ using ManiacEditor.Classes.Rendering;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
+using EditorLayer = ManiacEditor.Classes.Scene.EditorLayer;
 using ManiacEditor.Enums;
 using ManiacEditor.Extensions;
 using SFML.System;
 using SFML.Graphics;
+using ManiacEditor.Controls.Editor;
+using EditorScene = ManiacEditor.Classes.Scene.EditorScene;
+using ManiacEditor.Methods.Solution;
 
 namespace ManiacEditor.Methods.Drawing
 {
@@ -22,152 +26,163 @@ namespace ManiacEditor.Methods.Drawing
     public class LayerDrawing
     {
 
-        #region Connected Textures Logic Class
+        #region Definitions
+        private MainEditor Instance { get; set; }
+        private EditorScene Scene { get; set; }
+        public LayerRenderer MapRender { get; set; }
+        #endregion
 
-        public class ConnectedTexturesLogic
+        #region Init
+        public LayerDrawing(EditorScene scene, MainEditor instance)
         {
-
-            public Dictionary<int, int> Map = new Dictionary<int, int>();
-
-            private LayerDrawing Parent { get; set; }
-
-            public ConnectedTexturesLogic(LayerDrawing _Parent)
-            {
-                Parent = _Parent;
-                InitTileMap();
-            }
-
-            private int GetKeyCode(bool top, bool bottom, bool left, bool right)
-            {
-                int value = 0;
-                if (top) value += 1000;
-                if (bottom) value += 100;
-                if (left) value += 10;
-                if (right) value += 1;
-                return value;
-            }
-
-            private void InitTileMap()
-            {
-                // ↑  ↓  ←  →  ↗  ↙  ↘  ↖
-
-                //Base
-                AddMap(00, "");
-
-                //Horizontal
-                AddMap(01, "→");
-                AddMap(02, "← →");
-                AddMap(03, "←");
-
-                //Vertical
-                AddMap(12, "↓");
-                AddMap(24, "↓ ↑");
-                AddMap(36, "↑");
-
-                //Box A
-                AddMap(13, "↓ →");
-                AddMap(15, "← ↓");
-                AddMap(37, "→ ↑");
-                AddMap(39, "← ↑");
-
-                //Box  B 
-                AddMap(25, "→ ↑ ↓");
-                AddMap(14, "← → ↓");
-                AddMap(38, "← → ↑");
-                AddMap(27, "← ↑ ↓");
-
-                //All Sides
-                AddMap(26, "← → ↑ ↓");
-
-
-                void AddMap(int value, string tempkey)
-                {
-
-                    bool _isTop = false;
-                    bool _isBottom = false;
-                    bool _isLeft = false;
-                    bool _isRight = false;
-
-                    if (tempkey.Contains("↑")) _isTop = true;
-                    if (tempkey.Contains("↓")) _isBottom = true;
-                    if (tempkey.Contains("←")) _isLeft = true;
-                    if (tempkey.Contains("→")) _isRight = true;
-
-
-                    var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
-
-                    Map.Add(key, value);
-                }
-            }
-
-            public int GetConnectionID(Point point)
-            {
-                bool _isTop = IsTop(point);
-                bool _isBottom = IsBottom(point);
-                bool _isLeft = IsLeft(point);
-                bool _isRight = IsRight(point);
-                var key = GetKeyCode(_isTop, _isBottom, _isLeft, _isRight);
-                return Map[key];
-            }
-
-            public bool IsTop(Point point)
-            {
-                return Parent.IsTileSelected(new Point(point.X, point.Y - 1));
-            }
-            public bool IsBottom(Point point)
-            {
-                return Parent.IsTileSelected(new Point(point.X, point.Y + 1));
-            }
-            public bool IsLeft(Point point)
-            {
-                return Parent.IsTileSelected(new Point(point.X - 1, point.Y));
-            }
-            public bool IsRight(Point point)
-            {
-                return Parent.IsTileSelected(new Point(point.X + 1, point.Y));
-            }
-
+            Instance = instance;
+            Scene = scene;
+            
+            MapRender = new LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.CollectiveImage.GetTexture(), TileProvider, 16, Scene.AllLayers.Count * 2);
         }
 
         #endregion
 
-        #region Definitions
-        private ConnectedTexturesLogic CTLogic { get; set; }
-        public Classes.Scene.EditorLayer ParentLayer { get; set; }
-        public LayerRenderer MapRender { get; set; }
-        public LayerRenderer MapRenderEditor { get; set; }
-        public LayerRenderer MapRenderTileID { get; set; }
-        public LayerRenderer MapRenderCollisionMapA { get; set; }
-        public LayerRenderer MapRenderCollisionMapB { get; set; }
-        public LayerRenderer MapRenderSelected { get; set; }
+        #region Layer Visibility Checks
 
-        #endregion
-
-        #region Init
-
-        public LayerDrawing(Classes.Scene.EditorLayer _ParentLayer)
+        public void ApplyLayerRules(EditorLayer layer)
         {
-            ParentLayer = _ParentLayer;
-            CTLogic = new ConnectedTexturesLogic(this);
+            if (!AreWeAnEditLayer() && Methods.Solution.SolutionState.Main.IsTilesEdit())
+                layer.RenderingTransparency = 0x52;
+            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency)
+                layer.RenderingTransparency = 0x32;
+            else
+                layer.RenderingTransparency = 0xFF;
+
+            bool AreWeAnEditLayer()
+            {
+                bool isEditA = layer == Methods.Solution.CurrentSolution.EditLayerA;
+                bool isEditB = layer == Methods.Solution.CurrentSolution.EditLayerB;
+                bool isEditC = layer == Methods.Solution.CurrentSolution.EditLayerC;
+                bool isEditD = layer == Methods.Solution.CurrentSolution.EditLayerD;
+
+                return (isEditA || isEditB || isEditC || isEditD);
+            }
+        }
+        public void UpdateLayerVisibility()
+        {
+            UpdateLayer(Instance.EditorToolbar.ShowFGLower.IsChecked.Value, Instance.EditorToolbar.EditFGLower.IsCheckedAll, Methods.Solution.CurrentSolution.FGLower);
+            UpdateLayer(Instance.EditorToolbar.ShowFGLow.IsChecked.Value, Instance.EditorToolbar.EditFGLow.IsCheckedAll, Methods.Solution.CurrentSolution.FGLow);
+            UpdateLayer(Instance.EditorToolbar.ShowFGHigh.IsChecked.Value, Instance.EditorToolbar.EditFGHigh.IsCheckedAll, Methods.Solution.CurrentSolution.FGHigh);
+            UpdateLayer(Instance.EditorToolbar.ShowFGHigher.IsChecked.Value, Instance.EditorToolbar.EditFGHigher.IsCheckedAll, Methods.Solution.CurrentSolution.FGHigher);
+
+            for (int i = 0; i < Instance.EditorToolbar.ExtraLayerEditViewButtons.Count; i++)
+            {
+                var elb = Instance.EditorToolbar.ExtraLayerEditViewButtons.ElementAt(i);
+
+                int index = Instance.EditorToolbar.ExtraLayerEditViewButtons.IndexOf(elb);
+                var _extraViewLayer = Methods.Solution.CurrentSolution.CurrentScene.OtherLayers.ElementAt(index);
+
+                if (elb.Value.IsCheckedAll || elb.Key.IsCheckedAll) _extraViewLayer.Visible = true;
+                else _extraViewLayer.Visible = false;
+            }
+
+            void UpdateLayer(bool ShowLayer, bool EditLayer, Classes.Scene.EditorLayer layer)
+            {
+                if (layer != null)
+                {
+                    if (ShowLayer || EditLayer) layer.Visible = true;
+                    else layer.Visible = false;
+                }
+            }
         }
 
         #endregion
 
         #region Tile Providers
-
-        public void TileIDProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileProvider(int x, int y, int index, out SFML.Graphics.Color color, out IntRect rec)
         {
-            if (IsTileWithinRange(x, y))
+
+            int actual_index = index / 2;
+            int mode_index = index % 2;
+
+            EditorLayer layer = Scene.AllLayers[actual_index];
+
+            if (mode_index == 1)
+            {
+                if (SolutionState.Main.ShowTileID) TileIDProvider(x, y, layer, out color, out rec);
+                else if (SolutionState.Main.ShowFlippedTileHelper) TileFlipProvider(x, y, layer, out color, out rec);
+                else if (SolutionState.Main.ShowCollisionA) TileCollisionProviderA(x, y, layer, out color, out rec);
+                else if (SolutionState.Main.ShowCollisionB) TileCollisionProviderB(x, y, layer, out color, out rec);
+                else
+                {
+                    rec = GetNullTileProviderRect();
+                    color = GetNullTileProviderColor();
+                }
+            }
+            else
+            {
+                if (IsTileWithinRange(layer, x, y) && layer.Visible)
+                {
+                    Point point = new Point(x, y);
+                    var tile = GetTileToDraw(layer, point);
+
+                    bool NotAir = (tile != 0xffff);
+
+                    if (NotAir)
+                    {
+                        rec = GetTileRect(0, tile);
+                        color = GetNormalColors(layer, new Point(x, y), tile);
+                    }
+                    else
+                    {
+                        rec = GetNullTileProviderRect();
+                        color = GetNullTileProviderColor();
+                    }
+                }
+                else
+                {
+                    rec = GetNullTileProviderRect();
+                    color = GetNullTileProviderColor();
+                }
+            }
+
+
+        }
+        public void TileFlipProvider(int x, int y, EditorLayer ParentLayer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if (IsTileWithinRange(ParentLayer, x, y) && ParentLayer.Visible)
             {
                 Point point = new Point(x, y);
-                var tile = GetTileToDraw(point);
+                var tile = GetTileToDraw(ParentLayer, point);
+
+                bool NotAir = (tile != 0xffff);
+
+                if (NotAir)
+                {
+                    rec = GetTileRect(64, tile, true);
+                    color = GetNormalColors(ParentLayer, new Point(x, y), tile);
+                }
+                else
+                {
+                    rec = GetNullTileProviderRect();
+                    color = GetNullTileProviderColor();
+                }
+            }
+            else
+            {
+                rec = GetNullTileProviderRect();
+                color = GetNullTileProviderColor();
+            }
+        }
+        public void TileIDProvider(int x, int y, EditorLayer ParentLayer, out SFML.Graphics.Color color, out IntRect rec)
+        {
+            if (IsTileWithinRange(ParentLayer, x, y) && ParentLayer.Visible)
+            {
+                Point point = new Point(x, y);
+                var tile = GetTileToDraw(ParentLayer, point);
 
                 bool NotAir = (tile != 0xffff);
 
                 if (NotAir)
                 {
                     rec = GetTileRectNoFlip(tile);
-                    color = GetNormalColors(new Point(x, y), tile);
+                    color = GetNormalColors(ParentLayer, new Point(x, y), tile);
                 }
                 else
                 {
@@ -181,19 +196,18 @@ namespace ManiacEditor.Methods.Drawing
                 color = GetNullTileProviderColor();
             }
         }
-        public void FlippedTileProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileCollisionProviderA(int x, int y, EditorLayer ParentLayer, out SFML.Graphics.Color color, out IntRect rec)
         {
-            if (IsTileWithinRange(x, y))
-            {
-                Point point = new Point(x, y);
-                var tile = GetTileToDraw(point);
 
+            if (IsTileWithinRange(ParentLayer, x, y) && ParentLayer.Visible)
+            {
+                var tile = GetTileToDraw(ParentLayer, new Point(x, y));
                 bool NotAir = (tile != 0xffff);
 
                 if (NotAir)
                 {
-                    rec = GetTileRect(tile, true);
-                    color = GetNormalColors(new Point(x, y), tile);
+                    rec = GetTileRect(32, tile);
+                    color = GetCollisionColors(ParentLayer, new Point(x, y), tile, true);
                 }
                 else
                 {
@@ -208,99 +222,17 @@ namespace ManiacEditor.Methods.Drawing
             }
 
         }
-        public void TileProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
+        public void TileCollisionProviderB(int x, int y, EditorLayer ParentLayer, out SFML.Graphics.Color color, out IntRect rec)
         {
-            if (IsTileWithinRange(x, y))
+            if (IsTileWithinRange(ParentLayer, x, y) && ParentLayer.Visible)
             {
-                Point point = new Point(x, y);
-                var tile = GetTileToDraw(point);
-
+                var tile = GetTileToDraw(ParentLayer, new Point(x, y));
                 bool NotAir = (tile != 0xffff);
 
                 if (NotAir)
                 {
-                    rec = GetTileRect(tile);
-                    color = GetNormalColors(new Point(x, y), tile);
-                }
-                else
-                {
-                    rec = GetNullTileProviderRect();
-                    color = GetNullTileProviderColor();
-                }
-            }
-            else
-            {
-                rec = GetNullTileProviderRect();
-                color = GetNullTileProviderColor();
-            }
-
-
-
-
-        }
-        public void TileSelectedProvider(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
-        {
-            if (IsTileWithinRange(x, y))
-            {
-                Point point = new Point(x, y);
-                if (IsTileSelected(point))
-                {
-                    rec = GetTileSelectedRect(point);
-                    color = new SFML.Graphics.Color(255, 0, 0, (byte)ParentLayer.RenderingTransparency);
-                }
-                else
-                {
-                    rec = GetNullTileProviderRect();
-                    color = GetNullTileProviderColor();
-                }
-
-            }
-            else
-            {
-                rec = GetNullTileProviderRect();
-                color = GetNullTileProviderColor();
-            }
-
-
-
-
-        }
-        public void TileCollisionProviderA(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
-        {
-            if (IsTileWithinRange(x, y))
-            {
-                var tile = GetTileToDraw(new Point(x, y));
-                bool NotAir = (tile != 0xffff);
-
-                if (NotAir)
-                {
-                    rec = GetTileRect(tile);
-                    color = GetCollisionColors(new Point(x, y), tile, true);
-                }
-                else
-                {
-                    rec = GetNullTileProviderRect();
-                    color = GetNullTileProviderColor();
-                }
-            }
-            else
-            {
-                rec = GetNullTileProviderRect();
-                color = GetNullTileProviderColor();
-            }
-
-        }
-        public void TileCollisionProviderB(int x, int y, int layer, out SFML.Graphics.Color color, out IntRect rec)
-        {
-            if (IsTileWithinRange(x, y))
-            {
-                var tile = GetTileToDraw(new Point(x, y));
-                bool NotAir = (tile != 0xffff);
-
-                if (NotAir)
-                {
-                    rec = GetTileRect(tile);
-                    color = GetCollisionColors(new Point(x, y), tile, false);
+                    rec = GetTileRect(48, tile);
+                    color = GetCollisionColors(ParentLayer, new Point(x, y), tile, false);
                 }
                 else
                 {
@@ -320,25 +252,11 @@ namespace ManiacEditor.Methods.Drawing
 
         #region Tile IntRect
 
-        public IntRect GetNullTileProviderRect()
+        public  IntRect GetNullTileProviderRect()
         {
             return new IntRect(0, 0, 16, 16);
         }
-        private IntRect GetTileSelectedRect(Point point)
-        {
-            int connection_id = 0;
-            if (Properties.Settings.MyPerformance.UseConnectedTileSelections) connection_id = CTLogic.GetConnectionID(point);
-
-            int tile_size = Methods.Solution.SolutionConstants.TILE_SIZE;
-            int tile_texture_y = connection_id * tile_size;
-            int rect_x = 0;
-            int rect_y = tile_texture_y;
-            int rect_width = tile_size;
-            int rect_height = tile_size;
-
-            return new IntRect(rect_x, rect_y, rect_width, rect_height);
-        }
-        private IntRect GetTileRectNoFlip(ushort tile)
+        private  IntRect GetTileRectNoFlip(ushort tile)
         {
             int index = (tile & 0x3ff);
 
@@ -351,14 +269,14 @@ namespace ManiacEditor.Methods.Drawing
 
             int tile_size = Methods.Solution.SolutionConstants.TILE_SIZE;
             int tile_texture_y = index * tile_size;
-            int rect_x = 0;
+            int rect_x = 16;
             int rect_y = tile_texture_y;
             int rect_width = tile_size;
             int rect_height = tile_size;
 
             return new IntRect(rect_x, rect_y, rect_width, rect_height);
         }
-        private IntRect GetTileRect(ushort tile, bool FlipGuideMode = false)
+        private  IntRect GetTileRect(int offset, ushort tile, bool FlipGuideMode = false)
         {
             int index = (tile & 0x3ff);
 
@@ -369,6 +287,8 @@ namespace ManiacEditor.Methods.Drawing
             bool SolidTopB = ((tile >> 14) & 1) == 1;
             bool SolidLrbB = ((tile >> 15) & 1) == 1;
 
+
+            int tile_x_offset = offset;
             int tile_size = Methods.Solution.SolutionConstants.TILE_SIZE;
             int tile_texture_y = index * tile_size;
             int rect_x;
@@ -384,28 +304,28 @@ namespace ManiacEditor.Methods.Drawing
 
             if (flipX && flipY)
             {
-                rect_x = tile_size;
+                rect_x = tile_x_offset + tile_size;
                 rect_y = tile_texture_y + tile_size;
                 rect_width = -tile_size;
                 rect_height = -tile_size;
             }
             else if (flipY)
             {
-                rect_x = 0;
+                rect_x = tile_x_offset;
                 rect_y = tile_texture_y + tile_size;
                 rect_width = tile_size;
                 rect_height = -tile_size;
             }
             else if (flipX)
             {
-                rect_x = tile_size;
+                rect_x = tile_x_offset + tile_size;
                 rect_y = tile_texture_y;
                 rect_width = -tile_size;
                 rect_height = tile_size;
             }
             else
             {
-                rect_x = 0;
+                rect_x = tile_x_offset;
                 rect_y = tile_texture_y;
                 rect_width = tile_size;
                 rect_height = tile_size;
@@ -418,10 +338,10 @@ namespace ManiacEditor.Methods.Drawing
 
         #region Tile Colors
 
-        private SFML.Graphics.Color GetNormalColors(Point point, ushort value)
+        private SFML.Graphics.Color GetNormalColors(EditorLayer ParentLayer, Point point, ushort value)
         {
             System.Drawing.Color NormalColor = System.Drawing.Color.White;
-            if (IsTileSelected(point))
+            if (IsTileSelected(ParentLayer, point))
             {
                 NormalColor = Extensions.Extensions.Darken(NormalColor, 0.3);
             }
@@ -433,6 +353,10 @@ namespace ManiacEditor.Methods.Drawing
             return new SFML.Graphics.Color(0, 0, 0, 0);
         }
 
+        #endregion
+
+        #region Collision Colors
+
         private System.Drawing.Color GetCollisionColor(System.Drawing.Color Color, int Opacity, int Opacity2)
         {
             int Diff = Opacity > Opacity2 ? Opacity - Opacity2 : Opacity2 - Opacity;
@@ -441,20 +365,26 @@ namespace ManiacEditor.Methods.Drawing
             int RealOpacity = Biggest - (int)Diff;
             return System.Drawing.Color.FromArgb(RealOpacity, Color.R, Color.G, Color.B);
         }
-
-        private SFML.Graphics.Color GetCollisionColors(Point point, ushort value, bool isPathA = true)
+        private SFML.Graphics.Color GetCollisionColors(EditorLayer ParentLayer, Point point, ushort value, bool isPathA = true)
         {
             RSDKv5.Tile tile = new Tile(value);
 
-            System.Drawing.Color AllSolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionAllSolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
-            System.Drawing.Color LRDSolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionLRDSolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
-            System.Drawing.Color TopOnlySolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionTopOnlySolid_Color, ParentLayer.RenderingTransparency, (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value);
+            int collisionOpacity = (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value;
+            int layerOpacity = ParentLayer.RenderingTransparency;
 
-            if (IsTileSelected(point))
+            System.Drawing.Color AllSolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionAllSolid_Color, layerOpacity, collisionOpacity);
+            System.Drawing.Color LRDSolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionLRDSolid_Color, layerOpacity, collisionOpacity);
+            System.Drawing.Color TopOnlySolid = GetCollisionColor(Methods.Solution.SolutionState.Main.CollisionTopOnlySolid_Color, layerOpacity, collisionOpacity);
+
+            int AllSolid_Alpha = AllSolid.A;
+            int LRDSolid_Alpha = LRDSolid.A;
+            int TopOnlySolid_Alpha = TopOnlySolid.A;
+
+            if (IsTileSelected(ParentLayer, point))
             {
-                AllSolid = Extensions.Extensions.Darken(AllSolid, 0.3);
-                LRDSolid = Extensions.Extensions.Darken(LRDSolid, 0.3);
-                TopOnlySolid = Extensions.Extensions.Darken(TopOnlySolid, 0.3);
+                AllSolid = System.Drawing.Color.FromArgb(AllSolid_Alpha, Extensions.Extensions.Darken(AllSolid, 0.3));
+                LRDSolid = System.Drawing.Color.FromArgb(LRDSolid_Alpha, Extensions.Extensions.Darken(LRDSolid, 0.3));
+                TopOnlySolid = System.Drawing.Color.FromArgb(TopOnlySolid_Alpha, Extensions.Extensions.Darken(TopOnlySolid, 0.3));
             }
 
             if (isPathA)
@@ -462,14 +392,14 @@ namespace ManiacEditor.Methods.Drawing
                 if (tile.SolidTopA && tile.SolidLrbA) return new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, AllSolid.A);
                 else if (tile.SolidTopA && !tile.SolidLrbA) return new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, TopOnlySolid.A);
                 else if (!tile.SolidTopA && tile.SolidLrbA) return new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, LRDSolid.A);
-                else return new SFML.Graphics.Color(255, 255, 255, 0);
+                else return new SFML.Graphics.Color(0, 0, 0, 0);
             }
             else
             {
                 if (tile.SolidTopB && tile.SolidLrbB) return new SFML.Graphics.Color(AllSolid.R, AllSolid.G, AllSolid.B, AllSolid.A);
                 else if (tile.SolidTopB && !tile.SolidLrbB) return new SFML.Graphics.Color(TopOnlySolid.R, TopOnlySolid.G, TopOnlySolid.B, TopOnlySolid.A);
                 else if (!tile.SolidTopB && tile.SolidLrbB) return new SFML.Graphics.Color(LRDSolid.R, LRDSolid.G, LRDSolid.B, LRDSolid.A);
-                else return new SFML.Graphics.Color(255, 255, 255, 0);
+                else return new SFML.Graphics.Color(0, 0, 0, 0);
             }
 
         }
@@ -478,16 +408,16 @@ namespace ManiacEditor.Methods.Drawing
 
         #region Tile Helper Methods
 
-        public ushort GetTileToDraw(Point source)
+        public ushort GetTileToDraw(EditorLayer ParentLayer, Point source)
         {
             if (ParentLayer.SelectedTiles.Values.ContainsKey(source)) return ParentLayer.SelectedTiles.Values[source];
             else return ParentLayer.Layer.Tiles[source.Y][source.X];
         }
-        private bool IsTileWithinRange(int x, int y)
+        private  bool IsTileWithinRange(EditorLayer ParentLayer, int x, int y)
         {
             return (ParentLayer.Height > y && 0 <= y && ParentLayer.Width > x && 0 <= x);
         }
-        public bool IsTileSelected(Point point)
+        public  bool IsTileSelected(EditorLayer ParentLayer, Point point)
         {
             if (ParentLayer.TempSelectionTiles.Contains(point))
             {

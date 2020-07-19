@@ -274,6 +274,7 @@
     <Compile Include="Bindings\DefaultSettingsBindingExtension.cs" />
     <Compile Include="Bindings\GameSettingsBindingExtension.cs" />
     <Compile Include="Bindings\SettingsBindingExtension.cs" />
+    <Compile Include="Classes\Rendering\RenderLoop.cs" />
     <Compile Include="Controls\Dialog\AsyncWaitingBox.xaml.cs">
       <DependentUpon>AsyncWaitingBox.xaml</DependentUpon>
     </Compile>
@@ -285,6 +286,9 @@
     <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\OneWayDoor.cs" />
     <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\PSZDoor.cs" />
     <Compile Include="Entity Renders\Normal Renders\Buttons + Doors\TwistingDoor.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LRZConveyor.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\PopcornMachine.cs" />
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\RTeleporter.cs" />
     <Compile Include="Entity Renders\Normal Renders\Platforms\TilePlatform.cs" />

@@ -14,7 +14,7 @@ using ManiacEditor.Extensions;
 using ManiacEditor.Controls.TileManiac;
 using ManiacEditor.Controls.Editor;
 using System.Threading.Tasks;
-
+using SFML.System;
 
 namespace ManiacEditor.Methods.Internal
 {
@@ -143,6 +143,7 @@ namespace ManiacEditor.Methods.Internal
                 //Turn Scroller Mode On
                 Methods.Solution.SolutionState.Main.AutoScrolling = true;
                 Methods.Solution.SolutionState.Main.AutoScrollPosition = new Point((int)(point.X - Methods.Solution.SolutionState.Main.ViewPositionX), (int)(point.Y - Methods.Solution.SolutionState.Main.ViewPositionY));
+                Methods.Solution.SolutionState.Main.ActualAutoScrollPosition = Instance.ViewPanel.SharpPanel.GraphicPanel.RenderWindow.MapPixelToCoords(new Vector2i((int)(point.X - Methods.Solution.SolutionState.Main.ViewPositionX), (int)(point.Y - Methods.Solution.SolutionState.Main.ViewPositionY)));
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible && Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
                 else if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
                 else if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);
@@ -211,8 +212,8 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
                 if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
-                Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
                 Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+                Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
             }
             
         }
@@ -360,7 +361,7 @@ namespace ManiacEditor.Methods.Internal
                     Methods.Solution.SolutionMultiLayer.MoveSelected(oldPoint, newPoint, AltPressed());
                 }
 
-                if (Instance.ViewPanel.SharpPanel.GraphicPanel.AllowLoopToRender) Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             }
             Methods.Solution.SolutionState.Main.StartDragged = false;
 

@@ -343,7 +343,7 @@ namespace ManiacEditor.Controls.Editor
                 List<System.Windows.Media.ImageSource> TilesList = new List<System.Windows.Media.ImageSource>();
                 for (int i = 0; i < 1024; i++)
                 {
-                    TilesList.Add(Methods.Solution.CurrentSolution.CurrentTiles?.Image.GetImageSource(new System.Drawing.Rectangle(0, 16 * i, 16, 16), false, false));
+                    TilesList.Add(Methods.Solution.CurrentSolution.CurrentTiles?.BaseImage.GetImageSource(new System.Drawing.Rectangle(0, 16 * i, 16, 16), false, false));
                 }
                 return TilesList;
             }

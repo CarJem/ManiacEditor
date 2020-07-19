@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Collections.Generic;
+using SFML.System;
 
 namespace ManiacEditor.Methods.Solution
 {
@@ -53,7 +54,7 @@ namespace ManiacEditor.Methods.Solution
 
             public bool AnyDragged()
             {
-                return (DraggingSelection || Dragged || AutoScrolling);
+                return ((DraggingSelection || Dragged) && !AutoScrolling);
             }
 
             #endregion
@@ -67,6 +68,7 @@ namespace ManiacEditor.Methods.Solution
             private bool _StartDragged = false;
             private bool _AutoScrolling = false; //Determines if the User is Scrolling
             private Point _AutoScrollPosition;//For Getting the Scroll Position
+            private Vector2f _ActualAutoScrollPosition;//For Getting the Scroll Position
             private bool _Zooming = false;  //Detects if we are zooming
             private double _Zoom = 1;
             private int _ZoomLevel = 1;
@@ -191,6 +193,18 @@ namespace ManiacEditor.Methods.Solution
                     OnPropertyChanged(nameof(AutoScrollPosition));
                 }
             }
+            public Vector2f ActualAutoScrollPosition
+            {
+                get
+                {
+                    return _ActualAutoScrollPosition;
+                }
+                set
+                {
+                    _ActualAutoScrollPosition = value;
+                    OnPropertyChanged(nameof(ActualAutoScrollPosition));
+                }
+            }
             public bool Zooming
             {
                 get
@@ -306,7 +320,9 @@ namespace ManiacEditor.Methods.Solution
                 if (Instance.ViewPanel.SharpPanel != null && UpdateScrollBars)
                 {
                     Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+                    Instance.ViewPanel.SharpPanel.vScrollBar1.Value = value * Instance.ViewPanel.SharpPanel.GetZoom();
                 }
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionY));
                 UpdateStatusLabels();
@@ -317,7 +333,9 @@ namespace ManiacEditor.Methods.Solution
                 if (Instance.ViewPanel.SharpPanel != null && UpdateScrollBars)
                 {
                     Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+                    Instance.ViewPanel.SharpPanel.hScrollBar1.Value = value * Instance.ViewPanel.SharpPanel.GetZoom();
                 }
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionX));
                 UpdateStatusLabels();
@@ -962,6 +980,12 @@ namespace ManiacEditor.Methods.Solution
                     _ShowCollisionA = value;
                     Instance.EditorToolbar.ShowCollisionBButton.IsChecked = false;
                     _ShowCollisionB = false;
+
+                    if (value == true)
+                    {
+                        if (ShowTileID) ShowTileID = false;
+                        if (ShowFlippedTileHelper) ShowFlippedTileHelper = false;
+                    }
                 }
             }
             private bool _ShowCollisionA;
@@ -975,6 +999,12 @@ namespace ManiacEditor.Methods.Solution
                     _ShowCollisionA = false;
                     Instance.EditorToolbar.ShowCollisionBButton.IsChecked = value;
                     _ShowCollisionB = value;
+
+                    if (value == true)
+                    {
+                        if (ShowTileID) ShowTileID = false;
+                        if (ShowFlippedTileHelper) ShowFlippedTileHelper = false;
+                    }
                 }
             }
             private bool _ShowCollisionB;
@@ -990,6 +1020,12 @@ namespace ManiacEditor.Methods.Solution
                 {
                     Instance.EditorToolbar.ShowTileIDButton.IsChecked = value;
                     _ShowTileID = value;
+                    if (value == true)
+                    {
+                        if (ShowCollisionA) ShowCollisionA = false;
+                        if (ShowCollisionB) ShowCollisionB = false;
+                        if (ShowFlippedTileHelper) ShowFlippedTileHelper = false;
+                    }
                 }
             }
             private bool _ShowTileID;
@@ -1026,6 +1062,13 @@ namespace ManiacEditor.Methods.Solution
                 set
                 {
                     _ShowFlippedTileHelper = value;
+                    Instance.EditorToolbar.FlipAssistButton.IsChecked = value;
+                    if (value == true)
+                    {
+                        if (ShowCollisionA) ShowCollisionA = false;
+                        if (ShowCollisionB) ShowCollisionB = false;
+                        if (ShowTileID) ShowTileID = false;
+                    }
                 }
             }
             private bool _ShowFlippedTileHelper = false;

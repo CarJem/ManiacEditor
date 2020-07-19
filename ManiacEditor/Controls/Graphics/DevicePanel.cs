@@ -17,7 +17,7 @@ using System.Diagnostics;
 using Texture = SFML.Graphics.Texture;
 using System.Collections.Generic;
 using ManiacEditor.Extensions;
-
+using ManiacEditor.Methods.Drawing;
 
 namespace ManiacEditor
 {
@@ -38,12 +38,31 @@ namespace ManiacEditor
 
         public IDrawArea _parent = null;
 
+
+        public SFML.System.Vector2i LastPosition { get; set; } = new SFML.System.Vector2i(0, 0);
         public SFML.System.Vector2f ZoomOffset { get; private set; } = new SFML.System.Vector2f(0, 0);
 
 
         SFML.Graphics.Font RenderingFont;
 
         SFML.Graphics.Font RenderingFontBold;
+
+        #endregion
+
+        #region Built-In Textures
+
+        Texture tx;
+        Bitmap txb;
+        Texture tcircle;
+        Texture tecircle;
+        Texture hvcursor;
+        Bitmap hvcursorb;
+        Texture vcursor;
+        Bitmap vcursorb;
+        Texture hcursor;
+        Bitmap hcursorb;
+        Bitmap tcircleb;
+        Bitmap tecircleb;
 
         #endregion
 
@@ -74,7 +93,22 @@ namespace ManiacEditor
         #region Other Variables
         public bool MouseMoved { get; set; } = false;
         public MouseEventArgs LastEvent { get; set; }
-        public bool AllowLoopToRender { get; set; } = true;
+
+        private bool _CanRender = true;
+        private bool CanRender
+        {
+            get
+            {
+                return _CanRender;
+            }
+            set
+            {
+                _CanRender = true;
+                if (VSyncAwaiting && value == true) Render(true);
+            }
+        }
+        private bool VSync { get; set; } = false;
+        private bool VSyncAwaiting { get; set; } = false;
         #endregion
 
         #endregion
@@ -127,17 +161,17 @@ namespace ManiacEditor
 
         public void Run()
         {
-            RenderLoop.Run(this, () =>
+            
+            ManiacEditor.Classes.Rendering.RenderLoop.Run(this, () =>
             {
-                // Another option is not use RenderLoop at all and call Render when needed, and call here every tick for animations
-                if (AllowLoopToRender) Render();
+                Render();
                 if (MouseMoved)
                 {
                     OnMouseMove(LastEvent);
                     MouseMoved = false;
                 }
-                Application.DoEvents();
-            });
+            }, true);
+
         }
 
         public void InitDeviceResources()
@@ -146,6 +180,54 @@ namespace ManiacEditor
 
             RenderingFont = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "sonic2system.ttf"));
             RenderingFontBold = new SFML.Graphics.Font(System.IO.Path.Combine(Methods.ProgramPaths.FontsDirectory, "sonic2system.ttf"));
+
+            txb = new Bitmap(1, 1);
+            using (Graphics g = Graphics.FromImage(txb))
+                g.Clear(Color.White);
+
+            tcircleb = new Bitmap(9, 9);
+            using (Graphics g = Graphics.FromImage(tcircleb))
+                g.FillEllipse(Brushes.White, new Rectangle(0, 0, 9, 9));
+
+            tecircleb = new Bitmap(14, 14);
+            using (Graphics g = Graphics.FromImage(tecircleb))
+                g.DrawEllipse(new Pen(Brushes.White), new Rectangle(0, 0, 13, 13));
+
+            hcursorb = new Bitmap(32, 32);
+            using (Graphics g = Graphics.FromImage(hcursorb))
+                Cursors.NoMoveHoriz.Draw(g, new Rectangle(0, 0, 32, 32));
+            MakeGray(hcursorb);
+
+            vcursorb = new Bitmap(32, 32);
+            using (Graphics g = Graphics.FromImage(vcursorb))
+                Cursors.NoMoveVert.Draw(g, new Rectangle(0, 0, 32, 32));
+            MakeGray(vcursorb);
+
+            hvcursorb = new Bitmap(32, 32);
+            using (Graphics g = Graphics.FromImage(hvcursorb))
+                Cursors.NoMove2D.Draw(g, new Rectangle(0, 0, 32, 32));
+            MakeGray(hvcursorb);
+
+            tx =  CommonDrawing.FromBitmap(txb);
+            tcircle = CommonDrawing.FromBitmap(tcircleb);
+            tecircle = CommonDrawing.FromBitmap(tecircleb);
+            hcursor = CommonDrawing.FromBitmap(hcursorb);
+            vcursor = CommonDrawing.FromBitmap(vcursorb);
+            hvcursor = CommonDrawing.FromBitmap(hvcursorb);
+
+            void MakeGray(Bitmap image)
+            {
+                for (int x = 0; x < image.Width; x++)
+                {
+                    for (int y = 0; y < image.Height; y++)
+                    {
+                        if (image.GetPixel(x, y).Name == "ffffffff")
+                            image.SetPixel(x, y, Color.Transparent);
+                        else if (image.GetPixel(x, y).Name == "ff000000")
+                            image.SetPixel(x, y, Color.Gray);
+                    }
+                }
+            }
         }
 
         #endregion
@@ -167,27 +249,54 @@ namespace ManiacEditor
 
         #endregion
 
+        #region Pause Rendering
+        public void ToggleRendering(bool value)
+        {
+            CanRender = value;
+        }
+
+        #endregion
+
         #region Rendering
 
         /// <summary>
         /// The New Rendering-method
         /// </summary>
         /// 
-        public void Render()
+        public void Render(bool isAwaited = false)
         {
-            AllowLoopToRender = false;
-            RenderWindow.DispatchEvents();
-            RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
-            var windowSize = GetWindowSize();
-            RenderWindow.Size = windowSize;
-            RenderWindow.SetView(GetCurrentView());
+            if (VSync && (!CanRender && isAwaited == false))
+            {
+                VSyncAwaiting = true;
+                return;
+            }
+            else if (isAwaited)
+            {
+                VSyncAwaiting = false;
+            }
 
-            // Render of Scene Here
-            if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
+            if (RenderWindow != null)
+            {
+                CanRender = true;
+                RenderWindow.DispatchEvents();
+                RenderWindow.Clear(new SFML.Graphics.Color(DeviceBackColor.R, DeviceBackColor.G, DeviceBackColor.B));
+                var windowSize = GetWindowSize();
+                RenderWindow.Size = windowSize;
 
-            RenderWindow.Display();
-            UpdateFPS();
-            AllowLoopToRender = true;
+                var pos = GetPosition();
+                if (LastPosition != pos)
+                {
+                    LastPosition = pos;
+                    RenderWindow.SetView(GetCurrentView());
+                }
+
+                // Render of Scene Here
+                if (OnRender != null) OnRender(this, new DeviceEventArgs(RenderWindow));
+
+                UpdateFPS();
+                RenderWindow.Display();
+                CanRender = false;
+            }
         }
 
         private void UpdateFPS()
@@ -294,7 +403,6 @@ namespace ManiacEditor
         }
         public void OnMouseMoveEventCreate()
         {
-            var Zoom = GetZoom();
             System.Windows.Forms.Cursor.Position = new Point(System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y);
         }
 
@@ -432,6 +540,53 @@ namespace ManiacEditor
 
 
             
+            if (fliph || flipv)
+            {
+                if (fliph)
+                {
+                    var temp = textureRect.Left;
+                    textureRect.Left = temp + textureRect.Width;
+                    textureRect.Width = -textureRect.Width;
+                }
+                if (flipv)
+                {
+                    var temp = textureRect.Top;
+                    textureRect.Top = temp + textureRect.Height;
+                    textureRect.Height = -textureRect.Height;
+                }
+            }
+
+
+
+            SFML.Graphics.RectangleShape rect = new SFML.Graphics.RectangleShape();
+            rect.Position = position;
+            rect.Origin = center;
+            rect.Rotation = rotation;
+            rect.Size = size;
+            rect.Texture = image;
+            rect.FillColor = GetTransparency(color, Transparency);
+            rect.TextureRect = textureRect;
+            RenderWindow.Draw(rect);
+        }
+
+        public void DrawTexture(SFML.Graphics.Texture image, int x, int y, int rect_x, int rect_y, int rect_width, int rect_height, int width, int height, bool selected, int Transparency, bool fliph = false, bool flipv = false, int rotation = 0, Color? color = null)
+        {
+            if (!IsObjectOnScreen(x, y, width, height) || image == null) return;
+
+            var zoom = GetZoom();
+
+            int real_x = (int)(x * zoom);
+            int real_y = (int)(y * zoom);
+
+            SFML.System.Vector2f size = new SFML.System.Vector2f(rect_width, rect_height);
+            SFML.System.Vector2f center = new SFML.System.Vector2f(size.X / 2, size.Y / 2);
+            SFML.System.Vector2f position = new SFML.System.Vector2f(real_x + center.X, real_y + center.Y);
+
+
+            var textureRect = new IntRect(rect_x, rect_y, width, height);
+
+
+
             if (fliph || flipv)
             {
                 if (fliph)
@@ -687,6 +842,53 @@ namespace ManiacEditor
             textObject.Position = new SFML.System.Vector2f(x * zoom, y * zoom);
             textObject.FillColor = new SFML.Graphics.Color(color.R, color.G, color.B, color.A);
             RenderWindow.Draw(textObject);
+        }
+
+        #endregion
+
+        #region Retro
+
+        public void Draw2DCursor(int x, int y)
+        {
+            //hvcursor = new Texture(_device, hvcursorb, Usage.Dynamic, Pool.Default);
+
+            DrawTexture(hvcursor, x - 15, y - 16, 0, 0, 32, 32, 32, 32, false, 255, false, false, 0, Color.White);
+            //DrawTexture2(hvcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+        }
+        public void DrawHorizCursor(int x, int y)
+        {
+            //hcursor = new Texture(_device, hcursorb, Usage.Dynamic, Pool.Default);
+
+            DrawTexture(hcursor, x - 15, y - 16, 0, 0, 32, 32, 32, 32, false, 255, false, false, 0, Color.White);
+            //DrawTexture(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+        }
+
+        public void DrawVertCursor(int x, int y)
+        {
+            //vcursor = new Texture(_device, vcursorb, Usage.Dynamic, Pool.Default);
+
+            DrawTexture(vcursor, x - 15, y - 16, 0, 0, 32, 32, 32, 32, false, 255, false, false, 0, Color.White);
+            //DrawTexture(vcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
+        }
+
+        public void DrawCircle(int x, int y, Color color)
+        {
+            if (!IsObjectOnScreen(x - 4, y - 4, 9, 9)) return;
+            //tcircle = new Texture(_device, tcircleb, Usage.Dynamic, Pool.Default);
+
+            Rectangle screen = _parent.GetScreen();
+            double zoom = _parent.GetZoom();
+            DrawTexture(tcircle, 0, 0, 0, 0, 9, 9, false, 255, false, false, 0, color);
+        }
+
+        public void DrawEmptyCircle(int x, int y, Color color)
+        {
+            if (!IsObjectOnScreen(x - 6, y - 6, 14, 14)) return;
+            //tecircle = new Texture(_device, tecircleb, Usage.Dynamic, Pool.Default);
+
+            Rectangle screen = _parent.GetScreen();
+            double zoom = _parent.GetZoom();
+            DrawTexture(tecircle, 0, 0, 0, 0, 9, 9, false, 255, false, false, 0, color);
         }
 
         #endregion

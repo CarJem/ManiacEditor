@@ -308,7 +308,7 @@ namespace ManiacEditor.Methods.Drawing
             System.Drawing.Color LRDSolid = System.Drawing.Color.FromArgb(CollisionOpacity, CollisionLRDSolidColor.R, CollisionLRDSolidColor.G, CollisionLRDSolidColor.B);
             System.Drawing.Color TopOnlySolid = System.Drawing.Color.FromArgb(CollisionOpacity, CollisionTopOnlyColor.R, CollisionTopOnlyColor.G, CollisionTopOnlyColor.B);
 
-            g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.Image.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY, SemiTransparent), new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+            g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.BaseImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), flipX, flipY, SemiTransparent), new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
 
             if (ChunkDraw) return;
 
@@ -331,11 +331,13 @@ namespace ManiacEditor.Methods.Drawing
                 }
             }
 
+            
             if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper == true)
             {
-                g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.EditorImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false, SemiTransparent),
+                g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.InternalImage.GetBitmap(new Rectangle(0, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false, SemiTransparent),
                             new Rectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE));
             }
+            
             if (Methods.Solution.SolutionState.Main.ShowTileID == true)
             {
                 g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * TILE_SIZE, TILE_SIZE, TILE_SIZE), false, false, SemiTransparent),

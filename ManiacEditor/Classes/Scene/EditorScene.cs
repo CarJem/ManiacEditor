@@ -13,13 +13,20 @@ using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
 using ManiacEditor.Classes.Scene;
 using ManiacEditor.Classes.Rendering;
+using SFML.System;
+using SFML.Graphics;
+using ManiacEditor.Methods.Drawing;
 
 namespace ManiacEditor.Classes.Scene
 {
     public class EditorScene : RSDKv5.Scene, IDisposable
     {
+        #region Definitions
+
         public ManiacEditor.Controls.Editor.MainEditor Instance;
         public EditorEntities Entities { get; set; }
+
+        #endregion
 
         #region Layers
 
@@ -99,7 +106,7 @@ namespace ManiacEditor.Classes.Scene
 
         public void Reload()
         {
-            AllLayers.ToList().ForEach(x => x.RequireRefresh = true);
+            RequireRefresh = true;
         }
 
         public EditorLayer ProduceLayer()
@@ -416,6 +423,29 @@ namespace ManiacEditor.Classes.Scene
             Objects = Entities.Save();
             Write(filename);
         }
+        #endregion
+
+        #region Rendering
+        private bool isMapRenderInitalized { get; set; } = false;
+        public bool RequireRefresh { get; set; } = false;
+        private LayerDrawing LayerDrawing { get; set; }
+        public void Draw(DevicePanel d)
+        {
+            if (!isMapRenderInitalized || RequireRefresh)
+            {
+                LayerDrawing = new LayerDrawing(this, Instance);
+                RequireRefresh = false;
+                isMapRenderInitalized = true;
+                return;
+            }
+
+            LayerDrawing.UpdateLayerVisibility();
+            foreach (var layer in AllLayers) LayerDrawing.ApplyLayerRules(layer);
+
+            LayerDrawing.MapRender.Refresh();
+            d.RenderWindow.Draw(LayerDrawing.MapRender);
+        }
+
         #endregion
 
         #region IDisposable Support

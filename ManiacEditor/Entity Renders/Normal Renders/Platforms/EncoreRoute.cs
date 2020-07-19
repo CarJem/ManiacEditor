@@ -15,6 +15,8 @@ namespace ManiacEditor.Entity_Renders
                 return Methods.Solution.CurrentSolution.CurrentScene?.Scratch;
             }
         }
+
+        private static Texture CurrentTexture { get; set; }
         private Classes.Rendering.LayerRenderer LayerRenderer { get; set; }
         private ushort[][] TileMap { get; set; }
         private int Width { get; set; }
@@ -48,10 +50,12 @@ namespace ManiacEditor.Entity_Renders
         }
         private void DrawTileMap(DevicePanel d, int x, int y, int offsetX, int offsetY, int width, int height)
         {
-            if (LayerRenderer == null) LayerRenderer = new Classes.Rendering.LayerRenderer(Methods.Solution.CurrentSolution.CurrentTiles.Image.GetTexture(), TileProvider, 16, 1);
+            if (CurrentTexture == null || CurrentTexture != Methods.Solution.CurrentSolution.CurrentTiles.BaseImage.GetTexture()) CurrentTexture = Methods.Solution.CurrentSolution.CurrentTiles.BaseImage.GetTexture();
+            if (LayerRenderer == null) LayerRenderer = new Classes.Rendering.LayerRenderer(CurrentTexture, TileProvider, 16, 1);
             TileMap = GetTileMap(offsetX, offsetY, width, height);
             UpdateTileMap(d, x, y);
         }
+
         public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
             int width = (int)entity.attributesMap["size"].ValueVector2.X.High;

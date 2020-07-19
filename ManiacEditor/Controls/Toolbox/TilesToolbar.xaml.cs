@@ -19,7 +19,7 @@ namespace ManiacEditor.Controls.Toolbox
 		{
 			get
 			{
-				return Methods.Solution.CurrentSolution.CurrentTiles?.Image;
+				return Methods.Solution.CurrentSolution.CurrentTiles?.BaseImage;
 			}
 		}
 

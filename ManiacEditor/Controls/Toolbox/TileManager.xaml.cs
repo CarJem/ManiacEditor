@@ -89,7 +89,7 @@ namespace ManiacEditor.Controls.Toolbox
         }
         public void LoadStageTiles()
         {
-            TilesReload(Methods.Solution.CurrentSolution.CurrentTiles?.Image);
+            TilesReload(Methods.Solution.CurrentSolution.CurrentTiles?.BaseImage);
         }
         public void TilesReload(Classes.Rendering.GIF Image)
         {

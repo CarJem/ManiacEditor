@@ -225,6 +225,7 @@ namespace ManiacEditor.Controls.Editor
         private void SharpPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateGraphicsPanelControls();
+            GraphicPanel.Render();
             Instance.ViewPanel.InfoHUD.UpdatePopupSize();
         }
 
@@ -356,7 +357,7 @@ namespace ManiacEditor.Controls.Editor
         }
         private void SetDeviceSleepState(bool state)
         {
-            GraphicPanel.AllowLoopToRender = state;
+            GraphicPanel.ToggleRendering(state);
             if (state == true)
             {
                 Methods.Internal.UserInterface.ReloadSpritesAndTextures();
@@ -376,7 +377,7 @@ namespace ManiacEditor.Controls.Editor
         private void GraphicPanel_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseWheel(sender, e); }
         private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) { Methods.Internal.Controls.MouseClick(sender, e); }
         public void GraphicPanel_OnResetDevice(object sender, DeviceEventArgs e) {  }
-        private void GraphicPanel_OnRender(object sender, DeviceEventArgs e) { GP_Render(); }
+        private void GraphicPanel_OnRender(object sender, DeviceEventArgs e) { Render(); }
         public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e) { Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e); }
         public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e) { Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e); }
         private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e) { GP_DragEnter(sender, e); }
@@ -603,6 +604,67 @@ namespace ManiacEditor.Controls.Editor
             if (Methods.Solution.SolutionState.Main.isTileDrawing && Methods.Solution.SolutionState.Main.DrawBrushSize != 1) CommonDrawing.DrawBrushBox(GraphicPanel);
 
             if (Methods.Solution.SolutionState.Main.ShowGrid && Methods.Solution.CurrentSolution.CurrentScene != null) Instance.EditBackground.DrawGrid(GraphicPanel);
+
+            if (Methods.Solution.SolutionState.Main.UnlockCamera) CommonDrawing.DrawSceneBounds(GraphicPanel);
+
+            if (Methods.Runtime.GameHandler.GameRunning) CommonDrawing.DrawGameElements(GraphicPanel);
+        }
+
+        private void Render()
+        {
+            bool showEntities = Instance.EditorToolbar.ShowEntities.IsChecked.Value && !Instance.EditorToolbar.EditEntities.IsCheckedAll;
+            bool showEntitiesEditing = Instance.EditorToolbar.EditEntities.IsCheckedAll;
+
+            bool AboveAllMode = Methods.Solution.SolutionState.Main.EntitiesVisibileAboveAllLayers;
+
+            Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
+            Instance.ViewPanel.InfoHUD.UpdateHUDInfo();
+
+            if (Instance.EntitiesToolbar?.NeedRefresh ?? false) Instance.EntitiesToolbar.PropertiesRefresh();
+            if (Methods.Solution.CurrentSolution.CurrentScene != null)
+            {
+                CommonDrawing.DrawBackground(GraphicPanel);
+
+                Methods.Solution.CurrentSolution.CurrentScene.Draw(GraphicPanel);
+
+                if (showEntities || showEntitiesEditing) Methods.Solution.CurrentSolution.Entities.Draw(GraphicPanel);
+
+                if (CommonDrawing.CanOverlayImage(Instance)) CommonDrawing.DrawOverlayImage(GraphicPanel);
+
+                Methods.Solution.CurrentSolution.Entities.DrawInternal(GraphicPanel);
+
+            }
+
+            if (Methods.Solution.SolutionState.Main.DraggingSelection) CommonDrawing.DrawSelectionBox(GraphicPanel);
+            else CommonDrawing.DrawSelectionBox(GraphicPanel, true);
+
+            if (Methods.Solution.SolutionState.Main.IsDrawMode() && Methods.Solution.SolutionState.Main.IsTilesEdit()) CommonDrawing.DrawBrushBox(GraphicPanel, true);
+
+            if (Methods.Solution.SolutionState.Main.isTileDrawing && Methods.Solution.SolutionState.Main.DrawBrushSize != 1) CommonDrawing.DrawBrushBox(GraphicPanel);
+
+            if (Methods.Solution.SolutionState.Main.ShowGrid && Methods.Solution.CurrentSolution.CurrentScene != null) Instance.EditBackground.DrawGrid(GraphicPanel);
+
+            if (Methods.Solution.SolutionState.Main.AutoScrolling)
+            {
+                var position = Methods.Solution.SolutionState.Main.AutoScrollPosition;
+                var zoom = GetZoom();
+                var real_position = GraphicPanel.RenderWindow.MapPixelToCoords(new SFML.System.Vector2i(position.X, position.Y));
+                int x = (int)(real_position.X / zoom);
+                int y = (int)(real_position.Y / zoom);
+
+                if (hScrollBar1.IsVisible && vScrollBar1.IsVisible)
+                {
+                    GraphicPanel.Draw2DCursor(x, y);
+                }
+                else if (!hScrollBar1.IsVisible && vScrollBar1.IsVisible)
+                {
+                    GraphicPanel.DrawVertCursor(x, y);
+                }
+                else if (hScrollBar1.IsVisible && !vScrollBar1.IsVisible)
+                {
+                    GraphicPanel.DrawHorizCursor(x, y);
+                }
+            }
 
             if (Methods.Solution.SolutionState.Main.UnlockCamera) CommonDrawing.DrawSceneBounds(GraphicPanel);
 

@@ -12,12 +12,12 @@ namespace ManiacEditor.Classes.Scene
         #region Definitions
 
         #region GIF Variables
-        public Classes.Rendering.GIF Image { get; set; }
+        public Classes.Rendering.GIF BaseImage { get; set; }
         public Classes.Rendering.GIF IDImage { get; set; }
-        public Classes.Rendering.GIF EditorImage { get; set; }
-        public Classes.Rendering.GIF SelectionImage { get; set; }
+        public Classes.Rendering.GIF InternalImage { get; set; }
         public Classes.Rendering.GIF CollisionMaskA { get; private set; }
         public Classes.Rendering.GIF CollisionMaskB { get; private set; }
+        public Classes.Rendering.GIF CollectiveImage { get; set; }
         #endregion
 
         #region Tile Config
@@ -41,15 +41,22 @@ namespace ManiacEditor.Classes.Scene
         #region Init
         public EditorTiles()
         {
-            Image = new Classes.Rendering.GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
+            BaseImage = new Classes.Rendering.GIF(Path.Combine(Environment.CurrentDirectory, "16x16Tiles_ID.gif"));
             TileConfig = new RSDKv5.Tileconfig();
+            CreateDefaultTiles();
         }
         public EditorTiles(string StageDirectory, string PaletteDataPath = null)
 		{
-			Image = new Classes.Rendering.GIF(Path.Combine(StageDirectory, "16x16Tiles.gif"), PaletteDataPath);
+			BaseImage = new Classes.Rendering.GIF(Path.Combine(StageDirectory, "16x16Tiles.gif"), PaletteDataPath);
+            CreateDefaultTiles();
+        }
+
+
+        private void CreateDefaultTiles()
+        {
             IDImage = new Classes.Rendering.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_ID.gif");
-			EditorImage = new Classes.Rendering.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
-            SelectionImage = new Classes.Rendering.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Selection.gif");
+            InternalImage = new Classes.Rendering.GIF(Environment.CurrentDirectory + "\\Resources\\Tile Overlays\\" + "16x16Tiles_Edit.gif");
+            CollectiveImage = new Classes.Rendering.GIF(CreateCollectiveImage());
         }
         #endregion
 
@@ -59,12 +66,13 @@ namespace ManiacEditor.Classes.Scene
         {
             try
             {
-
                 if (CollisionMaskA != null) CollisionMaskA.Dispose();
                 if (CollisionMaskB != null) CollisionMaskB.Dispose();
+                if (CollectiveImage != null) CollectiveImage.Dispose();
 
                 CollisionMaskA = new Classes.Rendering.GIF(DrawCollisionMaskA());
                 CollisionMaskB = new Classes.Rendering.GIF(DrawCollisionMaskB());
+                CollectiveImage = new Classes.Rendering.GIF(CreateCollectiveImage());
             }
             catch (Exception ex)
             {
@@ -72,27 +80,48 @@ namespace ManiacEditor.Classes.Scene
             }
 
         }
-        private Bitmap DrawCollisionMaskA()
+        private Bitmap DrawCollisionMaskA(bool Merged = false)
         {
-            Bitmap bitmap = new Bitmap(16, 16384);
+            Bitmap bitmap = (Merged ? new Bitmap(BaseImage.ToBitmap()) : new Bitmap(16, 16384));
             using (Graphics gfx = Graphics.FromImage(bitmap))
             {
                 for (int i = 0; i < 1024; i++)
                 {
-                    gfx.DrawImage(TileConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0,(16 * i),16,16));
+                    gfx.DrawImage(TileConfig.CollisionPath1[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0, (16 * i), 16, 16));
                 }
             }
             return bitmap;
         }
-        private Bitmap DrawCollisionMaskB()
+        private Bitmap DrawCollisionMaskB(bool Merged = false)
         {
-            Bitmap bitmap = new Bitmap(16, 16384);
+            Bitmap bitmap = (Merged ? new Bitmap(BaseImage.ToBitmap()) : new Bitmap(16, 16384));
             using (Graphics gfx = Graphics.FromImage(bitmap))
             {
                 for (int i = 0; i < 1024; i++)
                 {
                     gfx.DrawImage(TileConfig.CollisionPath2[i].DrawCMask(Color.FromArgb(0, 0, 0, 0), Color.White), new Rectangle(0, (16 * i), 16, 16));
                 }
+            }
+
+            return bitmap;
+        }
+
+        #endregion
+
+        #region Collective Image
+
+        public Bitmap CreateCollectiveImage()
+        {
+            int bitmap_width = 16 * 5;
+            int bitmap_height = 16384;
+            Bitmap bitmap = new Bitmap(bitmap_width, bitmap_height);
+            using (Graphics gfx = Graphics.FromImage(bitmap))
+            {
+                if (BaseImage != null) gfx.DrawImage(BaseImage.ToBitmap(), new Point(0, 0));
+                if (IDImage != null) gfx.DrawImage(IDImage.ToBitmap(), new Point(16, 0));
+                if (CollisionMaskA != null) gfx.DrawImage(CollisionMaskA.ToBitmap(), new Point(32, 0));
+                if (CollisionMaskB != null) gfx.DrawImage(CollisionMaskB.ToBitmap(), new Point(48, 0));
+                if (InternalImage != null) gfx.DrawImage(InternalImage.ToBitmap(), new Point(64, 0));
             }
             return bitmap;
         }
@@ -321,30 +350,31 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-
+        #region Other
         public void Write(string filename)
         {
-            Bitmap write = Image.GetBitmap(new Rectangle(0,0,16,16384));
+            Bitmap write = BaseImage.GetBitmap(new Rectangle(0,0,16,16384));
             write.Save(filename);
                 
         }
         public void Reload(string PaletteDataPath = null)
         {
-            if (Image != null) Image.Reload(PaletteDataPath);
+            if (BaseImage != null) BaseImage.Reload(PaletteDataPath);
             if (IDImage != null) IDImage.Reload();
-            if (EditorImage != null) EditorImage.Reload();
-            if (SelectionImage != null) SelectionImage.Reload();
+            if (InternalImage != null) InternalImage.Reload();
             if (CollisionMaskA != null) CollisionMaskA.Reload(DrawCollisionMaskA());
             if (CollisionMaskB != null) CollisionMaskB.Reload(DrawCollisionMaskB());
+            if (CollectiveImage != null) CollectiveImage.Reload(CreateCollectiveImage());
         }
         public void Dispose()
         {
-            if (Image != null) Image.Dispose();
+            if (BaseImage != null) BaseImage.Dispose();
             if (IDImage != null) IDImage.Dispose();
-            if (EditorImage != null) EditorImage.Dispose();
-            if (SelectionImage != null) SelectionImage.Dispose();
             if (CollisionMaskA != null) CollisionMaskA.Dispose();
             if (CollisionMaskB != null) CollisionMaskB.Dispose();
+            if (InternalImage != null) InternalImage.Dispose();
+            if (CollectiveImage != null) CollectiveImage.Dispose();
         }
+        #endregion
     }
 }
