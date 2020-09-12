@@ -17,7 +17,7 @@ namespace ManiacEditor.Entity_Renders
             int frameID = (int)e.attributesMap["frameID"].ValueEnum;
             bool fliph = false;
             bool flipv = false;
-            var Animation = LoadAnimation("DERobot", d, aniID, frameID);
+            var Animation = LoadAnimation("GHZ/DERobot.bin", d, aniID, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

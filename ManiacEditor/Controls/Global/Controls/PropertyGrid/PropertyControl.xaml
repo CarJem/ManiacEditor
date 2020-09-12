@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ManiacEditor.Controls.Global.Controls.PropertyGrid"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListView  x:Name="PropertyPane" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+    <ListView x:Name="PropertyPane" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical" Grid.IsSharedSizeScope="True"></StackPanel>

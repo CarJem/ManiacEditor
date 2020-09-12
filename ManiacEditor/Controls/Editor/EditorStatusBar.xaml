@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor"
-             xmlns:maniac="clr-namespace:ManiacEditor.Bindings"
+             xmlns:maniac="clr-namespace:ManiacEditor.Settings.Bindings"
              mc:Ignorable="d local" 
              d:DesignHeight="70" d:DesignWidth="800" MaxHeight="70" MinHeight="70">
     <Grid Background="{DynamicResource StatusBarBackground}">

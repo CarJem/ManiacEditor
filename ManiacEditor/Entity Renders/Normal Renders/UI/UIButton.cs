@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            string text = "Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage;
+            string text = "UI/Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage + ".bin";
             int frameID = (int)e.attributesMap["frameID"].ValueEnum;
             int listID = (int)e.attributesMap["listID"].ValueEnum;
             int align = (int)e.attributesMap["align"].ValueEnum;
@@ -31,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
                     alignmentVal = editorAnim.RequestedFrame.PivotX + (22 / 2);
                     break;
             }
-            d.DrawQuad(x - (width / 2), y - height / 2, width + height + 16, height, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
+            d.DrawQuad(x - (width / 2) - height, y - (height / 2), x + (width / 2) + height, y + (height / 2), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
             DrawTexture(d, editorAnim, listID, frameID, x + (int)alignmentVal, y + editorAnim.RequestedFrame.PivotY, Transparency);
 
 

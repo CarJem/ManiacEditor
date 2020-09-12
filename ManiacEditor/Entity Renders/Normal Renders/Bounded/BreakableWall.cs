@@ -47,7 +47,7 @@ namespace ManiacEditor.Entity_Renders
                     if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(0, 1)))
                     {
                         var frame = Animation.Animation.Animations[0].Frames[1];
-                        d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value,
+                        d.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value,
                             (x + (wEven ? frame.PivotX : -frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Width),
                             (y + (hEven ? frame.PivotY : -frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Height),
                             frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, right, bottom);
@@ -62,22 +62,22 @@ namespace ManiacEditor.Entity_Renders
             // draw Knuckles icon
             if (knux)
             {
-                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "HUD");
+                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "Global/HUD.bin");
                 if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 2)))
                 {
                     var frame = Animation.Animation.Animations[2].Frames[2];
-                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - frame.Width / (mighty ? 1 : 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
+                    d.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - frame.Width / (mighty ? 1 : 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
 
             // draw Mighty icon
             if (mighty)
             {
-                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "HUD");
+                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "Global/HUD.bin");
                 if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(2, 3)))
                 {
                     var frame = Animation.Animation.Animations[2].Frames[3];
-                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - (knux ? 0 : frame.Width / 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
+                    d.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, x - (knux ? 0 : frame.Width / 2), y - frame.Height / 2, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
         }

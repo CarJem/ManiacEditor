@@ -23,9 +23,9 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("HandLauncher", d, 0, 0);
+            var Animation = LoadAnimation("HCZ/HandLauncher.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, flipv);
-            Animation = LoadAnimation("HandLauncher", d, 1, 0);
+            Animation = LoadAnimation("HCZ/HandLauncher.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, flipv);
         }
 

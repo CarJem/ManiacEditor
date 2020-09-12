@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("CircleBumper", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             if (type == 1) DrawCircleBumperAlt(d, Animation, x, y, Transparency, amplitudeX, amplitudeY, angle);
             else DrawCircleBumperNormal(d, Animation, x, y, Transparency, amplitudeX, amplitudeY, angle);
         }
@@ -60,6 +60,24 @@ namespace ManiacEditor.Entity_Renders
             position = new int[2] { posX, posY };
 
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, (x + position[0]), (y - position[0]), Transparency);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            string BinName = "/CircleBumper.bin";
+            string UnlockName = "CircleBumper";
+
+            if (Methods.Solution.CurrentSolution.IZ_Stage != null && Methods.Solution.CurrentSolution.IZ_Stage.Unlocks != null)
+            {
+                var unlocks = Methods.Solution.CurrentSolution.IZ_Stage.Unlocks;
+
+                if (unlocks.Contains("SPZ2_" + UnlockName)) return "SPZ2" + BinName;
+                else if (unlocks.Contains("SPZ1_" + UnlockName)) return "SPZ1" + BinName;
+            }
+
+            string SetupType = Methods.Solution.CurrentSolution.Entities.SetupObject.Replace("Setup", "");
+            if (SetupType == "SPZ2") return "SPZ2" + BinName;
+            else return "SPZ1" + BinName;
         }
 
         public override string GetObjectName()

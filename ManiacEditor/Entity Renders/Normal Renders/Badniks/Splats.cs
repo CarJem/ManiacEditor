@@ -17,8 +17,13 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("Splats", d, 1, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Splats.bin", "Splats", new string[] { "PSZ1", "GHZ" });
         }
 
         public override string GetObjectName()

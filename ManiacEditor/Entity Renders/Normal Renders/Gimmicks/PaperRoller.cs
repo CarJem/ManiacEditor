@@ -26,7 +26,7 @@ namespace ManiacEditor.Entity_Renders
             int length = (int)e.attributesMap["length"].ValueEnum;
             int angle = (int)e.attributesMap["angle"].ValueEnum;
 
-            var Animation = LoadAnimation("PaperRoller", d, 0, 0);
+            var Animation = LoadAnimation("PSZ1/PaperRoller.bin", d, 0, 0);
 
             int[] newPos = RotatePoints(x - (length / 2), y, x, y, -angle);
             int[] newPos2 = RotatePoints(x + (length / 2), y, x, y, -angle);

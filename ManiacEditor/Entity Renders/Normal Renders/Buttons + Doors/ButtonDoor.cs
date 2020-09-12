@@ -41,7 +41,8 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("ButtonDoor", d, 0, 0);
+            string SetupAnimation = GetSpriteAnimationPath("/ButtonDoor.bin", "ButtonDoor", new string[] { "LRZ1", "LRZ2", "HCZ" });
+            var Animation = LoadAnimation(SetupAnimation, d, 0, 0);
             bool wEven = width % 2 == 0;
             bool hEven = height % 2 == 0;
             for (int xx = 0; xx <= width; ++xx)

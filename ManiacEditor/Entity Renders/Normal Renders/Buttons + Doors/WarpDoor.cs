@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
 
             var width = (int)(e.attributesMap["width"].ValueUInt32) - 1;
             var height = (int)(e.attributesMap["height"].ValueUInt32) - 1;
-            var Animation = LoadAnimation("PlaneSwitch", d, 0, 0);
+            var Animation = LoadAnimation("Global/PlaneSwitch.bin", d, 0, 0);
             bool wEven = width % 2 == 0;
             bool hEven = height % 2 == 0;
             for (int xx = 0; xx <= width; ++xx)

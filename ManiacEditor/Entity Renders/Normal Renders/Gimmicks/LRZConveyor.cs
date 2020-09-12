@@ -26,7 +26,7 @@ namespace ManiacEditor.Entity_Renders
             int length = (int)e.attributesMap["length"].ValueUInt32;
             int angle = (int)e.attributesMap["slope"].ValueEnum;
 
-            var Animation = LoadAnimation("LRZConveyor", d, 0, 0);
+            var Animation = LoadAnimation("LRZ2/LRZConveyor.bin", d, 0, 0);
 
             int[] newPos = RotatePoints(x - (length / 2), y, x, y, -angle);
             int[] newPos2 = RotatePoints(x + (length / 2), y, x, y, -angle);

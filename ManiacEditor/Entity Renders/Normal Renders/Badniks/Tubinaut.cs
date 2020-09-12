@@ -17,10 +17,15 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("Tubinaut", d, 8, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 8, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("Tubinaut", d, 0, 1);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 0, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Tubinaut.bin", "Tubinaut", new string[] { "SPZ2", "SPZ1" });
         }
 
         public override string GetObjectName()

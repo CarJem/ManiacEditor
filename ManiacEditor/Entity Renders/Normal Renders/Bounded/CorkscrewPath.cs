@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
 
             var period = (int)(e.attributesMap["period"].ValueEnum);
             var amplitude = (int)(e.attributesMap["amplitude"].ValueEnum * 3.5);
-            var Animation = LoadAnimation("EditorIcons", d, 0, 4);
+            var Animation = LoadAnimation("Global/EditorIcons.bin", d, 0, 4);
 
             if (RequireUpdate(x, y, amplitude, period))
             {

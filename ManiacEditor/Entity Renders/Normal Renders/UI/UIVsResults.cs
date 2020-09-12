@@ -7,19 +7,13 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            Classes.Scene.EditorEntity e = properties.EditorObject;
+            int x = e.PositionX;
+            int y = e.PositionY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-			string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
-			int playerID = (int)entity.attributesMap["playerID"].ValueUInt8;
+			string text = "UI/Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage + ".bin";
+			int playerID = (int)e.attributesMap["playerID"].ValueUInt8;
 			int player = 8;
 			switch (playerID)
 			{
@@ -37,21 +31,12 @@ namespace ManiacEditor.Entity_Renders
 					break;
 
 			}
-			
-			var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 5, 0, false, false, false);
-			var editorAnimPlayerText = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 12, player, false, false, false);
-			if (editorAnim != null && editorAnim.Frames.Count != 0)
-			{
-				var frame = editorAnim.Frames[Animation.index];
-				d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY + 40,
-					frame.Frame.Width, frame.Frame.Height, false, Transparency);
-			}
-			if (editorAnimPlayerText != null && editorAnimPlayerText.Frames.Count != 0)
-			{
-				var frame = editorAnimPlayerText.Frames[Animation.index];
-				d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 26,
-					frame.Frame.Width, frame.Frame.Height, false, Transparency);
-			}
+
+			var editorAnim = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "EditorUIRender", 5, 0);
+			DrawTexture(d, editorAnim, 5, 0, x + editorAnim.RequestedFrame.PivotX, y + editorAnim.RequestedFrame.PivotY + 40, Transparency);
+
+			editorAnim = Methods.Drawing.ObjectDrawing.LoadAnimation(d, text, 12, player);
+			DrawTexture(d, editorAnim, 12, player, x + editorAnim.RequestedFrame.PivotX + 36, y + editorAnim.RequestedFrame.PivotY - 26, Transparency);
 		}
 
 		public override string GetObjectName()

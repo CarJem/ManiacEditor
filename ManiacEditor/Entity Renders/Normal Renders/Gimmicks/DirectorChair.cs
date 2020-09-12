@@ -20,13 +20,13 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = LoadAnimation("DirectorChair", d, 1, 0);
+            var Animation = LoadAnimation("SPZ1/DirectorChair.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("DirectorChair", d, 1, 0);
+            Animation = LoadAnimation("SPZ1/DirectorChair.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - (size * 5 + 8), Transparency, fliph, flipv);
-            Animation = LoadAnimation("DirectorChair", d, 1, 1);
+            Animation = LoadAnimation("SPZ1/DirectorChair.bin", d, 1, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - (size * 5 + 8), Transparency, fliph, flipv);
-            Animation = LoadAnimation("DirectorChair", d, 1, 2);
+            Animation = LoadAnimation("SPZ1/DirectorChair.bin", d, 1, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - (size * 5 + 8), Transparency, fliph, flipv);
         }
 

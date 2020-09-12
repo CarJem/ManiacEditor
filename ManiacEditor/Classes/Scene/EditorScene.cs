@@ -106,7 +106,18 @@ namespace ManiacEditor.Classes.Scene
 
         public void Reload()
         {
-            RequireRefresh = true;
+            if (!disposedValue)
+            {
+                // dispose managed state (managed objects).
+                foreach (var el in AllLayers)
+                {
+                    el.DisposeTextures();
+                }
+
+                // free unmanaged resources (unmanaged objects) and override a finalizer below if we need to.
+                // then set large fields to null.
+                disposedValue = true;
+            }
         }
 
         public EditorLayer ProduceLayer()
@@ -426,24 +437,15 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Rendering
-        private bool isMapRenderInitalized { get; set; } = false;
-        public bool RequireRefresh { get; set; } = false;
-        private LayerDrawing LayerDrawing { get; set; }
         public void Draw(DevicePanel d)
         {
-            if (!isMapRenderInitalized || RequireRefresh)
-            {
-                LayerDrawing = new LayerDrawing(this, Instance);
-                RequireRefresh = false;
-                isMapRenderInitalized = true;
-                return;
-            }
-
             LayerDrawing.UpdateLayerVisibility();
             foreach (var layer in AllLayers) LayerDrawing.ApplyLayerRules(layer);
 
-            LayerDrawing.MapRender.Refresh();
-            d.RenderWindow.Draw(LayerDrawing.MapRender);
+            foreach (var layer in AllLayers)
+            {
+                if (layer.Visible) layer.Draw(d);
+            }
         }
 
         #endregion
@@ -461,6 +463,7 @@ namespace ManiacEditor.Classes.Scene
                     foreach (var el in AllLayers)
                     {
                         el.Dispose();
+                        el.DisposeTextures();
                     }
                 }
 
@@ -483,7 +486,7 @@ namespace ManiacEditor.Classes.Scene
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
             // uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
+            //GC.SuppressFinalize(this);
         }
         #endregion
 

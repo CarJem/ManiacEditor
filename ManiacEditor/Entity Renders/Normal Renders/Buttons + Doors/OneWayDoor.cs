@@ -19,9 +19,14 @@ namespace ManiacEditor.Entity_Renders
             int animID = 0;
 
 
-            var Animation = LoadAnimation("OneWayDoor", d, animID, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + 32, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/OneWayDoor.bin", "OneWayDoor", new string[] { "MMZ", "CPZ" });
         }
 
         public override string GetObjectName()

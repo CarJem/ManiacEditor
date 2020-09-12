@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("EditorIcons", d, 0, 7);
+            var Animation = LoadAnimation("Global/EditorIcons.bin", d, 0, 7);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

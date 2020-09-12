@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
 
             bool fliph = false;
             bool flipv = false;
-            var Animation = LoadAnimation("LRZConvControl", d, 0, 0);
+            var Animation = LoadAnimation("LRZ2/LRZConvControl.bin", d, 0, 0);
             var width = (int)e.attributesMap["hitboxSize"].ValueVector2.X.High;
             var height = (int)e.attributesMap["hitboxSize"].ValueVector2.Y.High;
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);

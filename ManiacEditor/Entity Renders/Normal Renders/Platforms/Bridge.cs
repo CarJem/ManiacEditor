@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
             int Transparency = Properties.Transparency;
 
             var value = e.attributesMap["length"].ValueUInt8;
-            var Animation = LoadAnimation(d, "Bridge");
+            var Animation = LoadAnimation(d, GetSetupAnimation());
             bool wEven = value % 2 == 0;
             for (int xx = 0; xx <= value; ++xx)
             {
@@ -30,6 +30,11 @@ namespace ManiacEditor.Entity_Renders
             int widthPixels = length * 16;
             int heightPixels = 16;
             return d.IsObjectOnScreen(x - widthPixels / 2, y - heightPixels / 2, widthPixels + 15, heightPixels);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Bridge.bin", "Bridge", new string[] { "LRZ1", "HCZ", "GHZ" });
         }
 
         public override string GetObjectName()

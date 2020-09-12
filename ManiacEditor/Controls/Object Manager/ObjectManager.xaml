@@ -21,23 +21,22 @@
                         <MenuItem Header="Using Existing Scene..." Click="ImportObjectsUsingExistingEvent"></MenuItem>
                         <MenuItem Header="Using Megalist..." Click="ImportObjectsUsingMegalistEvent"></MenuItem>
                     </MenuItem>
-                    <MenuItem Header="Import Sounds" Click="importSoundsToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Backup Stage Config" Click="backupStageConfigToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Restore Stage Config" IsEnabled="False"></MenuItem>
+                    <MenuItem Header="Import Sounds" Click="ImportSoundsToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Backup Stage Config" Click="BackupStageConfig_ToolStripMenuItem_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="editTab" Header="Edit" VerticalContentAlignment="Center" Margin="7,2,0,0" >
                     <MenuItem Header="Optimize Object ID Placement" IsEnabled="False"></MenuItem>
-                    <MenuItem Header="Add Attribute to All Objects" Click="addAttributeToAllObjectsToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Add Attribute to All Objects" Click="AddAttributeToAllObjectsMenuItem_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="toolsTab" Header="Tools" VerticalContentAlignment="Center" Margin="7,2,0,0" >
-                    <MenuItem Header="MD5 Generator" Click="mD5GeneratorToolStripMenuItem_Click"></MenuItem>
+                    <MenuItem Header="MD5 Generator" Click="MD5_Generator_ToolStripMenuItem_Click"></MenuItem>
                     <MenuItem Header="Export Objects...">
                         <MenuItem Header="Using Existing Scene..." Click="ExportObjectsUsingExistingEvent"></MenuItem>
                         <MenuItem Header="Using Megalist..." Click="ExportObjectsUsingMegalistEvent"></MenuItem>
                     </MenuItem>
                 </MenuItem>
             </Menu>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -49,16 +48,20 @@
                     <RowDefinition Height="36"></RowDefinition>
                     <RowDefinition Height="36"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Grid x:Name="___No_Name_" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1">
+                <Grid Grid.ColumnSpan="2" Grid.RowSpan="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="45"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label Content="Filter:" VerticalAlignment="Center"></Label>
-                    <TextBox x:Name="FilterText" TextChanged="FilterText_TextChanged" Height="24" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,10,0"></TextBox>
+                    <TextBox x:Name="FilterText" TextChanged="FilterText_TextChanged" Height="24" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,5,0"></TextBox>
                 </Grid>
-                <Grid Background="{DynamicResource TextBoxBackground}" Grid.Column="1" Grid.Row="1" Margin="10">
-                    <ListView Background="{DynamicResource TextBoxBackground}" FocusVisualStyle="{DynamicResource ListViewItemFocusVisual}" Foreground="{DynamicResource NormalText}" Style="{DynamicResource BaseListViewStyle}" ItemContainerStyle="{DynamicResource BaseListViewItemStyle}" BorderBrush="{DynamicResource ComboBoxBorder}" SelectionMode="Single" KeyUp="attributesTable_KeyUp" x:Name="attributesTable">
+                <Grid Grid.Column="1" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="36"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListView Margin="5" Background="{DynamicResource TextBoxBackground}" FocusVisualStyle="{DynamicResource ListViewItemFocusVisual}" Foreground="{DynamicResource NormalText}" Style="{DynamicResource BaseListViewStyle}" ItemContainerStyle="{DynamicResource BaseListViewItemStyle}" BorderBrush="{DynamicResource ComboBoxBorder}" SelectionMode="Single" KeyUp="AttributesTable_KeyUp" SelectionChanged="AttributesTable_SelectionChanged" x:Name="AttributesTable">
                         <ListView.View>
                             <local:AutoSizedGridView AllowsColumnReorder="False">
                                 <GridViewColumn Header="Name" Width="40"></GridViewColumn>
@@ -66,20 +69,60 @@
                             </local:AutoSizedGridView>
                         </ListView.View>
                     </ListView>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <Button x:Name="AddAttributeButton" Content="Add Attribute..." Click="AddAttributeButton_Click" Padding="15,0" Margin="5,5,0,5" IsEnabled="False"></Button>
+                        <Button x:Name="RemoveAttributeButton" Content="Remove Attribute..." Click="RemoveAttributeButton_Click" Padding="15,0" Margin="5,5,5,5" IsEnabled="False"></Button>
+                    </StackPanel>
                 </Grid>
-                <ListBox Style="{DynamicResource BaseListBoxStyle}" SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="lvObjectsViewer" Grid.Column="0" Grid.Row="1" Margin="10"></ListBox>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
-                    <Button Content="Add" Click="addAttributeBtn_Click" Width="72" Height="30" Margin="10,0,10,0"></Button>
-                    <Button Content="Remove" Click="removeAttributeBtn_Click" Width="72" Height="30" Margin="0,0,10,0"></Button>
+
+                <ListView SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="ObjectListBox" Grid.Column="0" Grid.Row="1" Margin="5" Background="{DynamicResource TextBoxBackground}" FocusVisualStyle="{DynamicResource ListViewItemFocusVisual}" Foreground="{DynamicResource NormalText}" Style="{DynamicResource BaseListViewStyle}" ItemContainerStyle="{DynamicResource BaseListViewItemStyle}" BorderBrush="{DynamicResource ComboBoxBorder}" SelectionMode="Single">
+                    <ListView.View>
+                        <local:AutoSizedGridView AllowsColumnReorder="False">
+                            <GridViewColumn x:Name="CheckboxColumnColumn" Width="20">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Entry_IsChecked}" IsEnabled="True" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Name" Width="40" DisplayMemberBinding="{Binding ObjectName}"></GridViewColumn>
+                            <GridViewColumn Header="Map" Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Obj_IsScene}" IsEnabled="False"></CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Game" Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Obj_IsGameConfig}" IsEnabled="False" Foreground="{DynamicResource Maniac_ObjectManager_GreenTextColor}"></CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Stage" Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Obj_IsStageConfig}" IsEnabled="False" Foreground="{DynamicResource Maniac_ObjectManager_RedTextColor}"></CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </local:AutoSizedGridView>
+                    </ListView.View>
+                </ListView>
+                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" x:Name="SelectedObjectCountLabel" Visibility="Collapsed"></Label>
+                <Grid Margin="5,0,5,0" Grid.Column="0" Grid.Row="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Click="GlobalRemoveButton_Click" Padding="5,0" Margin="0,5" Name="GlobalRemoveButton" Content="Delete Global..." IsEnabled="False"  HorizontalAlignment="Stretch"></Button>
+                        <Button Click="SceneRemoveButton_Click" Padding="5,0" Margin="5,5,0,5" Name="SceneRemoveButton" Content="Delete Scene..." IsEnabled="False"  HorizontalAlignment="Stretch"></Button>
+                        <Button Click="StageConfigRemoveButton_Click" Padding="5,0" Margin="5,5" Name="StageConfigRemoveButton" Content="Delete Config..." IsEnabled="False"  HorizontalAlignment="Stretch"></Button>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Center" Margin="5,0">
+
                 </StackPanel>
-                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" x:Name="label1" Visibility="Collapsed"></Label>
-                <Button Click="btnRemoveEntries_Click" Content="Remove Checked Objects from Scene" Margin="10,3,10,3" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch"></Button>
-                <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="10,0">
-                    <TextBlock Foreground="{DynamicResource Maniac_ObjectManager_RedTextColor}" Text="RED means that the object is not listed in ethier the StageConfig or GameConfig"></TextBlock>
-                    <TextBlock Foreground="{DynamicResource Maniac_ObjectManager_GreenTextColor}" Text="GREEN means that the object is in the GameConfig"></TextBlock>
-                </StackPanel>
-                <CheckBox Checked="Checkbox_CheckChanged" Unchecked="Checkbox_CheckChanged" x:Name="rmvStgCfgCheckbox" Content="Remove Stage Config Entries for Selected Objects" Margin="10,3,10,3" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"></CheckBox>
-                <Button Click="btnCancel_Click" Content="Exit" Width="72" HorizontalAlignment="Right" Height="25" Grid.Column="1" Grid.Row="4" Margin="10,3,10,3"></Button>
+                <Button Click="ExitButton_Click" Content="Exit" Width="72" HorizontalAlignment="Right" Height="25" Grid.Column="1" Grid.Row="4" Margin="10,3,10,3"></Button>
             </Grid>
 
         </Grid>

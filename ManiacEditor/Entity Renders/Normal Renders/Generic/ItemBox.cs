@@ -30,7 +30,7 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "ItemBox");
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "Global/ItemBox.bin");
             DrawTexturePivotPlus(d, Animation, 0, 0, x, y, 0, 0, Transparency, fliph, flipv);
             DrawTexturePivotPlus(d, Animation, 2, value.ValueEnum, x, y, 0, -(flipv ? (-3) : 3), Transparency, fliph, flipv);
         }
@@ -43,7 +43,7 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
 
 
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "ItemBox");
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "Global/ItemBox.bin");
             DrawTexturePivotPlus(d, Animation, 0, 0, x, y, 0, 0, Transparency, fliph, flipv);
             DrawTexturePivotPlus(d, Animation, 2, value, x, y, 0, -(flipv ? (-3) : 3), Transparency, fliph, flipv);
         }

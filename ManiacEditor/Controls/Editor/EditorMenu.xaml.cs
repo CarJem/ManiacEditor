@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
 using ManiacEditor.Controls.Editor;
+using System.Management.Instrumentation;
 
 namespace ManiacEditor.Controls.Editor
 {
@@ -386,7 +387,7 @@ namespace ManiacEditor.Controls.Editor
 
         private void OverlayImageMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Methods.Drawing.CommonDrawing.SelectOverlayImage();
+            Methods.Drawing.CommonDrawing.SelectOverlayImage(Instance.ViewPanel.SharpPanel.GraphicPanel._device);
         }
 
         private void ClearImageMenuItem_Click(object sender, RoutedEventArgs e)

@@ -1,6 +1,6 @@
 ﻿namespace ManiacEditor.Actions
 {
-    class ActionDummy : IAction
+    public class ActionDummy : IAction
     {
         public string Description => string.Empty;
 

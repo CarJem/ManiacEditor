@@ -22,21 +22,24 @@ namespace ManiacEditor.Entity_Renders
             var height = (int)(e.attributesMap["size"].ValueVector2.Y.High*2 - 1);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
 
-            if (width != -1 && height != -1)
+            if (e.Selected)
             {
-                bool wEven = width % 2 == 0;
-                bool hEven = height % 2 == 0;
+                if (width != -1 && height != -1)
+                {
+                    bool wEven = width % 2 == 0;
+                    bool hEven = height % 2 == 0;
 
-                int x1 = (x + (wEven ? -8 : -16) + (-width / 2 + width) * 16) + 15;
-                int x2 = (x + (wEven ? -8 : -16) + (-width / 2) * 16);
-                int y1 = (y + (hEven ? -8 : -16) + (-height / 2 + height) * 16) + 15;
-                int y2 = (y + (hEven ? -8 : -16) + (-height / 2) * 16);
+                    int x1 = (x + (wEven ? -8 : -16) + (-width / 2 + width) * 16) + 15;
+                    int x2 = (x + (wEven ? -8 : -16) + (-width / 2) * 16);
+                    int y1 = (y + (hEven ? -8 : -16) + (-height / 2 + height) * 16) + 15;
+                    int y2 = (y + (hEven ? -8 : -16) + (-height / 2) * 16);
 
 
-                d.DrawLine(x1, y1, x1, y2, SystemColors.White);
-                d.DrawLine(x1, y1, x2, y1, SystemColors.White);
-                d.DrawLine(x2, y2, x1, y2, SystemColors.White);
-                d.DrawLine(x2, y2, x2, y1, SystemColors.White);
+                    d.DrawLine(x1, y1, x1, y2, SystemColors.White);
+                    d.DrawLine(x1, y1, x2, y1, SystemColors.White);
+                    d.DrawLine(x2, y2, x1, y2, SystemColors.White);
+                    d.DrawLine(x2, y2, x2, y1, SystemColors.White);
+                }
             }
         }
 

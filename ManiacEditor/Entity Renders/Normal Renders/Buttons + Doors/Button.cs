@@ -1,4 +1,5 @@
 ﻿using RSDKv5;
+using System.Collections.Generic;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -35,15 +36,29 @@ namespace ManiacEditor.Entity_Renders
                 flipv = true;
             }
 
+            string SetupType = GetSetupAnimation();
+            var Animation = LoadAnimation(SetupType, d, animID, 2);
 
-            var Animation = LoadAnimation("Button", d, animID, 2);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("Button", d, animID, 1);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            if (SetupType.StartsWith("HCZ"))
+            {
+                Animation = LoadAnimation(GetSetupAnimation(), d, animID, 2);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            }
+            if (SetupType.StartsWith("HCZ") || SetupType.StartsWith("LRZ2") || SetupType.StartsWith("LRZ1") || SetupType.StartsWith("FBZ"))
+            {
+                Animation = LoadAnimation(GetSetupAnimation(), d, animID, 1);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            }
 
-            Animation = LoadAnimation("Button", d, animID, 0);
+
+            Animation = LoadAnimation(GetSetupAnimation(), d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Button.bin", "Button", new string[] { "LRZ1", "HCZ", "TMZ1", "MMZ", "FBZ" });
         }
 
         public override string GetObjectName()

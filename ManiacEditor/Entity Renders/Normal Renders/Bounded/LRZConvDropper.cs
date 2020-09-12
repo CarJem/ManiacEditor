@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
 
             bool fliph = false;
             bool flipv = false;
-            var Animation = LoadAnimation("LRZConvDropper", d, 0, 0);
+            var Animation = LoadAnimation("LRZ2/LRZConvDropper.bin", d, 0, 0);
 
             var width = (int)(e.attributesMap["detectSize"].ValueVector2.X.High - 1);
             var height = (int)(e.attributesMap["detectSize"].ValueVector2.Y.High - 1);

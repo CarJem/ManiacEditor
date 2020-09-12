@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
 
             int frameID = (int)e.attributesMap["frameID"].ValueEnum;
 
-            var Animation = LoadAnimation("Trash", d, 0, frameID);
+            var Animation = LoadAnimation("FBZ/Trash.bin", d, 0, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
         }

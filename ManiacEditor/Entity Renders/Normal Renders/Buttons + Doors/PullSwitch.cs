@@ -16,9 +16,9 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("Valve", d, 4, 0);
+            var Animation = LoadAnimation("OOZ/PullSwitch.bin", d, 4, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
-            Animation = LoadAnimation("Valve", d, 4, 2);
+            Animation = LoadAnimation("OOZ/PullSwitch.bin", d, 4, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

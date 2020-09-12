@@ -146,18 +146,21 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var Animation = LoadAnimation("LaunchSpring", d, 2, 1);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 2, 1);
             DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset_x3, y + offset_y3, Transparency, false, false, rotation);
-            Animation = LoadAnimation("LaunchSpring", d, 0, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset_x1, y + offset_y1, Transparency, false, false, rotation);
-            Animation = LoadAnimation("LaunchSpring", d, 0, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (type == 0 ? offset_x2_type : 0) + offset_x2, y + (type == 0 ? offset_y2_type : 0) + offset_y2, Transparency, true, false, rotation);
-            Animation = LoadAnimation("LaunchSpring", d, 1, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, false);
 
         }
 
-
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/LaunchSpring.bin", "LaunchSpring", new string[] { "SSZ1", "SSZ2" });
+        }
 
 
         public override string GetObjectName()

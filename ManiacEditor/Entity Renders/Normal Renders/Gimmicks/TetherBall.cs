@@ -63,14 +63,14 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var Animation = LoadAnimation("TetherBall", d, 0, 0);
+            var Animation = LoadAnimation("FBZ/TetherBall.bin", d, 0, 0);
             double angleStartInt = (-angleStart / 4);
 
             // TetherBall Line
                 
             for (int i = 0; i < chainCount; i++)
             {
-                Animation = LoadAnimation("TetherBall", d, 0, 2);
+                Animation = LoadAnimation("FBZ/TetherBall.bin", d, 0, 2);
                 int x_alt = x + 6;
                 int[] linePoints = RotatePoints(x_alt + (Animation.RequestedFrame.Width) * i, y, x, y, angleStartInt);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, linePoints[0], linePoints[1], Transparency, fliph, flipv);
@@ -83,13 +83,13 @@ namespace ManiacEditor.Entity_Renders
             int[] processPoints;
             processPoints = RotatePoints(x + length, y, x, y, angleStartInt);
 
-            Animation = LoadAnimation("TetherBall", d, 0, 3);
+            Animation = LoadAnimation("FBZ/TetherBall.bin", d, 0, 3);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, processPoints[0], processPoints[1], Transparency, fliph, flipv);
 
             // TetherBall Center
             if (drawType == true) 
             {
-                Animation = LoadAnimation("TetherBall", d, 0, animID);
+                Animation = LoadAnimation("FBZ/TetherBall.bin", d, 0, animID);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }

@@ -46,7 +46,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Decoration", type, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, GetSetupAnimation(), type, 0);
 
             for (int yy = 0; yy <= repeatY; yy++)
             {
@@ -57,6 +57,11 @@ namespace ManiacEditor.Entity_Renders
                     DrawTexture(d, Animation, type, 0, current_x, current_y, Transparency, fliph, flipv);
                 }
             }
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Decoration.bin", "Decoration", new string[] { "GHZ", "CPZ", "SPZ1", "FBZ", "HCZ", "MSZ", "TMZ1", "AIZ" });
         }
 
         public override string GetObjectName()

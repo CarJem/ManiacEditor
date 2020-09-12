@@ -77,13 +77,13 @@ namespace ManiacEditor.Entity_Renders
                 ignoreNum = true;
             }
 
-            var Animation = LoadAnimation("LottoBall", d, 0, frameID1);
+            var Animation = LoadAnimation("SPZ2/LottoBall.bin", d, 0, frameID1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("LottoBall", d, 1, frameID2);
+            Animation = LoadAnimation("SPZ2/LottoBall.bin", d, 1, frameID2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             if (ignoreNum != true)
             {
-                Animation = LoadAnimation("LottoBall", d, 2, frameID3);
+                Animation = LoadAnimation("SPZ2/LottoBall.bin", d, 2, frameID3);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }

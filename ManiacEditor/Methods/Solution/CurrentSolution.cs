@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Scene = RSDKv5.Scene;
+using ManiacEditor.Structures;
 
 namespace ManiacEditor.Methods.Solution
 {
@@ -46,6 +47,10 @@ namespace ManiacEditor.Methods.Solution
                 if (CurrentScene != null) CurrentScene.Entities = value;
             }
         }
+
+        public static InfinityConfig InfinityConfig { get; set; }
+        public static InfinityUnlocks InfinityUnlocks { get; set; }
+        public static IZStage IZ_Stage { get; set; }
         #endregion
 
         #region Internal Definitions
@@ -147,11 +152,33 @@ namespace ManiacEditor.Methods.Solution
         #region Screen Size
         public static int SceneWidth => (CurrentScene != null ? CurrentScene.Layers.Max(sl => sl.Width) * 16 : 0);
         public static int SceneHeight => (CurrentScene != null ? CurrentScene.Layers.Max(sl => sl.Height) * 16 : 0);
-		#endregion
+        #endregion
+
+        #region Infinity Zone API Intergration
+
+        public static void GetIZStage()
+        {
+            if (InfinityConfig == null) IZ_Stage = null;
+            IZ_Stage = InfinityConfig.Stages.Where(x => x.StageKey == SolutionPaths.CurrentSceneData.IZ_StageKey).FirstOrDefault();
+        }
+
+        public static void SetIZStage(IZStage value)
+        {
+            if (InfinityConfig == null) return;
+            var item = InfinityConfig.Stages.Where(x => x.StageKey == SolutionPaths.CurrentSceneData.IZ_StageKey).FirstOrDefault();
+            int index = InfinityConfig.Stages.IndexOf(item);
+            InfinityConfig.Stages[index] = value;
+        }
+
+        #endregion
 
         #region Other Methods
         public static void UnloadScene()
         {
+            InfinityConfig = null;
+            InfinityUnlocks = null;
+            IZ_Stage = null;
+
             Methods.Solution.CurrentSolution.CurrentScene?.Dispose();
             Methods.Solution.CurrentSolution.CurrentScene = null;
             Methods.Solution.CurrentSolution.StageConfig = null;
@@ -160,7 +187,6 @@ namespace ManiacEditor.Methods.Solution
             Methods.Solution.SolutionState.Main.EncorePaletteExists = false;
             Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
             Classes.Prefrences.SceneCurrentSettings.ClearSettings();
-            Instance.userDefinedSpritePaths = new List<string>();
             Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
 			SolutionPaths.UnloadScene();
 

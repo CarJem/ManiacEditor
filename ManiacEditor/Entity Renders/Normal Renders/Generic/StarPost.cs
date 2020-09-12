@@ -17,9 +17,9 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("StarPost", d, 0, 0);
+            var Animation = LoadAnimation("Global/StarPost.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
-            Animation = LoadAnimation("StarPost", d, 1, 0);
+            Animation = LoadAnimation("Global/StarPost.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - 16, Transparency);
         }
 

@@ -1,4 +1,5 @@
-﻿using RSDKv5;
+﻿using ManiacEditor.Classes.Scene;
+using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -7,34 +8,17 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            EditorEntity entity = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            var editorAnimFrame = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 0, 0, false, false, false);
-            var editorAnimBackground = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 10, -1, false, false, false);
-
-            if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
-            {
-                var frame = editorAnimFrame.Frames[0];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-
-            if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
-            {
-                var frame = editorAnimBackground.Frames[Animation.index];
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - 107, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
+            bool fliph = false;
+            bool flipv = false;
+            var editorAnimFrame = LoadAnimation("EditorUIRender", d, 0, 0);
+            DrawTexturePivotNormal(d, editorAnimFrame, editorAnimFrame.RequestedAnimID, editorAnimFrame.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            var editorAnimBackground = LoadAnimation("UI/SaveSelect.bin", d, 10, 0);
+            DrawTexturePivotNormal(d, editorAnimBackground, editorAnimBackground.RequestedAnimID, editorAnimBackground.RequestedFrameID, x - 107, y, Transparency, fliph, flipv);
 
             string text1 = entity.attributesMap["text1"].ValueString;
             string text2 = entity.attributesMap["text2"].ValueString;
@@ -47,43 +31,32 @@ namespace ManiacEditor.Entity_Renders
             int spacingAmount = 0;
             foreach (char symb in text1)
             {
-                int frameID = GetFrameID(symb, Methods.Editor.SolutionState.MenuChar);
-                var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
-                if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
-                {
-                    var frame = editorAnim2.Frames[0];
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), text_X + spacingAmount, text_Y + frame.Frame.PivotY - text_YAdjust,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    spacingAmount = spacingAmount + frame.Frame.Width;
-                }
+                var editorAnim2 = GetFrameID(d, symb, listID);
+                DrawTexture(d, editorAnim2, editorAnim2.RequestedAnimID, editorAnim2.RequestedFrameID, text_X + spacingAmount, text_Y + editorAnim2.RequestedFrame.PivotY - text_YAdjust, Transparency);
+                spacingAmount = spacingAmount + editorAnim2.RequestedFrame.Width;
             }
             spacingAmount = 0;
             foreach (char symb in text2)
             {
-                int frameID = GetFrameID(symb, Methods.Editor.SolutionState.MenuChar);
-                var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, listID, frameID, false, false, false);
-                if (editorAnim2 != null && editorAnim2.Frames.Count != 0)
-                {
-                    var frame = editorAnim2.Frames[0];
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), text_X + 32 + spacingAmount, text_Y + frame.Frame.PivotY + 28 - text_YAdjust,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                    spacingAmount = spacingAmount + frame.Frame.Width;
-                }
+                var editorAnim2 = GetFrameID(d, symb, listID);
+                DrawTexture(d, editorAnim2, editorAnim2.RequestedAnimID, editorAnim2.RequestedFrameID, text_X + 32 + spacingAmount, text_Y + editorAnim2.RequestedFrame.PivotY + 28 - text_YAdjust, Transparency);
+                spacingAmount = spacingAmount + editorAnim2.RequestedFrame.Width;
             }
 
 
         }
 
-        public int GetFrameID(char letter, char[] arry)
+        public Methods.Drawing.ObjectDrawing.EditorAnimation GetFrameID(DevicePanel d, char letter, int listID)
         {
-            char[] symArray = arry;
-            int position = 0;
-            foreach (char sym in symArray)
+            var editorAnim = LoadAnimation("UI/UIElements.bin", d, listID, 0);
+            for (int i = 0; i < editorAnim.RequestedAnimation.Frames.Count; i++)
             {
-                if (sym == letter) return position;
-                position++;
+                editorAnim = LoadAnimation("UI/UIElements.bin", d, listID, i);
+                if ((double)editorAnim.RequestedFrame.ID == (double)letter) return editorAnim;
             }
-            return position;
+
+            return editorAnim;
+
         }
 
         public override string GetObjectName()

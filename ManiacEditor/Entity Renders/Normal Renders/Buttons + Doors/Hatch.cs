@@ -25,9 +25,9 @@ namespace ManiacEditor.Entity_Renders
             int offsetX = (int)(e.attributesMap["subOff1"].ValueVector2.X.High);
             int offsetY = (int)(e.attributesMap["subOff1"].ValueVector2.Y.High);
 
-            var Animation = LoadAnimation("Hatch", d, 0, 1);
+            var Animation = LoadAnimation("OOZ/Hatch.bin", d, 0, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("Hatch", d, 0, 0);
+            Animation = LoadAnimation("OOZ/Hatch.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
             DrawBounds(d, x + offsetX, y + offsetY, widthPixels, heightPixels, Transparency, SystemColors.White, SystemColors.Transparent);

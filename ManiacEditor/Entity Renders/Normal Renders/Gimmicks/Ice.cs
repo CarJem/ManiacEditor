@@ -35,21 +35,21 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var Animation = LoadAnimation("Ice", d, 9, 0);
+            var Animation = LoadAnimation("PSZ2/Ice.bin", d, 9, 0);
             switch (type)
             {
                 case 0:
                     break;
                 case 1:
-                    Animation = LoadAnimation("Ice", d, 9, 0);
+                    Animation = LoadAnimation("PSZ2/Ice.bin", d, 9, 0);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
                     break;
                 case 2:
-                    Animation = LoadAnimation("Ice", d, 9, 1);
+                    Animation = LoadAnimation("PSZ2/Ice.bin", d, 9, 1);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
                     break;
                 case 3:
-                    Animation = LoadAnimation("Ice", d, 9, 2);
+                    Animation = LoadAnimation("PSZ2/Ice.bin", d, 9, 2);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
                     break;
                 case 4:
@@ -108,7 +108,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            Animation = LoadAnimation("Ice", d, animID, frameID);
+            Animation = LoadAnimation("PSZ2/Ice.bin", d, animID, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

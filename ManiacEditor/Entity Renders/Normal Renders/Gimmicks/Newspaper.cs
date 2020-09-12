@@ -35,7 +35,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var Animation = LoadAnimation("Newspaper", d, 1, frameID);
+            var Animation = LoadAnimation("PSZ1/Newspaper.bin", d, 1, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

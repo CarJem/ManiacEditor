@@ -43,10 +43,10 @@ namespace ManiacEditor.Entity_Renders
 
         public Methods.Drawing.ObjectDrawing.EditorAnimation GetFrameID(DevicePanel d, char letter, int animID)
         {
-            var editorAnim = LoadAnimation("Text", d, animID, 0);
+            var editorAnim = LoadAnimation("LSelect/Text.bin", d, animID, 0);
             for (int i = 0; i < editorAnim.RequestedAnimation.Frames.Count; i++)
             {
-                editorAnim = LoadAnimation("Text", d, animID, i);
+                editorAnim = LoadAnimation("LSelect/Text.bin", d, animID, i);
                 if ((double)editorAnim.RequestedFrame.ID == (double)letter) return editorAnim;
             }
             return null;

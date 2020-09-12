@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
 
             for (int i = 0; i < 8; i++)
             {
-                var Animation = LoadAnimation("Plants", d, 1, 0);
+                var Animation = LoadAnimation("SSZ1/Plants.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? -(12 * i) : (12 * i)), y + 12 * i, Transparency, fliph, flipv);
             }
         }

@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{84AE626C-9531-4CBB-8F13-AF28BB5D61A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManiacED_Core</RootNamespace>
+    <AssemblyName>ManiacED-Core</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Rendering\EllipseShape.cs" />
+    <Compile Include="Classes\Rendering\GIF.cs" />
+    <Compile Include="Classes\Rendering\Graphing.cs" />
+    <Compile Include="Classes\Rendering\LayerRenderer.cs" />
+    <Compile Include="Classes\Rendering\RenderLoop.cs" />
+    <Compile Include="Classes\Rendering\SelbaWardLine.cs" />
+    <Compile Include="Classes\Rendering\SFLine.cs" />
+    <Compile Include="Classes\Rendering\TextureExt.cs" />
+    <Compile Include="Controls\Graphics\DevicePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Graphics\DevicePanel.designer.cs">
+      <DependentUpon>DevicePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Graphics\DevicePanelSFML.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Graphics\DevicePanelSFML.designer.cs">
+      <DependentUpon>DevicePanelSFML.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\RemoveTabConverter.cs" />
+    <Compile Include="Converters\TilePixelConverter.cs" />
+    <Compile Include="Enums\AutoScrollDirection.cs" />
+    <Compile Include="Enums\Axis.cs" />
+    <Compile Include="Enums\DuplicateAction.cs" />
+    <Compile Include="Enums\FlipDirection.cs" />
+    <Compile Include="Enums\MiscEnums.cs" />
+    <Compile Include="Events\DeviceEventArgs.cs" />
+    <Compile Include="Events\TileConfigException.cs" />
+    <Compile Include="Extensions\ExternalExtensions.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
+    <Compile Include="Extensions\KeyEventExt.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="Extensions\Spline\ArrayUtil.cs" />
+    <Compile Include="Extensions\Spline\CubicSpline.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Spline\TriDiagonalMatrix.cs" />
+    <Compile Include="Extensions\SystemColorsUtility.cs" />
+    <Compile Include="Extensions\WindowHelper.cs" />
+    <Compile Include="Interfaces\IDrawable.cs" />
+    <Compile Include="Interfaces\IDrawArea.cs" />
+    <Compile Include="Methods\Drawing\TextureCreator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="SFML.Net">
+      <Version>2.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX">
+      <Version>4.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Desktop">
+      <Version>4.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D9">
+      <Version>4.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Mathematics">
+      <Version>4.2.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenerationsLib\GenerationsLib.Core\GenerationsLib.Core.csproj">
+      <Project>{51ca42a9-58f0-4f3d-a250-bc22d8a8540e}</Project>
+      <Name>GenerationsLib.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKv1\RSDKv1.csproj">
+      <Project>{e089db56-f8d4-434e-a9a8-c7efcc3278d8}</Project>
+      <Name>RSDKv1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKv2\RSDKv2.csproj">
+      <Project>{b41a3858-7e66-4755-9f50-94ea021155b6}</Project>
+      <Name>RSDKv2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKv5\RSDKv5.csproj">
+      <Project>{cf5496f8-002b-408f-9b3d-67c88f610283}</Project>
+      <Name>RSDKv5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKvB\RSDKvB.csproj">
+      <Project>{1a58ba31-c9e1-4d18-876e-ec73799e7a9f}</Project>
+      <Name>RSDKvB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RSDK-Reverse\RSDKvRS\RSDKvRS.csproj">
+      <Project>{aae1bacd-fe6b-4cc6-ad2d-073315f45eaf}</Project>
+      <Name>RSDKvRS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\Graphics\DevicePanel.resx">
+      <DependentUpon>DevicePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Graphics\DevicePanelSFML.resx">
+      <DependentUpon>DevicePanelSFML.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

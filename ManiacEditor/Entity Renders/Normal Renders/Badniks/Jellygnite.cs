@@ -34,20 +34,25 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("Jellygnite", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
             for (int i = 0; i < 4; i++)
             {
 
-                Animation = LoadAnimation("Jellygnite", d, 3, 0);
+                Animation = LoadAnimation(GetSetupAnimation(), d, 3, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 12, y + 6 + 6 * i, Transparency, fliph, flipv);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 12, y + 6 + 6 * i, Transparency, fliph, flipv);
 
 
-                Animation = LoadAnimation("Jellygnite", d, 5, 0);
+                Animation = LoadAnimation(GetSetupAnimation(), d, 5, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + 6 + 6 * i, Transparency, fliph, flipv);
             }
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Jellygnite.bin", "Jellygnite", new string[] { "HCZ", "HPZ" });
         }
 
         public override string GetObjectName()

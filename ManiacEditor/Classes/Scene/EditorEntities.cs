@@ -383,12 +383,13 @@ namespace ManiacEditor.Classes.Scene
 
             EvaluteSlotIDOrder();
         }
-        public void Spawn(RSDKv5.SceneObject sceneObject, RSDKv5.Position position)
+        public void Spawn(RSDKv5.SceneObject sceneObject, System.Drawing.Point position)
         {
             try
             {
                 var editorEntity = GenerateEditorEntity(new RSDKv5.SceneEntity(sceneObject, GetFreeSlot()));
-                editorEntity.Position = position;
+                editorEntity.PositionX = position.X;
+                editorEntity.PositionY = position.Y;
                 var newEntities = new List<Classes.Scene.EditorEntity> { editorEntity };
                 LastAction = new Actions.ActionAddDeleteEntities(newEntities, true, x => AddEntities(x), x => DeleteEntities(x));
                 AddEntities(newEntities);

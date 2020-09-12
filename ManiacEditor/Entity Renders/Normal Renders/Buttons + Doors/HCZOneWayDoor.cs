@@ -38,7 +38,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("ButtonDoor", d, 0, 0);
+            var Animation = LoadAnimation("HCZ/ButtonDoor.bin", d, 0, 0);
             
             bool wEven = width % 2 == 0;
             bool hEven = height % 2 == 0;

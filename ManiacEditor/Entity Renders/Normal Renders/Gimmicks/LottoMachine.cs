@@ -18,36 +18,36 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
 
 
-            var Animation = LoadAnimation("LottoMachine", d, 0, 1);
+            var Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("LottoMachine", d, 0, 7);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 7);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
 
-            Animation = LoadAnimation("LottoMachine", d, 0, 8);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 8);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 128, y, Transparency, !fliph, flipv);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 128, y + 114, Transparency, !fliph, !flipv);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + 114, Transparency, fliph, !flipv);
 
 
-            Animation = LoadAnimation("LottoMachine", d, 0, 9);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 9);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 4, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("LottoMachine", d, 2, 0);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + 132, Transparency, fliph, flipv);
-            Animation = LoadAnimation("LottoMachine", d, 0, 1);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
 
-            Animation = LoadAnimation("LottoMachine", d, 0, 2);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 136, y, Transparency, !fliph, flipv);
-            Animation = LoadAnimation("LottoMachine", d, 0, 3);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 3);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 136 - 36, y, Transparency, !fliph, flipv);
-            Animation = LoadAnimation("LottoMachine", d, 0, 4);
+            Animation = LoadAnimation("SPZ2/LottoMachine.bin", d, 0, 4);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 136 - 72, y, Transparency, !fliph, flipv);
         }

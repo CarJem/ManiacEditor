@@ -17,11 +17,11 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("HangGlider", d, 0, 0);
+            var Animation = LoadAnimation("FBZ/HangGlider.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("HangGlider", d, 1, 0);
+            Animation = LoadAnimation("FBZ/HangGlider.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("HangGlider", d, 1, 1);
+            Animation = LoadAnimation("FBZ/HangGlider.bin", d, 1, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

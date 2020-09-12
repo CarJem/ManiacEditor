@@ -14,7 +14,9 @@ using System.Text.RegularExpressions;
 using ImageMagick;
 using SFML.Graphics;
 using System.CodeDom;
-
+using ManiacEditor.Classes.Rendering;
+using System.Windows.Data;
+using ManiacEditor.Methods.Solution;
 
 namespace ManiacEditor.Methods.Drawing
 {
@@ -25,10 +27,10 @@ namespace ManiacEditor.Methods.Drawing
         private static int LastViewPositionX { get; set; } = -1;
         private static int LastViewPositionY { get; set; } = -1;
 
-        public static List<string> SpecialObjectRenders { get; private set; } = new List<string>() {
+        public static List<string> SpecialObjectRenders { get; private set; } = new List<string>() 
+        {
             "EditorAssets",
             "HUDEditorText",
-            "SuperSpecialRing",
             "EditorIcons2",
             "TransportTubes",
             "EditorUIRender"
@@ -51,7 +53,7 @@ namespace ManiacEditor.Methods.Drawing
         #endregion
 
         #region Loading/Calling
-        public static EditorAnimation LoadAnimation(DevicePanel d, string name, int AnimID = 0, int FrameID = 0)
+        public static EditorAnimation LoadAnimation(DevicePanel d, string name, int AnimID = 0, int FrameID = 0, bool FallBack = false)
         {
             if (AnimationCache.ContainsKey(name))
             {
@@ -67,17 +69,17 @@ namespace ManiacEditor.Methods.Drawing
             }
             else
             {
-                LoadNextAnimation(d, name);
+                LoadNextAnimation(d, name, FallBack);
                 return new EditorAnimation(true);
             }
         }
-        public static void LoadNextAnimation(DevicePanel d, string name)
+        public static void LoadNextAnimation(DevicePanel d, string name, bool FallBack = false)
         {
             if (AnimationCache.ContainsKey(name)) return;
             else
             {
                 var Animation = new EditorAnimation();
-                var AssetInfo = GetAssetPath(name);
+                var AssetInfo = GetAnimationPath(name, FallBack);
                 Animation.SourcePath = AssetInfo.Item1;
                 Animation.SourceDirectory = AssetInfo.Item2;
                 if (AssetInfo.Item1 != string.Empty && AssetInfo.Item1 != null && File.Exists(AssetInfo.Item1))
@@ -97,18 +99,15 @@ namespace ManiacEditor.Methods.Drawing
         }
         #endregion
 
-        #region Texture Collection
-        public static Dictionary<string, Texture> GetAnimationSpriteSheetTextures(DevicePanel d, string Name, Animation Animation, string SourcePath, string SourceDirectory, bool NoEncoreColors)
+        #region TextureExt Collection
+        public static Dictionary<string, TextureExt> GetAnimationSpriteSheetTextures(DevicePanel d, string Name, Animation Animation, string SourcePath, string SourceDirectory, bool NoEncoreColors)
         {
-            Dictionary<string, Texture> SpriteSheetTextures = new Dictionary<string, Texture>();
+            Dictionary<string, TextureExt> SpriteSheetTextures = new Dictionary<string, TextureExt>();
 
-            foreach (var spriteSheetName in Animation.SpriteSheets)
+            foreach (var SpriteSheetPath in Animation.SpriteSheets)
             {
                 Bitmap SpriteSheetBMP;
-                string TargetFile;
-
-                if (SpecialObjectRenders.Contains(Name)) TargetFile = GetEditorStaticBitmapPath(Name);
-                else TargetFile = Path.Combine(SourceDirectory, "Sprites", spriteSheetName.Replace('/', '\\'));
+                string TargetFile = GetBitmapPath(Name, SpriteSheetPath);
 
 
                 if (!File.Exists(TargetFile)) SpriteSheetBMP = null;
@@ -123,6 +122,7 @@ namespace ManiacEditor.Methods.Drawing
                             SpriteSheetBMP = disposable.Clone(new Rectangle(0, 0, disposable.Width, disposable.Height), PixelFormat.Format8bppIndexed);
                             SpriteSheetBMP = SetEncoreColors(SpriteSheetBMP, NoEncoreColors);
                             SpriteSheetBMP = RemoveColourImage(SpriteSheetBMP, colour);
+                            SpriteSheetBMP = FixBitmapSize(SpriteSheetBMP);
                             disposable.Dispose();
                         }
                     }
@@ -134,15 +134,33 @@ namespace ManiacEditor.Methods.Drawing
 
                 if (SpriteSheetBMP != null)
                 {
-                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), Methods.Drawing.CommonDrawing.FromBitmap(SpriteSheetBMP));
+                    SpriteSheetTextures.Add(SpriteSheetPath.Replace('/', '\\'), Methods.Drawing.TextureCreator.FromBitmap(d._device, SpriteSheetBMP));
                 }
                 else
                 {
-                    SpriteSheetTextures.Add(spriteSheetName.Replace('/', '\\'), null);
+                    SpriteSheetTextures.Add(SpriteSheetPath.Replace('/', '\\'), null);
                 }
             }
 
             return SpriteSheetTextures;
+        }
+
+        public static Bitmap FixBitmapSize(Bitmap bmp2)
+        {
+            var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
+            int factor = 32;
+            int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+            if (newSize == 0) newSize = factor;
+            while (newSize < squareSize) newSize += factor;
+
+            Bitmap bmp = new Bitmap(newSize, newSize);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.DrawImage(bmp2, 0, 0, new Rectangle(0, 0, bmp2.Width, bmp2.Height), GraphicsUnit.Pixel);
+            }
+            bmp2 = (Bitmap)bmp.Clone();
+            bmp.Dispose();
+            return bmp2;
         }
         public static Bitmap RemoveColourImage(Bitmap source, System.Drawing.Color colour)
         {
@@ -201,7 +219,7 @@ namespace ManiacEditor.Methods.Drawing
         #endregion
 
         #region Asset Retrival
-        public static string GetEditorStaticBitmapPath(string assetName)
+        public static string GetEditorBitmapPath(string assetName)
         {
             string targetFile = "";
             if (assetName == "EditorAssets") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorAssets.gif");
@@ -209,11 +227,16 @@ namespace ManiacEditor.Methods.Drawing
             else if (assetName == "EditorIcons2") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorIcons2.gif");
             else if (assetName == "TransportTubes") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "TransportTubes.gif");
             else if (assetName == "EditorUIRender") targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "MenuRenders.gif");
-            else targetFile = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "SuperSpecialRing.gif");
 
             return targetFile;
         }
-        public static string GetEditorStaticAssetPath(string name)
+        public static string GetZoneSetupBitmapPath(string AssetName)
+        {
+            string TargetFile = "";
+            TargetFile = ManiacEditor.Methods.Solution.CurrentSolution.Entities.SetupObject.Replace("Setup", "") + "\\" + AssetName + ".bin";
+            return TargetFile;
+        }
+        public static string GetEditorAnimationPath(string name)
         {
             string path;
             switch (name)
@@ -233,22 +256,19 @@ namespace ManiacEditor.Methods.Drawing
                 case "EditorUIRender":
                     path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "EditorUIRender.bin");
                     break;
-                case "SuperSpecialRing":
-                    path = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects\\", "SuperSpecialRing.bin");
-                    break;
                 default:
                     path = null;
                     break;
             }
             return path;
         }
-        public static Tuple<String, String> GetAssetPath(string name)
+        public static Tuple<String, String> GetAnimationPath(string name, bool FallBack = false)
         {
 			string path = "";
 			string dataDirectory = "";
-            if (name == "EditorAssets" || name == "HUDEditorText" || name == "SuperSpecialRing" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
+            if (name == "EditorAssets" || name == "HUDEditorText" || name == "EditorIcons2" || name == "TransportTubes" || name == "EditorUIRender")
             {
-                path = GetEditorStaticAssetPath(name);
+                path = GetEditorAnimationPath(name);
                 dataDirectory = Path.Combine(ManiacEditor.Methods.ProgramBase.GetExecutingDirectoryName(), "Resources\\Objects");
                 if (!File.Exists(path)) return null;
             }
@@ -257,7 +277,7 @@ namespace ManiacEditor.Methods.Drawing
 				bool AssetFound = false;
 				foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
 				{
-					Tuple<string, string> Findings = GetAssetSourcePath(dataDir, name);
+					Tuple<string, string> Findings = GetSpecificAnimationPath(dataDir, name, FallBack);
 					if (Findings.Item1 != null && Findings.Item2 != null)
 					{
                         AssetFound = true;
@@ -269,7 +289,7 @@ namespace ManiacEditor.Methods.Drawing
 
 				if (!AssetFound && ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory != null)
 				{
-					Tuple<string, string> Findings = GetAssetSourcePath(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, name);
+					Tuple<string, string> Findings = GetSpecificAnimationPath(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, name, FallBack);
 					if (Findings.Item1 != null && Findings.Item2 != null)
 					{
 						AssetFound = true;
@@ -282,118 +302,177 @@ namespace ManiacEditor.Methods.Drawing
 
             return Tuple.Create(path, dataDirectory);
         }
-		public static Tuple<string, string> GetAssetSourcePath(string dataFolder, string name)
+        public static string GetBitmapPath(string Name, string SpritePath)
+        {
+            string TargetFile = "";
+            if (SpecialObjectRenders.Contains(Name)) TargetFile = GetEditorBitmapPath(Name);
+            else
+            {
+                bool AssetFound = false;
+                foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
+                {
+                    Tuple<string, string> Findings = GetSpecificBitmapPath(dataDir, SpritePath);
+                    if (Findings.Item1 != null && Findings.Item2 != null)
+                    {
+                        AssetFound = true;
+                        TargetFile = Findings.Item1;
+                        break;
+                    }
+                }
+
+                if (!AssetFound && ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory != null)
+                {
+                    Tuple<string, string> Findings = GetSpecificBitmapPath(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, SpritePath);
+                    if (Findings.Item1 != null && Findings.Item2 != null)
+                    {
+                        AssetFound = true;
+                        TargetFile = Findings.Item1;
+                    }
+                }
+
+            }
+
+            return TargetFile;
+        }
+        private static string[] GetAllPossibleDefaultSpriteFolders(string DataDirectory)
+        {
+            List<string> SpriteFolders = new List<string>();
+            foreach (var folder in Directory.GetDirectories(System.IO.Path.Combine(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory, "Sprites"), $"*", SearchOption.TopDirectoryOnly))
+            {
+                var dirInfo = new DirectoryInfo(folder);
+                SpriteFolders.Add(System.IO.Path.Combine(DataDirectory, "Sprites", dirInfo.Name));
+            }
+            return SpriteFolders.ToArray();
+        }
+        public static Tuple<string, string> GetSpecificAnimationPath(string DataDirectory, string Name, bool FallBack = false)
 		{
-			string path, path2;
-			string dataDirectory = dataFolder;
-			// Checks the Stage Folder First
-			path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
-			path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-			if (Instance.userDefinedSpritePaths != null && Instance.userDefinedSpritePaths.Count != 0)
-			{
-				foreach (string userDefinedPath in Instance.userDefinedSpritePaths)
-				{
-					path = userDefinedPath + "\\" + name + ".bin";
-					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-					//Debug.Print(path2);
-					if (File.Exists(path2))
-					{
-						break;
-					}
-				}
-				if (!File.Exists(path2))
-				{
-					path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone + "\\" + name + ".bin";
-					path2 = Path.Combine(dataDirectory, "\\Sprites") + "\\" + path;
-				}
-			}
+            string AnimationPath = null;
+            string FullPath = null;
+            string RelativePath = null;
 
+            if (Directory.Exists(Path.Combine(DataDirectory, "Sprites")))
+            {
+                if (FallBack)
+                {
+                    // Checks the Entire Data Directory
+                    foreach (string SpriteDirectory in GetAllPossibleDefaultSpriteFolders(DataDirectory))
+                    {
+                        AnimationPath = Path.GetFileName(SpriteDirectory) + "\\" + Name + ".bin";
+                        RelativePath = Path.Combine("Data", "Sprites").Replace("\\", "/") + "/" + AnimationPath.Replace("\\", "/");
+                        if (DoesIZMatchExist(RelativePath))
+                        {
+                            string NewPath = GetIZPath(RelativePath);
+                            RelativePath = NewPath;
+                            FullPath = Directory.GetParent(DataDirectory).FullName + "\\" + RelativePath.Replace("/", "\\");
+                        }
+                        else
+                        {
+                            AnimationPath = Path.GetFileName(SpriteDirectory) + "\\" + Name + ".bin";
+                            FullPath = DataDirectory + "\\Sprites\\" + AnimationPath.Replace("/", "\\");
+                        }
+                        if (File.Exists(FullPath)) break;
+                    }
+                }
+                else
+                {
+                    // Try Just By Name
+                    AnimationPath = Name;
+                    RelativePath = Path.Combine("Data", "Sprites").Replace("\\", "/") + "/" + AnimationPath.Replace("\\", "/");
+                    if (DoesIZMatchExist(RelativePath))
+                    {
+                        string NewPath = GetIZPath(RelativePath);
+                        RelativePath = NewPath;
+                        FullPath = Directory.GetParent(DataDirectory).FullName + "\\" + RelativePath.Replace("/", "\\");
+                    }
+                    else
+                    {
+                        AnimationPath = Name;
+                        FullPath = DataDirectory + "\\Sprites\\" + AnimationPath.Replace("/", "\\");
+                    }
+                }
+            }
 
-			if (!File.Exists(path2))
-			{
-				if (!File.Exists(path2))
-				{
-					// Checks without last character
-					path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + name + ".bin";
-					path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-					if (!File.Exists(path2))
-					{
-						// Checks for name without the last character and without the numbers in the entity name
-						string adjustedName = new String(name.Where(c => c != '-' && (c < '0' || c > '9')).ToArray());
-						path = path = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Substring(0, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone.Length - 1) + "\\" + adjustedName + ".bin";
-						path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-						if (!File.Exists(path2))
-						{
-							// Checks for name without any numbers in the Zone name
-							string adjustedZone = Regex.Replace(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, @"[\d-]", string.Empty);
-							path = path = adjustedZone + "\\" + name + ".bin";
-							path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-							if (!File.Exists(path2))
-							{
-								// Checks for name without any numbers in the Zone name, then add a 1 back
-								adjustedZone = adjustedZone + "1";
-								path = path = adjustedZone + "\\" + name + ".bin";
-								path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-								if (!File.Exists(path2))
-								{
-									// Checks Global
-									path = "Global\\" + name + ".bin";
-									path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-									if (!File.Exists(path2))
-									{
-										//Checks Editor
-										path = "Editor\\" + name + ".bin";
-										path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-										if (!File.Exists(path2))
-										{
-											//Checks Cutscene
-											path = "Cutscene\\" + name + ".bin";
-											path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-											if (!File.Exists(path2))
-											{
-												//Checks MSZ
-												path = "MSZ\\" + name + ".bin";
-												path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-												if (!File.Exists(path2))
-												{
-													//Checks Base without a Path
-													path = name + ".bin";
-													path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
+            if (!File.Exists(FullPath)) 
+            {
+                AnimationPath = null;
+                FullPath = null;
+                DataDirectory = null;
+            } 
 
-
-													if (!File.Exists(path2))
-													{
-														string spriteFolder = Path.Combine(dataDirectory, "Sprites");
-														// Checks the Entire Sprite folder 
-                                                        if (Directory.Exists(Path.Combine(dataDirectory, "Sprites")))
-                                                        {
-                                                            foreach (string dir in Directory.GetDirectories(spriteFolder, $"*", SearchOption.TopDirectoryOnly))
-                                                            {
-                                                                path = Path.GetFileName(dir) + "\\" + name + ".bin";
-                                                                path2 = Path.Combine(dataDirectory, "Sprites") + "\\" + path;
-                                                                if (File.Exists(path2)) break;
-
-                                                            }
-                                                        }
-														if (!File.Exists(path2))
-														{
-															// No animation found
-															path2 = null;
-															dataDirectory = null;
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			return Tuple.Create(path2, dataDirectory);
+            return Tuple.Create(FullPath, DataDirectory);
 		}
+        public static string GetIZPath(string RelativePath)
+        {
+            bool DirectPathExists = CurrentSolution.IZ_Stage.Assets.Exists(x => x.BasePath == RelativePath);
+            if (DirectPathExists)
+            {
+                return CurrentSolution.IZ_Stage.Assets.Where(x => x.BasePath == RelativePath).FirstOrDefault().NewPath;
+            }
+            else
+            {
+                string Folder = Path.GetDirectoryName(RelativePath).Replace("\\", "/") + "/";
+                bool FolderRedirectExists = CurrentSolution.IZ_Stage.Assets.Exists(x => x.BasePath == Folder);
+                if (FolderRedirectExists)
+                {
+                    string NewFolder = CurrentSolution.IZ_Stage.Assets.Where(x => x.BasePath.Contains(Folder)).FirstOrDefault().NewPath;
+                    RelativePath = RelativePath.Replace(Folder, NewFolder);
+                    return RelativePath;
+                }
+                else return RelativePath;
+            }
+        }
+        public static bool DoesIZMatchExist(string RelativePath)
+        {
+            if (CurrentSolution.IZ_Stage != null && CurrentSolution.IZ_Stage.Assets != null)
+            {
+                bool DirectPathExists = CurrentSolution.IZ_Stage.Assets.Exists(x => x.BasePath == RelativePath);
+                if (DirectPathExists) return DirectPathExists;
+                else
+                {
+                    string Folder = Path.GetDirectoryName(RelativePath).Replace("\\", "/") + "/";
+                    bool FolderRedirectExists = CurrentSolution.IZ_Stage.Assets.Exists(x => x.BasePath == Folder);
+                    if (FolderRedirectExists) return FolderRedirectExists;
+                    else return false;
+                }
+
+            }
+            else return false;
+
+        }
+        public static Tuple<string, string> GetSpecificBitmapPath(string DataDirectory, string Path)
+        {
+            string FullPath = null;
+            string RelativePath = null;
+
+
+            Path = Path.Replace("/", "\\");
+
+            string SpriteFolder = System.IO.Path.Combine(DataDirectory, "Sprites");
+            // Checks the Data Directories Sprite Folder
+            if (Directory.Exists(SpriteFolder))
+            {
+                RelativePath = System.IO.Path.Combine("Data", "Sprites").Replace("\\", "/") + "/" + Path.Replace("\\", "/");
+                if (DoesIZMatchExist(RelativePath))
+                {
+                    string NewPath = GetIZPath(RelativePath);
+                    RelativePath = NewPath;
+                    FullPath = Directory.GetParent(DataDirectory).FullName + "\\" + RelativePath.Replace("/", "\\");
+                }
+                else
+                {
+                    FullPath = SpriteFolder + "\\" + Path;
+                }
+
+                if (!File.Exists(FullPath))
+                {
+                    FullPath = null;
+                }
+            }
+
+
+            return Tuple.Create(FullPath, DataDirectory);
+        }
+
         #endregion
 
         #region Disposal
@@ -433,7 +512,7 @@ namespace ManiacEditor.Methods.Drawing
         {
             if (!IsObjectOnScreen(d, _entity)) return;
 
-            LoadNextAnimation(d, _entity.Name);
+            //LoadNextAnimation(d, _entity.Name);
 
             int X = _entity.Position.X.High;
             int Y = _entity.Position.Y.High;
@@ -484,7 +563,7 @@ namespace ManiacEditor.Methods.Drawing
             int FrameID = 0;
             int AnimID = 0;
 
-            var animation = LoadAnimation(d, Name, AnimID, FrameID);
+            var animation = LoadAnimation(d, Name, AnimID, FrameID, true);
             Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, animation, animation.RequestedAnimID, animation.RequestedFrameID, x, y, Transparency);
 
         }
@@ -539,7 +618,7 @@ namespace ManiacEditor.Methods.Drawing
 
                 if (e.SelectedIndex != -1)
                 {
-                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 2, y + 2, System.Drawing.Color.Black, true, 6, System.Drawing.Color.Red);
+                    d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 2, y + 2, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
                 }
             }
         }
@@ -772,7 +851,7 @@ namespace ManiacEditor.Methods.Drawing
             public string Name { get; set; }
             public string SourcePath { get; set; }
             public string SourceDirectory { get; set; }
-            public Dictionary<string, Texture> Spritesheets { get; set; }
+            public Dictionary<string, TextureExt> Spritesheets { get; set; }
             public Animation Animation { get; set; }
             public int RequestedAnimID { get; set; }
             public int RequestedFrameID { get; set; }

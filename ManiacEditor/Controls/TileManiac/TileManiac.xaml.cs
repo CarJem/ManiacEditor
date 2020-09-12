@@ -58,10 +58,10 @@ namespace ManiacEditor.Controls.TileManiac
 		public PictureBoxNearestNeighbor TilePicBox { get; set; } = new PictureBoxNearestNeighbor();
 		public PictureBoxNearestNeighbor CollisionPicBox { get; set; } = new PictureBoxNearestNeighbor();
 		public ManiacEditor.Controls.Global.Controls.RetroEDTileList CollisionList { get; set; } = new ManiacEditor.Controls.Global.Controls.RetroEDTileList();
-		public DevicePanel GraphicPanel { get; set; }
+		public DevicePanelSFML GraphicPanel { get; set; }
 		public IDrawPanel HostPanel { get; set; }
 
-		public class IDrawPanel : System.Windows.Forms.Panel, IDrawArea
+		public class IDrawPanel : System.Windows.Forms.Panel, IDrawAreaSFML
 		{
 			public SFML.System.Vector2i GetPosition()
 			{
@@ -313,7 +313,7 @@ namespace ManiacEditor.Controls.TileManiac
 
 		public void InitalizeDevicePanel()
 		{
-			this.GraphicPanel = new ManiacEditor.DevicePanel();
+			this.GraphicPanel = new ManiacEditor.DevicePanelSFML();
 			this.GraphicPanel.AllowDrop = true;
 			this.GraphicPanel.AutoSize = false;
 			this.GraphicPanel.DeviceBackColor = System.Drawing.Color.White;
@@ -2589,7 +2589,7 @@ namespace ManiacEditor.Controls.TileManiac
 			return new System.Drawing.Point(intX2, intY2);
 		}
 
-		private System.Drawing.Point DrawAngle(DevicePanel d, int x, int y, int angle, int length, System.Drawing.Color color, int thickness = 1, bool FlipX = false, bool FlipY = false)
+		private System.Drawing.Point DrawAngle(DevicePanelSFML d, int x, int y, int angle, int length, System.Drawing.Color color, int thickness = 1, bool FlipX = false, bool FlipY = false)
 		{
 			System.Drawing.Point StartPoint = new System.Drawing.Point(x, y);
 			System.Drawing.Point EndPoint = GetAngle(x, y, angle, length);
@@ -2597,7 +2597,7 @@ namespace ManiacEditor.Controls.TileManiac
 			return EndPoint;
 		}
 
-		private void GraphicPanel_OnRender(object sender, Events.DeviceEventArgs e)
+		private void GraphicPanel_OnRender(object sender, Events.DeviceEventArgsSFML e)
 		{
 			if (TileConfig != null)
 			{

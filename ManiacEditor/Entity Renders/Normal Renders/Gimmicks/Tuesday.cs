@@ -19,12 +19,12 @@ namespace ManiacEditor.Entity_Renders
 
             int type = (int)e.attributesMap["type"].ValueUInt8;
 
-            var Animation = LoadAnimation("Tuesday", d, 2, 0);
+            var Animation = LoadAnimation("FBZ/Tuesday.bin", d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
             if (type == 0)
             {
-                Animation = LoadAnimation("Tuesday", d, 0, 0);
+                Animation = LoadAnimation("FBZ/Tuesday.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }

@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("Woodrow", d, animID, 0);
+            var Animation = LoadAnimation("PSZ2/Woodrow.bin", d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? -Animation.RequestedFrame.PivotX - 6 : 0), y + (flipv ? 0 : 0), Transparency, fliph, flipv);
         }
 

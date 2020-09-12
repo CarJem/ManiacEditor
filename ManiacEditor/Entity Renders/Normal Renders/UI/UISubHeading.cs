@@ -1,4 +1,5 @@
-﻿using RSDKv5;
+﻿using ManiacEditor.Classes.Scene;
+using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -7,43 +8,23 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            EditorEntity entity = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
+            bool fliph = false;
+            bool flipv = false;
+            string text = "UI/Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage + ".bin";
             int listID = (int)entity.attributesMap["listID"].ValueEnum;
             int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
 			int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
 			int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
 			int align = (int)entity.attributesMap["align"].ValueEnum;
 			double alignmentVal = 0;
-			var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[Animation.index];
-				switch (align)
-				{
-					case 0:
-						alignmentVal = -((width / 2)) - frame.Frame.PivotY;
-						break;
-					default:
-						alignmentVal = frame.Frame.PivotX + (22 / 2);
-						break;
-				}
-				e.DrawUIButtonBack(d, x, y, width, height, frame.Frame.Width, frame.Frame.Height, Transparency);
-				d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + (int)alignmentVal, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-
-
+            d.DrawQuad(x - (width / 2) - height, y - (height / 2), x + (width / 2) + height, y + (height / 2), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
+            var Animation = LoadAnimation(text, d, listID, frameID);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

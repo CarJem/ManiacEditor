@@ -13,11 +13,11 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var editorAnim = LoadAnimation("RGenerator", d, 0, 0);
+            var editorAnim = LoadAnimation("SSZ1/RGenerator.bin", d, 0, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, false, false);
-            editorAnim = LoadAnimation("RGenerator", d, 0, 0);
+            editorAnim = LoadAnimation("SSZ1/RGenerator.bin", d, 0, 0);
             DrawTexture(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x + editorAnim.RequestedFrame.PivotX, y + editorAnim.RequestedFrame.Height/2, Transparency, false, true);
-            editorAnim = LoadAnimation("RGenerator", d, 1, 0);
+            editorAnim = LoadAnimation("SSZ1/RGenerator.bin", d, 1, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x - 22, y, Transparency, false, false);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x - 6, y, Transparency, false, false);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x + 10, y, Transparency, false, false);;

@@ -27,7 +27,7 @@ namespace ManiacEditor.Entity_Renders
 
             int frameDist = (flags & LeftDist) > 0 ? 1 : 0;
             int framePlane = (flags & LeftPlane) > 0 ? 2 : 0;
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "PlaneSwitch");
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Global/PlaneSwitch.bin");
 
             const int pivotOffsetX = -8, pivotOffsetY = 0;
             const int drawOffsetX = 0, drawOffsetY = -8;
@@ -44,13 +44,13 @@ namespace ManiacEditor.Entity_Renders
                         (y + (hEven ? frame.PivotY : -frame.Height) + (-size / 2 + yy) * frame.Height),
                         x + pivotOffsetX, y + pivotOffsetY, angle);
 
-                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
+                    d.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
 
             frameDist = (flags & RightDist) > 0 ? 1 : 0;
             framePlane = (flags & RightPlane) > 0 ? 2 : 0;
-            Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "PlaneSwitch");
+            Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "Global/PlaneSwitch.bin");
 
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(0, frameDist + framePlane)))
             {
@@ -63,7 +63,7 @@ namespace ManiacEditor.Entity_Renders
                         (y + (hEven ? frame.PivotY : -frame.Height) + (-size / 2 + yy) * frame.Height),
                         x + pivotOffsetX, y + pivotOffsetY, angle);
 
-                    d.DrawTexture(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
+                    d.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value, drawCoords[0] + drawOffsetX, drawCoords[1] + drawOffsetY, frame.X, frame.Y, frame.Width, frame.Height, false, Transparency);
                 }
             }
         }

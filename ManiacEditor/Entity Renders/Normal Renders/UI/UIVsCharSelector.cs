@@ -1,4 +1,5 @@
-﻿using RSDKv5;
+﻿using ManiacEditor.Classes.Scene;
+using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -7,18 +8,14 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            EditorEntity entity = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
+            bool fliph = false;
+            bool flipv = false;
+            string text = "UI/Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage + ".bin";
             int playerID = (int)entity.attributesMap["playerID"].ValueUInt8;
             int player = 8;
             switch (playerID)
@@ -37,44 +34,18 @@ namespace ManiacEditor.Entity_Renders
                     break;
 
             }
-            var editorAnimWaiting = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 12, 7, false, false, false);
-            var editorAnimBackground = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, 14, 7, false, false, false);
-            var editorAnimPlayerText = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, 12, player, false, false, false);
-            var editorAnimFrame = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("EditorUIRender", d.DevicePanel, 1, 0, false, false, false);
-
-            d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(128, 255, 255, 255));
-
-            if (editorAnimFrame != null && editorAnimFrame.Frames.Count != 0)
-            {
-                var frame = editorAnimFrame.Frames[Animation.index];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-
-            if (editorAnimBackground != null && editorAnimBackground.Frames.Count != 0)
-            {
-                var frame = editorAnimBackground.Frames[Animation.index];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-
-            if (editorAnimWaiting != null && editorAnimWaiting.Frames.Count != 0)
-            {
-                var frame = editorAnimWaiting.Frames[Animation.index];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX, y + frame.Frame.PivotY - 8,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-
-            if (editorAnimPlayerText != null && editorAnimPlayerText.Frames.Count != 0)
-            {
-                var frame = editorAnimPlayerText.Frames[Animation.index];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + 36, y + frame.Frame.PivotY - 38,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
+            
+            d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(Transparency - 128, 255, 255, 255));
 
 
-
-
+            var editorAnimFrame = LoadAnimation("EditorUIRender", d, 1, 0);
+            DrawTexturePivotNormal(d, editorAnimFrame, editorAnimFrame.RequestedAnimID, editorAnimFrame.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            var editorAnimBackground = LoadAnimation("UI/SaveSelect.bin", d, 14, 7);
+            DrawTexturePivotNormal(d, editorAnimBackground, editorAnimBackground.RequestedAnimID, editorAnimBackground.RequestedFrameID, x, y - 8, Transparency, fliph, flipv);
+            var editorAnimWaiting = LoadAnimation(text, d, 12, 7);
+            DrawTexturePivotNormal(d, editorAnimWaiting, editorAnimWaiting.RequestedAnimID, editorAnimWaiting.RequestedFrameID, x, y - 8, Transparency, fliph, flipv);
+            var editorAnimPlayerText = LoadAnimation(text, d, 12, player);
+            DrawTexturePivotNormal(d, editorAnimPlayerText, editorAnimPlayerText.RequestedAnimID, editorAnimPlayerText.RequestedFrameID, x + 36, y - 38, Transparency, fliph, flipv);
 
         }
 

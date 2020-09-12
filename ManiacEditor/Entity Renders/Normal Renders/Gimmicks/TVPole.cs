@@ -26,17 +26,17 @@ namespace ManiacEditor.Entity_Renders
                 int pos_y = y + -4;
                 if (xx == 0)
                 {
-                    var Animation = LoadAnimation("TVPole", d, 1, 0);
+                    var Animation = LoadAnimation("SPZ1/TVPole.bin", d, 1, 0);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, pos_x, pos_y, Transparency, false, false);
                 }
                 else if (xx == value)
                 {
-                    var Animation = LoadAnimation("TVPole", d, 1, 2);
+                    var Animation = LoadAnimation("SPZ1/TVPole.bin", d, 1, 2);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, pos_x, pos_y, Transparency, false, false);
                 }
                 else
                 {
-                    var Animation = LoadAnimation("TVPole", d, 1, 1);
+                    var Animation = LoadAnimation("SPZ1/TVPole.bin", d, 1, 1);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, pos_x, pos_y, Transparency, false, false);
 
                 }

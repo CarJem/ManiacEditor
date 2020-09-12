@@ -18,26 +18,31 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
 
 
-            var Animation = LoadAnimation("MonkeyDude", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
 
             int i;
             for (i = 0; i < 4; i++)
             {
-                Animation = LoadAnimation("MonkeyDude", d, 2, 0);
+                Animation = LoadAnimation(GetSetupAnimation(), d, 2, 0);
                 DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 15 - i * 5, y - 5 - i * 5, Transparency, fliph, flipv);
             }
             i++;
-            Animation = LoadAnimation("MonkeyDude", d, 3, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 3, 0);
             DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 15 - 4 * 5, y - 5 - 4 * 5, Transparency, fliph, flipv);
             i++;
-            Animation = LoadAnimation("MonkeyDude", d, 4, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 4, 0);
             DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 15 - 5 * 5, y - 5 - 5 * 5, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("MonkeyDude", d, 0, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("MonkeyDude", d, 1, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/MonkeyDude.bin", "MonkeyDude", new string[] { "AIZ", "Blueprint" });
         }
 
         public override string GetObjectName()

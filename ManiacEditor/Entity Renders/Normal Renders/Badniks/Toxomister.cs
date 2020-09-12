@@ -33,12 +33,17 @@ namespace ManiacEditor.Entity_Renders
                     */
             }
 
-            var Animation = LoadAnimation("Toxomister", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("Toxomister", d, 1, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + (flipv ? 45 : 0), Transparency, fliph, flipv);
 
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Toxomister.bin", "Toxomister", new string[] { "LRZ2", "LRZ1" });
         }
 
         public override string GetObjectName()

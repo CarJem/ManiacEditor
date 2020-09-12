@@ -17,11 +17,11 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("PaintingEyes", d, 0, 0);
+            var Animation = LoadAnimation("MSZ/PaintingEyes.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("PaintingEyes", d, 0, 1);
+            Animation = LoadAnimation("MSZ/PaintingEyes.bin", d, 0, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("PaintingEyes", d, 0, 2);
+            Animation = LoadAnimation("MSZ/PaintingEyes.bin", d, 0, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

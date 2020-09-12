@@ -28,9 +28,14 @@ namespace ManiacEditor.Entity_Renders
 
             DrawBounds(d, x, y, widthPixels, heightPixels, Transparency, SystemColors.White, SystemColors.Transparent);
 
-            var Animation = LoadAnimation("Platform", d, 2, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + (startOff > length ? length / 2 : startOff / 2), Transparency, fliph, flipv);
 
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Platform.bin", "Platform", new string[] { "LRZ1", "LRZ2" }, "LRZ1");
         }
 
         public override string GetObjectName()

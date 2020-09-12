@@ -22,11 +22,11 @@ namespace ManiacEditor.Entity_Renders
                 flipv = true;
             }
 
-            var Animation = LoadAnimation("Clucker", d, 0, 0);
+            var Animation = LoadAnimation("FBZ/Clucker.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("Clucker", d, 0, 1);
+            Animation = LoadAnimation("FBZ/Clucker.bin", d, 0, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + (flipv ? (16) : -16), Transparency, fliph, flipv);
-            Animation = LoadAnimation("Clucker", d, 0, 2);
+            Animation = LoadAnimation("FBZ/Clucker.bin", d, 0, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + (flipv ? (-4) : -16), Transparency, fliph, flipv);
         }
 

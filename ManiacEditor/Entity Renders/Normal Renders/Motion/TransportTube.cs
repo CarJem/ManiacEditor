@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
 			bool isUnsafe = isDangerousCombonation(dirMask, type);
 			if (type > 6) combo.showInvalid = true;
 
-			var editorAnim = LoadAnimation("TransportTube", d, 0, 0);
+			var editorAnim = LoadAnimation("CPZ/TransportTube.bin", d, 0, 0);
 			if (!hideFrame) DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
 
 			var upAnim = LoadAnimation("TransportTubes", d, 0, 0);

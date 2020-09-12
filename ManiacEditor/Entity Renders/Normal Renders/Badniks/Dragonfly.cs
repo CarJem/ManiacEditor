@@ -16,6 +16,14 @@ namespace ManiacEditor.Entity_Renders
 
             bool fliph = false;
             bool flipv = false;
+
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Dragonfly.bin", "Dragonfly", new string[] { "PSZ2", "PSZ1" });
         }
 
         public override string GetObjectName()

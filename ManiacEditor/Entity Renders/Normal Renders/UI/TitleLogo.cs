@@ -1,4 +1,5 @@
-﻿using RSDKv5;
+﻿using ManiacEditor.Classes.Scene;
+using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -7,46 +8,39 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            EditorEntity e = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
+
             bool mirrorFrames = false;
-            int frameID = (int)entity.attributesMap["type"].ValueEnum;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Logo", d.DevicePanel, frameID, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("Logo", d.DevicePanel, frameID, -1, true, flipv, false);
+            int frameID = (int)e.attributesMap["type"].ValueEnum;
+            var Animation = LoadAnimation("Title/Logo.bin", d, frameID, 0);
+            if (frameID == 2)
+            {
+                DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 118 - 2, y + Animation.RequestedFrame.PivotY, Transparency, fliph, flipv);
+            }
+            else
+            {
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            }
             if (frameID == 1 || frameID == 2 || frameID == 0) mirrorFrames = true;
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            if (mirrorFrames)
             {
-                var frame = editorAnim.Frames[0];
-
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                if (frameID == 2)
+                {
+                    Animation = LoadAnimation("Title/Logo.bin", d, frameID, 0);
+                    DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 118 + 3 - Animation.RequestedFrame.Width, y + Animation.RequestedFrame.PivotY, Transparency, true, flipv);
+                }
+                else
+                {
+                    DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - Animation.RequestedFrame.PivotX, y, Transparency, true, flipv);
+                }
             }
-            if (editorAnim2 != null && editorAnim2.Frames.Count != 0 && mirrorFrames)
-            {
-                var frame = editorAnim2.Frames[0];
 
-                Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX + frame.Frame.Width,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
         }
 
         public override string GetObjectName()

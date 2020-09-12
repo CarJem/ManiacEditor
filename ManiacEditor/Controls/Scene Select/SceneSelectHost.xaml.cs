@@ -1,12 +1,15 @@
-﻿using ManiacEditor.Structures;
+﻿using ManiacEditor.Methods.Solution;
+using ManiacEditor.Structures;
 using RSDKv5;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -81,14 +84,20 @@ namespace ManiacEditor.Controls.SceneSelect
 
         #region Classes
         public GameConfig _MasterGameConfig { get; set; }
-        public GameConfig _SecondaryGameConfig { get; set; }
 
         public GameConfig _GameConfig
         {
             get
             {
-                if (DataDirectory == string.Empty) return _MasterGameConfig;
-                else return _SecondaryGameConfig;
+                if (DataDirectory != string.Empty)
+                {
+                    if (Methods.Solution.SolutionPaths.DoesDataDirHaveGameConfig(DataDirectory))
+                    {
+                        GameConfig gameConfig = Methods.Solution.SolutionPaths.GetGameConfig(DataDirectory);
+                        if (gameConfig != null) return gameConfig;
+                    }
+                }
+                return _MasterGameConfig;
             }
         }
         public SceneSelectWindow Window { get; set; }
@@ -99,6 +108,7 @@ namespace ManiacEditor.Controls.SceneSelect
         #region Legacy WinForms Stuff
         private System.ComponentModel.IContainer Components = null;
 
+        private System.Windows.Forms.TreeView IZ_ScenesTree { get; set; }
         private System.Windows.Forms.TreeView ScenesTree { get; set; }
         private System.Windows.Forms.TreeView RecentsTree { get; set; }
         #endregion
@@ -121,6 +131,7 @@ namespace ManiacEditor.Controls.SceneSelect
             this.Components = new System.ComponentModel.Container();
             this.ScenesTree = new System.Windows.Forms.TreeView();
             this.RecentsTree = new System.Windows.Forms.TreeView();
+            this.IZ_ScenesTree = new System.Windows.Forms.TreeView();
 
             this.ScenesTree.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ScenesTree.BackColor = System.Drawing.Color.White;
@@ -144,8 +155,21 @@ namespace ManiacEditor.Controls.SceneSelect
             this.RecentsTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.RecentsTreeNodeDoubleClickEvent);
             this.RecentsTree.HideSelection = false;
 
+            this.IZ_ScenesTree.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.IZ_ScenesTree.BackColor = System.Drawing.Color.White;
+            this.IZ_ScenesTree.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.IZ_ScenesTree.ForeColor = System.Drawing.Color.Black;
+            this.IZ_ScenesTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IZ_ScenesTree.TabIndex = 0;
+            this.IZ_ScenesTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.IZScenesTreeAfterSelectEvent);
+            this.IZ_ScenesTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.IZScenesTreeNodeMouseDoubleClickEvent);
+            this.IZ_ScenesTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.IZScenesTreeNodeDoubleClickEvent);
+            this.IZ_ScenesTree.MouseUp += new System.Windows.Forms.MouseEventHandler(this.IZScenesTreeNodeMouseUpEvent);
+            this.IZ_ScenesTree.HideSelection = false;
+
             ScenesTree.Show();
             RecentsTree.Show();
+            IZ_ScenesTree.Show();
         }
         private void InitilizeBase()
         {
@@ -195,14 +219,35 @@ namespace ManiacEditor.Controls.SceneSelect
                 SelectButtonEvent(null, null);
             }
         }
+        private void IZScenesTreeNodeDoubleClickEvent(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (selectButton.IsEnabled)
+            {
+                UpdateSelectedSceneInfo();
+                SelectButtonEvent(null, null);
+            }
+        }
         private void SceneTreeUpdateRequiredEvent(object sender, RoutedEventArgs e)
         {
             UpdateScenesTreeFilter();
         }
         private void ScenesTreeAfterSelectEvent(object sender, TreeViewEventArgs e)
         {
-            selectButton.IsEnabled = ScenesTree.SelectedNode.Tag != null;
-            UpdateSelectedSceneInfo();
+            if (ScenesTree.SelectedNode != null)
+            {
+                selectButton.IsEnabled = ScenesTree.SelectedNode.Tag != null;
+                UpdateSelectedSceneInfo();
+            }
+
+        }
+        private void IZScenesTreeAfterSelectEvent(object sender, TreeViewEventArgs e)
+        {
+            if (IZ_ScenesTree.SelectedNode != null)
+            {
+                selectButton.IsEnabled = IZ_ScenesTree.SelectedNode.Tag != null;
+                UpdateSelectedSceneInfo();
+            }
+
         }
         private void RecentsTreeAfterSelectEvent(object sender, TreeViewEventArgs e)
         {
@@ -222,14 +267,36 @@ namespace ManiacEditor.Controls.SceneSelect
             }
             UpdateSelectedSceneInfo();
         }
+        private void IZScenesTreeNodeMouseDoubleClickEvent(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            /*
+            if (e.Button == MouseButtons.Right)
+            {
+                IZ_ScenesTree.SelectedNode = e.Node;
+                if (e.Node.ImageKey == "Folder")
+                    SceneInfoContextMenu.IsOpen = true;
+                else if (e.Node.ImageKey == "File")
+                    ScenesTreeCategoryContextMenu.IsOpen = true;
+            }
+            UpdateSelectedSceneInfo();
+            */
+        }
         private void ScenesTreeNodeMouseUpEvent(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (ScenesTree.SelectedNode == null)
             {
                 selectButton.IsEnabled = false;
             }
-            if (_GameConfig != null) browse.IsEnabled = true;
-            else browse.IsEnabled = true;
+            browse.IsEnabled = true;
+            UpdateSelectedSceneInfo();
+        }
+        private void IZScenesTreeNodeMouseUpEvent(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (IZ_ScenesTree.SelectedNode == null)
+            {
+                selectButton.IsEnabled = false;
+            }
+            browse.IsEnabled = true;
             UpdateSelectedSceneInfo();
         }
         #endregion
@@ -485,10 +552,9 @@ namespace ManiacEditor.Controls.SceneSelect
                 if (result == false) return;
             }
             _GameConfig.Write(_GameConfig.FilePath);
+            
+            _MasterGameConfig = new GameConfig(_MasterGameConfig.FilePath);
 
-
-            if (_GameConfig == _SecondaryGameConfig) _SecondaryGameConfig = new GameConfig(_GameConfig.FilePath);
-            else _MasterGameConfig = new GameConfig(_GameConfig.FilePath);
             UpdateScenesTree();
         }
         private void UpdateGameConfigSceneIndexes(GameConfig config)
@@ -516,6 +582,9 @@ namespace ManiacEditor.Controls.SceneSelect
 
             RecentsTree.BackColor = Methods.Internal.Theming.ThemeBrush2;
             RecentsTree.ForeColor = Methods.Internal.Theming.ThemeBrushText;
+
+            IZ_ScenesTree.BackColor = Methods.Internal.Theming.ThemeBrush2;
+            IZ_ScenesTree.ForeColor = Methods.Internal.Theming.ThemeBrushText;
         }
         public void RecentsTreeOpenContextMenu(TreeNodeMouseClickEventArgs e)
         {
@@ -666,17 +735,21 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 foreach (string folder in Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces)
                 {
-                    var node = RecentsTree.Nodes[1].Nodes.Add(folder, folder, this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"), this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"));
+                    var node = RecentsTree.Nodes[2].Nodes.Add(folder, folder, this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"), this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"));
                     node.Tag = folder;
                     node.ToolTipText = folder;
                     node.ImageKey = "SavedPlace";
                 }
-                RecentsTree.Nodes[1].ExpandAll();
+                RecentsTree.Nodes[2].ExpandAll();
             }
             UpdateMasterDataDirectoryComboBox();
         }
+
+
+
         public void UpdateScenesTree()
         {
+            UpdateIZScenesTree();
             Categories.Clear();
             Directories.Clear();
 
@@ -686,7 +759,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 List<SceneSelectScene> scenes = new List<SceneSelectScene>();
                 foreach (GameConfig.SceneInfo scene in category.Scenes)
                 {
-                    scenes.Add(new SceneSelectScene(scene.Name, scene.Zone + "\\Scene" + scene.SceneID + ".bin"));
+                    scenes.Add(new SceneSelectScene(scene.Name, scene.Zone + "/Scene" + scene.SceneID + ".bin"));
 
                     List<SceneSelectDirectory> files;
                     if (!Directories.TryGetValue(scene.Zone, out files))
@@ -708,6 +781,46 @@ namespace ManiacEditor.Controls.SceneSelect
 
             UpdateScenesTreeFilter();
         }
+
+        public void UpdateIZScenesTree()
+        {
+
+            try
+            {
+                this.IZ_ScenesTree.Nodes.Clear();
+                this.IZ_ScenesTree.ImageList = new ImageList();
+                this.IZ_ScenesTree.ImageList.Images.Add("Folder", Properties.Resources.folder);
+                this.IZ_ScenesTree.ImageList.Images.Add("File", Properties.Resources.file);
+
+                var rootNode = this.IZ_ScenesTree.Nodes.Add("Infinity Zone Stages");
+                rootNode.ImageKey = "Folder";
+
+                InfinityConfig infinityZoneConfig = SolutionPaths.GetInfinityConfig(DataDirectory);
+                if (infinityZoneConfig != null)
+                {
+                    foreach (var stage in infinityZoneConfig.Stages)
+                    {
+                        foreach (var scene in stage.Scenes)
+                        {
+                            var node = rootNode.Nodes.Add(string.Format("{0} {1} ({2})", stage.StageName, scene.SceneID, stage.StageID + "/Scene" + scene.SceneID + ".bin"));
+                            node.ImageKey = "File";
+                            node.Tag = scene;
+                        }
+
+                    }
+                    rootNode.Expand();
+                }
+                else
+                {
+                    IZStatusBox.Text = "Not InfinityZone Supported in this Data Folder";
+                } 
+            }
+            catch (Exception ex)
+            {
+                IZStatusBox.Text = "Not InfinityZone Supported in this Data Folder";
+            }
+        }
+
         private void UpdateScenesTreeFilter(string filter = "")
         {
             if (filter == "") filter = FilterText.Text;
@@ -882,6 +995,9 @@ namespace ManiacEditor.Controls.SceneSelect
             var host2 = new System.Windows.Forms.Integration.WindowsFormsHost();
             host2.Child = this.RecentsTree;
             this.recentDataDirListHost.Children.Add(host2);
+            var host3 = new System.Windows.Forms.Integration.WindowsFormsHost();
+            host3.Child = this.IZ_ScenesTree;
+            this.InfinityZoneHost.Children.Add(host3);
         }
         private void RefreshButtonEvent(object sender, RoutedEventArgs e)
         {
@@ -903,19 +1019,38 @@ namespace ManiacEditor.Controls.SceneSelect
         private void SelectButtonEvent(object sender, RoutedEventArgs e)
         {
             if (CanLoadScene) Methods.Solution.CurrentSolution.LevelID = SceneState.LevelID;
-            if (!isFilesView.IsChecked.Value)
+            if (SceneTreeTabControl.SelectedItem == GameConfigScenesTab)
             {
-                SceneState.FilePath = ScenesTree.SelectedNode.Tag as string;
+                if (!isFilesView.IsChecked.Value)
+                {
+                    SceneState.FilePath = ScenesTree.SelectedNode.Tag as string;
+                }
+                else
+                {
+                    Tuple<GameConfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
+                    if (tag != null)
+                    {
+                        SceneState.FilePath = tag.Item2;
+                    }
+                    else return;
+                }
             }
             else
             {
-                Tuple<GameConfig.SceneInfo, string> tag = ScenesTree.SelectedNode.Tag as Tuple<GameConfig.SceneInfo, string>;
-                if (tag != null)
-                {
-                    SceneState.FilePath = tag.Item2;
-                }
-                else return;
+                SceneState.Is_IZStage = true;
+                SceneState.IZ_SceneKey = (IZ_ScenesTree.SelectedNode.Tag as IZScene).SceneID;
+                SceneState.IZ_StageKey = (IZ_ScenesTree.SelectedNode.Tag as IZScene).Parent.StageKey;
+                string sceneID = (IZ_ScenesTree.SelectedNode.Tag as IZScene).SceneID;
+                string stageID = (IZ_ScenesTree.SelectedNode.Tag as IZScene).Parent.StageID;
+                string FilePath = DataDirectory + "\\Stages" + "\\" + stageID.Replace("/", "\\") + "\\Scene" + sceneID + ".bin";
+
+                SceneState.FilePath = FilePath;
+                SceneState.SceneDirectory = System.IO.Path.GetDirectoryName(FilePath);
+                SceneState.DataDirectory = DataDirectory;
+                SceneState.LoadType = Structures.SceneState.LoadMethod.FullPath;
+                SceneState.MasterDataDirectory = Methods.Solution.SolutionPaths.MasterDataDirectory;
             }
+
 
             CloseHostEvent();
         }
@@ -1019,24 +1154,14 @@ namespace ManiacEditor.Controls.SceneSelect
                 string returnDataDirectory;
 
                 if (string.IsNullOrWhiteSpace(newDataDirectory)) return;
-                if (ManiacEditor.Methods.Solution.SolutionPaths.DoesDataDirHaveGameConfig(newDataDirectory))
-                {
-                    DataDirectory = newDataDirectory;
-                    returnDataDirectory = newDataDirectory;
-                    bool goodDataDir = ManiacEditor.Methods.Solution.SolutionPaths.SetGameConfig(returnDataDirectory);
-                    if (goodDataDir == true)
-                    {
-                        Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
-                        Classes.Prefrences.CommonPathsStorage.AddSavedDataFolder(DataDirectory);
-                        Methods.Internal.UserInterface.UpdateControls();
-                        UpdateRecentsTree();
-                    }
 
-                }
-                else
-                {
-                    return;
-                }
+                DataDirectory = newDataDirectory;
+                returnDataDirectory = newDataDirectory;
+                if (ManiacEditor.Methods.Solution.SolutionPaths.DoesDataDirHaveGameConfig(newDataDirectory)) ManiacEditor.Methods.Solution.SolutionPaths.SetGameConfig(returnDataDirectory);
+                Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
+                Classes.Prefrences.CommonPathsStorage.AddSavedDataFolder(DataDirectory);
+                Methods.Internal.UserInterface.UpdateControls();
+                UpdateRecentsTree();
             }
             else
             {
@@ -1097,7 +1222,7 @@ namespace ManiacEditor.Controls.SceneSelect
                 SceneState.Zone = "N/A";
                 SceneState.LoadType = Structures.SceneState.LoadMethod.FullPath;
                 SceneState.Name = "N/A";
-                SceneState.MasterDataDirectory = Methods.Solution.SolutionPaths.DefaultMasterDataDirectory;
+                SceneState.MasterDataDirectory = Methods.Solution.SolutionPaths.MasterDataDirectory;
                 CloseHostEvent();
             }
         }
@@ -1132,25 +1257,14 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             UnloadDataDirectory();
             DataDirectory = SelectedDataDirectory;
-            GameConfig GameConfig = ManiacEditor.Methods.Solution.SolutionPaths.GetGameConfig(SelectedDataDirectory);
-            if (GameConfig != null)
-            {
-                _SecondaryGameConfig = GameConfig;
-                UpdateScenesTree();
-                Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
-            }
-            else
-            {
-                UnloadDataDirectory();
-            }
-
+            UpdateScenesTree();
+            Classes.Prefrences.CommonPathsStorage.AddRecentDataFolder(DataDirectory);
             UpdateDataDirectoryLabel();
             UpdateMasterDataDirectoryComboBox();
 
         }
         public void UnloadDataDirectory()
         {
-            _SecondaryGameConfig = null;
             DataDirectory = string.Empty;
             UpdateScenesTree();
             UpdateScenesTreeFilter();
@@ -1203,6 +1317,11 @@ namespace ManiacEditor.Controls.SceneSelect
             UpdateSavedDataDirInfoContextMenu();
         }
 
-
+        private void SceneTreeTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ScenesTree.SelectedNode = null;
+            IZ_ScenesTree.SelectedNode = null;
+            selectButton.IsEnabled = false;
+        }
     }
 }

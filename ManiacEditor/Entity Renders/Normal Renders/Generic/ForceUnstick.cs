@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
                 type = 9;
             else
                 type = 6;
-            var editorAnim = LoadAnimation("ItemBox", d, 2, type);
+            var editorAnim = LoadAnimation("Global/ItemBox.bin", d, 2, type);
             if (editorAnim != null && editorAnim.RequestedFrame != null)
             {
                 bool wEven = width % 2 == 0;

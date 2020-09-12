@@ -39,9 +39,9 @@ namespace ManiacEditor.Entity_Renders
 
             //ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
             d.DrawRectangle(x - 14, y + 80, x + 14, y, colour);
-            var Animation = LoadAnimation("Syringe", d, animID, 0);
+            var Animation = LoadAnimation("CPZ/Syringe.bin", d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("Syringe", d, animID, 1);
+            Animation = LoadAnimation("CPZ/Syringe.bin", d, animID, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

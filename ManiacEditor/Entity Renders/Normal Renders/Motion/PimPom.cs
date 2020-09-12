@@ -88,7 +88,7 @@ namespace ManiacEditor.Entity_Renders
                 default:
                     break;
             }
-            var Animation = LoadAnimation("PimPom", d, animID, frameID);
+            var Animation = LoadAnimation("SPZ2/PimPom.bin", d, animID, frameID);
             if (length != 0 && angle == 0) DrawAngle0(d, Animation, x, y, Transparency, fliph, flipv, length, gap);
             else if (length != 0 && angle == 3) DrawAngle3(d, Animation, x, y, Transparency, fliph, flipv, length);
             else if (length != 0 && angle == 1) DrawAngle1(d, Animation, x, y, Transparency, fliph, flipv, length);

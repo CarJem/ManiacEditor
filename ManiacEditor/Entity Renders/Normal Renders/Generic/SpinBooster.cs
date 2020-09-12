@@ -36,7 +36,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("PlaneSwitch", d, 0, 4);
+            var Animation = LoadAnimation("Global/PlaneSwitch.bin", d, 0, 4);
 
             const int pivotOffsetX = -8, pivotOffsetY = 0;
             const int drawOffsetX = 0, drawOffsetY = -8;

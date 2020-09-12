@@ -1,4 +1,5 @@
-﻿using RSDKv5;
+﻿using ManiacEditor.Classes.Scene;
+using RSDKv5;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -6,18 +7,15 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            EditorEntity entity = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
+            bool fliph = false;
+            bool flipv = false;
+            string text = "UI/Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage + ".bin";
+
             int arrowWidth = (int)entity.attributesMap["arrowWidth"].ValueEnum;
             if (arrowWidth != 0) arrowWidth /= 2;
             int frameID = (int)entity.attributesMap["frameID"].ValueEnum;
@@ -26,9 +24,6 @@ namespace ManiacEditor.Entity_Renders
             bool noText = entity.attributesMap["noText"].ValueBool;
             int auxframeID = (int)entity.attributesMap["auxFrameID"].ValueEnum;
             int auxlistID = (int)entity.attributesMap["auxListID"].ValueEnum;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, listID, frameID, false, false, false);
-            var leftArrow = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 0, false, false, false);
-            var rightArrow = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("UIElements", d.DevicePanel, 2, 1, false, false, false);
             int width = (int)entity.attributesMap["size"].ValueVector2.X.High;
             int height = (int)entity.attributesMap["size"].ValueVector2.Y.High;
             double alignmentVal = 0;
@@ -42,37 +37,23 @@ namespace ManiacEditor.Entity_Renders
                     alignmentVal = (22 / 2);
                     break;
             }
-            var editorAnimIcon = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation("SaveSelect", d.DevicePanel, auxlistID, auxframeID, false, false, false);
-            e.DrawUIButtonBack(d, x, y, width, height, 0, 0, Transparency);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && noText == false)
+
+            d.DrawQuad(x - (width / 2) - height, y - (height / 2), x + (width / 2) + height, y + (height / 2), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
+
+            if (noText == false)
             {
-                var frame = editorAnim.Frames[Animation.index];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (int)alignmentVal, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                var editorAnim = LoadAnimation(text, d, listID, frameID);
+                DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x + (int)alignmentVal, y, Transparency, fliph, flipv);
             }
-            if (leftArrow != null && leftArrow.Frames.Count != 0)
-            {
-                var frame = leftArrow.Frames[Animation.index];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX - arrowWidth + (int)alignmentVal, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-            if (rightArrow != null && rightArrow.Frames.Count != 0)
-            {
-                var frame = rightArrow.Frames[Animation.index];
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + arrowWidth + (int)alignmentVal, y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
+            var leftArrow = LoadAnimation("UI/UIElements.bin", d, 2, 0);
+            DrawTexturePivotNormal(d, leftArrow, leftArrow.RequestedAnimID, leftArrow.RequestedFrameID, x - arrowWidth + (int)alignmentVal, y, Transparency, fliph, flipv);
+            var rightArrow = LoadAnimation("UI/UIElements.bin", d, 2, 1);
+            DrawTexturePivotNormal(d, rightArrow, rightArrow.RequestedAnimID, rightArrow.RequestedFrameID, x + arrowWidth + (int)alignmentVal, y, Transparency, fliph, flipv);
             if (auxIcon)
             {
-                if (editorAnimIcon != null && editorAnimIcon.Frames.Count != 0)
-                {
-                    var frame = editorAnimIcon.Frames[Animation.index];
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (int)alignmentVal, y + frame.Frame.PivotY,
-                        frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
+                var editorAnimIcon = LoadAnimation("UI/SaveSelect.bin", d, auxlistID, auxframeID);
+                DrawTexturePivotNormal(d, editorAnimIcon, editorAnimIcon.RequestedAnimID, editorAnimIcon.RequestedFrameID, x + (int)alignmentVal, y, Transparency, fliph, flipv);
             }
-
-
         }
 
         public override string GetObjectName()

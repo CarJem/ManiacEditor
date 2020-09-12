@@ -48,7 +48,7 @@ namespace ManiacEditor.Entity_Renders
             bool extra = false;
             count *= 2; // I made all this with an incorrect assumption so here's a cheap fix
             int count2 = count >> 2;
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Spikes", animID, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, GetSetupAnimation(), animID, 0);
 
             if (Animation.RequestedFrame.Width == 0 || Animation.RequestedFrame.Height == 0) return;
 
@@ -113,9 +113,10 @@ namespace ManiacEditor.Entity_Renders
         }
 
 
+
         public void IceDraw(DevicePanel d, int x, int y, int Transparency)
         {
-            var Animation = LoadAnimation("Spikes", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, false);
         }
 
@@ -130,6 +131,11 @@ namespace ManiacEditor.Entity_Renders
             int bounds = (32 * count);
 
             return d.IsObjectOnScreen(x - bounds/2, y - bounds / 2, bounds, bounds);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Spikes.bin", "Spikes", new string[] { "Global", "FBZ", "PSZ2" }, "Global");
         }
 
         public override string GetObjectName()

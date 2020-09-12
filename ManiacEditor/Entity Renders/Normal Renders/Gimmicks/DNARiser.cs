@@ -17,13 +17,13 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("DNARiser", d, 0, 0);
+            var Animation = LoadAnimation("CPZ/DNARiser.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency - 111, fliph, flipv);
 
-            Animation = LoadAnimation("DNARiser", d, 2, 0);
+            Animation = LoadAnimation("CPZ/DNARiser.bin", d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 24, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("DNARiser", d, 4, 0);
+            Animation = LoadAnimation("CPZ/DNARiser.bin", d, 4, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 24, y, Transparency, fliph, flipv);
         }
 

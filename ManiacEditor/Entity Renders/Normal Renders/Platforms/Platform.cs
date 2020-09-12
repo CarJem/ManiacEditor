@@ -1,4 +1,5 @@
-﻿using RSDKv5;
+﻿using ManiacEditor.Methods.Solution;
+using RSDKv5;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -38,7 +39,7 @@ namespace ManiacEditor.Entity_Renders
                 int tensionCount = radiusInt / 16;
 
                 d.DrawLine(x, y, x + newX, y - newY, System.Drawing.Color.Yellow, 3);
-                d.DrawEllipse(x, y, amplitudeX, amplitudeY, System.Drawing.Color.White, 2);
+                d.DrawEllipse(x, y, amplitudeX, amplitudeY, System.Drawing.Color.White, 1);
 
                 if (hasTension)
                 {
@@ -50,25 +51,28 @@ namespace ManiacEditor.Entity_Renders
                         if (i == 0)
                         {
                             //Tension Center
-                            var AnimationCenter = LoadAnimation("Platform", d, 1, 2);
+                            var AnimationCenter = LoadAnimation(GetSetupAnimation(), d, 1, 2);
                             DrawTexturePivotNormal(d, AnimationCenter, AnimationCenter.RequestedAnimID, AnimationCenter.RequestedFrameID, currentX, currentY, Transparency);
                         }
                         else
                         {
                             //Tension Bar Segment
-                            var AnimationRow = LoadAnimation("Platform", d, 1, 1);
+                            var AnimationRow = LoadAnimation(GetSetupAnimation(), d, 1, 1);
                             DrawTexturePivotNormal(d, AnimationRow, AnimationRow.RequestedAnimID, AnimationRow.RequestedFrameID, currentX, currentY, Transparency);
                         }
                     }
                 }
 
                 if (AttributeFrameID <= -1) return;
-                var Animation = LoadAnimation("Platform", d, 0, 0);
+                string AnimName = GetSetupAnimation();
+                var Animation = LoadAnimation(AnimName, d);
                 if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
                 DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x + newX, y - newY, Transparency);
-                //DrawHitbox(d, Animation, "Platform", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x + newX, y - newY, Transparency, false, false, 0);
+                //DrawHitbox(d, Animation, GetSetupAnimation(), System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x + newX, y - newY, Transparency, false, false, 0);
             }
         }
+
+
         private void DrawTensionBallPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
         {
             if ((amplitudeX != 0 || amplitudeY != 0))
@@ -84,19 +88,19 @@ namespace ManiacEditor.Entity_Renders
                     if (i == 0)
                     {
                         //Tension Center
-                        var AnimationCenter = LoadAnimation("Platform", d, 1, 2);
+                        var AnimationCenter = LoadAnimation(GetSetupAnimation(), d, 1, 2);
                         DrawTexturePivotNormal(d, AnimationCenter, AnimationCenter.RequestedAnimID, AnimationCenter.RequestedFrameID, currentX, currentY, Transparency);
                     }
                     else if (i == tensionCount)
                     {
                         //Tension Bar Segment
-                        var AnimationRow = LoadAnimation("Platform", d, 1, 0);
+                        var AnimationRow = LoadAnimation(GetSetupAnimation(), d, 1, 0);
                         DrawTexturePivotNormal(d, AnimationRow, AnimationRow.RequestedAnimID, AnimationRow.RequestedFrameID, currentX, currentY, Transparency);
                     }
                     else
                     {
                         //Tension Ball
-                        var Animation = LoadAnimation("Platform", d, 1, 1);
+                        var Animation = LoadAnimation(GetSetupAnimation(), d, 1, 1);
                         DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, currentX, currentY, Transparency);
                     }
                 }
@@ -104,7 +108,8 @@ namespace ManiacEditor.Entity_Renders
         }
         private void DrawStandardMovingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
         {
-            var Animation = LoadAnimation("Platform", d, 0, 0);
+            string AnimName = GetSetupAnimation();
+            var Animation = LoadAnimation(AnimName, d);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
             d.DrawLine(x - amplitudeX, y - amplitudeY, x + amplitudeX, y + amplitudeY, System.Drawing.Color.Yellow, 3);
             if (AttributeFrameID <= -1) return;
@@ -113,7 +118,8 @@ namespace ManiacEditor.Entity_Renders
         }
         private void DrawMovingPlatformSeven(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
         {
-            var Animation = LoadAnimation("Platform", d, 0, 0);
+            string AnimName = GetSetupAnimation();
+            var Animation = LoadAnimation(AnimName, d);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
 
             int x1 = x - (amplitudeX / 2);
@@ -128,7 +134,8 @@ namespace ManiacEditor.Entity_Renders
         }
         private void DrawStandardPlatform(DevicePanel d, int x, int y, int Transparency, int AttributeFrameID)
         {
-            var Animation = LoadAnimation("Platform", d, 0, 0);
+            string AnimName = GetSetupAnimation();
+            var Animation = LoadAnimation(AnimName, d);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
             if (AttributeFrameID <= -1) return;
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
@@ -136,7 +143,7 @@ namespace ManiacEditor.Entity_Renders
         }
         private void DrawFallingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
         {
-            var Animation = LoadAnimation("Platform", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
             if (AttributeFrameID <= -1) return;
             DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency, false, false, 0, System.Drawing.Color.FromArgb(255,255,0,0));
@@ -148,19 +155,22 @@ namespace ManiacEditor.Entity_Renders
 
         private void UpdateRealAttributeFrameID(Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AttributeFrameID)
         {
-            var frames = Animation.Animation.Animations.Take<Animation.AnimationEntry>(Animation.Animation.Animations.Count).SelectMany(x => x.Frames).ToList();
-            if (frames.Count - 1 > AttributeFrameID && AttributeFrameID >= 0)
+            if (Animation.Animation != null)
             {
-                var element = frames.ElementAt(AttributeFrameID);
-                RealAnimID = Animation.Animation.Animations.IndexOf(Animation.Animation.Animations.Where(x => x.Frames.Contains(element)).FirstOrDefault());
-                RealFrameID = Animation.Animation.Animations[RealAnimID].Frames.IndexOf(element);
+                var frames = Animation.Animation.Animations.Take<Animation.AnimationEntry>(Animation.Animation.Animations.Count).SelectMany(x => x.Frames).ToList();
+                if (frames.Count - 1 > AttributeFrameID && AttributeFrameID >= 0)
+                {
+                    var element = frames.ElementAt(AttributeFrameID);
+                    RealAnimID = Animation.Animation.Animations.IndexOf(Animation.Animation.Animations.Where(x => x.Frames.Contains(element)).FirstOrDefault());
+                    RealFrameID = Animation.Animation.Animations[RealAnimID].Frames.IndexOf(element);
+                }
+                else
+                {
+                    RealAnimID = 0;
+                    RealFrameID = 0;
+                }
+                LastFrameIDAttribute = AttributeFrameID;
             }
-            else
-            {
-                RealAnimID = 0;
-                RealFrameID = 0;
-            }
-            LastFrameIDAttribute = AttributeFrameID;
         }
 
         private static int[] RotatePoints(double initX, double initY, double centerX, double centerY, double angle)
@@ -255,7 +265,10 @@ namespace ManiacEditor.Entity_Renders
 
         }
 
-
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Platform.bin", "Platform", new string[] { "GHZ", "CPZ", "SPZ1", "SPZ2", "FBZ", "PSZ1", "PSZ2", "SSZ1", "SSZ2", "HCZ", "MSZ", "OOZ", "LRZ1", "LRZ2", "MMZ", "TMZ1", "AIZ" });
+        }
         public override string GetObjectName()
         {
             return "Platform";

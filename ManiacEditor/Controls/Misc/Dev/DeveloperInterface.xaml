@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ManiacEditor"
-        xmlns:maniac="clr-namespace:ManiacEditor.Bindings"
+        xmlns:maniac="clr-namespace:ManiacEditor.Settings.Bindings"
         mc:Ignorable="d"
         Title="Developer Terminal" Height="400" Width="700" Background="{DynamicResource NormalBackground}" Foreground="{DynamicResource NormalText}" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="True">
     <Grid>

@@ -39,12 +39,12 @@ namespace ManiacEditor.Entity_Renders
 
             if (type == 0)
             {
-                var Animation = LoadAnimation("SpikeBall", d, 0, animID);
+                var Animation = LoadAnimation("SSZ1/SpikeBall.bin", d, 0, animID);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
             else
             {
-                var Animation = LoadAnimation("SpikeBall", d, 1, 0);
+                var Animation = LoadAnimation("SSZ1/SpikeBall.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }

@@ -21,9 +21,9 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var editorAnim = LoadAnimation("ZipLine", d, 0, 0);
+            var editorAnim = LoadAnimation("GHZ/ZipLine.bin", d, 0, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency);
-            var editorAnim2 = LoadAnimation("ZipLine", d, 0, 1);
+            var editorAnim2 = LoadAnimation("GHZ/ZipLine.bin", d, 0, 1);
 
             if (AreValuesDiffrent(x + length, y + length, x, y, -angle + 32))
             {

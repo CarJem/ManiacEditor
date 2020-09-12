@@ -6,23 +6,120 @@ using IniParser;
 using IniParser.Model;
 using ManiacEditor.Structures;
 using Newtonsoft.Json;
+using Xe.Tools.Wpf;
 
 namespace ManiacEditor.Classes.Prefrences
 {
-    public static class SceneCurrentSettings
+
+public static class SceneCurrentSettings
 	{
-        public class SceneSettings
+        public class SceneSettings : BaseNotifyPropertyChanged
         {
-            public string ForegroundLower { get; set; }
-            public string ForegroundHigher { get; set; }
-            public System.Drawing.Color WaterColor { get; set; }
-            public List<string> SpritePaths { get; set; }
-            public string EncoreACTFile { get; set; }
-            public string CustomMenuFontText { get; set; }
-            public string CustomMenuSmallFontText { get; set; }
-            public string CustomLSelectFontText { get; set; }
-            public Dictionary<string, string> EntityRenderSwaps { get; set; }
-            public List<Tuple<string, string>> Positions { get; set; }
+            private string _ForegroundLower;
+            private string _ForegroundHigher;
+            private System.Drawing.Color _WaterColor;
+            private List<string> _SpritePaths;
+            private string _RedirectSpriteDataFolder;
+            private string _EncoreACTFile;
+            private Dictionary<string, string> _EntityRenderSwaps;
+            private List<Tuple<string, string>> _Positions;
+
+            public string RedirectSpriteDataFolder
+            {
+                get
+                {
+                    return _RedirectSpriteDataFolder;
+                }
+                set
+                {
+                    _RedirectSpriteDataFolder = value;
+                    OnPropertyChanged(nameof(RedirectSpriteDataFolder));
+                }
+            }
+            public string ForegroundLower
+            {
+                get
+                {
+                    return _ForegroundLower;
+                }
+                set
+                {
+                    _ForegroundLower = value;
+                    OnPropertyChanged(nameof(ForegroundLower));
+                }
+            }
+            public string ForegroundHigher
+            {
+                get
+                {
+                    return _ForegroundHigher;
+                }
+                set
+                {
+                    _ForegroundHigher = value;
+                    OnPropertyChanged(nameof(ForegroundHigher));
+                }
+            }
+            public System.Drawing.Color WaterColor
+            {
+                get
+                {
+                    return _WaterColor;
+                }
+                set
+                {
+                    _WaterColor = value;
+                    OnPropertyChanged(nameof(WaterColor));
+                }
+            }
+            public List<string> SpritePaths
+            {
+                get
+                {
+                    return _SpritePaths;
+                }
+                set
+                {
+                    _SpritePaths = value;
+                    OnPropertyChanged(nameof(SpritePaths));
+                }
+            }
+            public string EncoreACTFile
+            {
+                get
+                {
+                    return _EncoreACTFile;
+                }
+                set
+                {
+                    _EncoreACTFile = value;
+                    OnPropertyChanged(nameof(EncoreACTFile));
+                }
+            }
+            public Dictionary<string, string> EntityRenderSwaps
+            {
+                get
+                {
+                    return _EntityRenderSwaps;
+                }
+                set
+                {
+                    _EntityRenderSwaps = value;
+                    OnPropertyChanged(nameof(EntityRenderSwaps));
+                }
+            }
+            public List<Tuple<string, string>> Positions
+            {
+                get
+                {
+                    return _Positions;
+                }
+                set
+                {
+                    _Positions = value;
+                    OnPropertyChanged(nameof(Positions));
+                }
+            }
 
             public void Reset()
             {

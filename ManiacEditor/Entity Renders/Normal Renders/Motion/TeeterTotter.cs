@@ -5,29 +5,18 @@ namespace ManiacEditor.Entity_Renders
     public class TeeterTotter : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            var value = entity.attributesMap["length"].ValueUInt32;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("TeeterTotter", d.DevicePanel, 0, 0, false, false, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity e = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
+            var value = e.attributesMap["length"].ValueUInt32;
+            var editorAnim = LoadAnimation("TMZ1/TeeterTotter.bin", d, 0, 0);
+            for (int i = -(int)value; i < value; ++i)
             {
-                var frame = editorAnim.Frames[0];
-                for (int i = -(int)value; i < value; ++i)
-                {
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), x + frame.Frame.PivotX + (i * (frame.Frame.Width + 2)),
-                        y + frame.Frame.PivotY, frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                }
+                DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x + (i * (editorAnim.RequestedFrame.Width + 2)), y, Transparency);
             }
         }
 

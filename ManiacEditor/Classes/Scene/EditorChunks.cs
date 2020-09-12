@@ -157,6 +157,7 @@ namespace ManiacEditor.Classes.Scene
 				{
 					stamp.Dispose();
 				}
+				this.TexturedStampList.Clear();
 			}
 			public TexturedStamps() : base()
 			{

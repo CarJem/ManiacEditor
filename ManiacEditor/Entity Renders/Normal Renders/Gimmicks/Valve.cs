@@ -34,9 +34,9 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var editorAnim = LoadAnimation("Valve", d, 0, 0);
+            var editorAnim = LoadAnimation("OOZ/Valve.bin", d, 0, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            var editorAnim2 = LoadAnimation("Valve", d, 2, 0);
+            var editorAnim2 = LoadAnimation("OOZ/Valve.bin", d, 2, 0);
             DrawTexturePivotNormal(d, editorAnim2, editorAnim2.RequestedAnimID, editorAnim2.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

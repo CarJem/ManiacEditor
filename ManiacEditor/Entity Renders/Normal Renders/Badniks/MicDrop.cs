@@ -19,8 +19,13 @@ namespace ManiacEditor.Entity_Renders
 
             int distance = e.attributesMap["distance"].ValueUInt16;
             d.DrawLine(x, y, x, y + distance, System.Drawing.Color.Black);
-            var Animation = LoadAnimation("MicDrop", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + distance, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/MicDrop.bin", "MicDrop", new string[] { "SPZ1", "SPZ2" });
         }
 
         public override string GetObjectName()

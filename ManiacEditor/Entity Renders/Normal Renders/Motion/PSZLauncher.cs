@@ -34,7 +34,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var Animation = LoadAnimation("PSZLauncher", d, 1, 0);
+            var Animation = LoadAnimation("PSZ1/PSZLauncher.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

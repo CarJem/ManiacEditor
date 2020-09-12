@@ -31,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("Turntable", d, animID, 0);
+            var Animation = LoadAnimation("PSZ1/Turntable.bin", d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

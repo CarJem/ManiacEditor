@@ -35,12 +35,12 @@ namespace ManiacEditor.Entity_Renders
 
             if (type != 2)
             {
-                var Animation = LoadAnimation("CableWarp", d, animID, frameID);
+                var Animation = LoadAnimation("SPZ2/CableWarp.bin", d, animID, frameID);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
             else
             {
-                var Animation = LoadAnimation("PlaneSwitch", d, 0, 5);
+                var Animation = LoadAnimation("Global/PlaneSwitch.bin", d, 0, 5);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }

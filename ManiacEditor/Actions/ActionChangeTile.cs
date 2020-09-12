@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace ManiacEditor.Actions
 {
-    class ActionChangeTile : IAction
+    public class ActionChangeTile : IAction
     {
         Action<Point, ushort> setLayer;
         Point position;

@@ -26,14 +26,19 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var Animation = LoadAnimation("IceBomba", d, 2, frameID);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 2, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y + 25, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("IceBomba", d, 0, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("IceBomba", d, 1, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? 6 : 0), y, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/IceBomba.bin", "IceBomba", new string[] { "PSZ2", "PSZ1" });
         }
 
         public override string GetObjectName()

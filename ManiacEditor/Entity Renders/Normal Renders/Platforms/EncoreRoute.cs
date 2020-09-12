@@ -77,6 +77,8 @@ namespace ManiacEditor.Entity_Renders
         #region Tile Provider
         private void UpdateTileMap(DevicePanel d, int x, int y)
         {
+            //TODO: Make Working Again
+            /*
             int Aligned_X = (x / 16) * 16;
             int Aligned_Y = (y / 16) * 16;
             int Aligned_W = (int)((Width * 16));
@@ -87,6 +89,7 @@ namespace ManiacEditor.Entity_Renders
             LayerRenderer.Size = new SFML.System.Vector2f(Aligned_W, Aligned_H);
             LayerRenderer.Refresh();
             d.RenderWindow.Draw(LayerRenderer);
+            */
         }
         private ushort[][] GetTileMap(int offsetX, int offsetY, int width, int height)
         {

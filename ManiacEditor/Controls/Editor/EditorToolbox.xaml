@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1" Background="{DynamicResource ToolbarBackground}" IsLocked="True" x:Name="ToolbarTray">
             <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}" KeyboardNavigation.TabNavigation="Continue">
-                <Button Style="{DynamicResource ToolbarButton}" x:Name="New" Click="NewSceneEvent" IsEnabled="True" Content="{DynamicResource AddFile}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="New" Click="NewSceneEvent" IsEnabled="False" Content="{DynamicResource AddFile}"></Button>
                 <Button Style="{DynamicResource ToolbarButton}" x:Name="Open" Click="OpenSceneEvent" >
                     <Button.Content>
                         <DockPanel Width="26" Height="36">

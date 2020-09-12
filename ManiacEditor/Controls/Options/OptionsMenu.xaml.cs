@@ -456,7 +456,7 @@ namespace ManiacEditor.Controls.Options
 			}
 			foreach (string keybind in KnownKeybinds)
 			{
-				if (!Extensions.Extensions.KeyBindsSettingExists(keybind)) continue;
+				if (!Extensions.SpecialExtensions.KeyBindsSettingExists(keybind)) continue;
 				var keybindDict = Properties.Settings.MyKeyBinds.GetInput(keybind) as List<string>;
 				if (keybindDict != null && keybindDict.Count != 0)
 				{

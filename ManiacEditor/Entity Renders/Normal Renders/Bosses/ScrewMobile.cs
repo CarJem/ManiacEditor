@@ -5,53 +5,24 @@ namespace ManiacEditor.Entity_Renders
     public class ScrewMobile : EntityRenderer
     {
 
-        public override void Draw(Structures.EntityRenderProp properties)
+        public override void Draw(Structures.EntityRenderProp Properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
-            int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
+            DevicePanel d = Properties.Graphics;
+            Classes.Scene.EditorEntity entity = Properties.EditorObject;
+            int x = Properties.DrawX;
+            int y = Properties.DrawY;
+            int Transparency = Properties.Transparency;
             bool fliph = false;
             bool flipv = false;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ScrewMobile", d.DevicePanel, 0, 0, fliph, flipv, false);
-            var editorAnimSeat = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ScrewMobile", d.DevicePanel, 0, 1, fliph, flipv, false);
-            var editorAnimLaunch = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ScrewMobile", d.DevicePanel, 0, 2, fliph, flipv, false);
-            var editorAnimPropel = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("ScrewMobile", d.DevicePanel, 1, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnimSeat != null && editorAnimSeat.Frames.Count != 0 && editorAnimLaunch != null && editorAnimLaunch.Frames.Count != 0 && editorAnimPropel != null && editorAnimPropel.Frames.Count != 0)
-            {
-                var frame = editorAnim.Frames[0];
-                var frameSeat = editorAnimSeat.Frames[0];
-                var frameLaunch = editorAnimLaunch.Frames[0];
-                var framePropel = editorAnimPropel.Frames[Animation.index];
 
-                Animation.ProcessAnimation(framePropel.Entry.SpeedMultiplyer, framePropel.Entry.Frames.Count, framePropel.Frame.Delay);
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameSeat),
-                    x + frameSeat.Frame.PivotX,
-                    y + frameSeat.Frame.PivotY,
-                    frameSeat.Frame.Width, frameSeat.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX,
-                    y + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frameLaunch),
-                    x + frameLaunch.Frame.PivotX,
-                    y + frameLaunch.Frame.PivotY,
-                    frameLaunch.Frame.Width, frameLaunch.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(framePropel),
-                    x + framePropel.Frame.PivotX,
-                    y + framePropel.Frame.PivotY,
-                    framePropel.Frame.Width, framePropel.Frame.Height, false, Transparency);
-
-
-            }
+            var editorAnim = LoadAnimation("HCZ/ScrewMobile.bin", d, 0, 1);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            editorAnim = LoadAnimation("HCZ/ScrewMobile.bin", d, 0, 0);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            editorAnim = LoadAnimation("HCZ/ScrewMobile.bin", d, 0, 2);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
+            editorAnim = LoadAnimation("HCZ/ScrewMobile.bin", d, 1, 0);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
         public override string GetObjectName()

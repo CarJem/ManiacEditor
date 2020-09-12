@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ManiacEditor.Structures
 {
-    public class SceneState
-    {
-		public IList<string> ExtraDataDirectories { get; set; } = new List<string>();
+	public class SceneState
+	{
 		public string DataDirectory
 		{
 			get
@@ -23,6 +22,10 @@ namespace ManiacEditor.Structures
 				this.ExtraDataDirectories.Add(value);
 			}
 		}
+		public IList<string> ExtraDataDirectories { get; set; } = new List<string>();
+		public bool Is_IZStage { get; set; } = false;
+		public string IZ_StageKey { get; set; } = "";
+		public string IZ_SceneKey { get; set; } = "";
 		public string FilePath { get; set; } = "";
 		public int LevelID { get; set; } = -1;
 		public bool IsEncoreMode { get; set; } = false;
@@ -48,12 +51,10 @@ namespace ManiacEditor.Structures
 				else return false;
 			}
 		}
-
 		public enum LoadMethod
 		{
 			RelativePath, FullPath, SelfLoaded, Unspecified
 		}
-
 		public SceneState(string filePath = "", int levelID = -1, bool isEncore = false, string sceneDirectory = "", string zone = "", string name = "", string sceneID = "", LoadMethod loadType = SceneState.LoadMethod.Unspecified, IList<string> exDDList = null, string dataDirectory = "")
 		{
 			FilePath = filePath;
@@ -67,7 +68,6 @@ namespace ManiacEditor.Structures
 			MasterDataDirectory = dataDirectory;
 			if (exDDList != null) ExtraDataDirectories = exDDList;
 		}
-
 		public void Clear()
 		{
 			FilePath = "";
@@ -80,8 +80,10 @@ namespace ManiacEditor.Structures
 			MasterDataDirectory = "";
 			LoadType = LoadMethod.Unspecified;
 			ExtraDataDirectories = new List<string>();
+			IZ_StageKey = "";
+			IZ_SceneKey = "";
+			Is_IZStage = false;
 		}
-
 		public SceneState()
 		{
 

@@ -91,7 +91,7 @@ namespace ManiacEditor.Entity_Renders
 
             }
 
-            var Animation = LoadAnimation("Technosqueek", d, animID, 0);
+            var Animation = LoadAnimation("FBZ/Technosqueek.bin", d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? 2 : 0), y + (flipv ? 2 : 0), Transparency, fliph, flipv);
         }
 

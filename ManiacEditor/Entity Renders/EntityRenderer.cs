@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using ManiacEditor.Classes.Scene;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -15,6 +17,90 @@ namespace ManiacEditor.Entity_Renders
         public virtual void Draw(Structures.EntityRenderProp properties)
         {
 
+        }
+
+        /*
+        return GetSpriteAnimationPath("/Decoration.bin", "Decoration", new string[] { "GHZ", "CPZ", "SPZ1", "FBZ", "HCZ", "MSZ", "TMZ1", "AIZ" });
+        return GetSpriteAnimationPath("/LRZRockPile.bin", "LRZRockPile", new string[] { "LRZ2", "LRZ1" });
+        return GetSpriteAnimationPath("/MicDrop.bin", "MicDrop", new string[] { "SPZ1", "SPZ2" });
+        return GetSpriteAnimationPath("/Spikes.bin", "Spikes", new string[] { "FBZ", "PSZ2" }, "Global");
+        return GetSpriteAnimationPath("/Platform.bin", "Platform", new string[] { "GHZ","CPZ","SPZ1","SPZ2","FBZ","PSZ1","PSZ2","SSZ1","SSZ2","HCZ","MSZ","OOZ","LRZ1","LRZ2","MMZ","TMZ1","AIZ" });
+        */
+
+
+        private static bool ValidUnlockCode(List<string> ZoneUnlocks, string UnlockName)
+        {
+            return ZoneUnlocks.Contains(UnlockName) && Structures.IZStageUnlocks.AllUnlocks.Contains(UnlockName);
+        }
+
+        private static bool AllowedSetupType(List<string> AllowedSetups, string SetupName, string DesiredSetup)
+        {
+            return DesiredSetup == SetupName && AllowedSetups.Contains(SetupName);
+        }
+
+        public static string GetSpriteAnimationPath(string BinName, string UnlockName, string[] AllowedSetupsArray, string FallBackFolder = "Blueprint")
+        {
+            List<string> AllowedSetups = AllowedSetupsArray.ToList();
+
+            if (Methods.Solution.CurrentSolution.IZ_Stage != null && Methods.Solution.CurrentSolution.IZ_Stage.Unlocks != null)
+            {
+                var unlocks = Methods.Solution.CurrentSolution.IZ_Stage.Unlocks;
+
+                if (ValidUnlockCode(unlocks, "GHZ" + "_" + UnlockName)) return "GHZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "CPZ" + "_" + UnlockName)) return "CPZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "SPZ1" + "_" + UnlockName)) return "SPZ1" + BinName;
+                else if (ValidUnlockCode(unlocks, "SPZ2" + "_" + UnlockName)) return "SPZ2" + BinName;
+                else if (ValidUnlockCode(unlocks, "FBZ" + "_" + UnlockName)) return "FBZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "PSZ1" + "_" + UnlockName)) return "PSZ1" + BinName;
+                else if (ValidUnlockCode(unlocks, "PSZ2" + "_" + UnlockName)) return "PSZ2" + BinName;
+                else if (ValidUnlockCode(unlocks, "SSZ1" + "_" + UnlockName)) return "SSZ1" + BinName;
+                else if (ValidUnlockCode(unlocks, "SSZ2" + "_" + UnlockName)) return "SSZ2" + BinName;
+                else if (ValidUnlockCode(unlocks, "SSZ3" + "_" + UnlockName)) return "SSZ3" + BinName;
+                else if (ValidUnlockCode(unlocks, "HCZ" + "_" + UnlockName)) return "HCZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "MSZ" + "_" + UnlockName)) return "MSZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "OOZ" + "_" + UnlockName)) return "OOZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "LRZ1" + "_" + UnlockName)) return "LRZ1" + BinName;
+                else if (ValidUnlockCode(unlocks, "LRZ2" + "_" + UnlockName)) return "LRZ2" + BinName;
+                else if (ValidUnlockCode(unlocks, "LRZ3" + "_" + UnlockName)) return "LRZ3" + BinName;
+                else if (ValidUnlockCode(unlocks, "MMZ" + "_" + UnlockName)) return "MMZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "TMZ1" + "_" + UnlockName)) return "TMZ1" + BinName;
+                else if (ValidUnlockCode(unlocks, "AIZ" + "_" + UnlockName)) return "AIZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "HPZ" + "_" + UnlockName)) return "HPZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "Blueprint" + "_" + UnlockName)) return "Blueprint" + BinName;
+            }
+
+            string SetupType = Methods.Solution.CurrentSolution.Entities.SetupObject.Replace("Setup", "");
+            if (AllowedSetupType(AllowedSetups, SetupType, "GHZ")) return "GHZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "CPZ")) return "CPZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "SPZ1")) return "SPZ1" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "SPZ2")) return "SPZ2" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "FBZ")) return "FBZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "PSZ1")) return "PSZ1" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "PSZ2")) return "PSZ2" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "SSZ1")) return "SSZ1" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "SSZ2")) return "SSZ2" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "SSZ3")) return "SSZ3" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "HCZ")) return "HCZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "MSZ")) return "MSZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "OOZ")) return "OOZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "LRZ1")) return "LRZ1" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "LRZ2")) return "LRZ2" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "LRZ3")) return "LRZ3" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "MMZ")) return "MMZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "TMZ1")) return "TMZ1" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "AIZ")) return "AIZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "HPZ")) return "HPZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "Blueprint")) return "Blueprint" + BinName;
+            else
+            {
+                if (AllowedSetupsArray.Length >= 1 && FallBackFolder == "Blueprint") return AllowedSetupsArray[0] + BinName;
+                else return FallBackFolder + BinName;
+            }
+        }
+
+        public virtual string GetSetupAnimation()
+        {
+            return "NULLSPRITE";
         }
 
         public virtual bool isObjectOnScreen(DevicePanel d, EditorEntity entity, int x, int y, int Transparency)
@@ -64,7 +150,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX + x2, y + Frame.PivotY + y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX + x2, y + Frame.PivotY + y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
@@ -73,7 +159,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX * x2, y + Frame.PivotY * y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX * x2, y + Frame.PivotY * y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
@@ -110,7 +196,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
@@ -119,7 +205,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
@@ -128,7 +214,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y, Frame.X, Frame.Y, Frame.Width, Height, false, Transparency);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y, Frame.X, Frame.Y, Frame.Width, Height, false, Transparency);
             }
         }
 
@@ -137,7 +223,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - (Frame.Width / 2), y - (Frame.Height / 2), Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - (Frame.Width / 2), y - (Frame.Height / 2), Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
@@ -165,7 +251,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
@@ -174,7 +260,7 @@ namespace ManiacEditor.Entity_Renders
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawTexture(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, width, height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, width, height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 

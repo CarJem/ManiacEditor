@@ -32,6 +32,11 @@ namespace ManiacEditor.Methods.Solution
 
         public static void NewScene()
         {
+            return;
+
+            //TODO: Implement NewScene() Correctly
+
+            /*
             if (UnloadScene() != true) return;
             ManiacEditor.Controls.SceneSelect.NewSceneWindow makerDialog = new ManiacEditor.Controls.SceneSelect.NewSceneWindow();
             makerDialog.Owner = Controls.Editor.MainEditor.GetWindow(Instance);
@@ -68,7 +73,9 @@ namespace ManiacEditor.Methods.Solution
                 Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
 
                 Methods.Internal.UserInterface.UpdateControls();
+
             }
+            */
         }
         public static void OpenScene()
         {
@@ -300,7 +307,7 @@ namespace ManiacEditor.Methods.Solution
                     Zone = "N/A",
                     LoadType = Structures.SceneState.LoadMethod.SelfLoaded,
                     Name = "N/A",
-                    MasterDataDirectory = SolutionPaths.DefaultMasterDataDirectory
+                    MasterDataDirectory = SolutionPaths.MasterDataDirectory
                 };
                 SetPathData(state);
                 LoadSequence();
@@ -419,6 +426,9 @@ namespace ManiacEditor.Methods.Solution
             if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData == null) ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData = new Structures.SceneState();
             ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData = new Structures.SceneState()
             {
+                Is_IZStage = sceneState.Is_IZStage,
+                IZ_SceneKey = sceneState.IZ_SceneKey,
+                IZ_StageKey = sceneState.IZ_StageKey,
                 FilePath = sceneState.FilePath,
                 LevelID = sceneState.LevelID,
                 IsEncoreMode = sceneState.IsEncoreMode,
@@ -456,6 +466,13 @@ namespace ManiacEditor.Methods.Solution
             bool LoadFailed = false;
             try
             {
+                if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Is_IZStage)
+                {
+                    ManiacEditor.Methods.Solution.SolutionPaths.SetInfinityConfig();
+                    ManiacEditor.Methods.Solution.SolutionPaths.SetInfinityUnlocks();
+                    ManiacEditor.Methods.Solution.CurrentSolution.GetIZStage();
+                }
+
                 #region Scene File
                 try
                 {

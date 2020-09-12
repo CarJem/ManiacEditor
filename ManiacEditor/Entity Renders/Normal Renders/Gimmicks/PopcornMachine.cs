@@ -19,9 +19,9 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var editorAnim = LoadAnimation("PopcornMachine", d, 0, 0);
+            var editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            editorAnim = LoadAnimation("PopcornMachine", d, 0, 1);
+            editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 1);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
 
@@ -31,31 +31,31 @@ namespace ManiacEditor.Entity_Renders
 
             if (type == 0 || type == 2)
             {
-                editorAnim = LoadAnimation("PopcornMachine", d, 0, 2);
+                editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 2);
                 DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
             if (type == 1 || type == 2)
             {
-                editorAnim = LoadAnimation("PopcornMachine", d, 0, 3);
+                editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 3);
                 DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
             for (int i = 0; i <= height; i++)
             {
                 int y_mod = y - 208 - (i * 160);
-                editorAnim = LoadAnimation("PopcornMachine", d, 0, 6);
+                editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 6);
                 DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y_mod, Transparency, fliph, flipv);
-                editorAnim = LoadAnimation("PopcornMachine", d, 0, 7);
+                editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 7);
                 DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y_mod, Transparency, fliph, flipv);
             }
 
 
-            editorAnim = LoadAnimation("PopcornMachine", d, 0, 4);
+            editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 4);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y - 208 - (height * 160), Transparency, fliph, flipv);
-            editorAnim = LoadAnimation("PopcornMachine", d, 0, 5);
+            editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 5);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y - 208 - (height * 160), Transparency, fliph, flipv);
-            editorAnim = LoadAnimation("PopcornMachine", d, 0, 9);
+            editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 9);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y - 95, Transparency, fliph, flipv);
-            editorAnim = LoadAnimation("PopcornMachine", d, 0, 10);
+            editorAnim = LoadAnimation("SPZ1/PopcornMachine.bin", d, 0, 10);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y - 64, Transparency, fliph, flipv);
         }
 

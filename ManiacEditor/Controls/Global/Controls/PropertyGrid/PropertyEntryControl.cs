@@ -124,6 +124,7 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
                 StringTextboxControl = new System.Windows.Controls.TextBox() { IsInactiveSelectionHighlightEnabled = true };
                 StringTextboxControl.Text = (string)DefaultValue;
                 TextBoxLastString = (string)DefaultValue;
+
                 ValueControl.Value1Host.Children.Add(StringTextboxControl);
             }
             else if (HostType == typeof(float))

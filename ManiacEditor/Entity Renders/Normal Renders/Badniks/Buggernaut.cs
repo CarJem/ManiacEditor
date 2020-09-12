@@ -20,10 +20,10 @@ namespace ManiacEditor.Entity_Renders
             int direction = (int)e.attributesMap["direction"].ValueUInt8;
             if (direction == 1) fliph = true;
 
-            var Animation = LoadAnimation("Buggernaut", d, 0, 0);
+            var Animation = LoadAnimation("HCZ/Buggernaut.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("Buggernaut", d, 2, 0);
+            Animation = LoadAnimation("HCZ/Buggernaut.bin", d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

@@ -31,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("PrintBlock", d, letter, frameID);
+            var Animation = LoadAnimation("PSZ1/PrintBlock.bin", d, letter, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

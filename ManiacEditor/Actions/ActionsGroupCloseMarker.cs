@@ -1,6 +1,6 @@
 ﻿namespace ManiacEditor.Actions
 {
-    class ActionsGroupCloseMarker : IAction
+    public class ActionsGroupCloseMarker : IAction
     {
         public string Description => null;
 

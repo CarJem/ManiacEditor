@@ -32,7 +32,7 @@ namespace ManiacEditor.Entity_Renders
                 lengthLeft = lengthLeft - 256;
             }
 
-            var Animation = LoadAnimation("Platform", d, 3, 1);
+            var Animation = LoadAnimation("FBZ/Platform.bin", d, 3, 1);
             DrawTexturePivotLengthLimit(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, length_y - (i * 256), Transparency, lengthMemory);
 
 
@@ -40,13 +40,13 @@ namespace ManiacEditor.Entity_Renders
             {
                 if (i == repeat) finalLoop = true;
                 int offset_y = y + (i * 256);
-                Animation = LoadAnimation("Platform", d, 3, 1);
+                Animation = LoadAnimation("FBZ/Platform.bin", d, 3, 1);
                 DrawTexturePivotLengthLimit(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, offset_y, Transparency, (finalLoop ? lengthLeft : 24));
             }
 
-            Animation = LoadAnimation("Platform", d, 3, 0);
+            Animation = LoadAnimation("FBZ/Platform.bin", d, 3, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, start_y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("Platform", d, 3, 2);
+            Animation = LoadAnimation("FBZ/Platform.bin", d, 3, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

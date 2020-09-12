@@ -34,13 +34,13 @@ namespace ManiacEditor.Entity_Renders
                 }
 
 
-                var Animation = LoadAnimation("SeeSaw", d, 2, 0);
+                var Animation = LoadAnimation("MSZ/SeeSaw.bin", d, 2, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? -35 : 35), y - 15, Transparency, fliph, flipv);
 
-                Animation = LoadAnimation("SeeSaw", d, 0, 0);
+                Animation = LoadAnimation("MSZ/SeeSaw.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-                Animation = LoadAnimation("SeeSaw", d, 1, 0);
+                Animation = LoadAnimation("MSZ/SeeSaw.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
 

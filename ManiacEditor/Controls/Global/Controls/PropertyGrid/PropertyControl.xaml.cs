@@ -168,6 +168,22 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
         private void UpdatePropertiesPaneEntries(PropertyGridObject Obj)
         {
             this.PropertyPane.ItemsSource = Obj.PropertyList;
+            UpdateChildrenBindings();
+        }
+
+        private void UpdateChildrenBindings()
+        {
+            foreach (var entry in this.PropertyPane.Items)
+            {
+                if (entry is System.Windows.Controls.Grid)
+                {
+                    var item = (entry as System.Windows.Controls.Grid);
+                    System.Windows.Data.Binding binding = new System.Windows.Data.Binding("ActualWidth");
+                    binding.Source = this.PropertyPane;
+                    item.SetBinding(System.Windows.Controls.UserControl.WidthProperty, binding);
+                }
+            }
+
         }
 
         private void Value_PropertyValueChanged(object sender, PropertyChangedEventArgs e)

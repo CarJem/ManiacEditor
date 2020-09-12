@@ -47,7 +47,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = LoadAnimation("TwistingDoor", d, animID, 0);
+            var Animation = LoadAnimation("FBZ/TwistingDoor.bin", d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? (10) : 0), y, Transparency, fliph, flipv);
         }
 

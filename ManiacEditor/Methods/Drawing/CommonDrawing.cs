@@ -43,7 +43,7 @@ namespace ManiacEditor.Methods.Drawing
 
         #region Rendering Definitions
 
-        private static SFML.Graphics.Texture OverlayImage { get; set; }
+        private static Classes.Rendering.TextureExt OverlayImage { get; set; }
         private static System.Drawing.Size OverlayImageSize { get; set; }
 
         public static int GetOverlayImageOpacity(ManiacEditor.Controls.Editor.MainEditor Instance)
@@ -77,14 +77,14 @@ namespace ManiacEditor.Methods.Drawing
             }
         }
 
-        public static void LoadOverlayImage(string filename)
+        public static void LoadOverlayImage(Device device, string filename)
         {
             try
             {
                 DisposeOverlayImage();
-                var image = new SFML.Graphics.Image(filename);
-                OverlayImageSize = new System.Drawing.Size((int)image.Size.X, (int)image.Size.Y);
-                OverlayImage = new SFML.Graphics.Texture(image);
+                var image = new System.Drawing.Bitmap(filename);
+                OverlayImageSize = new System.Drawing.Size((int)image.Width, (int)image.Height);
+                OverlayImage = Methods.Drawing.TextureCreator.FromBitmap(device, image);
             }
             catch (Exception ex)
             {
@@ -93,14 +93,14 @@ namespace ManiacEditor.Methods.Drawing
             }
         }
 
-        public static void SelectOverlayImage()
+        public static void SelectOverlayImage(Device device)
         {
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
             ofd.Filter = "PNG File|*.png";
             ofd.Multiselect = false;
             if (ofd.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
             {
-                LoadOverlayImage(ofd.FileName);
+                LoadOverlayImage(device, ofd.FileName);
             }
         }
 
@@ -121,7 +121,7 @@ namespace ManiacEditor.Methods.Drawing
             int rec_y = 0;
             int width = OverlayImageSize.Width;
             int height = OverlayImageSize.Height;
-            GraphicPanel.DrawTexture(OverlayImage, x, y, rec_x, rec_y, width, height, false, GetOverlayImageOpacity(Instance));
+            GraphicPanel.DrawBitmap(OverlayImage, x, y, rec_x, rec_y, width, height, false, GetOverlayImageOpacity(Instance));
         }
 
         public static void DrawBackground(DevicePanel GraphicPanel)

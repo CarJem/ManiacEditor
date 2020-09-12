@@ -33,9 +33,9 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var Animation = LoadAnimation("Spear", d, animID, 1);
+            var Animation = LoadAnimation("HCZ/Spear.bin", d, animID, 1);
             DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? -Animation.RequestedFrame.PivotX - Animation.RequestedFrame.Width : Animation.RequestedFrame.PivotX), y + (flipv ? -Animation.RequestedFrame.PivotY - Animation.RequestedFrame.Height : Animation.RequestedFrame.PivotY), Transparency, fliph, flipv);
-            Animation = LoadAnimation("Spear", d, animID, 0);
+            Animation = LoadAnimation("HCZ/Spear.bin", d, animID, 0);
             DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? -Animation.RequestedFrame.PivotX - Animation.RequestedFrame.Width : Animation.RequestedFrame.PivotX), y + (flipv ? -Animation.RequestedFrame.PivotY - Animation.RequestedFrame.Height : Animation.RequestedFrame.PivotY), Transparency, fliph, flipv);
         }
 

@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("Items", d, 0, id);
+            var Animation = LoadAnimation("SpecialUFO/Items.bin", d, 0, id);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "PhantomRuby", 1, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Global/PhantomRuby.bin", 1, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

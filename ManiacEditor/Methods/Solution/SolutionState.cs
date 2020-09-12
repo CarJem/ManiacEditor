@@ -193,18 +193,6 @@ namespace ManiacEditor.Methods.Solution
                     OnPropertyChanged(nameof(AutoScrollPosition));
                 }
             }
-            public Vector2f ActualAutoScrollPosition
-            {
-                get
-                {
-                    return _ActualAutoScrollPosition;
-                }
-                set
-                {
-                    _ActualAutoScrollPosition = value;
-                    OnPropertyChanged(nameof(ActualAutoScrollPosition));
-                }
-            }
             public bool Zooming
             {
                 get
@@ -317,28 +305,28 @@ namespace ManiacEditor.Methods.Solution
             public void SetViewPositionY(int value, bool UpdateScrollBars = false)
             {
                 _ViewPositionY = value;
-                if (Instance.ViewPanel.SharpPanel != null && UpdateScrollBars)
-                {
-                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
-                    Instance.ViewPanel.SharpPanel.vScrollBar1.Value = value * Instance.ViewPanel.SharpPanel.GetZoom();
-                }
-                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionY));
                 UpdateStatusLabels();
+
+                if (UpdateScrollBars)
+                {
+                    if (Methods.Solution.SolutionState.Main.AnyDragged()) Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
+                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+                }
             }
             public void SetViewPositionX(int value, bool UpdateScrollBars = false)
             {
                 _ViewPositionX = value;
-                if (Instance.ViewPanel.SharpPanel != null && UpdateScrollBars)
-                {
-                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
-                    Instance.ViewPanel.SharpPanel.hScrollBar1.Value = value * Instance.ViewPanel.SharpPanel.GetZoom();
-                }
-                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionX));
                 UpdateStatusLabels();
+
+                if (UpdateScrollBars)
+                {
+                    if (Methods.Solution.SolutionState.Main.AnyDragged()) Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
+                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+                }
             }
             public int ViewPositionY
             {
@@ -986,6 +974,7 @@ namespace ManiacEditor.Methods.Solution
                         if (ShowTileID) ShowTileID = false;
                         if (ShowFlippedTileHelper) ShowFlippedTileHelper = false;
                     }
+                    Methods.Internal.UserInterface.ReloadSpritesAndTextures();
                 }
             }
             private bool _ShowCollisionA;
@@ -1005,6 +994,7 @@ namespace ManiacEditor.Methods.Solution
                         if (ShowTileID) ShowTileID = false;
                         if (ShowFlippedTileHelper) ShowFlippedTileHelper = false;
                     }
+                    Methods.Internal.UserInterface.ReloadSpritesAndTextures();
                 }
             }
             private bool _ShowCollisionB;
@@ -1026,6 +1016,7 @@ namespace ManiacEditor.Methods.Solution
                         if (ShowCollisionB) ShowCollisionB = false;
                         if (ShowFlippedTileHelper) ShowFlippedTileHelper = false;
                     }
+                    Methods.Internal.UserInterface.ReloadSpritesAndTextures();
                 }
             }
             private bool _ShowTileID;
@@ -1069,6 +1060,7 @@ namespace ManiacEditor.Methods.Solution
                         if (ShowCollisionB) ShowCollisionB = false;
                         if (ShowTileID) ShowTileID = false;
                     }
+                    Methods.Internal.UserInterface.ReloadSpritesAndTextures();
                 }
             }
             private bool _ShowFlippedTileHelper = false;

@@ -75,28 +75,28 @@ namespace ManiacEditor.Entity_Renders
 
             if (objType == 0 || objType == 12 || objType == 13) // Normal (TV Van)
             {
-                var Animation = LoadAnimation("TVVan", d, 0, 7);
+                var Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 7);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 0);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 1);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 1);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 4);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 4);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 2);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 2);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 3);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 3);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 5);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 5);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 6);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 6);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 8);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 8);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-                Animation = LoadAnimation("TVVan", d, 1, 0);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 2, 0);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 2, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
 
@@ -104,36 +104,36 @@ namespace ManiacEditor.Entity_Renders
             {
                 int offset1 = -12, offset2 = 0, offset3 = 96, offset4 = 80, offset5 = 80, offset6 = 94, offset7 = -17, offset8 = -16, offset9 = 43, offset10 = 128, offset11 = 41;
 
-                var Animation = LoadAnimation("TVVan", d, 0, 7);
+                var Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 7);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset1, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 0);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset2, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 1);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 1);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset3, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 4);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 4);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset4, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 2);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 2);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset5, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 3);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 3);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset6, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 5);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 5);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset7, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 6);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 6);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset8, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 0, 8);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 8);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset9, y, Transparency, true, flipv);
 
-                Animation = LoadAnimation("TVVan", d, 1, 0);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset10, y, Transparency, true, flipv);
-                Animation = LoadAnimation("TVVan", d, 2, 0);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 2, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset11, y, Transparency, true, flipv);
             }
 
             if (objType >= 14) //Game Gear TV
             {
-                var Animation = LoadAnimation("TVVan", d, 0, 9);
+                var Animation = LoadAnimation("SPZ1/TVVan.bin", d, 0, 9);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-                Animation = LoadAnimation("TVVan", d, 15, 0);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 15, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
 
@@ -161,19 +161,19 @@ namespace ManiacEditor.Entity_Renders
                 bool DrawH = objType.In(3, 4, 6, 9);
                 bool DrawV = objType.In(3, 5, 7, 10);
 
-                var Animation = LoadAnimation("TVVan", d, 6, 0);
+                var Animation = LoadAnimation("SPZ1/TVVan.bin", d, 6, 0);
 
                 if (DrawN) DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset1, y + offset7, Transparency, false, false);
                 if (DrawV) DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset2, y + offset8, Transparency, false, true);
                 if (DrawH) DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset3, y + offset9, Transparency, true, false);
                 if (DrawVH) DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset4, y + offset10, Transparency, true, true);
 
-                Animation = LoadAnimation("TVVan", d, 6, 1);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 6, 1);
 
                 if (DrawTop) DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset5, y + offset11, Transparency, false, false);
                 if (DrawBottom) DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset6, y + offset12, Transparency, false, true);
 
-                Animation = LoadAnimation("TVVan", d, 6, 2);
+                Animation = LoadAnimation("SPZ1/TVVan.bin", d, 6, 2);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, false);
             }
 

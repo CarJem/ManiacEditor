@@ -17,18 +17,23 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("RockemSockem", d, 0, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
 
-            Animation = LoadAnimation("RockemSockem", d, 1, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             for (int i = 0; i < 6; i++)
             {
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - 8 - (i * 4), Transparency, fliph, flipv);
             }
 
-            Animation = LoadAnimation("RockemSockem", d, 2, 0);
+            Animation = LoadAnimation(GetSetupAnimation(), d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - 44, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/RockemSockem.bin", "RockemSockem", new string[] { "SPZ1", "SPZ2" });
         }
 
         public override string GetObjectName()

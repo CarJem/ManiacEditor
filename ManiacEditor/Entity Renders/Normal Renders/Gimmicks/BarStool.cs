@@ -19,9 +19,9 @@ namespace ManiacEditor.Entity_Renders
 
             int height = (int)e.attributesMap["height"].ValueUInt8;
 
-            var Animation = LoadAnimation("BarStool", d, 0, 0);
+            var Animation = LoadAnimation("MSZ/BarStool.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("BarStool", d, 1, height);
+            Animation = LoadAnimation("MSZ/BarStool.bin", d, 1, height);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

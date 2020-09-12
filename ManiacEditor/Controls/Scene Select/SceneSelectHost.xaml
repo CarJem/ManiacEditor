@@ -70,7 +70,19 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="30"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="scenesTreeHost"></Grid>
+            <TabControl Name="SceneTreeTabControl" SelectionChanged="SceneTreeTabControl_SelectionChanged">
+                <TabItem Header="GameConfig" Name="GameConfigScenesTab">
+                    <Grid Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="scenesTreeHost"></Grid>
+                </TabItem>
+                <TabItem Header="InfinityZone" Name="InfinityZoneScenesTab">
+                    <Grid>
+                        <Grid Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="InfinityZoneHost"></Grid>
+                        <TextBlock Name="IZStatusBox" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Status" Foreground="Black"></TextBlock>
+                    </Grid>
+
+                </TabItem>
+            </TabControl>
+
             <Label Grid.Row="2" x:Name="CurrenInfoLabel" Content="Level ID: {0} || Scene ID: {1} || Name: {2} || Zone: {3}" Visibility="Hidden"></Label>
             <Grid.ContextMenu>
                 <ContextMenu></ContextMenu>

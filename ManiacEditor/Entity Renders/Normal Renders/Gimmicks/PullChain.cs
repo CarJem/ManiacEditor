@@ -30,13 +30,13 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = LoadAnimation("PullChain", d, 0, frameID);
+            var Animation = LoadAnimation("HCZ/PullChain.bin", d, 0, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             if (length != 0)
             {
                 for (int i = 0; i < length; i++)
                 {
-                    Animation = LoadAnimation("PullChain", d, 1, frameID);
+                    Animation = LoadAnimation("HCZ/PullChain.bin", d, 1, frameID);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y - Animation.RequestedFrame.Height * i, Transparency, fliph, flipv);
                 }
             }

@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
 
             if (!invisible)
             {
-                var Animation = LoadAnimation("ElectroMagnet", d, 0, 0);
+                var Animation = LoadAnimation("FBZ/ElectroMagnet.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
 

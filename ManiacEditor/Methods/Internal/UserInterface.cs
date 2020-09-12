@@ -177,6 +177,7 @@ namespace ManiacEditor.Methods.Internal
                 // release all our resources, and force a reload of the tiles
                 // Entities should take care of themselves
                 Methods.Drawing.ObjectDrawing.ReleaseResources();
+                Instance.ViewPanel.SharpPanel.DisposeTextures();
                 if (UserPrompted) Methods.Drawing.ObjectDrawing.RefreshRenderLists(true);
 
                 //Reload for Encore Palletes, otherwise reload the image normally
@@ -185,7 +186,6 @@ namespace ManiacEditor.Methods.Internal
 
                 Instance.Chunks?.Dispose();
                 if (Methods.Solution.CurrentSolution.TileConfig != null) Methods.Solution.CurrentSolution.TileConfig = new Tileconfig(ManiacEditor.Methods.Solution.SolutionPaths.TileConfig_Source.ToString());
-                Methods.Solution.CurrentSolution.CurrentScene?.Reload();
                 Instance.TilesToolbar?.Reload();
 
             }
@@ -551,27 +551,26 @@ namespace ManiacEditor.Methods.Internal
                 Actions.UndoRedoModel.RedoStack.Clear();
                 UpdateControls();
 
-                Position GetEntitySpawnPoint()
+                System.Drawing.Point GetEntitySpawnPoint()
                 {
                     if (Methods.Solution.SolutionState.Main.IsDrawMode())
                     {
-                        short x = (short)(Methods.Solution.SolutionState.Main.LastX);
-                        short y = (short)(Methods.Solution.SolutionState.Main.LastY);
+                        int x = (short)(Methods.Solution.SolutionState.Main.LastX);
+                        int y = (short)(Methods.Solution.SolutionState.Main.LastY);
                         if (Methods.Solution.SolutionState.Main.UseMagnetMode)
                         {
-                            short alignedX = (short)(Methods.Solution.SolutionState.Main.MagnetSize * (x / Methods.Solution.SolutionState.Main.MagnetSize));
-                            short alignedY = (short)(Methods.Solution.SolutionState.Main.MagnetSize * (y / Methods.Solution.SolutionState.Main.MagnetSize));
-                            return new Position(alignedX, alignedY);
+                            int alignedX = (short)(Methods.Solution.SolutionState.Main.MagnetSize * (x / Methods.Solution.SolutionState.Main.MagnetSize));
+                            int alignedY = (short)(Methods.Solution.SolutionState.Main.MagnetSize * (y / Methods.Solution.SolutionState.Main.MagnetSize));
+                            return new System.Drawing.Point(alignedX, alignedY);
                         }
                         else
                         {
-                            return new Position(x, y);
+                            return new System.Drawing.Point(x, y);
                         }
-
                     }
                     else
                     {
-                        return new Position((short)(Methods.Solution.SolutionState.Main.ViewPositionX), (short)(Methods.Solution.SolutionState.Main.ViewPositionY));
+                        return new System.Drawing.Point((int)(Methods.Solution.SolutionState.Main.ViewPositionX / Methods.Solution.SolutionState.Main.Zoom), (int)(Methods.Solution.SolutionState.Main.ViewPositionY / Methods.Solution.SolutionState.Main.Zoom));
                     }
 
                 }

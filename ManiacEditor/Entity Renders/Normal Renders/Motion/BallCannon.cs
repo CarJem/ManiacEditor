@@ -116,26 +116,26 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
 
-            var Animation = LoadAnimation("BallCannon", d, 1, 0);
+            var Animation = LoadAnimation("OOZ/BallCannon.bin", d, 1, 0);
             if (type == 1)
             {
-                Animation = LoadAnimation("BallCannon", d, CorkState, 0);
+                Animation = LoadAnimation("OOZ/BallCannon.bin", d, CorkState, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
             else if (type == 2)
             {
-                Animation = LoadAnimation("BallCannon", d, 1, 0);
+                Animation = LoadAnimation("OOZ/BallCannon.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
             else
             {
                 if (selected)
                 {
-                    Animation = LoadAnimation("BallCannon", d, 0, 0);
+                    Animation = LoadAnimation("OOZ/BallCannon.bin", d, 0, 0);
                     DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x2, y2, Transparency - 125, fliph, flipv, rotation2);
                 }
 
-                Animation = LoadAnimation("BallCannon", d, 0, 0);
+                Animation = LoadAnimation("OOZ/BallCannon.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv, rotation);
             }
         }

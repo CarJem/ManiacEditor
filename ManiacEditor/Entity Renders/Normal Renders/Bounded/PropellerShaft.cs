@@ -15,7 +15,7 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var Animation = LoadAnimation("EditorIcons", d, 0, 6);
+            var Animation = LoadAnimation("Global/EditorIcons.bin", d, 0, 6);
             var height_value = (int)(e.attributesMap["size"].ValueEnum);
             var height = (height_value > 0 ? height_value / 2 : height_value);
             var width = 6;

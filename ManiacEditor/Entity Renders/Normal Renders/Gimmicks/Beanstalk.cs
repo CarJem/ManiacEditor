@@ -46,9 +46,9 @@ namespace ManiacEditor.Entity_Renders
 
             if (direction == 1) fliph = true;
 
-            var Animation = LoadAnimation("Beanstalk", d, 0, 0);
+            var Animation = LoadAnimation("SSZ1/Beanstalk.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("Beanstalk", d, animID, frameID);
+            Animation = LoadAnimation("SSZ1/Beanstalk.bin", d, animID, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? offset_x : 0), y, Transparency, fliph, flipv);
 
 

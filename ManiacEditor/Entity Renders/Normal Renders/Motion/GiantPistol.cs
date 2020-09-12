@@ -27,17 +27,17 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
 
-            var Animation = LoadAnimation("Pistol", d, 0, 1);
+            var Animation = LoadAnimation("MSZ/Pistol.bin", d, 0, 1);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? 76 : 0), y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("Pistol", d, 0, 0);
+            Animation = LoadAnimation("MSZ/Pistol.bin", d, 0, 0);
             int width = Animation.RequestedFrame.Width;
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("Pistol", d, 4, 0);
+            Animation = LoadAnimation("MSZ/Pistol.bin", d, 4, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? 59 : 0), y, Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("Pistol", d, 6, 0);
+            Animation = LoadAnimation("MSZ/Pistol.bin", d, 6, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? width + 4 : 0), y, Transparency, fliph, flipv);
         }
 

@@ -62,8 +62,13 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("JuggleSaw", d, animID, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (fliph ? (hasSaw ? (38) : 16) : 0), y + (flipv ? (hasSaw ? (37) : 15) : 0), Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/JuggleSaw.bin", "JuggleSaw", new string[] { "PSZ1", "PSZ2" });
         }
 
         public override string GetObjectName()

@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int frameID = 0;
             if (type == 2) frameID = 3;
             if (type == 1) frameID = 1;
-            var Animation = LoadAnimation("Missile", d, 1, 0);
+            var Animation = LoadAnimation("FBZ/Missile.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

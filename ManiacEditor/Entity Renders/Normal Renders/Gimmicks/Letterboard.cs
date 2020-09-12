@@ -22,12 +22,12 @@ namespace ManiacEditor.Entity_Renders
 
             if (letterID == 0 || controller == true)
             {
-                var Animation = LoadAnimation("Letterboard", d, 0, 0);
+                var Animation = LoadAnimation("SPZ2/Letterboard.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
             else
             {
-                var Animation = LoadAnimation("Letterboard", d, 1, letterID - 1);
+                var Animation = LoadAnimation("SPZ2/Letterboard.bin", d, 1, letterID - 1);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
             }
         }

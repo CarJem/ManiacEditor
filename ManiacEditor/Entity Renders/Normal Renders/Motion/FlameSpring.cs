@@ -55,17 +55,17 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var Animation = LoadAnimation("FlameSpring", d, 0, animID);
+            var Animation = LoadAnimation("FBZ/FlameSpring.bin", d, 0, animID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
             if (valveType == 2 || valveType == 0)
             {
-                Animation = LoadAnimation("FlameSpring", d, 1, 0);
+                Animation = LoadAnimation("FBZ/FlameSpring.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 14, y - 4, Transparency, fliph, flipv);
             }
             if (valveType == 1 || valveType == 0)
             {
-                Animation = LoadAnimation("FlameSpring", d, 1, 1);
+                Animation = LoadAnimation("FBZ/FlameSpring.bin", d, 1, 1);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 13, y - 4, Transparency, fliph, flipv);
             }
         }

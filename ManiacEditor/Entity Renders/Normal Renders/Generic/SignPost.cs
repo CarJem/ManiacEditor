@@ -16,19 +16,11 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("SignPost", d, 0, 0);
+            var Animation = LoadAnimation("Global/SignPost.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
 
-            if (Methods.Runtime.GameHandler.SelectedGameVersion == "1.3")
-            {
-                Animation = LoadAnimation("SignPost", d, 4, 0);
-                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
-            }
-            else
-            {
-                Animation = LoadAnimation("SignPost", d, 6, 0);
-                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
-            }
+            Animation = LoadAnimation("Global/SignPost.bin", d, 6, 0);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
 
         }
 

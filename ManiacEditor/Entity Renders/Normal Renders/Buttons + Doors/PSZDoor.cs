@@ -38,7 +38,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("PSZDoor", d, 0, frameID);
+            var Animation = LoadAnimation("PSZ1/PSZDoor.bin", d, 0, frameID);
 
 
                 int COG_SPACE = 18;
@@ -108,11 +108,11 @@ namespace ManiacEditor.Entity_Renders
 
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (open ? doorAdjX : 0), y + (open ? doorAdjY : 0), Transparency, fliph, flipv);
 
-            var cogPart1 = LoadAnimation("PSZDoor", d, 1, 0);
+            var cogPart1 = LoadAnimation("PSZ1/PSZDoor.bin", d, 1, 0);
             DrawTexturePivotNormal(d, cogPart1, cogPart1.RequestedAnimID, cogPart1.RequestedFrameID, x + cogSpaceW, y + cogSpaceH, Transparency, fliph, flipv);
             DrawTexturePivotNormal(d, cogPart1, cogPart1.RequestedAnimID, cogPart1.RequestedFrameID, x + cogSpaceW_2, y + cogSpaceH_2, Transparency, fliph, flipv);
 
-            var cogPart2 = LoadAnimation("PSZDoor", d, 0, 2);
+            var cogPart2 = LoadAnimation("PSZ1/PSZDoor.bin", d, 0, 2);
             DrawTexturePivotNormal(d, cogPart2, cogPart2.RequestedAnimID, cogPart2.RequestedFrameID, x + cogSpaceW, y + cogSpaceH, Transparency, fliph, flipv);
             DrawTexturePivotNormal(d, cogPart2, cogPart2.RequestedAnimID, cogPart2.RequestedFrameID, x + cogSpaceW_2, y + cogSpaceH_2, Transparency, fliph, flipv);
         }

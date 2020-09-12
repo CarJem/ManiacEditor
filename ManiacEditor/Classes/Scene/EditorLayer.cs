@@ -103,6 +103,8 @@ namespace ManiacEditor.Classes.Scene
         }
         public ushort Height { get => _layer.Height; }
         public ushort Width { get => _layer.Width; }
+        public int ChunksWidth { get; set; }
+        public int ChunksHeight { get; set; }
         public ushort WorkingHeight { get; set; }
         public ushort WorkingWidth { get; set; }
         public int PixelHeight { get => _layer.Height * Methods.Solution.SolutionConstants.TILE_SIZE; }
@@ -331,6 +333,8 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Rendering Values
+
+        private ChunkVBO[][] ChunkMap;
         public int RenderingTransparency { get; set; }
         public bool Visible { get; set; }
 
@@ -353,6 +357,23 @@ namespace ManiacEditor.Classes.Scene
 
             WorkingHeight = _layer.Height;
             WorkingWidth = _layer.Width;
+            InitiallizeChunkMap();
+
+        }
+
+        private void InitiallizeChunkMap()
+        {
+            ChunksWidth = DivideRoundUp(Width, Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE);
+            ChunksWidth += ModulusRoundUp(Width, Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE);
+            ChunksHeight = DivideRoundUp(Height, Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE);
+            ChunksHeight += ModulusRoundUp(Height, Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE);
+
+            ChunkMap = new ChunkVBO[ChunksHeight][];
+            for (int i = 0; i < ChunkMap.Length; ++i)
+            {
+                ChunkMap[i] = new ChunkVBO[ChunksWidth];
+            }
+
         }
 
         #endregion
@@ -526,6 +547,18 @@ namespace ManiacEditor.Classes.Scene
         {
             return new Rectangle(x, y, 128, 128);
         }
+        private Rectangle GetTilesChunkArea(int x, int y)
+        {
+            int y_start = y * Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE;
+            int y_end = Math.Min((y + 1) * Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE, _layer.Height);
+
+            int x_start = x * Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE;
+            int x_end = Math.Min((x + 1) * Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE, _layer.Width);
+
+
+            return new Rectangle(x_start, y_start, x_end - x_start, y_end - y_start);
+        }
+
         public bool IsPointOutOfBounds(int x, int y)
         {
             bool OutOfBoundsPositive = (Height - 1 < y || Width - 1 < x);
@@ -569,11 +602,13 @@ namespace ManiacEditor.Classes.Scene
             }
 
             SelectedTiles.Values.Clear();
+            InvalidateChunks();
         }
         public void EndTempSelection()
         {
             TempSelectionTiles.Clear();
             TempSelectionDeselectTiles.Clear();
+            InvalidateChunks();
         }
         private void DetachSelectedFromLayer()
         {
@@ -586,7 +621,7 @@ namespace ManiacEditor.Classes.Scene
                     RemoveTile(point);
                 }
             }
-
+            InvalidateChunks();
         }
         private void DeselectPoint(Point p)
         {
@@ -597,6 +632,7 @@ namespace ManiacEditor.Classes.Scene
                 SelectedTiles.Values.Remove(p);
             }
             SelectedTiles.Remove(p);
+            InvalidateChunks();
         }
         public void DeselectAll()
         {
@@ -611,6 +647,7 @@ namespace ManiacEditor.Classes.Scene
 
             SelectedTiles.Clear();
             SelectedTiles.Values.Clear();
+            InvalidateChunks();
         }
         private void SelectEverything()
         {
@@ -621,7 +658,7 @@ namespace ManiacEditor.Classes.Scene
                     if (CanSelectTile(_layer.Tiles[y][x])) SelectedTiles.Add(new Point(x, y));
                 }
             }
-
+            InvalidateChunks();
         }
         public void Select(Rectangle area, bool addSelection = false, bool deselectIfSelected = false)
         {
@@ -650,7 +687,7 @@ namespace ManiacEditor.Classes.Scene
 
                 }
             }
-
+            InvalidateChunks();
         }
         public void SelectChunk(Point point, bool addSelection = false, bool deselectIfSelected = false)
         {
@@ -676,7 +713,7 @@ namespace ManiacEditor.Classes.Scene
 
                 }
             }
-
+            InvalidateChunks();
         }
         public void TempSelection(Rectangle area, bool deselectIfSelected)
         {
@@ -697,7 +734,9 @@ namespace ManiacEditor.Classes.Scene
                     }
                 }
             }
+            InvalidateChunks();
         }
+
         private bool CanSelectTile(ushort tile)
         {
             if (Methods.Solution.SolutionState.Main.UseMagicSelectWand)
@@ -722,15 +761,14 @@ namespace ManiacEditor.Classes.Scene
         public void StartDrag()
         {
             FirstDrag = true;
-            
+            InvalidateChunks();
         }
         public void StartDragOver(Point point, ushort value)
         {
             DeselectAll();
             isDragOver = true;
             DragOver(point, value);
-            
-            
+            InvalidateChunks();
         }
         public void DragOver(Point point, ushort value)
         {
@@ -739,8 +777,7 @@ namespace ManiacEditor.Classes.Scene
             point = new Point(point.X / Methods.Solution.SolutionConstants.TILE_SIZE, point.Y / Methods.Solution.SolutionConstants.TILE_SIZE);
             SelectedTiles.Add(point);
             SelectedTiles.Values[point] = value;
-            
-            
+            InvalidateChunks();
         }
         public void EndDragOver(bool remove)
         {
@@ -755,7 +792,7 @@ namespace ManiacEditor.Classes.Scene
                 isDragOver = false;
                 
             }
-            
+            InvalidateChunks();
         }
 
         #endregion
@@ -792,6 +829,8 @@ namespace ManiacEditor.Classes.Scene
                         newDict[newPoint] = _layer.Tiles[point.Y][point.X];
                         if (!duplicate) RemoveTile(point);
                     }
+                    InvalidateChunkFromPixelPosition(point);
+                    InvalidateChunkFromPixelPosition(newPoint);
                 }
                 if (duplicate)
                 {
@@ -801,7 +840,7 @@ namespace ManiacEditor.Classes.Scene
                 }
                 SelectedTiles.Values = newDict;
                 SelectedTiles.AddPoints(newPoints);
-
+                InvalidateChunks();
             }
         }
 
@@ -813,6 +852,7 @@ namespace ManiacEditor.Classes.Scene
         {
             if (addAction) Actions.Add(new ActionChangeTile((x, y) => SetTile(x, y, false), point, _layer.Tiles[point.Y][point.X], value));
             _layer.Tiles[point.Y][point.X] = value;
+            InvalidateChunks();
         }
         private void RemoveTile(Point point)
         {
@@ -975,7 +1015,8 @@ namespace ManiacEditor.Classes.Scene
             {
                 SelectedTiles.Values[point] ^= (ushort)direction;
             }
-            
+            InvalidateChunks();
+
         }
         private void FlipGroupTiles(FlipDirection direction, IEnumerable<Point> points, int min, int max)
         {
@@ -1009,7 +1050,7 @@ namespace ManiacEditor.Classes.Scene
             SelectedTiles.Values.Clear();
             SelectedTiles.AddPoints(workingTiles.Select(wt => wt.Key).ToList());
             SelectedTiles.Values = workingTiles;
-            
+            InvalidateChunks();
         }
         public void SetPropertySelected(int bit, bool state)
         {
@@ -1346,22 +1387,365 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
-        #region Rendering (SFML.Graphics) (No Longer Exists Here)
-        public void Draw(DevicePanel d)
-        {
-
-        }
-
-        #endregion
-
-        #region Disposing/Invalidating (SFML.Graphics)
-
+        #region New Draw Method
         public void Dispose()
         {
+            if (ChunkMap != null)
+            {
+                for (int y = 0; y < ChunksHeight; y++)
+                {
+                    for (int x = 0; x < ChunksWidth; x++)
+                    {
+                        if (ChunkMap[y][x] != null)
+                        {
+                            ChunkMap[y][x].Dispose();
+                            ChunkMap[y][x] = null;
+                        }
+                    }
+                }
+            }
+            ChunkMap = null;
+        }
+
+        public void InvalidateChunks()
+        {
+            if (ChunkMap != null)
+            {
+                for (int y = 0; y < ChunksHeight; y++)
+                {
+                    for (int x = 0; x < ChunksWidth; x++)
+                    {
+                        if (ChunkMap[y][x] != null)
+                        {
+                            ChunkMap[y][x].Dispose();
+                            ChunkMap[y][x] = null;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        public void DisposeTextures()
+        {
+            InvalidateChunks();
+        }
+
+        public void Draw(DevicePanel d)
+        {
+            DrawLayer(d);
+        }
+
+        private bool IsSemiTransparent()
+        {
+            if (Methods.Solution.CurrentSolution.EditLayerA != null && Methods.Solution.CurrentSolution.EditLayerA != this) return true;
+            else if (Methods.Solution.CurrentSolution.EditLayerB != null && Methods.Solution.CurrentSolution.EditLayerB != this) return true;
+            else if (Methods.Solution.CurrentSolution.EditLayerC != null && Methods.Solution.CurrentSolution.EditLayerC != this) return true;
+            else if (Methods.Solution.CurrentSolution.EditLayerD != null && Methods.Solution.CurrentSolution.EditLayerD != this) return true;
+            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency) return true;
+            else return false;
+        }
+
+        public void DrawLayer(DevicePanel d)
+        {
+            int Transperncy;
+
+
+            if (IsSemiTransparent()) Transperncy = 0x32;
+            else Transperncy = 0xFF;
+
+            Rectangle screen = d.GetScreen();
+            int pos_x = (Methods.Solution.SolutionState.Main.UnlockCamera ? 0 : screen.X);
+            int pos_y = (Methods.Solution.SolutionState.Main.UnlockCamera ? 0 : screen.Y);
+            int width = (Methods.Solution.SolutionState.Main.UnlockCamera ? this.PixelWidth : screen.Width);
+            int height = (Methods.Solution.SolutionState.Main.UnlockCamera ? this.PixelHeight : screen.Height);
+
+            if (pos_x >= 0 && pos_y >= 0 && width >= 0 && height >= 0)
+            {
+                int start_x = pos_x / (Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE);
+                int end_x = Math.Min(DivideRoundUp(pos_x + width, Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), ChunkMap[0].Length);
+                int start_y = pos_y / (Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE);
+                int end_y = Math.Min(DivideRoundUp(pos_y + height, Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), ChunkMap.Length);
+
+                for (int y = start_y; y < end_y; ++y)
+                {
+                    for (int x = start_x; x < end_x; ++x)
+                    {
+                        if (d.IsObjectOnScreen(x * 256, y * 256, 256, 256))
+                        {
+                            Rectangle rect = GetTilesChunkArea(x, y);
+                            var texture = GetChunk(d, x, y);
+                            if (texture != null) d.DrawBitmap(texture, rect.X * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Y * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Width * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Height * Methods.Solution.SolutionConstants.TILE_SIZE, false, Transperncy);
+                        }
+                        else InvalidateChunk(x, y);
+                    }
+                }
+                DisposeUnusedChunks();
+            }
+        }
+
+        private void DisposeUnusedChunks()
+        {
+            for (int y = 0; y < ChunksHeight; y++)
+            {
+                for (int x = 0; x < ChunksWidth; x++)
+                {
+                    if (ChunkMap[y][x] != null && ChunkMap[y][x].HasBeenRendered)
+                    {
+                        ChunkMap[y][x].HasBeenRendered = false;
+                    }
+                    else if (ChunkMap[y][x] != null)
+                    {
+                        ChunkMap[y][x].Dispose();
+                        ChunkMap[y][x] = null;
+                    }
+                }
+            }
+        }
+
+        private void InvalidateChunk(int x, int y)
+        {
+            if (ChunkMap[y][x] != null)
+            {
+                ChunkMap[y][x].Dispose();
+                ChunkMap[y][x] = null;
+            }
+        }
+
+        private void InvalidateChunkFromPixelPosition(Point point)
+        {
+            var chunkPoint = GetDrawingChunkCoordinates(point.X, point.Y);
+            if (!(chunkPoint.X >= ChunksWidth || chunkPoint.Y >= ChunksHeight || chunkPoint.Y < 0 || chunkPoint.X < 0))
+            {
+                if (ChunkMap[chunkPoint.Y][chunkPoint.X] != null) ChunkMap[chunkPoint.Y][chunkPoint.X].HasBeenSelectedPrior = true;
+            }
+
+            Point GetDrawingChunkCoordinates(int x, int y)
+            {
+                Point ChunkCoordinate = new Point();
+                if (x != 0) ChunkCoordinate.X = x / 16;
+                else ChunkCoordinate.X = 0;
+                if (y != 0) ChunkCoordinate.Y = y / 16;
+                else ChunkCoordinate.Y = 0;
+
+                return ChunkCoordinate;
+            }
+
+        }
+        private bool isChunkSelected(int _x, int _y)
+        {
+            Rectangle rect = GetTilesChunkArea(_x, _y);
+
+            int x = rect.X * Methods.Solution.SolutionConstants.TILE_SIZE;
+            int y = rect.Y * Methods.Solution.SolutionConstants.TILE_SIZE;
+            int x2 = rect.Right * Methods.Solution.SolutionConstants.TILE_SIZE;
+            int y2 = rect.Bottom * Methods.Solution.SolutionConstants.TILE_SIZE;
+
+            int mouse_x = (int)Methods.Solution.SolutionState.Main.LastX;
+            int mouse_y = (int)Methods.Solution.SolutionState.Main.LastY;
+
+            if (mouse_x >= x && mouse_x <= x2 && mouse_y >= y && mouse_y <= y2)
+            {
+                //System.Diagnostics.Debug.Print(string.Format("Chunk {0},{1} Selected", _x, _y));
+                return true;
+            }
+            else return false;
+
+        }
+
+        public Classes.Rendering.TextureExt GetChunk(DevicePanel d, int x, int y)
+        {
+            bool isSelected = isChunkSelected(x, y);
+            if (ChunkMap[y][x] != null && ChunkMap[y][x].IsReady && !ChunkMap[y][x].HasBeenSelectedPrior && !isSelected)
+            {
+                ChunkMap[y][x].HasBeenRendered = true;
+                return ChunkMap[y][x].Texture;
+            }
+            else
+            {
+                if (ChunkMap[y][x] != null && ChunkMap[y][x].HasBeenSelectedPrior) InvalidateChunk(x, y);
+                else if (ChunkMap[y][x] != null) InvalidateChunk(x, y);
+                Rectangle rect = GetTilesChunkArea(x, y);
+
+                if (rect.Width <= 0 || rect.Height <= 0) return null;
+
+                Bitmap bmp2 = new Bitmap(rect.Width * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Height * Methods.Solution.SolutionConstants.TILE_SIZE, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                var squareSize = (bmp2.Width > bmp2.Height ? bmp2.Width : bmp2.Height);
+                int factor = 32;
+                int newSize = (int)Math.Round((squareSize / (double)factor), MidpointRounding.AwayFromZero) * factor;
+                if (newSize == 0) newSize = factor;
+                while (newSize < squareSize) newSize += factor;
+
+                Bitmap bmp = new Bitmap(newSize, newSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                bool hasBeenSelected = false;
+
+                using (bmp)
+                {
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        for (int ty = rect.Y; ty < rect.Y + rect.Height; ++ty)
+                        {
+                            for (int tx = rect.X; tx < rect.X + rect.Width; ++tx)
+                            {
+                                Point point = new Point(tx, ty);
+                                bool tileSelected = SelectedTiles.Contains(point) || TempSelectionTiles.Contains(point) && !TempSelectionDeselectTiles.Contains(point);
+                                DrawTile(g, GetTileToDraw(point), tx - rect.X, ty - rect.Y, tileSelected);
+                                if (tileSelected) hasBeenSelected = true;
+
+                            }
+                        }
+                    }
+                    ChunkMap[y][x] = new ChunkVBO();
+                    ChunkMap[y][x].Texture = Methods.Drawing.TextureCreator.FromBitmap(d._device, bmp);
+                    ChunkMap[y][x].IsReady = true;
+                    ChunkMap[y][x].HasBeenRendered = true;
+                    ChunkMap[y][x].HasBeenSelectedPrior = hasBeenSelected;
+                }
+
+                bmp.Dispose();
+                bmp2.Dispose();
+                bmp = null;
+                bmp2 = null;
+
+                return ChunkMap[y][x].Texture;
+            }
+
+
+
+
+        }
+
+        private ushort GetTileToDraw(Point source)
+        {
+            if (SelectedTiles.Values.ContainsKey(source)) return SelectedTiles.Values[source];
+            else return Layer.Tiles[source.Y][source.X];
+        }
+
+        public void DrawTile(Graphics g, ushort tile, int x, int y, bool isSelected = false)
+        {
+            if (tile != 0xffff)
+            {
+                ushort TileIndex = (ushort)(tile & 0x3ff);
+                int TileIndexInt = (int)TileIndex;
+                bool flipX = ((tile >> 10) & 1) == 1;
+                bool flipY = ((tile >> 11) & 1) == 1;
+                bool SolidTopA = ((tile >> 12) & 1) == 1;
+                bool SolidLrbA = ((tile >> 13) & 1) == 1;
+                bool SolidTopB = ((tile >> 14) & 1) == 1;
+                bool SolidLrbB = ((tile >> 15) & 1) == 1;
+
+                System.Drawing.Color AllSolid = Methods.Solution.SolutionState.Main.CollisionAllSolid_Color;
+                System.Drawing.Color LRDSolid = Methods.Solution.SolutionState.Main.CollisionLRDSolid_Color;
+                System.Drawing.Color TopOnlySolid = Methods.Solution.SolutionState.Main.CollisionTopOnlySolid_Color;
+
+                g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.BaseImage.GetBitmap(new Rectangle(0, TileIndex * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE), flipX, flipY, isSelected), new Rectangle(x * Methods.Solution.SolutionConstants.TILE_SIZE, y * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE));
+
+                if (Methods.Solution.SolutionState.Main.ShowCollisionA)
+                {
+                    if (SolidLrbA || SolidTopA)
+                    {
+                        if (SolidTopA && SolidLrbA) DrawCollision(true, AllSolid, flipX, flipY);
+                        if (SolidTopA && !SolidLrbA) DrawCollision(true, TopOnlySolid, flipX, flipY);
+                        if (SolidLrbA && !SolidTopA) DrawCollision(true, LRDSolid, flipX, flipY);
+                    }
+                }
+                if (Methods.Solution.SolutionState.Main.ShowCollisionB)
+                {
+                    if (SolidLrbB || SolidTopB)
+                    {
+                        if (SolidTopB && SolidLrbB) DrawCollision(false, AllSolid, flipX, flipY);
+                        if (SolidTopB && !SolidLrbB) DrawCollision(false, TopOnlySolid, flipX, flipY);
+                        if (SolidLrbB && !SolidTopB) DrawCollision(false, LRDSolid, flipX, flipY);
+                    }
+                }
+
+                if (Methods.Solution.SolutionState.Main.ShowFlippedTileHelper == true)
+                {
+                    g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.InternalImage.GetBitmap(new Rectangle(0, 3 * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE), false, false),
+                                new Rectangle(x * Methods.Solution.SolutionConstants.TILE_SIZE, y * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE));
+                }
+                if (Methods.Solution.SolutionState.Main.ShowTileID == true)
+                {
+                    g.DrawImage(Methods.Solution.CurrentSolution.CurrentTiles.IDImage.GetBitmap(new Rectangle(0, TileIndex * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE), false, false),
+                                new Rectangle(x * Methods.Solution.SolutionConstants.TILE_SIZE, y * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE));
+                }
+            }
+
+
+
+            if (isSelected)
+            {
+                g.DrawRectangle(Pens.Red, new Rectangle(x * Methods.Solution.SolutionConstants.TILE_SIZE, y * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE - 1, Methods.Solution.SolutionConstants.TILE_SIZE - 1));
+            }
+
+            void DrawCollision(bool drawA, System.Drawing.Color colour, bool flipX, bool flipY)
+            {
+                //create some image attributes
+                ImageAttributes attributes = new ImageAttributes();
+
+                //TODO : Collision Opacity
+                int opacity = (int)ManiacEditor.Controls.Editor.MainEditor.Instance.EditorToolbar.CollisionOpacitySlider.Value;
+
+                float[][] colourMatrixElements =
+                {
+                    new float[] { colour.R / 255.0f, 0, 0, 0, 0 },
+                    new float[] { 0, colour.G / 255.0f, 0, 0, 0 },
+                    new float[] { 0, 0, colour.B / 255.0f, 0, 0 },
+                    new float[] { 0, 0, 0, 1, 0 },
+                    new float[] { 0, 0, 0, 0, 1 }
+                };
+
+                var matrix = new ColorMatrix(colourMatrixElements);
+                matrix.Matrix33 = opacity;
+                //set the color matrix attribute
+                attributes.SetColorMatrix(matrix);
+
+
+                int _x = 0;
+                int _y = 0;
+                int _width = Methods.Solution.SolutionConstants.TILE_SIZE;
+                int _height = Methods.Solution.SolutionConstants.TILE_SIZE;
+
+                Rectangle dest = new Rectangle(x * Methods.Solution.SolutionConstants.TILE_SIZE, y * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE);
+
+                Bitmap collisionMap;
+
+                if (drawA) collisionMap = Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskA.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE), flipX, flipY);
+                else collisionMap = Methods.Solution.CurrentSolution.CurrentTiles.CollisionMaskB.GetBitmap(new Rectangle(0, (tile & 0x3ff) * Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE), flipX, flipY);
+
+
+                g.DrawImage(collisionMap, dest, _x, _y, _width, _height, GraphicsUnit.Pixel, attributes);
+
+                attributes.Dispose();
+                attributes = null;
+
+                colourMatrixElements = null;
+            }
+
 
         }
 
         #endregion
 
+
+        public class ChunkVBO
+        {
+            public bool IsReady = false;
+            public Classes.Rendering.TextureExt Texture;
+            public bool HasBeenRendered = false;
+            public bool HasBeenSelectedPrior = false;
+
+            public void Dispose()
+            {
+                if (this.Texture != null)
+                {
+                    this.Texture.Dispose();
+                    this.Texture = null;
+                }
+                this.IsReady = false;
+                this.HasBeenSelectedPrior = false;
+            }
+        }
     }
 }

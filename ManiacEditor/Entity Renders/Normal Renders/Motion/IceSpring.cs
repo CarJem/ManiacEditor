@@ -29,7 +29,7 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
 
 
-            var Animation = LoadAnimation("IceSpring", d, animID % 3, 0);
+            var Animation = LoadAnimation("PSZ2/IceSpring.bin", d, animID % 3, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 
@@ -38,7 +38,7 @@ namespace ManiacEditor.Entity_Renders
             bool fliph = false;
             bool flipv = false;
 
-            var Animation = LoadAnimation("IceSpring", d, 0, 0);
+            var Animation = LoadAnimation("PSZ2/IceSpring.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

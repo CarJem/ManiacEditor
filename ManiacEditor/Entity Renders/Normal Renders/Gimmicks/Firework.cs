@@ -21,7 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int distance = (int)e.attributesMap["distance"].ValueInt32;
             if (distance != 0) d.DrawArrow(x, y, x, y - distance, SystemColors.Yellow, 2);
 
-            var Animation = LoadAnimation("Firework", d, 0, 0);
+            var Animation = LoadAnimation("SSZ2/Firework.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

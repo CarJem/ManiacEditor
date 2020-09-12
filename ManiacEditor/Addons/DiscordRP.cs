@@ -109,12 +109,18 @@ namespace ManiacEditor
 				//richPresence.Assets.SmallImageKey = "";
 				//richPresence.Assets.SmallImageText = "";
 			}
+			public static string GetLast(string source, int last)
+			{
+				return last >= source.Length ? source : source.Substring(source.Length - last);
+			}
 
 			public static void GetDetails(ref RichPresence richPresence, string _details = null)
 			{
 				if (_details != null)
 				{
-					richPresence.Details = string.Format("Editing {0}", _details);
+					string start = "Editing {0}";
+					string finalDetails = GetLast(_details, 128 - start.Length);
+					richPresence.Details = string.Format(start, finalDetails);
 				}
 				else
 				{

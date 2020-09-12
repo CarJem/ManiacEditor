@@ -6,18 +6,12 @@ namespace ManiacEditor.Entity_Renders
     {
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            Classes.Scene.EditorEntity entity = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
-            string text = "Text" + Methods.Editor.SolutionState.CurrentLanguage;
+            string text = "UI/Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage + ".bin";
             int topListID = (int)entity.attributesMap["topListID"].ValueEnum;
             int topFrameID = (int)entity.attributesMap["topFrameID"].ValueEnum;
             int botListID = (int)entity.attributesMap["botListID"].ValueEnum;
@@ -36,39 +30,32 @@ namespace ManiacEditor.Entity_Renders
             d.DrawRectangle(top, left, bottom, right, System.Drawing.Color.FromArgb(Transparency, 49, 162, 247));
 
             d.DrawRectangle(top, left, x - 6, left+24, System.Drawing.Color.FromArgb(Transparency, 0, 0, 0));
-            e.DrawTriangle(d, x - 6, left+12, 10, 24, 10, 10, 1, Transparency);
+            //e.DrawTriangle(d, x - 6, left + 12, 10, 24, 10, 10, 1, Transparency);
 
             if (!botHidden)
             {
                 d.DrawRectangle(bottom, right, x - 6, right - 24, System.Drawing.Color.FromArgb(Transparency, 0, 0, 0));
-                e.DrawTriangle(d, x - 6, right - 12, 24, 24, 10, 10, 0, Transparency);
+                //e.DrawTriangle(d, x - 6, right - 12, 24, 24, 10, 10, 0, Transparency);
             }
 
+            bool fliph = false;
+            bool flipv = false;
 
-            var editorAnimTop = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, topListID, topFrameID, false, false, false);
-            var editorAnimBot = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation(text, d.DevicePanel, botListID, botFrameID, false, false, false);
-            if (editorAnimTop != null && editorAnimTop.Frames.Count != 0)
+
+            var editorAnimTop = LoadAnimation(text, d, topListID, topFrameID);
+            int topX = top + 68;
+            int topY = left + 12;
+
+            DrawTexturePivotNormal(d, editorAnimTop, editorAnimTop.RequestedAnimID, editorAnimTop.RequestedFrameID, topX, topY, Transparency, fliph, flipv);
+
+            if (!botHidden)
             {
-                var frame = editorAnimTop.Frames[Animation.index];
-
-                int topX = top + 68;
-                int topY = left + 12;
-
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), topX + frame.Frame.PivotX, topY + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-            }
-            if (editorAnimBot != null && editorAnimBot.Frames.Count != 0 && !botHidden)
-            {
-                var frame = editorAnimBot.Frames[Animation.index];
-
-                int botX = x + (botAlignRight ? frame.Frame.Width - 6 : 0);
+                var editorAnimBot = LoadAnimation(text, d, botListID, botFrameID);
+                int botX = x + (botAlignRight ? editorAnimBot.RequestedFrame.Width - 6 : 0);
                 int botY = right - 12;
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame), botX + frame.Frame.PivotX, botY + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
+                DrawTexturePivotNormal(d, editorAnimBot, editorAnimBot.RequestedAnimID, editorAnimBot.RequestedFrameID, botX, botY, Transparency, fliph, flipv);
             }
-
-
         }
 
         public override string GetObjectName()

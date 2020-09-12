@@ -666,10 +666,14 @@ namespace ManiacEditor.Methods
         }
         public static void ManiacINIEditor(object sender, RoutedEventArgs e)
         {
-            ManiacINIEditor editor = new ManiacINIEditor(Editor);
+            Controls.Toolbox.SceneSettings editor = new Controls.Toolbox.SceneSettings(Editor);
             if (editor.Owner != null) editor.Owner = Window.GetWindow(Editor);
             else editor.Owner = System.Windows.Application.Current.MainWindow;
             editor.ShowDialog();
+
+            Editor.EditorToolbar.SetupLayerButtons();
+            Editor.ViewPanel.SharpPanel.ResetZoomLevel();
+            Methods.Internal.UserInterface.UpdateControls();
         }
         public static void TileManager()
         {
@@ -700,7 +704,7 @@ namespace ManiacEditor.Methods
         }
         public static void ObjectManager()
         {
-            var objectManager = new ObjectManager(Methods.Solution.CurrentSolution.Entities.SceneObjects, Methods.Solution.CurrentSolution.StageConfig, Editor);
+            var objectManager = new ObjectManager(Editor);
             objectManager.Owner = Window.GetWindow(Editor);
             objectManager.ShowDialog();
         }

@@ -30,7 +30,7 @@ namespace ManiacEditor.Entity_Renders
             int x2 = x - (fullWidth / 2);
             int y2 = y - 5;
 
-            d.DrawQuad(x - (width / 2) - 4, y - (height / 2), width + height + 8, height, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
+            d.DrawQuad(x - (width / 2) - height, y - (height / 2), x + (width / 2) + height, y + (height / 2), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
 
             foreach (char symb in text)
             {
@@ -44,17 +44,17 @@ namespace ManiacEditor.Entity_Renders
 
         public Methods.Drawing.ObjectDrawing.EditorAnimation GetFrameID(DevicePanel d, char letter)
         {
-            var editorAnim = LoadAnimation("UIElements", d, 4, 0);
+            var editorAnim = LoadAnimation("UI/UIElements.bin", d, 4, 0);
             for (int i = 0; i < editorAnim.RequestedAnimation.Frames.Count; i++)
             {
-                editorAnim = LoadAnimation("UIElements", d, 4, i);
+                editorAnim = LoadAnimation("UI/UIElements.bin", d, 4, i);
                 if ((double)editorAnim.RequestedFrame.ID == (double)letter) return editorAnim;
             }
 
-            editorAnim = LoadAnimation("SmallFont", d, 0, 0);
+            editorAnim = LoadAnimation("UI/SmallFont.bin", d, 0, 0);
             for (int i = 0; i < editorAnim.RequestedAnimation.Frames.Count; i++)
             {
-                editorAnim = LoadAnimation("SmallFont", d, 0, i);
+                editorAnim = LoadAnimation("UI/SmallFont.bin", d, 0, i);
                 if ((double)editorAnim.RequestedFrame.ID == (double)letter) return editorAnim;
             }
 

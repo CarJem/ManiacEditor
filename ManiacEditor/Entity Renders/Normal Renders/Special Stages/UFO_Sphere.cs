@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
                 id = 4;
             }
 
-            var Animation = LoadAnimation("Spheres", d, id, 0);
+            var Animation = LoadAnimation("SpecialUFO/Spheres.bin", d, id, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

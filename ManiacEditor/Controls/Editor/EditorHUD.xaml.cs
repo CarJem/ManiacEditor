@@ -202,7 +202,7 @@ namespace ManiacEditor.Controls.Editor
         }
         public string GetMasterDataFolder()
         {
-            if (ManiacEditor.Methods.Solution.SolutionPaths.DefaultMasterDataDirectory != null && ManiacEditor.Methods.Solution.SolutionPaths.DefaultMasterDataDirectory != "") return "Master Data Directory: " + ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory;
+            if (ManiacEditor.Methods.Solution.SolutionPaths.MasterDataDirectory != null && ManiacEditor.Methods.Solution.SolutionPaths.MasterDataDirectory != "") return "Master Data Directory: " + ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory;
             else return "Master Data Directory: N/A";
         }
 

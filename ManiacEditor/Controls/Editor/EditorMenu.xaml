@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="20" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
             <MenuItem x:Name="fileToolStripMenuItem" Header="File" Margin="4,0,0,0">
-                <MenuItem x:Name="newToolStripMenuItem" Header="New" Click="NewSceneEvent" IsEnabled="True"></MenuItem>
+                <MenuItem x:Name="newToolStripMenuItem" Header="New Scene..." Click="NewSceneEvent" IsEnabled="False"></MenuItem>
                 <MenuItem x:Name="openToolStripMenuItem" Header="Open Scene..." Click="OpenSceneEvent"></MenuItem>
                 <MenuItem x:Name="openDataDirectoryToolStripMenuItem" Header="Open Data Directory..." Click="OpenDataDirectoryEvent"></MenuItem>
                 <MenuItem x:Name="openSceneSelectToolStripMenuItem" Header="Open Scene Select..." Click="OpenSceneSelectEvent"></MenuItem>

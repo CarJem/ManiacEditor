@@ -22,7 +22,7 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
             int shape = (int)e.attributesMap["shape"].ValueUInt8;
-            var editorAnim = LoadAnimation("Constellation", d, shape, 0);
+            var editorAnim = LoadAnimation("SSZ1/Constellation.bin", d, shape, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

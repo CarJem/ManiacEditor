@@ -143,7 +143,6 @@ namespace ManiacEditor.Methods.Internal
                 //Turn Scroller Mode On
                 Methods.Solution.SolutionState.Main.AutoScrolling = true;
                 Methods.Solution.SolutionState.Main.AutoScrollPosition = new Point((int)(point.X - Methods.Solution.SolutionState.Main.ViewPositionX), (int)(point.Y - Methods.Solution.SolutionState.Main.ViewPositionY));
-                Methods.Solution.SolutionState.Main.ActualAutoScrollPosition = Instance.ViewPanel.SharpPanel.GraphicPanel.RenderWindow.MapPixelToCoords(new Vector2i((int)(point.X - Methods.Solution.SolutionState.Main.ViewPositionX), (int)(point.Y - Methods.Solution.SolutionState.Main.ViewPositionY)));
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible && Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.ALL);
                 else if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.WE);
                 else if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) SetAutoScrollerApperance(AutoScrollDirection.NS);

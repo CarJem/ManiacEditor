@@ -17,9 +17,7 @@ namespace ManiacEditor.Methods.Solution
 {
 	public static class SolutionPaths
 	{
-		#region Variables
-
-		#region Sources
+		#region Source Variables
 		public class FileSource
 		{
 			//SourceID:
@@ -58,41 +56,16 @@ namespace ManiacEditor.Methods.Solution
 		}
 
 		private static ManiacEditor.Controls.Editor.MainEditor Instance;
+		public static FileSource InfinityConfig_Source { get; set; } = new FileSource();
+		public static FileSource InfinityUnlocks_Source { get; set; } = new FileSource();
 		public static FileSource GameConfig_Source { get; set; } = new FileSource();
 		public static FileSource TileConfig_Source { get; set; } = new FileSource();
 		public static FileSource StageConfig_Source { get; set; } = new FileSource();
 		public static FileSource StageTiles_Source { get; set; } = new FileSource();
 		public static FileSource SceneFile_Source { get; set; } = new FileSource();
 		public static FileSource Stamps_Source { get; set; } = new FileSource();
-
-		public static string CurrentScene { get; set; } = ""; //Tells us what Stage Folder is Loaded
-		public static string SceneFile_DataFolder_Source { get; set; } = ""; //Tells us which Data Folder the Scene File is Located in
-
-		#endregion
-
-		#region Scene Select Information
-
 		public static SceneState CurrentSceneData { get; set; } = new SceneState();
-		#endregion
-
-		#region Relative Information (To Data Folder Root)
-		public static string RelativeSceneFile { get; set; } = "";
-		public static string RealtiveSceneFolder { get; set; } = "";
-
-		public static bool BaseFolderReadOnlyMode { get; set; } = false;
-		public static bool ReadOnlyDirectory { get; set; } = false;
-		public static bool ReadOnlySceneFile { get; set; } = false;
-
-		#endregion
-
-		#region Resource/Data Packs
-		//TODO : Remove
-		public static string LoadedDataPack { get; set; } = "";
-		#endregion
-
-		#region Data Directories
-
-		public static string DefaultMasterDataDirectory
+		public static string MasterDataDirectory
 		{
 			get
 			{
@@ -111,9 +84,136 @@ namespace ManiacEditor.Methods.Solution
 		public static string[] EncorePalette { get; set; } = new string[6]; //Used to store the location of the encore palletes
 		#endregion
 
+		#region Infinity Unlocks
+		public static bool SetInfinityUnlocks(string DataDirectory)
+		{
+			try
+			{
+				string ParentFolder = Directory.GetParent(DataDirectory).FullName;
+				string path = Path.Combine(ParentFolder, "Unlocks.xml");
+				Methods.Solution.CurrentSolution.InfinityUnlocks = new InfinityUnlocks(path);
+				InfinityUnlocks_Source = new FileSource(path);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+
+		}
+		public static bool SetInfinityUnlocks()
+		{
+			bool validDataDirectoryFound = false;
+			string validDataDirectoryPath = "";
+			foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
+			{
+				if (IsInfinityUnlocksValid(dataDir))
+				{
+					validDataDirectoryFound = true;
+					validDataDirectoryPath = dataDir;
+					break;
+				}
+			}
+			if (!validDataDirectoryFound) return SetInfinityUnlocks(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory);
+			else return SetInfinityUnlocks(validDataDirectoryPath);
+		}
+		public static InfinityUnlocks GetInfinityUnlocks(string DataDirectory)
+		{
+			try
+			{
+				string ParentFolder = Directory.GetParent(DataDirectory).FullName;
+				string path = Path.Combine(ParentFolder, "Unlocks.xml");
+				var InfinityUnlocks = new InfinityUnlocks(path);
+				return InfinityUnlocks;
+			}
+			catch (Exception ex)
+			{
+				System.Windows.MessageBox.Show("Something went Wrong!" + Environment.NewLine + ex.Message, "InfinityUnlocks Error!");
+				return null;
+			}
+
+		}
+		public static bool IsInfinityUnlocksValid(string directoryToCheck)
+		{
+
+			if (Directory.Exists(directoryToCheck) && Directory.GetParent(directoryToCheck) != null)
+			{
+				string ParentFolder = Directory.GetParent(directoryToCheck).FullName;
+				return File.Exists(Path.Combine(ParentFolder, "Unlocks.xml"));
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+
 		#endregion
 
-		#region Methods
+		#region Infinity Config
+		public static bool SetInfinityConfig(string DataDirectory)
+		{
+			try
+			{
+				string ParentFolder = Directory.GetParent(DataDirectory).FullName;
+				string path = Path.Combine(ParentFolder, "Stages.xml");
+				Methods.Solution.CurrentSolution.InfinityConfig = new InfinityConfig(path);
+				InfinityConfig_Source = new FileSource(path);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+
+		}
+		public static bool SetInfinityConfig()
+		{
+			bool validDataDirectoryFound = false;
+			string validDataDirectoryPath = "";
+			foreach (string dataDir in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
+			{
+				if (IsInfinityConfigValid(dataDir))
+				{
+					validDataDirectoryFound = true;
+					validDataDirectoryPath = dataDir;
+					break;
+				}
+			}
+			if (!validDataDirectoryFound) return SetInfinityConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory);
+			else return SetInfinityConfig(validDataDirectoryPath);
+		}
+		public static InfinityConfig GetInfinityConfig(string DataDirectory)
+		{
+			try
+			{
+				string ParentFolder = Directory.GetParent(DataDirectory).FullName;
+				string path = Path.Combine(ParentFolder, "Stages.xml");
+				var InfinityConfig = new InfinityConfig(path);
+				return InfinityConfig;
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+
+		}
+		public static bool IsInfinityConfigValid(string directoryToCheck)
+		{
+
+			if (Directory.Exists(directoryToCheck) && Directory.GetParent(directoryToCheck) != null)
+            {
+				string ParentFolder = Directory.GetParent(directoryToCheck).FullName;
+				return File.Exists(Path.Combine(ParentFolder, "Stages.xml"));
+			}
+			else
+            {
+				return false;
+            }
+
+		}
+
+		#endregion
 
 		#region Game Config
 		public static bool SetGameConfig(string DataDirectory)
@@ -146,7 +246,6 @@ namespace ManiacEditor.Methods.Solution
 			if (!validDataDirectoryFound) return SetGameConfig(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory);
 			else return SetGameConfig(validDataDirectoryPath);
 		}
-
 		public static GameConfig GetGameConfig(string DataDirectory)
 		{
 			try
@@ -162,23 +261,11 @@ namespace ManiacEditor.Methods.Solution
 			}
 
 		}
-		public static GameConfig GetGameConfig(SceneState sceneState)
+		public static bool DoesDataDirHaveGameConfig(string directoryToCheck)
 		{
-			bool validDataDirectoryFound = false;
-			string validDataDirectoryPath = "";
-			foreach (string dataDir in sceneState.ExtraDataDirectories)
-			{
-				if (DoesDataDirHaveGameConfig(dataDir))
-				{
-					validDataDirectoryFound = true;
-					validDataDirectoryPath = dataDir;
-					break;
-				}
-			}
-			if (!validDataDirectoryFound) return GetGameConfig(sceneState.MasterDataDirectory);
-			else return GetGameConfig(validDataDirectoryPath);
+			string path = Path.Combine(directoryToCheck, "Game", "GameConfig.bin");
+			return File.Exists(path);
 		}
-
 
 		#endregion
 
@@ -366,11 +453,7 @@ namespace ManiacEditor.Methods.Solution
 				return folderBrowserDialog.FileName;
 			}
 		}
-		public static bool DoesDataDirHaveGameConfig(string directoryToCheck)
-		{
-			string path = Path.Combine(directoryToCheck, "Game", "GameConfig.bin");
-			return File.Exists(path);
-		}
+
 
 		#endregion
 
@@ -380,10 +463,6 @@ namespace ManiacEditor.Methods.Solution
 			if (IsSceneValid(dataFolderPath))
 			{
 				SceneFile_Source = new FileSource(sourceId, Path.Combine(dataFolderPath, "Stages", CurrentSceneData.Zone, GetSceneFilename(CurrentSceneData.SceneID)));
-				SceneFile_DataFolder_Source = dataFolderPath;
-
-				RelativeSceneFile = Path.Combine("Stages", CurrentSceneData.Zone, GetSceneFilename(CurrentSceneData.SceneID));
-				RealtiveSceneFolder = Path.Combine("Stages", CurrentSceneData.Zone);
 
 				return SceneFile_Source.SourcePath;
 			}
@@ -580,12 +659,8 @@ namespace ManiacEditor.Methods.Solution
 			StageTiles_Source = new FileSource();
 			SceneFile_Source = new FileSource();
 			Stamps_Source = new FileSource();
-			CurrentScene = "";
-			RelativeSceneFile = "";
-			RealtiveSceneFolder = "";
+			InfinityConfig_Source = new FileSource();
 		}
-        #endregion
-
         #endregion
     }
 }

@@ -44,7 +44,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Ring", type, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Global/Ring.bin", type, 0);
 
             if ((amplitudeX != 0 || amplitudeY != 0) && moveType == 2)
             {

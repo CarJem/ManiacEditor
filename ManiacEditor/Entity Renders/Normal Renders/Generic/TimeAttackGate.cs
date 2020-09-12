@@ -16,12 +16,12 @@ namespace ManiacEditor.Entity_Renders
 
             bool finish = e.attributesMap["finishLine"].ValueBool;
 
-            var Animation1 = LoadAnimation("SpeedGate", d, 0, 0);
+            var Animation1 = LoadAnimation("Global/SpeedGate.bin", d, 0, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation1, Animation1.RequestedAnimID, Animation1.RequestedFrameID, x, y, Transparency);
-            var Animation2 = LoadAnimation("SpeedGate", d, 1, 0);
+            var Animation2 = LoadAnimation("Global/SpeedGate.bin", d, 1, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation2, Animation2.RequestedAnimID, Animation2.RequestedFrameID, x, y, Transparency);
 
-            var Animation3 = LoadAnimation("SpeedGate", d, (finish ? 4 : 3), 0);
+            var Animation3 = LoadAnimation("Global/SpeedGate.bin", d, (finish ? 4 : 3), 0);
             for (int FrameID = 0; FrameID < Animation3.RequestedAnimation.Frames.Count; FrameID++)
             {
                 DrawTexturePivotNormal(Properties.Graphics, Animation3, Animation3.RequestedAnimID, FrameID, x, y, Transparency);

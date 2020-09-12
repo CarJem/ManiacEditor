@@ -45,7 +45,7 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
 
-            var Animation = LoadAnimation("Chopper", d, animID, 0);
+            var Animation = LoadAnimation("GHZ/Chopper.bin", d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

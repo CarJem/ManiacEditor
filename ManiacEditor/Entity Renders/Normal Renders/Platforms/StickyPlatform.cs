@@ -44,7 +44,7 @@ namespace ManiacEditor.Entity_Renders
                 d.DrawArrow(x, y, x + amplitudeX, y + amplitudeY, System.Drawing.Color.YellowGreen, 2);
             }
 
-            var editorAnim = LoadAnimation("StickyPlatform", d, animID, 0);
+            var editorAnim = LoadAnimation("CPZ/StickyPlatform.bin", d, animID, 0);
             DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
         }

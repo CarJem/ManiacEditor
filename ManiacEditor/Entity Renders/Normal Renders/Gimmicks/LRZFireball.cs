@@ -23,7 +23,7 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = FlippedV(rotation);
 
 
-            var Animation = LoadAnimation("LRZFireball", d, 1, 0);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv, rotation);
         }
 
@@ -85,6 +85,11 @@ namespace ManiacEditor.Entity_Renders
                 else return Orientation.Unknown;
             }
 
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/LRZFireball.bin", "LRZFireball", new string[] { "LRZ2", "LRZ1" });
         }
 
         public override string GetObjectName()

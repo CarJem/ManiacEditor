@@ -47,7 +47,6 @@ namespace ManiacEditor.Controls.Editor
 
         #region Editor Collections
         public List<string> ObjectList = new List<string>(); //All Gameconfig + Stageconfig Object names (Unused)
-        public List<string> userDefinedSpritePaths = new List<string>();
         public System.ComponentModel.BindingList<TextBlock> SplineSelectedObjectSpawnList = new System.ComponentModel.BindingList<TextBlock>();
         #endregion
 
@@ -151,6 +150,7 @@ namespace ManiacEditor.Controls.Editor
             Methods.Solution.SolutionActions.UpdateInstance(this);
             Methods.Drawing.CommonDrawing.UpdateInstance(this);
             Methods.Layers.TileFindReplace.UpdateInstance(this);
+            Methods.Drawing.LayerDrawing.UpdateInstance(this);
         }
         private void InitalizeSettings()
         {

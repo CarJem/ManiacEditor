@@ -22,9 +22,9 @@ namespace ManiacEditor.Entity_Renders
             if (direction == 1) fliph = true;
 
 
-            var Animation = LoadAnimation("TurboSpiker", d, 3, 0);
+            var Animation = LoadAnimation("HCZ/TurboSpiker.bin", d, 3, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("TurboSpiker", d, 0, 0);
+            Animation = LoadAnimation("HCZ/TurboSpiker.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

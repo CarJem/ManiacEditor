@@ -74,7 +74,7 @@ namespace ManiacEditor.Entity_Renders
             var width = (int)widthPixels / 16;
             var height = (int)heightPixels / 16;
 
-            var Animation = LoadAnimation("Cylinder", d, 0, 0);
+            var Animation = LoadAnimation("FBZ/Cylinder.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, false);
 
             if (type == 5 || type == 6 || type > 7)

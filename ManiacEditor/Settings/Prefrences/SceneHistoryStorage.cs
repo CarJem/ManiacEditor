@@ -64,7 +64,7 @@ namespace ManiacEditor.Classes.Prefrences
             {
 
                 if (Collection == null) Collection = new SceneHistoryCollection();
-                if (Collection.List.Exists(x => x.RealEntryName == NewEntry.RealEntryName)) Collection.List.RemoveAll(x => x.RealEntryName == NewEntry.RealEntryName);
+                if (Collection.List.Exists(x => x.SceneState.FilePath == NewEntry.SceneState.FilePath)) Collection.List.RemoveAll(x => x.SceneState.FilePath == NewEntry.SceneState.FilePath);
 
                 if (Collection.List.Count >= 10)
                 {
@@ -93,50 +93,36 @@ namespace ManiacEditor.Classes.Prefrences
 
             string Title = "";
             string Name = "";
-            if (ManiacEditor.Methods.Solution.SolutionPaths.LoadedDataPack != "")
+            if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.WasSelfLoaded)
             {
-                if (!ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsFullPath) Title = string.Format("{1}:{2}{4}{3}{0} Data Pack", ManiacEditor.Methods.Solution.SolutionPaths.LoadedDataPack, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, "/n/n", (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));
-                else Title = string.Format("{1}{2}{0} Data Pack", ManiacEditor.Methods.Solution.SolutionPaths.LoadedDataPack, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath, "/n/n");
-            }
-            else if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.WasSelfLoaded)
-            {
-                Title = string.Format("{1}\\{2}{4}{3}{0}", System.IO.Path.GetDirectoryName(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath), ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, System.IO.Path.GetFileName(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath), "/n/n", (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));                
+                string FilePath = System.IO.Path.GetDirectoryName(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath);
+                string NewLine = "/n/n";
+
+                Title = Extensions.Extensions.ShrinkPath(FilePath, 50);
+                Title += Environment.NewLine;
+                Title += "[EXTERNAL]";
             }
             else
             {
-                string dataFolder = (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.DataDirectory == string.Empty ? ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory : ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.DataDirectory);
-                if (!ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsFullPath) Title = string.Format("{1}:{2}{4}{3}{0}", dataFolder, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID, "/n/n", (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : ""));
-                else Title = string.Format("{1}{2}{0}", dataFolder, ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath, "/n/n");
+                string FileName = System.IO.Path.GetFileName(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath);
+                string Zone = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone;
+                string Encore = (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode ? "+" : "");
+                string DataFolder = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.DataDirectory;
+                string MasterDataFolder = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory;
+                string NewLine = "/n/n";
+
+                Title = "..." + Zone + "\\" + FileName + Encore;
+                Title += Environment.NewLine;
+
+                if (DataFolder != null && DataFolder != string.Empty) Title += Extensions.Extensions.ShrinkPath(DataFolder, 50) + string.Format(" [{0}]", Path.GetFileName(Path.GetDirectoryName(DataFolder)));
+                else Title += Extensions.Extensions.ShrinkPath(MasterDataFolder, 50) + string.Format(" [{0}]", Path.GetFileName(Path.GetDirectoryName(MasterDataFolder)));
             }
 
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.MasterDataDirectory;
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath;
-            Name += Methods.Solution.CurrentSolution.LevelID;
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Name;
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone;
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentScene;
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.SceneID;
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsFullPath.ToString();
-            Name += ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode.ToString();
-
-
-
             SceneHistoryCollection.SaveState section = new SceneHistoryCollection.SaveState();
-            int x1 = (short)(Methods.Solution.SolutionState.Main.ViewPositionX);
-            int y1 = (short)(Methods.Solution.SolutionState.Main.ViewPositionY);
             section.EntryName = Title;
             section.RealEntryName = Name;
             section.SceneState = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData;
-            section.x = x1;
-            section.y = y1;
-            section.ZoomLevel = Methods.Solution.SolutionState.Main.ZoomLevel;
-            section.LoadedDataPack = ManiacEditor.Methods.Solution.SolutionPaths.LoadedDataPack;
-            foreach (var pack in ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.ExtraDataDirectories)
-            {
-                section.ResourcePacks.Add(pack);
-                ResourcePackEntryNumber++;
-            }
-
+            section.SceneState.ExtraDataDirectories = section.SceneState.ExtraDataDirectories.Distinct().ToList();
             return section;
         }
 

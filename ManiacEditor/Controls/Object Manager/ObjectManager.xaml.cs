@@ -12,6 +12,9 @@ using System.Data;
 using RSDKv5;
 using System.Collections.ObjectModel;
 using ManiacEditor.Extensions;
+using System.IO;
+using System.Windows.Markup;
+using System.Xml;
 
 namespace ManiacEditor.Controls.Object_Manager
 {
@@ -19,505 +22,470 @@ namespace ManiacEditor.Controls.Object_Manager
     /// Interaction logic for ObjectManager.xaml
     /// </summary>
     public partial class ObjectManager : Window
-	{
+    {
+        #region Object Collections
+        private List<SceneObject> _SceneObjects
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.Entities.SceneObjects;
+            }
+        }
+        private List<string> _StageConfigObjects
+        {
+            get
+            {
+                return _SourceStageConfig.ObjectsNames;
+            }
+        }
+        private List<string> _GameConfigObjects
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.GameConfig.ObjectsNames;
+            }
+        }
+        private StageConfig _SourceStageConfig
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.StageConfig;
+            }
+        }
+
+        #endregion
+
+        #region List Collections
+
+        private ObservableCollection<ObjectViewItem> ObjectsList { get; set; } = new ObservableCollection<ObjectViewItem>();
+        private ObservableCollection<ObjectViewItem> VisibleObjectsList
+        {
+            get
+            {
+                string Filter = FilterText.Text;
+                if (Filter != string.Empty)
+                {
+                    return new ObservableCollection<ObjectViewItem>(ObjectsList.Where(x => x.ObjectName.Contains(Filter)).OrderBy(sso => sso.ToString()));
+                }
+                else return ObjectsList;
+            }
+        }
+        private List<ObjectViewItem> GetGlobalSelectedObjects()
+        {
+            return ObjectsList.Where(item => item.IsChecked.Value == true).ToList();
+        }
+        private List<ObjectViewItem> GetSceneSelectedObjects()
+        {
+            return ObjectsList.Where(item => item.IsChecked.Value == true && item.Obj_IsScene).ToList();
+        }
+        private List<ObjectViewItem> GetStageConfigSelectedObjects()
+        {
+            return ObjectsList.Where(item => item.IsChecked.Value == true && item.Obj_IsStageConfig).ToList();
+        }
+
+        #endregion
+
         #region Variables
-        private IList<SceneObject> _SourceSceneObjects;
-		private IList<SceneObject> _TargetSceneObjects;
-		private IList<int> _SourceSceneObjectUID;
-		private StageConfig _SourceStageConfig;
 
-		private Controls.Editor.MainEditor Instance;
+        private Controls.Editor.MainEditor Instance;
+        private bool ClearUndoHistory = false;
 
-		private List<String> ObjectCheckMemory = new List<string>();
-		private ObservableCollection<CheckBox> ListEntries;
-		private bool FullRefreshNeeded = false;
         #endregion
 
         #region Init
-        public ObjectManager(IList<SceneObject> targetSceneObjects, StageConfig stageConfig, Controls.Editor.MainEditor instance)
-		{
-			Instance = instance;
+        public ObjectManager(Controls.Editor.MainEditor Instance)
+        {
             InitializeComponent();
+            this.Instance = Instance;
+            ReloadList();
+        }
 
-            if (rmvStgCfgCheckbox.IsChecked.Value)
-			{
-				rmvStgCfgCheckbox.IsChecked = true;
-			}
+        #endregion
 
+        #region Classes
 
-			_SourceSceneObjects = targetSceneObjects;
-			_SourceSceneObjectUID = new List<int>();
-			ListEntries = new ObservableCollection<CheckBox>();
-			_TargetSceneObjects = targetSceneObjects;
-			_SourceStageConfig = stageConfig;
-			lvObjectsViewer.ItemsSource = ListEntries;
-
-			var targetNames = _TargetSceneObjects.Select(tso => tso.Name.ToString());
-			var importableObjects = _TargetSceneObjects.Where(sso => targetNames.Contains(sso.Name.ToString()))
-														.OrderBy(sso => sso.Name.ToString());
-
-			updateSelectedText();
-			int PersonalID = 0;
-			foreach (var io in importableObjects)
-			{
-				var lvc = new CheckBox()
-				{
-					Content = io.Name.ToString(),
-					IsChecked = false,
-					Tag = PersonalID.ToString()				
-				};
-                if (!_SourceStageConfig.ObjectsNames.Contains(io.Name.ToString()))
+        public class AttributeItem
+        {
+            public string Name { get; set; }
+            public string Type { get; set; }
+        }
+        public class ObjectViewItem : System.Windows.Controls.CheckBox
+        {
+            public string ObjectName { get; set; } = "NULL";
+            public bool Obj_IsScene { get; set; } = false;
+            public bool Obj_IsStageConfig { get; set; } = false;
+            public bool Obj_IsGameConfig { get; set; } = false;
+            public bool? Entry_IsChecked
+            {
+                get
                 {
-					if (Methods.Solution.CurrentSolution.GameConfig != null)
-					{
-						if (!Methods.Solution.CurrentSolution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
-						{
-							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_RedTextColor");
-						}
-						else
-						{
-							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
-						}
-					}
-					else
-					{
-						lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
-					}
+                    return IsChecked;
+                }
+                set
+                {
+                    IsChecked = value;
 
                 }
-                lvc.Checked += lvObjects_ItemChecked;
+            }
+        }
 
-				ListEntries.Add(lvc);
-				PersonalID++;
-			}
+        #endregion
 
-			updateSelectedText();
-		}
-		#endregion
+        #region Closing Events/MEthods
 
-		#region Events
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void ObjectManager_FormClosed(object sender, CancelEventArgs e)
+        {
+            if (ClearUndoHistory == true)
+            {
+                Actions.UndoRedoModel.ClearStacks();
+            }
+        }
 
-		private void btnCancel_Click(object sender, RoutedEventArgs e)
-		{
-			Close();
-		}
-		private void FilterText_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			ReloadList();
-			for (int n = ListEntries.Count - 1; n >= 0; --n)
-			{
-				string removelistitem = FilterText.Text;
-				if (!ListEntries[n].Content.ToString().Contains(removelistitem))
-				{
-					ListEntries.RemoveAt(n);
-				}
-			}
-			updateSelectedText();
+        #endregion
 
-		}
-		private void lvObjects_ItemCheck(object sender, RoutedEventArgs e)
-		{
-			// this method is not being called for some reason
-			// TODO: call this properly and update selected object count
-			ManiacEditor.Extensions.ConsoleExtensions.Print("TEST");
-			updateSelectedText();
-		}
-		private void btnRemoveEntries_Click(object sender, RoutedEventArgs e)
-		{
-			var CheckedItems = ListEntries.Where(item => item.IsChecked.Value == true).ToList().Count;
-			IList<CheckBox> lvObjects_CheckedItems = ListEntries.Where(item => item.IsChecked.Value == true).ToList();
-			if (CheckedItems > 0)
-			{
-				const int MAX = 10;
-				string itemNames = "";
-				bool overMax = CheckedItems > MAX;
-				int max = (overMax ? MAX - 1 : CheckedItems);
-				for (int i = 0; i < max; i++)
-					itemNames += "  -" + lvObjects_CheckedItems[i].Content + "(" + lvObjects_CheckedItems[i].Tag + ")" + "\n";
-				if (overMax)
-					itemNames += "(+" + (CheckedItems - (MAX - 1)) + " more)\n";
+        #region Object Viewer Methods/Events
+        private void LvObjectsViewer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateSelectionControls();
+            ReloadAttributeTable();
+        }
+        private void ObjectsList_ItemChecked(object sender, RoutedEventArgs e)
+        {
+            UpdateSelectionControls();
+        }
+        private ObjectViewItem GenerateListEntry(string name, int index, IOrderedEnumerable<string> sceneObjects, IOrderedEnumerable<string> gameConfigObjects, IOrderedEnumerable<string> stageConfigObjects)
+        {
+            bool _isScene = sceneObjects.Contains(name);
+            bool _isGameConfig = gameConfigObjects.Contains(name);
+            bool _isStageConfig = stageConfigObjects.Contains(name);
+            var lvc = new ObjectViewItem()
+            {
+                Content = name,
+                ObjectName = name,
+                IsChecked = false,
+                Tag = index.ToString(),
+                Obj_IsScene = _isScene,
+                Obj_IsGameConfig = _isGameConfig,
+                Obj_IsStageConfig = _isStageConfig
+            };
+            lvc.Checked += ObjectsList_ItemChecked;
 
-				if (MessageBox.Show("Are you sure you want to remove the following objects from this Scene?" + Environment.NewLine + itemNames + "This will also remove all entities of them!", "Remove Objects and Entities?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-				{
-					for (int i = 0; i < CheckedItems; i++)
-					{
-						var item = lvObjects_CheckedItems[i] as CheckBox;
-						int.TryParse(item.Tag.ToString(), out int ID);
-						List<SceneObject> AllInstancesOfThisObject = _TargetSceneObjects.Where(x => x.Name.Name == item.Content.ToString()).ToList();
-						SceneObject objectToRemove;
+            //if (!lvc.Obj_IsStageConfig) lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_RedTextColor");
+            //else if (lvc.Obj_IsScene) lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
+            //else lvc.Foreground = Methods.Internal.Theming.GetSCBResource("NormalText");
 
-						if (AllInstancesOfThisObject.Count >= 1)
-						{
-							objectToRemove = AllInstancesOfThisObject.ElementAtOrDefault(ID);
-						}
-						else
-						{
-							objectToRemove = AllInstancesOfThisObject[0];
-						}
-
-						if (AllInstancesOfThisObject != null && objectToRemove != null)
-						{
-							objectToRemove.Entities.Clear(); // ditch instances of the object from the imported level
-							_TargetSceneObjects.Remove(objectToRemove);
-						}
-						else
-						{
-							if (_TargetSceneObjects.Where(x => x.Name.Name == item.Content.ToString()) != null)
-							{
-								foreach (var sceneObj in _TargetSceneObjects.Where(x => x.Name.Name == item.Content.ToString()).ToList())
-								{
-									sceneObj.Entities.Clear();
-									_TargetSceneObjects.Remove(sceneObj); // ditch instances of the object from the imported level
-								}
-							}
-						}
-
-						if (rmvStgCfgCheckbox.IsChecked.Value)
-						{
-							if (_SourceStageConfig != null
-								&& !_SourceStageConfig.ObjectsNames.Contains(item.Content.ToString()))
-							{
-								_SourceStageConfig.ObjectsNames.Remove(item.Content.ToString());
-							}
-						}
-					}
-					FullRefreshNeeded = true;
-					ReloadList();
-				}
-			}
-		}
-		private void ObjectManager_FormClosed(object sender, CancelEventArgs e)
-		{
-			ObjectCheckMemory.Clear();
-		}
-		private void ImportObjectsUsingExistingEvent(object sender, RoutedEventArgs e)
-		{
-			Methods.ProgramLauncher.ImportObjectsFromScene(GetWindow(this));
-			FullRefreshNeeded = true;
-			ReloadList();
-			// TODO: Blanks the list for some reason should consider fixing badly
-		}
-		private void ImportObjectsUsingMegalistEvent(object sender, RoutedEventArgs e)
-		{
-			Methods.ProgramLauncher.ImportObjectsWithMegaList(GetWindow(this));
-			FullRefreshNeeded = true;
-			ReloadList();
-			// TODO: Blanks the list for some reason should consider fixing badly
-		}
-		private void ExportObjectsUsingExistingEvent(object sender, RoutedEventArgs e)
-		{
-			Methods.ProgramLauncher.ExportObjectsFromScene(GetWindow(this));
-		}
-		private void ExportObjectsUsingMegalistEvent(object sender, RoutedEventArgs e)
-		{
-			Methods.ProgramLauncher.ExportObjectsWithMegaList();
-		}
-		private void LvObjectsViewer_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			updateSelectedText();
-			if (lvObjectsViewer.SelectedItem != null)
-			{
-				var lvc = lvObjectsViewer.SelectedItem as CheckBox;
-				if (lvc != null)
-				{
-					//Debug.Print(lvc.Content.ToString());
-					int.TryParse(lvc.Tag.ToString(), out int ID);
-					SceneObject obj = _TargetSceneObjects[ID];
-
-					attributesTable.Items.Clear();
-
-					var gridView = new GridView();
-					this.attributesTable.View = gridView;
-					gridView.Columns.Add(new GridViewColumn
-					{
-						Header = "Name",
-						DisplayMemberBinding = new Binding("Name")
-					});
-					gridView.Columns.Add(new GridViewColumn
-					{
-						Header = "Type",
-						DisplayMemberBinding = new Binding("Type")
-					});
-
-					foreach (AttributeInfo att in obj.Attributes)
-					{
-						this.attributesTable.Items.Add(new AttributeItem { Type = att.Type.ToString(), Name = att.Name.ToString() });
-					}
-					attributesTable.Items.Refresh();
-				}
-
-			}
-
-		}
-		private void addAttributeBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (lvObjectsViewer.SelectedItems.Count > 0)
-			{
-				var target = lvObjectsViewer.SelectedItem as CheckBox;
-				if (target == null) return;
-				string targetName = target.Content.ToString();
-				SceneObject obj = _TargetSceneObjects.First(sso => sso.Name.ToString().Equals(targetName));
-				SceneObject[] objs = { obj };
-				addAttributeToObjects(objs);
-			}
-		}
-		private void addAttributeToAllObjectsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			SceneObject[] objs = _TargetSceneObjects.ToArray();
-			addAttributeToObjects(objs);
-		}
-		private void addAttributeToObjects(SceneObject[] objs)
-		{
-			MessageBox.Show("Adding attributes is still experimental and could be dangerous.\nI highly recommend making a backup first.",
-				"Danger! Experimental territory!",
-				MessageBoxButton.OK,
-				MessageBoxImage.Warning);
-
-			var dialog = new AddAttributeWindow(objs);
-			dialog.Owner = Window.GetWindow(this);
-
-			dialog.ShowDialog();
-			if (dialog.DialogResult != true)
-				return; // nothing to do
-
-			// added, now refresh
-			LvObjectsViewer_SelectionChanged(null, null);
-
-		}
-		private void removeAttributeBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (attributesTable.SelectedItem != null)
-			{
-				var att = attributesTable.SelectedItem as AttributeItem;
-				var target = lvObjectsViewer.SelectedItem as CheckBox;
-
-				if (att == null || target == null) return;
-
-				string attName = att.Name.ToString();
-				string targetName = target.Content.ToString();
-				SceneObject obj = _TargetSceneObjects.Single(sso => sso.Name.ToString().Equals(targetName));
-
-				if (MessageBox.Show("Removing an attribute can cause serious problems and cannot be undone.\nI highly recommend making a backup first.\nAre you sure you want to remove the attribute \"" + attName + "\" from the object \"" + obj.Name.Name + "\" and all entities of it?", "Caution! This way lies madness!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-				{
-					obj.RemoveAttribute(attName);
-					LvObjectsViewer_SelectionChanged(null, null);
-				}
-			}
-		}
-		private void backupStageConfigToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			ManiacEditor.Methods.Solution.SolutionLoader.BackupStageConfig();
-		}
-		private void lvObjects_ItemChecked(object sender, RoutedEventArgs e)
-		{
-			updateSelectedText();
-		}
-		private void Checkbox_CheckChanged(object sender, RoutedEventArgs e)
-		{
-
-		}
-		private void attributesTable_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (sender != attributesTable) return;
-
-			if (e.Key == Key.LeftCtrl && e.Key == Key.C)
-				CopySelectedValuesToClipboard();
+            return lvc;
+        }
 
 
-		}
-		private void CopySelectedValuesToClipboard()
-		{
-			var builder = new StringBuilder();
-			foreach (var item in attributesTable.SelectedItems)
-			{
-				var itemBX = item as CheckBox;
-				if (itemBX != null)
-				{
-					string valueString = itemBX.Content.ToString();
-					builder.AppendLine(valueString);
-				}
+        #endregion
 
-			}
+        #region Refresh Methods/Events
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateSelectionControls();
+        }
+        private void UpdateSelectionControls()
+        {
+            SelectedObjectCountLabel.Content = "Amount of Objects Selected: " + GetGlobalSelectedObjects().Count;
+            bool isObjectSelected = ObjectListBox.SelectedItem != null;
+            bool isObjectSelectedInScene = (isObjectSelected ? (ObjectListBox.SelectedItem as ObjectViewItem).Obj_IsScene : false);
+            bool isObjectChecked = GetGlobalSelectedObjects().Any();
+            bool isAttributeSelected = AttributesTable.SelectedItem != null;
+
+            GlobalRemoveButton.IsEnabled = isObjectChecked;
+            StageConfigRemoveButton.IsEnabled = isObjectChecked;
+            SceneRemoveButton.IsEnabled = isObjectChecked;
+
+            AddAttributeButton.IsEnabled = isObjectSelectedInScene;
+            RemoveAttributeButton.IsEnabled = isAttributeSelected;
+
+        }
+        private void FilterText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RefreshList();
+        }
+        private void ReloadAttributeTable()
+        {
+            if (ObjectListBox.SelectedItem != null)
+            {
+                var lvc = ObjectListBox.SelectedItem as CheckBox;
+                if (lvc != null)
+                {
+                    //Debug.Print(lvc.Content.ToString());
+                    int.TryParse(lvc.Tag.ToString(), out int ID);
+                    AttributesTable.Items.Clear();
+                    if (ID != -1)
+                    {
+                        SceneObject obj = _SceneObjects[ID];
+                        var gridView = new GridView();
+                        this.AttributesTable.View = gridView;
+                        gridView.Columns.Add(new GridViewColumn
+                        {
+                            Header = "Name",
+                            DisplayMemberBinding = new Binding("Name")
+                        });
+                        gridView.Columns.Add(new GridViewColumn
+                        {
+                            Header = "Type",
+                            DisplayMemberBinding = new Binding("Type")
+                        });
+
+                        foreach (AttributeInfo att in obj.Attributes)
+                        {
+                            this.AttributesTable.Items.Add(new AttributeItem { Type = att.Type.ToString(), Name = att.Name.ToString() });
+                        }
+                    }
+                    AttributesTable.Items.Refresh();
+                }
+
+            }
+        }
+        private void RefreshObjectColumns(ListView listView)
+        {
+            int autoFillColumnIndex = (listView.View as GridView).Columns.Count - 1;
+            if (listView.ActualWidth == Double.NaN)
+                listView.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+            double remainingSpace = listView.ActualWidth - SystemParameters.VerticalScrollBarWidth;
+            for (int i = 0; i < (listView.View as GridView).Columns.Count; i++)
+                if (i != autoFillColumnIndex)
+                    remainingSpace -= (listView.View as GridView).Columns[i].ActualWidth;
+            (listView.View as GridView).Columns[autoFillColumnIndex].Width = remainingSpace >= 0 ? remainingSpace : 0;
+        }
+        private void ReloadList()
+        {
+            ObjectsList.Clear();
+            ObjectListBox.ItemsSource = null;
+            RefreshObjectColumns(ObjectListBox);
+
+            var SceneObjects = _SceneObjects.Select(y => y.Name.ToString()).OrderBy(x => x.ToString());
+            var StageConfigObjects = _StageConfigObjects.OrderBy(x => x.ToString());
+            var GameConfigObjects = _GameConfigObjects.OrderBy(sso => sso.ToString());
+
+            var AllObjects = SceneObjects.Union(StageConfigObjects).OrderBy(sso => sso.ToString());
+
+            int index = 0;
+            foreach (var name in AllObjects)
+            {
+
+                if (SceneObjects.Contains(name))
+                {
+                    var lvc = GenerateListEntry(name, index, SceneObjects, GameConfigObjects, StageConfigObjects);
+                    ObjectsList.Add(lvc);
+                    index++;
+                }
+                else
+                {
+                    var lvc = GenerateListEntry(name, -1, SceneObjects, GameConfigObjects, StageConfigObjects);
+                    ObjectsList.Add(lvc);
+                }
+            }
+
+            ObjectListBox.ItemsSource = VisibleObjectsList;
+            UpdateSelectionControls();
+        }
+        private void RefreshList()
+        {
+            ObjectListBox.ItemsSource = null;
+            RefreshObjectColumns(ObjectListBox);
+            ObjectListBox.ItemsSource = VisibleObjectsList;
+            UpdateSelectionControls();
+        }
+
+        #endregion
+
+        #region Object Remove Methods/Events
+        private void GlobalRemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SelectedObjects = GetGlobalSelectedObjects();
+
+            if (RemovePrompt(GeneratePromptList(SelectedObjects), "This will also remove all Entities of them within this scene!"))
+            {
+                var ObjectsToRemove = SelectedObjects.ConvertAll(x => x.ObjectName);
+                RemoveStageConfigObjects(ObjectsToRemove);
+                RemoveSceneObjects(ObjectsToRemove);
+                ReloadList();
+            }
+        }
+        private void StageConfigRemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SelectedObjects = GetStageConfigSelectedObjects();
+            if (RemovePrompt(GeneratePromptList(SelectedObjects), "This will prevent any entities with these names from loading in this scene!"))
+            {
+                var ObjectsToRemove = SelectedObjects.ConvertAll(x => x.ObjectName);
+                RemoveStageConfigObjects(ObjectsToRemove);
+                ReloadList();
+            }
+        }
+        private void SceneRemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SelectedObjects = GetSceneSelectedObjects();
+            if (RemovePrompt(GeneratePromptList(SelectedObjects), "This will also remove all Entities of them within this scene!"))
+            {
+                var ObjectsToRemove = SelectedObjects.ConvertAll(x => x.ObjectName);
+                RemoveSceneObjects(ObjectsToRemove);
+                ReloadList();
+            }
+        }
+        private void RemoveSceneObjects(List<string> Entries)
+        {
+            Methods.Solution.CurrentSolution.Entities.DeleteEntities(Methods.Solution.CurrentSolution.Entities.Entities.Where(x => Entries.Contains(x.Entity.Object.Name.ToString()) == true).ToList());
+            _SceneObjects.RemoveAll(x => Entries.Contains(x.Name.ToString()) == true);
+            ClearUndoHistory = true;
+        }
+        private void RemoveStageConfigObjects(List<string> Entries)
+        {
+            _StageConfigObjects.RemoveAll(x => Entries.Contains(x.ToString()) == true);
+        }
+        private List<string> GeneratePromptList(List<ObjectViewItem> Items)
+        {
+            return Items.ConvertAll<string>(x => string.Format("{0} - ({1})", x.ObjectName, x.Tag));
+        }
+        private bool RemovePrompt(List<string> ItemNames, string ExtraWarning = "")
+        {
+            var NL = Environment.NewLine;
+            if (MessageBox.Show("Remove the Following Objects? (This cannot be undone)" + NL + String.Join(NL, ItemNames.ToArray()) + NL + ExtraWarning, "Remove Objects?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        #endregion
+
+        #region Attribute Table Methods/Events
+        private void AttributesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateSelectionControls();
+        }
+        private void AttributesTable_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (sender != AttributesTable) return;
+            if (e.Key == Key.LeftCtrl && e.Key == Key.C) CopySelectedAttributeValuesToClipboard();
+        }
+        private void AddAttributeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ObjectListBox.SelectedItems.Count > 0)
+            {
+                var target = ObjectListBox.SelectedItem as CheckBox;
+                if (target == null) return;
+                string targetName = target.Content.ToString();
+                SceneObject obj = _SceneObjects.First(sso => sso.Name.ToString().Equals(targetName));
+                SceneObject[] objs = { obj };
+                AddAttributeToObjects(objs);
+            }
+        }
+        private void RemoveAttributeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AttributesTable.SelectedItem != null)
+            {
+                var att = AttributesTable.SelectedItem as AttributeItem;
+                var target = ObjectListBox.SelectedItem as CheckBox;
+
+                if (att == null || target == null) return;
+
+                string attName = att.Name.ToString();
+                string targetName = target.Content.ToString();
+                SceneObject obj = _SceneObjects.Single(sso => sso.Name.ToString().Equals(targetName));
+
+                if (MessageBox.Show("Removing an attribute can cause serious problems and cannot be undone.\nI highly recommend making a backup first.\nAre you sure you want to remove the attribute \"" + attName + "\" from the object \"" + obj.Name.Name + "\" and all entities of it?", "Caution! This way lies madness!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    obj.RemoveAttribute(attName);
+                    LvObjectsViewer_SelectionChanged(null, null);
+                }
+            }
+        }
+        private void AddAttributeToAllObjectsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SceneObject[] objs = _SceneObjects.ToArray();
+            AddAttributeToObjects(objs);
+        }
+        private void AddAttributeToObjects(SceneObject[] objs)
+        {
+            MessageBox.Show("Adding attributes is still experimental and could be dangerous.\nI highly recommend making a backup first.",
+                "Danger! Experimental territory!",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+
+            var dialog = new AddAttributeWindow(objs);
+            dialog.Owner = Window.GetWindow(this);
+
+            dialog.ShowDialog();
+            if (dialog.DialogResult != true)
+                return; // nothing to do
+
+            // added, now refresh
+            LvObjectsViewer_SelectionChanged(null, null);
+
+        }
+        private void CopySelectedAttributeValuesToClipboard()
+        {
+            var builder = new StringBuilder();
+            foreach (var item in AttributesTable.SelectedItems)
+            {
+                var itemBX = item as CheckBox;
+                if (itemBX != null)
+                {
+                    string valueString = itemBX.Content.ToString();
+                    builder.AppendLine(valueString);
+                }
+
+            }
 
 
-			Clipboard.SetText(builder.ToString());
-		}
-		private void mD5GeneratorToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			ManiacEditor.Controls.Misc.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Misc.Dev.MD5HashGen(Instance);
-			hashmap.Show();
-		}
-		private void importSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			Methods.ProgramLauncher.ImportSounds(null);
-			ReloadList();
-		}
+            Clipboard.SetText(builder.ToString());
+        }
 
-		#endregion
+        #endregion
 
-		#region Methods
-		public void addCheckedItems()
-		{
-			String lvc;
-			CheckBox lvi;
-			for (int i = 0; i < ListEntries.Count; i++)
-			{
-				lvi = ListEntries[i];
-				lvc = lvi.Content.ToString(); //Get the current Object's Name
-				if (ObjectCheckMemory.Contains(lvc) == false) //See if the memory does not have our current object
-				{
-					bool checkStatus = lvi.IsChecked.Value; //Grab the Value of the Checkbox for that Object
-					if (checkStatus == true)
-					{ //If it returns true, add it to memory
-						ObjectCheckMemory.Add(lvc);
-					}
-				}
+        #region Import/Export Methods/Events
 
-				else
-				{
+        private void ImportObjectsUsingExistingEvent(object sender, RoutedEventArgs e)
+        {
+            Methods.ProgramLauncher.ImportObjectsFromScene(GetWindow(this));
+            ReloadList();
+        }
+        private void ImportObjectsUsingMegalistEvent(object sender, RoutedEventArgs e)
+        {
+            Methods.ProgramLauncher.ImportObjectsWithMegaList(GetWindow(this));
+            ReloadList();
+        }
+        private void ExportObjectsUsingExistingEvent(object sender, RoutedEventArgs e)
+        {
+            Methods.ProgramLauncher.ExportObjectsFromScene(GetWindow(this));
+        }
+        private void ExportObjectsUsingMegalistEvent(object sender, RoutedEventArgs e)
+        {
+            Methods.ProgramLauncher.ExportObjectsWithMegaList();
+        }
+        private void ImportSoundsToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Methods.ProgramLauncher.ImportSounds(null);
+            ReloadList();
+        }
 
+        #endregion
 
-				}
-
-			}
-
-		}
-		public void removeUncheckedItems()
-		{
-			String lvc;
-			CheckBox lvi;
-			for (int i = 0; i < ListEntries.Count; i++)
-			{
-				lvi = ListEntries[i] as CheckBox;
-				lvc = lvi.Content.ToString(); //Get the current Object's Name
-				if (ObjectCheckMemory.Contains(lvc) == false) //See if the memory does not have our current object
-				{
-					bool checkStatus = lvi.IsChecked.Value; //Grab the Value of the Checkbox for that Object
-					if (checkStatus == false)
-					{ //If it returns false, grab it's index and remove the range
-						int index = ObjectCheckMemory.IndexOf(lvc);
-						ObjectCheckMemory.RemoveRange(index, 1);
-					}
-				}
-			}
-		}
-		private void ReloadList()
-		{
-			if (!FullRefreshNeeded)
-			{
-
-				addCheckedItems();
-				removeUncheckedItems();
-				FullRefreshNeeded = false;
-			}
-			ListEntries.Clear();
-			var targetNames = _TargetSceneObjects.Select(tso => tso.Name.ToString());
-			var importableObjects = _TargetSceneObjects.Where(sso => targetNames.Contains(sso.Name.ToString()))
-														.OrderBy(sso => sso.Name.ToString());
-
-			int InstanceID = 0;
-			foreach (var io in importableObjects)
-			{
-				var lvc = new CheckBox()
-				{
-					Content = io.Name.ToString(),
-					IsChecked = false,
-					Tag = InstanceID.ToString()
-				};
-				if (!_SourceStageConfig.ObjectsNames.Contains(io.Name.ToString()))
-				{
-					if (Methods.Solution.CurrentSolution.GameConfig != null)
-					{
-						if (!Methods.Solution.CurrentSolution.GameConfig.ObjectsNames.Contains(io.Name.ToString()))
-						{
-							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_RedTextColor");
-						}
-						else
-						{
-							lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
-						}
-					}
-					else
-					{
-						lvc.Foreground = Methods.Internal.Theming.GetSCBResource("Maniac_ObjectManager_GreenTextColor");
-					}
-				}
-				InstanceID++;
-
-				bool alreadyChecked = false;
-				foreach (string str in ObjectCheckMemory)
-				{
-					if (ObjectCheckMemory.Contains(lvc.Content.ToString()) == true)
-					{
-						lvc.IsChecked = true;
-						ListEntries.Add(lvc);
-
-						alreadyChecked = true;
-						break;
-					}
-				}
-				if (alreadyChecked == false)
-				{
-					lvc.IsChecked = false;
-					ListEntries.Add(lvc);
-
-				}
+        #region Misc Shortcut Methods/Events 
+        private void BackupStageConfig_ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Methods.Solution.SolutionLoader.BackupStageConfig();
+        }
+        private void MD5_Generator_ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ManiacEditor.Controls.Misc.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Misc.Dev.MD5HashGen(Instance);
+            hashmap.Show();
+        }
+        #endregion
 
 
-			}
-			lvObjectsViewer.Refresh();
-		}
-		public void RefreshList()
-		{
-			CommonReset();
-			var targetNames = _TargetSceneObjects.Select(tso => tso.Name.ToString());
-			var importableObjects = _TargetSceneObjects.Where(sso => targetNames.Contains(sso.Name.ToString()))
-														.OrderBy(sso => sso.Name.ToString());
+    }
 
-			updateSelectedText();
-			foreach (var io in importableObjects)
-			{
-				var lvc = new CheckBox()
-				{
-					Content = io.Name.ToString(),
-					IsChecked = false
-				};
-
-				var lvi = new ListViewItem()
-				{
-					Content = lvc
-				};
-
-			}
-			updateSelectedText();
-		}
-		private void CommonReset()
-		{
-			FilterText.Text = "";
-			ObjectCheckMemory.Clear();
-			ListEntries.Clear();
-		}
-		private void updateSelectedText()
-		{
-			//label1.Text = "Amount of Objects Selected (Memory): " + objectCheckMemory.Count + " (Current): " + lvObjects.CheckedItems.Count;
-			label1.Content = "Amount of Objects Selected (Memory): " + ObjectCheckMemory.Count;
-		}
-
-		#endregion
-
-		#region Classes
-
-		public class AttributeItem
-		{
-			public string Name { get; set; }
-
-			public string Type { get; set; }
-		}
-
-		#endregion
-	}
-
-	public class AutoSizedGridView : GridView
+    public class AutoSizedGridView : GridView
 	{
 		protected override void PrepareItem(ListViewItem item)
 		{

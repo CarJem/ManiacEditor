@@ -40,7 +40,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("SpinSign", d, animID, frameID);
+            var Animation = LoadAnimation("Global/SpinSign.bin", d, animID, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

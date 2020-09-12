@@ -31,7 +31,7 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
 
-            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Newtron", animID, 0);
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "GHZ/Newtron.bin", animID, 0);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

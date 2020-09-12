@@ -90,7 +90,7 @@ namespace ManiacEditor.Entity_Renders
                 }
 
             }
-            var Animation = LoadAnimation("Spiny", d, animID);
+            var Animation = LoadAnimation("CPZ/Spiny.bin", d, animID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

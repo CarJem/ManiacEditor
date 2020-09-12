@@ -19,11 +19,11 @@ namespace ManiacEditor.Entity_Renders
 
             int type = (int)e.attributesMap["type"].ValueEnum;
 
-            var Animation = LoadAnimation("EggPrison", d, 0, 0);
+            var Animation = LoadAnimation("Global/EggPrison.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("EggPrison", d, 1, 0);
+            Animation = LoadAnimation("Global/EggPrison.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("EggPrison", d, 2, 0);
+            Animation = LoadAnimation("Global/EggPrison.bin", d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

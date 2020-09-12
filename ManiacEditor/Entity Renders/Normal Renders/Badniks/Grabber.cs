@@ -23,9 +23,9 @@ namespace ManiacEditor.Entity_Renders
                 fliph = true;
             }
             
-            var Animation = LoadAnimation("Grabber", d, 0, 0);
+            var Animation = LoadAnimation("CPZ/Grabber.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
-            Animation = LoadAnimation("Grabber", d, 1, 0);
+            Animation = LoadAnimation("CPZ/Grabber.bin", d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (fliph ? Animation.RequestedFrame.Width : 0), y, Transparency, fliph, flipv);
         }
 

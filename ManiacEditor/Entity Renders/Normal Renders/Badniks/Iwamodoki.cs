@@ -19,8 +19,13 @@ namespace ManiacEditor.Entity_Renders
 
             int type = (int)e.attributesMap["type"].ValueEnum;
 
-            var Animation = LoadAnimation("Iwamodoki", d, type, 6);
+            var Animation = LoadAnimation(GetSetupAnimation(), d, type, 6);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
+        }
+
+        public override string GetSetupAnimation()
+        {
+            return GetSpriteAnimationPath("/Iwamodoki.bin", "Iwamodoki", new string[] { "LRZ2", "LRZ1" });
         }
 
         public override string GetObjectName()

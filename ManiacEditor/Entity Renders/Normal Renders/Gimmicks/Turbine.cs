@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
 
             int type = e.attributesMap["type"].ValueUInt8;
-            var Animation = LoadAnimation("Turbine", d, type, 0);
+            var Animation = LoadAnimation("LRZ2/Turbine.bin", d, type, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

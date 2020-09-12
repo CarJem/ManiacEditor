@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            
+
 
 
             int type = (int)(e.attributesMap["type"].ValueUInt8);
@@ -24,15 +24,24 @@ namespace ManiacEditor.Entity_Renders
             int line_x2 = x + width / 2;
             int line_y1 = (y - 1);
 
-            if (type == 0 || type == 1) d.DrawLine(x, y, x, y - 32, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 3);
-            if (type == 0 || type == 2) d.DrawLine(x, y, x, y + 32, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 3);
-            if (type == 0 || type == 1) d.DrawLine(x, y, x, y - 31, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Yellow), 1);
-            if (type == 0 || type == 2) d.DrawLine(x, y, x, y + 31, System.Drawing.Color.FromArgb(Transparency, (type == 0 ? System.Drawing.Color.Red : System.Drawing.Color.Yellow)), 1);
-
             d.DrawLine(line_x1, line_y1, line_x2, line_y1, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 3);
             d.DrawLine(line_x1 + 1, line_y1, line_x2 - 1, line_y1, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White), 1);
 
             var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons", 0, 2);
+
+            if (type == 0)
+            {
+                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons2", 0, 23);
+            }
+            else if (type == 1)
+            {
+                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons2", 0, 21);
+            }
+            else if (type == 2)
+            {
+                Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons2", 0, 22);
+            }
+
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
 
         }

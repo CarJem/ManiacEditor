@@ -32,27 +32,27 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            var Animation = LoadAnimation("Sol", d, 0, 0);
+            var Animation = LoadAnimation("OOZ/Sol.bin", d, 0, 0);
 
             if (!fireOrbs)
             {
-                Animation = LoadAnimation("Sol", d, 1, 0);
+                Animation = LoadAnimation("OOZ/Sol.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 16, y, Transparency - 100, fliph, flipv);
 
-                Animation = LoadAnimation("Sol", d, 1, 0);
+                Animation = LoadAnimation("OOZ/Sol.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 30, y, Transparency - 100, fliph, flipv);
             }
             else
             {
-                Animation = LoadAnimation("Sol", d, 1, 0);
+                Animation = LoadAnimation("OOZ/Sol.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 16, y, Transparency, fliph, flipv);
 
-                Animation = LoadAnimation("Sol", d, 1, 0);
+                Animation = LoadAnimation("OOZ/Sol.bin", d, 1, 0);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 30, y, Transparency, fliph, flipv);
             }
 
 
-            Animation = LoadAnimation("Sol", d, 0, 0);
+            Animation = LoadAnimation("OOZ/Sol.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

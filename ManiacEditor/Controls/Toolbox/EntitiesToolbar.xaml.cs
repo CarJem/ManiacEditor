@@ -815,7 +815,7 @@ namespace ManiacEditor.Controls.Toolbox
 					{
 						ObjectList[i] = new EntitiesListEntry()
 						{
-							ItemContent = string.Format("{0} - {1} ({2})", entity.Object.Name.Name, entity.SlotID, entity.GetHashCode()),
+							ItemContent = string.Format("{0} - {3} ({1})", entity.Object.Name.Name, entity.SlotID, entity.GetHashCode(), i),
 							ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
 							Tag = entity.SlotID.ToString(),
 							Visibility = VisibilityStatus
@@ -824,7 +824,7 @@ namespace ManiacEditor.Controls.Toolbox
 					}
 					else
 					{
-						ObjectList[i].ItemContent = string.Format("{0} - {1} ({2})", entity.Object.Name.Name, entity.SlotID, entity.GetHashCode());
+						ObjectList[i].ItemContent = string.Format("{0} - {3} ({1})", entity.Object.Name.Name, entity.SlotID, entity.GetHashCode(), i);
 						ObjectList[i].ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
 						ObjectList[i].Tag = entity.SlotID.ToString();
 						ObjectList[i].Visibility = VisibilityStatus;

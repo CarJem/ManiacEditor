@@ -23,21 +23,21 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = LoadAnimation("BreakBar", d, orientation, 1);
+            var Animation = LoadAnimation("HCZ/BreakBar.bin", d, orientation, 1);
             int baseWidth = Animation.RequestedFrame.Width;
             int baseHeight = Animation.RequestedFrame.Height;
 
 
             for (int i = -length / 2; i <= length / 2; ++i)
             {
-                Animation = LoadAnimation("BreakBar", d, orientation, 1);
+                Animation = LoadAnimation("HCZ/BreakBar.bin", d, orientation, 1);
                 DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (orientation == 1 ? i * baseWidth : 0), y + (orientation == 0 ? i * baseHeight : 0), Transparency, fliph, flipv);
             }
 
-            Animation = LoadAnimation("BreakBar", d, orientation, 0);
+            Animation = LoadAnimation("HCZ/BreakBar.bin", d, orientation, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - (orientation == 1 ? (length / 2 + 1) * baseWidth : 0) + (orientation == 1 ? 4 : 0), y - (orientation == 0 ? (length / 2 + 1) * baseHeight : 0) + (orientation == 0 ? 4 : 0), Transparency, fliph, flipv);
 
-            Animation = LoadAnimation("BreakBar", d, orientation, 2);
+            Animation = LoadAnimation("HCZ/BreakBar.bin", d, orientation, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (orientation == 1 ? (length / 2 + 1) * baseWidth : 0) - (orientation == 1 ? 4 : 0), y + (orientation == 0 ? (length / 2 + 1) * baseHeight : 0) - (orientation == 0 ? 4 : 0), Transparency, fliph, flipv);
         }
 

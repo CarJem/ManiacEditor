@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var Animation = LoadAnimation("EditorIcons", d, 0, 1);
+            var Animation = LoadAnimation("Editor/EditorIcons.bin", d, 0, 1);
             DrawTexturePivotNormal(Properties.Graphics, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

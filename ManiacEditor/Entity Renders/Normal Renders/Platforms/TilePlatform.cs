@@ -9,7 +9,7 @@ namespace ManiacEditor.Entity_Renders
     {
         #region Definitions
         private Classes.Scene.EditorLayer MoveLayer {  get { return Methods.Solution.CurrentSolution.CurrentScene?.Move; } }
-        private SFML.Graphics.Texture PlatformImage { get; set; }
+        private Classes.Rendering.TextureExt PlatformImage { get; set; }
         private ushort[][] TileMap { get; set; }
         #endregion
 
@@ -68,13 +68,13 @@ namespace ManiacEditor.Entity_Renders
                     var bitmap = new System.Drawing.Bitmap(MoveLayer.Width * Methods.Solution.SolutionConstants.TILE_SIZE, MoveLayer.Height * Methods.Solution.SolutionConstants.TILE_SIZE);
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
                     MoveLayer.Draw(g);
-                    PlatformImage = Methods.Drawing.CommonDrawing.FromBitmap(bitmap);
+                    PlatformImage = Methods.Drawing.TextureCreator.FromBitmap(d._device, bitmap);
                     g.Clear(System.Drawing.Color.Transparent);
                     bitmap.Dispose();
                     g.Dispose();
                 }
 
-                d.DrawTexture(PlatformImage, x, y, platform_x, platform_y, platform_width, platform_height, false, transparency);
+                d.DrawBitmap(PlatformImage, x, y, platform_x, platform_y, platform_width, platform_height, false, transparency);
             }
 
         }

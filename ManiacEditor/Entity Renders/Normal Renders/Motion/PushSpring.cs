@@ -50,7 +50,7 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-            var Animation = LoadAnimation("PushSpring", d, animID, 0);
+            var Animation = LoadAnimation("OOZ/PushSpring.bin", d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

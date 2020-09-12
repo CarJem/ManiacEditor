@@ -16,7 +16,7 @@ namespace ManiacEditor.Entity_Renders
 
             //int frameID = (int)entity.attributesMap["listID"].ValueEnum;
             int type = (int)e.attributesMap["type"].ValueEnum;
-            string text = "Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage;
+            string text = "UI/Text" + Methods.Solution.SolutionState.Main.CurrentManiaUILanguage + ".bin";
 
 
 
@@ -26,11 +26,11 @@ namespace ManiacEditor.Entity_Renders
 
             if (type == 1)
             {
-                var editorAnim = LoadAnimation("SaveSelect", d, 0, 0);
+                var editorAnim = LoadAnimation("UI/SaveSelect.bin", d, 0, 0);
                 DrawTexturePivotNormal(d, editorAnim, 0, 0, x, y, Transparency);
-                var editorAnimBorder = LoadAnimation("SaveSelect", d, 0, 1);
+                var editorAnimBorder = LoadAnimation("UI/SaveSelect.bin", d, 0, 1);
                 DrawTexturePivotNormal(d, editorAnimBorder, 0, 1, x, y, Transparency);
-                var editorAnimBackground = LoadAnimation("SaveSelect", d, 0, 2);
+                var editorAnimBackground = LoadAnimation("UI/SaveSelect.bin", d, 0, 2);
                 DrawTexturePivotNormal(d, editorAnimBackground, 0, 2, x, y, Transparency);
                 var editorAnimText = LoadAnimation(text, d, 2, 0);
                 DrawTexturePivotNormal(d, editorAnimText, 2, 0, x, y, Transparency);
@@ -42,12 +42,12 @@ namespace ManiacEditor.Entity_Renders
                 var editorAnimActualRender = LoadAnimation("EditorUIRender", d, 3, 0);
                 DrawTexturePivotNormal(d, editorAnimActualRender, 3, 0, x, y, Transparency);
 
-                /*
-                var editorAnimBackground = LoadAnimation("SaveSelect", d, 0, 2);
-                DrawTexturePivotNormal(d, editorAnimBackground, 0, 2, x, y - (editorAnimBackground.RequestedFrame.PivotY / 2) - 6, Transparency);
+                
+                var editorAnimBackground = LoadAnimation("UI/SaveSelect.bin", d, 0, 2);
+                DrawTexturePivotNormal(d, editorAnimBackground, 0, 2, x, y - 48, Transparency);
                 var editorAnimText = LoadAnimation(text, d, 2, 0);
-                DrawTexturePivotNormal(d, editorAnimText, 2, 0, x, y - (editorAnimText.RequestedFrame.PivotY / 2) - 6, Transparency);\
-                */
+                DrawTexturePivotNormal(d, editorAnimText, 2, 0, x, y - 48, Transparency);
+                
 
                 var editorAnimActualRenderBorder = LoadAnimation("EditorUIRender", d, 3, 1);
                 DrawTexturePivotNormal(d, editorAnimActualRender, 3, 1, x, y, Transparency);

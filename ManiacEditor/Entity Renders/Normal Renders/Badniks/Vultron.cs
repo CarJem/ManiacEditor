@@ -47,7 +47,7 @@ namespace ManiacEditor.Entity_Renders
             }
 
 
-            var Animation = LoadAnimation("Vultron", d, 0, frameID);
+            var Animation = LoadAnimation("MSZ/Vultron.bin", d, 0, frameID);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

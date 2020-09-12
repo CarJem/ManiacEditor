@@ -153,6 +153,7 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				get 
 				{
+					if (Layers == null) return true;
 					return (Layers.Count - 1 < SelectedLayerIndex || SelectedLayerIndex < 0);
 				}
 			}
@@ -161,6 +162,7 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				get
 				{
+					if (Layers == null) return true;
 					return (Layers[SelectedLayerIndex].HorizontalLayerRules.Count - 1 < SelectedLayerHorizontalIndex || SelectedLayerHorizontalIndex < 0);
 				}
 			}
@@ -169,6 +171,7 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				get
 				{
+					if (Layers == null) return true;
 					return (Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList.Count - 1 < SelectedLayerScrollIndex || SelectedLayerScrollIndex < 0);
 				}
 			}
