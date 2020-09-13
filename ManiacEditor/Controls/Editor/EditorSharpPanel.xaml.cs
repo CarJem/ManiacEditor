@@ -52,6 +52,7 @@ namespace ManiacEditor.Controls.Editor
         private ManiacEditor.Controls.Editor.MainEditor Instance;
         public ManiacEditor.DevicePanel GraphicPanel;
         private System.Windows.Forms.Panel HostPanel;
+        private bool HasTrackEventsInit = false;
 
         #region DPI Definitions
         public double DPIScale { get; set; }
@@ -98,21 +99,7 @@ namespace ManiacEditor.Controls.Editor
             hScrollBar1.ValueChanged += this.HScrollBar1_ValueChanged;
             hScrollBar1.MouseEnter += this.HScrollBar1_Entered;
         }
-        public void SetupScrollBars(bool refreshing = false)
-        {
-            if ((hScrollBar1 != null || vScrollBar1 != null) && refreshing)
-            {
-                vScrollBar1.Scroll -= this.VScrollBar1_Scroll;
-                vScrollBar1.ValueChanged -= this.VScrollBar1_ValueChanged;
-                vScrollBar1.MouseEnter -= this.VScrollBar1_Entered;
-                hScrollBar1.Scroll -= this.HScrollBar1_Scroll;
-                hScrollBar1.ValueChanged -= this.HScrollBar1_ValueChanged;
-                hScrollBar1.MouseEnter -= this.HScrollBar1_Entered;
-            }
-            hScrollBar1 = new System.Windows.Controls.Primitives.ScrollBar();
-            vScrollBar1 = new System.Windows.Controls.Primitives.ScrollBar();
-            if (refreshing) SetupScrollBarEvents();
-        }
+
         private void SetupOtherEvents()
         {
             SystemEvents.PowerModeChanged += CheckDeviceState;
@@ -286,8 +273,8 @@ namespace ManiacEditor.Controls.Editor
                 case 5: Methods.Solution.SolutionState.Main.Zoom = 4; break;
                 case 4: Methods.Solution.SolutionState.Main.Zoom = 3; break;
                 case 3: Methods.Solution.SolutionState.Main.Zoom = 2; break;
-                case 2: Methods.Solution.SolutionState.Main.Zoom = 3 / 2.0; break;
-                case 1: Methods.Solution.SolutionState.Main.Zoom = 5 / 4.0; break;
+                case 2: Methods.Solution.SolutionState.Main.Zoom = 1.6; break;
+                case 1: Methods.Solution.SolutionState.Main.Zoom = 1.24; break;
                 case 0: Methods.Solution.SolutionState.Main.Zoom = 1; break;
                 case -1: Methods.Solution.SolutionState.Main.Zoom = 2 / 3.0; break;
                 case -2: Methods.Solution.SolutionState.Main.Zoom = 1 / 2.0; break;
@@ -448,6 +435,76 @@ namespace ManiacEditor.Controls.Editor
         #region ScrollBars
 
         #region ScrollBar Events
+
+        bool HasEventX1 = false;
+        bool HasEventY1 = false;
+        bool HasEventX2 = false;
+        bool HasEventY2 = false;
+
+        private void CanExecuteCommand_Scrollbars(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void vScrollBar1_IncreaseRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            int y = Methods.Solution.SolutionState.Main.ViewPositionY - (int)(16 * GetZoom());
+            if (vScrollBar1.Minimum <= y)
+            {
+                Methods.Solution.SolutionState.Main.SetViewPositionY(y, true);
+            }
+        }
+
+        private void vScrollBar1_DecreaseRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            int y = Methods.Solution.SolutionState.Main.ViewPositionY + (int)(16 * GetZoom());
+            if (vScrollBar1.Maximum >= y)
+            {
+                Methods.Solution.SolutionState.Main.SetViewPositionY(y, true);
+            }
+        }
+
+        private void hScrollBar1_IncreaseRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            int x = Methods.Solution.SolutionState.Main.ViewPositionX + (int)(16 * GetZoom());
+            if (hScrollBar1.Maximum >= x)
+            {
+                Methods.Solution.SolutionState.Main.SetViewPositionX(x, true);
+            }
+        }
+
+        private void hScrollBar1_DecreaseRepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            int x = Methods.Solution.SolutionState.Main.ViewPositionX - (int)(16 * GetZoom());
+            if (hScrollBar1.Minimum <= x)
+            {
+                Methods.Solution.SolutionState.Main.SetViewPositionX(x, true);
+            }
+        }
+        private void ScrollBarButtonsLeftOverEvent(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.OriginalSource.GetType() == typeof(System.Windows.Controls.Primitives.RepeatButton))
+            {
+                string name = (e.OriginalSource as RepeatButton).Name;
+                if (name == "PART_LineDownButton")
+                {
+                    vScrollBar1_DecreaseRepeatButton_Click(sender, null);
+                }
+                else if (name == "PART_LineUpButton")
+                {
+                    vScrollBar1_IncreaseRepeatButton_Click(sender, null);
+                }
+                else if (name == "PART_LineLeftButton")
+                {
+                    hScrollBar1_DecreaseRepeatButton_Click(sender, null);
+                }
+                else if (name == "PART_LineRightButton")
+                {
+                    hScrollBar1_IncreaseRepeatButton_Click(sender, null);
+                }
+
+            }
+        }
         public void VScrollBar1_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
         {
 
@@ -456,12 +513,14 @@ namespace ManiacEditor.Controls.Editor
         {
 
         }
-        public void VScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
+        public void VScrollBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+
             ScrollBar_ValueChanged(sender as System.Windows.Controls.Primitives.ScrollBar);
         }
-        public void HScrollBar1_ValueChanged(object sender, RoutedEventArgs e)
+        public void HScrollBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+
             ScrollBar_ValueChanged(sender as System.Windows.Controls.Primitives.ScrollBar);
         }
 

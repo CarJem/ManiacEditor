@@ -172,8 +172,7 @@ namespace ManiacEditor
                 _device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.None);
                 _device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.None);
                 _device.SetRenderState(RenderState.CullMode, false);
-                //_device.SetRenderState(RenderState.ZWriteEnable, false);
-                //_device.SetRenderState(RenderState.ZEnable, false);
+                _device.SetRenderState(RenderState.ZEnable, ZBufferType.DontUseZBuffer);
 
                 if (OnCreateDevice != null)
                 {

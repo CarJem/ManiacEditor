@@ -282,6 +282,9 @@
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Entity Renders\Normal Renders\Bosses\ScrewMobile.cs" />
     <Compile Include="Entity Renders\Normal Renders\Bosses\ShiverSaw.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Bounded\ConveyorBelt.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Entity Renders\Normal Renders\Generic\OutroIntroObject.cs" />
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\SDashWheel.cs" />
     <Compile Include="Entity Renders\Normal Renders\Motion\TeeterTotter.cs" />
