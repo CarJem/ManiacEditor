@@ -4,6 +4,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Linq;
+using GenerationsLib.WPF;
+using System.Windows.Documents;
 
 namespace ManiacEditor.Classes.Scene
 {
@@ -129,6 +131,157 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Import/Export
+
+        public static unsafe Byte GetIndexedPixel(int x, int y, BitmapData bmd)
+        {
+            byte* p = (byte*)bmd.Scan0.ToPointer();
+            int offset = y * bmd.Stride + x;
+            return p[offset];
+        }
+        private static void SetPixel(Bitmap bmp, int x, int y, int paletteEntry)
+        {
+            BitmapData data = bmp.LockBits(new Rectangle(new System.Drawing.Point(x, y), new System.Drawing.Size(1, 1)), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+            byte b = Marshal.ReadByte(data.Scan0);
+            Marshal.WriteByte(data.Scan0, (byte)(b & 0xf | (paletteEntry)));
+            bmp.UnlockBits(data);
+        }
+        public static Bitmap CropImage(Bitmap source, Rectangle section, bool indexed = false)
+        {
+            // An empty bitmap which will hold the cropped image
+
+
+            Bitmap bmp = new Bitmap(section.Width, section.Height);
+            if (indexed)
+            {
+                bmp = source.Clone(section, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+            }
+            else
+            {
+                Graphics g = Graphics.FromImage(bmp);
+
+                // Draw the given area (section) of the source image
+                // at location 0,0 on the empty bitmap (bmp)
+                g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+            }
+            return bmp;
+        }
+        public static Bitmap MergeTiles(Bitmap[] IndexedTiles)
+        {
+            Bitmap mergedImg = new Bitmap(16, 16384, System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
+            {
+                Palette = IndexedTiles[0].Palette
+            };
+            for (int i = 0; i < IndexedTiles.Count(); i++)
+            {
+                var bitmapData = IndexedTiles[i].LockBits(new Rectangle(0, 0, IndexedTiles[i].Width, IndexedTiles[i].Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+                for (int h = 0; h < 16; h++)
+                {
+                    for (int w = 0; w < 16; w++)
+                    {
+                        int indexColor = GetIndexedPixel(w, h, bitmapData);
+                        SetPixel(mergedImg, w, h + (16 * i), indexColor);
+                    }
+                }
+                IndexedTiles[i].UnlockBits(bitmapData);
+            }
+
+            return mergedImg;
+        }
+        public static Bitmap[] SeperateTiles(Bitmap TileSet, bool indexedMode = false)
+        {
+            System.Collections.Generic.List<Bitmap> TileList = new System.Collections.Generic.List<Bitmap>();
+
+            int tsize = TileSet.Height; //Height of the image in pixels
+            for (int i = 0; i < (tsize / 16); i++) //We divide by 16 to get the "height" in blocks
+            {
+                Rectangle CropArea = new Rectangle(0, (i * 16), 16, 16); //we then get tile at Y: i * 16, 
+                                                                         //we have to multiply i by 16 to get the "true Tile value" (1* 16 = 16, 2 * 16 = 32, etc.)
+                if (!indexedMode)
+                {
+                    Bitmap CroppedImage = CropImage(TileSet, CropArea); // crop that image
+                    TileList.Add(CroppedImage); // add it to the tile list
+                }
+                else
+                {
+                    Bitmap CroppedImageIndexed = CropImage(TileSet, CropArea, true); // crop that indexed image
+                    TileList.Add(CroppedImageIndexed); // add it to the indexed tile list
+                }
+            }
+            return TileList.ToArray();
+        }
+        public static void EditTileGraphics(int TileID)
+        {         
+            try
+            {
+                string OriginalPath = Methods.Solution.CurrentSolution.CurrentTiles.BaseImage.Filename;
+                var Bitmap = Methods.Solution.CurrentSolution.CurrentTiles.BaseImage.GetBitmapIndexed(new System.Drawing.Rectangle(0, 16 * TileID, Methods.Solution.SolutionConstants.TILE_SIZE, Methods.Solution.SolutionConstants.TILE_SIZE));
+                string Temp_Dir = Path.Combine(Methods.ProgramPaths.GetSettingsDirectory(), "TEMP");
+                if (!System.IO.Directory.Exists(Temp_Dir)) Directory.CreateDirectory(Temp_Dir);
+                string Temp_Path = Path.Combine(Temp_Dir, "TempTileEdit.gif");
+
+                bool InitalSave = false;
+                while (!InitalSave)
+                {
+                    try
+                    {
+                        Bitmap.Save(Temp_Path);
+                        Bitmap.Dispose();
+                        Bitmap = null;
+                        InitalSave = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        var dialogResult = System.Windows.MessageBox.Show(ex.ToString(), "", System.Windows.MessageBoxButton.OKCancel);
+                        if (dialogResult != System.Windows.MessageBoxResult.OK) throw ex;
+                    }
+                }
+
+
+
+
+                if (Temp_Path != null && Temp_Path != "" && File.Exists(Temp_Path)) Methods.ProgramLauncher.OpenImage(Temp_Path);
+                else return;
+
+                var result = System.Windows.MessageBox.Show("Click OK when you are done making your edits!", "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                if (result == System.Windows.MessageBoxResult.OK)
+                {
+                    if (Temp_Path != null && Temp_Path != "" && File.Exists(Temp_Path))
+                    {
+                        Bitmap TileBitmap = GenerationsLib.Core.BitmapExtensions.LoadBitmap(Temp_Path);
+                        Bitmap OriginalBitmap = GenerationsLib.Core.BitmapExtensions.LoadBitmap(OriginalPath);
+
+                        var Tiles = SeperateTiles(OriginalBitmap, true);
+                        Tiles[TileID] = TileBitmap;
+                        var NewBitmap = MergeTiles(Tiles);
+
+
+                        bool FinalSave = false;
+                        while (!FinalSave)
+                        {
+                            try
+                            {
+                                NewBitmap.Save(OriginalPath);
+                                NewBitmap.Dispose();
+                                NewBitmap = null;
+                                FinalSave = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                var dialogResult = System.Windows.MessageBox.Show(ex.ToString(), "", System.Windows.MessageBoxButton.OKCancel);
+                                if (dialogResult != System.Windows.MessageBoxResult.OK) throw ex;
+                            }
+                        }
+                        Methods.Internal.UserInterface.ReloadSpritesAndTextures();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.ToString());
+                return;
+            }
+        }
         private static void DrawIndexedTile(ref Classes.Rendering.GIF InputImage, ref Bitmap ExportBitmap, int TileIndex, int x, int y)
         {
             var tileBitmap = InputImage.GetBitmapIndexed(GetSection(TileIndex, InputImage.Width));

@@ -24,6 +24,7 @@ namespace ManiacEditor.Classes.Options
         public Skin UserTheme { get; set; } = Skin.Light;
         public string LastModConfig { get; set; }
         public bool ScrollerPressReleaseMode { get; set; } = false;
+        public bool UseClassicStartScreen { get; set; } = false;
 
         #region Accessors
         public static void Init()

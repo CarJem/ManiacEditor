@@ -16,12 +16,6 @@ namespace ManiacEditor.Classes.Rendering
 {
     public class GIF : IDisposable
     {
-        public static SFML.Graphics.Texture FromBitmap(Bitmap bitmap)
-        {
-            MemoryStream stm = new MemoryStream();
-            bitmap.Save(stm, System.Drawing.Imaging.ImageFormat.Png);
-            return new SFML.Graphics.Texture(stm);
-        }
 
         #region Cache Collections
 
@@ -79,10 +73,6 @@ namespace ManiacEditor.Classes.Rendering
         #endregion
 
         #region Creation
-        private void CreateTextureImage()
-        {
-            this.TextureBitmap = FromBitmap(StandardBitmap);
-        }
         private void CreateTransparentImage()
         {
             TransparentBitmap = StandardBitmap.Clone(new Rectangle(0, 0, StandardBitmap.Width, StandardBitmap.Height), PixelFormat.Format32bppArgb);
@@ -182,29 +172,6 @@ namespace ManiacEditor.Classes.Rendering
         {
             return new Classes.Rendering.GIF(Filename);
         }
-        public SFML.Graphics.Texture GetTexture()
-        {
-            return TextureBitmap;
-        }
-
-        public SFML.Graphics.Texture GetTexture(Rectangle section, bool flipX = false, bool flipY = false)
-        {
-            Texture texture;
-            if (TextureCache.TryGetValue(new CacheKey(section, flipX, flipY), out texture)) return texture;
-            else
-            {
-                Bitmap bmp;
-                bmp = CropImage(StandardBitmap, section);
-                if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                texture = FromBitmap(bmp);
-
-                TextureCache.Add(new CacheKey(section, flipX, flipY), texture);
-                return texture;
-            }
-        }
-
-
 
         #endregion
 
@@ -309,7 +276,6 @@ namespace ManiacEditor.Classes.Rendering
             this.StandardBitmap = new Bitmap(_Bitmap);
             this.TransparentBitmap = this.StandardBitmap.Clone(new Rectangle(0, 0, StandardBitmap.Width, StandardBitmap.Height), PixelFormat.Format32bppArgb);
             this.TransparentBitmap = SetImageOpacity(TransparentBitmap, SemiOpacity);
-            this.TextureBitmap = FromBitmap(StandardBitmap);
 
             Width = StandardBitmap.Width;
             Height = StandardBitmap.Height;
@@ -320,7 +286,6 @@ namespace ManiacEditor.Classes.Rendering
 
             CreateStandardImage(PaletteDataPath);
             CreateTransparentImage();
-            CreateTextureImage();
             CreateIndexedImage();
         }
         public void Reload(string PaletteDataPath = null)

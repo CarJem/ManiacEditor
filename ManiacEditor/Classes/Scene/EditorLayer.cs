@@ -15,6 +15,9 @@ using ManiacEditor.Enums;
 using ManiacEditor.Extensions;
 using SFML.System;
 using SFML.Graphics;
+using ManiacEditor.Entity_Renders;
+using Net.Sgoliver.NRtfTree.Util;
+using ManiacEditor.Methods.Drawing;
 
 namespace ManiacEditor.Classes.Scene
 {
@@ -853,6 +856,7 @@ namespace ManiacEditor.Classes.Scene
             if (addAction) Actions.Add(new ActionChangeTile((x, y) => SetTile(x, y, false), point, _layer.Tiles[point.Y][point.X], value));
             _layer.Tiles[point.Y][point.X] = value;
             InvalidateChunks();
+            ObjectDrawing.UpdateEntityTileMaps();
         }
         private void RemoveTile(Point point)
         {
@@ -1371,6 +1375,34 @@ namespace ManiacEditor.Classes.Scene
 
         #region Rendering (System.Drawing.Graphics)
 
+        public void Draw(Graphics g, int _x, int _y, int _width, int _height, bool divide = true)
+        {
+            if (_x < 0) _x = 0;
+            if (_y < 0) _y = 0;
+
+            if (divide)
+            {
+                if (_x != 0) _x = _x / Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE;
+                if (_y != 0) _y = _y / Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE;
+                if (_width != 0) _width = _width / Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE;
+                if (_height != 0) _height = _height / Methods.Solution.SolutionConstants.TILES_CHUNK_SIZE;
+            }
+
+            int Width = (_layer.Width > _x + _width || _x + _width < 0 ? _layer.Width : _x + _width);
+            int Height = (_layer.Height > _y + _height || _y + _height < 0 ? _layer.Height : _y + _height);
+
+
+            for (int y = _y; y < Height; ++y)
+            {
+                for (int x = _x; x < Width; ++x)
+                {
+                    if (this._layer.Tiles[y][x] != 0xffff)
+                    {
+                        Methods.Drawing.CommonDrawing.DrawTile(g, _layer.Tiles[y][x], x, y);
+                    }
+                }
+            }
+        }
         public void Draw(Graphics g)
         {
             for (int y = 0; y < _layer.Height; ++y)
@@ -1475,7 +1507,10 @@ namespace ManiacEditor.Classes.Scene
                         {
                             Rectangle rect = GetTilesChunkArea(x, y);
                             var texture = GetChunk(d, x, y);
-                            if (texture != null) d.DrawBitmap(texture, rect.X * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Y * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Width * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Height * Methods.Solution.SolutionConstants.TILE_SIZE, false, Transperncy);
+                            if (texture != null)
+                            {
+                                d.DrawBitmap(texture, rect.X * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Y * Methods.Solution.SolutionConstants.TILE_SIZE, 0, 0, rect.Width * Methods.Solution.SolutionConstants.TILE_SIZE, rect.Height * Methods.Solution.SolutionConstants.TILE_SIZE, false, Transperncy, false, false, 0, null);
+                            }
                         }
                         else InvalidateChunk(x, y);
                     }

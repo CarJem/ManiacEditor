@@ -35,6 +35,7 @@ namespace ManiacEditor.Controls.Options
 			InitializeComponent();
 
             SetScrollerToggleTypeRadioButtonState(Properties.Settings.MySettings.ScrollerPressReleaseMode);
+			SetStartScreenStyle(Properties.Settings.MySettings.UseClassicStartScreen);
 
 			if (Properties.Settings.MyDefaults.ScrollLockDirectionDefault == false) radioButtonX.IsChecked = true;
 			else radioButtonY.IsChecked = true;
@@ -670,14 +671,41 @@ namespace ManiacEditor.Controls.Options
             }
         }
 
-        private void SetScrollerToggleTypeRadioButtonState(bool enabled)
+
+		private void SetScrollerToggleTypeRadioButtonState(bool enabled)
         {
             ScrollerToggleModeClickButton.IsChecked = !enabled;
             ScrollerToggleModePressReleaseButton.IsChecked = enabled;
 
 		}
-        #region Program Paths
-        private void ModLoader_Click(object sender, RoutedEventArgs e)
+
+
+		#region Start Screen Style
+		private void ModernStartScreenRadioButton_Click(object sender, RoutedEventArgs e)
+		{
+			RadioButton button = sender as RadioButton;
+			if (button == ModernStartScreenRadioButton)
+			{
+				SetStartScreenStyle(false);
+				Properties.Settings.MySettings.UseClassicStartScreen = false;
+			}
+			else
+			{
+				SetStartScreenStyle(true);
+				Properties.Settings.MySettings.UseClassicStartScreen = true;
+			}
+		}
+
+		private void SetStartScreenStyle(bool enabled)
+		{
+			ClassicStartScreenRadioButton.IsChecked = enabled;
+			ModernStartScreenRadioButton.IsChecked = !enabled;
+		}
+
+		#endregion
+
+		#region Program Paths
+		private void ModLoader_Click(object sender, RoutedEventArgs e)
 		{
 			ManiacEditor.Methods.ProgramLauncher.UpdateModManagerPath();
 		}
@@ -706,6 +734,9 @@ namespace ManiacEditor.Controls.Options
 		{
 			ManiacEditor.Methods.ProgramLauncher.UpdateCheatEnginePath();
 		}
+
         #endregion
+
+
     }
 }

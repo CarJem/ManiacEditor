@@ -13,7 +13,7 @@ using ManiacEditor.Controls.Misc.Configuration;
 using ManiacEditor.Controls.Misc.Dev;
 using ManiacEditor.Controls.Options;
 using ManiacEditor.Controls.Object_Manager;
-
+using ManiacEditor.Classes.Scene;
 
 namespace ManiacEditor.Methods
 {
@@ -84,6 +84,12 @@ namespace ManiacEditor.Methods
                     Process.Start(ManiacEditor.Properties.Settings.MyDefaults.CheatEnginePath);
             }
         }
+
+        public static void EditTileGraphics()
+        {
+            EditorTiles.EditTileGraphics(Methods.Solution.SolutionState.Main.LastSelectedTileID);
+        }
+
         public static void TileManiacNormal()
         {
             if (Editor.TileManiacInstance == null || Editor.TileManiacInstance.IsEditorClosed) Editor.TileManiacInstance = new ManiacEditor.Controls.TileManiac.CollisionEditor();
@@ -609,7 +615,7 @@ namespace ManiacEditor.Methods
 
             if (!File.Exists(selectedScene))
             {
-                string[] splitted = selectedScene.Split('\\');
+                string[] splitted = selectedScene.Split('/');
 
                 string part1 = splitted[0];
                 string part2 = splitted[1];

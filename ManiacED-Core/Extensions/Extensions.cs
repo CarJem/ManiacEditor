@@ -17,6 +17,86 @@ namespace ManiacEditor.Extensions
     public static class Extensions
     {
 		/// <summary>
+		/// get the directory path segments.
+		/// </summary>
+		/// <param name="directoryPath">the directory path.</param>
+		/// <returns>a IEnumerable<string> containing the get directory path segments.</returns>
+		public static IEnumerable<string> GetDirectoryPathSegments(string directoryPath)
+		{
+			if (string.IsNullOrEmpty(directoryPath))
+			{ throw new Exception($"Invalid Directory: {directoryPath ?? "null"}"); }
+
+			var currentNode = new System.IO.DirectoryInfo(directoryPath);
+
+			var targetRootNode = currentNode.Root;
+			if (targetRootNode == null) return new string[] { currentNode.Name };
+			var directorySegments = new List<string>();
+			while (string.Compare(targetRootNode.FullName, currentNode.FullName, StringComparison.InvariantCultureIgnoreCase) != 0)
+			{
+				directorySegments.Insert(0, currentNode.Name);
+				currentNode = currentNode.Parent;
+			}
+			directorySegments.Insert(0, currentNode.Name);
+			return directorySegments;
+		}
+		/// <summary>
+		/// Conver number from Decadic to Hexadecimal
+		/// </summary>
+		/// <param name="w"></param>
+		/// <returns></returns>
+		public static string MakeHex(int w)
+		{
+			try
+			{
+				char[] b = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+				char[] S = new char[7];
+
+				S[0] = b[(w >> 24) & 15];
+				S[1] = b[(w >> 20) & 15];
+				S[2] = b[(w >> 16) & 15];
+				S[3] = b[(w >> 12) & 15];
+				S[4] = b[(w >> 8) & 15];
+				S[5] = b[(w >> 4) & 15];
+				S[6] = b[w & 15];
+
+				string _MakeHex = new string(S, 0, S.Count());
+
+				return _MakeHex;
+			}
+			catch (Exception ex)
+			{
+
+				throw;
+			}
+		}
+		private static int GetBitRange(int data, int offset, int count)
+		{
+			return data << offset >> (32 - count);
+		}
+		public static string ConvertLinearToString(ushort data)
+		{
+			var n = GetBitRange(data, 16, 5);
+			var y = GetBitRange(data, 21, 11);
+			var value = y * Math.Pow(2, n);
+			return value.ToString();
+		}
+
+
+		public static string GetReducedPath(string path, int limit)
+        {
+			try
+            {
+				List<string> segments = GetDirectoryPathSegments(path).ToList();
+				string reduced_path = "...\\" + System.IO.Path.Combine(segments.Skip(Math.Max(0, segments.Count() - limit)).ToArray());
+				return reduced_path;
+			}
+			catch
+            {
+				return path;
+            }
+        }
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="absolutepath">The path to compress</param>
@@ -173,15 +253,6 @@ namespace ManiacEditor.Extensions
 
             }
         }
-
-		public static bool MouseIsOverGraphicsPanel(DevicePanel btn)
-		{
-			if (btn.ClientRectangle.Contains(btn.PointToClient(System.Windows.Forms.Cursor.Position)))
-			{
-				return true;
-			}
-			return false;
-		}
 		public static System.Windows.Media.Color ColorConvertToMedia(System.Drawing.Color input)
 		{
 			return System.Windows.Media.Color.FromArgb(input.A, input.R, input.G, input.B);

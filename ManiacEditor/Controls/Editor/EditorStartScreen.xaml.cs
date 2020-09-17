@@ -121,12 +121,6 @@ namespace ManiacEditor.Controls.Editor
 					devCheck.Visibility = Visibility.Hidden;
 					devLink.Visibility = Visibility.Hidden;
 				}
-
-				//if (Core.Settings.MySettings.ShowFirstTimeSetup)
-				//{
-				//	FirstTimeOverlay.Visibility = Visibility.Visible;
-				//	SceneSelectHost.Visibility = Visibility.Hidden;
-				//}
 			}
 		}
 

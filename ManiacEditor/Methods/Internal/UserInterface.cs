@@ -200,13 +200,11 @@ namespace ManiacEditor.Methods.Internal
         #region Subsections
         public static class Misc
         {
-            private static bool UseClassicStartScreen { get; set; } = true;
-            //TODO : Unhardcode
             public static void UpdateStartScreen(bool visible)
             {
                 if (visible)
                 {
-                    if (UseClassicStartScreen)
+                    if (Properties.Settings.MySettings.UseClassicStartScreen)
                     {
                         Instance.StartScreen.ClassicHomeTab.Visibility = Visibility.Visible;
                         Instance.StartScreen.HomeTab.Visibility = Visibility.Collapsed;

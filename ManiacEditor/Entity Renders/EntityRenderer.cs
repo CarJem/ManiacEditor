@@ -68,8 +68,9 @@ namespace ManiacEditor.Entity_Renders
                 else if (ValidUnlockCode(unlocks, "HPZ" + "_" + UnlockName)) return "HPZ" + BinName;
                 else if (ValidUnlockCode(unlocks, "Blueprint" + "_" + UnlockName)) return "Blueprint" + BinName;
             }
+            string SetupType = "";
+            if (Methods.Solution.CurrentSolution.Entities.SetupObject != null) SetupType = Methods.Solution.CurrentSolution.Entities.SetupObject.Replace("Setup", "");
 
-            string SetupType = Methods.Solution.CurrentSolution.Entities.SetupObject.Replace("Setup", "");
             if (AllowedSetupType(AllowedSetups, SetupType, "GHZ")) return "GHZ" + BinName;
             else if (AllowedSetupType(AllowedSetups, SetupType, "CPZ")) return "CPZ" + BinName;
             else if (AllowedSetupType(AllowedSetups, SetupType, "SPZ1")) return "SPZ1" + BinName;

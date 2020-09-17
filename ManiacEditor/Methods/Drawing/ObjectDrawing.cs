@@ -497,6 +497,7 @@ namespace ManiacEditor.Methods.Drawing
         #endregion
 
         #region Drawing
+
         public static void DrawSelectionBox(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
             int X = _entity.Position.X.High;
@@ -529,7 +530,24 @@ namespace ManiacEditor.Methods.Drawing
         }
         public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.EditorEntity e)
         {
-            try
+            if (ProgramBase.IsDebug) Call();
+            else
+            {
+                try
+                {
+                    Call();
+                }
+                catch (Exception ex)
+                {
+                    string note = "This object will no longer render until reloaded!";
+                    string error = string.Format("Entity Rendering Error on Object {0}:{1}{2}{1}{3}{1}{1}{4})", e.Object.Name.Name, Environment.NewLine, ex.Message, ex.StackTrace, note);
+                    MessageBox.Show(error);
+                    e.DoesRenderHaveErrors = true;
+                }
+            }
+
+
+            void Call()
             {
                 int x = e.Position.X.High;
                 int y = e.Position.Y.High;
@@ -547,14 +565,6 @@ namespace ManiacEditor.Methods.Drawing
                     if (e.CurrentRender != null) e.CurrentRender.Draw(properties);
                 }
             }
-            catch (Exception ex)
-            {
-                string note = "This object will no longer render until reloaded!";
-                string error = string.Format("Entity Rendering Error on Object {0}:{1}{2}{1}{3}{1}{1}{4})", e.Object.Name.Name, Environment.NewLine, ex.Message, ex.StackTrace, note);
-                MessageBox.Show(error);
-                e.DoesRenderHaveErrors = true;
-            }
-
 
 
         }
@@ -569,7 +579,24 @@ namespace ManiacEditor.Methods.Drawing
         }
         public static void DrawLinked(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
-            try
+            if (ProgramBase.IsDebug) Call();
+            else
+            {
+                try
+                {
+                    Call();
+                }
+                catch (Exception ex)
+                {
+                    string note = "This object will no longer render it's linked render until reloaded!";
+                    string error = string.Format("Linked Entity Rendering Error on Object {0}:{1}{2}{1}{3}{1}{1}{4})", _entity.Object.Name.Name, Environment.NewLine, ex.Message, ex.StackTrace, note);
+                    MessageBox.Show(error);
+                    _entity.DoesLinkedRenderHaveErrors = true;
+                }
+            }
+
+
+            void Call()
             {
                 if (!_entity.DoesLinkedRenderHaveErrors)
                 {
@@ -581,13 +608,6 @@ namespace ManiacEditor.Methods.Drawing
                     }
                     if (_entity.CurrentLinkedRender != null) _entity.CurrentLinkedRender.Draw(structure);
                 }
-            }
-            catch (Exception ex)
-            {
-                string note = "This object will no longer render it's linked render until reloaded!";
-                string error = string.Format("Linked Entity Rendering Error on Object {0}:{1}{2}{1}{3}{1}{1}{4})", _entity.Object.Name.Name, Environment.NewLine, ex.Message, ex.StackTrace, note);
-                MessageBox.Show(error);
-                _entity.DoesLinkedRenderHaveErrors = true;
             }
 
         }
@@ -800,7 +820,12 @@ namespace ManiacEditor.Methods.Drawing
         #endregion
 
         #region Update Visibility
-
+        public static void UpdateEntityTileMaps()
+        {
+            NewTilePlatform.TilesNeedUpdate = true;
+            EncoreRoute.TilesNeedUpdate = true;
+            Water.TilesNeedUpdate = true;
+        }
         public static void UpdateVisibleEntities(List<Classes.Scene.EditorEntity> Entities)
         {
             foreach (var entity in Entities)

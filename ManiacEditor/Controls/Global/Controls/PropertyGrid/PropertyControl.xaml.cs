@@ -178,7 +178,14 @@ namespace ManiacEditor.Controls.Global.Controls.PropertyGrid
                 if (entry is System.Windows.Controls.Grid)
                 {
                     var item = (entry as System.Windows.Controls.Grid);
-                    System.Windows.Data.Binding binding = new System.Windows.Data.Binding("ActualWidth");
+                    /*
+                    System.Windows.Data.Binding binding = new System.Windows.Data.Binding("ViewportWidth");
+                    var relativeSource = new RelativeSource();
+                    relativeSource.Mode = RelativeSourceMode.FindAncestor;
+                    relativeSource.AncestorType = typeof(ScrollViewer);
+                    binding.RelativeSource = relativeSource;
+                    */
+                    System.Windows.Data.Binding binding = new System.Windows.Data.Binding("ViewportWidth");
                     binding.Source = this.PropertyPane;
                     item.SetBinding(System.Windows.Controls.UserControl.WidthProperty, binding);
                 }

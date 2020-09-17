@@ -19,7 +19,7 @@ namespace ManiacEditor.Entity_Renders
             var Animation = LoadAnimation("Global/SignPost.bin", d, 0, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
 
-            Animation = LoadAnimation("Global/SignPost.bin", d, 6, 0);
+            Animation = LoadAnimation("Global/SignPost.bin", d, 6, 2);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
 
         }

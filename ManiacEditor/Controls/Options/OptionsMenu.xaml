@@ -108,6 +108,9 @@
                                     <controls:SettingsHeader HeaderName="Editor Settings"></controls:SettingsHeader>
                                     <CheckBox Content="Disable Save Warnings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" IsChecked="{maniac:SettingBinding DisableSaveWarnings}"/>
                                     <CheckBox x:Name="RPCCheckBox" Content="Enable Discord Rich Presence"  Margin="0,0,0,0"  IsChecked="{maniac:SettingBinding ShowDiscordRPC}"/>
+                                    <controls:SettingsHeader HeaderName="Start Screen Style"></controls:SettingsHeader>
+                                    <RadioButton Content="Modern" x:Name="ModernStartScreenRadioButton" Click="ModernStartScreenRadioButton_Click"/>
+                                    <RadioButton Content="Classic" x:Name="ClassicStartScreenRadioButton" Click="ModernStartScreenRadioButton_Click"  />
                                 </StackPanel>
 
 

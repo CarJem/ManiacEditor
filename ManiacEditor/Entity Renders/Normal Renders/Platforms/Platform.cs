@@ -24,7 +24,7 @@ namespace ManiacEditor.Entity_Renders
 
 
         #region Variants
-        private void DrawNormalTensionPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        private void DrawNormalTensionPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID, Func<DevicePanel, int, int, int, System.Drawing.Color, bool> DrawCall = null)
         {
             if ((amplitudeX != 0 || amplitudeY != 0))
             {
@@ -63,17 +63,25 @@ namespace ManiacEditor.Entity_Renders
                     }
                 }
 
-                if (AttributeFrameID <= -1) return;
-                string AnimName = GetSetupAnimation();
-                var Animation = LoadAnimation(AnimName, d);
-                if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
-                DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x + newX, y - newY, Transparency);
-                //DrawHitbox(d, Animation, GetSetupAnimation(), System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x + newX, y - newY, Transparency, false, false, 0);
+                if (DrawCall != null)
+                {
+                    DrawCall(d, x + newX, y - newY, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 555));
+                }
+                else
+                {
+                    if (AttributeFrameID <= -1) return;
+                    string AnimName = GetSetupAnimation();
+                    var Animation = LoadAnimation(AnimName, d);
+                    if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
+                    DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x + newX, y - newY, Transparency);
+                    //DrawHitbox(d, Animation, GetSetupAnimation(), System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x + newX, y - newY, Transparency, false, false, 0);
+                }
+
             }
         }
 
 
-        private void DrawTensionBallPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        private void DrawTensionBallPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID, Func<DevicePanel, int, int, int, System.Drawing.Color, bool> DrawCall = null)
         {
             if ((amplitudeX != 0 || amplitudeY != 0))
             {
@@ -99,24 +107,39 @@ namespace ManiacEditor.Entity_Renders
                     }
                     else
                     {
-                        //Tension Ball
-                        var Animation = LoadAnimation(GetSetupAnimation(), d, 1, 1);
-                        DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, currentX, currentY, Transparency);
+                        if (DrawCall != null)
+                        {
+                            DrawCall(d, currentX, currentY, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 555));
+                        }
+                        else
+                        {
+                            //Tension Ball
+                            var Animation = LoadAnimation(GetSetupAnimation(), d, 1, 1);
+                            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, currentX, currentY, Transparency);
+                        }
+
                     }
                 }
             }
         }
-        private void DrawStandardMovingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        private void DrawStandardMovingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID, Func<DevicePanel, int, int, int, System.Drawing.Color, bool> DrawCall = null)
         {
             string AnimName = GetSetupAnimation();
             var Animation = LoadAnimation(AnimName, d);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
             d.DrawLine(x - amplitudeX, y - amplitudeY, x + amplitudeX, y + amplitudeY, System.Drawing.Color.Yellow, 3);
-            if (AttributeFrameID <= -1) return;
-            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
-            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            if (DrawCall != null)
+            {
+                DrawCall(d, x, y, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 255));
+            }
+            else
+            {
+                if (AttributeFrameID <= -1) return;
+                DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
+                //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            }
         }
-        private void DrawMovingPlatformSeven(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        private void DrawMovingPlatformSeven(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID, Func<DevicePanel, int, int, int, System.Drawing.Color, bool> DrawCall = null)
         {
             string AnimName = GetSetupAnimation();
             var Animation = LoadAnimation(AnimName, d);
@@ -128,26 +151,48 @@ namespace ManiacEditor.Entity_Renders
             int y2 = y + (amplitudeY / 2);
 
             d.DrawLine(x1, x2, y1, y2, System.Drawing.Color.Yellow, 3);
-            if (AttributeFrameID <= -1) return;
-            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
-            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            if (DrawCall != null)
+            {
+                DrawCall(d, x, y, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 555));
+            }
+            else
+            {
+                if (AttributeFrameID <= -1) return;
+                DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
+                //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            }
+
         }
-        private void DrawStandardPlatform(DevicePanel d, int x, int y, int Transparency, int AttributeFrameID)
+        private void DrawStandardPlatform(DevicePanel d, int x, int y, int Transparency, int AttributeFrameID, Func<DevicePanel, int, int, int, System.Drawing.Color, bool> DrawCall = null)
         {
             string AnimName = GetSetupAnimation();
             var Animation = LoadAnimation(AnimName, d);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
-            if (AttributeFrameID <= -1) return;
-            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
-            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            if (DrawCall != null)
+            {
+                DrawCall(d, x, y, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 255));
+            }
+            else
+            {
+                if (AttributeFrameID <= -1) return;
+                DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
+                //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            }
         }
-        private void DrawFallingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID)
+        private void DrawFallingPlatform(DevicePanel d, int x, int y, int Transparency, int amplitudeX, int amplitudeY, int angle, bool hasTension, int AttributeFrameID, Func<DevicePanel, int, int, int, System.Drawing.Color, bool> DrawCall = null)
         {
             var Animation = LoadAnimation(GetSetupAnimation(), d);
             if (LastFrameIDAttribute != AttributeFrameID) UpdateRealAttributeFrameID(Animation, AttributeFrameID);
-            if (AttributeFrameID <= -1) return;
-            DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency, false, false, 0, System.Drawing.Color.FromArgb(255,255,0,0));
-            //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            if (DrawCall != null)
+            {
+                DrawCall(d, x, y, Transparency, System.Drawing.Color.FromArgb(255, 255, 0, 0));
+            }
+            else
+            {
+                if (AttributeFrameID <= -1) return;
+                DrawTexturePivotNormal(d, Animation, RealAnimID, RealFrameID, x, y, Transparency);
+                //DrawHitbox(d, Animation, "Solid", System.Drawing.Color.FromArgb(128, 0, 255, 0), RealAnimID, RealFrameID, x, y, Transparency, false, false, 0);
+            }
         }
         #endregion
 
@@ -198,11 +243,11 @@ namespace ManiacEditor.Entity_Renders
         }
         #endregion
 
-        public override void Draw(Structures.EntityRenderProp Properties)
+        public void DrawSubType(Structures.EntityRenderProp Properties, Func<DevicePanel, int, int, int, System.Drawing.Color, bool> DrawCall)
         {
             DevicePanel d = Properties.Graphics;
             Classes.Scene.EditorEntity e = Properties.EditorObject;
-            
+
             int x = Properties.DrawX;
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
@@ -230,12 +275,17 @@ namespace ManiacEditor.Entity_Renders
                     break;
             }
 
-            if (type == 1) DrawFallingPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
-            else if (type == 2) DrawStandardMovingPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
-            else if (type == 3) DrawNormalTensionPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
-            else if (type == 4) DrawTensionBallPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
-            else if (type == 7) DrawMovingPlatformSeven(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute);
-            else DrawStandardPlatform(d, x, y, Transparency, FrameIDAttribute);
+            if (type == 1) DrawFallingPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute, DrawCall);
+            else if (type == 2) DrawStandardMovingPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute, DrawCall);
+            else if (type == 3) DrawNormalTensionPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute, DrawCall);
+            else if (type == 4) DrawTensionBallPlatform(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute, DrawCall);
+            else if (type == 7) DrawMovingPlatformSeven(d, x, y, Transparency, amplitudeX, amplitudeY, angle, hasTension, FrameIDAttribute, DrawCall);
+            else DrawStandardPlatform(d, x, y, Transparency, FrameIDAttribute, DrawCall);
+        }
+
+        public override void Draw(Structures.EntityRenderProp Properties)
+        {
+            DrawSubType(Properties, null);
         }
         public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {

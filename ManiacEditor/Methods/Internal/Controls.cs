@@ -867,6 +867,7 @@ namespace ManiacEditor.Methods.Internal
         #endregion
 
         #region Mouse Click Events/Methods
+
         public static void MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Instance.ViewPanel.SharpPanel.GraphicPanel.Focus();
@@ -897,9 +898,24 @@ namespace ManiacEditor.Methods.Internal
             if (e.X == 0 || e.Y == 0) tilePos = new Point(0, 0);
             else tilePos = new Point(e.X / 16, e.Y / 16);
 
+
+            if (Methods.Solution.CurrentSolution.EditLayerA.Tiles.Count() - 1 > tilePos.Y && Methods.Solution.CurrentSolution.EditLayerA.Tiles[tilePos.Y].Count() - 1 > tilePos.X)
+            {
+                Tile _tile = new Tile(Methods.Solution.CurrentSolution.EditLayerA.Tiles[tilePos.Y][tilePos.X]);
+                Instance.EditorStatusBar.TileDebugDataMenuItem.Header = "Raw Tile Data:" + newLine + String.Format("0x{0}", Extensions.Extensions.MakeHex(_tile.RawData));
+                Instance.EditorStatusBar.TileDebugDataMenuItem.Header += newLine + String.Format("{0}", _tile.RawData);
+            }
+            else
+            {
+                Instance.EditorStatusBar.TileDebugDataMenuItem.Header = "Raw Tile Data:" + newLine + "N/A";
+            }
+
+
+
             Instance.EditorStatusBar.PixelPositionMenuItem.Header = "Pixel Position:" + newLine + String.Format("X: {0}, Y: {1}", e.X, e.Y);
             Instance.EditorStatusBar.ChunkPositionMenuItem.Header = "Chunk Position:" + newLine + String.Format("X: {0}, Y: {1}", chunkPos.X, chunkPos.Y);
             Instance.EditorStatusBar.TilePositionMenuItem.Header = "Tile Position:" + newLine + String.Format("X: {0}, Y: {1}", tilePos.X, tilePos.Y);
+
 
 
             Point clicked_point_tile = new Point((int)(e.X), (int)(e.Y));
@@ -907,7 +923,8 @@ namespace ManiacEditor.Methods.Internal
 
             Methods.Solution.SolutionState.Main.LastSelectedTileID = tile;
             Instance.EditorStatusBar.TileManiacIntergrationItem.IsEnabled = (tile < 1023);
-            Instance.EditorStatusBar.TileManiacIntergrationItem.Header = String.Format("Edit Collision of Tile {0} in Tile Maniac", tile);
+            Instance.EditorStatusBar.TileManiacIntergrationItem.Header = String.Format("Edit Tile {0}'s Collision...", tile);
+            Instance.EditorStatusBar.EditTileGraphicsItem.Header = String.Format("Edit Tile {0}'s Graphics...", tile);
 
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
             info.Style = (System.Windows.Style)Instance.FindResource("DefaultContextMenuStyle");

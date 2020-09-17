@@ -1166,6 +1166,8 @@ namespace ManiacEditor.Methods.Solution
             }
             private bool _SizeWaterLevelwithBounds = false;
 
+            public Color SelectedWaterColor { get; set; }
+
             public Color waterColor { get => GetWaterEntityColor(); set => SetWaterEntityColor(value); }
             private Color _WaterEntityColor = Color.Blue;
             private Color GetWaterEntityColor() { return _WaterEntityColor; }

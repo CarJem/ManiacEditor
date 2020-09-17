@@ -57,6 +57,14 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region List of Layers
+        public IList<EditorLayer> PrimaryLayers
+        {
+            get
+            {
+                return AllLayers.Where(el => el == ForegroundLow || el == ForegroundHigh || el == HighDetails || el == LowDetails).ToList();
+            }
+        }
+
         public IList<EditorLayer> AllLayers { get; set; }
         public IList<EditorLayer> AllLayersList
         {

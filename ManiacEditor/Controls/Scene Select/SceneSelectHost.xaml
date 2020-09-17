@@ -150,7 +150,7 @@
             </Grid.RowDefinitions>
             <Grid Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="recentDataDirListHost" Grid.Column="1" Grid.Row="0"></Grid>
 
-            <Label Grid.Row="2" x:Name="UnusedLabel"></Label>
+            <TextBox IsReadOnly="True" IsReadOnlyCaretVisible="False" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="2" x:Name="RecentsTreeHoverLabel"></TextBox>
         </Grid>
 
         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Height="30" VerticalAlignment="Center">

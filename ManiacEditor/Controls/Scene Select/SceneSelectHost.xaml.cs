@@ -111,6 +111,7 @@ namespace ManiacEditor.Controls.SceneSelect
         private System.Windows.Forms.TreeView IZ_ScenesTree { get; set; }
         private System.Windows.Forms.TreeView ScenesTree { get; set; }
         private System.Windows.Forms.TreeView RecentsTree { get; set; }
+
         #endregion
 
         #endregion
@@ -154,6 +155,8 @@ namespace ManiacEditor.Controls.SceneSelect
             this.RecentsTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.RecentsTreeMouseDownEvent);
             this.RecentsTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.RecentsTreeNodeDoubleClickEvent);
             this.RecentsTree.HideSelection = false;
+            this.RecentsTree.NodeMouseHover += RecentsTree_MouseHover;
+            this.RecentsTree.MouseMove += RecentsTree_MouseMove;
 
             this.IZ_ScenesTree.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.IZ_ScenesTree.BackColor = System.Drawing.Color.White;
@@ -171,6 +174,7 @@ namespace ManiacEditor.Controls.SceneSelect
             RecentsTree.Show();
             IZ_ScenesTree.Show();
         }
+
         private void InitilizeBase()
         {
             RemoveNullEntries();
@@ -211,6 +215,16 @@ namespace ManiacEditor.Controls.SceneSelect
         #endregion
 
         #region Scenes Tree Events
+
+        private void RecentsTree_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+
+        }
+
+        private void RecentsTree_MouseHover(object sender, System.Windows.Forms.TreeNodeMouseHoverEventArgs e)
+        {
+
+        }
         private void ScenesTreeNodeDoubleClickEvent(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (selectButton.IsEnabled)
@@ -244,6 +258,7 @@ namespace ManiacEditor.Controls.SceneSelect
         {
             if (IZ_ScenesTree.SelectedNode != null)
             {
+
                 selectButton.IsEnabled = IZ_ScenesTree.SelectedNode.Tag != null;
                 UpdateSelectedSceneInfo();
             }
@@ -251,6 +266,8 @@ namespace ManiacEditor.Controls.SceneSelect
         }
         private void RecentsTreeAfterSelectEvent(object sender, TreeViewEventArgs e)
         {
+            if (RecentsTree.SelectedNode != null) RecentsTreeHoverLabel.Text = e.Node.ToolTipText;
+            else RecentsTreeHoverLabel.Text = string.Empty;
             loadSelectedButton.IsEnabled = RecentsTree.SelectedNode != null && RecentsTree.SelectedNode.Tag != null;
             UpdateSelectedSceneInfo();
         }
@@ -710,8 +727,8 @@ namespace ManiacEditor.Controls.SceneSelect
             if (Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories != null && Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories?.Count > 0)
             {
                 foreach (string dataDir in Classes.Prefrences.CommonPathsStorage.Collection.SavedDataDirectories)
-                {
-                    var node = RecentsTree.Nodes[0].Nodes.Add(dataDir);
+                {             
+                    var node = RecentsTree.Nodes[0].Nodes.Add(Extensions.Extensions.GetReducedPath(dataDir, 3));
                     node.Tag = dataDir;
                     node.ToolTipText = dataDir;
                     node.ImageKey = "SavedDataFolder";
@@ -723,7 +740,7 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 foreach (string dataDir in Classes.Prefrences.CommonPathsStorage.Collection.RecentDataDirectories)
                 {
-                    var node = RecentsTree.Nodes[1].Nodes.Add(dataDir);
+                    var node = RecentsTree.Nodes[1].Nodes.Add(Extensions.Extensions.GetReducedPath(dataDir, 3));
                     node.Tag = dataDir;
                     node.ToolTipText = dataDir;
                     node.ImageKey = "RecentDataFolder";
@@ -735,7 +752,7 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 foreach (string folder in Classes.Prefrences.CommonPathsStorage.Collection.SavedPlaces)
                 {
-                    var node = RecentsTree.Nodes[2].Nodes.Add(folder, folder, this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"), this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"));
+                    var node = RecentsTree.Nodes[2].Nodes.Add(folder, Extensions.Extensions.GetReducedPath(folder, 3), this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"), this.RecentsTree.ImageList.Images.IndexOfKey("SubFolder"));
                     node.Tag = folder;
                     node.ToolTipText = folder;
                     node.ImageKey = "SavedPlace";
@@ -804,6 +821,7 @@ namespace ManiacEditor.Controls.SceneSelect
                         {
                             var node = rootNode.Nodes.Add(string.Format("{0} {1} ({2})", stage.StageName, scene.SceneID, stage.StageID + "/Scene" + scene.SceneID + ".bin"));
                             node.ImageKey = "File";
+                            node.SelectedImageKey = "File";
                             node.Tag = scene;
                         }
 
@@ -1031,6 +1049,7 @@ namespace ManiacEditor.Controls.SceneSelect
                     if (tag != null)
                     {
                         SceneState.FilePath = tag.Item2;
+                        SceneState.LoadType = SceneState.LoadMethod.RelativePath;
                     }
                     else return;
                 }

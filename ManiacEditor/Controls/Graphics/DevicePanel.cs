@@ -52,6 +52,7 @@ namespace ManiacEditor
 
         private Sprite sprite;
         private Sprite sprite2;
+        private Sprite sprite3;
         Classes.Rendering.TextureExt tx;
         Classes.Rendering.TextureExt hvcursor;
         Classes.Rendering.TextureExt vcursor;
@@ -281,6 +282,7 @@ namespace ManiacEditor
 
             sprite = new Sprite(_device);
             sprite2 = new Sprite(_device);
+            sprite3 = new Sprite(_device);
 
             tx_ellipses = new Dictionary<EllipseKey, TextureExt>();
 
@@ -402,6 +404,8 @@ namespace ManiacEditor
 
                 sprite2.Begin(SpriteFlags.AlphaBlend);
 
+                sprite3.Begin(SpriteFlags.AlphaBlend);
+
                 if (zoom > 1)
                 {
                     // If zoomin, just do near-neighbor scaling
@@ -419,13 +423,18 @@ namespace ManiacEditor
 
                 sprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.DoNotModifyRenderState);
 
+
+
                 // Render of scene here
                 if (OnRender != null) OnRender(this, new DeviceEventArgs(_device));
 
                 sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
 
+                sprite3.Transform = Matrix.Scaling(1f, 1f, 1f);
+
                 sprite.End();
                 sprite2.End();
+                sprite3.End();
                 //End the scene
                 _device.EndScene();
                 _device.Present();
@@ -583,17 +592,19 @@ namespace ManiacEditor
                 || y * zoom > screen.Y + screen.Height
                 || (y + height) * zoom < screen.Y);
         }
-
         private void DrawTexture(Classes.Rendering.TextureExt image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
             if (image == null) return;
-            sprite.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
-
+            var dx_color = new SharpDX.Color(color.R, color.G, color.B, color.A);
+            var dx_rec = new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+            sprite.Draw(image, dx_color, dx_rec, center, position);
         }
         private void DrawTexture2(Classes.Rendering.TextureExt image, Rectangle srcRect, Vector3 center, Vector3 position, Color color)
         {
             if (image == null) return;
-            sprite2.Draw(image, new SharpDX.Color(color.R, color.G, color.B, color.A), new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height), center, position);
+            var dx_color = new SharpDX.Color(color.R, color.G, color.B, color.A);
+            var dx_rec = new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
+            sprite2.Draw(image, dx_color, dx_rec, center, position);
         }
 
         public void DrawBitmap(Classes.Rendering.TextureExt image, int x, int y, int width, int height, bool selected, int transparency)
@@ -604,8 +615,11 @@ namespace ManiacEditor
         public void DrawBitmap(Classes.Rendering.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int Transparency, bool fliph = false, bool flipv = false, int rotation = 0, Color? color = null)
         {
             var LastTransform = sprite.Transform;
+
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
+
+            sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
 
             Rectangle boundBox = new Rectangle(rect_x, rect_y, width, height);
             Vector3 position = new Vector3(x - (int)(screen.X / zoom), y - (int)(screen.Y / zoom), 0);
@@ -619,29 +633,34 @@ namespace ManiacEditor
                 if (fliph) center.X = boundBox.Width;
                 if (flipv) center.Y = boundBox.Height;
 
-                float negatedZoom = -(float)zoom;
-                float normalZoom = (float)zoom;
-
-                sprite.Transform = Matrix.Scaling((fliph ? negatedZoom : normalZoom), (flipv ? negatedZoom : normalZoom), 1f);
-                
-                
                 if (rotation != 0)
                 {
-                    //TODO: Fix
-                    /*
-                    Vector2 scalingCenter = new Vector2(center.X, center.Y);
-                    float scalingRotation = rotation;
-                    Vector2 scaling = new Vector2((fliph ? negatedZoom : normalZoom), (flipv ? negatedZoom : normalZoom));
-                    Vector2 rotationCenter = new Vector2(center.X, center.Y);
-                    Vector2 translation = new Vector2(position.X, position.Y);
-                    sprite.Transform = Matrix.Transformation2D(scalingCenter, scalingRotation, scaling, rotationCenter, rotation, translation);                    
-                    */
+                    sprite.Transform = Matrix.RotationZ(rotation);
+
+                    int offset_x = 0;
+                    int offset_y = 0;
+
+                    //position = new Vector3(position.X - offset_x, position.Y - offset_y, 0);
+                    //center = new Vector3(0, 0, 0);
+
+                    position = new Vector3(0, 0, 0);
+                    center = new Vector3(0, 0, 0);
                 }
 
+                float negatedZoom = -(float)zoom;
+                float normalZoom = (float)zoom;
+                sprite.Transform *= Matrix.Scaling((fliph ? negatedZoom : normalZoom), (flipv ? negatedZoom : normalZoom), 1f);
             }
 
 
-            DrawTexture(image, boundBox, center, position, (selected) ? Color.BlueViolet : Color.FromArgb(Transparency, Color.White));
+
+            if (color != null) DrawTexture(image, boundBox, center, position, Color.FromArgb(Transparency, color.Value));
+            else DrawTexture(image, boundBox, center, position, (selected) ? Color.BlueViolet : Color.FromArgb(Transparency, Color.White));
+
+            if (rotation != 0)
+            {
+                DrawRectangle(x, y, x + 16, y + 16, Color.Red, false);
+            }
 
             sprite.Transform = LastTransform;
         }
@@ -923,17 +942,19 @@ namespace ManiacEditor
             }
             DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
         }
-        public void DrawRectangle(int x1, int y1, int x2, int y2, Color color)
+
+        public void DrawRectangle(int x1, int y1, int x2, int y2, Color color, bool scaling = true)
         {
-            DrawRectangle(x1, y1, x2, y2, color, System.Drawing.Color.Transparent, 0);
+            DrawRectangle(x1, y1, x2, y2, color, System.Drawing.Color.Transparent, 0, scaling);
         }
-        public void DrawRectangle(int x1, int y1, int x2, int y2, Color color, Color color2, int thickness)
+
+        public void DrawRectangle(int x1, int y1, int x2, int y2, Color color, Color color2, int thickness, bool scaling = true)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
 
-            sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
+            if (scaling) sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
 
             DrawLine(x1, y1, x2, y1, color2);
             DrawLine(x1, y1, x1, y2, color2);
@@ -1048,6 +1069,11 @@ namespace ManiacEditor
             {
                 sprite2.Dispose();
                 sprite2 = null;
+            }
+            if (sprite3 != null)
+            {
+                sprite3.Dispose();
+                sprite3 = null;
             }
             if (tx_ellipses != null)
             {

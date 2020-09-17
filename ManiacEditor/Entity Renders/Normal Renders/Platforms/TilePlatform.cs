@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using ManiacEditor.Methods.Solution;
 using RSDKv5;
 using SFML.Graphics;
 
@@ -10,8 +11,15 @@ namespace ManiacEditor.Entity_Renders
         #region Definitions
         private Classes.Scene.EditorLayer MoveLayer {  get { return Methods.Solution.CurrentSolution.CurrentScene?.Move; } }
         private Classes.Rendering.TextureExt PlatformImage { get; set; }
+        private Platform TrueSelf { get; set; } = new Platform();
         private ushort[][] TileMap { get; set; }
+        public static bool TilesNeedUpdate { get; set; } = false;
         #endregion
+
+        private int platform_x;
+        private int platform_y;
+        private int platform_width;
+        private int platform_height;
 
         public override void Draw(Structures.EntityRenderProp Properties)
         {
@@ -32,10 +40,8 @@ namespace ManiacEditor.Entity_Renders
             int PixelPosX = (int)e.attributesMap["targetPos"].ValueVector2.X.High - (PixelWidth / 2);
             int PixelPosY = (int)e.attributesMap["targetPos"].ValueVector2.Y.High - (PixelHeight / 2);
 
-            int Pivot_X = x - (PixelWidth / 2);
-            int Pivot_Y = y - (PixelHeight / 2);
-
-            DrawTileMap(d, Pivot_X, Pivot_Y, PixelPosX, PixelPosY, PixelWidth, PixelHeight, transparency);
+            StoreTileMapData(PixelPosX, PixelPosY, PixelWidth, PixelHeight);
+            TrueSelf.DrawSubType(Properties, DrawTileMap);
         }
         public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
@@ -51,12 +57,25 @@ namespace ManiacEditor.Entity_Renders
         {
             return "TilePlatform";
         }
-        private void DrawTileMap(DevicePanel d, int x, int y, int platform_x, int platform_y, int platform_width, int platform_height, int transparency)
+
+        private void StoreTileMapData(int _PixelPosX, int _PixelPosY, int _PixelWidth, int _PixelHeight)
         {
+            platform_x = _PixelPosX;
+            platform_y = _PixelPosY;
+            platform_width = _PixelWidth;
+            platform_height = _PixelHeight;
+        }
+        private bool DrawTileMap(DevicePanel d, int _x, int _y, int transparency, System.Drawing.Color color)
+        {
+
+            int x = _x - (platform_width / 2);
+            int y = _y - (platform_height / 2);
+
             if (MoveLayer != null)
             {
-                if (TileMap == null || TileMap != MoveLayer.Tiles || PlatformImage == null)
+                if (TileMap == null || TileMap != MoveLayer.Tiles || TilesNeedUpdate || PlatformImage == null)
                 {
+                    TilesNeedUpdate = false;
                     if (PlatformImage != null)
                     {
                         PlatformImage.Dispose();
@@ -74,9 +93,9 @@ namespace ManiacEditor.Entity_Renders
                     g.Dispose();
                 }
 
-                d.DrawBitmap(PlatformImage, x, y, platform_x, platform_y, platform_width, platform_height, false, transparency);
+                d.DrawBitmap(PlatformImage, x, y, platform_x, platform_y, platform_width, platform_height, false, transparency, false, false, 0, color);
             }
-
+            return true;
         }
     }
 }

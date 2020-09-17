@@ -87,7 +87,10 @@ namespace ManiacEditor.Classes.Scene
             try
             {
                 var objectList = GetObjects(Methods.Solution.CurrentSolution.CurrentScene.Objects);
+                objectList.AddRange(Methods.Solution.CurrentSolution.StageConfig.ObjectsNames);
+                objectList = objectList.Distinct().ToList();
                 string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
+                if (setupObject == null) setupObject = string.Empty;
                 return setupObject;
             }
             catch
