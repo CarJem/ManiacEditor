@@ -52,7 +52,6 @@ namespace ManiacEditor
 
         private Sprite sprite;
         private Sprite sprite2;
-        private Sprite sprite3;
         Classes.Rendering.TextureExt tx;
         Classes.Rendering.TextureExt hvcursor;
         Classes.Rendering.TextureExt vcursor;
@@ -282,7 +281,6 @@ namespace ManiacEditor
 
             sprite = new Sprite(_device);
             sprite2 = new Sprite(_device);
-            sprite3 = new Sprite(_device);
 
             tx_ellipses = new Dictionary<EllipseKey, TextureExt>();
 
@@ -404,8 +402,6 @@ namespace ManiacEditor
 
                 sprite2.Begin(SpriteFlags.AlphaBlend);
 
-                sprite3.Begin(SpriteFlags.AlphaBlend);
-
                 if (zoom > 1)
                 {
                     // If zoomin, just do near-neighbor scaling
@@ -430,11 +426,8 @@ namespace ManiacEditor
 
                 sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
 
-                sprite3.Transform = Matrix.Scaling(1f, 1f, 1f);
-
                 sprite.End();
                 sprite2.End();
-                sprite3.End();
                 //End the scene
                 _device.EndScene();
                 _device.Present();
@@ -606,12 +599,10 @@ namespace ManiacEditor
             var dx_rec = new SharpDX.Rectangle(srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height);
             sprite2.Draw(image, dx_color, dx_rec, center, position);
         }
-
         public void DrawBitmap(Classes.Rendering.TextureExt image, int x, int y, int width, int height, bool selected, int transparency)
         {
             DrawBitmap(image, x, y, 0, 0, width, height, selected, transparency);
         }
-
         public void DrawBitmap(Classes.Rendering.TextureExt image, int x, int y, int rect_x, int rect_y, int width, int height, bool selected, int Transparency, bool fliph = false, bool flipv = false, int rotation = 0, Color? color = null)
         {
             var LastTransform = sprite.Transform;
@@ -627,44 +618,44 @@ namespace ManiacEditor
 
             if (fliph || flipv || rotation != 0)
             {
-                if (fliph) position.X = -position.X;
-                if (flipv) position.Y = -position.Y;
-
-                if (fliph) center.X = boundBox.Width;
-                if (flipv) center.Y = boundBox.Height;
-
-                if (rotation != 0)
-                {
-                    sprite.Transform = Matrix.RotationZ(rotation);
-
-                    int offset_x = 0;
-                    int offset_y = 0;
-
-                    //position = new Vector3(position.X - offset_x, position.Y - offset_y, 0);
-                    //center = new Vector3(0, 0, 0);
-
-                    position = new Vector3(0, 0, 0);
-                    center = new Vector3(0, 0, 0);
-                }
-
                 float negatedZoom = -(float)zoom;
                 float normalZoom = (float)zoom;
-                sprite.Transform *= Matrix.Scaling((fliph ? negatedZoom : normalZoom), (flipv ? negatedZoom : normalZoom), 1f);
+                if (rotation != 0)
+                {
+
+                    float center_x = (fliph ? (float)(width / 2) : (float)(width / 2));
+                    float center_y = (flipv ? (float)(height / 2) : (float)(height / 2));
+                    float position_x = (fliph ? position.X : position.X);
+                    float position_y = (flipv ? position.Y : position.Y);
+
+                    var scalingCenter = new Vector2(0, 0);
+                    var scalingRotation = 1f;
+                    var scaling = new Vector2(1f, 1f);
+                    var rotationCenter = new Vector2(center_x, center_y);
+                    var Rotation = (float)(rotation * (Math.PI / 180.0));
+                    var translation = new Vector2(position_x, position_y);
+                    sprite.Transform = Matrix.Transformation2D(scalingCenter, scalingRotation, scaling, rotationCenter, Rotation, translation);
+                    position = Vector3.Zero;
+                    center = Vector3.Zero;
+                    //sprite.Transform *= Matrix.Scaling((fliph ? negatedZoom : normalZoom), (flipv ? negatedZoom : normalZoom), 1f);
+                    sprite.Transform *= Matrix.Scaling(normalZoom, normalZoom, 1f);
+                }
+                else
+                {
+                    if (fliph) position.X = -position.X;
+                    if (flipv) position.Y = -position.Y;
+
+                    if (fliph) center.X = boundBox.Width;
+                    if (flipv) center.Y = boundBox.Height;
+                    sprite.Transform = Matrix.Scaling((fliph ? negatedZoom : normalZoom), (flipv ? negatedZoom : normalZoom), 1f);
+                }
             }
-
-
 
             if (color != null) DrawTexture(image, boundBox, center, position, Color.FromArgb(Transparency, color.Value));
             else DrawTexture(image, boundBox, center, position, (selected) ? Color.BlueViolet : Color.FromArgb(Transparency, Color.White));
 
-            if (rotation != 0)
-            {
-                DrawRectangle(x, y, x + 16, y + 16, Color.Red, false);
-            }
-
             sprite.Transform = LastTransform;
         }
-
         public void DrawEllipse(int x, int y, int radiusX, int radiusY, Color color, int thickness = 1)
         {
             if (radiusX <= -1) radiusX *= -1;
@@ -687,7 +678,6 @@ namespace ManiacEditor
 
             DrawTexture(tx_ellipse, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
-
         public void DrawLine(int X1, int Y1, int X2, int Y2, Color color = new Color(), float thickness = 1, bool useZoomOffseting = false)
         {
             Rectangle screen = _parent.GetScreen();
@@ -718,7 +708,6 @@ namespace ManiacEditor
             }
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
-
         public void DrawLinePaperRoller(int X1, int Y1, int X2, int Y2, Color color, Color color2, Color color3, Color color4)
         {
             Rectangle screen = _parent.GetScreen();
@@ -732,8 +721,7 @@ namespace ManiacEditor
             if (!IsObjectOnScreen(x, y, width, height)) return;
 
 
-            sprite.Transform = Matrix.Scaling(1f, 1f, 1f);
-            /*
+            sprite.Transform = Matrix.Scaling(1f, 1f, 1f);        
             if (width == 0 || height == 0)
             {
                 if (width == 0) width = pixel_width;
@@ -743,12 +731,11 @@ namespace ManiacEditor
                 DrawTexture(tx, new Rectangle(0, 0, width, height), new Vector3(0, 0, 0), new Vector3((int)((x - (int)(screen.X / zoom)) * zoom), (int)((y - (int)(screen.Y / zoom)) * zoom), 0), color);
             }
             else
-            {*/
-            DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
-            //}
+            {
+                DrawLinePBPDoted(X1, Y1, X2, Y2, color, color2, color3, color4);
+            }
             sprite.Transform = Matrix.Scaling((float)zoom, (float)zoom, 1f);
         }
-
         public void DrawArrow(int x0, int y0, int x1, int y1, Color color, float thickness = 1)
         {
             int x2, y2, x3, y3;
@@ -764,7 +751,6 @@ namespace ManiacEditor
             DrawLine(x1, y1, x2, y2, color);
             DrawLine(x1, y1, x3, y3, color);
         }
-
         public void DrawBézierSplineCubic(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color color)
         {
             for (double i = 0; i < 1; i += 0.01)
@@ -789,8 +775,13 @@ namespace ManiacEditor
 
                 DrawLinePBP(x, y, x, y, color);
             }
-        }
+            int getPt(int n1, int n2, double perc)
+            {
+                int diff = n2 - n1;
 
+                return (int)(n1 + (diff * perc));
+            }
+        }
         public void DrawBézierSplineQuadratic(int x1, int y1, int x2, int y2, int x3, int y3, Color color)
         {
             for (double i = 0; i < 1; i += 0.01)
@@ -807,17 +798,13 @@ namespace ManiacEditor
 
                 DrawLinePBP(x, y, x, y, color);
             }
+            int getPt(int n1, int n2, double perc)
+            {
+                int diff = n2 - n1;
+
+                return (int)(n1 + (diff * perc));
+            }
         }
-
-
-
-        int getPt(int n1, int n2, double perc)
-        {
-            int diff = n2 - n1;
-
-            return (int)(n1 + (diff * perc));
-        }
-
         public void DrawLinePBP(int x0, int y0, int x1, int y1, Color color)
         {
             Rectangle screen = _parent.GetScreen();
@@ -867,8 +854,7 @@ namespace ManiacEditor
             }
             DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
         }
-
-        void DrawLinePBPDoted(int x0, int y0, int x1, int y1, Color color, Color color2, Color color3, Color color4)
+        public void DrawLinePBPDoted(int x0, int y0, int x1, int y1, Color color, Color color2, Color color3, Color color4)
         {
             Rectangle screen = _parent.GetScreen();
             double zoom = _parent.GetZoom();
@@ -942,12 +928,10 @@ namespace ManiacEditor
             }
             DrawTexture(tx, new Rectangle(0, 0, pixel_width, pixel_width), new Vector3(0, 0, 0), new Vector3((int)((x0 - (int)(screen.X / zoom)) * zoom), (int)((y0 - (int)(screen.Y / zoom)) * zoom), 0), color);
         }
-
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color, bool scaling = true)
         {
             DrawRectangle(x1, y1, x2, y2, color, System.Drawing.Color.Transparent, 0, scaling);
         }
-
         public void DrawRectangle(int x1, int y1, int x2, int y2, Color color, Color color2, int thickness, bool scaling = true)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
@@ -963,7 +947,6 @@ namespace ManiacEditor
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
-
         public void DrawQuad(int x1, int y1, int x2, int y2, Color color, Color color2, int thickness)
         {
             if (!IsObjectOnScreen(x1, y1, x2 - x1, y2 - y1)) return;
@@ -974,7 +957,6 @@ namespace ManiacEditor
 
             DrawTexture(tx, new Rectangle(0, 0, x2 - x1, y2 - y1), new Vector3(0, 0, 0), new Vector3(x1 - (int)(screen.X / zoom), y1 - (int)(screen.Y / zoom), 0), color);
         }
-
         public void DrawText(string text, int x, int y, int width, Color color, bool bold)
         {
             Rectangle screen = _parent.GetScreen();
@@ -1011,13 +993,10 @@ namespace ManiacEditor
         }
         public void DrawHorizCursor(int x, int y)
         {
-            //hcursor = new Texture(_device, hcursorb, Usage.Dynamic, Pool.Default);
             DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
         }
-
         public void DrawVertCursor(int x, int y)
         {
-            //vcursor = new Texture(_device, vcursorb, Usage.Dynamic, Pool.Default);
             DrawTexture2(vcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
             DrawTexture2(hcursor, new Rectangle(Point.Empty, Cursors.NoMove2D.Size), new Vector3(0, 0, 0), new Vector3(x - 16, y - 15, 0), Color.White);
         }
@@ -1069,11 +1048,6 @@ namespace ManiacEditor
             {
                 sprite2.Dispose();
                 sprite2 = null;
-            }
-            if (sprite3 != null)
-            {
-                sprite3.Dispose();
-                sprite3 = null;
             }
             if (tx_ellipses != null)
             {

@@ -23,8 +23,12 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = FlippedV(rotation);
 
 
+
+
             var Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv, rotation);
+            int OffsetX = (fliph ? -4 : 4);
+            int OffsetY = (flipv ? 4 : -4);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + OffsetX, y + OffsetY, Transparency, fliph, flipv, rotation);
         }
 
         public enum Orientation : int

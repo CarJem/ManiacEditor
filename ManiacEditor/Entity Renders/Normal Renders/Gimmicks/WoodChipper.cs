@@ -1,4 +1,5 @@
 ﻿using RSDKv5;
+using System.Linq;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -7,17 +8,11 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            Classes.Scene.EditorEntity entity = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
             int size = entity.attributesMap["size"].ValueUInt16; 
@@ -28,76 +23,56 @@ namespace ManiacEditor.Entity_Renders
                     fliph = true;
                     break;
             }
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("WoodChipper", d.DevicePanel, 0, -1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0)
+
+            //var log3 = LoadAnimation("PSZ2/WoodChipper.bin", d, 0, 5);
+
+            if (size > 0)
             {
-                var frame = editorAnim.Frames[0];
-                var frame2 = editorAnim.Frames[1];
-                var frame3 = editorAnim.Frames[2];
-                var frame4 = editorAnim.Frames[6];
+                int repeat = 1;
+                int sizeMemory = size;
+                bool finalLoop = false;
 
-                var log1 = editorAnim.Frames[3];
-                var log2 = editorAnim.Frames[4];
-                var log3 = editorAnim.Frames[5];
+                var log1 = LoadAnimation("PSZ2/WoodChipper.bin", d, 0, 3);
+                DrawTexturePivotNormal(d, log1, log1.RequestedAnimID, log1.RequestedFrameID, x, y - size, Transparency, false, false);
+                var log2 = LoadAnimation("PSZ2/WoodChipper.bin", d, 0, 4);
+                DrawTexturePivotNormal(d, log2, log2.RequestedAnimID, log2.RequestedFrameID, x, y - size, Transparency, false, false);
 
-                //Animation.ProcessAnimation(frame.Entry.SpeedMultiplyer, frame.Entry.Frames.Count, frame.Frame.Delay);
 
-                if (size > 0)
+                if (size > 95)
                 {
-                    int repeat = 1;
-                    int sizeMemory = size;
-                    bool finalLoop = false;
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(log1),
-                            x + log1.Frame.PivotX - (fliph ? (log1.Frame.Width - editorAnim.Frames[3].Frame.Width) : 0),
-                            y + log1.Frame.PivotY - size + (flipv ? (log1.Frame.Height - editorAnim.Frames[3].Frame.Height) : 0),
-                            log1.Frame.Width, log1.Frame.Height, false, Transparency);
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(log2),
-                            x + log2.Frame.PivotX - (fliph ? (log2.Frame.Width - editorAnim.Frames[4].Frame.Width) : 0),
-                            y + log2.Frame.PivotY - size + (flipv ? (log2.Frame.Height - editorAnim.Frames[4].Frame.Height) : 0),
-                            log2.Frame.Width, log2.Frame.Height, false, Transparency);
-                    if (size > 95)
+                    repeat++;
+                    sizeMemory = sizeMemory - 96;
+
+                    while (sizeMemory > 80)
                     {
                         repeat++;
-                        sizeMemory = sizeMemory - 96;
-
-                        while (sizeMemory > 80)
-                        {
-                            repeat++;
-                            sizeMemory = sizeMemory - 80;
-                        }
-                        for (int i = 1; i < repeat + 1; i++)
-                        {
-                            if (i == repeat)
-                            {
-                                finalLoop = true;
-                            }
-                            d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(log2),
-                                    x + log2.Frame.PivotX - (fliph ? (log2.Frame.Width - editorAnim.Frames[4].Frame.Width) : 0),
-                                    y + log2.Frame.PivotY - size + log2.Frame.Height * i + (flipv ? (log2.Frame.Height - editorAnim.Frames[4].Frame.Height) : 0),
-                                    log2.Frame.Width, (finalLoop ? sizeMemory : log2.Frame.Height), false, Transparency);
-                        }
+                        sizeMemory = sizeMemory - 80;
                     }
-
-
+                    for (int i = 1; i < repeat + 1; i++)
+                    {
+                        if (i == repeat) finalLoop = true;
+                        DrawTexturePivotNormalCustom(d, log2, log2.RequestedAnimID, log2.RequestedFrameID, x, y - size + log2.RequestedFrame.Height * i, Transparency, (finalLoop ? sizeMemory : log2.RequestedFrame.Height), false, false);
                     }
-                
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX - (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width) : 0),
-                    y + frame.Frame.PivotY + (flipv ? (frame.Frame.Height - editorAnim.Frames[0].Frame.Height) : 0),
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    x + frame2.Frame.PivotX - (fliph ? (frame2.Frame.Width - 92) : 0),
-                    y + frame2.Frame.PivotY + (flipv ? (frame2.Frame.Height - editorAnim.Frames[1].Frame.Height) : 0),
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-                    x + frame3.Frame.PivotX - (fliph ? (frame2.Frame.Width + 41) : 0),
-                    y + frame3.Frame.PivotY + (flipv ? (frame3.Frame.Height - editorAnim.Frames[2].Frame.Height) : 0),
-                    frame3.Frame.Width, frame3.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame4),
-                    x + frame4.Frame.PivotX - (fliph ? (frame2.Frame.Width + 31) : 0),
-                    y + frame4.Frame.PivotY + (flipv ? (frame4.Frame.Height - editorAnim.Frames[6].Frame.Height) : 0),
-                    frame4.Frame.Width, frame4.Frame.Height, false, Transparency);
-                    
+                }
+            }
+
+            var frame = LoadAnimation("PSZ2/WoodChipper.bin", d, 0, 0);
+            DrawTexturePivotNormal(d, frame, frame.RequestedAnimID, frame.RequestedFrameID, x, y, Transparency, fliph, false);
+            var frame2 = LoadAnimation("PSZ2/WoodChipper.bin", d, 0, 1);
+            int frame2_width = frame.RequestedFrame.Width;
+            DrawTexturePivotNormal(d, frame2, frame2.RequestedAnimID, frame2.RequestedFrameID, x - (fliph ? (frame2_width - 92) : 0), y, Transparency, fliph, false);
+            var frame3 = LoadAnimation("PSZ2/WoodChipper.bin", d, 0, 2);
+            DrawTexturePivotNormal(d, frame3, frame3.RequestedAnimID, frame3.RequestedFrameID, x - (fliph ? (frame2_width + 41) : 0), y, Transparency, fliph, false);
+            var frame4 = LoadAnimation("PSZ2/WoodChipper.bin", d, 0, 6);
+            DrawTexturePivotNormal(d, frame4, frame4.RequestedAnimID, frame4.RequestedFrameID, x - (fliph ? (frame2_width + 31) : 0), y, Transparency, fliph, false);
+        }
+
+        public void DrawTexturePivotNormalCustom(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, int height, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 

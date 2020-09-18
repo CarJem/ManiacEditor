@@ -21,6 +21,7 @@ namespace ManiacEditor.Entity_Renders
             int angle = (int)e.attributesMap["angle"].ValueInt32;
             int type = (int)e.attributesMap["type"].ValueUInt8;
             int rotation = 0;
+            int rotation2 = 0;
 
             int offset_x1 = 0;
             int offset_y1 = 0;
@@ -50,6 +51,7 @@ namespace ManiacEditor.Entity_Renders
             {
                 case 0:
                     rotation = 0;
+                    rotation2 = 0;
                     //Offsets
                     offset_x1 = -20;
                     offset_y1 = -23;
@@ -62,6 +64,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
                 case 1:
                     rotation = 45;
+                    rotation2 = 225;
                     //Offsets
                     offset_x1 = 3;
                     offset_y1 = -30;
@@ -74,6 +77,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
                 case 2:
                     rotation = 90;
+                    rotation2 = 270;
                     //Offsets 
                     offset_x1 = 23;
                     offset_y1 = -20;
@@ -86,6 +90,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
                 case 3:
                     rotation = 135;
+                    rotation2 = 315;
                     //Offsets 
                     offset_x1 = 30;
                     offset_y1 = 3;
@@ -97,7 +102,8 @@ namespace ManiacEditor.Entity_Renders
                     offset_y3 = 4;
                     break;
                 case 4:
-                   rotation = 180;
+                    rotation = 180;
+                    rotation2 = 360;
                     //Offsets 
                     offset_x1 = 20;
                     offset_y1 = 23;
@@ -110,6 +116,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
                 case 5:
                     rotation = 225;
+                    rotation2 = 45;
                     //Offsets 
                     offset_x1 = -3;
                     offset_y1 = 31;
@@ -122,6 +129,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
                 case 6:
                     rotation = 270;
+                    rotation2 = 90;
                     //Offsets 
                     offset_x1 = -24;
                     offset_y1 = 20;
@@ -134,6 +142,7 @@ namespace ManiacEditor.Entity_Renders
                     break;
                 case 7:
                     rotation = 315;
+                    rotation2 = 135;
                     //Offsets
                     offset_x1 = -29;
                     offset_y1 = -3;
@@ -151,7 +160,7 @@ namespace ManiacEditor.Entity_Renders
             Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
             DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + offset_x1, y + offset_y1, Transparency, false, false, rotation);
             Animation = LoadAnimation(GetSetupAnimation(), d, 0, 0);
-            DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (type == 0 ? offset_x2_type : 0) + offset_x2, y + (type == 0 ? offset_y2_type : 0) + offset_y2, Transparency, true, false, rotation);
+            DrawTexturePivotForced(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + (type == 0 ? offset_x2_type : 0) + offset_x2, y + (type == 0 ? offset_y2_type : 0) + offset_y2, Transparency, true, false, rotation2);
             Animation = LoadAnimation(GetSetupAnimation(), d, 1, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, false, false);
 

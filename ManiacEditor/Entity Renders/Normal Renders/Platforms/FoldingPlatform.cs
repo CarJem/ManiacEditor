@@ -17,12 +17,14 @@ namespace ManiacEditor.Entity_Renders
             int direction = (int)entity.attributesMap["direction"].ValueUInt8;
             bool fliph = false;
             bool flipv = false;
+
+
+            var Animation = LoadAnimation(GetSetupAnimation(), d, 2, 4);
             if (direction == 1)
             {
                 fliph = true;
+                x -= Animation.RequestedFrame.Width;
             }
-
-            var Animation = LoadAnimation(GetSetupAnimation(), d, 2, 4);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

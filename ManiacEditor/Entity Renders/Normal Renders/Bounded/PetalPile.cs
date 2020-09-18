@@ -17,8 +17,8 @@ namespace ManiacEditor.Entity_Renders
 
             var widthPixels = (int)(e.attributesMap["pileSize"].ValueVector2.X.High);
             var heightPixels = (int)(e.attributesMap["pileSize"].ValueVector2.Y.High);
-            var width = (int)widthPixels;
-            var height = (int)heightPixels;
+            var width = (int)widthPixels * 2;
+            var height = (int)heightPixels * 2;
 
             DrawBounds(d, x, y, width, height, Transparency, SystemColors.White, SystemColors.Transparent);
 

@@ -1438,7 +1438,6 @@ namespace ManiacEditor.Classes.Scene
             }
             ChunkMap = null;
         }
-
         public void InvalidateChunks()
         {
             if (ChunkMap != null)
@@ -1457,17 +1456,14 @@ namespace ManiacEditor.Classes.Scene
 
             }
         }
-
         public void DisposeTextures()
         {
             InvalidateChunks();
         }
-
         public void Draw(DevicePanel d)
         {
             DrawLayer(d);
         }
-
         private bool IsSemiTransparent()
         {
             if (Methods.Solution.CurrentSolution.EditLayerA != null && Methods.Solution.CurrentSolution.EditLayerA != this) return true;
@@ -1477,11 +1473,9 @@ namespace ManiacEditor.Classes.Scene
             else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency) return true;
             else return false;
         }
-
         public void DrawLayer(DevicePanel d)
         {
             int Transperncy;
-
 
             if (IsSemiTransparent()) Transperncy = 0x32;
             else Transperncy = 0xFF;
@@ -1518,7 +1512,6 @@ namespace ManiacEditor.Classes.Scene
                 DisposeUnusedChunks();
             }
         }
-
         private void DisposeUnusedChunks()
         {
             for (int y = 0; y < ChunksHeight; y++)
@@ -1537,7 +1530,6 @@ namespace ManiacEditor.Classes.Scene
                 }
             }
         }
-
         private void InvalidateChunk(int x, int y)
         {
             if (ChunkMap[y][x] != null)
@@ -1546,7 +1538,6 @@ namespace ManiacEditor.Classes.Scene
                 ChunkMap[y][x] = null;
             }
         }
-
         private void InvalidateChunkFromPixelPosition(Point point)
         {
             var chunkPoint = GetDrawingChunkCoordinates(point.X, point.Y);
@@ -1587,7 +1578,6 @@ namespace ManiacEditor.Classes.Scene
             else return false;
 
         }
-
         public Classes.Rendering.TextureExt GetChunk(DevicePanel d, int x, int y)
         {
             bool isSelected = isChunkSelected(x, y);
@@ -1645,18 +1635,12 @@ namespace ManiacEditor.Classes.Scene
 
                 return ChunkMap[y][x].Texture;
             }
-
-
-
-
         }
-
         private ushort GetTileToDraw(Point source)
         {
             if (SelectedTiles.Values.ContainsKey(source)) return SelectedTiles.Values[source];
             else return Layer.Tiles[source.Y][source.X];
         }
-
         public void DrawTile(Graphics g, ushort tile, int x, int y, bool isSelected = false)
         {
             if (tile != 0xffff)

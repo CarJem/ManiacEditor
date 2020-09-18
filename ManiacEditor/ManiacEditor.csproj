@@ -286,13 +286,20 @@
     <Compile Include="Controls\Graphics\DevicePanel.designer.cs">
       <DependentUpon>DevicePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entity Renders\Normal Renders\Bosses\Armadiloid.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Badniks\CrabMeat.cs" />
     <Compile Include="Entity Renders\Normal Renders\Bosses\ScrewMobile.cs" />
     <Compile Include="Entity Renders\Normal Renders\Bosses\ShiverSaw.cs" />
     <Compile Include="Entity Renders\Normal Renders\Bounded\ConveyorBelt.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Generic\OutroIntroObject.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\FilmProjector.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\LightBarrier.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\Press.cs" />
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\SDashWheel.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\WoodChipper.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Gimmicks\YoyoPulley.cs" />
     <Compile Include="Entity Renders\Normal Renders\Motion\TeeterTotter.cs" />
     <Compile Include="Entity Renders\Normal Renders\Motion\WaterGush.cs" />
     <Compile Include="Entity Renders\Normal Renders\UI\SummaryEmerald.cs" />

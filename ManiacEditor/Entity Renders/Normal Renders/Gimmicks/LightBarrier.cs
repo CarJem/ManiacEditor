@@ -1,4 +1,5 @@
 ﻿using RSDKv5;
+using System.Linq;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -7,74 +8,64 @@ namespace ManiacEditor.Entity_Renders
 
         public override void Draw(Structures.EntityRenderProp properties)
         {
-            Methods.Draw.GraphicsHandler d = properties.Graphics;
-            SceneEntity entity = properties.Object; 
-            Classes.Scene.Sets.EditorEntity e = properties.EditorObject;
-            int x = properties.X;
-            int y = properties.Y;
+            DevicePanel d = properties.Graphics;
+            Classes.Scene.EditorEntity entity = properties.EditorObject;
+            int x = properties.DrawX;
+            int y = properties.DrawY;
             int Transparency = properties.Transparency;
-            int index = properties.Index;
-            int previousChildCount = properties.PreviousChildCount;
-            int platformAngle = properties.PlatformAngle;
-            Methods.Entities.EntityAnimator Animation = properties.Animations;
-            bool selected  = properties.isSelected;
             bool fliph = false;
             bool flipv = false;
             bool enabled = entity.attributesMap["enabled"].ValueBool;
             int size = (int)entity.attributesMap["size"].ValueEnum;
-            var editorAnim = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, flipv, false);
-            var editorAnim2 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, -1, fliph, true, false);
-            var editorAnim3 = Controls.Editor.MainEditor.Instance.EntityDrawing.LoadAnimation2("LightBarrier", d.DevicePanel, 0, 1, fliph, flipv, false);
-            if (editorAnim != null && editorAnim.Frames.Count != 0 && editorAnim2 != null && editorAnim2.Frames.Count != 0 && editorAnim3 != null && editorAnim3.Frames.Count != 0)
+
+
+            var editorAnim3 = LoadAnimation("FBZ/LightBarrier.bin", d, 0, 1);
+
+
+            int y_start = y + (size / 2);
+            int y_end = y - (size / 2);
+
+            if (enabled == true)
             {
-                var frame = editorAnim.Frames[0];
-                var frame2 = editorAnim2.Frames[0];
-                var frame3 = editorAnim3.Frames[0];
-                int y_start = y + (size / 2) + frame.Frame.PivotY;
-                int y_end = y - (size / 2);
+                int repeat = 0;
+                int lengthMemory = size;
+                int lengthLeft = size;
+                bool finalLoop = false;
+                int i = 0;
+                int sprite_height = 64;
 
-                if (enabled == true)
+
+                while (lengthLeft > sprite_height)
                 {
-                    int repeat = 0;
-                    int lengthMemory = size;
-                    int lengthLeft = size;
-                    bool finalLoop = false;
-                    int i = 0;
-                    int sprite_height = frame3.Frame.Height;
-
-
-                    while (lengthLeft > sprite_height)
-                    {
-                        repeat++;
-                        lengthLeft = lengthLeft - sprite_height;
-                    }
-                    d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-                        x + frame3.Frame.PivotX - (fliph ? (frame3.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
-                        y_end - (i * sprite_height) + (flipv ? (frame3.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
-                        frame3.Frame.Width, lengthMemory, false, 128);
-                    for (i = 1; i < repeat + 1; i++)
-                    {
-                        if (i == repeat)
-                        {
-                            finalLoop = true;
-                        }
-                        d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame3),
-                            x + frame3.Frame.PivotX - (fliph ? (frame3.Frame.Width - editorAnim3.Frames[0].Frame.Width) : 0),
-                                y_end + (i * sprite_height) + (flipv ? (frame3.Frame.Height - editorAnim3.Frames[0].Frame.Height) : 0),
-                                frame3.Frame.Width, (finalLoop ? lengthLeft : frame3.Frame.Height), false, 128);
-                    }
+                    repeat++;
+                    lengthLeft = lengthLeft - sprite_height;
                 }
 
+                DrawTexturePivotNormal(d, editorAnim3, editorAnim3.RequestedAnimID, editorAnim3.RequestedFrameID, x, y_end - (i * sprite_height), Transparency);
 
+                for (i = 1; i < repeat + 1; i++)
+                {
+                    if (i == repeat)
+                    {
+                        finalLoop = true;
+                    }
 
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame),
-                    x + frame.Frame.PivotX + (fliph ? (frame.Frame.Width - editorAnim.Frames[0].Frame.Width * 2) : 0),
-                    y + (size/2) + frame.Frame.PivotY,
-                    frame.Frame.Width, frame.Frame.Height, false, Transparency);
-                d.DrawBitmap(new Methods.Draw.GraphicsHandler.GraphicsInfo(frame2),
-                    x + frame2.Frame.PivotX + (fliph ? (frame2.Frame.Width - editorAnim2.Frames[0].Frame.Width * 2) : 0),
-                    y - (size/2),
-                    frame2.Frame.Width, frame2.Frame.Height, false, Transparency);
+ 
+                    int height = (finalLoop ? lengthLeft : sprite_height);
+                    DrawTexturePivotNormalCustom(d, editorAnim3, editorAnim3.RequestedAnimID, editorAnim3.RequestedFrameID, x, y_end + (i * sprite_height), Transparency, height);
+                }
+            }
+            var editorAnim = LoadAnimation("FBZ/LightBarrier.bin", d, 0, 0);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y + (size / 2), Transparency, false, false);
+            DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x, y - (size / 2) + 16, Transparency, false, true);
+        }
+
+        public void DrawTexturePivotNormalCustom(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, int height, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
 
