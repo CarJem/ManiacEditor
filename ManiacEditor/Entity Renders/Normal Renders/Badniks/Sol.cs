@@ -37,10 +37,10 @@ namespace ManiacEditor.Entity_Renders
             if (!fireOrbs)
             {
                 Animation = LoadAnimation("OOZ/Sol.bin", d, 1, 0);
-                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 16, y, Transparency - 100, fliph, flipv);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x + 16, y, Transparency, fliph, flipv);
 
                 Animation = LoadAnimation("OOZ/Sol.bin", d, 1, 0);
-                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 30, y, Transparency - 100, fliph, flipv);
+                DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 30, y, Transparency, fliph, flipv);
             }
             else
             {

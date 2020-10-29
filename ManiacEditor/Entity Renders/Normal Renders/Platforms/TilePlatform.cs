@@ -14,6 +14,8 @@ namespace ManiacEditor.Entity_Renders
         private Platform TrueSelf { get; set; } = new Platform();
         private ushort[][] TileMap { get; set; }
         public static bool TilesNeedUpdate { get; set; } = false;
+
+        private bool ErrorKilled = false;
         #endregion
 
         private int platform_x;
@@ -40,8 +42,11 @@ namespace ManiacEditor.Entity_Renders
             int PixelPosX = (int)e.attributesMap["targetPos"].ValueVector2.X.High - (PixelWidth / 2);
             int PixelPosY = (int)e.attributesMap["targetPos"].ValueVector2.Y.High - (PixelHeight / 2);
 
-            StoreTileMapData(PixelPosX, PixelPosY, PixelWidth, PixelHeight);
-            TrueSelf.DrawSubType(Properties, DrawTileMap);
+            if (MoveLayer != null && !ErrorKilled)
+            {
+                StoreTileMapData(PixelPosX, PixelPosY, PixelWidth, PixelHeight);
+                TrueSelf.DrawSubType(Properties, DrawTileMap);
+            }
         }
         public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)
         {
@@ -67,35 +72,45 @@ namespace ManiacEditor.Entity_Renders
         }
         private bool DrawTileMap(DevicePanel d, int _x, int _y, int transparency, System.Drawing.Color color)
         {
-
-            int x = _x - (platform_width / 2);
-            int y = _y - (platform_height / 2);
-
-            if (MoveLayer != null)
+            if (ErrorKilled) return false;
+            try
             {
-                if (TileMap == null || TileMap != MoveLayer.Tiles || TilesNeedUpdate || PlatformImage == null)
+                int x = _x - (platform_width / 2);
+                int y = _y - (platform_height / 2);
+
+                if (MoveLayer != null)
                 {
-                    TilesNeedUpdate = false;
-                    if (PlatformImage != null)
+                    if (TileMap == null || TileMap != MoveLayer.Tiles || TilesNeedUpdate || PlatformImage == null)
                     {
-                        PlatformImage.Dispose();
-                        PlatformImage = null;
+                        TilesNeedUpdate = false;
+                        if (PlatformImage != null)
+                        {
+                            PlatformImage.Dispose();
+                            PlatformImage = null;
+                        }
+
+                        TileMap = MoveLayer.Tiles;
+
+                        var bitmap = new System.Drawing.Bitmap(MoveLayer.Width * Methods.Solution.SolutionConstants.TILE_SIZE, MoveLayer.Height * Methods.Solution.SolutionConstants.TILE_SIZE);
+                        System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
+                        MoveLayer.Draw(g);
+                        PlatformImage = Methods.Drawing.TextureCreator.FromBitmap(d._device, bitmap);
+                        g.Clear(System.Drawing.Color.Transparent);
+                        bitmap.Dispose();
+                        g.Dispose();
                     }
 
-                    TileMap = MoveLayer.Tiles;
-
-                    var bitmap = new System.Drawing.Bitmap(MoveLayer.Width * Methods.Solution.SolutionConstants.TILE_SIZE, MoveLayer.Height * Methods.Solution.SolutionConstants.TILE_SIZE);
-                    System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap);
-                    MoveLayer.Draw(g);
-                    PlatformImage = Methods.Drawing.TextureCreator.FromBitmap(d._device, bitmap);
-                    g.Clear(System.Drawing.Color.Transparent);
-                    bitmap.Dispose();
-                    g.Dispose();
+                    d.DrawBitmap(PlatformImage, x, y, platform_x, platform_y, platform_width, platform_height, false, transparency, false, false, 0, color);
                 }
-
-                d.DrawBitmap(PlatformImage, x, y, platform_x, platform_y, platform_width, platform_height, false, transparency, false, false, 0, color);
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                ErrorKilled = true;
+                return false;
+            }
+
         }
     }
 }

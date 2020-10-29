@@ -18,7 +18,7 @@ namespace ManiacEditor.Entity_Renders
             bool flipv = false;
 
             var Animation = LoadAnimation("CPZ/DNARiser.bin", d, 0, 0);
-            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency - 111, fliph, flipv);
+            DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
 
             Animation = LoadAnimation("CPZ/DNARiser.bin", d, 2, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x - 24, y, Transparency, fliph, flipv);

@@ -132,7 +132,7 @@ namespace ManiacEditor.Entity_Renders
                 if (selected)
                 {
                     Animation = LoadAnimation("OOZ/BallCannon.bin", d, 0, 0);
-                    DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x2, y2, Transparency - 125, fliph, flipv, rotation2);
+                    DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x2, y2, Transparency, fliph, flipv, rotation2);
                 }
 
                 Animation = LoadAnimation("OOZ/BallCannon.bin", d, 0, 0);

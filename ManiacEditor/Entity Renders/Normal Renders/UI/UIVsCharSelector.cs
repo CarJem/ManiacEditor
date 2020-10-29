@@ -35,7 +35,7 @@ namespace ManiacEditor.Entity_Renders
 
             }
             
-            d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(Transparency - 128, 255, 255, 255));
+            d.DrawRectangle(x - 48, y - 48, x + 48, y + 48, System.Drawing.Color.FromArgb(Transparency, 255, 255, 255));
 
 
             var editorAnimFrame = LoadAnimation("EditorUIRender", d, 1, 0);

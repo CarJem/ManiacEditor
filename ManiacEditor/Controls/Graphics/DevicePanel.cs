@@ -69,6 +69,7 @@ namespace ManiacEditor
 
         #region Status Properties
 
+        public bool HasUnrecoveraableCrash = false;
         public bool AllowRender { get; set; } = true;
         public bool isRendering { get; private set; } = false;
         public bool isDeviceLost { get; private set; }
@@ -300,6 +301,11 @@ namespace ManiacEditor
         #endregion
 
         #region Rendering
+        public void ShutDownError(string Message)
+        {
+            MessageBox.Show(Message);
+            HasUnrecoveraableCrash = true;
+        }
         public void Run()
         {
             ManiacEditor.Classes.Rendering.RenderLoop.Run(this, () =>
@@ -321,8 +327,20 @@ namespace ManiacEditor
             */
         }
 
+        public void DrawUnrecoverable()
+        {
+            this.Visible = false;
+        }
+
         public void Draw()
         {
+            if (HasUnrecoveraableCrash)
+            {
+                DrawUnrecoverable();
+                return;
+            }
+
+
             if (!AllowRender) return;
 
             if (isRendering) return;
@@ -397,8 +415,12 @@ namespace ManiacEditor
             {
                 if (ex.ResultCode == ResultCode.DeviceLost)
                     isDeviceLost = true;
-                else
-                    throw ex;
+                else ShutDownError(ex.Message);
+                    
+            }
+            catch (Exception ex)
+            {
+                ShutDownError(ex.Message);
             }
             isRendering = false;
 
@@ -409,7 +431,7 @@ namespace ManiacEditor
         #region Overrides
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.Render();
+            this.Draw();
         }
         protected override bool IsInputKey(Keys keyData)
         {
