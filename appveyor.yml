@@ -16,6 +16,7 @@ assembly_info:
 before_build:
 - cmd: nuget restore
 install:
+  - git submodule update --init --recursive
   - cd %APPVEYOR_BUILD_FOLDER%
   - nuget restore
 build:
