@@ -2,6 +2,9 @@ version: 1.0.0.{build}
 shallow_clone: true
 image: Visual Studio 2019
 skip_tags: true
+clone_script:
+- cmd: git clone -q --recursive --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
+- cmd: git checkout -qf %APPVEYOR_REPO_COMMIT%
 environment:
   matrix:
     - BUILD: Universal (x86 / x64) (To Download Click Artifacts) ||||---------------------------------------
