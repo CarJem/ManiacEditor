@@ -1708,10 +1708,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RSDK-Animation-Editor-Reloaded\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj">
-      <Project>{02c46a71-d578-4aad-b7f2-dbfe550bbb57}</Project>
-      <Name>Xe.Tools.Wpf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GenerationsLib\GenerationsLib.Core\GenerationsLib.Core.csproj">
       <Project>{51ca42a9-58f0-4f3d-a250-bc22d8a8540e}</Project>
       <Name>GenerationsLib.Core</Name>
@@ -1749,6 +1745,10 @@
     <ProjectReference Include="..\RSDK-Reverse\RSDKvRS\RSDKvRS.csproj">
       <Project>{aae1bacd-fe6b-4cc6-ad2d-073315f45eaf}</Project>
       <Name>RSDKvRS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xe.Tools.Wpf\Xe.Tools.Wpf.csproj">
+      <Project>{02c46a71-d578-4aad-b7f2-dbfe550bbb57}</Project>
+      <Name>Xe.Tools.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
