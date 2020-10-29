@@ -533,16 +533,10 @@ namespace ManiacEditor.Controls.Toolbox
 		}
 		private void AddHorizontalMapping()
 		{
-			// create the horizontal rule set
-			var layer = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
-			layer.ProduceHorizontalLayerScroll();
+			var hls = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.ElementAt(SelectedLayerHorizontalIndex);
+			if (null == hls) return;
 
-			// make sure our view of the underlying set of rules is refreshed
-			lbHorizontalRules.Items.Refresh();
-
-			// and select the one we just made
-			lbHorizontalRules.SelectedIndex = lbHorizontalRules.Items.Count - 1;
-			
+			hls.AddMapping();			
 		}
 		private void RemoveHorizontalMapping()
 		{
@@ -597,11 +591,16 @@ namespace ManiacEditor.Controls.Toolbox
 		}
 		private void AddHorizontalRule()
 		{
-			var hls = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.ElementAt(SelectedLayerHorizontalIndex);
-			if (null == hls) return;
 
-			hls.AddMapping();
-			
+			// create the horizontal rule set
+			var layer = CurrentDataContext.Layers.ElementAt(SelectedLayerIndex);
+			layer.ProduceHorizontalLayerScroll();
+
+			// make sure our view of the underlying set of rules is refreshed
+			lbHorizontalRules.Items.Refresh();
+
+			// and select the one we just made
+			lbHorizontalRules.SelectedIndex = lbHorizontalRules.Items.Count - 1;
 		}
 		private void RemoveHorizontalRule()
 		{

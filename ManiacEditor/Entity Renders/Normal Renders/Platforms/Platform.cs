@@ -65,7 +65,7 @@ namespace ManiacEditor.Entity_Renders
 
                 if (DrawCall != null)
                 {
-                    DrawCall(d, x + newX, y - newY, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 555));
+                    DrawCall(d, x + newX, y - newY, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 255));
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace ManiacEditor.Entity_Renders
             int y1 = y - (amplitudeY / 2);
             int y2 = y + (amplitudeY / 2);
 
-            d.DrawLine(x1, x2, y1, y2, System.Drawing.Color.Yellow, 3);
+            d.DrawLine(x1, y1, x2, y2, System.Drawing.Color.Yellow, 3);
             if (DrawCall != null)
             {
                 DrawCall(d, x, y, Transparency, System.Drawing.Color.FromArgb(255, 255, 255, 555));

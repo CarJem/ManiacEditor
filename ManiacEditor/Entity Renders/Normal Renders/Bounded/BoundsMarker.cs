@@ -22,10 +22,10 @@ namespace ManiacEditor.Entity_Renders
 
             int line_x1 = x - width / 2;
             int line_x2 = x + width / 2;
-            int line_y1 = (y - 1);
+            int line_y1 = (y - 2);
+            int line_y2 = (y + 1);
 
-            d.DrawLine(line_x1, line_y1, line_x2, line_y1, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 3);
-            d.DrawLine(line_x1 + 1, line_y1, line_x2 - 1, line_y1, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White), 1);
+            d.DrawRectangle(line_x1, line_y1, line_x2, line_y2, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.White), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 1);
 
             var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "EditorIcons", 0, 2);
 

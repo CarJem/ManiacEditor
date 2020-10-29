@@ -15,7 +15,7 @@ using System.Drawing;
 
 namespace ManiacEditor.Controls.Toolbox
 {
-    public partial class TileManager : Window
+    public partial class TilesheetEditor : Window
     {
         #region Definitions
 
@@ -24,7 +24,7 @@ namespace ManiacEditor.Controls.Toolbox
         #endregion
 
         #region Init
-        public TileManager()
+        public TilesheetEditor()
         {
             InitializeComponent();
             TilesList.SelectedIndexChanged += TilesList_SelectedIndexChanged;
@@ -126,31 +126,6 @@ namespace ManiacEditor.Controls.Toolbox
             }
             return TilesList;
         }
-        public void Convert()
-        {
-            System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog
-            {
-                Filter = "Exported Tiles|*.gif",
-                DefaultExt = "gif",
-                InitialDirectory = ManiacEditor.Methods.Solution.SolutionPaths.SceneFile_Source.SourceDirectory,
-                RestoreDirectory = false
-            };
-            if (open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                System.Windows.Forms.SaveFileDialog save = new System.Windows.Forms.SaveFileDialog
-                {
-                    Filter = "Converted Tiles|*.gif",
-                    DefaultExt = "gif",
-                    InitialDirectory = ManiacEditor.Methods.Solution.SolutionPaths.SceneFile_Source.SourceDirectory,
-                    RestoreDirectory = false,
-                    FileName = "16x16Tiles_Converted"
-                };
-                if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    Classes.Scene.EditorTiles.ImportIndexed(open.FileName, save.FileName);
-                }
-            }
-        }
         public System.Drawing.Bitmap GenerateBitmap()
         {
             int lastIndex = -1;
@@ -218,8 +193,7 @@ namespace ManiacEditor.Controls.Toolbox
         {
             System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog
             {
-                Filter = "GIF Files|*.gif",
-                DefaultExt = "gif",
+                Filter = "Images Files|*.gif;*.bmp;*.png",
                 InitialDirectory = ManiacEditor.Methods.Solution.SolutionPaths.SceneFile_Source.SourceDirectory,
                 RestoreDirectory = false
             };
@@ -236,56 +210,51 @@ namespace ManiacEditor.Controls.Toolbox
         {
             UpdatePreview();
         }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateList();
         }
-
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
         private void LoadStageTilesMenuItem_Click(object sender, RoutedEventArgs e)
         {
             LoadStageTiles();
         }
-
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Save();
         }
-
         private void SaveAsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Save(true);
         }
-
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             UpdatePreview();
         }
-
         private void LoadMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Load();
         }
-
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             RemoveSelectedTiles();
         }
-        private void ConvertMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Convert();
-        }
-
         private void RemoveDuplicatesButton_Click(object sender, RoutedEventArgs e)
         {
             RemoveDuplicateTiles();
         }
 
         #endregion
+
+        private void TilesList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                RemoveSelectedTiles();
+            }
+        }
     }
 }

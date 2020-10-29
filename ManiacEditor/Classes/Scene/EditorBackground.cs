@@ -7,11 +7,9 @@ namespace ManiacEditor.Classes.Scene
     public class EditorBackground : IDrawable
     {
 
-        public ManiacEditor.Controls.Editor.MainEditor EditorInstance;
-
-		public EditorBackground(ManiacEditor.Controls.Editor.MainEditor instance)
+		public EditorBackground()
         {
-            EditorInstance = instance;
+
         }
 
 
@@ -81,10 +79,10 @@ namespace ManiacEditor.Classes.Scene
 
         public void DrawGrid(DevicePanel d)
         {
-            int GridSize = (EditorInstance != null ? Methods.Solution.SolutionState.Main.GridSize : 16);
+            int GridSize = (Methods.Solution.CurrentSolution.UI_Instance != null ? Methods.Solution.SolutionState.Main.GridSize : 16);
             Rectangle screen = d.GetScreen();
 
-			Color GridColor = Color.FromArgb((int)EditorInstance.EditorToolbar.gridOpacitySlider.Value, Methods.Solution.SolutionState.Main.GridColor.R, Methods.Solution.SolutionState.Main.GridColor.B, Methods.Solution.SolutionState.Main.GridColor.G);
+			Color GridColor = Color.FromArgb((int)Methods.Solution.CurrentSolution.UI_Instance.EditorToolbar.gridOpacitySlider.Value, Methods.Solution.SolutionState.Main.GridColor.R, Methods.Solution.SolutionState.Main.GridColor.B, Methods.Solution.SolutionState.Main.GridColor.G);
 
 
             int start_x;

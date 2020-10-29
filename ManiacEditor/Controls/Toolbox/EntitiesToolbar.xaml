@@ -92,14 +92,14 @@
                                 <ListBox x:Name="SceneEntitiesList">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <maniac:EntitiesListItem
-                                                    SelfContent="{Binding Path=ItemContent}"
-                                                    Tag="{Binding Path=Tag}"
-                                                    SelfForeground="{Binding Path=ItemForeground}"
-                                                    Visibility="{Binding Path=Visibility}"
-                                                    Click="EntitiesListEntryClicked"
-                                                    ClickDown="EntitiesListEntryClickedDown"
-                                                    ClickUp="EntitiesListEntryClickedUp"></maniac:EntitiesListItem>
+                                            <Button x:Name="MainButton" 
+                                                Tag="{Binding Path=Tag}"
+                                                Foreground="{Binding Path=ItemForeground}"
+                                                Content="{Binding Path=ItemContent}"
+                                                Visibility="{Binding Path=Visibility}"
+                                                Height="Auto" Grid.RowSpan="2" 
+                                                Click="EntitiesListEntryClicked">
+                                            </Button>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                     <ListBox.ItemsPanel>

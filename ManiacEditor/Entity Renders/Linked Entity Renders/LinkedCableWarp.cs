@@ -12,7 +12,7 @@ namespace ManiacEditor.Entity_Renders
 
             properties.EditorObject.DrawBase(properties.Graphics);
 
-            var beanstalkPaths = properties.EditorObject.Entities.Entities.Where(e => e.SlotID == targetSlotID);
+            var beanstalkPaths = Methods.Solution.CurrentSolution.Entities.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (beanstalkPaths != null && beanstalkPaths.Any())
             {

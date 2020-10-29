@@ -100,6 +100,10 @@ namespace ManiacEditor.Controls.Editor
 
             this.Activated += new System.EventHandler(this.Editor_Activated);
 
+            Classes.Scene.EditorEntities.OnUpdate += EditorClasses_OnUpdate;
+            Classes.Scene.EditorLayer.OnUpdate += EditorClasses_OnUpdate;
+            Classes.Scene.EditorEntity.OnUpdate += EditorClasses_OnUpdate;
+
             Methods.Internal.Theming.SetTheme();
             ElementHost.EnableModelessKeyboardInterop(this);
             System.Windows.Application.Current.MainWindow = this;
@@ -108,6 +112,7 @@ namespace ManiacEditor.Controls.Editor
             Extensions.ConsoleExtensions.AttachConsole(Process.GetCurrentProcess().Id);
             Extensions.ConsoleExtensions.HideConsoleWindow();
         }
+
         private void InitilizeControls()
         {
             ViewPanel.UpdateInstance(this);
@@ -170,7 +175,6 @@ namespace ManiacEditor.Controls.Editor
             {
                 Methods.Internal.UserInterface.ReloadSpritesAndTextures();
             }
-
         }
         private void Editor_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -190,8 +194,6 @@ namespace ManiacEditor.Controls.Editor
 
             ViewPanel.SharpPanel.Dispose();
             ViewPanel.SharpPanel.Host.Child.Dispose();
-
-
         }
 
         private bool IsViewPanelFocused()
@@ -226,6 +228,7 @@ namespace ManiacEditor.Controls.Editor
             }
 
         }
+
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
             Focus();
@@ -234,8 +237,17 @@ namespace ManiacEditor.Controls.Editor
         }
         private void Editor_Resize(object sender, SizeChangedEventArgs e)
         {
+            ViewPanel.SharpPanel.GraphicPanel.Render();
+        }
+        #endregion
+
+        #region Class Events
+
+        private void EditorClasses_OnUpdate(object sender, EventArgs e)
+        {
 
         }
+
         #endregion
 
         #region Mod Config List Stuff

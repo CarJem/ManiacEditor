@@ -945,13 +945,25 @@ namespace ManiacEditor.Methods.Internal
 
                 Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", currentEntity.Name);
                 Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0}", currentEntity.SlotID);
+                Instance.EditorStatusBar.EntityHexidecimalSlotIDItem.Header = String.Format("ObjAddy: 0x{0}", currentEntity.SlotID.ToString("X"));
+                Instance.EditorStatusBar.EntityHexidecimalFilteredSlotIDItem.Header = String.Format("(Filtered): 0x{0}", currentEntity.FilterSlotID.ToString("X"));
                 Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", currentEntity.Position.X.High, currentEntity.Position.Y.High);
+
+                Instance.EditorStatusBar.EntitySlotIDItem.Tag = currentEntity.SlotID.ToString();
+                Instance.EditorStatusBar.EntityHexidecimalSlotIDItem.Tag = "SonicMania.exe + 0047B010 + 0x458 * " + "0x" + currentEntity.SlotID.ToString("X");
+                Instance.EditorStatusBar.EntityHexidecimalFilteredSlotIDItem.Tag = "SonicMania.exe + 0047B010 + 0x458 * " + "0x" + currentEntity.FilterSlotID.ToString("X");
             }
             else
             {
                 Instance.EditorStatusBar.EntityNameItem.Header = String.Format("Entity Name: {0}", "N/A");
-                Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0} {1} Runtime Slot ID: {2}", "N/A", Environment.NewLine, "N/A");
+                Instance.EditorStatusBar.EntitySlotIDItem.Header = String.Format("Slot ID: {0}", "N/A");
+                Instance.EditorStatusBar.EntityHexidecimalSlotIDItem.Header = String.Format("ObjAddy: {0}", "N/A");
+                Instance.EditorStatusBar.EntityHexidecimalFilteredSlotIDItem.Header = String.Format("(Filtered): {0}", "N/A");
                 Instance.EditorStatusBar.EntityPositionItem.Header = String.Format("X: {0}, Y: {1}", e.X, e.Y);
+
+                Instance.EditorStatusBar.EntitySlotIDItem.Tag = null;
+                Instance.EditorStatusBar.EntityHexidecimalSlotIDItem.Tag = null;
+                Instance.EditorStatusBar.EntityHexidecimalFilteredSlotIDItem.Tag = null;
             }
             System.Windows.Controls.ContextMenu info = new System.Windows.Controls.ContextMenu();
             info.Style = (System.Windows.Style)Instance.FindResource("DefaultContextMenuStyle");
@@ -1090,6 +1102,8 @@ namespace ManiacEditor.Methods.Internal
             if (!ShiftPressed() && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(1, false);
             // Tiles Toolbar Flip Horizontal (OFF)
             if (!CtrlPressed() && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, false);
+
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
         }
         public static void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -1179,6 +1193,8 @@ namespace ManiacEditor.Methods.Internal
             else if (e.KeyCode == Keys.F) Methods.Solution.SolutionActions.FlipVertical();
             // Flip Horizontal
             else if (e.KeyCode == Keys.M) Methods.Solution.SolutionActions.FlipHorizontal();
+
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
         }
         #endregion
 

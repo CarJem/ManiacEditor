@@ -11,33 +11,34 @@ namespace ManiacEditor.Entity_Renders
     public abstract class EntityRenderer
     {
 
-        #region Common
-        public abstract string GetObjectName();
+        #region Abstracts/Overides
 
+        public abstract string GetObjectName();
         public virtual void Draw(Structures.EntityRenderProp properties)
         {
 
         }
+        public virtual bool isObjectOnScreen(DevicePanel d, EditorEntity entity, int x, int y, int Transparency)
+        {
+            return d.IsObjectOnScreen(x, y, 20, 20);
+        }
+        public virtual string GetSetupAnimation()
+        {
+            //return GetSpriteAnimationPath("/BuzzBomber.bin", "BuzzBomber", new string[] { "GHZ" }, "GHZ");
+            return "NULLSPRITE";
+        }
 
-        /*
-        return GetSpriteAnimationPath("/Decoration.bin", "Decoration", new string[] { "GHZ", "CPZ", "SPZ1", "FBZ", "HCZ", "MSZ", "TMZ1", "AIZ" });
-        return GetSpriteAnimationPath("/LRZRockPile.bin", "LRZRockPile", new string[] { "LRZ2", "LRZ1" });
-        return GetSpriteAnimationPath("/MicDrop.bin", "MicDrop", new string[] { "SPZ1", "SPZ2" });
-        return GetSpriteAnimationPath("/Spikes.bin", "Spikes", new string[] { "FBZ", "PSZ2" }, "Global");
-        return GetSpriteAnimationPath("/Platform.bin", "Platform", new string[] { "GHZ","CPZ","SPZ1","SPZ2","FBZ","PSZ1","PSZ2","SSZ1","SSZ2","HCZ","MSZ","OOZ","LRZ1","LRZ2","MMZ","TMZ1","AIZ" });
-        */
+        #endregion
 
-
+        #region Zone Unlocks / Asset Detection
         private static bool ValidUnlockCode(List<string> ZoneUnlocks, string UnlockName)
         {
             return ZoneUnlocks.Contains(UnlockName) && Structures.IZStageUnlocks.AllUnlocks.Contains(UnlockName);
         }
-
         private static bool AllowedSetupType(List<string> AllowedSetups, string SetupName, string DesiredSetup)
         {
             return DesiredSetup == SetupName && AllowedSetups.Contains(SetupName);
         }
-
         public static string GetSpriteAnimationPath(string BinName, string UnlockName, string[] AllowedSetupsArray, string FallBackFolder = "Blueprint")
         {
             List<string> AllowedSetups = AllowedSetupsArray.ToList();
@@ -98,28 +99,45 @@ namespace ManiacEditor.Entity_Renders
                 else return FallBackFolder + BinName;
             }
         }
-
-        public virtual string GetSetupAnimation()
+        public static string GetParallaxSpritePath(string[] AllowedSetupsArray)
         {
-            return "NULLSPRITE";
-        }
+            // Parallax Sprite's that Exist
+            // "SPZ", "LRZ", "MSZ", "OOZ", "CPZ", "FBZ"
 
-        public virtual bool isObjectOnScreen(DevicePanel d, EditorEntity entity, int x, int y, int Transparency)
-        {
-            return d.IsObjectOnScreen(x, y, 20, 20);
+            List<string> AllowedSetups = AllowedSetupsArray.ToList();
+
+            string BinName = "Parallax.bin";
+            string UnlockName = "Parallax";
+            if (Methods.Solution.CurrentSolution.IZ_Stage != null && Methods.Solution.CurrentSolution.IZ_Stage.Unlocks != null)
+            {
+                var unlocks = Methods.Solution.CurrentSolution.IZ_Stage.Unlocks;
+
+                if (ValidUnlockCode(unlocks, "CPZ" + "_" + UnlockName)) return "CPZ" + "/" + "CPZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "SPZ1" + "_" + UnlockName)) return "SPZ1" + "/" + "SPZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "FBZ" + "_" + UnlockName)) return "FBZ" + "/" + "FBZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "MSZ" + "_" + UnlockName)) return "MSZ" + "/" + "MSZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "OOZ" + "_" + UnlockName)) return "OOZ" + "/" + "OOZ" + BinName;
+                else if (ValidUnlockCode(unlocks, "LRZ2" + "_" + UnlockName)) return "LRZ2" + "/" + "LRZ" + BinName;
+            }
+
+            string SetupType = "";
+            if (Methods.Solution.CurrentSolution.Entities.SetupObject != null) SetupType = Methods.Solution.CurrentSolution.Entities.SetupObject.Replace("Setup", "");
+
+            if (AllowedSetupType(AllowedSetups, SetupType, "CPZ")) return "CPZ" + "/" + "CPZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "SPZ1")) return "SPZ1" + "/" + "SPZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "FBZ")) return "FBZ" + "/" + "FBZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "MSZ")) return "MSZ" + "/" + "MSZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "OOZ")) return "OOZ" + "/" + "OOZ" + BinName;
+            else if (AllowedSetupType(AllowedSetups, SetupType, "LRZ2")) return "LRZ2" + "/" + "LRZ" + BinName;
+            else
+            {
+                return "EditorIcons2";
+            }
         }
         #endregion
 
-        #region Universal
-        public static Methods.Drawing.ObjectDrawing.EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimID = 0, int FrameID = 0)
-        {
-            return Methods.Drawing.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
-        }
-        public static Methods.Drawing.ObjectDrawing.EditorAnimation LoadAnimation(DevicePanel d, string name, int AnimID = 0, int FrameID = 0)
-        {
-            return Methods.Drawing.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
-        }
-        public static bool IsValidated(Methods.Drawing.ObjectDrawing.EditorAnimation Animation, Tuple<int,int> AnimPos = null)
+        #region LoadAnimation/Validation
+        public static bool IsValidated(Methods.Drawing.ObjectDrawing.EditorAnimation Animation, Tuple<int, int> AnimPos = null)
         {
             if (Animation != null)
             {
@@ -145,7 +163,33 @@ namespace ManiacEditor.Entity_Renders
             }
             return false;
         }
+        public static Methods.Drawing.ObjectDrawing.EditorAnimation LoadAnimation(string name, DevicePanel d, int AnimID = 0, int FrameID = 0)
+        {
+            return Methods.Drawing.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
+        }
+        public static Methods.Drawing.ObjectDrawing.EditorAnimation LoadAnimation(DevicePanel d, string name, int AnimID = 0, int FrameID = 0)
+        {
+            return Methods.Drawing.ObjectDrawing.LoadAnimation(d, name, AnimID, FrameID);
+        }
+        #endregion
 
+        #region DrawTexture
+        public static void DrawTexture(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+            }
+        }
+        public static void DrawTexture(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int width, int height, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, width, height, false, Transparency, FlipH, FlipV, rotation, color);
+            }
+        }
         public static void DrawTexturePivotPlus(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
@@ -154,16 +198,33 @@ namespace ManiacEditor.Entity_Renders
                 Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX + x2, y + Frame.PivotY + y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
-
-        public static void DrawTexturePivotMultiply(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int x2, int y2, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawTexturePivotNormal(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
             {
                 var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX * x2, y + Frame.PivotY * y2, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
             }
         }
+        public static void DrawTexturePivotLengthLimit(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, int Height)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y, Frame.X, Frame.Y, Frame.Width, Height, false, Transparency);
+            }
+        }
+        public static void DrawTexturePivotForced(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        {
+            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            {
+                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
+                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - (Frame.Width / 2), y - (Frame.Height / 2), Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+            }
+        }
+        #endregion
 
+        #region DrawBounds
         public static void DrawBounds(DevicePanel d, int x, int y, int width, int height, int Transparency, System.Drawing.Color outline, System.Drawing.Color fill)
         {
             if (width != 0 && height != 0)
@@ -183,51 +244,34 @@ namespace ManiacEditor.Entity_Renders
                     bool right = (i & 1) > 0;
                     bool bottom = (i & 2) > 0;
 
-                    int realX = (right ? x2 - 15 : x1 - 1);
-                    int realY = (bottom ? y2 - 15 : y1 - 1);
+                    int realX = (right ? x2 - 15 : x1);
+                    int realY = (bottom ? y2 - 15 : y1);
                     DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, realX, realY, Transparency, right, bottom);
 
 
                 }
             }
         }
-
-        public static void DrawTexturePivotNormal(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
+        public static void DrawBounds2(DevicePanel d, int x1, int y1, int x2, int y2, int Transparency, System.Drawing.Color outline, System.Drawing.Color fill)
         {
-            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
+            d.DrawRectangle(x1, y1, x2, y2, fill, outline, 1);
+
+            var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "EditorAssets", 0, 1);
+
+            // draw corners
+            for (int i = 0; i < 4; i++)
             {
-                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
+                bool right = (i & 1) > 0;
+                bool bottom = (i & 2) > 0;
+
+                int realX = (right ? x1 - 15 : x2);
+                int realY = (bottom ? y1 - 15 : y2);
+                DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, realX, realY, Transparency, right, bottom);
             }
         }
+        #endregion
 
-        public static void DrawTexturePivotFlip(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
-        {
-            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
-            {
-                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - Frame.PivotX, y + Frame.PivotY, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
-            }
-        }
-
-        public static void DrawTexturePivotLengthLimit(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, int Height)
-        {
-            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
-            {
-                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x + Frame.PivotX, y, Frame.X, Frame.Y, Frame.Width, Height, false, Transparency);
-            }
-        }
-
-        public static void DrawTexturePivotForced(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
-        {
-            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
-            {
-                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x - (Frame.Width / 2), y - (Frame.Height / 2), Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
-            }
-        }
-
+        #region DrawHitbox
         public static void DrawHitbox(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, string HitboxName, System.Drawing.Color color, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0)
         {
             if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
@@ -246,27 +290,7 @@ namespace ManiacEditor.Entity_Renders
                 }
             }
         }
-
-        public static void DrawTexture(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
-        {
-            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
-            {
-                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, Frame.Width, Frame.Height, false, Transparency, FlipH, FlipV, rotation, color);
-            }
-        }
-
-        public static void DrawTexture(DevicePanel Graphics, Methods.Drawing.ObjectDrawing.EditorAnimation Animation, int AnimID, int FrameID, int x, int y, int width, int height, int Transparency, bool FlipH = false, bool FlipV = false, int rotation = 0, System.Drawing.Color? color = null)
-        {
-            if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(AnimID, FrameID)))
-            {
-                var Frame = Animation.Animation.Animations[AnimID].Frames[FrameID];
-                Graphics.DrawBitmap(Animation.Spritesheets.ElementAt(Frame.SpriteSheet).Value, x, y, Frame.X, Frame.Y, width, height, false, Transparency, FlipH, FlipV, rotation, color);
-            }
-        }
-
         #endregion
-
 
     }
 }

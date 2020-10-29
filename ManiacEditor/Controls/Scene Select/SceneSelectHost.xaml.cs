@@ -815,16 +815,21 @@ namespace ManiacEditor.Controls.SceneSelect
                 InfinityConfig infinityZoneConfig = SolutionPaths.GetInfinityConfig(DataDirectory);
                 if (infinityZoneConfig != null)
                 {
-                    foreach (var stage in infinityZoneConfig.Stages)
+                    foreach (var category in infinityZoneConfig.Categories)
                     {
-                        foreach (var scene in stage.Scenes)
+                        var subNode = rootNode.Nodes.Add(category.CategoryName);
+                        subNode.ImageKey = "Folder";
+                        foreach (var group in category.Groups)
                         {
-                            var node = rootNode.Nodes.Add(string.Format("{0} {1} ({2})", stage.StageName, scene.SceneID, stage.StageID + "/Scene" + scene.SceneID + ".bin"));
-                            node.ImageKey = "File";
-                            node.SelectedImageKey = "File";
-                            node.Tag = scene;
-                        }
+                            foreach (var scene in group.Scenes)
+                            {
+                                var node = subNode.Nodes.Add(string.Format("{0} {1} ({2})", group.GroupName, scene.SceneName, scene.Stage.StageDir + "/Scene" + scene.SceneID + ".bin"));
+                                node.ImageKey = "File";
+                                node.SelectedImageKey = "File";
+                                node.Tag = scene;
+                            }
 
+                        }
                     }
                     rootNode.Expand();
                 }
@@ -1058,9 +1063,9 @@ namespace ManiacEditor.Controls.SceneSelect
             {
                 SceneState.Is_IZStage = true;
                 SceneState.IZ_SceneKey = (IZ_ScenesTree.SelectedNode.Tag as IZScene).SceneID;
-                SceneState.IZ_StageKey = (IZ_ScenesTree.SelectedNode.Tag as IZScene).Parent.StageKey;
+                SceneState.IZ_StageKey = (IZ_ScenesTree.SelectedNode.Tag as IZScene).StageKey;
                 string sceneID = (IZ_ScenesTree.SelectedNode.Tag as IZScene).SceneID;
-                string stageID = (IZ_ScenesTree.SelectedNode.Tag as IZScene).Parent.StageID;
+                string stageID = (IZ_ScenesTree.SelectedNode.Tag as IZScene).Stage.StageDir;
                 string FilePath = DataDirectory + "\\Stages" + "\\" + stageID.Replace("/", "\\") + "\\Scene" + sceneID + ".bin";
 
                 SceneState.FilePath = FilePath;

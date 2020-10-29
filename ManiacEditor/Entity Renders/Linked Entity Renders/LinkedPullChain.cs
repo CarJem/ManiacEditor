@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
 
             if (!decorMode)
             {
-                var tagged = properties.EditorObject.Entities.Entities.ToList().Where(e => e.Entity.AttributeExists("buttonTag", RSDKv5.AttributeTypes.ENUM));
+                var tagged = Methods.Solution.CurrentSolution.Entities.Entities.ToList().Where(e => e.Entity.AttributeExists("buttonTag", RSDKv5.AttributeTypes.ENUM));
                 var triggers = tagged.Where(e => e.Entity.GetAttribute("buttonTag").ValueEnum == ButtonTag);
 
                 if (triggers != null && triggers.Any())

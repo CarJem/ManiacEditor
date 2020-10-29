@@ -61,10 +61,10 @@ namespace ManiacEditor.Methods.Solution
 
         #region Init
 
-        private static Controls.Editor.MainEditor Instance { get; set; }
-        public static void UpdateInstance(Controls.Editor.MainEditor instance)
+        public static Controls.Editor.MainEditor UI_Instance { get; set; }
+        public static void UpdateInstance(Controls.Editor.MainEditor _Instance)
         {
-            Instance = instance;
+            UI_Instance = _Instance;
         }
 
         #endregion
@@ -182,37 +182,37 @@ namespace ManiacEditor.Methods.Solution
             Methods.Solution.CurrentSolution.CurrentScene?.Dispose();
             Methods.Solution.CurrentSolution.CurrentScene = null;
             Methods.Solution.CurrentSolution.StageConfig = null;
-            Instance.EditorStatusBar.LevelIdentifierLabel.Content = "Level ID: NULL";
+            UI_Instance.EditorStatusBar.LevelIdentifierLabel.Content = "Level ID: NULL";
             Methods.Solution.CurrentSolution.LevelID = -1;
             Methods.Solution.SolutionState.Main.EncorePaletteExists = false;
             Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
             Classes.Prefrences.SceneCurrentSettings.ClearSettings();
-            Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
+            UI_Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;
 			SolutionPaths.UnloadScene();
 
             if (Methods.Solution.CurrentSolution.CurrentTiles != null) Methods.Solution.CurrentSolution.CurrentTiles.Dispose();
             Methods.Solution.CurrentSolution.CurrentTiles = null;
 
-            Instance.EditorToolbar.TearDownExtraLayerButtons();
+            UI_Instance.EditorToolbar.TearDownExtraLayerButtons();
 
-            Instance.Background = null;
-            Instance.Chunks = null;
+            UI_Instance.Background = null;
+            UI_Instance.Chunks = null;
 
-            Instance.TilesToolbar = null;
-            Instance.EntitiesToolbar = null;
+            UI_Instance.TilesToolbar = null;
+            UI_Instance.EntitiesToolbar = null;
 
             Methods.Solution.SolutionState.Main.Zoom = 1;
             Methods.Solution.SolutionState.Main.ZoomLevel = 0;
 
             Actions.UndoRedoModel.ClearStacks();
 
-            Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
-            Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
-            Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
-            Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
-            Instance.EditorToolbar.EditEntities.ClearCheckedItems();
+            UI_Instance.EditorToolbar.EditFGLow.ClearCheckedItems();
+            UI_Instance.EditorToolbar.EditFGHigh.ClearCheckedItems();
+            UI_Instance.EditorToolbar.EditFGLower.ClearCheckedItems();
+            UI_Instance.EditorToolbar.EditFGHigher.ClearCheckedItems();
+            UI_Instance.EditorToolbar.EditEntities.ClearCheckedItems();
 
-            Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
+            UI_Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
 
             Methods.Internal.UserInterface.UpdateControls();
 

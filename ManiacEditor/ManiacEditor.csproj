@@ -111,126 +111,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Publish\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Publish\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Experiment|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Experiment|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Experiment\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Experiment|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Experiment\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Quick Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <WarningLevel>2</WarningLevel>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Quick Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Quick Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Quick Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Quick Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework">
@@ -294,6 +178,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Entity Renders\Normal Renders\Generic\OutroIntroObject.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Generic\ParallaxSprite.cs" />
+    <Compile Include="Entity Renders\Normal Renders\Generic\SchrodingersCapsule.cs" />
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\FilmProjector.cs" />
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\LightBarrier.cs" />
     <Compile Include="Entity Renders\Normal Renders\Gimmicks\Press.cs" />
@@ -722,17 +608,14 @@
     <Compile Include="Controls\Global\Controls\PropertyGrid\PropertyEntryValue.xaml.cs">
       <DependentUpon>PropertyEntryValue.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Global\Controls\EntitiesListItem.xaml.cs">
-      <DependentUpon>EntitiesListItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Global\Controls\RemapEntry.xaml.cs">
       <DependentUpon>RemapEntry.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\About\CreditEntry.xaml.cs">
       <DependentUpon>CreditEntry.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Toolbox\TileManager.xaml.cs">
-      <DependentUpon>TileManager.xaml</DependentUpon>
+    <Compile Include="Controls\Toolbox\TilesheetEditor.xaml.cs">
+      <DependentUpon>TilesheetEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Clipboard Manager\CollisionClipboardPage.xaml.cs">
       <DependentUpon>CollisionClipboardPage.xaml</DependentUpon>
@@ -1755,6 +1638,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\Versioning\build_list.json" />
     <None Include="Resources\App Icons\file.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1987,10 +1871,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Global\Controls\EntitiesListItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\Global\Styles\ContextMenuPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -2007,7 +1887,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Toolbox\TileManager.xaml">
+    <Page Include="Controls\Toolbox\TilesheetEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -2257,9 +2137,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>start /min cmd.exe /c "call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PreBuildEvent>
+    <PreBuildEvent>start cmd.exe /min /c "call "$(ProjectDir)Properties\PreBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""
+:: /k to Wait, /c to Kill When Done
+:: /min to keep the window mimized in the start command</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>start /min cmd.exe /c "call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""</PostBuildEvent>
+    <PostBuildEvent>start cmd.exe /min /c "call "$(ProjectDir)Properties\PostBuild\MainScript.bat" "$(ConfigurationName)" "$(SolutionDir)" "$(TargetDir)" "$(ProjectDir)""
+:: /k to Wait, /c to Kill When Done
+:: /min to keep the window mimized in the start command</PostBuildEvent>
   </PropertyGroup>
 </Project>

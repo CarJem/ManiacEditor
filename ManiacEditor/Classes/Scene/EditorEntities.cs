@@ -47,6 +47,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 InternalEntities.Where(x => x == entity).FirstOrDefault().Selected = entity.Selected;
             }
+            OnUpdate?.Invoke(this, null);
         }
         private List<Classes.Scene.EditorEntity> GetSelectedInternalEntities()
         {
@@ -59,6 +60,7 @@ namespace ManiacEditor.Classes.Scene
                if (SelectedObj.Contains(Entities[i])) Entities[i].Selected = true;
                else Entities[i].Selected = false;
             }
+            OnUpdate?.Invoke(this, null);
         }
         private List<Classes.Scene.EditorEntity> GetSelectedEntities()
         {
@@ -74,6 +76,12 @@ namespace ManiacEditor.Classes.Scene
         public Actions.IAction LastAction;
         public Actions.IAction LastActionInternal;
         public Action<IAction> SlotIDSwapped;
+
+        #endregion
+
+        #region Events
+
+        public static event EventHandler OnUpdate;
 
         #endregion
 
@@ -137,7 +145,8 @@ namespace ManiacEditor.Classes.Scene
         {
             for (int i = 0; i < Entities.Count; i++)
             {
-                Entities[i].Selected = true;
+                bool filteredOut = (Methods.Solution.SolutionState.Main.ObjectFilter != "" && !Entities[i].Object.Name.Name.Contains(Methods.Solution.SolutionState.Main.ObjectFilter));
+                if (!Entities[i].FilteredOut && !filteredOut) Entities[i].Selected = true;
             }
 
             for (int i = 0; i < InternalEntities.Count; i++)
@@ -367,10 +376,8 @@ namespace ManiacEditor.Classes.Scene
             if (isInternal) this.InternalEntities.Add(entity);
             else this.Entities.Add(entity);
 
-            EvaluteSlotIDOrder();
-
             ObjectRefreshNeeded = true;
-
+            OnUpdate?.Invoke(this, null);
         }
         private void AddEntities(IEnumerable<Classes.Scene.EditorEntity> entities, bool isInternal = false)
         {
@@ -383,8 +390,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 AddEntity(entity, isInternal);
             }
-
-            EvaluteSlotIDOrder();
+            OnUpdate?.Invoke(this, null);
         }
         public void Spawn(RSDKv5.SceneObject sceneObject, System.Drawing.Point position)
         {
@@ -403,6 +409,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
             }
+            OnUpdate?.Invoke(this, null);
         }
         public void SpawnMultiple(List<KeyValuePair<RSDKv5.SceneObject, RSDKv5.Position>> sceneObjects)
         {
@@ -431,8 +438,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
             }
-
-
+            OnUpdate?.Invoke(this, null);
         }
 
         #endregion
@@ -443,17 +449,16 @@ namespace ManiacEditor.Classes.Scene
             if (isInternal) this.InternalEntities.Remove(entity);
             else this.Entities.Remove(entity);
 
-            EvaluteSlotIDOrder();
-
             ObjectRefreshNeeded = true;
+            OnUpdate?.Invoke(this, null);
         }
         public void DeleteEntities(List<Classes.Scene.EditorEntity> entities, bool updateActions = false, bool isInternal = false)
         {
             if (updateActions) LastActionInternal = new Actions.ActionAddDeleteEntities(entities.ToList(), false, x => AddEntities(x, true), x => DeleteEntities(x, false, isInternal));
             foreach (var entity in entities) DeleteEntity(entity, isInternal);
 
-            EvaluteSlotIDOrder();
             Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+            OnUpdate?.Invoke(this, null);
         }
         public void DeleteSelected(bool isInternal = false)
         {
@@ -461,6 +466,7 @@ namespace ManiacEditor.Classes.Scene
             DeleteEntities(SelectedEntities.ToList(), false, isInternal);
             ClearSelection();
             ManiacEditor.Actions.UndoRedoModel.UpdateEditEntityActions();
+            OnUpdate?.Invoke(this, null);
         }
 
         #endregion
@@ -654,6 +660,7 @@ namespace ManiacEditor.Classes.Scene
 
             ClearSelection();
             foreach (var entity in new_entities) entity.Selected = true;
+            OnUpdate?.Invoke(null, null);
         }
 
         #endregion
@@ -693,25 +700,33 @@ namespace ManiacEditor.Classes.Scene
         {
             Copy();
             Delete();
+            OnUpdate?.Invoke(null, null);
         }
         public static void Paste()
         {
-            bool IsWindowsClipboard = false;
             // check if there are Classes.Edit.Scene.EditorSolution.Entities on the Windows clipboard; if so, use those
-            if (System.Windows.Clipboard.ContainsData("ManiacEntities")) IsWindowsClipboard = WindowsPaste();
+            if (System.Windows.Clipboard.ContainsData("ManiacEntities")) WindowsPaste();
             // if there's none, use the internal clipboard
-            if (Methods.Solution.SolutionClipboard.ObjectsClipboard != null && !IsWindowsClipboard) ManiacPaste();
+            else if (Methods.Solution.SolutionClipboard.ObjectsClipboard != null) ManiacPaste();
+            OnUpdate?.Invoke(null, null);
         }
         public static void ManiacPaste()
         {
-            Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), Methods.Solution.SolutionClipboard.ObjectsClipboard);
-            Actions.UndoRedoModel.UpdateEditEntityActions();
+            try
+            {
+                Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), Methods.Solution.SolutionClipboard.ObjectsClipboard);
+                Actions.UndoRedoModel.UpdateEditEntityActions();
+            }
+            catch (Classes.Scene.EditorEntities.TooManyEntitiesException)
+            {
+                System.Windows.MessageBox.Show(string.Format("Too many entities! (limit: {0})", ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT));
+            }
+            OnUpdate?.Invoke(null, null);
         }
         public static bool WindowsPaste()
         {
             try
             {
-
                 Methods.Solution.CurrentSolution.Entities.PasteClipboardData(Methods.Solution.SolutionState.Main.GetLastXY(), GetClipboardData());
                 Actions.UndoRedoModel.UpdateEditEntityActions();
                 return true;
@@ -723,8 +738,17 @@ namespace ManiacEditor.Classes.Scene
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("There was a problem with pasting the content provided: " + Environment.NewLine + ex.Message);
-                return false;
+                if (Methods.Solution.SolutionClipboard.ObjectsClipboard != null)
+                {
+                    ManiacPaste();
+                    return false;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("There was a problem with pasting the content provided: " + Environment.NewLine + ex.Message);
+                    return false;
+                }
+
             }
 
             Methods.Solution.SolutionClipboard.ObjectsClipboardEntry GetClipboardData()
@@ -738,6 +762,7 @@ namespace ManiacEditor.Classes.Scene
         {
             var copyData = Methods.Solution.CurrentSolution.Entities.GetClipboardData();
             Methods.Solution.SolutionClipboard.SetObjectClipboard(copyData);
+            OnUpdate?.Invoke(null, null);
         }
         public static void Duplicate()
         {
@@ -757,19 +782,22 @@ namespace ManiacEditor.Classes.Scene
                 System.Windows.MessageBox.Show("There was a problem with duplicating the content provided: " + Environment.NewLine + ex.Message);
                 return;
             }
-
+            OnUpdate?.Invoke(null, null);
         }
         public static void Delete()
         {
             Methods.Solution.CurrentSolution.Entities.DeleteSelected();
+            OnUpdate?.Invoke(null, null);
         }
         public static void Deselect()
         {
             Methods.Solution.CurrentSolution.Entities.ClearSelection();
+            OnUpdate?.Invoke(null, null);
         }
         public static void SelectAll()
         {
             Methods.Solution.CurrentSolution.Entities.SelectEverything();
+            OnUpdate?.Invoke(null, null);
         }
         public static void FlipEntities(FlipDirection direction)
         {
@@ -787,7 +815,7 @@ namespace ManiacEditor.Classes.Scene
             IAction action = new ActionMultipleMoveEntities(initalPos, postPos);
             Actions.UndoRedoModel.UndoStack.Push(action);
             Actions.UndoRedoModel.RedoStack.Clear();
-
+            OnUpdate?.Invoke(null, null);
         }
         public static void MoveEntities(System.Windows.Forms.KeyEventArgs e)
         {
@@ -873,6 +901,7 @@ namespace ManiacEditor.Classes.Scene
 
                 Actions.UndoRedoModel.RedoStack.Clear();
             }
+            OnUpdate?.Invoke(null, null);
         }
 
         #endregion
@@ -899,6 +928,7 @@ namespace ManiacEditor.Classes.Scene
             }
 
             ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
+            OnUpdate?.Invoke(null, null);
         }
 
         private Dictionary<Classes.Scene.EditorEntity, Point> GetSelectedMovePositions()
@@ -955,25 +985,7 @@ namespace ManiacEditor.Classes.Scene
 
                 entity.Flip(direction);
             }
-        }
-
-        #endregion
-
-        #region Slot ID Manipulation
-
-        private void EvaluteSlotIDOrder()
-        {   
-            /*
-            for (int i = 0; i < Entities.Count; i++)
-            {
-                Entities[i].SlotID = (ushort)i;
-            }
-
-            for (int i = 0; i < InternalEntities.Count; i++)
-            {
-                InternalEntities[i].SlotID = (ushort)i;
-            }
-            */
+            OnUpdate?.Invoke(null, null);
         }
 
         #endregion
@@ -983,9 +995,12 @@ namespace ManiacEditor.Classes.Scene
         public void UpdateObjectProperties(DevicePanel d = null)
         {
             ObjectRefreshNeeded = false;
-            foreach (var Entity in Entities)
+            int FilterSlot = -1;
+            foreach (var Entity in Entities.OrderBy(x => x.SlotID).ToList())
             {
                 Entity.SetFilter();
+                if (!Entity.FilteredOut) FilterSlot++;
+                Entity.FilterSlotID = FilterSlot;
             }
 
             if (d != null)
@@ -1003,23 +1018,16 @@ namespace ManiacEditor.Classes.Scene
         }
         public void Draw(DevicePanel d)
         {
-            if (ObjectRefreshNeeded)
-                UpdateObjectProperties(d);
+            if (ObjectRefreshNeeded) UpdateObjectProperties(d);
             foreach (var entity in Entities.Where(x => x.IsVisible == true))
             {
                 entity.Draw(d);
-            }
-            foreach (var entity in Entities.Where(x => x.IsVisible == true))
-            {
                 Methods.Drawing.ObjectDrawing.DrawSelectionBox(d, entity);
             }
         }
         public void DrawInternal(DevicePanel d)
         {
-            if (ObjectRefreshNeeded)
-                UpdateObjectProperties(d);
-
-
+            if (ObjectRefreshNeeded) UpdateObjectProperties(d);
             foreach (var entity in InternalEntities.Where(x => x.IsVisible == true))
             {
                 Methods.Drawing.ObjectDrawing.DrawInternal(d, entity);

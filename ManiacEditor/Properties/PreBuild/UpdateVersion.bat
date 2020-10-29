@@ -3,7 +3,5 @@ set ConfigurationName=%1
 set SolutionDir=%~2
 set TargetDir=%~3
 set ProjectDir=%~4
-
-if %ConfigurationName% == "Publish" (
-	call "%SolutionDir%Properties\Versioning\GenerationsLib.Versioning.exe" "%SolutionDir%Properties\AssemblyInfo.cs" "Maniac Editor" true true
-)
+set CurrentDir=%~dp0
+call "%ProjectDir%Properties\Versioning\GenerationsLib.Versioning.exe" "%ProjectDir%Properties\AssemblyInfo.cs" "Maniac Editor" false false

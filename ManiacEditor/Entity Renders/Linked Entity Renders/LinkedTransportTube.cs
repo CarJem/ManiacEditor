@@ -13,7 +13,7 @@ namespace ManiacEditor.Entity_Renders
 
             if ((TransportTubeType == 2 || TransportTubeType == 4))
             {
-                var transportTubePaths = properties.EditorObject.Entities.Entities.Where(e => e.SlotID == targetSlotID && e.Name == "TransportTube");
+                var transportTubePaths = Methods.Solution.CurrentSolution.Entities.Entities.Where(e => e.SlotID == targetSlotID && e.Name == "TransportTube");
 
                 if (transportTubePaths != null && transportTubePaths.Any())
                 {

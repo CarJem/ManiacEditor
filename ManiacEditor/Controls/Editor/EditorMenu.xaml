@@ -185,7 +185,7 @@
                 <MenuItem x:Name="editBackgroundColorsToolStripMenuItem" Header="Edit BG Colors..." Click="ChangeEditorBGColorEvent"></MenuItem>
                 <Separator></Separator>
                 <MenuItem x:Name="tileManiacToolStripMenuItem" Header="Collision Editor..." Click="TileManiacNormal"/>
-                <MenuItem x:Name="tilemanagerToolStripMenuItem" Header="Tile Manager..." Click="TileManagerEvent"/>
+                <MenuItem x:Name="tilemanagerToolStripMenuItem" Header="Tilesheet Editor..." Click="TilesheetManagerEvent"/>
                 <MenuItem x:Name="entityManagerToolStripMenuItem" Header="Entity Manager..." Click="ObjectManagerEvent"/>
                 <MenuItem x:Name="importSoundsToolStripMenuItem" Header="Sound Importer..." Click="ImportSoundsEvent"/>
                 <MenuItem x:Name="layerManagerToolStripMenuItem" Header="Layer Manager..." Click="LayerManagerEvent"/>

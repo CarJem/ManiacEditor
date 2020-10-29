@@ -1,4 +1,5 @@
 ﻿using RSDKv5;
+using SharpDX;
 
 namespace ManiacEditor.Entity_Renders
 {
@@ -27,7 +28,7 @@ namespace ManiacEditor.Entity_Renders
                 fullWidth = fullWidth + editorAnim.RequestedFrame.Width;
             }
 
-            int x2 = x - (fullWidth / 2);
+            int x2 = x - (fullWidth / 2) + fullWidth % 2;
             int y2 = y - 5;
 
             d.DrawQuad(x - (width / 2) - height, y - (height / 2), x + (width / 2) + height, y + (height / 2), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), 0);
@@ -35,11 +36,36 @@ namespace ManiacEditor.Entity_Renders
             foreach (char symb in text)
             {
                 var editorAnim = GetFrameID(d, symb);
-                DrawTexture(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x2 + spacingAmount, y2, Transparency);
+                Point Offset = GetFrame(editorAnim.RequestedFrame);
+                DrawTexturePivotNormal(d, editorAnim, editorAnim.RequestedAnimID, editorAnim.RequestedFrameID, x2 + spacingAmount + Offset.X, y2 + Offset.Y, Transparency);
                 spacingAmount = spacingAmount + editorAnim.RequestedFrame.Width;
             }
 
             
+        }
+
+
+        Point GetFrame(RSDKv5.Animation.AnimationEntry.Frame Frame)
+        {
+            int AdditionalX = 0;
+            int AdditionalY = 0;
+            if (Frame.PivotX > 0)
+            {
+                AdditionalX = Frame.PivotX;
+            }
+            else
+            {
+                AdditionalX = -Frame.PivotX;
+            }
+            if (Frame.PivotY > 0)
+            {
+                AdditionalY = -Frame.PivotY;
+            }
+            else
+            {
+                AdditionalY = Frame.PivotY;
+            }
+            return new Point(AdditionalX, 4);
         }
 
         public Methods.Drawing.ObjectDrawing.EditorAnimation GetFrameID(DevicePanel d, char letter)

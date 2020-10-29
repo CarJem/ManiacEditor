@@ -56,6 +56,8 @@ namespace ManiacEditor.Classes.Rendering
         public int Width { get; private set; }
         public int Height { get; private set; }
 
+        public string PaletteDataPath { get; private set; }
+
         #endregion
 
         #region Init
@@ -133,14 +135,15 @@ namespace ManiacEditor.Classes.Rendering
         #endregion
 
         #region Palette
-        private Bitmap SetPaletteColors(Bitmap _Bitmap, string PaletteDataPath)
+        private Bitmap SetPaletteColors(Bitmap _Bitmap, string _PaletteDataPath)
         {
             Bitmap ModifiedStandardBitmap = _Bitmap.Clone(new Rectangle(0, 0, _Bitmap.Width, _Bitmap.Height), PixelFormat.Format8bppIndexed);
 
             //Encore Palettes (WIP Potentially Improvable)
             RSDKv5.Color[] PaletteColors = new RSDKv5.Color[256];
-            if (PaletteDataPath != null && File.Exists(PaletteDataPath))
+            if (_PaletteDataPath != null && File.Exists(_PaletteDataPath))
             {
+                PaletteDataPath = _PaletteDataPath;
                 using (var stream = File.OpenRead(PaletteDataPath))
                 {
                     for (int y = 0; y < 255; ++y)
@@ -201,6 +204,7 @@ namespace ManiacEditor.Classes.Rendering
             if (StandardCache.TryGetValue(new CacheKey(section, flipX, flipY), out bmp)) return bmp;
             else
             {
+                if (StandardBitmap == null) Reload(PaletteDataPath);
                 bmp = CropImage(StandardBitmap, section);
                 if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
                 if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -215,6 +219,7 @@ namespace ManiacEditor.Classes.Rendering
             if (TransparentCache.TryGetValue(new CacheKey(section, flipX, flipY), out bmp)) return bmp;
             else
             {
+                if (TransparentBitmap == null) Reload(PaletteDataPath);
                 bmp = CropImage(TransparentBitmap, section);
                 if (flipX) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
                 if (flipY) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -312,9 +317,21 @@ namespace ManiacEditor.Classes.Rendering
         {
             if (!IsRefreshable) return;
 
-            if (StandardBitmap != null) StandardBitmap.Dispose();
-            if (TransparentBitmap != null) TransparentBitmap.Dispose();
-            if (TextureBitmap != null) TextureBitmap.Dispose();
+            if (StandardBitmap != null)
+            {
+                StandardBitmap.Dispose();
+                StandardBitmap = null;
+            }
+            if (TransparentBitmap != null)
+            {
+                TransparentBitmap.Dispose();
+                TransparentBitmap = null;
+            }
+            if (TextureBitmap != null)
+            {
+                TextureBitmap.Dispose();
+                TextureBitmap = null;
+            }
 
             DisposeCache();
             DisposeOpaqueCache();

@@ -9,18 +9,47 @@ using ManiacEditor.Enums;
 namespace ManiacEditor.Classes.Scene
 {
     [Serializable]
-    public class EditorEntity : IDrawable
+    public class EditorEntity : Xe.Tools.Wpf.BaseNotifyPropertyChanged, IDrawable
     {
         #region Definitions
 
-        #region Objects
-
-        public EditorEntities Entities
+        #region Toolbox Data
+        public string ItemContent
         {
             get
             {
-                return Methods.Solution.CurrentSolution.Entities;
+                string Name = this.Object.Name.Name;
+                string SlotID = this.FilterSlotID.ToString();
+                return string.Format("{0} - {1}", Name, SlotID);
             }
+        }
+        public object Tag
+        {
+            get
+            {
+                return this.SlotID.ToString();
+            }
+        }
+        public System.Windows.Media.Brush ItemForeground
+        {
+            get
+            {
+                return Methods.Internal.Theming.GetObjectFilterColorBrush(this);
+            }
+        }
+        public System.Windows.Visibility Visibility
+        {
+            get
+            {
+                return Classes.Internal.EntitiesToolboxCore.GetObjectListItemVisiblity(this.Name, this.SlotID, FilteredOut);
+            }
+        }
+        public void RefreshToolboxData()
+        {
+            OnPropertyChanged(nameof(ItemContent));
+            OnPropertyChanged(nameof(Tag));
+            OnPropertyChanged(nameof(ItemForeground));
+            OnPropertyChanged(nameof(Visibility));
         }
 
         #endregion
@@ -37,16 +66,17 @@ namespace ManiacEditor.Classes.Scene
 
         #region Selection Data
         private bool IsSelected { get; set; } = false;
-        public bool Selected 
-        { 
-            get 
+        public bool Selected
+        {
+            get
             {
                 return IsSelected;
-            }        
+            }
             set
             {
                 if (value != IsSelected)
                 {
+                    OnUpdate?.Invoke(null, null);
                     if (value == true)
                     {
                         if (_entity.Object.Name.Name == "Spline" && IsInternalObject) ManiacEditor.Methods.Internal.UserInterface.EditorToolbars.ChangeSplineSelectedID(_entity.attributesMap["SplineID"].ValueInt32);
@@ -126,6 +156,20 @@ namespace ManiacEditor.Classes.Scene
             set
             {
                 _entity.SlotID = value;
+                RefreshToolboxData();
+            }
+        }
+        private int _FilterSlotID = 0;
+        public int FilterSlotID
+        {
+            get
+            {
+                return _FilterSlotID;
+            }
+            set
+            {
+                _FilterSlotID = value;
+                RefreshToolboxData();
             }
         }
         public Position Position
@@ -137,6 +181,7 @@ namespace ManiacEditor.Classes.Scene
             set
             {
                 _entity.Position = value;
+                RefreshToolboxData();
             }
         }
         public int PositionX
@@ -148,6 +193,7 @@ namespace ManiacEditor.Classes.Scene
             set
             {
                 _entity.Position.X.High = (short)value;
+                RefreshToolboxData();
             }
         }
         public int PositionY
@@ -159,6 +205,7 @@ namespace ManiacEditor.Classes.Scene
             set
             {
                 _entity.Position.Y.High = (short)value;
+                RefreshToolboxData();
             }
         }
         public string Name
@@ -168,12 +215,10 @@ namespace ManiacEditor.Classes.Scene
                 return _entity.Object.Name.ToString();
             }
         }
-
         public void PrepareForExternalCopy()
         {
             _entity.PrepareForExternalCopy();
         }
-
         public bool IsExternal
         {
             get
@@ -181,7 +226,27 @@ namespace ManiacEditor.Classes.Scene
                 return _entity.IsExternal();
             }
         }
-        public bool FilteredOut { get; set; }
+        private bool _FilteredOut { get; set; }
+        public bool FilteredOut
+        {
+            get
+            {
+                return _FilteredOut;
+            }
+            set
+            {
+                _FilteredOut = value;
+                OnPropertyChanged(nameof(FilteredOut));
+                RefreshToolboxData();
+            }
+        }
+        public bool ManuallyFilteredOut
+        {
+            get
+            {
+                return (Methods.Solution.SolutionState.Main.ObjectFilter != "" && !Object.Name.Name.Contains(Methods.Solution.SolutionState.Main.ObjectFilter));
+            }
+        }
         public bool RenderNotFound { get; set; } = false;
         public bool IsInternalObject { get; set; } = false;
         public DateTimeOffset? TimeWhenSelected { get; set; } = null;
@@ -198,10 +263,16 @@ namespace ManiacEditor.Classes.Scene
         public Action<ManiacEditor.Actions.IAction> ValueChanged = new Action<ManiacEditor.Actions.IAction>(x =>
         {
             Actions.UndoRedoModel.UndoStack.Push(x);
-            Actions.UndoRedoModel.RedoStack.Clear();
+            Actions.UndoRedoModel.RedoStack.Clear();           
         });
 
         #endregion
+
+        #endregion
+
+        #region Events
+
+        public static event EventHandler OnUpdate;
 
         #endregion
 
@@ -239,15 +310,23 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Methods
+        public static int GetSlotIndex(EditorEntity e)
+        {
+            return Methods.Solution.CurrentSolution.Entities.Entities.IndexOf(e);
+        }
         public bool ContainsPoint(Point point)
         {
             if (FilteredOut) return false;
+
+            if (ManuallyFilteredOut) return false;
 
             return GetDimensions().Contains(point);
         }
         public bool IsInArea(Rectangle area)
         {
             if (FilteredOut) return false;
+
+            if (ManuallyFilteredOut) return false;
 
             return GetDimensions().IntersectsWith(area);
         }
@@ -277,34 +356,22 @@ namespace ManiacEditor.Classes.Scene
 
         public bool SetFilter()
         {
-            if (HasFilter())
-            {
-                int filter = _entity.GetAttribute("filter").ValueUInt8;
+            int filter = (HasFilter() ? _entity.GetAttribute("filter").ValueUInt8 : 0);
 
-                /**
-                 * 1 or 5 = Both
-                 * 2 = Mania
-                 * 4 = Encore
-				 * 255 = Pinball
-                 * 
-                 */
-                FilteredOut =
-                    ((filter == 1 || filter == 5) && !ManiacEditor.Properties.Settings.MyDefaults.ShowBothEntities) ||
-                    (filter == 2 && !ManiacEditor.Properties.Settings.MyDefaults.ShowManiaEntities) ||
-                    (filter == 4 && !ManiacEditor.Properties.Settings.MyDefaults.ShowEncoreEntities) ||
-                    (filter == 255 && !ManiacEditor.Properties.Settings.MyDefaults.ShowPinballEntities) ||
-                    ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !ManiacEditor.Properties.Settings.MyDefaults.ShowOtherEntities);
-            }
-            else
-            {
-                FilteredOut = !ManiacEditor.Properties.Settings.MyDefaults.ShowFilterlessEntities;
-            }
-
-
-            if (Methods.Solution.SolutionState.Main.ObjectFilter != "" && !_entity.Object.Name.Name.Contains(Methods.Solution.SolutionState.Main.ObjectFilter))
-            {
-                FilteredOut = true;
-            }
+            /*
+                * 1 or 5 = Both
+                * 2 = Mania
+                * 4 = Encore
+				* 255 = Pinball
+                * 
+            */
+            FilteredOut =
+                ((filter == 1 || filter == 5) && !ManiacEditor.Properties.Settings.MyDefaults.ShowBothEntities) ||
+                (filter == 2 && !ManiacEditor.Properties.Settings.MyDefaults.ShowManiaEntities) ||
+                (filter == 4 && !ManiacEditor.Properties.Settings.MyDefaults.ShowEncoreEntities) ||
+                (filter == 255 && !ManiacEditor.Properties.Settings.MyDefaults.ShowPinballEntities) ||
+                (filter == 0 && !ManiacEditor.Properties.Settings.MyDefaults.ShowFilterlessEntities) ||
+                ((filter < 1 || filter == 3 || filter > 5 && filter != 255) && !ManiacEditor.Properties.Settings.MyDefaults.ShowOtherEntities);
 
             return FilteredOut;
         }
@@ -364,6 +431,7 @@ namespace ManiacEditor.Classes.Scene
         public virtual void Draw(DevicePanel d)
         {
             if (FilteredOut) return;
+            if (ManuallyFilteredOut) return;
             if (Methods.Drawing.ObjectDrawing.CanDrawLinked(_entity.Object.Name.Name)) Methods.Drawing.ObjectDrawing.DrawLinked(d, this);
             else Methods.Drawing.ObjectDrawing.DrawNormal(d, this);
         }

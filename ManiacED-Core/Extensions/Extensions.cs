@@ -150,7 +150,7 @@ namespace ManiacEditor.Extensions
 
 		}
 
-        public static void GetRowColIndex(this System.Windows.Controls.Grid @this, System.Windows.Point position, out int row, out int column)
+		public static void GetRowColIndex(this System.Windows.Controls.Grid @this, System.Windows.Point position, out int row, out int column)
         {
             column = -1;
             double total = 0;

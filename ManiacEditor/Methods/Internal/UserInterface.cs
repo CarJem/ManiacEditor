@@ -53,6 +53,7 @@ namespace ManiacEditor.Methods.Internal
                 SetSelectOnlyButtonsState(isSceneLoaded);
                 UpdateStatusState(isSceneLoaded);
             }
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             RefreshInProgress = false;
         }
         public static void UpdateControls(UpdateType updateType)
@@ -86,7 +87,6 @@ namespace ManiacEditor.Methods.Internal
                         Tooltips.UpdateTooltips();
                         Instance.MenuBar.UpdateUndoRedoButtons(isSceneLoaded);
                         Instance.EditorToolbar.UpdateUndoRedoButtons(isSceneLoaded);
-                        Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                         break;
                     default:
                         Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Failsafe Updating Controls...");
@@ -94,6 +94,7 @@ namespace ManiacEditor.Methods.Internal
                         break;
                 }
             }
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             RefreshInProgress = false;
         }
 
@@ -619,6 +620,7 @@ namespace ManiacEditor.Methods.Internal
                     if (Instance.TilesToolbar == null) CreateTilesToolbar();
                     AttachTilesToolbar();
                     RefreshTilesToolbar();
+                    Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 }
                 else if (Instance.TilesToolbar != null) DisposeTilesToolbar();
 
@@ -627,6 +629,7 @@ namespace ManiacEditor.Methods.Internal
                     if (Instance.EntitiesToolbar == null) CreateEntitiesToolbar();
                     AttachEntitiesToolbar();
                     RefreshEntitiesToolbar();
+                    Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
                 }
                 else
                 {

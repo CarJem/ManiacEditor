@@ -8,7 +8,7 @@ namespace ManiacEditor
     public interface IDrawArea
     {
         void DisposeTextures();
-
+        void Reload();
         Rectangle GetScreen();
         double GetZoom();
     }

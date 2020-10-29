@@ -1,14 +1,9 @@
 {
   "BuiltAssemblies": [
     {
-      "LastBuilt": "2019-12-31T00:00:00-05:00",
-      "Identifier": "Sonic3AIR_AnimationEditor",
-      "BuildNumber": 0
-    },
-    {
-      "LastBuilt": "2020-09-07T00:00:00-04:00",
+      "LastBuilt": "2020-10-29T00:00:00-04:00",
       "Identifier": "Maniac Editor",
-      "BuildNumber": 1
+      "BuildNumber": 42
     }
   ]
 }

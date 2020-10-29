@@ -408,9 +408,9 @@ namespace ManiacEditor.Controls.Editor
             Methods.ProgramLauncher.LayerManager(sender, e); 
         }
 
-        private void TileManagerEvent(object sender, RoutedEventArgs e)
+        private void TilesheetManagerEvent(object sender, RoutedEventArgs e)
         {
-            Methods.ProgramLauncher.TileManager();
+            Methods.ProgramLauncher.TilesheetManager();
         }
 
         private void TileManiacNormal(object sender, RoutedEventArgs e)

@@ -27,7 +27,6 @@ namespace ManiacEditor.Classes.Scene
 
         #region General
 
-        private ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
         public List<IAction> Actions { get; set; } = new List<IAction>();
         private SceneLayer _layer { get; set; }
         internal SceneLayer Layer { get => _layer; }
@@ -343,13 +342,18 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
+        #region Events
+
+        public static event EventHandler OnUpdate;
+
+        #endregion
+
         #endregion
 
         #region Init
 
-        public EditorLayer(SceneLayer layer, ManiacEditor.Controls.Editor.MainEditor instance)
+        public EditorLayer(SceneLayer layer)
         {
-            Instance = instance;
             _layer = layer;
 
             SelectedTiles = new PointsMap(Width, Height);
@@ -361,7 +365,6 @@ namespace ManiacEditor.Classes.Scene
             WorkingHeight = _layer.Height;
             WorkingWidth = _layer.Width;
             InitiallizeChunkMap();
-
         }
 
         private void InitiallizeChunkMap()
@@ -1011,7 +1014,7 @@ namespace ManiacEditor.Classes.Scene
             {
                 FlipGroupTiles(direction, points, min, max);
             }
-            
+            OnUpdate?.Invoke(null, null);
         }
         private void FlipIndividualTiles(FlipDirection direction, IEnumerable<Point> points)
         {
@@ -1020,7 +1023,7 @@ namespace ManiacEditor.Classes.Scene
                 SelectedTiles.Values[point] ^= (ushort)direction;
             }
             InvalidateChunks();
-
+            OnUpdate?.Invoke(null, null);
         }
         private void FlipGroupTiles(FlipDirection direction, IEnumerable<Point> points, int min, int max)
         {
@@ -1055,6 +1058,7 @@ namespace ManiacEditor.Classes.Scene
             SelectedTiles.AddPoints(workingTiles.Select(wt => wt.Key).ToList());
             SelectedTiles.Values = workingTiles;
             InvalidateChunks();
+            OnUpdate?.Invoke(null, null);
         }
         public void SetPropertySelected(int bit, bool state)
         {
@@ -1068,6 +1072,7 @@ namespace ManiacEditor.Classes.Scene
                 else
                     SelectedTiles.Values[point] &= (ushort)(~(1 << bit));
             }
+            OnUpdate?.Invoke(null, null);
         }
 
         public List<ushort> GetSelectedValues()
@@ -1105,15 +1110,18 @@ namespace ManiacEditor.Classes.Scene
 
             SelectedTiles = new PointsMap(Width, Height);
             TempSelectionTiles = new PointsMap(Width, Height);
+            InitiallizeChunkMap();
 
             WorkingHeight = Height;
             WorkingWidth = Width;
+
+
         }
 
         public EditorLayer Clone()
         {
-            var cloneLayer = new EditorLayer(_layer, Instance);
-            return cloneLayer;
+            var cloneLayer = new EditorLayer(_layer);
+            return (EditorLayer)cloneLayer.MemberwiseClone();
         }
 
         #endregion
@@ -1123,10 +1131,12 @@ namespace ManiacEditor.Classes.Scene
         public static void Copy()
         {
             Methods.Solution.SolutionMultiLayer.Copy();
+            OnUpdate?.Invoke(null, null);
         }
         public static void Paste()
         {
             Methods.Solution.SolutionMultiLayer.Paste();
+            OnUpdate?.Invoke(null, null);
         }
         public static void Cut()
         {
@@ -1136,6 +1146,7 @@ namespace ManiacEditor.Classes.Scene
             Methods.Solution.CurrentSolution.EditLayerC?.DeleteSelected();
             Methods.Solution.CurrentSolution.EditLayerD?.DeleteSelected();
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            OnUpdate?.Invoke(null, null);
         }
         public static void Duplicate()
         {
@@ -1148,6 +1159,7 @@ namespace ManiacEditor.Classes.Scene
             Methods.Solution.CurrentSolution.EditLayerC?.PasteClipboardData(new Point(16, 16), copyDataC);
             Methods.Solution.CurrentSolution.EditLayerD?.PasteClipboardData(new Point(16, 16), copyDataD);
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            OnUpdate?.Invoke(null, null);
         }
         public static void Delete()
         {
@@ -1156,6 +1168,7 @@ namespace ManiacEditor.Classes.Scene
             Methods.Solution.CurrentSolution.EditLayerC?.DeleteSelected();
             Methods.Solution.CurrentSolution.EditLayerD?.DeleteSelected();
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            OnUpdate?.Invoke(null, null);
         }
         public static void Deselect()
         {
@@ -1164,6 +1177,7 @@ namespace ManiacEditor.Classes.Scene
             Methods.Solution.CurrentSolution.EditLayerC?.DeselectAll();
             Methods.Solution.CurrentSolution.EditLayerD?.DeselectAll();
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            OnUpdate?.Invoke(null, null);
         }
         public static void SelectAll()
         {
@@ -1172,6 +1186,7 @@ namespace ManiacEditor.Classes.Scene
             if (Methods.Solution.CurrentSolution.EditLayerC != null) Methods.Solution.CurrentSolution.EditLayerC?.SelectEverything();
             if (Methods.Solution.CurrentSolution.EditLayerD != null) Methods.Solution.CurrentSolution.EditLayerD?.SelectEverything();
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            OnUpdate?.Invoke(null, null);
         }
         public static void FlipTiles(bool Individual, FlipDirection Direction)
         {
@@ -1180,6 +1195,7 @@ namespace ManiacEditor.Classes.Scene
             Methods.Solution.CurrentSolution.EditLayerC?.FlipPropertySelected(Direction, Individual);
             Methods.Solution.CurrentSolution.EditLayerD?.FlipPropertySelected(Direction, Individual);
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            OnUpdate?.Invoke(null, null);
         }
         public static void MoveTiles(System.Windows.Forms.KeyEventArgs e)
         {
@@ -1250,6 +1266,7 @@ namespace ManiacEditor.Classes.Scene
             Methods.Solution.CurrentSolution.EditLayerD?.MoveSelectedQuonta(new Point(x, y));
 
             ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            OnUpdate?.Invoke(null, null);
         }
 
         #endregion
@@ -1466,12 +1483,13 @@ namespace ManiacEditor.Classes.Scene
         }
         private bool IsSemiTransparent()
         {
-            if (Methods.Solution.CurrentSolution.EditLayerA != null && Methods.Solution.CurrentSolution.EditLayerA != this) return true;
-            else if (Methods.Solution.CurrentSolution.EditLayerB != null && Methods.Solution.CurrentSolution.EditLayerB != this) return true;
-            else if (Methods.Solution.CurrentSolution.EditLayerC != null && Methods.Solution.CurrentSolution.EditLayerC != this) return true;
-            else if (Methods.Solution.CurrentSolution.EditLayerD != null && Methods.Solution.CurrentSolution.EditLayerD != this) return true;
-            else if (Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency) return true;
-            else return false;
+            if (Methods.Solution.CurrentSolution.EditLayerA == null) return false;
+            else if (Methods.Solution.CurrentSolution.EditLayerA != null && Methods.Solution.CurrentSolution.EditLayerA == this) return false;
+            else if (Methods.Solution.CurrentSolution.EditLayerB != null && Methods.Solution.CurrentSolution.EditLayerB == this) return false;
+            else if (Methods.Solution.CurrentSolution.EditLayerC != null && Methods.Solution.CurrentSolution.EditLayerC == this) return false;
+            else if (Methods.Solution.CurrentSolution.EditLayerD != null && Methods.Solution.CurrentSolution.EditLayerD == this) return false;
+            else if (Methods.Solution.CurrentSolution.UI_Instance.EditorToolbar.EditEntities.IsCheckedAll && Methods.Solution.SolutionState.Main.ApplyEditEntitiesTransparency) return false;
+            else return true;
         }
         public void DrawLayer(DevicePanel d)
         {
@@ -1514,6 +1532,7 @@ namespace ManiacEditor.Classes.Scene
         }
         private void DisposeUnusedChunks()
         {
+            /*
             for (int y = 0; y < ChunksHeight; y++)
             {
                 for (int x = 0; x < ChunksWidth; x++)
@@ -1529,6 +1548,7 @@ namespace ManiacEditor.Classes.Scene
                     }
                 }
             }
+            */
         }
         private void InvalidateChunk(int x, int y)
         {

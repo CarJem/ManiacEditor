@@ -230,6 +230,49 @@ namespace ManiacEditor.Controls.Editor
         public void ToggleScrollLockEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.ScrollLocked ^= true; }
         public void ToggleFasterNudgeEvent(object sender, RoutedEventArgs e) { Methods.Solution.SolutionState.Main.EnableFasterNudge ^= true; }
 
+        private void EntitySlotIDItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (EntitySlotIDItem.Tag != null)
+                {
+                    Clipboard.SetText((string)EntitySlotIDItem.Tag);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Failed to Copy Data to Clipboard");
+            }
+        }
 
+        private void EntityHexidecimalSlotIDItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (EntitySlotIDItem.Tag != null)
+                {
+                    Clipboard.SetText((string)EntityHexidecimalSlotIDItem.Tag);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Failed to Copy Data to Clipboard");
+            }
+        }
+
+        private void EntityHexidecimalFilteredSlotIDItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (EntitySlotIDItem.Tag != null)
+                {
+                    Clipboard.SetText((string)EntityHexidecimalFilteredSlotIDItem.Tag);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Failed to Copy Data to Clipboard");
+            }
+        }
     }
 }

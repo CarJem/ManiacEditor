@@ -193,8 +193,8 @@ namespace ManiacEditor.Methods.Solution
                 if ((ResultX <= 0)) ResultX = 0;
                 if ((ResultY <= 0)) ResultY = 0;
 
-                Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX, true);
-                Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY, true);
+                Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX);
+                Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY);
             }
             else
             {
@@ -204,8 +204,8 @@ namespace ManiacEditor.Methods.Solution
                 if ((ResultX <= 0)) ResultX = 0;
                 if ((ResultY <= 0)) ResultY = 0;
 
-                Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX, true);
-                Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY, true);
+                Methods.Solution.SolutionState.Main.SetViewPositionX(ResultX);
+                Methods.Solution.SolutionState.Main.SetViewPositionY(ResultY);
             }
         }
 

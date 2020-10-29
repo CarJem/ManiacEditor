@@ -40,8 +40,8 @@ namespace ManiacEditor.Entity_Renders
 
 
 
-
-            var Animation = LoadAnimation("Fan", d, animID, 0);
+            string anim = GetSpriteAnimationPath("/Fan.bin", "Fan", new string[] { "HCZ", "OOZ" }, "HCZ"); ;
+            var Animation = LoadAnimation(anim, d, animID, 0);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency, fliph, flipv);
         }
 

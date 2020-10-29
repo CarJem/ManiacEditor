@@ -14,7 +14,7 @@ namespace ManiacEditor.Entity_Renders
             //if (goProperty == 1 && destinationTag == 0) return; // probably just a destination
 
             // this is the start of a WarpDoor, find its partner(s)
-            var nodePaths = properties.EditorObject.Entities.Entities.Where(e => e.SlotID == targetSlotID);
+            var nodePaths = Methods.Solution.CurrentSolution.Entities.Entities.Where(e => e.SlotID == targetSlotID);
 
             if (nodePaths != null && nodePaths.ToList().Exists(x => x.Entity.Object.Name.Name == "PlatformNode"))
             {

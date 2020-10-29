@@ -14,6 +14,7 @@ using ManiacEditor.Classes.Scene;
 using ManiacEditor.Controls.Global.Controls;
 using ManiacEditor.Controls.Global.Controls.PropertyGrid;
 using GenerationsLib.Core;
+using System.Collections.ObjectModel;
 
 namespace ManiacEditor.Controls.Toolbox
 {
@@ -27,17 +28,14 @@ namespace ManiacEditor.Controls.Toolbox
 		public Action<Actions.IAction> AddAction { get; set; }
 		public Action<RSDKv5.SceneObject> Spawn { get; set; }
 		public Action<RSDKv5.SceneObject> SpawnInternal { get; set; }
-		public bool MultipleObjectsSelected { get; set; } = false;
-		List<int> SelectedObjectListIndexes { get; set; } = new List<int>();
 		private ManiacEditor.Controls.Editor.MainEditor Instance { get; set; }
-		private List<EditorEntity> _Entities
+		private ObservableCollection<EditorEntity> _Entities
 		{
 			get
 			{
-				return Methods.Solution.CurrentSolution.Entities.Entities.OrderBy(x => x.SlotID).ToList();
+				return new ObservableCollection<EditorEntity>(Methods.Solution.CurrentSolution.Entities.Entities.OrderBy(x => x.SlotID).ToList());
 			}
 		}
-		private EntitiesListEntry[] ObjectList { get; set; } = new EntitiesListEntry[ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT];
 		private List<int> _SelectedEntitySlots { get; set; } = new List<int>();
 		private BindingList<TextBlock> _BindingSceneObjectsSource { get; set; } = new BindingList<TextBlock>();
 		private EditorEntity CurrentEntity { get; set; }
@@ -94,10 +92,9 @@ namespace ManiacEditor.Controls.Toolbox
 		#endregion
 
 		#region Property Grid (General)
-
 		private void PropertiesGrid_PropertyValueChanged(object sender, Global.Controls.PropertyGrid.PropertyControl.PropertyChangedEventArgs e)
 		{
-			if (MultipleObjectsSelected)
+			if (Classes.Internal.EntitiesToolboxCore.MultipleObjectsSelected)
 			{
 				List<Actions.EntityMultiplePropertyChanges> Values = new List<Actions.EntityMultiplePropertyChanges>();
 
@@ -126,7 +123,6 @@ namespace ManiacEditor.Controls.Toolbox
 				SetSelectedProperties(CurrentEntity, e);
 			}
 		}
-
 		#endregion
 
 		#region Property Grid (Create) 
@@ -280,7 +276,7 @@ namespace ManiacEditor.Controls.Toolbox
 		public void UpdateSelectedProperties()
 		{
 			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Updating Selected Properties...");
-			if (MultipleObjectsSelected) UpdateMultiSelectedProperties();
+			if (Classes.Internal.EntitiesToolboxCore.MultipleObjectsSelected) UpdateMultiSelectedProperties();
 			else if (CurrentEntity != null) UpdateSingleSelectedProperties();
 		}
 		public void UpdateSingleSelectedProperties()
@@ -642,9 +638,7 @@ namespace ManiacEditor.Controls.Toolbox
 
 		#endregion
 
-
 		#region Property Grid (Get)
-
 		public object GetOldValue(AttributeValue attribute)
 		{
 			object OldValue = null;
@@ -687,7 +681,6 @@ namespace ManiacEditor.Controls.Toolbox
 			}
 			return OldValue;
 		}
-
 		#endregion
 
 		#region UI Refresh
@@ -703,9 +696,9 @@ namespace ManiacEditor.Controls.Toolbox
 				entitiesList.Content = null;
 			}
 
-			MultipleObjectsSelected = false;
+			Classes.Internal.EntitiesToolboxCore.MultipleObjectsSelected = false;
 			bool isCommonObjects = false;
-			SelectedObjectListIndexes.Clear();
+			Classes.Internal.EntitiesToolboxCore.SelectedObjectListIndexes.Clear();
 
 			EntityEditor.Header = "Entity Editor";
 
@@ -719,11 +712,11 @@ namespace ManiacEditor.Controls.Toolbox
 					Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Setting Multi Entity Select..");
 					// Then we are selecting multiple objects				
 					isCommonObjects = true;
-					MultipleObjectsSelected = true;
+					Classes.Internal.EntitiesToolboxCore.MultipleObjectsSelected = true;
 					string CommonObjectName = SelectedEntities[0].Object.Name.Name;
 					foreach (EditorEntity selectedEntity in SelectedEntities)
 					{
-						SelectedObjectListIndexes.Add(selectedEntity.SlotID);
+						Classes.Internal.EntitiesToolboxCore.SelectedObjectListIndexes.Add(selectedEntity.SlotID);
 						if (selectedEntity.Object.Name.Name != CommonObjectName)
 						{
 							isCommonObjects = false;
@@ -762,7 +755,7 @@ namespace ManiacEditor.Controls.Toolbox
 
 			}
 
-			if (!MultipleObjectsSelected)
+			if (!Classes.Internal.EntitiesToolboxCore.MultipleObjectsSelected)
 			{
 				SetSingleSelect();
 				return;
@@ -796,68 +789,12 @@ namespace ManiacEditor.Controls.Toolbox
 			}
 
 		}
-
 		public void UpdateEntitiesList(bool FirstLoad = false)
 		{
 			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Updating List Entries...");
-			//This if statement Triggers when the toolbar opens for the first time
-			SceneEntitiesList.Items.Clear();
 
-			int count = (ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT > _Entities.Count() ? _Entities.Count() : ManiacEditor.Methods.Solution.SolutionConstants.ENTITY_LIMIT);
-
-			for (int i = 0; i < count; i++)
-			{
-				var entity = _Entities[i];
-				if (entity != null)
-				{
-					Visibility VisibilityStatus = GetObjectListItemVisiblity(entity.Object.Name.Name, entity.SlotID);
-					if (ObjectList[i] == null)
-					{
-						ObjectList[i] = new EntitiesListEntry()
-						{
-							ItemContent = string.Format("{0} - {3} ({1})", entity.Object.Name.Name, entity.SlotID, entity.GetHashCode(), i),
-							ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity),
-							Tag = entity.SlotID.ToString(),
-							Visibility = VisibilityStatus
-						};
-
-					}
-					else
-					{
-						ObjectList[i].ItemContent = string.Format("{0} - {3} ({1})", entity.Object.Name.Name, entity.SlotID, entity.GetHashCode(), i);
-						ObjectList[i].ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(entity);
-						ObjectList[i].Tag = entity.SlotID.ToString();
-						ObjectList[i].Visibility = VisibilityStatus;
-					}
-
-				}
-				else
-				{
-					if (ObjectList[i] == null)
-					{
-						ObjectList[i] = new EntitiesListEntry()
-						{
-							ItemContent = string.Format("{0} - {1}", "UNUSED", i),
-							ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(256),
-							Visibility = Visibility.Collapsed,
-							Tag = "NULL"
-
-						};
-
-					}
-					else
-					{
-						ObjectList[i].ItemContent = String.Format("{0} - {1}", "UNUSED", i);
-						ObjectList[i].ItemForeground = Methods.Internal.Theming.GetObjectFilterColorBrush(256);
-						ObjectList[i].Visibility = Visibility.Collapsed;
-						ObjectList[i].Tag = "NULL";
-					}
-
-				}
-
-				if (ObjectList[i].Visibility != Visibility.Collapsed) SceneEntitiesList.Items.Add(ObjectList[i]);
-			}
-
+			if (SceneEntitiesList.ItemsSource == null) SceneEntitiesList.ItemsSource = _Entities;
+			SceneEntitiesList.Items.Refresh();
 
 			if (!_Entities.Contains(CurrentEntity)) CurrentEntity = null;
 
@@ -872,28 +809,16 @@ namespace ManiacEditor.Controls.Toolbox
 				GoToObjectButton.IsEnabled = false;
 			}
 		}
-
-
 		public void UpdateEntitySelectionBox(EditorEntity entity)
 		{
 			Extensions.ConsoleExtensions.PrintWithLog("[EntitiesToolbar] Updating Entity Selection Box...");
-			if (ObjectList != null)
+			if (_Entities != null)
 			{
-				bool valid;
-				try
+				if (entity != null)
 				{
-					valid = ObjectList.ToList().Exists(x => x.Tag != null && x.Tag.ToString() == entity.SlotID.ToString());
-				}
-				catch
-				{
-					valid = false;
-				}
-				if (entity != null && valid)
-				{
-					var entry = ObjectList.Where(x => x.Tag.ToString() == entity.SlotID.ToString()).FirstOrDefault();
-					entitiesList.Content = entry.ItemContent;
-					entitiesList.Foreground = entry.ItemForeground;
-					entitiesList.Tag = entry.Tag;
+					entitiesList.Content = entity.ItemContent;
+					entitiesList.Foreground = entity.ItemForeground;
+					entitiesList.Tag = entity.Tag;
 				}
 				else
 				{
@@ -908,7 +833,6 @@ namespace ManiacEditor.Controls.Toolbox
 				entitiesList.Tag = null;
 			}
 		}
-
 		public void UpdatePropertyGridTheme(bool ForceRefresh = false)
 		{
 			if (ForceRefresh) this.PropertiesGrid.Update();
@@ -998,35 +922,13 @@ namespace ManiacEditor.Controls.Toolbox
 
 		private void EntitiesListEntryClicked(object sender, RoutedEventArgs e)
 		{
-			var button = sender as EntitiesListItem;
+			var button = sender as Button;
 			Methods.Solution.CurrentSolution.Entities.ClearSelection();
-			Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault().Selected = true;
+			var result = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString());
+			if (result == null || result.FirstOrDefault() == null) return;
+			result.FirstOrDefault().Selected = true;
 			SelectedEntities = Methods.Solution.CurrentSolution.Entities.SelectedEntities;
 			TabControl.SelectedIndex = 0;
-		}
-		private void EntitiesListEntryClickedUp(object sender, RoutedEventArgs e)
-		{
-			var button = sender as EntitiesListItem;
-			var SelectedObject = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault();
-			var targetSlot = SelectedObject.SlotID - 1;
-			if (Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID == targetSlot))
-			{
-				var TargetObject = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID == targetSlot).FirstOrDefault();
-				SwapSelectedObjectIDs(TargetObject, SelectedObject);
-			}
-			TabControl.SelectedIndex = 2;
-		}
-		private void EntitiesListEntryClickedDown(object sender, RoutedEventArgs e)
-		{
-			var button = sender as EntitiesListItem;
-			var SelectedObject = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID.ToString() == button.Tag.ToString()).FirstOrDefault();
-			var targetSlot = SelectedObject.SlotID + 1;
-			if (Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID == targetSlot))
-			{
-				var TargetObject = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID == targetSlot).FirstOrDefault();
-				SwapSelectedObjectIDs(TargetObject, SelectedObject);
-			}
-			TabControl.SelectedIndex = 2;
 		}
 
 		#endregion
@@ -1043,10 +945,6 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				btnSpawn_Click(sender, e);
 			}
-		}
-		private void button2_Click(object sender, RoutedEventArgs e)
-		{
-			GoToObjectButton.ContextMenu.IsOpen = true;
 		}
 		private void goToThisEntityToolStripMenuItem_Click(object sender, RoutedEventArgs e)
 		{
@@ -1066,15 +964,9 @@ namespace ManiacEditor.Controls.Toolbox
 			UpdateDefaultFilter(false);
 			defaultFilter.Foreground = Methods.Internal.Theming.GetSelectedObjectFilterColorBrush(defaultFilter.SelectedIndex);
 		}
-		private void EntitiesList_DropDownClosed(object sender, EventArgs e)
-		{
-			if (CurrentEntity != null)
-			{
-				//entitiesList.SelectedItem = ObjectList[(int)currentEntity.SlotID];
-			}
-		}
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			Classes.Internal.EntitiesToolboxCore.FilterText = searchBox.Text;
 			UpdateEntitiesList();
 		}
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -1088,9 +980,10 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				UpdateEntitiesList();
 				TabControl.SelectedIndex = 2;
-				if (CurrentEntity != null && ObjectList.ToList().Exists(x => x != null && x.Tag.ToString() == CurrentEntity.SlotID.ToString()))
+				if (CurrentEntity != null)
 				{
-					var currObject = ObjectList.Where(x => x.Tag.ToString() == CurrentEntity.SlotID.ToString()).FirstOrDefault();
+					int index = ManiacEditor.Classes.Scene.EditorEntity.GetSlotIndex(CurrentEntity);
+					var currObject =  _Entities[index];
 					if (currObject != null)
 					{
 						SceneEntitiesList.ScrollIntoView(currObject);
@@ -1112,17 +1005,17 @@ namespace ManiacEditor.Controls.Toolbox
 		{
 			if (CurrentEntity != null)
 			{
-				int index = ObjectList.IndexOf(ObjectList.Where(x => x.Tag.ToString() == CurrentEntity.SlotID.ToString()).FirstOrDefault());
+				int index = ManiacEditor.Classes.Scene.EditorEntity.GetSlotIndex(CurrentEntity);
 
 				if (e.Direction == Xceed.Wpf.Toolkit.SpinDirection.Decrease) index--;
 				else index++;
 
-				if (ObjectList.Length <= index || index < 0) return;
+				if (_Entities.Count <= index || index < 0) return;
 
-				if (ObjectList[index] != null)
+				if (_Entities[index] != null)
 				{
 					Methods.Solution.CurrentSolution.Entities.ClearSelection();
-					Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID.ToString() == ObjectList[index].Tag.ToString()).FirstOrDefault().Selected = true;
+					Methods.Solution.CurrentSolution.Entities.Entities[index].Selected = true;
 					TabControl.SelectedIndex = 0;
 					SelectedEntities = Methods.Solution.CurrentSolution.Entities.SelectedEntities;
 				}
@@ -1140,10 +1033,6 @@ namespace ManiacEditor.Controls.Toolbox
 				ButtonSpinner_Spin(null, new Xceed.Wpf.Toolkit.SpinEventArgs(Xceed.Wpf.Toolkit.SpinDirection.Decrease));
 			}
 		}
-		private void CbSpawn_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-
-		}
 		private void btnSpawn_Click(object sender, RoutedEventArgs e)
 		{
 			SpawnObject();
@@ -1152,41 +1041,6 @@ namespace ManiacEditor.Controls.Toolbox
 		#endregion
 
 		#region Other
-
-		public Visibility GetObjectListItemVisiblity(string name, ushort slotID)
-		{
-			if (MultipleObjectsSelected == true)
-			{
-				if (SelectedObjectListIndexes.Contains((int)slotID))
-				{
-					return Visibility.Visible;
-				}
-				else
-				{
-					return Visibility.Collapsed;
-				}
-			} 
-			else
-			{
-				if (searchBox.Text != "")
-				{
-					if (name.Contains(searchBox.Text))
-					{
-						return Visibility.Visible;
-					}
-					else
-					{
-						return Visibility.Collapsed;
-					}
-				}
-				else
-				{
-					return Visibility.Visible;
-				}
-			}
-
-
-		}
 		public void UpdateDefaultFilter(bool startup)
 		{
 			if (startup)
@@ -1272,32 +1126,6 @@ namespace ManiacEditor.Controls.Toolbox
 			}
 
 		}
-		public int GetIndexOfSlotID(int slotID)
-		{
-			int index = 0;
-			for (int i = 0; i < _Entities.Count; i++)
-			{
-				if (_Entities[i].SlotID == (ushort)slotID)
-				{
-					index = i;
-				}
-			}
-			return index;
-		}
-        private void UpdateSelectedEntitiesList()
-        {
-            SelectionViewer.Children.Clear();
-            if (Methods.Solution.CurrentSolution.Entities.SelectedEntities != null)
-            {
-                foreach (var entity in Methods.Solution.CurrentSolution.Entities.SelectedEntities.OrderBy(x => x.TimeWhenSelected))
-                {
-                    TextBlock entry = new TextBlock();
-                    entry.Text = string.Format("{0} | {1} | ID:{2} | X:{3},Y:{4}", string.Format("{0}", entity.SelectedIndex + 1), entity.Name, entity.SlotID, entity.Position.X.High, entity.Position.Y.High);
-                    SelectionViewer.Children.Add(entry);
-                }
-            }
-
-        }
         public void SpawnObject()
         {
             if (cbSpawn?.SelectedItem != null && cbSpawn.SelectedItem is TextBlock)
@@ -1331,13 +1159,5 @@ namespace ManiacEditor.Controls.Toolbox
         }
 
 		#endregion
-
-		public class EntitiesListEntry
-		{
-			public object ItemContent { get; set; }
-			public object Tag { get; set; }
-			public Brush ItemForeground { get; set; }
-			public Visibility Visibility { get; set; }
-		}
 	}
 }

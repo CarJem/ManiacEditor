@@ -23,7 +23,6 @@ namespace ManiacEditor.Classes.Scene
     {
         #region Definitions
 
-        public ManiacEditor.Controls.Editor.MainEditor Instance;
         public EditorEntities Entities { get; set; }
 
         #endregion
@@ -87,19 +86,18 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Misc
-        public EditorScene(string filename, DevicePanel d, ManiacEditor.Controls.Editor.MainEditor instance) : base(filename)
+        public EditorScene(string filename, DevicePanel d) : base(filename)
         {
-            Instance = instance;
             AllLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
             {
-                AllLayers.Add(new EditorLayer(layer, Instance));
+                AllLayers.Add(new EditorLayer(layer));
             }
+            Entities = new EditorEntities(this);
         }
 
-        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight, ManiacEditor.Controls.Editor.MainEditor instance)
+        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight)
         {
-            Instance = instance;
             Layers = new List<SceneLayer>(3);
             Layers.Add(new SceneLayer("FG Low", (ushort)width, (ushort)height));
             Layers.Add(new SceneLayer("FG High", (ushort)width, (ushort)height));
@@ -108,7 +106,7 @@ namespace ManiacEditor.Classes.Scene
             AllLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
             {
-                AllLayers.Add(new EditorLayer(layer, Instance));
+                AllLayers.Add(new EditorLayer(layer));
             }
         }
 
@@ -132,7 +130,7 @@ namespace ManiacEditor.Classes.Scene
         {
             // lets just pick some reasonably safe defaults
             var sceneLayer = new SceneLayer("New Layer", 128, 128);
-            var editorLayer = new EditorLayer(sceneLayer, Instance);
+            var editorLayer = new EditorLayer(sceneLayer);
             return editorLayer;
         }
 

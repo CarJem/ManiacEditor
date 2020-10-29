@@ -15,41 +15,22 @@ namespace ManiacEditor.Entity_Renders
             int y = Properties.DrawY;
             int Transparency = Properties.Transparency;
 
-            var Animation = LoadAnimation("Global/EditorIcons.bin", d, 0, 6);
+
             var height_value = (int)(e.attributesMap["size"].ValueEnum);
             var height = (height_value > 0 ? height_value / 2 : height_value);
             var width = 6;
 
             if (width != -1 && height != -1)
             {
-                bool wEven = width % 2 == 0;
-                bool hEven = height % 2 == 0;
-
                 int x1 = (x + width);
                 int x2 = (x - width) - 1;
                 int y1 = (y + height * 2);
                 int y2 = (y - height * 2);
 
-
-                d.DrawLine(x1, y1, x1, y2, SystemColors.White);
-                d.DrawLine(x1, y1, x2, y1, SystemColors.White);
-                d.DrawLine(x2, y2, x1, y2, SystemColors.White);
-                d.DrawLine(x2, y2, x2, y1, SystemColors.White);
-
-                // draw corners
-                for (int i = 0; i < 4; i++)
-                {
-                    bool right = (i & 1) > 0;
-                    bool bottom = (i & 2) > 0;
-
-                    Animation = LoadAnimation("EditorAssets", d, 0, 1);
-                    DrawTexture(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID,
-                        (right ? x1 - Animation.RequestedFrame.Width + 1 : x2),
-                        (bottom ? y1 - Animation.RequestedFrame.Height + 1 : y2), Transparency, right, bottom);
-                }
+                DrawBounds2(d, x1, y1, x2, y2, Transparency, SystemColors.White, SystemColors.Transparent);
             }
 
-            Animation = LoadAnimation("EditorIcons", d, 0, 6);
+            var Animation = LoadAnimation("EditorIcons", d, 0, 6);
             DrawTexturePivotNormal(d, Animation, Animation.RequestedAnimID, Animation.RequestedFrameID, x, y, Transparency);
         }
 

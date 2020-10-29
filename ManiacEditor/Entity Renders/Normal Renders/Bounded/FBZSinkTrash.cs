@@ -20,7 +20,13 @@ namespace ManiacEditor.Entity_Renders
 
             if (widthPixels >= 1 && heightPixels >= 1)
             {
-                d.DrawRectangle(x - widthPixels / 2, y - heightPixels / 2, x + widthPixels / 2, y + heightPixels / 2, System.Drawing.Color.Gray, System.Drawing.Color.White, 1);
+                int x1 = x - widthPixels / 2;
+                int y1 = y - heightPixels / 2;
+                int x2 = x + widthPixels / 2;
+                int y2 = y + heightPixels / 2;
+
+
+                DrawBounds2(d, x2, y2, x1, y1, Transparency, System.Drawing.Color.White, System.Drawing.Color.Gray);
             }
         }
 

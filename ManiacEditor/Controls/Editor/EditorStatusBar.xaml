@@ -70,9 +70,11 @@
             </StatusBarItem>
             <MenuItem x:Name="EntityContext" Visibility="Collapsed">
                 <MenuItem x:Name="EntityNameItem" IsHitTestVisible="False"></MenuItem>
-                <MenuItem x:Name="EntitySlotIDItem" IsHitTestVisible="False"></MenuItem>
+                <MenuItem x:Name="EntitySlotIDItem" Click="EntitySlotIDItem_Click"></MenuItem>
+                <MenuItem x:Name="EntityHexidecimalSlotIDItem" Click="EntityHexidecimalSlotIDItem_Click"></MenuItem>
+                <MenuItem x:Name="EntityHexidecimalFilteredSlotIDItem" Click="EntityHexidecimalFilteredSlotIDItem_Click"></MenuItem>
+                <Separator></Separator>
                 <MenuItem x:Name="EntityPositionItem" IsHitTestVisible="False"></MenuItem>
-                <Separator/>
             </MenuItem>
             <MenuItem x:Name="TilesContext" Visibility="Collapsed">
                 <MenuItem x:Name="PixelPositionMenuItem" IsHitTestVisible="False"></MenuItem>

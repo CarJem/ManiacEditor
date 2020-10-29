@@ -10,7 +10,6 @@ namespace ManiacEditor.Classes.Scene
 	public class EditorChunks
 	{
 		#region Definitions
-		private Controls.Editor.MainEditor Instance { get; set; }
 		private TexturedStamps StageStamps { get; set; }
 		private Stamps EditorStamps { get; set; }
 
@@ -197,9 +196,8 @@ namespace ManiacEditor.Classes.Scene
 		#endregion
 
 		#region Init
-		public EditorChunks(Controls.Editor.MainEditor _Instance, TexturedStamps _StageStamps)
+		public EditorChunks(TexturedStamps _StageStamps)
 		{
-			Instance = _Instance;
 			StageStamps = _StageStamps;
 			EditorStamps = new Stamps();
 			AddBlankMap();

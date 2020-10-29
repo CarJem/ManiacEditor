@@ -87,6 +87,7 @@ namespace ManiacEditor.Controls.Editor
 
         public void UpdateHUDInfo()
         {
+            /*
             if (Instance != null && !System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
                 if (HUDItemNeedsUpdate(FPSCounter.Text, GetFPS())) FPSCounter.Text = GetFPS();
@@ -104,6 +105,7 @@ namespace ManiacEditor.Controls.Editor
                 string infoToggle = string.Format("Use {0} to Toggle this Information", "F3");
                 if (HUDItemNeedsUpdate(InfoToggle.Text, infoToggle)) InfoToggle.Text = infoToggle;
             }
+            */
         }
 
 

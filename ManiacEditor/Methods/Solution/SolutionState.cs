@@ -302,31 +302,25 @@ namespace ManiacEditor.Methods.Solution
                     SetViewPositionX(value);
                 }
             }
-            public void SetViewPositionY(int value, bool UpdateScrollBars = false)
+            public void SetViewPositionY(int value)
             {
                 _ViewPositionY = value;
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionY));
                 UpdateStatusLabels();
 
-                if (UpdateScrollBars)
-                {
-                    if (Methods.Solution.SolutionState.Main.AnyDragged()) Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
-                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
-                }
+                if (Methods.Solution.SolutionState.Main.AnyDragged()) Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
+                Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
             }
-            public void SetViewPositionX(int value, bool UpdateScrollBars = false)
+            public void SetViewPositionX(int value)
             {
                 _ViewPositionX = value;
                 ManiacEditor.Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
                 OnPropertyChanged(nameof(ViewPositionX));
                 UpdateStatusLabels();
 
-                if (UpdateScrollBars)
-                {
-                    if (Methods.Solution.SolutionState.Main.AnyDragged()) Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
-                    Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
-                }
+                if (Methods.Solution.SolutionState.Main.AnyDragged()) Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
+                Instance.ViewPanel.SharpPanel.UpdateGraphicsPanelControls();
             }
             public int ViewPositionY
             {

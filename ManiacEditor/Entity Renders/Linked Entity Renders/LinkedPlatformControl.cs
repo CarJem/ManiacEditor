@@ -26,11 +26,11 @@ namespace ManiacEditor.Entity_Renders
             ushort CurrentTargetSlotID = (ushort)(TargetSlotID + 1);
             for (int i = 0; i < ChildCount; i++)
             {
-                bool DoesTargetExist = Properties.EditorObject.Entities.Entities.Exists(x => x.SlotID == TargetSlotID && x.Name == "Platform");
+                bool DoesTargetExist = Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID == TargetSlotID && x.Name == "Platform");
 
                 if (DoesTargetExist)
                 {
-                    var Target1 = Properties.EditorObject.Entities.Entities.Where(x => x.SlotID == TargetSlotID && x.Name == "Platform").First();
+                    var Target1 = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID == TargetSlotID && x.Name == "Platform").First();
                     ChildPoints.Add(Target1);
                 }
 
@@ -59,9 +59,9 @@ namespace ManiacEditor.Entity_Renders
             List<Tuple<Classes.Scene.EditorEntity, Classes.Scene.EditorEntity>> NodePairPoints = new List<Tuple<Classes.Scene.EditorEntity, Classes.Scene.EditorEntity>>();
 
 
-            if (Properties.EditorObject.Entities.Entities.Exists(x => x.SlotID > SlotID && x.Name == "PlatformNode"))
+            if (Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID > SlotID && x.Name == "PlatformNode"))
             {
-                FirstNode = Properties.EditorObject.Entities.Entities.Where(x => x.SlotID > SlotID && x.Name == "PlatformNode").First();
+                FirstNode = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID > SlotID && x.Name == "PlatformNode").First();
 
                 TargetSlotID = FirstNode.SlotID;
                 TargetSlotIDNext = (ushort)(FirstNode.SlotID + 1);
@@ -70,13 +70,13 @@ namespace ManiacEditor.Entity_Renders
 
                 for (int i = 0; i < NodeCount;)
                 {
-                    bool DoesTarget1Exist = Properties.EditorObject.Entities.Entities.Exists(x => x.SlotID == TargetSlotID && x.Name == "PlatformNode");
-                    bool DoesTarget2Exist = Properties.EditorObject.Entities.Entities.Exists(x => x.SlotID == TargetSlotIDNext && x.Name == "PlatformNode");
+                    bool DoesTarget1Exist = Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID == TargetSlotID && x.Name == "PlatformNode");
+                    bool DoesTarget2Exist = Methods.Solution.CurrentSolution.Entities.Entities.Exists(x => x.SlotID == TargetSlotIDNext && x.Name == "PlatformNode");
 
                     if (DoesTarget1Exist && DoesTarget2Exist)
                     {
-                        var Target1 = Properties.EditorObject.Entities.Entities.Where(x => x.SlotID == TargetSlotID && x.Name == "PlatformNode").First();
-                        var Target2 = Properties.EditorObject.Entities.Entities.Where(x => x.SlotID == TargetSlotIDNext && x.Name == "PlatformNode").First();
+                        var Target1 = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID == TargetSlotID && x.Name == "PlatformNode").First();
+                        var Target2 = Methods.Solution.CurrentSolution.Entities.Entities.Where(x => x.SlotID == TargetSlotIDNext && x.Name == "PlatformNode").First();
 
                         NodePairPoints.Add(new Tuple<Classes.Scene.EditorEntity, Classes.Scene.EditorEntity>(Target1, Target2));
                         i++;

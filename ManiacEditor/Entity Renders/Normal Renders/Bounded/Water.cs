@@ -48,15 +48,13 @@ namespace ManiacEditor.Entity_Renders
 
                 if (Selected)
                 {
-                    DrawWaterTileMap(d, x, y, x1, y1, widthPixels, heightPixels, GetWaterColors(255, r, g, b), Transparency);
+                    //DrawWaterTileMap(d, x, y, x1, y1, widthPixels, heightPixels, GetWaterColors(255, r, g, b), Transparency);
+                    d.DrawRectangle(x1, y1, x2, y2, GetWaterColors(255, r, g, b));
                     if (TilesNeedUpdate) TilesNeedUpdate = false;
                 }
 
 
-                d.DrawLine(x1, y1, x1, y2, SystemColors.Aqua);
-                d.DrawLine(x1, y1, x2, y1, SystemColors.Aqua);
-                d.DrawLine(x2, y2, x1, y2, SystemColors.Aqua);
-                d.DrawLine(x2, y2, x2, y1, SystemColors.Aqua);
+                DrawBounds2(d, x2, y2, x1, y1, Transparency, SystemColors.Aqua, SystemColors.Transparent);
             }
 
             SystemColors GetWaterColors(int _a, int _r, int _g, int _b)
@@ -99,6 +97,7 @@ namespace ManiacEditor.Entity_Renders
                             int startX = (Methods.Solution.SolutionState.Main.SizeWaterLevelwithBounds ? x1 : 0);
                             int endX = (Methods.Solution.SolutionState.Main.SizeWaterLevelwithBounds ? x2 : Methods.Solution.CurrentSolution.SceneWidth);
 
+                            editorAnim = LoadAnimation("Global/Water.bin", d, 0, 0);
                             d.DrawRectangle(startX, heightX, endX, Methods.Solution.CurrentSolution.SceneHeight, Methods.Solution.SolutionState.Main.waterColor);
                             d.DrawLine(startX, heightX, endX, heightX, SystemColors.White);
                             for (int i = startX; i < endX; i = i + 32)
@@ -110,7 +109,7 @@ namespace ManiacEditor.Entity_Renders
                     }
                     else
                     {
-                        if (Methods.Solution.SolutionState.Main.AlwaysShowWaterLevel)
+                        if (Methods.Solution.SolutionState.Main.AlwaysShowWaterLevel || Selected)
                         {
                             int startX = (Methods.Solution.SolutionState.Main.SizeWaterLevelwithBounds ? x1 : 0);
                             int endX = (Methods.Solution.SolutionState.Main.SizeWaterLevelwithBounds ? x2 : Methods.Solution.CurrentSolution.SceneWidth);
@@ -120,10 +119,7 @@ namespace ManiacEditor.Entity_Renders
                     }
                 }
 
-                d.DrawLine(x1, y1, x1, y2, SystemColors.Aqua);
-                d.DrawLine(x1, y1, x2, y1, SystemColors.Aqua);
-                d.DrawLine(x2, y2, x1, y2, SystemColors.Aqua);
-                d.DrawLine(x2, y2, x2, y1, SystemColors.Aqua);
+                DrawBounds2(d, x2, y2, x1, y1, Transparency, SystemColors.Aqua, SystemColors.Transparent);
             }
         }
         private void DrawWaterBase(DevicePanel d, ObjectDrawing.EditorAnimation editorAnim, int x, int y, int Transparency, int animID, int type)

@@ -56,6 +56,7 @@ namespace ManiacEditor.Actions
         {
             Actions.UndoRedoModel.UndoStack.Clear();
             Actions.UndoRedoModel.RedoStack.Clear();
+            Methods.Internal.UserInterface.UpdateControls(Methods.Internal.UserInterface.UpdateType.UndoRedoButtons);
         }
         public static void UpdateEditEntityActions()
         {
@@ -71,7 +72,7 @@ namespace ManiacEditor.Actions
                 Methods.Solution.CurrentSolution.Entities.LastActionInternal = null;
             }
             Methods.Drawing.ObjectDrawing.UpdateVisibleEntities(Methods.Solution.CurrentSolution.Entities.Entities);
-
+            Methods.Internal.UserInterface.UpdateControls(Methods.Internal.UserInterface.UpdateType.UndoRedoButtons);
         }
         public static void UpdateEditEntitiesActions()
         {
@@ -110,6 +111,7 @@ namespace ManiacEditor.Actions
                     Actions.UndoRedoModel.RedoStack.Clear();
                 }
             }
+            Methods.Internal.UserInterface.UpdateControls(Methods.Internal.UserInterface.UpdateType.UndoRedoButtons);
         }
         public static void UpdateEditLayersActions()
         {
@@ -117,7 +119,7 @@ namespace ManiacEditor.Actions
             if (Methods.Solution.CurrentSolution.EditLayerB != null) UpdateEditLayerActions(Methods.Solution.CurrentSolution.EditLayerB);
             if (Methods.Solution.CurrentSolution.EditLayerC != null) UpdateEditLayerActions(Methods.Solution.CurrentSolution.EditLayerC);
             if (Methods.Solution.CurrentSolution.EditLayerD != null) UpdateEditLayerActions(Methods.Solution.CurrentSolution.EditLayerD);
-
+            Methods.Internal.UserInterface.UpdateControls(Methods.Internal.UserInterface.UpdateType.UndoRedoButtons);
 
             void UpdateEditLayerActions(Classes.Scene.EditorLayer layer)
             {

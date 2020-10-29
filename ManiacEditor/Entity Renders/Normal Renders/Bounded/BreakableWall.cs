@@ -34,26 +34,7 @@ namespace ManiacEditor.Entity_Renders
                 int y2 = (y + (hEven ? -8 : -16) + (-height / 2) * 16);
 
 
-                d.DrawRectangle(x1, y1, x2, y2, SystemColors.Transparent, SystemColors.White, 2);
-
-
-                // draw corners
-                for (int i = 0; i < 4; i++)
-                {
-                    bool right = (i & 1) > 0;
-                    bool bottom = (i & 2) > 0;
-
-                    Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(d, "EditorAssets");
-                    if (EntityRenderer.IsValidated(Animation, new System.Tuple<int, int>(0, 1)))
-                    {
-                        var frame = Animation.Animation.Animations[0].Frames[1];
-                        d.DrawBitmap(Animation.Spritesheets.ElementAt(frame.SpriteSheet).Value,
-                            (x + (wEven ? frame.PivotX : -frame.Width) + (-width / 2 + (right ? width : 0)) * frame.Width),
-                            (y + (hEven ? frame.PivotY : -frame.Height) + (-height / 2 + (bottom ? height : 0)) * frame.Height),
-                            frame.X, frame.Y, frame.Width, frame.Height, false, Transparency, right, bottom);
-
-                    }
-                }
+                DrawBounds2(d, x1, y1, x2, y2, Transparency, SystemColors.White, SystemColors.Transparent);
             }
 
             bool knux = e.attributesMap["onlyKnux"].ValueBool;

@@ -11,7 +11,8 @@ namespace ManiacEditor.Structures
 {
     public class InfinityConfig
     {
-        public IList<IZStage> Stages { get; set; }
+        public List<IZStage> Stages { get; set; }
+        public List<IZCategory> Categories { get; set; }
 
         public void LoadStages(string filepath)
         {
@@ -19,29 +20,159 @@ namespace ManiacEditor.Structures
             doc.Load(filepath);
 
             Stages = new List<IZStage>();
+            Categories = new List<IZCategory>();
 
-            if (doc.FirstChild.Name == "Stages")
+            if (doc.FirstChild.Name == "InfinityZone")
             {
-                XmlElement xmlStages = (XmlElement)doc.FirstChild;
-                for (var child = xmlStages.FirstChild; child != null; child = child.NextSibling)
+                XmlElement coreElement = (XmlElement)doc.FirstChild;
+                var nodes = new List<XmlNode>(coreElement.ChildNodes.Cast<XmlNode>());
+                if (nodes.Exists(x => x.Name == "Stages"))
                 {
-                    IZStage stage = new IZStage();
-                    stage.LoadXML((XmlElement)child);
-                    Stages.Add(stage);
+                    XmlElement xmlStages = (XmlElement)nodes.Where(x => x.Name == "Stages").FirstOrDefault();
+                    for (var child = xmlStages.FirstChild; child != null; child = child.NextSibling)
+                    {
+                        IZStage stage = new IZStage();
+                        stage.LoadXML((XmlElement)child);
+                        Stages.Add(stage);
+                    }
+                }
+                if (nodes.Exists(x => x.Name == "Categories"))
+                {
+                    XmlElement xmlCatagories = (XmlElement)nodes.Where(x => x.Name == "Categories").FirstOrDefault();
+                    for (var child = xmlCatagories.FirstChild; child != null; child = child.NextSibling)
+                    {
+                        IZCategory category = new IZCategory();
+                        category.LoadXML((XmlElement)child, Stages);
+                        Categories.Add(category);
+                    }
                 }
             }
         }
-
         public InfinityConfig(string stages_filepath)
         {
             Stages = new List<IZStage>();
 
             LoadStages(stages_filepath);
         }
-
         public InfinityConfig()
         {
             Stages = new List<IZStage>();
+        }
+    }
+
+    public class IZCategory
+    {
+        public string CategoryName { get; set; }
+        public IList<IZGroup> Groups { get; set; }
+
+        public void LoadXML(XmlElement xmlCatagory, List<IZStage> Stages)
+        {
+            CategoryName = xmlCatagory.GetAttribute("categoryName"); // Required
+            Groups = new List<IZGroup>();
+            for (var child = xmlCatagory.FirstChild; child != null; child = child.NextSibling)
+            {
+                IZGroup group = new IZGroup();
+                group.LoadXML((XmlElement)child, Stages);
+                Groups.Add(group);
+            }
+        }
+    }
+    public class IZGroup
+    {
+        public string GroupName { get; set; }
+        public IList<IZScene> Scenes { get; set; }
+
+        public void LoadXML(XmlElement xmlGroup, List<IZStage> Stages)
+        {
+            GroupName = xmlGroup.GetAttribute("groupName"); // Required
+            Scenes = new List<IZScene>();
+            for (var child = xmlGroup.FirstChild; child != null; child = child.NextSibling)
+            {
+                IZScene scene = new IZScene();
+                scene.LoadXML((XmlElement)child, Stages);
+                if (scene.Stage != null) Scenes.Add(scene);
+            }
+
+        }
+    }
+    public class IZScene
+    {
+        [JsonIgnore]
+        // The Stage Data For This Scene
+        public IZStage Stage { get; set; }
+        // The name of the stage to refrence.
+        public string StageKey { get; set; }
+        // The name of this scene. Name should be short
+        public string SceneKey { get; set; }
+        // The id of this scene (Scene%s.bin)
+        public string SceneID { get; set; }
+        // The scene flags for this scene
+        public int SceneFlags { get; set; }
+        // The name of this scene.
+        public string SceneName { get; set; }
+
+        public void LoadXML(XmlElement xmlScene, List<IZStage> Stages)
+        {
+            StageKey = xmlScene.GetAttribute("stageKey"); // Required
+            SceneKey = xmlScene.GetAttribute("sceneKey");     // Required
+            SceneID = xmlScene.GetAttribute("sceneID");   // Required
+            SceneName = xmlScene.GetAttribute("sceneName");   // Required
+
+            if (xmlScene.Attributes.GetNamedItem("sceneFlags") != null)
+            {
+                int flag = 3;
+                int.TryParse(xmlScene.GetAttribute("sceneFlags"), out flag);
+                SceneFlags = flag;
+            }
+
+            if (Stages.Exists(x => x.StageKey == StageKey))
+            {
+                Stage = Stages.Where(x => x.StageKey == StageKey).FirstOrDefault();
+            }
+        }
+
+    }
+    public class IZStage
+    {
+        // The name of this stage;
+        public string StageName { get; set; }
+        // The name of the folder for this stage
+        public string StageDir { get; set; }
+        // The name of this scene. (must be unique)
+        public string StageKey { get; set; }
+
+        // List of unlocks to enable for a given stage
+        public List<string> Unlocks { get; set; }
+        // List of paths to assets that needs to be replaced. old => new
+        public List<IZAsset> Assets { get; set; }
+
+        public IZStage() { }
+
+        public void LoadXML(XmlElement xmlStage)
+        {
+            StageName = xmlStage.GetAttribute("stageName"); // Required
+            StageDir = xmlStage.GetAttribute("stageDir");     // Required
+            StageKey = xmlStage.GetAttribute("stageKey");   // Required
+
+            XmlNode xmlUnlocks = xmlStage.GetElementsByTagName("StageUnlocks").Item(0);
+            if (xmlUnlocks != null)
+            {
+                for (var child = xmlUnlocks.FirstChild; child != null; child = child.NextSibling)
+                {
+                    if (Unlocks == null) Unlocks = new List<string>();
+                    Unlocks.Add(child.Name);
+                }
+            }
+
+            XmlNode xmlAssets = xmlStage.GetElementsByTagName("StageAssets").Item(0);
+            if (xmlAssets != null)
+            {
+                for (var child = xmlAssets.FirstChild; child != null; child = child.NextSibling)
+                {
+                    if (Assets == null) Assets = new List<IZAsset>();
+                    Assets.Add(new IZAsset(child.Attributes["basePath"].Value, child.Attributes["newPath"].Value));
+                }
+            }
         }
     }
     public class InfinityUnlocks
@@ -97,104 +228,8 @@ namespace ManiacEditor.Structures
 
         public IZAsset() { }
     }
-    public class IZStage
-    {
-        [JsonIgnore]
-        // List of scenes
-        public List<IZScene> Scenes { get; set; }
-        // The name of the stage
-        public string StageName { get; set; }
-        // The internal name of this stage (Must be unique)
-        public string StageKey { get; set; }
-        // The name of the folder for this stage
-        public string StageID { get; set; }
-        // The scene flags for this stage
-        public int Flags { get; set; }
-
-        // List of unlocks to enable for a given stage
-        public List<string> Unlocks { get; set; }
-        // List of paths to assets that needs to be replaced. old => new
-        public List<IZAsset> Assets { get; set; }
-
-        public IZStage() { }
-
-        public void LoadXML(XmlElement xmlStage)
-        {
-            StageName = xmlStage.GetAttribute("stageName"); // Required
-            StageID = xmlStage.GetAttribute("stageID");     // Required
-            StageKey = xmlStage.GetAttribute("stageKey");   // Required
-            if (xmlStage.Attributes.GetNamedItem("flags") != null)
-            {
-                int flag = 3;
-                int.TryParse(xmlStage.GetAttribute("flags"), out flag);
-                Flags = flag;
-            }
-
-            XmlNode xmlUnlocks = xmlStage.GetElementsByTagName("StageUnlocks").Item(0);
-            if (xmlUnlocks != null)
-            {
-                for (var child = xmlUnlocks.FirstChild; child != null; child = child.NextSibling)
-                {
-                    if (Unlocks == null) Unlocks = new List<string>();
-                    Unlocks.Add(child.Name);
-                }
-            }
-
-            XmlNode xmlAssets = xmlStage.GetElementsByTagName("StageAssets").Item(0);
-            if (xmlAssets != null)
-            {
-                for (var child = xmlAssets.FirstChild; child != null; child = child.NextSibling)
-                {
-                    if (Assets == null) Assets = new List<IZAsset>();
-                    Assets.Add(new IZAsset(child.Attributes["basePath"].Value, child.Attributes["newPath"].Value));
-                }
-            }
-
-            XmlNode xmlScenes = xmlStage.GetElementsByTagName("Scenes").Item(0);
-            if (xmlScenes != null)
-            {
-                for (var child = xmlScenes.FirstChild; child != null; child = child.NextSibling)
-                {
-                    string sceneID = child.Attributes["id"].Value; // Required
-                    string sceneName = "";
-                    if (child.Attributes.GetNamedItem("name") != null) sceneName = child.Attributes.GetNamedItem("name").Value;
-
-                    if (sceneID == null) continue;
-
-                    // Set name to ID if a name wasn't given
-                    if (sceneName == null) sceneName = sceneID;
 
 
-                    IZScene scene = new IZScene();
-                    scene.Parent = this;
-                    scene.SceneID = sceneID;
-                    scene.SceneName = sceneName;
-                    if (child.Attributes.GetNamedItem("flags") != null)
-                    {
-                        int flag = 3;
-                        int.TryParse(child.Attributes["flags"].Value, out flag);
-                        scene.Flags = flag;
-                    }
-                    else scene.Flags = 3;
-
-                    if (Scenes == null) Scenes = new List<IZScene>();
-                    Scenes.Add(scene);
-                }
-            }
-        }
-    }
-    public class IZScene
-    {
-        [JsonIgnore]
-        // The owner of the scene (Base)
-        public IZStage Parent { get; set; }
-        // The id of this scene (Scene%s.bin)
-        public string SceneID { get; set; }
-        // The name of this scene. Name should be short
-        public string SceneName { get; set; }
-        // The scene flags for this scene
-        public int Flags { get; set; }
-    }
     public class IZStageUnlocks
     {
         public readonly static List<string> AllUnlocks = new List<string>()

@@ -19,15 +19,12 @@ namespace ManiacEditor.Entity_Renders
             var Animation = Methods.Drawing.ObjectDrawing.LoadAnimation(Properties.Graphics, "Editor/EditorIcons.bin");
             DrawTexturePivotNormal(d, Animation, 0, 5, x, y, Transparency);
 
-            if (e.Selected)
-            {
-                var widthPixels = (int)(e.attributesMap["size"].ValueVector2.X.High) * 2;
-                var heightPixels = (int)(e.attributesMap["size"].ValueVector2.Y.High) * 2;
-                var width = (int)widthPixels / 16;
-                var height = (int)heightPixels / 16;
+            var widthPixels = (int)(e.attributesMap["size"].ValueVector2.X.High) * 2;
+            var heightPixels = (int)(e.attributesMap["size"].ValueVector2.Y.High) * 2;
+            var width = (int)widthPixels / 16;
+            var height = (int)heightPixels / 16;
 
-                DrawBounds(d, x, y, widthPixels, heightPixels, Transparency, SystemColors.White, SystemColors.Transparent);
-            }
+            DrawBounds(d, x, y, widthPixels, heightPixels, Transparency, SystemColors.White, SystemColors.Transparent);
         }
 
         public override bool isObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity entity, int x, int y, int Transparency)

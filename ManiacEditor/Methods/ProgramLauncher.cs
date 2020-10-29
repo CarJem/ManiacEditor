@@ -359,12 +359,14 @@ namespace ManiacEditor.Methods
 
         public static void OpenFolder(string folderPath)
         {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            try
             {
-                FileName = folderPath,
-                UseShellExecute = true,
-                Verb = "open"
-            });
+                Process.Start("explorer.exe", folderPath);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
         }
         public static void OpenSceneFolder()
         {
@@ -681,9 +683,9 @@ namespace ManiacEditor.Methods
             Editor.ViewPanel.SharpPanel.ResetZoomLevel();
             Methods.Internal.UserInterface.UpdateControls();
         }
-        public static void TileManager()
+        public static void TilesheetManager()
         {
-            var tm = new Controls.Toolbox.TileManager();
+            var tm = new Controls.Toolbox.TilesheetEditor();
             tm.Owner = Window.GetWindow(Editor);
             tm.ShowDialog();
 

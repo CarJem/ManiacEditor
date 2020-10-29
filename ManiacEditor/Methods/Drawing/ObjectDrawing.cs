@@ -503,11 +503,24 @@ namespace ManiacEditor.Methods.Drawing
             int X = _entity.Position.X.High;
             int Y = _entity.Position.Y.High;
             string Name = _entity.Object.Name.Name;
+
             int Transparency = GetTransparencyLevel();
             System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
             System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
 
             DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity);
+            int index = _entity.FilterSlotID;
+            string boxText = String.Format("{0}{2}ID: {1}{2}IDX: {3}", GetShortenedName(Name, 8), _entity.SlotID, Environment.NewLine, index);
+            if (Instance.ViewPanel.SharpPanel.GetZoom() >= 1)
+            {
+                d.DrawTextSmall(boxText, X + 2, Y + 1, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+            }
+
+            string GetShortenedName(string value, int maxLength)
+            {
+                if (string.IsNullOrEmpty(value)) return value;
+                return value.Length <= maxLength ? value : value.Substring(0, maxLength - 1) + ".";
+            }
         }
         public static void DrawNormal(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
@@ -522,10 +535,16 @@ namespace ManiacEditor.Methods.Drawing
             System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
             System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
 
+
+            bool fliph = false;
+            bool flipv = false;
+            bool rotate = false;
+            _entity.GetRotationFromAttributes(ref fliph, ref flipv, ref rotate);
+
             if (!ManiacEditor.Properties.Settings.MyPerformance.NeverLoadEntityTextures)
             {
                 if (CanDraw(Name)) DrawDedicatedRender(d, _entity);
-                else FallbackDraw(d, _entity.Name, X, Y, Transparency);
+                else FallbackDraw(d, _entity.Name, X, Y, Transparency, fliph, flipv, rotate);
             }
         }
         public static void DrawDedicatedRender(DevicePanel d, Classes.Scene.EditorEntity e)
@@ -568,13 +587,13 @@ namespace ManiacEditor.Methods.Drawing
 
 
         }
-        public static void FallbackDraw(DevicePanel d, string Name, int x, int y, int Transparency)
+        public static void FallbackDraw(DevicePanel d, string Name, int x, int y, int Transparency, bool FlipH, bool FlipV, bool Rotate)
         {
             int FrameID = 0;
             int AnimID = 0;
 
             var animation = LoadAnimation(d, Name, AnimID, FrameID, true);
-            Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, animation, animation.RequestedAnimID, animation.RequestedFrameID, x, y, Transparency);
+            Entity_Renders.EntityRenderer.DrawTexturePivotNormal(d, animation, animation.RequestedAnimID, animation.RequestedFrameID, x, y, Transparency, FlipH, FlipV);
 
         }
         public static void DrawLinked(DevicePanel d, Classes.Scene.EditorEntity _entity)
@@ -651,11 +670,11 @@ namespace ManiacEditor.Methods.Drawing
         {
             if (e.InTempSelection)
             {
-                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x20, color);
+                return System.Drawing.Color.FromArgb(e.TempSelected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x30, color);
             }
             else
             {
-                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x20, color);
+                return System.Drawing.Color.FromArgb(e.Selected && ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() ? 0x60 : 0x30, color);
             }
         }
         public static bool IsObjectOnScreen(DevicePanel d, Classes.Scene.EditorEntity _entity)
@@ -701,7 +720,7 @@ namespace ManiacEditor.Methods.Drawing
             }
             else if (!e.HasFilter())
             {
-                color = System.Drawing.Color.White;
+                color = System.Drawing.Color.Black;
             }
             return color;
 

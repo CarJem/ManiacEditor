@@ -189,8 +189,8 @@ namespace ManiacEditor.Controls.Global.Controls
             {
                 if (visible)
                 {
-                    ToolbarRight.Width = new GridLength(300);
-                    ToolbarRight.MinWidth = 300;
+                    ToolbarRight.Width = new GridLength(320);
+                    ToolbarRight.MinWidth = 320;
                     ToolbarRight.MaxWidth = CenterPanel.ActualWidth / 3;
                     SplitterRight.Width = new GridLength(6);
                     SplitterRight.MinWidth = 6;

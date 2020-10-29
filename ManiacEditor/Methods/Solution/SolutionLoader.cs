@@ -478,7 +478,7 @@ namespace ManiacEditor.Methods.Solution
                 {
                     Methods.Solution.CurrentSolution.LevelID = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.LevelID;
                     string getPath = ManiacEditor.Methods.Solution.SolutionPaths.GetScenePath();
-                    Methods.Solution.CurrentSolution.CurrentScene = new Classes.Scene.EditorScene(getPath, Instance.ViewPanel.SharpPanel.GraphicPanel, Instance);
+                    Methods.Solution.CurrentSolution.CurrentScene = new Classes.Scene.EditorScene(getPath, Instance.ViewPanel.SharpPanel.GraphicPanel);
                 }
                 catch (Exception ex)
                 {
@@ -592,9 +592,8 @@ namespace ManiacEditor.Methods.Solution
             SetupObjectsList();
             SetupDiscordRP(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath);
             var StageStamps = ManiacEditor.Methods.Solution.SolutionPaths.GetEditorStamps(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone);
-            Instance.Chunks = new Classes.Scene.EditorChunks(Instance, StageStamps);
-            Instance.EditBackground = new Classes.Scene.EditorBackground(Instance);
-            Methods.Solution.CurrentSolution.Entities = new Classes.Scene.EditorEntities(Methods.Solution.CurrentSolution.CurrentScene);
+            Instance.Chunks = new Classes.Scene.EditorChunks(StageStamps);
+            Instance.EditBackground = new Classes.Scene.EditorBackground();
 
             Methods.Internal.UserInterface.SplineControls.UpdateSplineSpawnObjectsList(Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects);
 

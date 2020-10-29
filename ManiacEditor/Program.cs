@@ -53,24 +53,7 @@ namespace ManiacEditor
         private static void StartApp()
         {
             Extensions.ConsoleExtensions.PrintWithLog("Launching the Map Editor...");
-            if (UseDebuggerForErrors) Load();
-            else
-            {
-                try
-                {
-                    Load();
-                }
-                catch (Exception ex)
-                {
-                    Extensions.ConsoleExtensions.PrintWithLog(ex.Message);
-                    Extensions.ConsoleExtensions.CloseManiacConsole();
-                    Extensions.ConsoleExtensions.ShowManiacConsole(true);
-                }
-            }
-
-
-
-
+            Load();
 
             void Load()
             {
