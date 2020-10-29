@@ -16,11 +16,7 @@ before_build:
 - cmd: nuget restore
 install:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - git submodule update --init --recursive
   - nuget restore
-  - nuget restore "RSDK-Reverse/RSDK Reverse.sln"
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - nuget restore "ManiacEditor.sln"
 build:
   verbosity: minimal
   project: ManiacEditor.sln
