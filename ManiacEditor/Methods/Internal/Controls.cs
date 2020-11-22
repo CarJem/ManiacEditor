@@ -359,8 +359,6 @@ namespace ManiacEditor.Methods.Internal
                 {
                     Methods.Solution.SolutionMultiLayer.MoveSelected(oldPoint, newPoint, AltPressed());
                 }
-
-                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
             }
             Methods.Solution.SolutionState.Main.StartDragged = false;
 
@@ -651,7 +649,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void MouseDownLeft(System.Windows.Forms.MouseEventArgs e)
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEditing() && !Methods.Solution.SolutionState.Main.Dragged)
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEditing && !Methods.Solution.SolutionState.Main.Dragged)
             {
                 if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) TilesEditMouseDown(e);
                 else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) EntitiesEditMouseDown(e);
@@ -1162,9 +1160,9 @@ namespace ManiacEditor.Methods.Internal
             else if (e.Control && e.KeyCode == Keys.D2) Methods.Solution.SolutionState.Main.ShowCollisionB ^= true;
 
             //Toolbox Tool Switch
-            else if ((e.KeyCode == Keys.D1) && Instance.EditorToolbar.PointerToolButton.IsEnabled) Methods.Solution.SolutionState.Main.PointerMode(true);
-            else if ((e.KeyCode == Keys.D2) && Instance.EditorToolbar.SelectToolButton.IsEnabled) Methods.Solution.SolutionState.Main.SelectionMode(true);
-            else if ((e.KeyCode == Keys.D3) && Instance.EditorToolbar.DrawToolButton.IsEnabled) Methods.Solution.SolutionState.Main.DrawMode(true);
+            else if ((e.KeyCode == Keys.D1) && Instance.EditorToolbar.PointerToolButton.IsEnabled) Methods.Solution.SolutionState.Main.PointerToolMode(true);
+            else if ((e.KeyCode == Keys.D2) && Instance.EditorToolbar.SelectToolButton.IsEnabled) Methods.Solution.SolutionState.Main.SelectionToolMode(true);
+            else if ((e.KeyCode == Keys.D3) && Instance.EditorToolbar.DrawToolButton.IsEnabled) Methods.Solution.SolutionState.Main.DrawToolMode(true);
             else if ((e.KeyCode == Keys.D6) && Instance.EditorToolbar.MagnetMode.IsEnabled) Methods.Solution.SolutionState.Main.UseMagnetMode ^= true;
             else if ((e.KeyCode == Keys.D4) && Instance.EditorToolbar.SplineToolButton.IsEnabled) Methods.Solution.SolutionState.Main.SplineMode(true);
             else if ((e.KeyCode == Keys.D5) && Instance.EditorToolbar.ChunksToolButton.IsEnabled) Methods.Solution.SolutionState.Main.ChunksMode();

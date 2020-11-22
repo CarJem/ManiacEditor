@@ -38,8 +38,8 @@ namespace ManiacEditor.Controls.Editor
                 this.TilesContext.Background = (SolidColorBrush)FindResource("NormalBackground");
             }
         }
-        #region Update Position Label / Status Panel
 
+        #region Update Position Label / Status Panel
         private DispatcherOperation CurrentPositionUpdateOperation { get; set; }
         private DispatcherOperation StatusPanelUpdateOpteration { get; set; }
         public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs m = null)
@@ -65,7 +65,6 @@ namespace ManiacEditor.Controls.Editor
 
 
         }
-
         public void UpdateDataFolderLabel(string dataDirectory = null)
         {
             string dataFolderTag_Normal = "Data Directory: {0}" + Environment.NewLine + "Master Data Directory: {1}";
@@ -85,7 +84,6 @@ namespace ManiacEditor.Controls.Editor
                 else return "N/A";
             }
         }
-
         public void UpdateStatusPanel()
         {
             if (StatusPanelUpdateOpteration != null && StatusPanelUpdateOpteration.Status != DispatcherOperationStatus.Completed) return;
@@ -109,8 +107,6 @@ namespace ManiacEditor.Controls.Editor
             }
         }
         #endregion
-
-
 
         public void QuickButtonClickEvent(object sender, RoutedEventArgs e)
         {
@@ -166,18 +162,6 @@ namespace ManiacEditor.Controls.Editor
         {
             if (Methods.Solution.CurrentSolution.Entities != null) Classes.Scene.EditorEntities.ObjectRefreshNeeded = true;
         }
-
-        public void SetSceneOnlyButtonsState(bool enabled)
-        {
-            this.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                this.FilterButton.IsEnabled = enabled;
-                this.MoreSettingsButton.IsEnabled = enabled;
-                this.StatusBarQuickButtons.IsEnabled = enabled;
-            }));
-        }
-
-
         public void UpdateTooltips()
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -193,7 +177,6 @@ namespace ManiacEditor.Controls.Editor
             }));
 
         }
-
         public void UpdateFilterButtonApperance()
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -244,7 +227,6 @@ namespace ManiacEditor.Controls.Editor
                 MessageBox.Show("Failed to Copy Data to Clipboard");
             }
         }
-
         private void EntityHexidecimalSlotIDItem_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -259,7 +241,6 @@ namespace ManiacEditor.Controls.Editor
                 MessageBox.Show("Failed to Copy Data to Clipboard");
             }
         }
-
         private void EntityHexidecimalFilteredSlotIDItem_Click(object sender, RoutedEventArgs e)
         {
             try

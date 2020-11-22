@@ -6,6 +6,7 @@
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              xmlns:local="clr-namespace:ManiacEditor.Controls.Editor"
              xmlns:maniac="clr-namespace:ManiacEditor.Settings.Bindings"
+             xmlns:state="clr-namespace:ManiacEditor.Methods.Solution"
              mc:Ignorable="d local" 
              d:DesignHeight="70" d:DesignWidth="800" MaxHeight="70" MinHeight="70">
     <Grid Background="{DynamicResource StatusBarBackground}">
@@ -32,7 +33,7 @@
                 <Separator x:Name="seperator6"  Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
             </StackPanel>
 
-            <StatusBarItem Margin="0" Grid.Column="1" x:Name="StatusBarQuickButtons" Focusable="True" IsTabStop="True">
+            <StatusBarItem IsEnabled="{state:SolutionStateBinding SceneLoaded}" Margin="0" Grid.Column="1" x:Name="StatusBarQuickButtons" Focusable="True" IsTabStop="True">
                 <StackPanel Orientation="Horizontal">
                     <ToggleButton Style="{DynamicResource ToolbarToggleButton}" Foreground="{DynamicResource NormalText}" x:Name="EnablePixelModeButton" Margin="5,0,0,0" Content="Pixel Count Mode" Click="TogglePixelModeEvent" HorizontalAlignment="Center" Padding="3,5"/>
                     <ToggleButton Style="{DynamicResource ToolbarToggleButton}" Foreground="{DynamicResource NormalText}" x:Name="nudgeFasterButton" Margin="5,0,0,0" Content="Nudge Faster" Click="ToggleFasterNudgeEvent" Padding="3,5"/>
@@ -41,7 +42,7 @@
             </StatusBarItem>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="5">
-                <wpfTool:SplitButton x:Name="MoreSettingsButton" Click="QuickButtonClickEvent" Margin="-2">
+                <wpfTool:SplitButton x:Name="MoreSettingsButton" IsEnabled="{state:SolutionStateBinding SceneLoaded}" Click="QuickButtonClickEvent" Margin="-2">
                     <wpfTool:SplitButton.Content>
                         <ContentPresenter Content="{DynamicResource Gear}" ></ContentPresenter>
                     </wpfTool:SplitButton.Content>
@@ -53,7 +54,7 @@
                         </StackPanel>
                     </wpfTool:SplitButton.DropDownContent>
                 </wpfTool:SplitButton>
-                <Button Name="FilterButton" Margin="4,-2,0,-2" Width="30" Content="{DynamicResource Invert}" Padding="2" Click="FilterButtonOpenContextMenuEvent">
+                <Button Name="FilterButton" IsEnabled="{state:SolutionStateBinding SceneLoaded}" Margin="4,-2,0,-2" Width="30" Content="{DynamicResource Invert}" Padding="2" Click="FilterButtonOpenContextMenuEvent">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem IsChecked="{maniac:DefaultSettingsBinding ShowManiaEntities}" Foreground="{DynamicResource Maniac_ManiaFilter}" Checked="FilterCheckChangedEvent" Unchecked="FilterCheckChangedEvent" x:Name="maniaFilterCheck" Header="Mania (000000)" StaysOpenOnClick="True" IsCheckable="True"></MenuItem>

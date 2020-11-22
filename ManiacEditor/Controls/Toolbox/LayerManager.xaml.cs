@@ -36,7 +36,7 @@ namespace ManiacEditor.Controls.Toolbox
 					NotifyPropertyChanged("Layers");
 				}
 			}
-			public IList<EditorLayer.HorizontalLayerScroll> HorizontalLayerScroll
+			public IList<HorizontalLayerScroll> HorizontalLayerScroll
 			{
 				get
 				{
@@ -49,7 +49,7 @@ namespace ManiacEditor.Controls.Toolbox
 
 				}
 			}
-			public IList<EditorLayer.ScrollInfoLines> ScrollInfoLines
+			public IList<ScrollInfoLines> ScrollInfoLines
 			{
 				get
 				{
@@ -76,7 +76,7 @@ namespace ManiacEditor.Controls.Toolbox
 					NotifyPropertyChanged("CurrentLayer");
 				}
 			}
-			public EditorLayer.HorizontalLayerScroll CurrentHorizontalLayerScroll
+			public HorizontalLayerScroll CurrentHorizontalLayerScroll
 			{
 				get
 				{
@@ -88,7 +88,7 @@ namespace ManiacEditor.Controls.Toolbox
 					NotifyPropertyChanged("CurrentHorizontalLayerScroll");
 				}
 			}
-			public EditorLayer.ScrollInfoLines CurrentScrollInfoLines
+			public ScrollInfoLines CurrentScrollInfoLines
 			{
 				get
 				{
@@ -190,13 +190,13 @@ namespace ManiacEditor.Controls.Toolbox
 				else Layers[SelectedLayerIndex] = value;
 
 			}
-			private EditorLayer.HorizontalLayerScroll GetCurrentHorizontalLayerScroll()
+			private HorizontalLayerScroll GetCurrentHorizontalLayerScroll()
 			{
 				if (OutsideOfLayerBounds) return null;
 				else if (OutsideOfHorizontalRuleBounds) return null;
 				return Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex];
 			}
-			private EditorLayer.ScrollInfoLines GetCurrentScrollInfoLine()
+			private ScrollInfoLines GetCurrentScrollInfoLine()
 			{
 				if (OutsideOfLayerBounds) return null;
 				else if (OutsideOfHorizontalRuleBounds) return null;
@@ -204,13 +204,13 @@ namespace ManiacEditor.Controls.Toolbox
 				else return Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList[SelectedLayerScrollIndex];
 
 			}
-			private void SetCurrentHorizontalLayerScroll(EditorLayer.HorizontalLayerScroll value)
+			private void SetCurrentHorizontalLayerScroll(HorizontalLayerScroll value)
 			{
 				if (OutsideOfLayerBounds) return;
 				else if (OutsideOfHorizontalRuleBounds) return;
 				else Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex] = value;
 			}
-			private void SetCurrentScrollInfoLine(EditorLayer.ScrollInfoLines value)
+			private void SetCurrentScrollInfoLine(ScrollInfoLines value)
 			{
 				if (OutsideOfLayerBounds) return;
 				else if (OutsideOfHorizontalRuleBounds) return;
@@ -222,24 +222,24 @@ namespace ManiacEditor.Controls.Toolbox
 
             #region Collection Helper Methods
 
-            private IList<EditorLayer.HorizontalLayerScroll> GetHorizontalLayerScrolls()
+            private IList<HorizontalLayerScroll> GetHorizontalLayerScrolls()
 			{
 				if (OutsideOfLayerBounds) return null;
 				else return Layers[SelectedLayerIndex].HorizontalLayerRules;
 			}
-			private IList<EditorLayer.ScrollInfoLines> GetScrollInfoLines()
+			private IList<ScrollInfoLines> GetScrollInfoLines()
 			{
 				if (OutsideOfLayerBounds) return null;
 				else if (OutsideOfHorizontalRuleBounds) return null;
 				else return Layers[SelectedLayerIndex].HorizontalLayerRules[SelectedLayerHorizontalIndex].LinesMapList;
 
 			}
-			private void SetHorizontalLayerScrolls(IList<EditorLayer.HorizontalLayerScroll> value)
+			private void SetHorizontalLayerScrolls(IList<HorizontalLayerScroll> value)
 			{
 				if (OutsideOfLayerBounds) return;
 				Layers[SelectedLayerIndex].HorizontalLayerRules = value;
 			}
-			private void SetScrollInfoLines(IList<EditorLayer.ScrollInfoLines> value)
+			private void SetScrollInfoLines(IList<ScrollInfoLines> value)
 			{
 				if (OutsideOfLayerBounds) return;
 				else if (OutsideOfHorizontalRuleBounds) return;
@@ -551,7 +551,7 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				foreach (var entry in itemsToRemove)
 				{
-					CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.ElementAt(SelectedLayerHorizontalIndex).LinesMapList.Remove(entry as Classes.Scene.EditorLayer.ScrollInfoLines);
+					CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.ElementAt(SelectedLayerHorizontalIndex).LinesMapList.Remove(entry as ScrollInfoLines);
 				}
 
 				lbMappings.Items.Refresh();
@@ -628,7 +628,7 @@ namespace ManiacEditor.Controls.Toolbox
 			{
 				foreach (var entry in itemsToRemove)
 				{
-					CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.Remove(entry as Classes.Scene.EditorLayer.HorizontalLayerScroll);
+					CurrentDataContext.Layers.ElementAt(SelectedLayerIndex).HorizontalLayerRules.Remove(entry as HorizontalLayerScroll);
 				}
 
 				lbHorizontalRules.Items.Refresh();
@@ -643,7 +643,7 @@ namespace ManiacEditor.Controls.Toolbox
 		{
 			Classes.Scene.EditorLayer copyData = layerToCopy.Clone();
 
-			Methods.Solution.SolutionClipboard.SetLayerClipboard(new Methods.Solution.SolutionClipboard.LayerClipboardEntry(copyData));
+			Methods.Solution.SolutionClipboard.SetLayerClipboard(new Classes.Clipboard.LayerClipboardEntry(copyData));
 
 		}
 		public void PasteLayerFromClipboard()

@@ -245,7 +245,7 @@ namespace ManiacEditor.Controls.Editor
 
         private void EditorClasses_OnUpdate(object sender, EventArgs e)
         {
-
+            //ViewPanel.SharpPanel.GraphicPanel.Render();
         }
 
         #endregion

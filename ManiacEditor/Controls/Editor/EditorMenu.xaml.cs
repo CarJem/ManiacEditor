@@ -38,25 +38,6 @@ namespace ManiacEditor.Controls.Editor
         #endregion
 
         #region UI Refresh
-        public void SetSceneOnlyButtonsState(bool enabled)
-        {
-            this.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                saveToolStripMenuItem.IsEnabled = enabled;
-                saveAsToolStripMenuItem.IsEnabled = enabled;
-                unloadSceneToolStripMenuItem.IsEnabled = enabled;
-                goToToolStripMenuItem.IsEnabled = enabled;
-                findUnusedTilesToolStripMenuItem.IsEnabled = enabled;
-                maniacinieditorToolStripMenuItem.IsEnabled = enabled;
-                exportToolStripMenuItem.IsEnabled = enabled;
-                changeEncorePaleteToolStripMenuItem.IsEnabled = enabled;
-                ImageOverlayGroupMenuItem.IsEnabled = enabled;
-                BackupMenuItem.IsEnabled = enabled;
-                tilemanagerToolStripMenuItem.IsEnabled = enabled;
-            }));
-
-        }
-
         public void UpdateMenuItems()
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -86,103 +67,6 @@ namespace ManiacEditor.Controls.Editor
                 pasteTochunkToolStripMenuItem.InputGestureText = "Ctrl + Shift + V";
             }));
 
-        }
-
-        public void UpdateUndoRedoButtons(bool enabled)
-        {
-            undoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
-            redoToolStripMenuItem.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
-
-            if (undoToolStripMenuItem.IsEnabled) undoToolStripMenuItem.Foreground = Methods.Internal.Theming.NormalText;
-            else undoToolStripMenuItem.Foreground = Methods.Internal.Theming.DisabledText;
-            if (redoToolStripMenuItem.IsEnabled) redoToolStripMenuItem.Foreground = Methods.Internal.Theming.NormalText;
-            else redoToolStripMenuItem.Foreground = Methods.Internal.Theming.DisabledText;
-        }
-
-        public void SetEditButtonsState(bool enabled)
-        {
-            entityManagerToolStripMenuItem.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
-            importSoundsToolStripMenuItem.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
-            layerManagerToolStripMenuItem.IsEnabled = enabled;
-            editBackgroundColorsToolStripMenuItem.IsEnabled = enabled;
-
-            UpdateUndoRedoButtons(enabled);
-
-            //findAndReplaceToolStripMenuItem.IsEnabled = enabled && Methods.Editor.Solution.EditLayerA != null;
-        }
-
-        public void SetPasteButtonsState(bool enabled)
-        {
-            bool windowsClipboardState;
-            bool windowsEntityClipboardState;
-            //Doing this too often seems to cause a lot of grief for the app, should be relocated and stored as a bool
-            try
-            {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) windowsClipboardState = Clipboard.ContainsData("ManiacTiles");
-                else windowsClipboardState = false;
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) windowsEntityClipboardState = Clipboard.ContainsData("ManiacEntities");
-                else windowsEntityClipboardState = false;
-            }
-            catch
-            {
-                windowsClipboardState = false;
-                windowsEntityClipboardState = false;
-            }
-
-
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
-            {
-                if (enabled && HasCopyDataTiles()) SetPasteEnabledButtons(true);
-                else SetPasteEnabledButtons(false);
-            }
-            else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit())
-            {
-                if (enabled && HasCopyDataEntities()) SetPasteEnabledButtons(true);
-                else SetPasteEnabledButtons(false);
-            }
-            else
-            {
-                SetPasteEnabledButtons(false);
-            }
-
-            void SetPasteEnabledButtons(bool pasteEnabled)
-            {
-                pasteToolStripMenuItem.IsEnabled = pasteEnabled;
-                pasteTochunkToolStripMenuItem.IsEnabled = pasteEnabled && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
-            }
-
-            bool HasCopyDataTiles() { return Methods.Solution.SolutionClipboard.TilesClipboard != null || windowsClipboardState == true; }
-            bool HasCopyDataEntities() { return Methods.Solution.SolutionClipboard.ObjectsClipboard != null || windowsEntityClipboardState == true; }
-        }
-
-        public void SetSelectOnlyButtonsState(bool enabled = true)
-        {
-            deleteToolStripMenuItem.IsEnabled = enabled;
-            copyToolStripMenuItem.IsEnabled = enabled;
-            cutToolStripMenuItem.IsEnabled = enabled;
-            duplicateToolStripMenuItem.IsEnabled = enabled;
-
-
-            flipHorizontalToolStripMenuItem.IsEnabled = enabled && CanFlip(0);
-            flipVerticalToolStripMenuItem.IsEnabled = enabled && CanFlip(0);
-            flipHorizontalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
-            flipVerticalIndvidualToolStripMenuItem.IsEnabled = enabled && CanFlip(1);
-
-            selectAllToolStripMenuItem.IsEnabled = (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) || ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit();
-
-            bool CanFlip(int option)
-            {
-                switch (option)
-                {
-                    case 0:
-                        if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && ManiacEditor.Methods.Solution.SolutionState.Main.IsSelected()) return true;
-                        else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) return true;
-                        break;
-                    case 1:
-                        return ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit();
-                }
-                return false;
-            }
         }
 
         #endregion

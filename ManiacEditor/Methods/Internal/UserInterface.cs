@@ -43,6 +43,7 @@ namespace ManiacEditor.Methods.Internal
         public static void UpdateControls()
         {
             Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Controls...");
+            Solution.SolutionState.Main.UpdateBindings();
             RefreshInProgress = true;
             if (Instance != null)
             {
@@ -50,7 +51,6 @@ namespace ManiacEditor.Methods.Internal
                 SetGlobalControlsState(isSceneLoaded);
                 SetSceneOnlyButtonsState(isSceneLoaded);
                 SetEditButtonsState(isSceneLoaded);
-                SetSelectOnlyButtonsState(isSceneLoaded);
                 UpdateStatusState(isSceneLoaded);
             }
             Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
@@ -58,6 +58,7 @@ namespace ManiacEditor.Methods.Internal
         }
         public static void UpdateControls(UpdateType updateType)
         {
+            Solution.SolutionState.Main.UpdateBindings();
             RefreshInProgress = true;
             if (Instance != null)
             {
@@ -72,21 +73,17 @@ namespace ManiacEditor.Methods.Internal
                         Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating MouseClick Controls...");
                         SetSceneOnlyButtonsState(isSceneLoaded);
                         SetEditButtonsState(isSceneLoaded);
-                        SetSelectOnlyButtonsState(isSceneLoaded);
                         UpdateStatusState(isSceneLoaded);
                         break;
                     case UpdateType.MouseHeld:
                         Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating MouseHeld Controls...");
                         SetSceneOnlyButtonsState(isSceneLoaded);
                         SetEditButtonsState(isSceneLoaded);
-                        SetSelectOnlyButtonsState(isSceneLoaded);
                         UpdateStatusState(isSceneLoaded);
                         break;
                     case UpdateType.UndoRedoButtons:
                         Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating UndoRedo Controls...");
                         Tooltips.UpdateTooltips();
-                        Instance.MenuBar.UpdateUndoRedoButtons(isSceneLoaded);
-                        Instance.EditorToolbar.UpdateUndoRedoButtons(isSceneLoaded);
                         break;
                     default:
                         Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Failsafe Updating Controls...");
@@ -112,23 +109,13 @@ namespace ManiacEditor.Methods.Internal
         {
             SplineControls.UpdateSplineToolbox();
             Methods.Drawing.ObjectDrawing.RequestEntityVisiblityRefresh(true);
-            Instance.MenuBar.SetSceneOnlyButtonsState(enabled);
             Instance.EditorToolbar.SetSceneOnlyButtonsState(enabled);
-            Instance.EditorStatusBar.SetSceneOnlyButtonsState(enabled);
             EditorToolbars.UpdateEditorToolbars();
-        }
-        public static void SetSelectOnlyButtonsState(bool enabled = true)
-        {
-            Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Select Only Buttons...");
-            bool isSelected = ManiacEditor.Methods.Solution.SolutionState.Main.IsSelected();
-            Instance.MenuBar.SetPasteButtonsState(enabled);
-            Instance.MenuBar.SetSelectOnlyButtonsState(enabled && isSelected);
         }
         private static void SetEditButtonsState(bool enabled)
         {
             Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Edit Buttons...");
             Instance.EditorToolbar.SetEditButtonsState(enabled);
-            Instance.MenuBar.SetEditButtonsState(enabled);
         }
         public static void UpdateStatusState(bool enabled)
         {

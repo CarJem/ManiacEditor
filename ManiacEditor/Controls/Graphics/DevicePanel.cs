@@ -310,21 +310,16 @@ namespace ManiacEditor
         {
             ManiacEditor.Classes.Rendering.RenderLoop.Run(this, () =>
             {
-                if (!isRendering)
-                {
-                    Draw();
-                }
+                if (this.ContainsFocus) Draw();
             }, true);
         }
         
         public void Render()
         {
-            /*
-            if (!isRendering)
+            if (!this.ContainsFocus)
             {
                 Draw();
-            }
-            */
+            } 
         }
 
         public void DrawUnrecoverable()

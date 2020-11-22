@@ -87,14 +87,14 @@ namespace ManiacEditor.Classes.Scene
 
         #region Scene Status
         public string SetupObject { get => GetSetupObject(SourceScene); }
-        private RSDKv5.Scene SourceScene { get; set; }
+        private EditorScene SourceScene { get; set; }
 
         #region Accesors
         public string GetSetupObject(RSDKv5.Scene scene)
         {
             try
             {
-                var objectList = GetObjects(Methods.Solution.CurrentSolution.CurrentScene.Objects);
+                var objectList = GetObjects(scene.Objects);
                 objectList.AddRange(Methods.Solution.CurrentSolution.StageConfig.ObjectsNames);
                 objectList = objectList.Distinct().ToList();
                 string setupObject = objectList.FirstOrDefault(x => x.Contains("Setup"));
@@ -128,7 +128,7 @@ namespace ManiacEditor.Classes.Scene
 
         #region Init
 
-        public EditorEntities(RSDKv5.Scene scene)
+        public EditorEntities(EditorScene scene)
         {
             SourceScene = scene;
             Load(scene);
@@ -666,7 +666,7 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region Clipboard
-        public Methods.Solution.SolutionClipboard.ObjectsClipboardEntry GetClipboardData(bool KeepPosition = false)
+        public Classes.Clipboard.ObjectsClipboardEntry GetClipboardData(bool KeepPosition = false)
         {
             if (SelectedEntities.Count == 0) return null;
             short minX = 0, minY = 0;
@@ -679,9 +679,9 @@ namespace ManiacEditor.Classes.Scene
                 copiedEntities.ForEach(x => x.Move(new Point(-minX, -minY)));
             }
 
-            return new Methods.Solution.SolutionClipboard.ObjectsClipboardEntry(copiedEntities);
+            return new Classes.Clipboard.ObjectsClipboardEntry(copiedEntities);
         }
-        public void PasteClipboardData(Point NewPos, Methods.Solution.SolutionClipboard.ObjectsClipboardEntry data)
+        public void PasteClipboardData(Point NewPos, Classes.Clipboard.ObjectsClipboardEntry data)
         {
             var entities = data.GetData();
             DuplicateEntities(entities);
@@ -751,10 +751,10 @@ namespace ManiacEditor.Classes.Scene
 
             }
 
-            Methods.Solution.SolutionClipboard.ObjectsClipboardEntry GetClipboardData()
+            Classes.Clipboard.ObjectsClipboardEntry GetClipboardData()
             {
                 var data = System.Windows.Clipboard.GetDataObject().GetData("ManiacEntities");
-                if (data != null) return (Methods.Solution.SolutionClipboard.ObjectsClipboardEntry)data;
+                if (data != null) return (Classes.Clipboard.ObjectsClipboardEntry)data;
                 else return null;
             }
         }
@@ -1019,9 +1019,15 @@ namespace ManiacEditor.Classes.Scene
         public void Draw(DevicePanel d)
         {
             if (ObjectRefreshNeeded) UpdateObjectProperties(d);
-            foreach (var entity in Entities.Where(x => x.IsVisible == true))
+            var entities = Entities.Where(x => x.IsVisible == true);
+            foreach (var entity in entities)
             {
                 entity.Draw(d);
+
+            }
+
+            foreach (var entity in entities)
+            {
                 Methods.Drawing.ObjectDrawing.DrawSelectionBox(d, entity);
             }
         }

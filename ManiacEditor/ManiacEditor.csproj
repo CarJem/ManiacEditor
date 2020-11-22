@@ -164,6 +164,11 @@
     <Compile Include="Actions\ActionSortSlotIDs.cs" />
     <Compile Include="Actions\ActionSwapSlotIDs.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Classes\Clipboard\ClipboardEntry.cs" />
+    <Compile Include="Classes\Clipboard\LayerClipboardEntry.cs" />
+    <Compile Include="Classes\Clipboard\MultiTilesClipboardEntry.cs" />
+    <Compile Include="Classes\Clipboard\ObjectClipboardEntry.cs" />
+    <Compile Include="Classes\Clipboard\TilesClipboardEntry.cs" />
     <Compile Include="Controls\Graphics\DevicePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -55,23 +55,32 @@ namespace ManiacEditor.Methods.Solution
 
         #region Flipping
 
+        private static void FlipTiles(bool Individual, FlipDirection Direction)
+        {
+            Methods.Solution.CurrentSolution.EditLayerA?.FlipPropertySelected(Direction, Individual);
+            Methods.Solution.CurrentSolution.EditLayerB?.FlipPropertySelected(Direction, Individual);
+            Methods.Solution.CurrentSolution.EditLayerC?.FlipPropertySelected(Direction, Individual);
+            Methods.Solution.CurrentSolution.EditLayerD?.FlipPropertySelected(Direction, Individual);
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+        }
+
         public static void FlipHorizontal()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(false, FlipDirection.Horizontal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) FlipTiles(false, FlipDirection.Horizontal);
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) ManiacEditor.Classes.Scene.EditorEntities.FlipEntities(FlipDirection.Horizontal);
         }
         public static void FlipVertical()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(false, FlipDirection.Veritcal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) FlipTiles(false, FlipDirection.Veritcal);
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) ManiacEditor.Classes.Scene.EditorEntities.FlipEntities(FlipDirection.Veritcal);
         }
         public static void FlipHorizontalIndividual()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(true, FlipDirection.Horizontal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) FlipTiles(true, FlipDirection.Horizontal);
         }
         public static void FlipVerticalIndividual()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) ManiacEditor.Classes.Scene.EditorLayer.FlipTiles(true, FlipDirection.Veritcal);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) FlipTiles(true, FlipDirection.Veritcal);
         }
 
         #endregion
@@ -89,7 +98,14 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void SelectAll()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit()) Classes.Scene.EditorLayer.SelectAll();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && !ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
+            {
+                if (Methods.Solution.CurrentSolution.EditLayerA != null) Methods.Solution.CurrentSolution.EditLayerA?.SelectEverything();
+                if (Methods.Solution.CurrentSolution.EditLayerB != null) Methods.Solution.CurrentSolution.EditLayerB?.SelectEverything();
+                if (Methods.Solution.CurrentSolution.EditLayerC != null) Methods.Solution.CurrentSolution.EditLayerC?.SelectEverything();
+                if (Methods.Solution.CurrentSolution.EditLayerD != null) Methods.Solution.CurrentSolution.EditLayerD?.SelectEverything();
+                ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            }
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.SelectAll();
 
             Methods.Internal.UserInterface.UpdateControls();
@@ -98,28 +114,57 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void Delete()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Delete();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
+            {
+                Methods.Solution.CurrentSolution.EditLayerA?.DeleteSelected();
+                Methods.Solution.CurrentSolution.EditLayerB?.DeleteSelected();
+                Methods.Solution.CurrentSolution.EditLayerC?.DeleteSelected();
+                Methods.Solution.CurrentSolution.EditLayerD?.DeleteSelected();
+                ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            }
             if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.Delete();
 
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Copy()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Copy();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
+            {
+                Methods.Solution.SolutionMultiLayer.Copy();
+            }
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Copy();
 
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Duplicate()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Duplicate();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
+            {
+                var copyDataA = Methods.Solution.CurrentSolution.EditLayerA?.GetClipboardData();
+                var copyDataB = Methods.Solution.CurrentSolution.EditLayerB?.GetClipboardData();
+                var copyDataC = Methods.Solution.CurrentSolution.EditLayerC?.GetClipboardData();
+                var copyDataD = Methods.Solution.CurrentSolution.EditLayerD?.GetClipboardData();
+                Methods.Solution.CurrentSolution.EditLayerA?.PasteClipboardData(new Point(16, 16), copyDataA);
+                Methods.Solution.CurrentSolution.EditLayerB?.PasteClipboardData(new Point(16, 16), copyDataB);
+                Methods.Solution.CurrentSolution.EditLayerC?.PasteClipboardData(new Point(16, 16), copyDataC);
+                Methods.Solution.CurrentSolution.EditLayerD?.PasteClipboardData(new Point(16, 16), copyDataD);
+                ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            }
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.Duplicate();
 
             Methods.Internal.UserInterface.UpdateControls();
         }
         public static void Cut()
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Cut();
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
+            {
+                Methods.Solution.SolutionMultiLayer.Copy();
+                Methods.Solution.CurrentSolution.EditLayerA?.DeleteSelected();
+                Methods.Solution.CurrentSolution.EditLayerB?.DeleteSelected();
+                Methods.Solution.CurrentSolution.EditLayerC?.DeleteSelected();
+                Methods.Solution.CurrentSolution.EditLayerD?.DeleteSelected();
+                ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+            }
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Cut();
 
             Methods.Internal.UserInterface.UpdateControls();
@@ -128,7 +173,10 @@ namespace ManiacEditor.Methods.Solution
         {
             try
             {
-                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Paste();
+                if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit())
+                {
+                    Methods.Solution.SolutionMultiLayer.Paste();
+                }
                 else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit() && Instance.EntitiesToolbar.IsFocused.Equals(false)) Classes.Scene.EditorEntities.Paste();
             }
             catch (Exception ex)
@@ -141,9 +189,16 @@ namespace ManiacEditor.Methods.Solution
         }
         public static void Deselect(bool UpdateControls = true)
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEditing())
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEditing)
             {
-                if (SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.Deselect();
+                if (SolutionState.Main.IsTilesEdit())
+                {
+                    Methods.Solution.CurrentSolution.EditLayerA?.DeselectAll();
+                    Methods.Solution.CurrentSolution.EditLayerB?.DeselectAll();
+                    Methods.Solution.CurrentSolution.EditLayerC?.DeselectAll();
+                    Methods.Solution.CurrentSolution.EditLayerD?.DeselectAll();
+                    ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+                }
                 if (SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.Deselect(); 
                 if (UpdateControls) Methods.Internal.UserInterface.UpdateControls();
             }
@@ -169,9 +224,79 @@ namespace ManiacEditor.Methods.Solution
 
             Instance.ViewPanel.SharpPanel.UpdateZoomLevel(Methods.Solution.SolutionState.Main.ZoomLevel, new Point(0, 0));
         }
+        private static void MoveTiles(System.Windows.Forms.KeyEventArgs e)
+        {
+            int x = 0, y = 0;
+            int modifier = (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit() ? 8 : 1);
+            if (Methods.Solution.SolutionState.Main.UseMagnetMode)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.Up: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? -Methods.Solution.SolutionState.Main.MagnetSize : -1); break;
+                    case Keys.Down: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? Methods.Solution.SolutionState.Main.MagnetSize : 1); break;
+                    case Keys.Left: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? -Methods.Solution.SolutionState.Main.MagnetSize : -1); break;
+                    case Keys.Right: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? Methods.Solution.SolutionState.Main.MagnetSize : 1); break;
+                }
+            }
+            if (Methods.Solution.SolutionState.Main.EnableFasterNudge)
+            {
+                if (Methods.Solution.SolutionState.Main.UseMagnetMode)
+                {
+                    switch (e.KeyData)
+                    {
+                        case Keys.Up: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? -Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Down: y = (Methods.Solution.SolutionState.Main.UseMagnetYAxis ? Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Left: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? -Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : -1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                        case Keys.Right: x = (Methods.Solution.SolutionState.Main.UseMagnetXAxis ? Methods.Solution.SolutionState.Main.MagnetSize * Methods.Solution.SolutionState.Main.FasterNudgeAmount : 1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount); break;
+                    }
+                }
+                else
+                {
+                    if (ManiacEditor.Methods.Solution.SolutionState.Main.IsChunksEdit())
+                    {
+                        switch (e.KeyData)
+                        {
+                            case Keys.Up: y = -1 * modifier; break;
+                            case Keys.Down: y = 1 * modifier; break;
+                            case Keys.Left: x = -1 * modifier; break;
+                            case Keys.Right: x = 1 * modifier; break;
+                        }
+                    }
+                    else
+                    {
+                        switch (e.KeyData)
+                        {
+                            case Keys.Up: y = (-1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                            case Keys.Down: y = (1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                            case Keys.Left: x = (-1 - Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                            case Keys.Right: x = (1 + Methods.Solution.SolutionState.Main.FasterNudgeAmount) * modifier; break;
+                        }
+                    }
+
+                }
+
+            }
+            if (Methods.Solution.SolutionState.Main.UseMagnetMode == false && Methods.Solution.SolutionState.Main.EnableFasterNudge == false)
+            {
+                switch (e.KeyData)
+                {
+                    case Keys.Up: y = -1 * modifier; break;
+                    case Keys.Down: y = 1 * modifier; break;
+                    case Keys.Left: x = -1 * modifier; break;
+                    case Keys.Right: x = 1 * modifier; break;
+                }
+
+            }
+            Methods.Solution.CurrentSolution.EditLayerA?.MoveSelectedQuonta(new Point(x, y));
+            Methods.Solution.CurrentSolution.EditLayerB?.MoveSelectedQuonta(new Point(x, y));
+            Methods.Solution.CurrentSolution.EditLayerC?.MoveSelectedQuonta(new Point(x, y));
+            Methods.Solution.CurrentSolution.EditLayerD?.MoveSelectedQuonta(new Point(x, y));
+
+            ManiacEditor.Actions.UndoRedoModel.UpdateEditLayersActions();
+        }
         public static void Move(System.Windows.Forms.KeyEventArgs e)
         {
-            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) Classes.Scene.EditorLayer.MoveTiles(e);
+            if (ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit()) MoveTiles(e);
             else if (ManiacEditor.Methods.Solution.SolutionState.Main.IsEntitiesEdit()) Classes.Scene.EditorEntities.MoveEntities(e);
 
             if (Instance.EntitiesToolbar != null) Instance.EntitiesToolbar.UpdateSelectedProperties();

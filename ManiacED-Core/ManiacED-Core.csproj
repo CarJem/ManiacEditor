@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Internal\EntitiesToolboxCore.cs" />
+    <Compile Include="Classes\Rendering\ChunkVBO.cs" />
     <Compile Include="Classes\Rendering\EllipseShape.cs" />
     <Compile Include="Classes\Rendering\GIF.cs" />
     <Compile Include="Classes\Rendering\Graphing.cs" />
@@ -57,6 +58,9 @@
     <Compile Include="Classes\Rendering\SelbaWardLine.cs" />
     <Compile Include="Classes\Rendering\SFLine.cs" />
     <Compile Include="Classes\Rendering\TextureExt.cs" />
+    <Compile Include="Classes\Scene\HorizontalLayerScroll.cs" />
+    <Compile Include="Classes\Scene\PointsMap.cs" />
+    <Compile Include="Classes\Scene\ScrollInfoLines.cs" />
     <Compile Include="Controls\Graphics\DevicePanelSFML.cs">
       <SubType>UserControl</SubType>
     </Compile>

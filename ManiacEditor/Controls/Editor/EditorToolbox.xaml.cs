@@ -90,15 +90,15 @@ namespace ManiacEditor.Controls.Editor
         #region Global Tools
         private void ToggleSelectToolEvent(object sender, RoutedEventArgs e) 
         { 
-           if (IsFullyInitialized) Methods.Solution.SolutionState.Main.SelectionMode(); 
+           if (IsFullyInitialized) Methods.Solution.SolutionState.Main.SelectionToolMode(); 
         }
         private void TogglePointerToolEvent(object sender, RoutedEventArgs e) 
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.PointerMode(); 
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.PointerToolMode(); 
         }
         private void ToggleDrawToolEvent(object sender, RoutedEventArgs e) 
         {
-            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.DrawMode(); 
+            if (IsFullyInitialized) Methods.Solution.SolutionState.Main.DrawToolMode(); 
         }
         private void ToggleSplineToolEvent(object sender, RoutedEventArgs e) 
         {
@@ -903,17 +903,6 @@ namespace ManiacEditor.Controls.Editor
             }));
 
         }
-
-        public void UpdateUndoRedoButtons(bool enabled)
-        {
-            this.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                UndoButton.IsEnabled = enabled && Actions.UndoRedoModel.UndoStack.Count > 0;
-                RedoButton.IsEnabled = enabled && Actions.UndoRedoModel.RedoStack.Count > 0;
-            }));
-        }
-
-
         public void SetEditButtonsState(bool enabled)
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -944,8 +933,6 @@ namespace ManiacEditor.Controls.Editor
 
                 SetLayerEditButtonsState(enabled);
 
-                UpdateUndoRedoButtons(enabled);
-
                 SetEditToolsState(enabled);
 
                 ShowGridButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
@@ -956,7 +943,6 @@ namespace ManiacEditor.Controls.Editor
                 FlipAssistButton.IsEnabled = enabled;
             }));
         }
-
         public void SetEditToolsState(bool enabled)
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -1058,26 +1044,6 @@ namespace ManiacEditor.Controls.Editor
                 ShowFGHigher.IsEnabled = enabled && Methods.Solution.CurrentSolution.FGHigher != null;
                 ShowFGLower.IsEnabled = enabled && Methods.Solution.CurrentSolution.FGLower != null;
                 ShowEntities.IsEnabled = enabled;
-
-                ShowGridToggleButton.IsEnabled = enabled;
-                ShowGridButton.IsEnabled = enabled;
-                CollisionSettingsDropdown.IsEnabled = enabled;
-                OtherDropdown.IsEnabled = enabled;
-
-                ReloadButton.IsEnabled = enabled;
-
-                Save.IsEnabled = enabled;
-
-                if (Properties.Settings.MyPerformance.ReduceZoom)
-                {
-                    ZoomInButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel < 5;
-                    ZoomOutButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel > -2;
-                }
-                else
-                {
-                    ZoomInButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel < 5;
-                    ZoomOutButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.ZoomLevel > -5;
-                }
             }));
             UpdateGameRunningButton(enabled);
         }

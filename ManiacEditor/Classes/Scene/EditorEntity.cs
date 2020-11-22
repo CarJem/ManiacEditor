@@ -440,8 +440,6 @@ namespace ManiacEditor.Classes.Scene
             Methods.Drawing.ObjectDrawing.DrawNormal(d, this);
         }
 
-
-
         public void Dispose()
         {
 

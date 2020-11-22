@@ -500,6 +500,9 @@ namespace ManiacEditor.Methods.Drawing
 
         public static void DrawSelectionBox(DevicePanel d, Classes.Scene.EditorEntity _entity)
         {
+            if (_entity.FilteredOut) return;
+            if (_entity.ManuallyFilteredOut) return;
+
             int X = _entity.Position.X.High;
             int Y = _entity.Position.Y.High;
             string Name = _entity.Object.Name.Name;
@@ -508,13 +511,10 @@ namespace ManiacEditor.Methods.Drawing
             System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
             System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
 
-            DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity);
             int index = _entity.FilterSlotID;
             string boxText = String.Format("{0}{2}ID: {1}{2}IDX: {3}", GetShortenedName(Name, 8), _entity.SlotID, Environment.NewLine, index);
-            if (Instance.ViewPanel.SharpPanel.GetZoom() >= 1)
-            {
-                d.DrawTextSmall(boxText, X + 2, Y + 1, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
-            }
+
+            DrawSelectionBox(d, X, Y, Transparency, BoxInsideColor, BoxFilterColor, _entity, boxText);
 
             string GetShortenedName(string value, int maxLength)
             {
@@ -532,8 +532,6 @@ namespace ManiacEditor.Methods.Drawing
             int Y = _entity.Position.Y.High;
             string Name = _entity.Object.Name.Name;
             int Transparency = GetTransparencyLevel();
-            System.Drawing.Color BoxInsideColor = GetBoxBackgroundColor(_entity);
-            System.Drawing.Color BoxFilterColor = GetBoxBorderColor(_entity);
 
 
             bool fliph = false;
@@ -636,9 +634,9 @@ namespace ManiacEditor.Methods.Drawing
 
             int x = _entity.Position.X.High;
             int y = _entity.Position.Y.High;
-            DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red, _entity);
+            DrawSelectionBox(d, x, y, Transparency, System.Drawing.Color.Transparent, System.Drawing.Color.Red, _entity, "");
         }
-        public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e)
+        public static void DrawSelectionBox(DevicePanel d, int x, int y, int Transparency, System.Drawing.Color BackgroundBoxColor, System.Drawing.Color BorderBoxColor, Classes.Scene.EditorEntity e, string boxText)
         {
             if (Methods.Solution.SolutionState.Main.ShowEntitySelectionBoxes && IsObjectOnScreen(d, e))
             {
@@ -659,6 +657,14 @@ namespace ManiacEditor.Methods.Drawing
                 {
                     d.DrawText(string.Format("{0}", e.SelectedIndex + 1), x + 2, y + 2, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.Black, true);
                 }
+
+
+                /*
+                if (Instance.ViewPanel.SharpPanel.GetZoom() >= 1 && boxText != "")
+                {
+                    d.DrawTextSmall(boxText, x + 2, y + 1, Methods.Solution.SolutionConstants.ENTITY_NAME_BOX_WIDTH, System.Drawing.Color.FromArgb(Transparency, System.Drawing.Color.Black), true);
+                }
+                */
             }
         }
 

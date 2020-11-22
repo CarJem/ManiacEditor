@@ -490,7 +490,7 @@ namespace ManiacEditor.Classes.Scene
 
 			StageStamps.StampList.Add(new TexturedStamps.TexturedTileChunk(convertedPoints));
 		}
-		public void ConvertClipboardtoMultiLayerChunk(Methods.Solution.SolutionClipboard.MultiTilesClipboardEntry data)
+		public void ConvertClipboardtoMultiLayerChunk(Classes.Clipboard.MultiTilesClipboardEntry data)
 		{
 			var points = data.GetData();
 			var pointsA = points[0];
@@ -570,8 +570,8 @@ namespace ManiacEditor.Classes.Scene
 				ConvertedChunkB = ConvertChunkSideBtoClipboard(StageStamps.StampList[index]);
 			}
 
-			EditLayerA?.PasteClipboardData(TileCoord, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(ConvertedChunkA));
-			EditLayerB?.PasteClipboardData(TileCoord, new Methods.Solution.SolutionClipboard.TilesClipboardEntry(ConvertedChunkB));
+			EditLayerA?.PasteClipboardData(TileCoord, new Classes.Clipboard.TilesClipboardEntry(ConvertedChunkA));
+			EditLayerB?.PasteClipboardData(TileCoord, new Classes.Clipboard.TilesClipboardEntry(ConvertedChunkB));
 			Actions.UndoRedoModel.UpdateEditLayersActions();
 			EditLayerA?.DeselectAll();
 			EditLayerB?.DeselectAll();

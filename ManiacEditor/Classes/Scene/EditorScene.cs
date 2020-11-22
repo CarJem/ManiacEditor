@@ -27,11 +27,44 @@ namespace ManiacEditor.Classes.Scene
 
         #endregion
 
+        #region Editor Properties
+
+        private string CustomForegroundLowerString
+        {
+            get
+            {
+                return Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundLower;
+            }
+        }
+        private string CustomForegroundLowerString2
+        {
+            get
+            {
+                return ManiacEditor.Properties.Settings.MyDefaults.CustomFGLower;
+            }
+        }
+        private string CustomForegroundHigherString
+        {
+            get
+            {
+                return Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundHigher;
+            }
+        }
+        private string CustomForegroundHigherString2
+        {
+            get
+            {
+                return ManiacEditor.Properties.Settings.MyDefaults.CustomFGHigher;
+            }
+        }
+
+        #endregion
+
         #region Layers
 
         public EditorLayer LowDetails
         {
-            get => AllLayers.FirstOrDefault(el => el.Name.Equals(Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundLower) || el.Name.Equals(ManiacEditor.Properties.Settings.MyDefaults.CustomFGLower) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
+            get => AllLayers.FirstOrDefault(el => el.Name.Equals(CustomForegroundLowerString) || el.Name.Equals(CustomForegroundLowerString2) || el.Name.Equals("FG Lower") || el.Name.Equals("FG Supa Low"));
         }
         public EditorLayer ForegroundLow
         {
@@ -47,7 +80,7 @@ namespace ManiacEditor.Classes.Scene
         }
         public EditorLayer HighDetails
         {
-            get => AllLayers.FirstOrDefault(el => el.Name.Equals(Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ForegroundHigher) || el.Name.Equals(ManiacEditor.Properties.Settings.MyDefaults.CustomFGHigher) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
+            get => AllLayers.FirstOrDefault(el => el.Name.Equals(CustomForegroundHigherString) || el.Name.Equals(CustomForegroundHigherString2) || el.Name.Equals("FG Higher") || el.Name.Equals("FG Overlay") || el.Name.Equals("FG Supa High"));
         }
         public EditorLayer ForegroundHigh
         {
@@ -56,19 +89,7 @@ namespace ManiacEditor.Classes.Scene
         #endregion
 
         #region List of Layers
-        public IList<EditorLayer> PrimaryLayers
-        {
-            get
-            {
-                return AllLayers.Where(el => el == ForegroundLow || el == ForegroundHigh || el == HighDetails || el == LowDetails).ToList();
-            }
-        }
-
         public IList<EditorLayer> AllLayers { get; set; }
-        public IList<EditorLayer> AllLayersList
-        {
-            get { return AllLayers; }
-        }
         public IEnumerable<EditorLayer> OtherLayers
         {
             get
@@ -76,17 +97,11 @@ namespace ManiacEditor.Classes.Scene
                 return AllLayers.Where(el => el != ForegroundLow && el != ForegroundHigh && el != HighDetails && el != LowDetails);
             }
         }
-        public IEnumerable<EditorLayer> LayerByDrawingOrder
-        {
-            get
-            {
-                return AllLayers.Where(el => el.Layer.DrawingOrder.Equals(1));
-            }
-        }
         #endregion
 
         #region Misc
-        public EditorScene(string filename, DevicePanel d) : base(filename)
+
+        public EditorScene(string filename) : base(filename)
         {
             AllLayers = new List<EditorLayer>(Layers.Count);
             foreach (SceneLayer layer in Layers)
@@ -95,37 +110,6 @@ namespace ManiacEditor.Classes.Scene
             }
             Entities = new EditorEntities(this);
         }
-
-        public EditorScene(DevicePanel d, int width, int height, int BGWidth, int BGHeight)
-        {
-            Layers = new List<SceneLayer>(3);
-            Layers.Add(new SceneLayer("FG Low", (ushort)width, (ushort)height));
-            Layers.Add(new SceneLayer("FG High", (ushort)width, (ushort)height));
-            Layers.Add(new SceneLayer("Background", (ushort)BGWidth, (ushort)BGHeight));
-
-            AllLayers = new List<EditorLayer>(Layers.Count);
-            foreach (SceneLayer layer in Layers)
-            {
-                AllLayers.Add(new EditorLayer(layer));
-            }
-        }
-
-        public void Reload()
-        {
-            if (!disposedValue)
-            {
-                // dispose managed state (managed objects).
-                foreach (var el in AllLayers)
-                {
-                    el.DisposeTextures();
-                }
-
-                // free unmanaged resources (unmanaged objects) and override a finalizer below if we need to.
-                // then set large fields to null.
-                disposedValue = true;
-            }
-        }
-
         public EditorLayer ProduceLayer()
         {
             // lets just pick some reasonably safe defaults
@@ -133,17 +117,10 @@ namespace ManiacEditor.Classes.Scene
             var editorLayer = new EditorLayer(sceneLayer);
             return editorLayer;
         }
-
-        public void DeleteLayer(int byIndex)
-        {
-            AllLayers.RemoveAt(byIndex);
-        }
-
         public void DeleteLayer(EditorLayer thisLayer)
         {
             AllLayers.Remove(thisLayer);
         }
-
         public String[] GetEncorePalette(string SelectedZone, string DataDirectory, string SelectedScene, string Result, int searchType, string userLoad = "")
         {
             if (!System.IO.Directory.Exists(DataDirectory)) return new string[6];
@@ -281,7 +258,6 @@ namespace ManiacEditor.Classes.Scene
             string[] encorePalletes = new string[6] { EncorePallete1, EncorePallete2, EncorePallete3, EncorePallete4, EncorePallete5, EncorePallete6 };
             return encorePalletes;
         }
-
         public int GetEncoreSetupType(string SelectedZone, string DataDirectory, string SelectedScene, string Result)
         {
             //Encore Palette File Loading
@@ -362,7 +338,6 @@ namespace ManiacEditor.Classes.Scene
             }
             return encoreType;
         }
-
         private string locateEncorePalettes(string Zone, string Scene, string FullPath, string DataDirectory, string SelectedZone, string SelectedScene)
         {
             string palettesFolder = Path.Combine(DataDirectory, "Palettes");
@@ -427,7 +402,6 @@ namespace ManiacEditor.Classes.Scene
 
 
         }
-
         public void Save(string filename)
         {
             // save any changes made to the scrolling horizontal rules
@@ -440,6 +414,7 @@ namespace ManiacEditor.Classes.Scene
             Objects = Entities.Save();
             Write(filename);
         }
+
         #endregion
 
         #region Rendering

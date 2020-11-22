@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Collections.Generic;
 using SFML.System;
+using System.Windows.Data;
 
 namespace ManiacEditor.Methods.Solution
 {
@@ -20,36 +21,310 @@ namespace ManiacEditor.Methods.Solution
             }
             #endregion
 
-            #region Methods
+            #region Binding Based Future
 
-            public bool IsEditing()
+            public void UpdatePastableBindings()
             {
-                return IsTilesEdit() || IsEntitiesEdit() || IsChunksEdit();
+                bool WindowsClipboardState;
+                bool WindowsEntityClipboardState;
+
+                bool HasCopyDataTiles;
+                bool HasCopyDataEntities;
+
+                try
+                {
+                    //Doing this too often seems to cause a lot of grief for the app;
+                    //Should be relocated and stored as a bool....
+                    WindowsClipboardState = (_TilesEditing ? System.Windows.Clipboard.ContainsData("ManiacTiles") : false);
+                    WindowsEntityClipboardState = (_EntitiesEditing ? System.Windows.Clipboard.ContainsData("ManiacEntities") : false);
+                }
+                catch
+                {
+                    WindowsClipboardState = false;
+                    WindowsEntityClipboardState = false;
+                }
+
+                HasCopyDataTiles = Methods.Solution.SolutionClipboard.TilesClipboard != null || WindowsClipboardState == true;
+                HasCopyDataEntities = Methods.Solution.SolutionClipboard.ObjectsClipboard != null || WindowsEntityClipboardState == true;
+
+                if (HasCopyDataTiles && _TilesEditing)
+                {
+                    IsPastable = true;
+                    IsChunkPastable = true;
+                }
+                else if (HasCopyDataEntities && _EntitiesEditing)
+                {
+                    IsPastable = true;
+                    IsChunkPastable = false;
+                }
+                else
+                {
+                    IsPastable = false;
+                    IsChunkPastable = false;
+                }
+            }
+            public void UpdateBindings()
+            {
+                if (Instance == null) return;
+
+                SceneLoaded = Methods.Solution.CurrentSolution.CurrentScene == null ? false : true;
+
+                TilesEditing = Methods.Solution.CurrentSolution.EditLayerA != null;
+                EntitiesEditing = Instance.EditorToolbar.EditEntities.IsCheckedN.Value || Instance.EditorToolbar.EditEntities.IsCheckedA.Value || Instance.EditorToolbar.EditEntities.IsCheckedB.Value;
+
+                StageConfigLoaded = Methods.Solution.CurrentSolution.StageConfig != null;
+
+                CanUndo = _SceneLoaded && Actions.UndoRedoModel.UndoStack.Count > 0;
+                CanRedo = _SceneLoaded && Actions.UndoRedoModel.RedoStack.Count > 0;
+
+                if (_TilesEditing && _SceneLoaded) IsSelected = Methods.Solution.SolutionMultiLayer.IsSelected();
+                else if (_EntitiesEditing && _SceneLoaded) IsSelected = Methods.Solution.CurrentSolution.Entities.IsAnythingSelected();
+                else IsSelected = false;
+
+                IsEditing = _TilesEditing || _EntitiesEditing || IsChunksEdit();
+
+
+                if (_EntitiesEditing && _IsSelected) CanFlip = true;
+                else if (_TilesEditing) CanFlip = true;
+                else CanFlip = false;
+
+                if (_TilesEditing) CanFlipAlt = true;
+                else CanFlipAlt = false;
+
+                if (Properties.Settings.MyPerformance.ReduceZoom)
+                {
+                    CanZoomIn = _SceneLoaded && Methods.Solution.SolutionState.Main.ZoomLevel < 5;
+                    CanZoomOut = _SceneLoaded && Methods.Solution.SolutionState.Main.ZoomLevel > -2;
+                }
+                else
+                {
+                    CanZoomIn = _SceneLoaded && Methods.Solution.SolutionState.Main.ZoomLevel < 5;
+                    CanZoomOut = _SceneLoaded && Methods.Solution.SolutionState.Main.ZoomLevel > -5;
+                }
+
+                UpdatePastableBindings();
+            }
+
+            private bool _SceneLoaded = false;
+            public bool SceneLoaded
+            {
+                get
+                {
+                    return _SceneLoaded;
+                }
+                set
+                {
+                    _SceneLoaded = value;
+                    OnPropertyChanged(nameof(SceneLoaded));
+                }
             }
             public bool IsSceneLoaded()
             {
-                return Methods.Solution.CurrentSolution.CurrentScene == null ? false : true;
+                UpdateBindings();
+                return _SceneLoaded;
+            }
+
+            private bool _StageConfigLoaded = false;
+            public bool StageConfigLoaded
+            {
+                get
+                {
+                    return _StageConfigLoaded;
+                }
+                set
+                {
+                    _StageConfigLoaded = value;
+                    OnPropertyChanged(nameof(StageConfigLoaded));
+                }
+            }
+
+            private bool _TilesEditing = false;
+            public bool TilesEditing
+            {
+                get
+                {
+                    return _TilesEditing;
+                }
+                set
+                {
+                    _TilesEditing = value;
+                    OnPropertyChanged(nameof(TilesEditing));
+                }
             }
             public bool IsTilesEdit()
             {
-                return Methods.Solution.CurrentSolution.EditLayerA != null;
+                UpdateBindings();
+                return _TilesEditing;
             }
-            public bool IsChunksEdit()
+
+            private bool _EntitiesEditing = false;
+            public bool EntitiesEditing
             {
-                return Instance.Dispatcher.Invoke<bool>(new Func<bool>(() =>
+                get
                 {
-                    return Instance.EditorToolbar.ChunksToolButton.IsChecked.Value && Methods.Solution.CurrentSolution.EditLayerA != null;
-                }));
+                    return _EntitiesEditing;
+                }
+                set
+                {
+                    _EntitiesEditing = value;
+                    OnPropertyChanged(nameof(EntitiesEditing));
+                }
             }
             public bool IsEntitiesEdit()
             {
-                return Instance.EditorToolbar.EditEntities.IsCheckedN.Value || Instance.EditorToolbar.EditEntities.IsCheckedA.Value || Instance.EditorToolbar.EditEntities.IsCheckedB.Value;
+                UpdateBindings();
+                return _EntitiesEditing;
             }
-            public bool IsSelected()
+
+            private bool _CanUndo = false;
+            public bool CanUndo
             {
-                if (IsTilesEdit()) return Methods.Solution.SolutionMultiLayer.IsSelected();
-                else if (IsEntitiesEdit()) return Methods.Solution.CurrentSolution.Entities.IsAnythingSelected();
-                return false;
+                get
+                {
+                    return _CanUndo;
+                }
+                set
+                {
+                    _CanUndo = value;
+                    OnPropertyChanged(nameof(CanUndo));
+                }
+            }
+
+            private bool _CanRedo = false;
+            public bool CanRedo
+            {
+                get
+                {
+                    return _CanRedo;
+                }
+                set
+                {
+                    _CanRedo = value;
+                    OnPropertyChanged(nameof(CanRedo));
+                }
+            }
+
+            private bool _IsSelected = false;
+            public bool IsSelected
+            {
+                get
+                {
+                    return _IsSelected;
+                }
+                set
+                {
+                    _IsSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                }
+            }
+
+            private bool _IsEditing = false;
+            public bool IsEditing
+            {
+                get
+                {
+                    return _IsEditing;
+                }
+                set
+                {
+                    _IsEditing = value;
+                    OnPropertyChanged(nameof(IsEditing));
+                }
+            }
+
+            private bool _CanFlip = false;
+            public bool CanFlip
+            {
+                get
+                {
+                    return _CanFlip;
+                }
+                set
+                {
+                    _CanFlip = value;
+                    OnPropertyChanged(nameof(CanFlip));
+                }
+            }
+
+            private bool _CanFlipAlt = false;
+            public bool CanFlipAlt
+            {
+                get
+                {
+                    return _CanFlipAlt;
+                }
+                set
+                {
+                    _CanFlipAlt = value;
+                    OnPropertyChanged(nameof(CanFlipAlt));
+                }
+            }
+
+            private bool _IsPastable = false;
+            public bool IsPastable
+            {
+                get
+                {
+                    return _IsPastable;
+                }
+                set
+                {
+                    _IsPastable = value;
+                    OnPropertyChanged(nameof(IsPastable));
+                }
+            }
+
+            private bool _IsChunkPastable = false;
+            public bool IsChunkPastable
+            {
+                get
+                {
+                    return _IsChunkPastable;
+                }
+                set
+                {
+                    _IsChunkPastable = value;
+                    OnPropertyChanged(nameof(IsChunkPastable));
+                }
+            }
+
+            private bool _CanZoomOut = false;
+            public bool CanZoomOut
+            {
+                get
+                {
+                    return _CanZoomOut;
+                }
+                set
+                {
+                    _CanZoomOut = value;
+                    OnPropertyChanged(nameof(CanZoomOut));
+                }
+            }
+
+            private bool _CanZoomIn = false;
+            public bool CanZoomIn
+            {
+                get
+                {
+                    return _CanZoomIn;
+                }
+                set
+                {
+                    _CanZoomIn = value;
+                    OnPropertyChanged(nameof(CanZoomIn));
+                }
+            }
+
+            #endregion
+
+            #region Methods
+
+
+
+            public bool IsChunksEdit()
+            {
+                return Instance.EditorToolbar.ChunksToolButton.IsChecked.Value && Methods.Solution.CurrentSolution.EditLayerA != null;
             }
 
             public bool AnyDragged()
@@ -59,7 +334,7 @@ namespace ManiacEditor.Methods.Solution
 
             #endregion
 
-            #region Status Variables
+            #region Status Variables (Binding Based)
 
             private int _DraggedX;
             private int _DraggedY;
@@ -376,7 +651,7 @@ namespace ManiacEditor.Methods.Solution
 
             #endregion
 
-            #region Status Bar Labels
+            #region Status Bar Labels (Binding Based)
 
             private void UpdateStatusLabels()
             {
@@ -700,17 +975,17 @@ namespace ManiacEditor.Methods.Solution
             #endregion
 
             #region Tool Mode Methods
-            public void PointerMode(bool? value = null)
+            public void PointerToolMode(bool? value = null)
             {
                 if (value != null) SetToolModes(0, value.Value);
                 else SetToolModes(0, Instance.EditorToolbar.PointerToolButton.IsChecked.Value);
             }
-            public void SelectionMode(bool? value = null)
+            public void SelectionToolMode(bool? value = null)
             {
                 if (value != null) SetToolModes(1, value.Value);
                 else SetToolModes(1, IsSelectMode());
             }
-            public void DrawMode(bool? value = null)
+            public void DrawToolMode(bool? value = null)
             {
                 if (value != null) SetToolModes(2, value.Value);
                 else SetToolModes(2, IsDrawMode());
@@ -1557,8 +1832,24 @@ namespace ManiacEditor.Methods.Solution
 
             #endregion
         }
+    }
 
+    public class SolutionStateBindingExtension : Binding
+    {
+        public SolutionStateBindingExtension()
+        {
+            Initialize();
+        }
 
+        public SolutionStateBindingExtension(string path) : base(path)
+        {
+            Initialize();
+        }
 
+        private void Initialize()
+        {
+            this.Source = SolutionState.Main;
+            this.Mode = BindingMode.TwoWay;
+        }
     }
 }

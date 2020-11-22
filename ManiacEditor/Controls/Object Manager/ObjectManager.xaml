@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManiacEditor.Controls.Object_Manager"
+        xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:maniac="clr-namespace:ManiacEditor"
         mc:Ignorable="d"
         Title="Object Manager" Height="673" Width="653" Background="{DynamicResource NormalBackground}" Closing="ObjectManager_FormClosed" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
@@ -12,30 +13,9 @@
             <Grid.ColumnDefinitions>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="24"></RowDefinition>
+                <RowDefinition Height="0"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Menu x:Name="MenuBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="24" Grid.Row="0" Grid.ColumnSpan="5" Background="{DynamicResource MenuBar}" Foreground="{DynamicResource NormalText}">
-                <MenuItem x:Name="fileTab" Header="File" VerticalContentAlignment="Center" Margin="7,2,0,0" >
-                    <MenuItem Header="Import Objects...">
-                        <MenuItem Header="Using Existing Scene..." Click="ImportObjectsUsingExistingEvent"></MenuItem>
-                        <MenuItem Header="Using Megalist..." Click="ImportObjectsUsingMegalistEvent"></MenuItem>
-                    </MenuItem>
-                    <MenuItem Header="Import Sounds" Click="ImportSoundsToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Backup Stage Config" Click="BackupStageConfig_ToolStripMenuItem_Click"></MenuItem>
-                </MenuItem>
-                <MenuItem x:Name="editTab" Header="Edit" VerticalContentAlignment="Center" Margin="7,2,0,0" >
-                    <MenuItem Header="Optimize Object ID Placement" IsEnabled="False"></MenuItem>
-                    <MenuItem Header="Add Attribute to All Objects" Click="AddAttributeToAllObjectsMenuItem_Click"></MenuItem>
-                </MenuItem>
-                <MenuItem x:Name="toolsTab" Header="Tools" VerticalContentAlignment="Center" Margin="7,2,0,0" >
-                    <MenuItem Header="MD5 Generator" Click="MD5_Generator_ToolStripMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Export Objects...">
-                        <MenuItem Header="Using Existing Scene..." Click="ExportObjectsUsingExistingEvent"></MenuItem>
-                        <MenuItem Header="Using Megalist..." Click="ExportObjectsUsingMegalistEvent"></MenuItem>
-                    </MenuItem>
-                </MenuItem>
-            </Menu>
             <Grid Grid.Row="1" Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -56,11 +36,7 @@
                     <Label Content="Filter:" VerticalAlignment="Center"></Label>
                     <TextBox x:Name="FilterText" TextChanged="FilterText_TextChanged" Height="24" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,5,0"></TextBox>
                 </Grid>
-                <Grid Grid.Column="1" Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="36"></RowDefinition>
-                    </Grid.RowDefinitions>
+                <GroupBox Header="Object Attributes" Foreground="{DynamicResource NormalText}" Grid.Column="1" Grid.Row="1">
                     <ListView Margin="5" Background="{DynamicResource TextBoxBackground}" FocusVisualStyle="{DynamicResource ListViewItemFocusVisual}" Foreground="{DynamicResource NormalText}" Style="{DynamicResource BaseListViewStyle}" ItemContainerStyle="{DynamicResource BaseListViewItemStyle}" BorderBrush="{DynamicResource ComboBoxBorder}" SelectionMode="Single" KeyUp="AttributesTable_KeyUp" SelectionChanged="AttributesTable_SelectionChanged" x:Name="AttributesTable">
                         <ListView.View>
                             <local:AutoSizedGridView AllowsColumnReorder="False">
@@ -69,59 +45,94 @@
                             </local:AutoSizedGridView>
                         </ListView.View>
                     </ListView>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <Button x:Name="AddAttributeButton" Content="Add Attribute..." Click="AddAttributeButton_Click" Padding="15,0" Margin="5,5,0,5" IsEnabled="False"></Button>
-                        <Button x:Name="RemoveAttributeButton" Content="Remove Attribute..." Click="RemoveAttributeButton_Click" Padding="15,0" Margin="5,5,5,5" IsEnabled="False"></Button>
-                    </StackPanel>
-                </Grid>
+                </GroupBox>
 
-                <ListView SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="ObjectListBox" Grid.Column="0" Grid.Row="1" Margin="5" Background="{DynamicResource TextBoxBackground}" FocusVisualStyle="{DynamicResource ListViewItemFocusVisual}" Foreground="{DynamicResource NormalText}" Style="{DynamicResource BaseListViewStyle}" ItemContainerStyle="{DynamicResource BaseListViewItemStyle}" BorderBrush="{DynamicResource ComboBoxBorder}" SelectionMode="Single">
-                    <ListView.View>
-                        <local:AutoSizedGridView AllowsColumnReorder="False">
-                            <GridViewColumn x:Name="CheckboxColumnColumn" Width="20">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Entry_IsChecked}" IsEnabled="True" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Name" Width="40" DisplayMemberBinding="{Binding ObjectName}"></GridViewColumn>
-                            <GridViewColumn Header="Map" Width="50">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Obj_IsScene}" IsEnabled="False"></CheckBox>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Game" Width="50">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Obj_IsGameConfig}" IsEnabled="False" Foreground="{DynamicResource Maniac_ObjectManager_GreenTextColor}"></CheckBox>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Stage" Width="50">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Obj_IsStageConfig}" IsEnabled="False" Foreground="{DynamicResource Maniac_ObjectManager_RedTextColor}"></CheckBox>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </local:AutoSizedGridView>
-                    </ListView.View>
-                </ListView>
+
+                <GroupBox Header="Found Objects" Foreground="{DynamicResource NormalText}" Grid.Column="0" Grid.Row="1">
+                    <ListView SelectionChanged="LvObjectsViewer_SelectionChanged" x:Name="ObjectListBox" Margin="5" Background="{DynamicResource TextBoxBackground}" FocusVisualStyle="{DynamicResource ListViewItemFocusVisual}" Foreground="{DynamicResource NormalText}" Style="{DynamicResource BaseListViewStyle}" ItemContainerStyle="{DynamicResource BaseListViewItemStyle}" BorderBrush="{DynamicResource ComboBoxBorder}" SelectionMode="Single">
+                        <ListView.View>
+                            <local:AutoSizedGridView AllowsColumnReorder="False">
+                                <GridViewColumn x:Name="CheckboxColumnColumn" Width="20">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Entry_IsChecked}" IsEnabled="True" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"></CheckBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Name" Width="40" DisplayMemberBinding="{Binding ObjectName}"></GridViewColumn>
+                                <GridViewColumn Header="Stage" Width="50">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Obj_IsStageConfig}" IsEnabled="False" Foreground="{DynamicResource Maniac_ObjectManager_RedTextColor}"></CheckBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Map" Width="50">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Obj_IsScene}" IsEnabled="False"></CheckBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Game" Width="50">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Obj_IsGameConfig}" IsEnabled="False" Foreground="{DynamicResource Maniac_ObjectManager_GreenTextColor}"></CheckBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </local:AutoSizedGridView>
+                        </ListView.View>
+                    </ListView>
+                </GroupBox>
+
+
                 <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" x:Name="SelectedObjectCountLabel" Visibility="Collapsed"></Label>
-                <Grid Margin="5,0,5,0" Grid.Column="0" Grid.Row="2">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Click="GlobalRemoveButton_Click" Padding="5,0" Margin="0,5" Name="GlobalRemoveButton" Content="Delete Global..." IsEnabled="False"  HorizontalAlignment="Stretch"></Button>
-                        <Button Click="SceneRemoveButton_Click" Padding="5,0" Margin="5,5,0,5" Name="SceneRemoveButton" Content="Delete Scene..." IsEnabled="False"  HorizontalAlignment="Stretch"></Button>
-                        <Button Click="StageConfigRemoveButton_Click" Padding="5,0" Margin="5,5" Name="StageConfigRemoveButton" Content="Delete Config..." IsEnabled="False"  HorizontalAlignment="Stretch"></Button>
+                <GroupBox Header="Object Options" Foreground="{DynamicResource NormalText}" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2">
+                    <StackPanel Orientation="Horizontal" Height="35">
+                        <Button Content="Add/Import..." Margin="0,0,5,0" Padding="5,0" Click="ContextMenuButton_Click">
+                            <Button.ContextMenu>
+                                <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
+                                    <MenuItem Click="AddNewObjectEvent" Name="AddNewObjectButton" Header="Add New Object.."></MenuItem>
+                                    <MenuItem Header="Import Objects...">
+                                        <MenuItem Header="Using Existing Scene..." Click="ImportObjectsUsingExistingEvent"></MenuItem>
+                                        <MenuItem Header="Using Megalist..." Click="ImportObjectsUsingMegalistEvent"></MenuItem>
+                                    </MenuItem>
+                                    <MenuItem Header="Import Sounds..." Click="ImportSoundsToolStripMenuItem_Click"></MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button Content="Delete Selected..." Padding="5,0" Margin="0,0,5,0" Click="ContextMenuButton_Click">
+                            <Button.ContextMenu>
+                                <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
+                                    <MenuItem Click="GlobalRemoveButton_Click" Name="GlobalRemoveButton" Header="Globally..." IsEnabled="False"></MenuItem>
+                                    <MenuItem Click="SceneRemoveButton_Click" Name="SceneRemoveButton" Header="From Scene..." IsEnabled="False"></MenuItem>
+                                    <MenuItem Click="StageConfigRemoveButton_Click" Name="StageConfigRemoveButton" Header="From Stage Config..." IsEnabled="False" ></MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button Content="Other..." Padding="5,0" Margin="0,0,5,0" Click="ContextMenuButton_Click">
+                            <Button.ContextMenu>
+                                <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
+                                    <MenuItem Header="Backup Stage Config" Click="BackupStageConfig_ToolStripMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="Optimize Object ID Placement" IsEnabled="False"></MenuItem>
+                                    <MenuItem Header="Add Attribute to All Objects" Click="AddAttributeToAllObjectsMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="MD5 Generator" Click="MD5_Generator_ToolStripMenuItem_Click"></MenuItem>
+                                    <MenuItem Header="Export Objects...">
+                                        <MenuItem Header="Using Existing Scene..." Click="ExportObjectsUsingExistingEvent"></MenuItem>
+                                        <MenuItem Header="Using Megalist..." Click="ExportObjectsUsingMegalistEvent"></MenuItem>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
                     </StackPanel>
-                </Grid>
-
-                <StackPanel Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Center" Margin="5,0">
-
-                </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Attribute Options" Foreground="{DynamicResource NormalText}" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2">
+                    <StackPanel Orientation="Horizontal" Height="35">
+                        <Button x:Name="AddAttributeButton" Padding="5,0" Content="Add Attribute..." Click="AddAttributeButton_Click" IsEnabled="False" Margin="0,0,5,0"></Button>
+                        <Button x:Name="RemoveAttributeButton" Padding="5,0" Content="Remove Attribute..." Click="RemoveAttributeButton_Click" IsEnabled="False" Margin="0,0,5,0"></Button>
+                    </StackPanel>
+                </GroupBox>
                 <Button Click="ExitButton_Click" Content="Exit" Width="72" HorizontalAlignment="Right" Height="25" Grid.Column="1" Grid.Row="4" Margin="10,3,10,3"></Button>
             </Grid>
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Point = System.Drawing.Point;
 using System.ComponentModel;
+using ManiacEditor.Classes.Clipboard;
 
 namespace ManiacEditor.Methods.Solution
 {
@@ -146,7 +147,6 @@ namespace ManiacEditor.Methods.Solution
                     NotifyPropertyChanged("TilesClipboardHistory");
                 }
             }
-
             public ObservableCollection<ObjectsClipboardEntry> ObjectsClipboardHistory
             {
                 get
@@ -159,7 +159,6 @@ namespace ManiacEditor.Methods.Solution
                     NotifyPropertyChanged("ObjectsClipboardHistory");
                 }
             }
-
             public ObservableCollection<LayerClipboardEntry> LayerClipboardHistory
             {
                 get
@@ -172,7 +171,6 @@ namespace ManiacEditor.Methods.Solution
                     NotifyPropertyChanged("LayerClipboardHistory");
                 }
             }
-
 
             public MultiTilesClipboardEntry TilesClipboard
             {
@@ -241,6 +239,7 @@ namespace ManiacEditor.Methods.Solution
 
             #endregion
         }
+
         public static ClipboardModel ClipboardViewModel { get; set; } = new ClipboardModel();
 
         #endregion
@@ -282,190 +281,11 @@ namespace ManiacEditor.Methods.Solution
 
         #endregion
 
-        #region Classes
-        [Serializable]
-        public class ClipboardEntry : INotifyPropertyChanged
-        {
-
-            private string _displayName;
-            private DateTime _timestamp;
-
-            public object Content { get; set; }
-            public ContentType Type { get; set; }
-            public DateTime Timestamp
-            {
-                get
-                {
-                    return _timestamp;
-                }
-                set
-                {
-                    _timestamp = value;
-                    NotifyPropertyChanged(nameof(Timestamp));
-                }
-            }
-            public string DisplayName
-            {
-                get
-                {
-                    return _displayName;
-                }
-                set
-                {
-                    _displayName = value;
-                    NotifyPropertyChanged(nameof(DisplayName));
-                }
-            }
-            public List<string> Tags { get; set; }
-
-            public enum ContentType : int
-            {
-                Tiles,
-                MultiTiles,
-                Entities,
-                Collision,
-                Layers
-            }
-
-
-            public ClipboardEntry()
-            {
-                Timestamp = DateTime.Now;
-                DisplayName = Timestamp.ToString("MM/dd/yyyy HH:mm:ss:fff");
-            }
-
-            #region INotifyPropertyChanged Properties
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void NotifyPropertyChanged(String info)
-            {
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(info));
-                }
-            }
-
-            #endregion
-        }
-
-        [Serializable]
-        public class MultiTilesClipboardEntry : ClipboardEntry
-        {
-
-            public MultiTilesClipboardEntry() : base()
-            {
-                Type = ContentType.MultiTiles;
-                Content = new List<Dictionary<Point, ushort>>() { new Dictionary<Point, ushort>(), new Dictionary<Point, ushort>(), new Dictionary<Point, ushort>(), new Dictionary<Point, ushort>() };
-            }
-            public MultiTilesClipboardEntry(TilesClipboardEntry EntryA, TilesClipboardEntry EntryB, TilesClipboardEntry EntryC, TilesClipboardEntry EntryD) : base()
-            {
-                Type = ContentType.MultiTiles;
-                var dataA = (EntryA != null ? EntryA.GetData() : new Dictionary<Point, ushort>());
-                var dataB = (EntryB != null ? EntryB.GetData() : new Dictionary<Point, ushort>());
-                var dataC = (EntryC != null ? EntryC.GetData() : new Dictionary<Point, ushort>());
-                var dataD = (EntryD != null ? EntryD.GetData() : new Dictionary<Point, ushort>());
-                Content = new List<Dictionary<Point, ushort>>() { dataA, dataB, dataC, dataD };
-            }
-            public MultiTilesClipboardEntry(List<Dictionary<Point, ushort>> _Content) : base()
-            {
-                Type = ContentType.MultiTiles;
-                Content = _Content;
-            }
-
-            public List<Dictionary<Point, ushort>> GetData()
-            {
-                return (Content as List<Dictionary<Point, ushort>>);
-            }
-
-            public TilesClipboardEntry GetDataA()
-            {
-                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[0]);
-            }
-            public TilesClipboardEntry GetDataB()
-            {
-                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[1]);
-            }
-            public TilesClipboardEntry GetDataC()
-            {
-                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[2]);
-            }
-            public TilesClipboardEntry GetDataD()
-            {
-                return new TilesClipboardEntry((Content as List<Dictionary<Point, ushort>>)[3]);
-            }
-        }
-
-        [Serializable]
-        public class TilesClipboardEntry : ClipboardEntry
-        {
-            public TilesClipboardEntry() : base()
-            {
-                Type = ContentType.Tiles;
-                Content = new Dictionary<Point, ushort>();
-            }
-            public TilesClipboardEntry(Dictionary<Point, ushort> _Content) : base()
-            {
-                Type = ContentType.Tiles;
-                Content = _Content;
-            }
-
-            public Dictionary<Point, ushort> GetData()
-            {
-                return (Content as Dictionary<Point, ushort>);
-            }
-
-        }
-
-        [Serializable]
-        public class ObjectsClipboardEntry : ClipboardEntry, ICloneable
-        {
-            public object Clone()
-            {
-                return this.MemberwiseClone();
-            }
-            public ObjectsClipboardEntry(List<Classes.Scene.EditorEntity> _Content) : base()
-            {
-                Type = ContentType.Entities;
-                _Content.ForEach(x => x.PrepareForExternalCopy());
-                Content = _Content;
-            }
-
-            public List<Classes.Scene.EditorEntity> GetData()
-            {
-                var content = (Content as List<Classes.Scene.EditorEntity>);
-                if (content != null)
-                {
-                    foreach (var entry in content)
-                    {
-                       if (entry != null && entry.attributesMap != null) entry.attributesMap.DefaultValue = new RSDKv5.AttributeValue(RSDKv5.AttributeTypes.ENUM);
-                    }
-                }
-                return content;
-            }
-        }
-
-        [Serializable]
-        public class LayerClipboardEntry : ClipboardEntry
-        {
-            public LayerClipboardEntry(Classes.Scene.EditorLayer _Content) : base()
-            {
-                Type = ContentType.Layers;
-                Content = _Content;
-            }
-
-            public Classes.Scene.EditorLayer GetData()
-            {
-                return (Content as Classes.Scene.EditorLayer);
-            }
-        }
-        #endregion
-
         #region Methods
 
         public static void SetTileClipboard(MultiTilesClipboardEntry value)
         {
-            ClipboardViewModel.SetTileClipboard(value, true);
+            ClipboardViewModel.SetTileClipboard(value, true);   
         }
 
         public static void SetObjectClipboard(ObjectsClipboardEntry value)

@@ -7,117 +7,162 @@ namespace ManiacEditor.Classes.Scene
     public class EditorBackground : IDrawable
     {
 
-		public EditorBackground()
+        private const int TILE_BOX_SIZE = 1;
+        private const int BOX_SIZE = 8;
+        private const int TILE_SIZE = 16;
+
+        private bool CameraUnlocked
+        {
+            get
+            {
+                return Methods.Solution.SolutionState.Main.UnlockCamera;
+            }
+        }
+        private int GridSize
+        {
+            get
+            {
+                return (Methods.Solution.CurrentSolution.UI_Instance != null ? Methods.Solution.SolutionState.Main.GridSize : 16);
+            }
+        }
+        private int SceneWidth
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.SceneWidth;
+            }
+        }
+        private int SceneHeight
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.SceneHeight;
+            }
+        }
+        private System.Drawing.Color GridColor
+        {
+            get
+            {
+                int A = (int)Methods.Solution.CurrentSolution.UI_Instance.EditorToolbar.gridOpacitySlider.Value;
+                int R = Methods.Solution.SolutionState.Main.GridColor.R;
+                int G = Methods.Solution.SolutionState.Main.GridColor.G;
+                int B = Methods.Solution.SolutionState.Main.GridColor.B;
+
+                return Color.FromArgb(A, R, G, B);
+            }
+        }
+        private RSDKv5Color BackgroundColor1
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor1;
+            }
+        }
+        private RSDKv5Color BackgroundColor2
+        {
+            get
+            {
+                return Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor2;
+            }
+        }
+
+        public EditorBackground()
         {
 
         }
-
-
 		static int DivideRoundUp(int number, int by)
         {
             return (number + by - 1) / by;
         }
-
         public void Draw(Graphics g)
         {
             
         }
-
         public void Draw(DevicePanel d)
         {
             Draw(d, false);
         }
-
-        public void Draw(DevicePanel d, bool drawEdit)
+        public void Draw(DevicePanel d, bool EditDraw)
         {
             Rectangle screen = d.GetScreen();
 
-            RSDKv5Color rcolor1 = Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor1;
-            RSDKv5Color rcolor2 = Methods.Solution.CurrentSolution.CurrentScene.EditorMetadata.BackgroundColor2;
+            int Transparency1 = (EditDraw ? 30 : BackgroundColor1.A);
+            int Transparency2 = (EditDraw ? 30 : BackgroundColor2.A);
 
-
-            int transparency1 = (drawEdit ? 30 : rcolor1.A);
-            int transparency2 = (drawEdit ? 30 : rcolor2.A);
-
-            Color color1 = Color.FromArgb(transparency1, rcolor1.R, rcolor1.G, rcolor1.B);
-            Color color2 = Color.FromArgb(transparency2, rcolor2.R, rcolor2.G, rcolor2.B);
+            Color Color1 = Color.FromArgb(Transparency1, BackgroundColor1.R, BackgroundColor1.G, BackgroundColor1.B);
+            Color Color2 = Color.FromArgb(Transparency2, BackgroundColor2.R, BackgroundColor2.G, BackgroundColor2.B);
 
             int start_x;
             int end_x;
             int start_y;
             int end_y;
 
-            if (!Methods.Solution.SolutionState.Main.UnlockCamera)
+            if (!CameraUnlocked)
             {
-                start_x = screen.X / (Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE);
-                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), Methods.Solution.CurrentSolution.SceneWidth);
-                start_y = screen.Y / (Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE);
-                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), Methods.Solution.CurrentSolution.SceneHeight);
+                start_x = screen.X / (BOX_SIZE * TILE_SIZE);
+                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, BOX_SIZE * TILE_SIZE), SceneWidth);
+                start_y = screen.Y / (BOX_SIZE * TILE_SIZE);
+                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, BOX_SIZE * TILE_SIZE), SceneHeight);
             }
             else
             {
                 start_x = 0;
-                end_x = Math.Min(DivideRoundUp(Methods.Solution.CurrentSolution.SceneWidth, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), (int)(Methods.Solution.CurrentSolution.SceneWidth));
+                end_x = Math.Min(DivideRoundUp(SceneWidth, BOX_SIZE * TILE_SIZE), (int)(SceneWidth));
                 start_y = 0;
-                end_y = Math.Min(DivideRoundUp(Methods.Solution.CurrentSolution.SceneHeight, Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE), (int)(Methods.Solution.CurrentSolution.SceneHeight));
+                end_y = Math.Min(DivideRoundUp(SceneHeight, BOX_SIZE * TILE_SIZE), (int)(SceneHeight));
             }
             
 
             // Draw with first color everything
-            d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, color1);
+            d.DrawRectangle(screen.X, screen.Y, screen.X + screen.Width, screen.Y + screen.Height, Color1);
 
-            if (color2.A != 0) {
+            if (Color2.A != 0) {
                 for (int y = start_y; y < end_y; ++y)
                 {
                     for (int x = start_x; x < end_x; ++x)
                     {
-                        if ((x + y) % 2 == 1) d.DrawRectangle(x * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, y * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, (x + 1) * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, (y + 1) * Methods.Solution.SolutionConstants.BOX_SIZE * Methods.Solution.SolutionConstants.TILE_SIZE, color2);
+                        if ((x + y) % 2 == 1) d.DrawRectangle(x * BOX_SIZE * TILE_SIZE, y * BOX_SIZE * TILE_SIZE, (x + 1) * BOX_SIZE * TILE_SIZE, (y + 1) * BOX_SIZE * TILE_SIZE, Color2);
                     }
                 }
             }
         }
-
         public void DrawGrid(DevicePanel d)
         {
-            int GridSize = (Methods.Solution.CurrentSolution.UI_Instance != null ? Methods.Solution.SolutionState.Main.GridSize : 16);
             Rectangle screen = d.GetScreen();
-
-			Color GridColor = Color.FromArgb((int)Methods.Solution.CurrentSolution.UI_Instance.EditorToolbar.gridOpacitySlider.Value, Methods.Solution.SolutionState.Main.GridColor.R, Methods.Solution.SolutionState.Main.GridColor.B, Methods.Solution.SolutionState.Main.GridColor.G);
-
 
             int start_x;
             int end_x;
             int start_y;
             int end_y;
 
-            if (!Methods.Solution.SolutionState.Main.UnlockCamera)
+            if (!CameraUnlocked)
             {
-                start_x = screen.X / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
-                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), Methods.Solution.CurrentSolution.SceneWidth);
-                start_y = screen.Y / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
-                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), Methods.Solution.CurrentSolution.SceneHeight);
+                start_x = screen.X / (TILE_BOX_SIZE * GridSize);
+                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILE_BOX_SIZE * GridSize), SceneWidth);
+                start_y = screen.Y / (TILE_BOX_SIZE * GridSize);
+                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILE_BOX_SIZE * GridSize), SceneHeight);
             }
             else
             {
-                start_x = screen.X / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
-                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), screen.Width);
-                start_y = screen.Y / (Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize);
-                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, Methods.Solution.SolutionConstants.TILE_BOX_SIZE * GridSize), screen.Height);
+                start_x = screen.X / (TILE_BOX_SIZE * GridSize);
+                end_x = Math.Min(DivideRoundUp(screen.X + screen.Width, TILE_BOX_SIZE * GridSize), screen.Width);
+                start_y = screen.Y / (TILE_BOX_SIZE * GridSize);
+                end_y = Math.Min(DivideRoundUp(screen.Y + screen.Height, TILE_BOX_SIZE * GridSize), screen.Height);
             }
 
             for (int y = start_y; y < end_y; ++y)
             {
                 for (int x = start_x; x < end_x; ++x)
                 {
+                    if (x >= 0 && y >= 0)
+                    {
                         d.DrawLine(x * GridSize, y * GridSize, x * GridSize + GridSize, y * GridSize, GridColor);
                         d.DrawLine(x * GridSize, y * GridSize, x * GridSize, y * GridSize + GridSize, GridColor);
                         d.DrawLine(x * GridSize + GridSize, y * GridSize + GridSize, x * GridSize + GridSize, y * GridSize, GridColor);
                         d.DrawLine(x * GridSize + GridSize, y * GridSize + GridSize, x * GridSize, y * GridSize + GridSize, GridColor);
+                    }
                 }
             }
         }
-
-
-
 	}
 }

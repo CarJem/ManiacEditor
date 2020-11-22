@@ -247,6 +247,7 @@ namespace ManiacEditor.Controls.Object_Manager
         }
         private void RefreshObjectColumns(ListView listView)
         {
+            int padding = 24;
             int autoFillColumnIndex = (listView.View as GridView).Columns.Count - 1;
             if (listView.ActualWidth == Double.NaN)
                 listView.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
@@ -254,7 +255,7 @@ namespace ManiacEditor.Controls.Object_Manager
             for (int i = 0; i < (listView.View as GridView).Columns.Count; i++)
                 if (i != autoFillColumnIndex)
                     remainingSpace -= (listView.View as GridView).Columns[i].ActualWidth;
-            (listView.View as GridView).Columns[autoFillColumnIndex].Width = remainingSpace >= 0 ? remainingSpace : 0;
+            (listView.View as GridView).Columns[autoFillColumnIndex].Width = (remainingSpace >= 0 ? remainingSpace : 0) + padding;
         }
         private void ReloadList()
         {
@@ -298,7 +299,28 @@ namespace ManiacEditor.Controls.Object_Manager
 
         #endregion
 
-        #region Object Remove Methods/Events
+        #region Object Management Methods/Events
+        private void AddNewObjectEvent(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Adding objects is still experimental and could be dangerous.\nI highly recommend making a backup first.",
+                "Danger! Experimental territory!",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+
+            string title = "Add Object";
+            string message = "Enter your new object's name:";
+            string newObjectName = GenerationsLib.WPF.TextPrompt2.ShowDialog(title, message);
+
+            if (!_SceneObjects.Exists(x => x.Name.Name == newObjectName)) Methods.Solution.CurrentSolution.Entities.SceneObjects.Add(new SceneObject(new NameIdentifier(newObjectName), new List<AttributeInfo>()));
+            if (!_StageConfigObjects.Contains(newObjectName)) _StageConfigObjects.Add(newObjectName);
+
+            Methods.Internal.UserInterface.UpdateControls();
+            Instance.EntitiesToolbar?.RefreshSpawningObjects(Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects);
+            Methods.Internal.UserInterface.SplineControls.UpdateSplineSpawnObjectsList(Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects);
+
+            ReloadList();
+        }
+
         private void GlobalRemoveButton_Click(object sender, RoutedEventArgs e)
         {
             var SelectedObjects = GetGlobalSelectedObjects();
@@ -420,7 +442,6 @@ namespace ManiacEditor.Controls.Object_Manager
 
             // added, now refresh
             LvObjectsViewer_SelectionChanged(null, null);
-
         }
         private void CopySelectedAttributeValuesToClipboard()
         {
@@ -471,6 +492,19 @@ namespace ManiacEditor.Controls.Object_Manager
         #endregion
 
         #region Misc Shortcut Methods/Events 
+        private void ContextMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = (sender as Button);
+            if (!btn.ContextMenu.IsOpen)
+            {
+                //Open the Context menu when Button is clicked
+                btn.ContextMenu.IsEnabled = true;
+                btn.ContextMenu.PlacementTarget = (sender as Button);
+                btn.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                btn.ContextMenu.IsOpen = true;
+
+            }
+        }
         private void BackupStageConfig_ToolStripMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ManiacEditor.Methods.Solution.SolutionLoader.BackupStageConfig();
@@ -480,9 +514,8 @@ namespace ManiacEditor.Controls.Object_Manager
             ManiacEditor.Controls.Misc.Dev.MD5HashGen hashmap = new ManiacEditor.Controls.Misc.Dev.MD5HashGen(Instance);
             hashmap.Show();
         }
+
         #endregion
-
-
     }
 
     public class AutoSizedGridView : GridView

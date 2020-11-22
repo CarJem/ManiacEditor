@@ -478,7 +478,7 @@ namespace ManiacEditor.Methods.Solution
                 {
                     Methods.Solution.CurrentSolution.LevelID = ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.LevelID;
                     string getPath = ManiacEditor.Methods.Solution.SolutionPaths.GetScenePath();
-                    Methods.Solution.CurrentSolution.CurrentScene = new Classes.Scene.EditorScene(getPath, Instance.ViewPanel.SharpPanel.GraphicPanel);
+                    Methods.Solution.CurrentSolution.CurrentScene = new Classes.Scene.EditorScene(getPath);
                 }
                 catch (Exception ex)
                 {

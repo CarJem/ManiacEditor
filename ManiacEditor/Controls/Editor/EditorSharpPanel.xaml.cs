@@ -605,9 +605,6 @@ namespace ManiacEditor.Controls.Editor
 
             bool AboveAllMode = Methods.Solution.SolutionState.Main.EntitiesVisibileAboveAllLayers;
 
-            Instance.ViewPanel.InfoHUD.UpdatePopupVisibility();
-            Instance.ViewPanel.InfoHUD.UpdateHUDInfo();
-
             if (Instance.EntitiesToolbar?.NeedRefresh ?? false) Instance.EntitiesToolbar.PropertiesRefresh();
             if (Methods.Solution.CurrentSolution.CurrentScene != null)
             {
@@ -620,7 +617,6 @@ namespace ManiacEditor.Controls.Editor
                 if (CommonDrawing.CanOverlayImage(Instance)) CommonDrawing.DrawOverlayImage(GraphicPanel);
 
                 Methods.Solution.CurrentSolution.Entities.DrawInternal(GraphicPanel);
-
             }
 
             if (Methods.Solution.SolutionState.Main.DraggingSelection) CommonDrawing.DrawSelectionBox(GraphicPanel);
