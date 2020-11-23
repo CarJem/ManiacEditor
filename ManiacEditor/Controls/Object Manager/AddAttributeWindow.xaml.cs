@@ -46,6 +46,8 @@ namespace ManiacEditor.Controls.Object_Manager
 				return;
 			}
 
+			Classes.Prefrences.SceneCurrentSettings.AddCustomAttributeHashNames(nameBox.Text);
+
 			bool defaultFailed = false;
 			foreach (SceneObject obj in objs)
 			{

@@ -247,7 +247,7 @@ namespace ManiacEditor.Controls.Object_Manager
         }
         private void RefreshObjectColumns(ListView listView)
         {
-            int padding = 24;
+            int padding = 0;
             int autoFillColumnIndex = (listView.View as GridView).Columns.Count - 1;
             if (listView.ActualWidth == Double.NaN)
                 listView.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
@@ -313,6 +313,8 @@ namespace ManiacEditor.Controls.Object_Manager
 
             if (!_SceneObjects.Exists(x => x.Name.Name == newObjectName)) Methods.Solution.CurrentSolution.Entities.SceneObjects.Add(new SceneObject(new NameIdentifier(newObjectName), new List<AttributeInfo>()));
             if (!_StageConfigObjects.Contains(newObjectName)) _StageConfigObjects.Add(newObjectName);
+
+            Classes.Prefrences.SceneCurrentSettings.AddCustomObjectHashNames(newObjectName);
 
             Methods.Internal.UserInterface.UpdateControls();
             Instance.EntitiesToolbar?.RefreshSpawningObjects(Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects);
@@ -492,6 +494,7 @@ namespace ManiacEditor.Controls.Object_Manager
         #endregion
 
         #region Misc Shortcut Methods/Events 
+
         private void ContextMenuButton_Click(object sender, RoutedEventArgs e)
         {
             var btn = (sender as Button);

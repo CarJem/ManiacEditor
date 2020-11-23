@@ -17,13 +17,13 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="17"></RowDefinition>
             </Grid.RowDefinitions>
-                <ScrollBar x:Name="vScrollBar1" Width="15" ScrollViewer.IsDeferredScrollingEnabled="True" Orientation="Vertical" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1">
+                <ScrollBar x:Name="vScrollBar1" Width="15" ScrollViewer.IsDeferredScrollingEnabled="false" Orientation="Vertical" Margin="0,0,0,0" Grid.Row="0" Grid.Column="1">
                     <ScrollBar.CommandBindings>
                     <CommandBinding Command="{x:Static ScrollBar.LineDownCommand}" Executed="ScrollBarButtonsLeftOverEvent" CanExecute="CanExecuteCommand_Scrollbars" />
                     <CommandBinding Command="{x:Static ScrollBar.LineUpCommand}" Executed="ScrollBarButtonsLeftOverEvent" CanExecute="CanExecuteCommand_Scrollbars" />
                     </ScrollBar.CommandBindings>
                 </ScrollBar>
-                <ScrollBar x:Name="hScrollBar1" Height="15" ScrollViewer.IsDeferredScrollingEnabled="True" Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0">
+                <ScrollBar x:Name="hScrollBar1" Height="15" ScrollViewer.IsDeferredScrollingEnabled="false" Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0">
                     <ScrollBar.CommandBindings>
                     <CommandBinding Command="{x:Static ScrollBar.LineLeftCommand}" Executed="ScrollBarButtonsLeftOverEvent" CanExecute="CanExecuteCommand_Scrollbars" />
                     <CommandBinding Command="{x:Static ScrollBar.LineRightCommand}" Executed="ScrollBarButtonsLeftOverEvent" CanExecute="CanExecuteCommand_Scrollbars" />

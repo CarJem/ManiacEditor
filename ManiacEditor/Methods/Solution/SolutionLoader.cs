@@ -632,6 +632,7 @@ namespace ManiacEditor.Methods.Solution
                 for (int i = 0; i < Methods.Solution.CurrentSolution.GameConfig.ObjectsNames.Count; i++)
                 {
                     Instance.ObjectList.Add(Methods.Solution.CurrentSolution.GameConfig.ObjectsNames[i]);
+                    RSDKv5.Objects.AddObjectName(Methods.Solution.CurrentSolution.GameConfig.ObjectsNames[i]);
                 }
             }
             if (Methods.Solution.CurrentSolution.StageConfig != null)
@@ -639,6 +640,7 @@ namespace ManiacEditor.Methods.Solution
                 for (int i = 0; i < Methods.Solution.CurrentSolution.StageConfig.ObjectsNames.Count; i++)
                 {
                     Instance.ObjectList.Add(Methods.Solution.CurrentSolution.StageConfig.ObjectsNames[i]);
+                    RSDKv5.Objects.AddObjectName(Methods.Solution.CurrentSolution.StageConfig.ObjectsNames[i]);
                 }
             }
 
@@ -656,6 +658,24 @@ namespace ManiacEditor.Methods.Solution
                 Classes.Prefrences.SceneCurrentSettings.UpdateFilePath();
                 Classes.Prefrences.SceneCurrentSettings.LoadFile();
 
+                if (Classes.Prefrences.SceneCurrentSettings.ManiacINIData != null)
+                {
+                    if (Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ObjectHashes != null)
+                    {
+                        foreach (var hash in Classes.Prefrences.SceneCurrentSettings.ManiacINIData.ObjectHashes)
+                        {
+                            RSDKv5.Objects.AddObjectName(hash);
+                        }
+                    }
+
+                    if (Classes.Prefrences.SceneCurrentSettings.ManiacINIData.AttributeHashes != null)
+                    {
+                        foreach (var hash in Classes.Prefrences.SceneCurrentSettings.ManiacINIData.AttributeHashes)
+                        {
+                            RSDKv5.Objects.AddAttributeName(hash);
+                        }
+                    }
+                }
             }
         }
 

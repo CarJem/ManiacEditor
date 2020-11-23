@@ -21,6 +21,8 @@ public static class SceneCurrentSettings
             private List<string> _SpritePaths;
             private string _RedirectSpriteDataFolder;
             private string _EncoreACTFile;
+            private List<string> _ObjectHashes;
+            private List<string> _AttributeHashes;
             private Dictionary<string, string> _EntityRenderSwaps;
             private List<Tuple<string, string>> _Positions;
 
@@ -120,6 +122,31 @@ public static class SceneCurrentSettings
                     OnPropertyChanged(nameof(Positions));
                 }
             }
+            public List<string> ObjectHashes
+            {
+                get
+                {
+                    return _ObjectHashes;
+                }
+                set
+                {
+                    _ObjectHashes = value;
+                    OnPropertyChanged(nameof(ObjectHashes));
+                }
+            }
+
+            public List<string> AttributeHashes
+            {
+                get
+                {
+                    return _AttributeHashes;
+                }
+                set
+                {
+                    _AttributeHashes = value;
+                    OnPropertyChanged(nameof(AttributeHashes));
+                }
+            }
 
             public void Reset()
             {
@@ -139,6 +166,38 @@ public static class SceneCurrentSettings
         public static void ClearSettings()
         {
             if (ManiacINIData != null) ManiacINIData.Reset();
+        }
+
+        public static void AddCustomObjectHashNames(string name)
+        {
+            if (ManiacINIData == null) CreateFile();
+            if (ManiacINIData == null) return;
+
+            if (ManiacINIData.ObjectHashes == null) ManiacINIData.ObjectHashes = new List<string>();
+
+            if (Methods.ProgramBase.EntityDefinitions.Objects.Contains(name)) return;
+
+            if (!ManiacINIData.ObjectHashes.Contains(name))
+            {
+                ManiacINIData.ObjectHashes.Add(name);
+                SaveFile();
+            }
+        }
+
+        public static void AddCustomAttributeHashNames(string name)
+        {
+            if (ManiacINIData == null) CreateFile();
+            if (ManiacINIData == null) return;
+
+            if (ManiacINIData.AttributeHashes == null) ManiacINIData.AttributeHashes = new List<string>();
+
+            if (Methods.ProgramBase.EntityDefinitions.Attributes.Contains(name)) return;
+
+            if (!ManiacINIData.AttributeHashes.Contains(name))
+            {
+                ManiacINIData.AttributeHashes.Add(name);
+                SaveFile();
+            }
         }
 
         public static void AddSavedCoordinates(string name, int x, int y, bool tilesMode)

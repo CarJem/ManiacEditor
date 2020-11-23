@@ -169,6 +169,9 @@ namespace ManiacEditor.Methods
 
         #region Initilization
 
+
+        public static EntityDefinitions EntityDefinitions { get; set; }
+
         public static void GatherObjectsAndAttributes()
         {
             try
@@ -179,10 +182,10 @@ namespace ManiacEditor.Methods
                 ManiacEditor.Extensions.ConsoleExtensions.Print("Setting up Object & Attribute Definitions");
 
                 string data = File.ReadAllText(definitions_file);
-                EntityDefinitions definitions = Newtonsoft.Json.JsonConvert.DeserializeObject<EntityDefinitions>(data);
+                EntityDefinitions = Newtonsoft.Json.JsonConvert.DeserializeObject<EntityDefinitions>(data);
 
-                foreach (string attribute in definitions.Attributes) RSDKv5.Objects.AddAttributeName(attribute);
-                foreach (string entityObject in definitions.Objects) RSDKv5.Objects.AddObjectName(entityObject);
+                foreach (string attribute in EntityDefinitions.Attributes) RSDKv5.Objects.AddAttributeName(attribute);
+                foreach (string entityObject in EntityDefinitions.Objects) RSDKv5.Objects.AddObjectName(entityObject);
 
                 ManiacEditor.Extensions.ConsoleExtensions.Print("Finished Object & Attribute Definitions");
 
