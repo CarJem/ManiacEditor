@@ -314,9 +314,9 @@ namespace ManiacEditor
             }, true);
         }
         
-        public void Render()
+        public void Render(bool Force = false)
         {
-            if (!this.ContainsFocus)
+            if (!this.ContainsFocus || Force)
             {
                 Draw();
             } 
@@ -394,6 +394,7 @@ namespace ManiacEditor
                 _device.EndScene();
                 _device.Present();
 
+                /*
                 FPS_FrameCount++;
                 var timeElapsed = (double)FPS_Clock.ElapsedTicks / Stopwatch.Frequency;
                 FPS_TotalTime += timeElapsed;
@@ -405,6 +406,7 @@ namespace ManiacEditor
                 }
 
                 FPS_Clock.Restart();
+                */
             }
             catch (SharpDXException ex)
             {

@@ -73,6 +73,7 @@ namespace ManiacEditor.Methods.Solution
                 EntitiesEditing = Instance.EditorToolbar.EditEntities.IsCheckedN.Value || Instance.EditorToolbar.EditEntities.IsCheckedA.Value || Instance.EditorToolbar.EditEntities.IsCheckedB.Value;
 
                 StageConfigLoaded = Methods.Solution.CurrentSolution.StageConfig != null;
+                TileConfigLoaded = Methods.Solution.CurrentSolution.TileConfig != null;
 
                 CanUndo = _SceneLoaded && Actions.UndoRedoModel.UndoStack.Count > 0;
                 CanRedo = _SceneLoaded && Actions.UndoRedoModel.RedoStack.Count > 0;
@@ -82,7 +83,6 @@ namespace ManiacEditor.Methods.Solution
                 else IsSelected = false;
 
                 IsEditing = _TilesEditing || _EntitiesEditing || IsChunksEdit();
-
 
                 if (_EntitiesEditing && _IsSelected) CanFlip = true;
                 else if (_TilesEditing) CanFlip = true;
@@ -122,6 +122,34 @@ namespace ManiacEditor.Methods.Solution
             {
                 UpdateBindings();
                 return _SceneLoaded;
+            }
+
+            private bool _IsEncorePaletteLoaded = false;
+            public bool IsEncorePaletteLoaded
+            {
+                get
+                {
+                    return _IsEncorePaletteLoaded;
+                }
+                set
+                {
+                    _IsEncorePaletteLoaded = value;
+                    OnPropertyChanged(nameof(IsEncorePaletteLoaded));
+                }
+            }
+
+            private bool _TileConfigLoaded = false;
+            public bool TileConfigLoaded
+            {
+                get
+                {
+                    return _TileConfigLoaded;
+                }
+                set
+                {
+                    _TileConfigLoaded = value;
+                    OnPropertyChanged(nameof(TileConfigLoaded));
+                }
             }
 
             private bool _StageConfigLoaded = false;
@@ -655,141 +683,164 @@ namespace ManiacEditor.Methods.Solution
 
             private void UpdateStatusLabels()
             {
-                OnPropertyChanged(nameof(MousePositionString));
-                OnPropertyChanged(nameof(ZoomLevelString));
-                OnPropertyChanged(nameof(SelectionSizeString));
-                OnPropertyChanged(nameof(SelectionSizeTooltipString));
-                OnPropertyChanged(nameof(SelectionBoxSizeString));
-                OnPropertyChanged(nameof(SelectedTilePositionString));
-                OnPropertyChanged(nameof(SelectedTilePositionTooltipString));
-                OnPropertyChanged(nameof(ScrollDirectionString));
+                string __MousePositionString;
+                string __ZoomLevelString;
+                string __ScrollDirectionString;
+                string __SelectionSizeTooltipString;
+                string __SelectionSizeString;
+                string __SelectionBoxSizeString;
+                string __SelectedTilePositionString;
+                string __SelectedTilePositionTooltipString;
+
+                __MousePositionString = "X: " + _LastX + " Y: " + _LastY;
+                //if (CountTilesSelectedInPixels) MousePositionString  = "X: " + (int)(LastX) + " Y: " + (int)(LastY);
+                //else MousePositionString = "X: " + (int)((LastX) / 16) + " Y: " + (int)((LastY) / 16);
+
+                __ZoomLevelString = "Zoom Value: " + _Zoom.ToString();
+
+                __ScrollDirectionString = "Scroll Direction: " + (ScrollDirection == (int)Enums.Axis.X ? "X" : "Y") + (ScrollLocked ? " (Locked)" : "");
+
+                if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false) __SelectionSizeTooltipString = "The Size of the Selection";
+                __SelectionSizeTooltipString = "The Length of all the Tiles (by Pixels) in the Selection";
+
+                if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false) __SelectionSizeString = "Amount of Tiles in Selection: " + (Methods.Solution.SolutionState.Main.SelectedTilesCount);
+                else __SelectionSizeString = "Length of Pixels in Selection: " + Methods.Solution.SolutionState.Main.SelectedTilesCount * 16;
+
+                __SelectionBoxSizeString = "Selection Box Size: X: " + (_TempSelectX2 - _TempSelectX1) + ", Y: " + (_TempSelectY2 - _TempSelectY1);
+
+                if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false) __SelectedTilePositionString = "Selected Tile Position: X: " + (int)SelectedTileX + ", Y: " + (int)SelectedTileY;
+                else __SelectedTilePositionString = "Selected Tile Pixel Position: " + "X: " + (int)SelectedTileX * 16 + ", Y: " + (int)SelectedTileY * 16;
+
+                if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false) __SelectedTilePositionTooltipString = "The Position of the Selected Tile";
+                else __SelectedTilePositionTooltipString = "The Pixel Position of the Selected Tile";
+
+                if (__MousePositionString != MousePositionString) MousePositionString = __MousePositionString;
+                if (__ZoomLevelString != ZoomLevelString) ZoomLevelString = __ZoomLevelString;
+                if (__ScrollDirectionString != ScrollDirectionString) ScrollDirectionString = __ScrollDirectionString;
+                if (__SelectionSizeTooltipString != SelectionSizeTooltipString) SelectionSizeTooltipString = __SelectionSizeTooltipString;
+                if (__SelectionSizeString != SelectionSizeString) SelectionSizeString = __SelectionSizeString;
+                if (__SelectionBoxSizeString != SelectionBoxSizeString) SelectionBoxSizeString = __SelectionBoxSizeString;
+                if (__SelectedTilePositionString != SelectedTilePositionString) SelectedTilePositionString = __SelectedTilePositionString;
+                if (__SelectedTilePositionTooltipString != SelectedTilePositionTooltipString) SelectedTilePositionTooltipString = __SelectedTilePositionTooltipString;
             }
 
 
+
+            private string _MousePositionString = string.Empty;
             public string MousePositionString
             {
                 get
                 {
-                    string text = "";
-                    text = "X: " + (int)(LastX) + " Y: " + (int)(LastY);
-                    //if (CountTilesSelectedInPixels) text = "X: " + (int)(LastX) + " Y: " + (int)(LastY);
-                    //else text = "X: " + (int)((LastX) / 16) + " Y: " + (int)((LastY) / 16);
-                    return text;
+                    return _MousePositionString;
                 }
                 set
                 {
+                    _MousePositionString = value;
                     OnPropertyChanged(nameof(MousePositionString));
                 }
             }
 
+
+            private string _ZoomLevelString = string.Empty;
             public string ZoomLevelString
             {
                 get
                 {
-                    return "Zoom Value: " + Zoom.ToString();
+                    return _ZoomLevelString;
                 }
                 set
                 {
+                    _ZoomLevelString = value;
                     OnPropertyChanged(nameof(ZoomLevelString));
                 }
             }
 
+
+            private string _ScrollDirectionString = string.Empty;
             public string ScrollDirectionString
             {
                 get
                 {
-                    return "Scroll Direction: " + (ScrollDirection == (int)Enums.Axis.X ? "X" : "Y") + (ScrollLocked ? " (Locked)" : "");
+                    return _ScrollDirectionString;
                 }
                 set
                 {
+                    _ScrollDirectionString = value;
                     OnPropertyChanged(nameof(ScrollDirectionString));
                 }
             }
 
+
+            private string _SelectionSizeTooltipString = string.Empty;
             public string SelectionSizeTooltipString
             {
                 get
                 {
-                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
-                    {
-                        return "The Size of the Selection";
-                    }
-                    else
-                    {
-                        return "The Length of all the Tiles (by Pixels) in the Selection";
-                    }
+                    return _SelectionSizeTooltipString;
                 }
                 set
                 {
+                    _SelectionSizeTooltipString = value;
                     OnPropertyChanged(nameof(SelectionSizeTooltipString));
                 }
             }
 
+
+            private string _SelectionSizeString = string.Empty;
             public string SelectionSizeString
             {
                 get
                 {
-                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
-                    {
-                        return "Amount of Tiles in Selection: " + (Methods.Solution.SolutionState.Main.SelectedTilesCount);
-                    }
-                    else
-                    {
-                        return  "Length of Pixels in Selection: " + Methods.Solution.SolutionState.Main.SelectedTilesCount * 16;
-                    }
+                    return _SelectionSizeString;
                 }
                 set
                 {
+                    _SelectionSizeString = value;
                     OnPropertyChanged(nameof(SelectionSizeString));
                 }
             }
 
+
+            private string _SelectionBoxSizeString = string.Empty;
             public string SelectionBoxSizeString
             {
                 get 
-                { 
-                    return "Selection Box Size: X: " + (TempSelectX2 - TempSelectX1) + ", Y: " + (TempSelectY2 - TempSelectY1);
+                {
+                    return _SelectionBoxSizeString;
                 }
                 set
                 {
+                    _SelectionBoxSizeString = value;
                     OnPropertyChanged(nameof(SelectionBoxSizeString));
                 }
             }
 
+
+            private string _SelectedTilePositionString = string.Empty;
             public string SelectedTilePositionString
             {
                 get
                 {
-                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
-                    {
-                        return "Selected Tile Position: X: " + (int)SelectedTileX + ", Y: " + (int)SelectedTileY;
-                    }
-                    else
-                    {
-                        return "Selected Tile Pixel Position: " + "X: " + (int)SelectedTileX * 16 + ", Y: " + (int)SelectedTileY * 16;
-                    }
+                    return _SelectedTilePositionString;
                 }
                 set
                 {
+                    _SelectedTilePositionString = value;
                     OnPropertyChanged(nameof(SelectedTilePositionString));
                 }
             }
 
+
+            private string _SelectedTilePositionTooltipString = string.Empty;
             public string SelectedTilePositionTooltipString
             {
                 get
                 {
-                    if (Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels == false)
-                    {
-                        return "The Position of the Selected Tile";
-                    }
-                    else
-                    {
-                        return "The Pixel Position of the Selected Tile";
-                    }
+                    return _SelectedTilePositionTooltipString;
                 }
                 set
                 {
+                    _SelectedTilePositionTooltipString = value;
                     OnPropertyChanged(nameof(SelectedTilePositionTooltipString));
                 }
             }
@@ -1806,7 +1857,6 @@ namespace ManiacEditor.Methods.Solution
 
             #region To-Improve Implementation Variables
             public bool AddStageConfigEntriesAllowed { get; set; } = true; //Self Explanatory
-            public bool EncorePaletteExists { get; set; } = false; // Determines if an Encore Pallete Exists
 
             #endregion
 

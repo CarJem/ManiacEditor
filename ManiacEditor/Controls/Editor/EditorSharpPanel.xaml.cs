@@ -208,8 +208,8 @@ namespace ManiacEditor.Controls.Editor
         private void SharpPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateGraphicsPanelControls();
-            GraphicPanel.Render();
-            Instance.ViewPanel.InfoHUD.UpdatePopupSize();
+            GraphicPanel.Render(true);
+            //Instance.ViewPanel.InfoHUD.UpdatePopupSize();
         }
 
         private void SharpPanel_MouseMove(object sender, MouseEventArgs e)
@@ -219,13 +219,13 @@ namespace ManiacEditor.Controls.Editor
 
         private void SharpPanel_LocationChanged(object sender, EventArgs e)
         {
-            Instance.ViewPanel.InfoHUD.UpdatePopupSize();
+            //Instance.ViewPanel.InfoHUD.UpdatePopupSize();
         }
 
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
             UpdateGraphicsPanelControls();
-            Instance.ViewPanel.InfoHUD.UpdatePopupSize();
+            //Instance.ViewPanel.InfoHUD.UpdatePopupSize();
         }
 
         #endregion
@@ -365,7 +365,7 @@ namespace ManiacEditor.Controls.Editor
         private void GraphicPanel_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Methods.Internal.Controls.MouseClick(sender, e);
-            GraphicPanel.Render();
+            GraphicPanel.Render(true);
         }
         public void GraphicPanel_OnResetDevice(object sender, DeviceEventArgs e)
         {
@@ -374,12 +374,12 @@ namespace ManiacEditor.Controls.Editor
         public void GraphicPanel_OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             Methods.Internal.Controls.GraphicPanel_OnKeyDown(sender, e);
-            GraphicPanel.Render();
+            GraphicPanel.Render(true);
         }
         public void GraphicPanel_OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             Methods.Internal.Controls.GraphicPanel_OnKeyUp(sender, e);
-            GraphicPanel.Render();
+            GraphicPanel.Render(true);
         }
         private void GraphicPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
@@ -394,7 +394,7 @@ namespace ManiacEditor.Controls.Editor
             {
                 e.Effect = System.Windows.Forms.DragDropEffects.None;
             }
-            GraphicPanel.Render();
+            GraphicPanel.Render(true);
         }
         private void GraphicPanel_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
@@ -403,25 +403,17 @@ namespace ManiacEditor.Controls.Editor
                 System.Drawing.Point rel = GraphicPanel.PointToScreen(System.Drawing.Point.Empty);
                 Methods.Solution.CurrentSolution.EditLayerA?.DragOver(new System.Drawing.Point((int)(((e.X - rel.X) + Methods.Solution.SolutionState.Main.ViewPositionX) / Methods.Solution.SolutionState.Main.Zoom), (int)(((e.Y - rel.Y) + Methods.Solution.SolutionState.Main.ViewPositionY) / Methods.Solution.SolutionState.Main.Zoom)), (ushort)Instance.TilesToolbar.SelectedTileIndex); GraphicPanel.Render();
             }
-            GraphicPanel.Render();
+            GraphicPanel.Render(true);
         }
         private void GraphicPanel_DragLeave(object sender, EventArgs e)
         {
             Methods.Solution.CurrentSolution.EditLayerA?.EndDragOver(true);
-            GraphicPanel.Render();
+            GraphicPanel.Render(true);
         }
         private void GraphicPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             Methods.Solution.CurrentSolution.EditLayerA?.EndDragOver(false);
-            GraphicPanel.Render();
-        }
-        private void GraphicPanel_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            if (GraphicPanel.Focused) GraphicPanel_OnKeyDown(sender, e);
-        }
-        private void GraphicPanel_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            if (GraphicPanel.Focused) GraphicPanel_OnKeyUp(sender, e);
+            GraphicPanel.Render(true);
         }
 
         #endregion

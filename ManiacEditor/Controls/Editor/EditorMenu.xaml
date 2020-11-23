@@ -45,25 +45,43 @@
             <MenuItem x:Name="editToolStripMenuItem" Header="Edit">
                 <MenuItem x:Name="undoToolStripMenuItem" Click="UndoEvent" IsEnabled="{state:SolutionStateBinding CanUndo}">
                     <MenuItem.Header>
-                        <Grid HorizontalAlignment="Left" Background="Transparent">
+                        <Grid HorizontalAlignment="Left" Background="Transparent" IsEnabled="{state:SolutionStateBinding CanUndo}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="22"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <TextBlock VerticalAlignment="Center" Text="Undo" Padding="0" Foreground="{Binding Foreground, ElementName=undoToolStripMenuItem}"></TextBlock>
                             <TextBlock VerticalAlignment="Center" Name="UndoMenuItemInfo" Foreground="{Binding Foreground, ElementName=undoToolStripMenuItem}" Padding="0"  Height="22" Grid.Row="1" Visibility="Collapsed"></TextBlock>
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
                         </Grid>
                     </MenuItem.Header>
                 </MenuItem>
                 <MenuItem x:Name="redoToolStripMenuItem" Click="RedoEvent" IsEnabled="{state:SolutionStateBinding CanRedo}">
                     <MenuItem.Header>
-                        <Grid HorizontalAlignment="Left" Background="Transparent">
+                        <Grid HorizontalAlignment="Left" Background="Transparent" IsEnabled="{state:SolutionStateBinding CanRedo}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="22"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <TextBlock VerticalAlignment="Center" Text="Redo" Padding="0"></TextBlock>
                             <TextBlock VerticalAlignment="Center" Name="RedoMenuItemInfo" Padding="0" Height="22" Visibility="Collapsed" Grid.Row="1"></TextBlock>
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
                         </Grid>
                     </MenuItem.Header>
                 </MenuItem>

@@ -598,7 +598,6 @@ namespace ManiacEditor.Methods.Internal
                 if (missingToolbar1 || missingToolbar2 || misplacedToolbar1 || misplacedToolbar2) UpdateEditorToolbars();
                 
             }
-
             public static void UpdateEditorToolbars()
             {
                 Extensions.ConsoleExtensions.PrintWithLog("[UserInterface] Updating Editor Toolbars...");

@@ -505,7 +505,7 @@ namespace ManiacEditor.Methods.Solution
 
                     if (ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0] != "")
                     {
-                        Methods.Solution.SolutionState.Main.EncorePaletteExists = true;
+                        Methods.Solution.SolutionState.Main.IsEncorePaletteLoaded = true;
                         if (ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.IsEncoreMode)
                         {
                             Instance.EditorToolbar.EncorePaletteButton.IsChecked = true;
@@ -589,15 +589,15 @@ namespace ManiacEditor.Methods.Solution
         public static void PostLoad()
         {
             Methods.Drawing.ObjectDrawing.RefreshRenderLists();
-            SetupObjectsList();
+            SetupManiacINIPrefs();
             SetupDiscordRP(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.FilePath);
             var StageStamps = ManiacEditor.Methods.Solution.SolutionPaths.GetEditorStamps(ManiacEditor.Methods.Solution.SolutionPaths.CurrentSceneData.Zone);
             Instance.Chunks = new Classes.Scene.EditorChunks(StageStamps);
             Instance.EditBackground = new Classes.Scene.EditorBackground();
+            SetupObjectsList();
+
 
             Methods.Internal.UserInterface.SplineControls.UpdateSplineSpawnObjectsList(Methods.Solution.CurrentSolution.CurrentScene.Entities.SceneObjects);
-
-            SetupManiacINIPrefs();
             Methods.Internal.UserInterface.Misc.UpdateStartScreen(false);
             Instance.EditorToolbar.SetupLayerButtons();
             Methods.Internal.UserInterface.UpdateControls();
@@ -627,6 +627,8 @@ namespace ManiacEditor.Methods.Solution
         public static void SetupObjectsList()
         {
             Instance.ObjectList.Clear();
+
+            //Add Everything from the Game Config
             if (Methods.Solution.CurrentSolution.GameConfig != null)
             {
                 for (int i = 0; i < Methods.Solution.CurrentSolution.GameConfig.ObjectsNames.Count; i++)
@@ -635,6 +637,8 @@ namespace ManiacEditor.Methods.Solution
                     RSDKv5.Objects.AddObjectName(Methods.Solution.CurrentSolution.GameConfig.ObjectsNames[i]);
                 }
             }
+
+            //Add Everything from the Stage Config
             if (Methods.Solution.CurrentSolution.StageConfig != null)
             {
                 for (int i = 0; i < Methods.Solution.CurrentSolution.StageConfig.ObjectsNames.Count; i++)
@@ -644,6 +648,24 @@ namespace ManiacEditor.Methods.Solution
                 }
             }
 
+            //Refresh the Scene with the New Object/Attribute Names
+            foreach (var sceneObj in Methods.Solution.CurrentSolution.CurrentScene.Objects)
+            {
+                if (RSDKv5.Objects.ObjectNames.ContainsKey(sceneObj.Name.Name)) sceneObj.Name.Name = RSDKv5.Objects.GetObjectName(sceneObj.Name);
+                foreach (var objectAttribute in sceneObj.Attributes)
+                {
+                    if (RSDKv5.Objects.AttributeNames.ContainsKey(objectAttribute.Name.Name)) objectAttribute.Name.Name = RSDKv5.Objects.GetAttributeName(objectAttribute.Name);
+                }
+            }
+
+            foreach (var sceneEntity in Methods.Solution.CurrentSolution.CurrentScene.Entities.Entities)
+            {
+                if (RSDKv5.Objects.ObjectNames.ContainsKey(sceneEntity.Object.Name.Name)) sceneEntity.Object.Name.Name = RSDKv5.Objects.GetObjectName(sceneEntity.Object.Name);
+                foreach (var objectAttribute in sceneEntity.Object.Attributes)
+                {
+                    if (RSDKv5.Objects.AttributeNames.ContainsKey(objectAttribute.Name.Name)) objectAttribute.Name.Name = RSDKv5.Objects.GetAttributeName(objectAttribute.Name);
+                }
+            }
 
         }
         public static void SetupDiscordRP(string SceneFile)

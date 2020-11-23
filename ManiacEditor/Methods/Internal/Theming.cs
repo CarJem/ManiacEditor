@@ -272,8 +272,6 @@ namespace ManiacEditor.Methods.Internal
         public static void UpdateButtonColors()
         {
             var converter = new System.Windows.Media.BrushConverter();
-            Instance.EditorToolbar.FolderIcon.Fill = GetSCBResource("Maniac_FolderIcon");
-
         }
         #endregion
 

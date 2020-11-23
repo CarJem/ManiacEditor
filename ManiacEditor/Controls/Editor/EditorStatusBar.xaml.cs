@@ -40,31 +40,6 @@ namespace ManiacEditor.Controls.Editor
         }
 
         #region Update Position Label / Status Panel
-        private DispatcherOperation CurrentPositionUpdateOperation { get; set; }
-        private DispatcherOperation StatusPanelUpdateOpteration { get; set; }
-        public void UpdatePositionLabel(System.Windows.Forms.MouseEventArgs m = null)
-        {
-            if (CurrentPositionUpdateOperation != null && CurrentPositionUpdateOperation.Status != DispatcherOperationStatus.Completed) return;
-            else
-            {
-                var action = new Action(() =>
-                {
-                    System.Drawing.Point e;
-                    if (m != null) e = m.Location;
-                    else e = new System.Drawing.Point(0, 0);
-
-                    string text;
-                    if (!Methods.Solution.SolutionState.Main.CountTilesSelectedInPixels) text = "X: " + (int)(e.X)  + " Y: " + (int)(e.Y);
-                    else text = "X: " + (int)(e.X / 16) + " Y: " + (int)(e.Y / 16);
-                    positionLabel.Content = text;
-                });
-                CurrentPositionUpdateOperation = positionLabel.Dispatcher.InvokeAsync(action, DispatcherPriority.Background);
-            }
-
-
-
-
-        }
         public void UpdateDataFolderLabel(string dataDirectory = null)
         {
             string dataFolderTag_Normal = "Data Directory: {0}" + Environment.NewLine + "Master Data Directory: {1}";
@@ -86,25 +61,16 @@ namespace ManiacEditor.Controls.Editor
         }
         public void UpdateStatusPanel()
         {
-            if (StatusPanelUpdateOpteration != null && StatusPanelUpdateOpteration.Status != DispatcherOperationStatus.Completed) return;
-            else
-            {
-                var action = new Action(() =>
-                {
-                    UpdateDataFolderLabel();
-                    LevelIdentifierLabel.Content = "Level ID: " + Methods.Solution.CurrentSolution.LevelID.ToString();
+            UpdateDataFolderLabel();
+            LevelIdentifierLabel.Content = "Level ID: " + Methods.Solution.CurrentSolution.LevelID.ToString();
 
-                    if (seperator1.Visibility != Visibility.Visible) seperator1.Visibility = Visibility.Visible;
-                    if (seperator2.Visibility != Visibility.Visible) seperator2.Visibility = Visibility.Visible;
-                    if (seperator3.Visibility != Visibility.Visible) seperator3.Visibility = Visibility.Visible;
-                    if (seperator4.Visibility != Visibility.Visible) seperator4.Visibility = Visibility.Visible;
-                    if (seperator5.Visibility != Visibility.Visible) seperator5.Visibility = Visibility.Visible;
-                    if (seperator6.Visibility != Visibility.Visible) seperator6.Visibility = Visibility.Visible;
-                    if (seperator7.Visibility != Visibility.Visible) seperator7.Visibility = Visibility.Visible;
-                });
-
-                StatusPanelUpdateOpteration = this.Dispatcher.InvokeAsync(action, DispatcherPriority.Background);
-            }
+            if (seperator1.Visibility != Visibility.Visible) seperator1.Visibility = Visibility.Visible;
+            if (seperator2.Visibility != Visibility.Visible) seperator2.Visibility = Visibility.Visible;
+            if (seperator3.Visibility != Visibility.Visible) seperator3.Visibility = Visibility.Visible;
+            if (seperator4.Visibility != Visibility.Visible) seperator4.Visibility = Visibility.Visible;
+            if (seperator5.Visibility != Visibility.Visible) seperator5.Visibility = Visibility.Visible;
+            if (seperator6.Visibility != Visibility.Visible) seperator6.Visibility = Visibility.Visible;
+            if (seperator7.Visibility != Visibility.Visible) seperator7.Visibility = Visibility.Visible;
         }
         #endregion
 

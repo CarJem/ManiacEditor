@@ -184,7 +184,7 @@ namespace ManiacEditor.Methods.Solution
             Methods.Solution.CurrentSolution.StageConfig = null;
             UI_Instance.EditorStatusBar.LevelIdentifierLabel.Content = "Level ID: NULL";
             Methods.Solution.CurrentSolution.LevelID = -1;
-            Methods.Solution.SolutionState.Main.EncorePaletteExists = false;
+            Methods.Solution.SolutionState.Main.IsEncorePaletteLoaded = false;
             Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
             Classes.Prefrences.SceneCurrentSettings.ClearSettings();
             UI_Instance.EditorToolbar.EncorePaletteButton.IsChecked = false;

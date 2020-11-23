@@ -586,7 +586,7 @@ namespace ManiacEditor.Methods.Solution
                             Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
                             if (File.Exists(ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]))
                             {
-                                Methods.Solution.SolutionState.Main.EncorePaletteExists = true;
+                                Methods.Solution.SolutionState.Main.IsEncorePaletteLoaded = true;
                                 Methods.Solution.SolutionState.Main.UseEncoreColors = true;
                             }
 
@@ -604,7 +604,7 @@ namespace ManiacEditor.Methods.Solution
                 Methods.Solution.SolutionState.Main.EncoreSetupType = 0;
                 if (File.Exists(ManiacEditor.Methods.Solution.SolutionPaths.EncorePalette[0]))
                 {
-                    Methods.Solution.SolutionState.Main.EncorePaletteExists = true;
+                    Methods.Solution.SolutionState.Main.IsEncorePaletteLoaded = true;
                     Methods.Solution.SolutionState.Main.UseEncoreColors = true;
                 }
                 else

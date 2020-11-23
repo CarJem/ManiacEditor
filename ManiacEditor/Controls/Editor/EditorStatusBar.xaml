@@ -21,15 +21,15 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Margin="5" Focusable="False">
-                <Label x:Name="positionLabel" Content="{Binding MousePositionString, Delay=500}" Foreground="{DynamicResource NormalText}"/>
+                <TextBlock x:Name="positionLabel" Text="{Binding MousePositionString, Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator1" Visibility="Collapsed"  Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="SelectedTilePositionLabel" ToolTip="{Binding SelectedTilePositionTooltipString, Delay=500}" Content="{Binding SelectedTilePositionString, Delay=500}" Foreground="{DynamicResource NormalText}"/>
+                <TextBlock x:Name="SelectedTilePositionLabel" ToolTip="{Binding SelectedTilePositionTooltipString,  Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{Binding SelectedTilePositionString,  Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator2" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="SelectionSizeLabel" ToolTip="{Binding SelectionSizeTooltipString, Delay=500}" Content="{Binding SelectionSizeString, Delay=500}"  Foreground="{DynamicResource NormalText}"/>
+                <TextBlock x:Name="SelectionSizeLabel" ToolTip="{Binding SelectionSizeTooltipString,  Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{Binding SelectionSizeString, Delay=0}"  Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator3" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="SelectionBoxSizeLabel" Content="{Binding SelectionBoxSizeString, Delay=500}"  Foreground="{DynamicResource NormalText}"/>
+                <TextBlock x:Name="SelectionBoxSizeLabel" Text="{Binding SelectionBoxSizeString,  Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator4" Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
-                <Label x:Name="ZoomValueLabel" Content="{Binding ZoomLevelString, Delay=500}" Foreground="{DynamicResource NormalText}"/>
+                <TextBlock x:Name="ZoomValueLabel" Text="{Binding ZoomLevelString,  Delay=500, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource NormalText}"/>
                 <Separator x:Name="seperator6"  Visibility="Collapsed" Style="{DynamicResource VerticalSeparatorStyle}"/>
             </StackPanel>
 

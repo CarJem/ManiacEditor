@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:ManiacEditor">
+
     <DockPanel x:Key="Interaction" Width="26" Height="36">
         <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Width="24" Height="24">
             <Canvas.RenderTransform>
@@ -16,6 +17,55 @@
     <DockPanel x:Key="Shapes" Width="26" Height="36">
         <Canvas Width="24" Height="24">
             <Path Data="M11,13.5V21.5H3V13.5H11M12,2L17.5,11H6.5L12,2M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13Z" Fill="#FFFF7400" />
+        </Canvas>
+    </DockPanel>
+
+    <DockPanel x:Key="OpenScene" Width="26" Height="36">
+        <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Width="24" Height="24">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Data="M0 0h24v24H0V0z"/>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{DynamicResource Maniac_FolderIcon}" Data="M10 4H2v16h20V6H12l-2-2z"/>
+        </Canvas>
+    </DockPanel>
+
+    <Grid x:Key="DropDownIcon" Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+        <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+    </Grid>
+
+    <Grid x:Key="DropDownIcon1" Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+        <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+    </Grid>
+
+    <Grid x:Key="DropDownIcon2" Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+        <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+    </Grid>
+
+    <Grid x:Key="DropDownIcon3" Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+        <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+    </Grid>
+
+    <Grid x:Key="DropDownIcon4" Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+        <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+    </Grid>
+
+    <Grid x:Key="DropDownIcon5" Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+        <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+    </Grid>
+
+    <Grid x:Key="DropDownIcon6" Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
+        <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
+    </Grid>
+
+    <DockPanel x:Key="RunScene" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0.0" Y="0.0"/>
+            </Canvas.RenderTransform>
+            <Canvas.Resources/>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="Green" Data="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/>
         </Canvas>
     </DockPanel>
 

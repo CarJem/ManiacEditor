@@ -21,48 +21,14 @@
         <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1" Background="{DynamicResource ToolbarBackground}" IsLocked="True" x:Name="ToolbarTray">
             <ToolBar Band="0" BandIndex="1" HorizontalAlignment="Stretch" Height="42" x:Name="MainToolbarButtons" Background="{DynamicResource ToolbarBackground}" Foreground="{DynamicResource NormalText}" KeyboardNavigation.TabNavigation="Continue">
                 <Button Style="{DynamicResource ToolbarButton}" x:Name="New" Click="NewSceneEvent" IsEnabled="False" Content="{DynamicResource AddFile}"></Button>
-                <Button Style="{DynamicResource ToolbarButton}" x:Name="Open" Click="OpenSceneEvent" >
-                    <Button.Content>
-                        <DockPanel Width="26" Height="36">
-                            <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg318" Width="24" Height="24">
-                                <Canvas.RenderTransform>
-                                    <TranslateTransform X="0" Y="0"/>
-                                </Canvas.RenderTransform>
-                                <Canvas.Resources/>
-                                <!--Unknown tag: metadata-->
-                                <!--Unknown tag: sodipodi:namedview-->
-                                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path314" Data="M0 0h24v24H0V0z"/>
-                                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="FolderIcon" Fill="#FFE793" Data="M10 4H2v16h20V6H12l-2-2z"/>
-                            </Canvas>
-                        </DockPanel>
-                    </Button.Content>
-                </Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="Open" Click="OpenSceneEvent" Content="{DynamicResource OpenScene}"></Button>
                 <Button Style="{DynamicResource ToolbarButton}" x:Name="Save" Click="SaveSceneEvent" Content="{DynamicResource SaveFloppy}" IsEnabled="{state:SolutionStateBinding SceneLoaded}"></Button>
                 <Separator/>
-                <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomInButton"   Click="ZoomInEvent" Content="{DynamicResource ZoomIn}" IsEnabled="{state:SolutionStateBinding CanZoomIn}"></Button>
-                <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomOutButton"   Click="ZoomOutEvent" Content="{DynamicResource ZoomOut}" IsEnabled="{state:SolutionStateBinding CanZoomOut}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomInButton" Click="ZoomInEvent" Content="{DynamicResource ZoomIn}" IsEnabled="{state:SolutionStateBinding CanZoomIn}"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" x:Name="ZoomOutButton" Click="ZoomOutEvent" Content="{DynamicResource ZoomOut}" IsEnabled="{state:SolutionStateBinding CanZoomOut}"></Button>
                 <Separator/>
-                <Button Style="{DynamicResource ToolbarButton}"  x:Name="RunSceneButton" Click="RunSceneEvent" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
-                    <Button.Content>
-                        <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg128" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Canvas.RenderTransform>
-                                    <TranslateTransform X="0.0" Y="0.0"/>
-                                </Canvas.RenderTransform>
-                                <Canvas.Resources/>
-                                <!--Unknown tag: metadata-->
-                                <!--Unknown tag: sodipodi:namedview-->
-                                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="RunSceneIcon" Fill="Green" Data="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/>
-                            </Canvas>
-                        </DockPanel>
-                    </Button.Content>
-                </Button>
-                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  x:Name="RunSceneDropDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
+                <Button Style="{DynamicResource ToolbarButton}" Content="{DynamicResource RunScene}" x:Name="RunSceneButton" Click="RunSceneEvent" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0"></Button>
+                <Button Style="{DynamicResource ToolbarButton}" Content="{DynamicResource DropDownIcon6}" Click="ContextMenuButton_Click"  x:Name="RunSceneDropDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem x:Name="launchToolStripMenuItem" Header="Launch/Attach/Focus" Click="RunSceneEvent"/>
@@ -96,12 +62,7 @@
                 <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="PointerToolButton" Content="{DynamicResource Pointer}"  Click="TogglePointerToolEvent" ></ToggleButton>
                 <ToggleButton Style="{DynamicResource ToolbarToggleButton}"  x:Name="SelectToolButton"   Click="ToggleSelectToolEvent" Content="{DynamicResource Select}" Foreground="Red" ></ToggleButton>
                 <ToggleButton Style="{DynamicResource ToolbarToggleButton}"  x:Name="DrawToolButton"  Click="ToggleDrawToolEvent" Content="{DynamicResource Draw}" ></ToggleButton>
-                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  Name="DrawToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
+                <Button Style="{DynamicResource ToolbarButton}" Content="{DynamicResource DropDownIcon1}" Click="ContextMenuButton_Click"  Name="DrawToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <Label Content="Brush Size (Tiles Edit Only)" x:Name="DrawTileSizeLabel"></Label>
@@ -111,12 +72,7 @@
                     </Button.ContextMenu>
                 </Button>
                 <ToggleButton Style="{DynamicResource ToolbarToggleButton}"  x:Name="WandToolButton"  Click="ToggleDrawToolEvent" Content="{DynamicResource Interaction}" ></ToggleButton>
-                <Button Style="{DynamicResource ToolbarButton}" Click="ToggleWandToolButton_Click"  Name="WandToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
+                <Button Style="{DynamicResource ToolbarButton}" Click="ToggleWandToolButton_Click" Content="{DynamicResource DropDownIcon}"  Name="WandToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem IsHitTestVisible="False" Header="Selectable Tiles: "></MenuItem>
@@ -164,12 +120,7 @@
                     </Button.ContextMenu>
                 </Button>
                 <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="SplineToolButton"  Click="ToggleSplineToolEvent" Content="{DynamicResource Shapes}" ></ToggleButton>
-                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  Name="SplineToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
+                <Button Style="{DynamicResource ToolbarButton}" Content="{DynamicResource DropDownIcon2}" Click="ContextMenuButton_Click"  Name="SplineToolDropdown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <Label Content="Spline Spawn Group ID:"></Label>
@@ -217,12 +168,7 @@
                 </Button>
                 <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="MagnetMode" Click="ToggleMagnetToolEvent" Content="{DynamicResource Magnet}" ></ToggleButton>
 
-                <Button Style="{DynamicResource ToolbarButton}" IsEnabled="False" Click="ContextMenuButton_Click"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
+                <Button Style="{DynamicResource ToolbarButton}" Content="{DynamicResource DropDownIcon3}" IsEnabled="False" Click="ContextMenuButton_Click"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0" Margin="0" x:Name="MagnetModeSplitButton">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem Foreground="{DynamicResource DisabledText}" x:Name="gridAlignmentSizeToolStripMenuItem" Header="Grid Alignment Size:"></MenuItem>
@@ -253,17 +199,12 @@
 
                 <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ChunksToolButton"  Click="ToggleChunksToolEvent" Content="{DynamicResource Stamp}"></ToggleButton>
                 <Separator/>
-                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="EncorePaletteButton"   Click="EnableEncorePaletteEvent" Content="{DynamicResource PaletteWheel}"></ToggleButton>
-                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowTileIDButton"   Click="ToggleShowTileIDEvent" Content="{DynamicResource Info}"></ToggleButton>
-                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="FlipAssistButton"   Click="ShowFlippedTileHelperEvent" Content="{DynamicResource RotateFlip}"></ToggleButton>
-                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowGridToggleButton" Click="ToggleGridEvent" Content="{StaticResource Grid}" IsEnabled="{state:SolutionStateBinding SceneLoaded}" ></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="EncorePaletteButton" IsEnabled="{state:SolutionStateBinding IsEncorePaletteLoaded}" Click="EnableEncorePaletteEvent" Content="{DynamicResource PaletteWheel}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowTileIDButton" IsEnabled="{state:SolutionStateBinding SceneLoaded}"   Click="ToggleShowTileIDEvent" Content="{DynamicResource Info}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="FlipAssistButton" IsEnabled="{state:SolutionStateBinding SceneLoaded}"   Click="ShowFlippedTileHelperEvent" Content="{DynamicResource RotateFlip}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowGridToggleButton" IsEnabled="{state:SolutionStateBinding SceneLoaded}" Click="ToggleGridEvent" Content="{StaticResource Grid}"></ToggleButton>
 
-                <Button Style="{DynamicResource ToolbarButton}" Click="ContextMenuButton_Click"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
+                <Button Style="{DynamicResource ToolbarButton}" Content="{DynamicResource DropDownIcon4}" Click="ContextMenuButton_Click"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="0" x:Name="ShowGridButton">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ContextMenuBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem Foreground="{DynamicResource DisabledText}" x:Name="toolStripMenuItem1" Header="Grid Size:"></MenuItem>
@@ -298,14 +239,9 @@
                     </Button.ContextMenu>
                 </Button>
                 <Separator/>
-                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowCollisionAButton"  Click="ShowCollisionAEvent"  Content="{DynamicResource PathA}"></ToggleButton>
-                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowCollisionBButton"  Click="ShowCollisionBEvent"  Content="{StaticResource PathB}"></ToggleButton>
-                <Button Style="{DynamicResource ToolbarButton}" Name="CollisionSettingsDropdown"  Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0" IsEnabled="{state:SolutionStateBinding SceneLoaded}">
-                    <Button.Content>
-                        <Grid Grid.Column="1" IsHitTestVisible="False" Margin="4,3">
-                            <Path Data="M0,0L3,0 4.5,1.5 6,0 9,0 4.5,4.5z" Fill="{DynamicResource NormalText}" Height="5" Margin="0,1,0,0" Width="9"/>
-                        </Grid>
-                    </Button.Content>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowCollisionAButton" IsEnabled="{state:SolutionStateBinding TileConfigLoaded}"  Click="ShowCollisionAEvent"  Content="{DynamicResource PathA}"></ToggleButton>
+                <ToggleButton Style="{DynamicResource ToolbarToggleButton}" x:Name="ShowCollisionBButton" IsEnabled="{state:SolutionStateBinding TileConfigLoaded}"  Click="ShowCollisionBEvent"  Content="{StaticResource PathB}"></ToggleButton>
+                <Button Style="{DynamicResource ToolbarButton}" Content="{DynamicResource DropDownIcon5}" Name="CollisionSettingsDropdown"  Click="ContextMenuButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0" Padding="0" IsEnabled="{state:SolutionStateBinding SceneLoaded}">
                     <Button.ContextMenu>
                         <ContextMenu Background="{DynamicResource ToolbarBackground}" Style="{DynamicResource DefaultContextMenuStyle}">
                             <MenuItem x:Name="CollisionDefaultMenuItem" Header="Default (Mania)" Click="UseNormalCollisionEvent"/>
@@ -437,6 +373,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ManiacEditor;component/Controls/Editor/BaseStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/ManiacEditor;component/Controls/Assets/IconLibrary.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="ToolbarButton" TargetType="{x:Type Button}">
                 <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>

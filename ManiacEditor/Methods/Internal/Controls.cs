@@ -211,7 +211,7 @@ namespace ManiacEditor.Methods.Internal
             {
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
                 if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
-                Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+                Instance.ViewPanel.SharpPanel.GraphicPanel.Render(true);
                 Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
             }
             
@@ -429,7 +429,7 @@ namespace ManiacEditor.Methods.Internal
                 if (Instance.ViewPanel.SharpPanel.vScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.vScrollBar1.Value = y;
                 if (Instance.ViewPanel.SharpPanel.hScrollBar1.IsVisible) Instance.ViewPanel.SharpPanel.hScrollBar1.Value = x;
                 Instance.ViewPanel.SharpPanel.GraphicPanel.OnMouseMoveEventCreate();
-                if (Methods.Solution.SolutionState.Main.Dragged || Methods.Solution.SolutionState.Main.DraggingSelection) Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+                if (Methods.Solution.SolutionState.Main.Dragged || Methods.Solution.SolutionState.Main.DraggingSelection) Instance.ViewPanel.SharpPanel.GraphicPanel.Render(true);
             }
         }
         public static void TilesEditMouseMove(System.Windows.Forms.MouseEventArgs e)
@@ -1101,7 +1101,7 @@ namespace ManiacEditor.Methods.Internal
             // Tiles Toolbar Flip Horizontal (OFF)
             if (!CtrlPressed() && ManiacEditor.Methods.Solution.SolutionState.Main.IsTilesEdit() && Methods.Solution.SolutionState.Main.IsDrawMode()) Instance.TilesToolbar.SetSelectTileOption(0, false);
 
-            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render(true);
         }
         public static void GraphicPanel_OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -1129,8 +1129,8 @@ namespace ManiacEditor.Methods.Internal
             //else if (e.Control && e.KeyCode == Keys.N) ManiacEditor.Methods.Editor.SolutionLoader.NewScene();
 
             // Save Click (Alt: Save As)
-            else if (e.Control && e.Alt && e.KeyCode == Keys.S) ManiacEditor.Methods.Solution.SolutionLoader.Save();
-            else if (e.Control && e.KeyCode == Keys.S) ManiacEditor.Methods.Solution.SolutionLoader.SaveAs();
+            else if (e.Control && e.Alt && e.KeyCode == Keys.S) ManiacEditor.Methods.Solution.SolutionLoader.SaveAs();
+            else if (e.Control && e.KeyCode == Keys.S) ManiacEditor.Methods.Solution.SolutionLoader.Save();
             // Undo
             else if (e.Control && e.KeyCode == Keys.Z) ManiacEditor.Actions.UndoRedoModel.Undo();
             // Redo
@@ -1192,7 +1192,7 @@ namespace ManiacEditor.Methods.Internal
             // Flip Horizontal
             else if (e.KeyCode == Keys.M) Methods.Solution.SolutionActions.FlipHorizontal();
 
-            Instance.ViewPanel.SharpPanel.GraphicPanel.Render();
+            Instance.ViewPanel.SharpPanel.GraphicPanel.Render(true);
         }
         #endregion
 

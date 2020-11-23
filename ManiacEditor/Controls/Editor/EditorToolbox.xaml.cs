@@ -893,12 +893,12 @@ namespace ManiacEditor.Controls.Editor
 
                 if (Methods.Runtime.GameHandler.GameRunning || System.Diagnostics.Process.GetProcessesByName("SonicMania").FirstOrDefault() != null)
                 {
-                    if (Methods.Runtime.GameHandler.GameRunning) RunSceneIcon.Fill = System.Windows.Media.Brushes.Blue;
-                    else RunSceneIcon.Fill = System.Windows.Media.Brushes.Green;
+                    if (Methods.Runtime.GameHandler.GameRunning) RunSceneButton.BorderBrush = System.Windows.Media.Brushes.Blue;
+                    else RunSceneButton.BorderBrush = System.Windows.Media.Brushes.Green;
                 }
                 else
                 {
-                    RunSceneIcon.Fill = System.Windows.Media.Brushes.Gray;
+                    RunSceneButton.BorderBrush = System.Windows.Media.Brushes.Gray;
                 }
             }));
 
@@ -934,13 +934,6 @@ namespace ManiacEditor.Controls.Editor
                 SetLayerEditButtonsState(enabled);
 
                 SetEditToolsState(enabled);
-
-                ShowGridButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
-                ShowCollisionAButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.TileConfig != null;
-                ShowCollisionBButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.TileConfig != null;
-                ShowTileIDButton.IsEnabled = enabled && Methods.Solution.CurrentSolution.StageConfig != null;
-                EncorePaletteButton.IsEnabled = enabled && Methods.Solution.SolutionState.Main.EncorePaletteExists;
-                FlipAssistButton.IsEnabled = enabled;
             }));
         }
         public void SetEditToolsState(bool enabled)
