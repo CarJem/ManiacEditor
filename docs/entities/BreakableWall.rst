@@ -12,9 +12,8 @@ Attributes:
 	* 0 – Breakable from the sides
 	* 1 – Breaks from top
 	* 2 - Breaks from the top in chunks, gives a score bonus
-  * 2 - Breaks from the top in chunks, gives a score bonus
-  * 4 - Breaks from bottom on contact (with bottom), breaks in chunks (two rows at a time) 
-  * 5 - Breaks from bottom on contact (with bottom), breaks the entire selection of tiles
+        * 4 - Breaks from bottom on contact (with bottom), breaks in chunks (two rows at a time) 
+        * 5 - Breaks from bottom on contact (with bottom), breaks the entire selection of tiles
 
 **OnlyKnux**:
 
